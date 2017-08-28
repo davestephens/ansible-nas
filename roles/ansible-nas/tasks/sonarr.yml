@@ -14,7 +14,7 @@
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "{{ sonarr_tv_directory }}:/tv:rw"
-      - "{{ transmission_download_directory }}/complete:/downloads:rw"
+      - "{{ sonarr_download_directory }}/complete:/downloads:rw"
       - "{{ sonarr_data_directory }}:/config:rw"
       - "/etc/timezone:/etc/timezone:ro"
     ports:

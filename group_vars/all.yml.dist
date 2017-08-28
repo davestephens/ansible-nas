@@ -37,9 +37,6 @@ ansible_nas_user: david
 # Where you want Docker to store its images and container data.
 docker_home: /mnt/Volume2/docker
 
-# Your time zone, passed to Docker containers at startup
-time_zone: Europe/London
-
 
 ###
 ### Samba
@@ -48,32 +45,44 @@ time_zone: Europe/London
 # This path will be mounted to backup containers, ie Crashplan, Duplicati
 samba_shares_root: /mnt/Volume3
 
+# Where stuff downloaded will be stored
+downloads_root: "{{ samba_shares_root }}/downloads"
+
+# Where your movies are stored
+movies_root: "{{ samba_shares_root }}/movies"
+
+# Where your TV episodes are stored
+tv_root: "{{ samba_shares_root }}/tv"
+
+# Where torrent files are stored (picked up by Transmission for downloading)
+torrents_root: "{{ samba_shares_root }}/torrents"
+
 # The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
 # mess with Samba user permissions.
 samba_guest_account: nobody
 
 # Shares you want published over Samba.
-samba_shares: 
+samba_shares:
   - name: downloads
     comment: 'Stuff downloaded'
     guest_ok: yes
     public: yes
     writable: yes
-    path: "{{ samba_shares_root }}/downloads"
+    path: "{{ downloads_root }}"
 
   - name: movies
     comment: 'Movies'
     guest_ok: yes
     public: yes
     writable: yes
-    path: "{{ samba_shares_root }}/movies"
+    path: "{{ movies_root }}"
 
   - name: tv
     comment: 'TV Episodes'
     guest_ok: yes
     public: yes
     writable: yes
-    path: "{{ samba_shares_root }}/tv"
+    path: "{{ tv_root }}"
 
   - name: dump
     comment: 'File dump'
@@ -104,8 +113,8 @@ samba_shares:
 ### Transmission
 ###
 transmission_config_directory: "{{ docker_home }}/transmission/config"
-transmission_download_directory: "{{ samba_shares_root }}/downloads"
-transmission_watch_directory: "{{ samba_shares_root }}/torrents"
+transmission_download_directory: "{{ downloads_root }}"
+transmission_watch_directory: "{{ torrents_root }}"
 transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
@@ -121,9 +130,21 @@ duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 ### Sonarr
 ###
 sonarr_data_directory: "{{ docker_home }}/sonarr/config"
-sonarr_tv_directory: "{{ samba_shares_root }}/TV"
+sonarr_tv_directory: "{{ tv_root }}"
+sonarr_download_directory: "{{ downloads_root }}"
 sonarr_user_id: 0
 sonarr_group_id: 0
+
+
+###
+### Couchpotato
+###
+couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
+couchpotato_movies_directory: "{{ movies_root }}"
+couchpotato_downloads_directory: "{{ downloads_root }}"
+couchpotato_torrents_directory: "{{ torrents_root }}"
+couchpotato_user_id: 0
+couchpotato_group_id: 0
 
 
 ###
@@ -145,8 +166,3 @@ crashplan_user_id: 0
 crashplan_group_id: 0
 
 
-###
-### Couchpotato
-###
-couchpotato_user_id: 0
-couchpotato_group_id: 0
