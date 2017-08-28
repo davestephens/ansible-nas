@@ -1,0 +1,6 @@
+[submodule "roles/samba"]
+	path = roles/samba
+	url = https://github.com/bertvv/ansible-role-samba.git
+[submodule "roles/docker"]
+	path = roles/docker
+	url = https://github.com/geerlingguy/ansible-role-docker.git

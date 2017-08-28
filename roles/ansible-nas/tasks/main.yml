@@ -1,0 +1,19 @@
+---
+- include: general.yml
+- include: docker.yml
+- include: portainer.yml
+  when: portainer_enabled == true
+- include: transmission.yml
+  when: transmission_enabled == true
+- include: transmission_with_openvpn.yml
+  when: transmission_with_openvpn_enabled == true
+- include: sonarr.yml
+  when: sonarr_enabled == true
+- include: glances.yml
+  when: glances_enabled == true
+- include: duplicati.yml
+  when: duplicati_enabled == true
+- include: crashplan.yml
+  when: crashplan_enabled == true
+- include: couchpotato.yml
+  when: couchpotato_enabled == true

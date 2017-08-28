@@ -1,0 +1,16 @@
+- name: Glances Docker Container
+  docker_container:
+    name: glances
+    image: nicolargo/glances
+    pull: true
+    ports:
+      - "61208:61208"
+      - "61209:61209"
+    volumes:
+      #- "/glances.conf:/glances/conf/glances.conf"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    env:
+      GLANCES_OPT: "-w"
+    restart_policy: unless-stopped
+    memory: 1g

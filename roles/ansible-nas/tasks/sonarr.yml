@@ -1,0 +1,26 @@
+---
+- name: Create Sonarr Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ sonarr_data_directory }}"
+
+- name: Sonarr
+  docker_container:
+    name: sonarr
+    image: linuxserver/sonarr
+    pull: true
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ sonarr_tv_directory }}:/tv:rw"
+      - "{{ transmission_download_directory }}/complete:/downloads:rw"
+      - "{{ sonarr_data_directory }}:/config:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    ports:
+      - "8989:8989"
+    env:
+      PUID: "{{ sonarr_user_id }}"
+      PGID: "{{ sonarr_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g

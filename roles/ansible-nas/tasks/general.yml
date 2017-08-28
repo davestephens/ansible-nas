@@ -1,0 +1,28 @@
+---
+- name: Update apt-cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade all packages
+  apt:
+    name: "*"
+    state: latest
+  when: keep_packages_updated == true
+
+- name: Install some packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - smartmontools
+    - htop
+    - zfs
+    - bonnie++
+    - unzip
+
+#  - name: Configure smartmontools
+
+- name: "Set hostname to {{ ansible_nas_hostname }}"
+  hostname:
+    name: "{{ ansible_nas_hostname }}"

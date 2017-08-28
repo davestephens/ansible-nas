@@ -1,0 +1,21 @@
+---
+- name: Create Duplicati Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ duplicati_data_directory }}"
+
+- name: Dupicati Docker Container
+  docker_container:
+    name: duplicati
+    image: linuxserver/duplicati
+    pull: true
+    ports:
+      - "8200:8200"
+    volumes:
+      - "{{ duplicati_data_directory }}:/config:rw"
+      - "{{ samba_shares_root }}:/source:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart_policy: unless-stopped
+    memory: 4g

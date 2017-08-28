@@ -1,0 +1,26 @@
+---
+- name: Create Crashplan Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ docker_home }}/crashplan/config"
+
+- name: Crashplan Docker Container
+  docker_container:
+    name: crashplan
+    image: jlesage/crashplan
+    pull: true
+    volumes:
+      - "{{ docker_home }}/crashplan/config:/config:rw"
+      - "{{ samba_shares_root }}:/storage:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    ports:
+      - "5800:5800"
+      - "5900:5900"
+    env:
+      USER_ID: "{{ crashplan_user_id }}"
+      GROUP_ID: "{{ crashplan_group_id }}"
+    restart_policy: unless-stopped
+    memory: 2g

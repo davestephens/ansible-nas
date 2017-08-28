@@ -1,0 +1,26 @@
+---
+- name: Create Couchpotato Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ docker_home }}/couchpotato/config"
+
+- name: Couchpotato Docker Container
+  docker_container:
+    name: couchpotato
+    image: linuxserver/couchpotato
+    pull: true
+    volumes:
+      - "{{ docker_home }}/couchpotato/config:/config:rw"
+      - "{{ samba_shares_root }}/BitTorrent/completed:/downloads:rw"
+      - "{{ samba_shares_root }}/Movies/Movies:/movies:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    ports:
+      - "5050:5050"
+    env:
+      PUID: "{{ couchpotato_user_id }}"
+      PGID: "{{ couchpotato_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g

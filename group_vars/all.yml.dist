@@ -1,0 +1,152 @@
+###
+### Ansible NAS Features
+###
+# Set these options to true or false to toggle specific features
+
+# BitTorrent
+# If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
+# to group_vars/vpn_credentials.yml, then update it with your own settings.
+transmission_with_openvpn_enabled: true
+transmission_enabled: false
+
+# Media Sourcing
+sonarr_enabled: true
+couchpotato_enabled: false
+
+# System Management
+portainer_enabled: true
+glances_enabled: true
+
+# Backup & Restore
+crashplan_enabled: true
+duplicati_enabled: true
+
+
+###
+### General
+###
+# Sets the hostname of your Ansible NAS
+ansible_nas_hostname: bender
+
+# Update all apt packages when playbook is run
+keep_packages_updated: false
+
+# Will be added to the docker group to give user command line access to docker
+ansible_nas_user: david
+
+# Where you want Docker to store its images and container data.
+docker_home: /mnt/Volume2/docker
+
+# Your time zone, passed to Docker containers at startup
+time_zone: Europe/London
+
+
+###
+### Samba
+###
+# The location where all shares will be created by default. Can be overridden on a per-share basis.
+# This path will be mounted to backup containers, ie Crashplan, Duplicati
+samba_shares_root: /mnt/Volume3
+
+# The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
+# mess with Samba user permissions.
+samba_guest_account: nobody
+
+# Shares you want published over Samba.
+samba_shares: 
+  - name: downloads
+    comment: 'Stuff downloaded'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    path: "{{ samba_shares_root }}/downloads"
+
+  - name: movies
+    comment: 'Movies'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    path: "{{ samba_shares_root }}/movies"
+
+  - name: tv
+    comment: 'TV Episodes'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    path: "{{ samba_shares_root }}/tv"
+
+  - name: dump
+    comment: 'File dump'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    path: "{{ samba_shares_root }}/dump"
+
+  - name: games
+    comment: 'Games'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    path: "{{ samba_shares_root }}/games"
+
+  - name: photos
+    comment: 'Pictures'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    path: "{{ samba_shares_root }}/photos"
+
+##################################################################
+###### You shouldn't need to edit anything below this point ######
+##################################################################
+
+###
+### Transmission
+###
+transmission_config_directory: "{{ docker_home }}/transmission/config"
+transmission_download_directory: "{{ samba_shares_root }}/downloads"
+transmission_watch_directory: "{{ samba_shares_root }}/torrents"
+transmission_user_id: 0
+transmission_group_id: 0
+transmission_local_network: "192.168.1.0/24"
+
+
+###
+### Duplicati
+###
+duplicati_data_directory: "{{ docker_home }}/duplicati/config"
+
+
+###
+### Sonarr
+###
+sonarr_data_directory: "{{ docker_home }}/sonarr/config"
+sonarr_tv_directory: "{{ samba_shares_root }}/TV"
+sonarr_user_id: 0
+sonarr_group_id: 0
+
+
+###
+### OpenVPN
+###
+openvpn_config_directory: "{{ docker_home }}/openvpn"
+
+
+###
+### Portainer
+###
+portainer_data_directory: "{{ docker_home }}/portainer/config"
+
+
+###
+### Crashplan
+###
+crashplan_user_id: 0
+crashplan_group_id: 0
+
+
+###
+### Couchpotato
+###
+couchpotato_user_id: 0
+couchpotato_group_id: 0
