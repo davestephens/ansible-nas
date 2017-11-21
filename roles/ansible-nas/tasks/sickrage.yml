@@ -1,0 +1,26 @@
+---
+- name: Create Sickrage Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ sickrage_config_directory }}"
+
+- name: Sickrage Docker Container
+  docker_container:
+    name: sickrage
+    image: linuxserver/sickrage
+    pull: true
+    volumes:
+      - "{{ sickrage_config_directory }}:/config:rw"
+      - "{{ sickrage_downloads_directory }}/completed:/downloads:rw"
+      - "{{ sickrage_tv_directory }}:/tv:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    ports:
+      - "8081:8081"
+    env:
+      PUID: "{{ sickrage_user_id }}"
+      PGID: "{{ sickrage_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g

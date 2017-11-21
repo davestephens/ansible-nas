@@ -21,6 +21,9 @@ glances_enabled: true
 crashplan_enabled: true
 duplicati_enabled: true
 
+# other stuff
+znc_enabled: true
+
 
 ###
 ### General
@@ -148,6 +151,16 @@ couchpotato_group_id: 0
 
 
 ###
+### Sickrage
+###
+sickrage_config_directory: "{{ docker_home }}/sickrage/config"
+sickrage_tv_directory: "{{ tv_root }}"
+sickrage_downloads_directory: "{{ downloads_root }}"
+sickrage_user_id: 0
+sickrage_group_id: 0
+
+
+###
 ### OpenVPN
 ###
 openvpn_config_directory: "{{ docker_home }}/openvpn"
@@ -165,4 +178,9 @@ portainer_data_directory: "{{ docker_home }}/portainer/config"
 crashplan_user_id: 0
 crashplan_group_id: 0
 
-
+###
+### ZNC
+###
+znc_data_directory: "{{ docker_home }}/znc"
+znc_user_id: 0
+znc_group_id: 0

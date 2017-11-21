@@ -1,19 +1,44 @@
 ---
 - include: general.yml
+
 - include: docker.yml
+
 - include: portainer.yml
   when: portainer_enabled == true
+  tags: portainer
+
 - include: transmission.yml
   when: transmission_enabled == true
+  tags: transmission
+
 - include: transmission_with_openvpn.yml
   when: transmission_with_openvpn_enabled == true
+  tags: transmission
+
 - include: sonarr.yml
   when: sonarr_enabled == true
+  tags: sonarr
+
 - include: glances.yml
   when: glances_enabled == true
+  tags: glances
+
 - include: duplicati.yml
   when: duplicati_enabled == true
+  tags: duplicati
+
 - include: crashplan.yml
   when: crashplan_enabled == true
+  tags: crashplan
+
 - include: couchpotato.yml
   when: couchpotato_enabled == true
+  tags: couchpotato
+
+- include: sickrage.yml
+  when: sickrage_enabled == true
+  tags: sickrage
+
+- include: znc.yml
+  when: znc_enabled == true
+  tags: znc
