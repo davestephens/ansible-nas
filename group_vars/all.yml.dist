@@ -184,3 +184,11 @@ crashplan_group_id: 0
 znc_data_directory: "{{ docker_home }}/znc"
 znc_user_id: 0
 znc_group_id: 0
+
+
+###
+### Stats 
+###
+telegraf_config_directory: "{{ docker_home }}/telegraf"
+influxdb_data_directory: "{{ docker_home }}/influxdb"
+stat_collection_interval: 15s

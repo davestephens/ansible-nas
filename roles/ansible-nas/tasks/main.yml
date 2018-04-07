@@ -42,3 +42,7 @@
 - include: znc.yml
   when: znc_enabled == true
   tags: znc
+
+- include: stats.yml
+  when: stats_enabled == true
+  tags: stats
