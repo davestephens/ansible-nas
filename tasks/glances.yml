@@ -10,6 +10,8 @@
       #- "/glances.conf:/glances/conf/glances.conf"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/timezone:/etc/timezone:ro"
+    pid_mode: host
+    network_mode: host
     env:
       GLANCES_OPT: "-w"
     restart_policy: unless-stopped

@@ -1,0 +1,25 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Playbook",
+            "type": "shell",
+            "command": "ansible-playbook -i inventory nas.yml -b -K",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Run Playbook Syntax Check",
+            "type": "shell",
+            "command": "ansible-playbook -i inventory nas.yml --syntax-check",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        }
+    ]
+}

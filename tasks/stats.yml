@@ -1,0 +1,59 @@
+---
+- name: Create Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ influxdb_data_directory }}"
+    - "{{ grafana_data_directory }}"
+    - "{{ grafana_data_directory }}/data"
+    - "{{ grafana_data_directory }}/config/"
+    - "{{ grafana_data_directory }}/config/provisioning"
+    - "{{ grafana_data_directory }}/config/provisioning/datasources"
+    - "{{ telegraf_data_directory }}"
+
+- name: InfluxDB
+  docker_container:
+    name: influxdb
+    image: influxdb
+    pull: true
+    volumes:
+      - "{{ influxdb_data_directory }}:/var/lib/influxdb:rw"
+    ports:
+      - "8086:8086"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Template telegraf.conf
+  template:
+    src: telegraf/telegraf.conf
+    dest: "{{ telegraf_data_directory }}/telegraf.conf"
+
+- name: Telegraf
+  docker_container:
+    name: telegraf
+    image: telegraf
+    pull: true
+    volumes:
+      - "{{ telegraf_data_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Template Grafana data source
+  template:
+    src: grafana/provisioning/datasources/ansible-nas.yml
+    dest: "{{ grafana_data_directory }}/config/provisioning/datasources/ansible-nas.yml"
+
+- name: Grafana
+  docker_container:
+    name: grafana
+    image: grafana/grafana
+    pull: true
+    volumes:
+      - "{{ grafana_data_directory }}/data:/var/lib/grafana:rw"
+      - "{{ grafana_data_directory }}/config/provisioning:/etc/grafana/provisioning:ro"
+    ports:
+      - "3000:3000"
+    restart_policy: unless-stopped
+    memory: 1g

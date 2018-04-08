@@ -1,6 +1,54 @@
 ---
 - hosts: all
+  tasks:
+  - import_tasks: tasks/general.yml
+
+  - import_tasks: tasks/docker.yml
+
+  - import_tasks: tasks/portainer.yml
+    when: portainer_enabled == true
+    tags: portainer
+
+  - import_tasks: tasks/transmission.yml
+    when: transmission_enabled == true
+    tags: transmission
+
+  - import_tasks: tasks/transmission_with_openvpn.yml
+    when: transmission_with_openvpn_enabled == true
+    tags: transmission
+
+  - import_tasks: tasks/sonarr.yml
+    when: sonarr_enabled == true
+    tags: sonarr
+
+  - import_tasks: tasks/glances.yml
+    when: glances_enabled == true
+    tags: glances
+
+  - import_tasks: tasks/duplicati.yml
+    when: duplicati_enabled == true
+    tags: duplicati
+
+  - import_tasks: tasks/crashplan.yml
+    when: crashplan_enabled == true
+    tags: crashplan
+
+  - import_tasks: tasks/couchpotato.yml
+    when: couchpotato_enabled == true
+    tags: couchpotato
+
+  - import_tasks: tasks/sickrage.yml
+    when: sickrage_enabled == true
+    tags: sickrage
+
+  - import_tasks: tasks/znc.yml
+    when: znc_enabled == true
+    tags: znc
+
+  - import_tasks: tasks/stats.yml
+    when: stats_enabled == true
+    tags: stats
+
   roles:
-    - samba
-    - docker
-    - ansible-nas
+    - bertvv.samba
+    - geerlingguy.docker

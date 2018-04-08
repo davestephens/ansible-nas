@@ -11,11 +11,13 @@ transmission_enabled: false
 
 # Media Sourcing
 sonarr_enabled: true
+sickrage_enabled: false
 couchpotato_enabled: false
 
 # System Management
 portainer_enabled: true
 glances_enabled: true
+stats_enabled: true
 
 # Backup & Restore
 crashplan_enabled: true
@@ -37,9 +39,15 @@ keep_packages_updated: false
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
 
+###
+### Docker
+###
 # Where you want Docker to store its images and container data.
 docker_home: /mnt/Volume2/docker
 
+# Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
+# You'll need to change this if your docker_home isn't on zfs and Docker won't start (you'll probably want overlay2 instead)
+docker_storage_driver: zfs
 
 ###
 ### Samba
@@ -178,6 +186,7 @@ portainer_data_directory: "{{ docker_home }}/portainer/config"
 crashplan_user_id: 0
 crashplan_group_id: 0
 
+
 ###
 ### ZNC
 ###
@@ -189,6 +198,7 @@ znc_group_id: 0
 ###
 ### Stats 
 ###
-telegraf_config_directory: "{{ docker_home }}/telegraf"
+telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
+grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s

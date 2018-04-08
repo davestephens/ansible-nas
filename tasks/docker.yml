@@ -23,7 +23,7 @@
 
 - name: update docker home from install default
   template:
-    src: daemon.json
+    src: docker/daemon.json
     dest: /etc/docker/daemon.json
   register: docker_config
 

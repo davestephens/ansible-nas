@@ -1,4 +1,0 @@
-{
-  "graph": "{{ docker_home }}/data",
-  "storage-driver": "overlay"
-}

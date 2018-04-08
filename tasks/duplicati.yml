@@ -15,7 +15,8 @@
       - "8200:8200"
     volumes:
       - "{{ duplicati_data_directory }}:/config:rw"
-      - "{{ samba_shares_root }}:/source:ro"
+      - "{{ samba_shares_root }}:/source/shares:ro"
+      - "{{ docker_home }}:/source/docker:ro"
       - "/etc/timezone:/etc/timezone:ro"
     restart_policy: unless-stopped
-    memory: 4g
+    memory: 1g
