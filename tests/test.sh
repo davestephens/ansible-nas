@@ -31,7 +31,6 @@ container_id=${container_id:-$timestamp}
 test_idempotence=${test_idempotence:-"false"}
 init="/lib/systemd/systemd"
 opts="--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-skip_tags="ruby,packages"
 
 # Run the container using the supplied OS.
 printf ${green}"Starting Docker container: $docker_owner/docker-$distro-ansible."${neutral}"\n"
@@ -62,13 +61,13 @@ printf "\n"
 
 # Run Ansible playbook.
 printf ${green}"Running command: docker exec $container_id env TERM=xterm ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook"${neutral}"\n"
-docker exec $container_id env TERM=xterm env ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook --skip-tags $skip_tags
+docker exec $container_id env TERM=xterm env ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook 
 
 if [ "$test_idempotence" = true ]; then
   # Run Ansible playbook again (idempotence test).
   printf ${green}"Running playbook again: idempotence test"${neutral}
   idempotence=$(mktemp)
-  docker exec $container_id ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook --skip-tags $skip_tags | tee -a $idempotence
+  docker exec $container_id ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook | tee -a $idempotence
   tail $idempotence \
     | grep -q 'changed=0.*failed=0' \
     && (printf ${green}'Idempotence test: pass'${neutral}"\n") \
