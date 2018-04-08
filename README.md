@@ -68,8 +68,11 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 
 
 ## TODO
-1. Handle Docker containers being enabled then subsequently disabled (i.e clean up afterwards)
-2. SMART disk monitoring
+
+1. Create useful Grafana dashboards
+2. Handle Docker containers being enabled then subsequently disabled (i.e clean up afterwards)
+3. SMART disk monitoring
+
 
 
 ## Contributing
