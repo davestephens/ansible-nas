@@ -29,6 +29,13 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
   - [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 
 
+## What This Could Do
+
+Ansible-NAS can run anything that's in a Docker image, which is why Portainer is included. A NAS configuration is a pretty personal thing based on what you download, what media you view, how many photos you take...so it's difficult to please everyone.
+
+That said, if specific functionality you want isn't included and you think others could benefit, add it and raise a PR!
+
+
 ## What This Doesn't Do
 
 Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive. 
