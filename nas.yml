@@ -21,6 +21,10 @@
     when: sonarr_enabled == true
     tags: sonarr
 
+  - import_tasks: tasks/radarr.yml
+    when: radarr_enabled == true
+    tags: radarr
+
   - import_tasks: tasks/glances.yml
     when: glances_enabled == true
     tags: glances
@@ -44,7 +48,3 @@
   - import_tasks: tasks/stats.yml
     when: stats_enabled == true
     tags: stats
-
-  roles:
-    - bertvv.samba
-    - geerlingguy.docker

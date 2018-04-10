@@ -13,6 +13,7 @@ transmission_enabled: false
 sonarr_enabled: true
 sickrage_enabled: false
 couchpotato_enabled: false
+radarr_enabled: true
 
 # System Management
 portainer_enabled: true
@@ -22,8 +23,9 @@ stats_enabled: true
 # Backup & Restore
 duplicati_enabled: true
 
-# other stuff
-znc_enabled: true
+# IRC bouncer
+znc_enabled: false
+
 
 
 ###
@@ -144,6 +146,16 @@ sonarr_tv_directory: "{{ tv_root }}"
 sonarr_download_directory: "{{ downloads_root }}"
 sonarr_user_id: 0
 sonarr_group_id: 0
+
+
+###
+### Radarr
+###
+radarr_movies_directory: "{{ movies_root }}"
+radarr_download_directory: "{{ downloads_root }}"
+radarr_data_directory: "{{ docker_home }}/radarr"
+radarr_user_id: 0
+radarr_group_id: 0
 
 
 ###

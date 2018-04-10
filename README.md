@@ -3,11 +3,12 @@
 After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using 
 just a stock Ubuntu install, some clever Ansible config and a bunch of docker containers.
 
+
 ## What This Sets Up
 
  * Any number of Samba shares for you to store your stuff
  * A BitTorrent client 
- * Various media management tools - Sonarr, Sickrage, CouchPotato
+ * Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
  * A Docker host with Portainer for image and container management
  * Various ways to see stats about your NAS - Glances, dashboards in Grafana
  * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
@@ -22,6 +23,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
   - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
   - [Portainer](https://portainer.io/) for managing Docker and running custom images
+  - [Radarr](https://radarr.video/) for organising and downloading movies
   - [Sickrage](https://sickrage.github.io/) for managing TV episodes
   - [Sonarr](https://sonarr.tv/) for downloading and managing TV episodes
   - [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
