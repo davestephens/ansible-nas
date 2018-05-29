@@ -6,27 +6,31 @@
 # BitTorrent
 # If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
 # to group_vars/vpn_credentials.yml, then update it with your own settings.
-transmission_with_openvpn_enabled: true
+transmission_with_openvpn_enabled: false
 transmission_enabled: false
+deluge_enabled: false
 
 # Media Sourcing
-sonarr_enabled: true
+sonarr_enabled: false
 sickrage_enabled: false
 couchpotato_enabled: false
-radarr_enabled: true
+radarr_enabled: false
+plex_enabled: false
+plexpy_enabled: false
 
 # System Management
-portainer_enabled: true
-glances_enabled: true
-stats_enabled: true
+portainer_enabled: false
+glances_enabled: false
+stats_enabled: false
 
 # Backup & Restore
-duplicati_enabled: true
+duplicati_enabled: false
 
 # IRC bouncer
 znc_enabled: false
 
-
+#WiFi
+unifi_enabled: false
 
 ###
 ### General
@@ -131,6 +135,16 @@ transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
 
+###
+### Deluge
+###
+deluge_config_directory: "{{ docker_home }}/deluge/config"
+deluge_download_directory: "{{ downloads_root }}"
+deluge_watch_directory: "{{ torrents_root }}"
+deluge_user_id: 0
+deluge_group_id: 0
+deluge_local_network: "192.168.1.0/24"
+
 
 ###
 ### Duplicati
@@ -167,6 +181,22 @@ couchpotato_downloads_directory: "{{ downloads_root }}"
 couchpotato_torrents_directory: "{{ torrents_root }}"
 couchpotato_user_id: 0
 couchpotato_group_id: 0
+
+###
+### Plex
+###
+plex_config_directory: "{{ docker_home }}/plex/config"
+plex_movies_directory: "{{ movies_root }}"
+plex_tv_directory: "{{ tv_root }}"
+plex_user_id: 0
+plex_group_id: 0
+
+###
+### Plexpy
+###
+plexpy_config_directory: "{{ docker_home }}/plexpy/config"
+plexpy_user_id: 0
+plexpy_group_id: 0
 
 
 ###
@@ -206,3 +236,19 @@ telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
+
+
+###
+### Unifi
+###
+unifi_config_directory: "{{ docker_home }}/unifi/config"
+unifi_user_id: 0
+unifi_group_id: 0
+
+###
+### TVheadend
+###
+tvheadend_config_directory: "{{ docker_home }}/tvheadend/config"
+tvheadend_recordings_directory: "{{ docker_home }}/tvheadend/recordings"
+tvheadend_user_id: 0
+tvheadend_group_id: 0

@@ -1,4 +1,4 @@
 {
-  "data-root": "{{ docker_home }}/data",
-  "storage-driver": "{{ docker_storage_driver }}"
+	"data-root": "{{ docker_home }}/data",
+	"storage-driver": "{{ docker_storage_driver }}"
 }

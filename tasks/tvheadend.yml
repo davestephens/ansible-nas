@@ -1,0 +1,24 @@
+- name: Create TVheadend Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ tvheadend_config_directory }}"
+    - "{{ tvheadend_recordings_directory }}"
+
+- name: Download and Start tvheadend Container
+  docker_container:
+    name: "tvheadend"
+    image: "linuxserver/tvheadend"
+    state: started
+    restart_policy: always
+    pull: yes
+    volumes:
+      - "{{ tvheadend_config_directory }}:/config:rw"
+      - "{{ tvheadend_recordings_directory }}:/recordings:rw"
+    network_mode: "host"
+    env:
+      PUID: "{{ tvheadend_user_id }}"
+      PGID: "{{ tvheadend_group_id }}"    
+    memory: 1g

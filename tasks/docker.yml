@@ -29,6 +29,6 @@
 
 - name: restart docker
   service:
-     name: docker
-     state: restarted
+      name: docker
+      state: restarted
   when: docker_config.changed
