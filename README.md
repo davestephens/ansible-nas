@@ -18,16 +18,21 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
 ### Docker Containers Used
 
   - [CouchPotato](https://couchpota.to/) for downloading and managing movies
+  - [Deluge](https://deluge-torrent.org/) for downloading and managing movies
   - [Duplicati](https://www.duplicati.com/) for backing up your stuff
   - [Glances](https://nicolargo.github.io/glances/) for seeing the state of your system via a web browser
   - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+  - [Plex](https://www.plex.tv/) Plex Media Server
+  - [Plexpy](http://tautulli.com/) Monitor Your Plex Media Server
   - [Portainer](https://portainer.io/) for managing Docker and running custom images
   - [Radarr](https://radarr.video/) for organising and downloading movies
   - [Sickrage](https://sickrage.github.io/) for managing TV episodes
   - [Sonarr](https://sonarr.tv/) for downloading and managing TV episodes
   - [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
   - [Transmission](https://transmissionbt.com/) BitTorrent client (with OpenVPN if you have a supported VPN provider)
+  - [TVheadend](https://tvheadend.org/)Tvheadend is a TV streaming server and recorder for Linux
+  - [Unifi](https://unifi-sdn.ubnt.com/) Ubiquity Wireless Controller
   - [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 
 
