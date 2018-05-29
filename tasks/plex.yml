@@ -15,17 +15,7 @@
       - "{{ plex_config_directory }}:/config:rw"
       - "{{ plex_movies_directory }}:/movies:rw"
       - "/etc/timezone:/etc/timezone:ro"
-    ports:
-      - "32400:32400"
-      - "1900:1900"
-      - "3005:3005"
-      - "5353:5353"
-      - "8324:8324"
-      - "32410:32410"
-      - "32412:32412"
-      - "32413:32413"
-      - "32414:32414"
-      - "32469:32469"
+    network_mode: "host"
     env:
       PUID: "{{ plex_user_id }}"
       PGID: "{{ plex_group_id }}"
