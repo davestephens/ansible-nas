@@ -1,0 +1,23 @@
+- name: Create Plex Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ plex_config_directory }}"
+
+- name: plex Docker Container
+  docker_container:
+    name: plex
+    image: linuxserver/plex
+    pull: true
+    volumes:
+      - "{{ plex_config_directory }}:/config:rw"
+      - "{{ plex_movies_directory }}:/movies:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    network_mode: "host"
+    env:
+      PUID: "{{ plex_user_id }}"
+      PGID: "{{ plex_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g

@@ -1,0 +1,22 @@
+- name: Create Unifi Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ unifi_config_directory }}"
+
+- name: Download and Start unifi Container
+  docker_container:
+    name: "unifi"
+    image: "linuxserver/unifi"
+    state: started
+    restart_policy: always
+    pull: yes
+    volumes:
+      - "{{ unifi_config_directory }}:/config:rw"
+    network_mode: "host"
+    env:
+      PUID: "{{ unifi_user_id }}"
+      PGID: "{{ unifi_group_id }}"    
+    memory: 1g
