@@ -48,3 +48,7 @@
   - import_tasks: tasks/stats.yml
     when: stats_enabled == true
     tags: stats
+  
+  roles:	
+    - bertvv.samba	
+    - geerlingguy.docker 
