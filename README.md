@@ -47,7 +47,7 @@ gained by automating it.
 
 ## Hardware
 
-Ansible NAS should work on any recent Ubuntu box. Development was done on Ubuntu 16.04.3 LTS.
+Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS.
 
 **TODO:** Test against a Raspberry Pi!
 
