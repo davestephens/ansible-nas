@@ -53,15 +53,16 @@ Ansible NAS should work on any recent Ubuntu box. Development was done on Ubuntu
 
 
 ## How To Use
-
-1. `git clone https://www.github.com/davestephens/ansible-nas && cd ansible-nas`
-2. Copy `group_vars/all.yml.dist` to  `group_vars/all.yml`. 
-3. Open up `group_vars/all.yml` and follow the instructions there for configuring your Ansible NAS.
-3. If you plan to use Transmission with OpenVPN, also copy `group_vars/vpn_credentials.yml.dist` to 
+1. Enable the Ubuntu Universe repository: `sudo add-apt-repository universe`
+2. Install Ansible: `sudo apt install ansible`
+3. `git clone https://github.com/davestephens/ansible-nas.git && cd ansible-nas`
+4. Copy `group_vars/all.yml.dist` to  `group_vars/all.yml`. 
+5. Open up `group_vars/all.yml` and follow the instructions there for configuring your Ansible NAS.
+6. If you plan to use Transmission with OpenVPN, also copy `group_vars/vpn_credentials.yml.dist` to 
 `group_vars/vpn_credentials.yml` and fill in your settings.
-4. Modify `inventory` and update it with the hostname of your NAS box.
-5. Install the dependent roles: `sudo ansible-galaxy install -r requirements.yml`
-5. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
+7. Modify `inventory` and update it with the hostname of your NAS box, or use `localhost ansible_connection=local` if you want to run the playbook on the same box you want to use as your ansible-nas. 
+8. Install the dependent roles: `sudo ansible-galaxy install -r requirements.yml`
+9. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
 
 
 ## Migrating from FreeNAS
