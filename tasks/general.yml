@@ -17,7 +17,7 @@
   with_items:
     - smartmontools
     - htop
-    - zfs-linux
+    - zfsutils-linux
     - bonnie++
     - unzip
     - lm-sensors
