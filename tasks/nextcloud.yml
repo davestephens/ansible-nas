@@ -1,0 +1,42 @@
+---
+- name: Create Nextcloud directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ nextcloud_data_directory }}/nextcloud"
+    - "{{ nextcloud_data_directory }}/mysql"
+
+- name: Nextcloud Mysql Docker Container
+  docker_container:
+    name: nextcloud-mysql
+    image: mysql:5.7
+    pull: true
+    volumes:
+      - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud-user
+      MYSQL_PASSWORD: nextcloud-pass
+      MYSQL_ROOT_PASSWORD: nextcloud-secret     
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Nextcloud Docker Container
+  docker_container:
+    name: nextcloud
+    image: nextcloud:14
+    pull: true
+    links:
+        - nextcloud-mysql:mysql
+    volumes:
+      - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
+    ports:
+      - "8080:80"
+    env:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud-user
+      MYSQL_PASSWORD: nextcloud-pass   
+    restart_policy: unless-stopped
+    memory: 1g

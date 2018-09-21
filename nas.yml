@@ -45,6 +45,10 @@
     when: znc_enabled == true
     tags: znc
 
+  - import_tasks: tasks/nextcloud.yml
+    when: nextcloud_enabled == true
+    tags: nextcloud
+
   - import_tasks: tasks/stats.yml
     when: stats_enabled == true
     tags: stats

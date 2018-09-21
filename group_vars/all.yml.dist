@@ -22,6 +22,7 @@ stats_enabled: true
 
 # Backup & Restore
 duplicati_enabled: true
+nextcloud_enabled: false
 
 # IRC bouncer
 znc_enabled: false
@@ -206,3 +207,8 @@ telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
+
+###
+### Nextcloud
+###
+nextcloud_data_directory: "{{ docker_home }}/nextcloud"
