@@ -6,13 +6,13 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
 
 ## What This Sets Up
 
- * Any number of Samba shares for you to store your stuff
- * A BitTorrent client 
- * Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
- * A Docker host with Portainer for image and container management
- * Various ways to see stats about your NAS - Glances, dashboards in Grafana
- * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
- * An IRC bouncer
+* Any number of Samba shares for you to store your stuff
+* A BitTorrent client
+* Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
+* A Docker host with Portainer for image and container management
+* Various ways to see stats about your NAS - Glances, dashboards in Grafana
+* A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
+* An IRC bouncer
 
 
 ### Docker Containers Used
@@ -22,6 +22,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
   - [Glances](https://nicolargo.github.io/glances/) for seeing the state of your system via a web browser
   - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+  - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
   - [Portainer](https://portainer.io/) for managing Docker and running custom images
   - [Radarr](https://radarr.video/) for organising and downloading movies
   - [Sickrage](https://sickrage.github.io/) for managing TV episodes
@@ -60,8 +61,8 @@ Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu 
 5. Open up `group_vars/all.yml` and follow the instructions there for configuring your Ansible NAS.
 6. If you plan to use Transmission with OpenVPN, also copy `group_vars/vpn_credentials.yml.dist` to 
 `group_vars/vpn_credentials.yml` and fill in your settings.
-7. Modify `inventory` and update it with the hostname of your NAS box, or use `localhost ansible_connection=local` if you want to run the playbook on the same box you want to use as your ansible-nas. 
-8. Install the dependent roles: `ansible-galaxy install -r requirements.yml`
+7. Modify `inventory` and update it with the hostname of your NAS box, or use `localhost ansible_connection=local` if you want to run the playbook on the same box you want to use as your ansible-nas.
+8. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need sudo to install Ansible roles)
 9. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
 
 
@@ -74,7 +75,7 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 3. Reconnect your drives.
 4. SSH to the server and run `zpool list` to determine available ZFS pools.
 5. `zpool import <pool_name>` against the pools you want to attach.
-6. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data 
+6. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
 
 
 ## TODO
