@@ -7,18 +7,18 @@
 # If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
 # to group_vars/vpn_credentials.yml, then update it with your own settings.
 transmission_with_openvpn_enabled: false
-transmission_enabled: true
+transmission_enabled: false
 
 # Media Sourcing
-sonarr_enabled: true
+sonarr_enabled: false
 sickrage_enabled: false
 couchpotato_enabled: false
-radarr_enabled: true
+radarr_enabled: false
 
 # System Management
 portainer_enabled: true
 glances_enabled: true
-stats_enabled: true
+stats_enabled: false
 
 # Backup & Restore
 duplicati_enabled: true
