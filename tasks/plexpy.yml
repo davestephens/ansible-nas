@@ -1,0 +1,22 @@
+- name: Create Plexpy Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ plexpy_config_directory }}"
+
+- name: plexpy Docker Container
+  docker_container:
+    name: plexpy
+    image: linuxserver/plexpy
+    pull: true
+    volumes:
+      - "{{ plexpy_config_directory }}:/config:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    network_mode: "host"
+    env:
+      PUID: "{{ plexpy_user_id }}"
+      PGID: "{{ plexpy_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g

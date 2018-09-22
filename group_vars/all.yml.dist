@@ -9,6 +9,11 @@
 transmission_with_openvpn_enabled: false
 transmission_enabled: false
 
+# Plex
+plex_enabled: false
+plexpy_enabled: false
+
+
 # Media Sourcing
 sonarr_enabled: false
 sickrage_enabled: false

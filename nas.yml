@@ -9,6 +9,14 @@
     when: portainer_enabled == true
     tags: portainer
 
+  - import_tasks: tasks/plex.yml
+    when: plex_enabled == true
+    tags: plex
+
+  - import_tasks: tasks/plexpy.yml
+    when: plexpy_enabled == true
+    tags: plexpy
+
   - import_tasks: tasks/transmission.yml
     when: transmission_enabled == true
     tags: transmission
