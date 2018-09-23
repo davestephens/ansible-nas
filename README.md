@@ -1,6 +1,6 @@
 # Ansible NAS
 
-After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using 
+After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using
 just a stock Ubuntu install, some clever Ansible config and a bunch of docker containers.
 
 
@@ -24,7 +24,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
   - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
   - [Plex](https://www.plex.tv/) Plex Media Server
-  - [Plexpy](http://tautulli.com/) Monitor Your Plex Media Server
+  - [Tautulli](http://tautulli.com/) Monitor Your Plex Media Server
   - [Portainer](https://portainer.io/) for managing Docker and running custom images
   - [Radarr](https://radarr.video/) for organising and downloading movies
   - [Sickrage](https://sickrage.github.io/) for managing TV episodes
@@ -43,8 +43,8 @@ That said, if specific functionality you want isn't included and you think other
 
 ## What This Doesn't Do
 
-Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive. 
-That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be 
+Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive.
+That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be
 gained by automating it.  
 
 
@@ -59,9 +59,9 @@ Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu 
 1. Enable the Ubuntu Universe repository: `sudo add-apt-repository universe`
 2. Install Ansible: `sudo apt install ansible`
 3. `git clone https://github.com/davestephens/ansible-nas.git && cd ansible-nas`
-4. Copy `group_vars/all.yml.dist` to  `group_vars/all.yml`. 
+4. Copy `group_vars/all.yml.dist` to  `group_vars/all.yml`.
 5. Open up `group_vars/all.yml` and follow the instructions there for configuring your Ansible NAS.
-6. If you plan to use Transmission with OpenVPN, also copy `group_vars/vpn_credentials.yml.dist` to 
+6. If you plan to use Transmission with OpenVPN, also copy `group_vars/vpn_credentials.yml.dist` to
 `group_vars/vpn_credentials.yml` and fill in your settings.
 7. Modify `inventory` and update it with the hostname of your NAS box, or use `localhost ansible_connection=local` if you want to run the playbook on the same box you want to use as your ansible-nas.
 8. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need sudo to install Ansible roles)
