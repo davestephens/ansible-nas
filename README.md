@@ -88,4 +88,4 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 
 ## Contributing
 
-Contributions welcome, please feel free to raise a PR!
+Contributions welcome, please feel free to raise a PR! Please restrict pull requests to one piece of functionality or bugfix at a time, thanks! :+1:
