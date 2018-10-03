@@ -23,6 +23,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
   - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
   - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
+  - [Nginx](https://www.nginx.com/) - HTTP(S) proxy and web server
   - [Portainer](https://portainer.io/) for managing Docker and running custom images
   - [Radarr](https://radarr.video/) for organising and downloading movies
   - [Sickrage](https://sickrage.github.io/) for managing TV episodes
