@@ -24,11 +24,12 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
   - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
   - [Plex](https://www.plex.tv/) Plex Media Server
-  - [Tautulli](http://tautulli.com/) Monitor Your Plex Media Server
+  - [Nginx](https://www.nginx.com/) - HTTP(S) proxy and web server
   - [Portainer](https://portainer.io/) for managing Docker and running custom images
   - [Radarr](https://radarr.video/) for organising and downloading movies
   - [Sickrage](https://sickrage.github.io/) for managing TV episodes
   - [Sonarr](https://sonarr.tv/) for downloading and managing TV episodes
+  - [Tautulli](http://tautulli.com/) Monitor Your Plex Media Server
   - [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
   - [Transmission](https://transmissionbt.com/) BitTorrent client (with OpenVPN if you have a supported VPN provider)
   - [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
@@ -90,4 +91,4 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 
 ## Contributing
 
-Contributions welcome, please feel free to raise a PR!
+Contributions welcome, please feel free to raise a PR! Please restrict pull requests to one piece of functionality or bugfix at a time, thanks! :+1:

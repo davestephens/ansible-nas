@@ -57,6 +57,10 @@
     when: nextcloud_enabled == true
     tags: nextcloud
 
+  - import_tasks: tasks/nginx.yml
+    when: nginx_enabled == true
+    tags: nginx
+
   - import_tasks: tasks/stats.yml
     when: stats_enabled == true
     tags: stats
