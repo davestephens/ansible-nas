@@ -9,6 +9,11 @@
 transmission_with_openvpn_enabled: false
 transmission_enabled: false
 
+# Plex
+plex_enabled: false
+tautulli_enabled: false
+
+
 # Media Sourcing
 sonarr_enabled: false
 sickrage_enabled: false
@@ -146,6 +151,24 @@ transmission_local_network: "192.168.1.0/24"
 
 
 ###
+### Plex
+###
+plex_config_directory: "{{ docker_home }}/plex/config"
+plex_movies_directory: "{{ movies_root }}"
+plex_tv_directory: "{{ tv_root }}"
+plex_user_id: 0
+plex_group_id: 0
+
+
+###
+### Tautulli
+###
+tautulli_config_directory: "{{ docker_home }}/tautulli/config"
+tautulli_user_id: 0
+tautulli_group_id: 0
+
+
+###
 ### Duplicati
 ###
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
@@ -213,7 +236,7 @@ znc_group_id: 0
 
 
 ###
-### Stats 
+### Stats
 ###
 telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
