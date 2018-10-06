@@ -247,3 +247,8 @@ stat_collection_interval: 15s
 ### Nextcloud
 ###
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+
+###
+### nginx
+###
+nginx_data_directory: "{{ docker_home }}/nginx"
