@@ -135,15 +135,6 @@ samba_shares:
 # Ensure that this DNS name is registered and points to your external IP address
 nextcloud_external_hostname: external.hostname.com
 
-
-###
-### Nginx
-###
-
-# Where nginx will store data
-
-nginx_data_directory: /mnt/Volume2/nginx
-
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
 ##################################################################
@@ -256,3 +247,8 @@ stat_collection_interval: 15s
 ### Nextcloud
 ###
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+
+###
+### nginx
+###
+nginx_data_directory: "{{ docker_home }}/nginx"
