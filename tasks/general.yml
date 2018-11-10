@@ -1,9 +1,8 @@
 ---
-- name: "Install Aptitude required by Ansible"
-  raw: apt-get install aptitude -y
-  become: true
-  become_user: root
-  become_method: sudo
+- name: "Install Aptitude"
+  apt:
+    name: aptitude
+    state: present
 
 - name: Update apt-cache
   apt:
