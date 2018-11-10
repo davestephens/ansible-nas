@@ -24,6 +24,7 @@ radarr_enabled: false
 portainer_enabled: true
 glances_enabled: true
 stats_enabled: false
+watchtower_enabled: true
 
 # Backup & Restore
 duplicati_enabled: true

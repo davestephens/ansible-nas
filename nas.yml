@@ -9,6 +9,10 @@
     when: portainer_enabled == true
     tags: portainer
 
+  - import_tasks: tasks/watchtower.yml
+    when: watchtower_enabled == true
+    tags: watchtower  
+
   - import_tasks: tasks/plex.yml
     when: plex_enabled == true
     tags: plex
