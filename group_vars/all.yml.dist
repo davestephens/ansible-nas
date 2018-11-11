@@ -50,11 +50,6 @@ ntp_enabled: true
 ntp_timezone: "{{ ansible_nas_timezone }}"
 ntp_manage_config: true
 ntp_area: 'au'
-ntp_servers:
-  - "0{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
-  - "1{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
-  - "2{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
-  - "3{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
 
 # Update all apt packages when playbook is run
 keep_packages_updated: false
@@ -153,6 +148,15 @@ nextcloud_external_hostname: external.hostname.com
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
 ##################################################################
+
+###
+### NTP
+###
+ntp_servers:
+  - "0{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
+  - "1{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
+  - "2{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
+  - "3{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
 
 ###
 ### Transmission
