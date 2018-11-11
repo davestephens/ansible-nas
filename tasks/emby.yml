@@ -19,7 +19,7 @@
     network_mode: "host"
     ports:
       - "8096:8096" # HTTP port
-      - "8920:8920" # HTTP port
+      - "8920:8920" # HTTPS port
     env:
       PUID: "{{ emby_user_id }}"
       PGID: "{{ emby_group_id }}"
