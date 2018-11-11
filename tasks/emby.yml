@@ -1,0 +1,27 @@
+- name: Create Emby Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ emby_config_directory }}"
+
+- name: emby Docker Container
+  docker_container:
+    name: emby
+    image: emby/embyserver
+    pull: true
+    volumes:
+      - "{{ emby_config_directory }}:/config:rw"
+      - "{{ emby_movies_directory }}:/movies:rw"
+      - "{{ emby_tv_directory }}:/tv:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    network_mode: "host"
+    ports:
+      - "8096:8096" # HTTP port
+      - "8920:8920" # HTTP port
+    env:
+      PUID: "{{ emby_user_id }}"
+      PGID: "{{ emby_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
