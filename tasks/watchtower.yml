@@ -1,5 +1,21 @@
 ---
 - name: Watchtower Docker Container
+  when: watchtower_notifications == false
+  docker_container:
+    name: watchtower
+    image: v2tec/watchtower
+    pull: true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    command: --schedule "{{ watchtower_cron_schedule }}"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Watchtower Docker Container w/ Email Notifications
+  when:
+    - watchtower_notifications == true
+    - watchtower_notifications_type == 'email'
   docker_container:
     name: watchtower
     image: v2tec/watchtower
@@ -8,9 +24,33 @@
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/timezone:/etc/timezone:ro"
     env:
+      WATCHTOWER_NOTIFICATIONS: email
+      WATCHTOWER_NOTIFICATIONS_LEVEL: "{{ watchtower_notifications_level }}"
+      WATCHTOWER_NOTIFICATION_EMAIL_FROM: "{{ watchtower_email_from }}"
+      WATCHTOWER_NOTIFICATION_EMAIL_TO: "{{ watchtower_email_to }}"
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER: "{{ watchtower_email_server }}"
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER: "{{ watchtower_email_server_user }}"
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD: "{{ watchtower_email_server_password }}"
+    command: --schedule "{{ watchtower_cron_schedule }}"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Watchtower Docker Container w/ Slack Notifications
+  when:
+    - watchtower_notifications == true
+    - watchtower_notifications_type == 'slack'
+  docker_container:
+    name: watchtower
+    image: v2tec/watchtower
+    pull: true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    env:
+      WATCHTOWER_NOTIFICATIONS_LEVEL: "{{ watchtower_notifications_level }}"
       WATCHTOWER_NOTIFICATIONS: slack
-      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: https://hooks.slack.com/services/???/???/???
-      WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: watchtower-{{ ansible_nas_hostname }}
-    command: --schedule "0 0 5 * * *"
+      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: "{{ watchtower_slack_hook_url }}"
+      WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: "{{ watchtower_slack_identifier }}"
+    command: --schedule "{{ watchtower_cron_schedule }}"
     restart_policy: unless-stopped
     memory: 1g

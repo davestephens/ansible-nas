@@ -34,8 +34,6 @@ nginx_enabled: true # if you enable nginx, you'll need to map ports 80 and 443 o
 # IRC bouncer
 znc_enabled: false
 
-
-
 ###
 ### General
 ###
@@ -50,6 +48,34 @@ ansible_nas_user: david
 
 # Your email address, used for LetsEncrypt SSL certs
 ansible_nas_email: me@email.com
+
+###
+### Watchtower
+###
+# Sets the 6 field cron schedule to use to checks and updates
+# Keep in mind that this will stop and start containers if there is an update
+# So probably best not to do it every 10 minutes unless you want your plex stream
+# interrupted
+# Default below is every day at 5am
+watchtower_cron_schedule: "0 0 5 * * *"
+
+## Notifications
+watchtower_notifications: false
+# Set the type of notification. email or slack
+watchtower_notifications_type: email
+# Set the notifications level. panic, fatal, error, warn, info (default) or debug
+watchtower_notifications_level: info
+
+# Email
+watchtower_email_from: "{{ ansible_nas_email }}"
+watchtower_email_to: "{{ ansible_nas_email }}"
+watchtower_email_server: smtp.gmail.com
+watchtower_email_server_user: "{{ ansible_nas_email }}"
+watchtower_email_server_password: abcd1234
+
+# Slack
+watchtower_slack_hook_url: https://hooks.slack.com/services/???/???/???
+watchtower_slack_identifier: "watchtower-{{ ansible_nas_hostname }}"
 
 ###
 ### Docker
