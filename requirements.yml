@@ -4,3 +4,6 @@
 
 - name: bertvv.samba
   version: v2.5.0
+
+- name: geerlingguy.ntp
+  version: v1.6.2

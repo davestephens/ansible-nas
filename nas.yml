@@ -68,3 +68,4 @@
   roles:
     - bertvv.samba
     - geerlingguy.docker
+    - geerlingguy.ntp

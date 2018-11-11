@@ -41,6 +41,21 @@ znc_enabled: false
 # Sets the hostname of your Ansible NAS
 ansible_nas_hostname: bender
 
+# Sets the timezone for your Ansible NAS
+# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+ansible_nas_timezone: Australia/Melbourne
+
+## Setup NTP
+ntp_enabled: true
+ntp_timezone: "{{ ansible_nas_timezone }}"
+ntp_manage_config: true
+ntp_area: 'au'
+ntp_servers:
+  - "0{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
+  - "1{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
+  - "2{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
+  - "3{{ '.' + ntp_area if ntp_area else '' }}.pool.ntp.org iburst"
+
 # Update all apt packages when playbook is run
 keep_packages_updated: false
 
