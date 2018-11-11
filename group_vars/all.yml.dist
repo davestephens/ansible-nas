@@ -49,7 +49,8 @@ ansible_nas_user: david
 # Your email address, used for LetsEncrypt SSL certs
 ansible_nas_email: me@email.com
 
-# Your timezone. Used by some docker containers
+# Sets the timezone for your Ansible NAS
+# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 ansible_nas_timezone: Australia/Melbourne
 
 ###
