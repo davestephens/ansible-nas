@@ -7,7 +7,8 @@
     pull: true
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/etc/timezone:/etc/timezone:ro"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
     command: --schedule "{{ watchtower_cron_schedule }}"
     restart_policy: unless-stopped
     memory: 1g
@@ -22,8 +23,8 @@
     pull: true
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/etc/timezone:/etc/timezone:ro"
     env:
+      TZ: "{{ ansible_nas_timezone }}"
       WATCHTOWER_NOTIFICATIONS: email
       WATCHTOWER_NOTIFICATIONS_LEVEL: "{{ watchtower_notifications_level }}"
       WATCHTOWER_NOTIFICATION_EMAIL_FROM: "{{ watchtower_email_from }}"
@@ -45,8 +46,8 @@
     pull: true
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/etc/timezone:/etc/timezone:ro"
     env:
+      TZ: "{{ ansible_nas_timezone }}"
       WATCHTOWER_NOTIFICATIONS_LEVEL: "{{ watchtower_notifications_level }}"
       WATCHTOWER_NOTIFICATIONS: slack
       WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: "{{ watchtower_slack_hook_url }}"
