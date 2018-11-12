@@ -17,6 +17,10 @@
     when: plex_enabled == true
     tags: plex
 
+  - import_tasks: tasks/emby.yml
+    when: emby_enabled == true
+    tags: emby
+
   - import_tasks: tasks/tautulli.yml
     when: tautulli_enabled == true
     tags: tautulli

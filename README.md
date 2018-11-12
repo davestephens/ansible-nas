@@ -9,7 +9,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
 * Any number of Samba shares for you to store your stuff
 * A BitTorrent client
 * Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
-* Media streaming via Plex
+* Media streaming via Plex or Emby
 * A Docker host with Portainer for image and container management
 * Various ways to see stats about your NAS - Glances, dashboards in Grafana
 * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
@@ -20,6 +20,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
 
   - [CouchPotato](https://couchpota.to/) for downloading and managing movies
   - [Duplicati](https://www.duplicati.com/) for backing up your stuff
+  - [Emby](https://emby.media/) - Media streaming and management
   - [Glances](https://nicolargo.github.io/glances/) for seeing the state of your system via a web browser
   - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
