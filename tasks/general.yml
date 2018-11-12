@@ -6,7 +6,7 @@
 
 - name: Upgrade all packages
   apt:
-    name: "*"
+    upgrade: true
     state: latest
   when: keep_packages_updated == true
 
