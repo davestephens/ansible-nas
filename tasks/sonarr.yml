@@ -16,10 +16,10 @@
       - "{{ sonarr_tv_directory }}:/tv:rw"
       - "{{ sonarr_download_directory }}/complete:/downloads:rw"
       - "{{ sonarr_data_directory }}:/config:rw"
-      - "/etc/timezone:/etc/timezone:ro"
     ports:
       - "8989:8989"
     env:
+      TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ sonarr_user_id }}"
       PGID: "{{ sonarr_group_id }}"
     restart_policy: unless-stopped
