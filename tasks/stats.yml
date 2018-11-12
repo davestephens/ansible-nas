@@ -1,16 +1,24 @@
 ---
-- name: Create Directories
+- name: Create InfluxDB and Telegraf Directories
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ influxdb_data_directory }}"
+    - "{{ telegraf_data_directory }}"
+
+- name: Create Grafana Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "472"
+    recurse: yes
+  with_items:
     - "{{ grafana_data_directory }}"
     - "{{ grafana_data_directory }}/data"
     - "{{ grafana_data_directory }}/config/"
     - "{{ grafana_data_directory }}/config/provisioning"
     - "{{ grafana_data_directory }}/config/provisioning/datasources"
-    - "{{ telegraf_data_directory }}"
 
 - name: InfluxDB
   docker_container:
