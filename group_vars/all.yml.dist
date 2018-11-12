@@ -13,6 +13,8 @@ transmission_enabled: false
 plex_enabled: false
 tautulli_enabled: false
 
+# Emby
+emby_enabled: false
 
 # Media Sourcing
 sonarr_enabled: false
@@ -178,6 +180,14 @@ plex_tv_directory: "{{ tv_root }}"
 plex_user_id: 0
 plex_group_id: 0
 
+###
+### Emby
+###
+emby_config_directory: "{{ docker_home }}/emby/config"
+emby_movies_directory: "{{ movies_root }}"
+emby_tv_directory: "{{ tv_root }}"
+emby_user_id: 0
+emby_group_id: 0
 
 ###
 ### Tautulli
