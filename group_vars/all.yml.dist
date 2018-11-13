@@ -31,6 +31,7 @@ stats_enabled: false
 duplicati_enabled: true
 nextcloud_enabled: false
 nginx_enabled: true # if you enable nginx, you'll need to map ports 80 and 443 on your router to your Ansible-NAS
+gitea_enable: false
 
 # IRC bouncer
 znc_enabled: false

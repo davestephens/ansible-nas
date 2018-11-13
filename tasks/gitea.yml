@@ -5,33 +5,46 @@
     state: present
   with_items:
     - gitea_data
-    - gitea_mariadb_data
+    - gitea_mysql_data
   register: volumes
 
-- name: Create MariaDB container for Gitea
+- name: Create MySQL container for Gitea
   docker_container:
-    name: gitea-mariadb
-    image: mariadb:10
+    name: gitea-mysql
+    image: mysql:5.7
     pull: true
     volumes:
-      - gitea_mariadb_data:/var/lib/mysql
+      - gitea_mysql_data:/var/lib/mysql
     env:
       MYSQL_DATABASE: gitea
       MYSQL_USER: gitea
-      MYSQL_PASSWORD: gitea-pass
-      MYSQL_ROOT_PASSWORD: gitea-secret
+      MYSQL_PASSWORD: gitea
+      MYSQL_ROOT_PASSWORD: gitea
     restart_policy: unless-stopped
     memory: 1g
 
 - name: Create Gitea container
   docker_container:
     name: gitea
-    image: gitea/gitea
+    image: gitea/gitea:1.6
     pull: true
+    links:
+        - gitea-mysql:db
     volumes:
       - gitea_data:/data
     ports:
-      - "3000:3000"
-      - "22:22"
+      - "3001:3000"
+      - "222:22"
+    env:
+      DB_TYPE: mysql
+      DB_HOST: db:3306
+      DB_NAME: gitea
+      DB_USER: gitea
+      DB_PASSWORD: gitea
+      RUN_MODE: prod
+      SSH_DOMAIN: "{{ ansible_nas_hostname }}"
+      SSH_PORT: 222
+      ROOT_URL: "http://{{ ansible_nas_hostname }}:3001/"
+      #HTTP_PORT: 3001
     restart_policy: unless-stopped
     memory: 1g

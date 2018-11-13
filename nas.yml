@@ -65,6 +65,10 @@
     when: nginx_enabled == true
     tags: nginx
 
+  - import_tasks: tasks/gitea.yml
+    when: gitea_enabled == true
+    tags: gitea
+
   - import_tasks: tasks/stats.yml
     when: stats_enabled == true
     tags: stats
