@@ -1,0 +1,37 @@
+---
+- name: Create Gitea docker volumes
+  docker_volume:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gitea_data
+    - gitea_mariadb_data
+  register: volumes
+
+- name: Create MariaDB container for Gitea
+  docker_container:
+    name: gitea-mariadb
+    image: mariadb:10
+    pull: true
+    volumes:
+      - gitea_mariadb_data:/var/lib/mysql
+    env:
+      MYSQL_DATABASE: gitea
+      MYSQL_USER: gitea
+      MYSQL_PASSWORD: gitea-pass
+      MYSQL_ROOT_PASSWORD: gitea-secret
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Create Gitea container
+  docker_container:
+    name: gitea
+    image: gitea/gitea
+    pull: true
+    volumes:
+      - gitea_data:/data
+    ports:
+      - "3000:3000"
+      - "22:22"
+    restart_policy: unless-stopped
+    memory: 1g
