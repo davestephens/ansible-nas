@@ -27,4 +27,3 @@
       PGID: "{{ transmission_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
-
