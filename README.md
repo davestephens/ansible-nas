@@ -24,6 +24,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
   - [Glances](https://nicolargo.github.io/glances/) for seeing the state of your system via a web browser
   - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+  - [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
   - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
   - [Plex](https://www.plex.tv/) Plex Media Server
   - [Nginx](https://www.nginx.com/) - HTTP(S) proxy and web server

@@ -26,6 +26,7 @@ radarr_enabled: false
 portainer_enabled: true
 glances_enabled: true
 stats_enabled: false
+netdata_enabled: false
 
 # Backup & Restore
 duplicati_enabled: true
@@ -42,6 +43,7 @@ znc_enabled: false
 ###
 # Sets the hostname of your Ansible NAS
 ansible_nas_hostname: bender
+ansible_nas_domain: homenetwork
 
 # Update all apt packages when playbook is run
 keep_packages_updated: false
