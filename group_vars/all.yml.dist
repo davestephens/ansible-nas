@@ -31,7 +31,7 @@ stats_enabled: false
 duplicati_enabled: true
 nextcloud_enabled: false
 nginx_enabled: true # if you enable nginx, you'll need to map ports 80 and 443 on your router to your Ansible-NAS
-gitea_enable: false
+gitea_enabled: false
 
 # IRC bouncer
 znc_enabled: false
@@ -253,6 +253,11 @@ telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
+
+###
+### Gitea
+###
+gitea_data_directory: "{{ docker_home }}/gitea"
 
 ###
 ### Nextcloud
