@@ -253,6 +253,7 @@ znc_group_id: 0
 telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
+prometheus_data_directory: "{{ docker_home }}/prometheus"
 stat_collection_interval: 15s
 
 ###
