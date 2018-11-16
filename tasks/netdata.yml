@@ -4,7 +4,7 @@
     name: netdata
     hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
     image: netdata/netdata
-    state: present
+    state: started
     pull: true
     ports:
       - "19999:19999"
@@ -34,8 +34,8 @@
 - name: Inject netdata hostname in to Prometheus config file
   replace:
     path: "{{ prometheus_data_directory }}/netdata-prometheus.yml"
-    regex: 'ansible-nas-hostname\.ansible-nas-domain'
-    replace: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
+    regexp: 'ansible-nas-hostname\.ansible-nas-domain'
+    replace: '{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}'
     
 - name: Create Docker Volume for Prometheus Data
   docker_volume:
@@ -47,7 +47,7 @@
     name: netdata-prometheus
     image: prom/prometheus
     pull: true
-    state: present
+    state: started
     ports:
       - "9090:9090"
     volumes:
