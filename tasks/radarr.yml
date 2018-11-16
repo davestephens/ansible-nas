@@ -12,7 +12,6 @@
     image: linuxserver/radarr
     pull: true
     volumes:
-      - "/etc/localtime:/etc/localtime:ro"
       - "{{ radarr_movies_directory }}:/movies:rw"
       - "{{ radarr_download_directory }}/downloads:/downloads:rw"
       - "{{ radarr_data_directory }}:/config:rw"
