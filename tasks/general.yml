@@ -27,3 +27,7 @@
 - name: "Set hostname to {{ ansible_nas_hostname }}"
   hostname:
     name: "{{ ansible_nas_hostname }}"
+
+- name: "Set timezone to {{ ansible_nas_timezone }}"
+  timezone:
+    name: "{{ ansible_nas_timezone }}"

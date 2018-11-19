@@ -44,6 +44,11 @@ znc_enabled: false
 # Sets the hostname of your Ansible NAS
 ansible_nas_hostname: bender
 
+# Sets the timezone for your Ansible NAS
+# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+# Don't use the ones marked as Deprecated
+ansible_nas_timezone: Etc/UTC
+
 # Update all apt packages when playbook is run
 keep_packages_updated: false
 
