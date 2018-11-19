@@ -24,6 +24,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
   - [Gitea](https://gitea.io/en-us/) - Self-hosted Github clone
   - [Glances](https://nicolargo.github.io/glances/) for seeing the state of your system via a web browser
   - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
+  - [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
   - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
   - [Plex](https://www.plex.tv/) Plex Media Server
@@ -54,9 +55,7 @@ gained by automating it.
 
 ## Hardware
 
-Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS.
-
-**TODO:** Test against a Raspberry Pi!
+Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS running on an HP Microserver. 
 
 
 ## How To Use

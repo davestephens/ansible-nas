@@ -1,0 +1,53 @@
+---
+- name: Create Guacamole directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ guacamole_data_directory }}/mysql"
+
+- name: Copy Guacamole database init script
+  copy:
+    src: files/guacamole/initdb-0.9.14.sql
+    dest: "{{ guacamole_data_directory }}/initdb-0.9.14.sql"
+
+- name: Guacamole Mysql Docker Container
+  docker_container:
+    name: guacamole-mysql
+    image: mysql:5.7
+    pull: true
+    volumes:
+      - "{{ guacamole_data_directory }}/mysql:/var/lib/mysql:rw"
+      - "{{ guacamole_data_directory }}/initdb-0.9.14.sql:/docker-entrypoint-initdb.d/initdb-0.9.14.sql:ro"
+    env:
+      MYSQL_DATABASE: guacamole
+      MYSQL_USER: guacamole-user
+      MYSQL_PASSWORD: guacamole-pass
+      MYSQL_ROOT_PASSWORD: guacamole-secret     
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Guacamole guacd Container
+  docker_container:
+    name: guacamole-guacd
+    image: "{{ guacamole_guacd_docker_image }}"
+    pull: true
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Guacamole guacamole Container
+  docker_container:
+    name: guacamole
+    image: "{{ guacamole_docker_image }}"
+    pull: true
+    links:
+        - guacamole-mysql:mysql
+        - guacamole-guacd:guacd
+    ports:
+      - "8090:8080"
+    env:
+      MYSQL_DATABASE: guacamole
+      MYSQL_USER: guacamole-user
+      MYSQL_PASSWORD: guacamole-pass
+    restart_policy: unless-stopped
+    memory: 1g

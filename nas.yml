@@ -73,6 +73,10 @@
     when: stats_enabled == true
     tags: stats
 
+  - import_tasks: tasks/guacamole.yml
+    when: guacamole_enabled == true
+    tags: guacamole
+
   roles:
     - bertvv.samba
     - geerlingguy.docker

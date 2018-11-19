@@ -26,6 +26,7 @@ radarr_enabled: false
 portainer_enabled: true
 glances_enabled: true
 stats_enabled: false
+guacamole_enabled: false
 
 # Backup & Restore
 duplicati_enabled: true
@@ -273,3 +274,10 @@ nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 ### nginx
 ###
 nginx_data_directory: "{{ docker_home }}/nginx"
+
+###
+### Guacamole
+###
+guacamole_docker_image: guacamole/guacamole:0.9.14
+guacamole_guacd_docker_image: guacamole/guacd:0.9.14
+guacamole_data_directory: "{{ docker_home }}/guacamole"
