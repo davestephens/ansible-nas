@@ -58,22 +58,21 @@ ansible_nas_user: david
 # Your email address, used for LetsEncrypt SSL certs
 ansible_nas_email: me@email.com
 
-# Sets the timezone for your Ansible NAS
-# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-ansible_nas_timezone: Australia/Melbourne
-
 ###
 ### Watchtower
 ###
-# Sets the 6 field cron schedule to use to checks and updates
+# Sets the 6 field cron schedule to use for checks and updates
 # Keep in mind that this will stop and start containers if there is an update
 # So probably best not to do it every 10 minutes unless you want your plex stream
 # interrupted
-# Default below is every day at 5am
+# Default below is every day at 5am (local time if you have set
+# your local timezone above)
 watchtower_cron_schedule: "0 0 5 * * *"
 
 ## Notifications
-watchtower_notifications: false
+# If enabling notifications, you MUST correctly setup the relevant
+# section below
+watchtower_notifications_enabled: false
 # Set the type of notification. email or slack
 watchtower_notifications_type: email
 # Set the notifications level. panic, fatal, error, warn, info (default) or debug

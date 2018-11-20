@@ -1,6 +1,6 @@
 ---
 - name: Watchtower Docker Container
-  when: watchtower_notifications == false
+  when: watchtower_notifications_enabled == false
   docker_container:
     name: watchtower
     image: v2tec/watchtower
@@ -15,7 +15,7 @@
 
 - name: Watchtower Docker Container w/ Email Notifications
   when:
-    - watchtower_notifications == true
+    - watchtower_notifications_enabled == true
     - watchtower_notifications_type == 'email'
   docker_container:
     name: watchtower
@@ -38,7 +38,7 @@
 
 - name: Watchtower Docker Container w/ Slack Notifications
   when:
-    - watchtower_notifications == true
+    - watchtower_notifications_enabled == true
     - watchtower_notifications_type == 'slack'
   docker_container:
     name: watchtower
