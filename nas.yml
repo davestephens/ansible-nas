@@ -69,9 +69,17 @@
     when: nginx_enabled == true
     tags: nginx
 
+  - import_tasks: tasks/gitea.yml
+    when: gitea_enabled == true
+    tags: gitea
+
   - import_tasks: tasks/stats.yml
     when: stats_enabled == true
     tags: stats
+
+  - import_tasks: tasks/guacamole.yml
+    when: guacamole_enabled == true
+    tags: guacamole
 
   roles:
     - bertvv.samba

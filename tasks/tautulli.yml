@@ -13,9 +13,9 @@
     pull: true
     volumes:
       - "{{ tautulli_config_directory }}:/config:rw"
-      - "/etc/timezone:/etc/timezone:ro"
     network_mode: "host"
     env:
+      TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ tautulli_user_id }}"
       PGID: "{{ tautulli_group_id }}"
     restart_policy: unless-stopped

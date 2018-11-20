@@ -26,12 +26,14 @@ radarr_enabled: false
 portainer_enabled: true
 glances_enabled: true
 stats_enabled: false
+guacamole_enabled: false
 watchtower_enabled: true
 
 # Backup & Restore
 duplicati_enabled: true
 nextcloud_enabled: false
 nginx_enabled: true # if you enable nginx, you'll need to map ports 80 and 443 on your router to your Ansible-NAS
+gitea_enabled: false
 
 # IRC bouncer
 znc_enabled: false
@@ -41,6 +43,11 @@ znc_enabled: false
 ###
 # Sets the hostname of your Ansible NAS
 ansible_nas_hostname: bender
+
+# Sets the timezone for your Ansible NAS
+# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+# Don't use the ones marked as Deprecated
+ansible_nas_timezone: Etc/UTC
 
 # Update all apt packages when playbook is run
 keep_packages_updated: false
@@ -285,6 +292,11 @@ grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
 
 ###
+### Gitea
+###
+gitea_data_directory: "{{ docker_home }}/gitea"
+
+###
 ### Nextcloud
 ###
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
@@ -293,3 +305,10 @@ nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 ### nginx
 ###
 nginx_data_directory: "{{ docker_home }}/nginx"
+
+###
+### Guacamole
+###
+guacamole_docker_image: guacamole/guacamole:0.9.14
+guacamole_guacd_docker_image: guacamole/guacd:0.9.14
+guacamole_data_directory: "{{ docker_home }}/guacamole"

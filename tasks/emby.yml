@@ -14,11 +14,11 @@
       - "{{ emby_config_directory }}:/config:rw"
       - "{{ emby_movies_directory }}:/movies:rw"
       - "{{ emby_tv_directory }}:/tv:rw"
-      - "/etc/timezone:/etc/timezone:ro"
     ports:
       - "8096:8096" # HTTP port
       - "8920:8920" # HTTPS port
     env:
+      TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ emby_user_id }}"
       PGID: "{{ emby_group_id }}"
     restart_policy: unless-stopped
