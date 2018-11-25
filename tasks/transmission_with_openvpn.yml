@@ -9,7 +9,7 @@
     # mode: 0755
   with_items:
     - "{{ transmission_config_directory }}"
-    - "{{ torrents_root }}"
+    - "{{ transmission_download_directory }}"
     - "{{ torrents_watch_directory }}"
 
 - name: Transmission with VPN
@@ -19,7 +19,7 @@
     pull: true
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "{{ torrents_root }}:/storage/downloads:rw"
+      - "{{ transmission_download_directory }}:/storage/downloads:rw"
       - "{{ transmission_config_directory }}:/config:rw"
       - "{{ torrents_watch_directory }}:/storage/watch:rw"
       - "/etc/timezone:/etc/timezone:ro"

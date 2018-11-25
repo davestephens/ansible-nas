@@ -6,7 +6,7 @@
     # mode: 0755
   with_items:
     - "{{ transmission_config_directory }}"
-    - "{{ torrents_root }}"
+    - "{{ transmission_download_directory }}"
     - "{{ torrents_watch_directory }}"
 
 - name: Transmission Docker Container
@@ -14,7 +14,7 @@
     name: transmission
     image: linuxserver/transmission
     pull: true
-    state: present
+    state: started
     volumes:
       - "{{ transmission_config_directory }}:/config:rw"
       - "{{ transmission_download_directory }}:/downloads:rw"
