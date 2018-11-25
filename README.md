@@ -36,6 +36,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
   - [Plex](https://www.plex.tv/) - Plex Media Server
   - [Portainer](https://portainer.io/) - for managing Docker and running custom images
   - [Radarr](https://radarr.video/) - for organising and downloading movies
+  - [SABnzbd](https://sabnzbd.org//) Free and easy binary newsreader
   - [Sickrage](https://sickrage.github.io/) - for managing TV episodes
   - [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
   - [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server

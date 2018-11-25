@@ -27,6 +27,7 @@ sonarr_enabled: false
 sickrage_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
+sabnzbd_enabled: false
 
 # System Management
 portainer_enabled: true
@@ -98,8 +99,10 @@ movies_root: "{{ samba_shares_root }}/movies"
 # Where your TV episodes are stored
 tv_root: "{{ samba_shares_root }}/tv"
 
-# Where torrent files are stored (picked up by Transmission for downloading)
-torrents_root: "{{ samba_shares_root }}/torrents"
+# Where the torrent program works from
+torrents_root: "{{ downloads_root }}/torrents"
+# Torrent watch directory (picked up by Transmission for downloading)
+torrents_watch_directory: "{{ downloads_root }}/torrents/watch"
 
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
@@ -191,12 +194,19 @@ heimdall_data_directory: "{{ docker_home }}/heimdall"
 ### Transmission
 ###
 transmission_config_directory: "{{ docker_home }}/transmission/config"
-transmission_download_directory: "{{ downloads_root }}"
-transmission_watch_directory: "{{ torrents_root }}"
+transmission_download_directory: "{{ torrents_root }}"
+transmission_watch_directory: "{{ torrents_watch_directory }}"
 transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
 
+###
+### SABnzbd
+###
+sabnzbd_config_directory: "{{ docker_home }}/sabnzbd/config"
+sabnzbd_downloads_directory: "{{ downloads_root }}/sabnzbd"
+sabnzbd_user_id: 0
+sabnzbd_group_id: 0
 
 ###
 ### Plex

@@ -9,8 +9,8 @@
     # mode: 0755
   with_items:
     - "{{ transmission_config_directory }}"
-    - "{{ transmission_download_directory }}"
-    - "{{ transmission_watch_directory }}"
+    - "{{ torrents_root }}"
+    - "{{ torrents_watch_directory }}"
 
 - name: Transmission with VPN
   docker_container:
@@ -19,9 +19,9 @@
     pull: true
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "{{ transmission_download_directory }}:/storage/downloads:rw"
+      - "{{ torrents_root }}:/storage/downloads:rw"
       - "{{ transmission_config_directory }}:/config:rw"
-      - "{{ transmission_watch_directory }}:/storage/watch:rw"
+      - "{{ torrents_watch_directory }}:/storage/watch:rw"
       - "/etc/timezone:/etc/timezone:ro"
     ports:
       - "9091:9091"
