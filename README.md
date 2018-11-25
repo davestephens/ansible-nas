@@ -42,6 +42,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
   - [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
   - [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
   - [Transmission](https://transmissionbt.com/) BitTorrent client (with OpenVPN if you have a supported VPN provider)
+  - [Watchtower](https://github.com/v2tec/watchtower) Monitor your Docker containers and update them if a new version is available
   - [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 
 ## What This Could Do
