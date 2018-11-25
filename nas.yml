@@ -5,6 +5,10 @@
 
   - import_tasks: tasks/docker.yml
 
+  - import_tasks: tasks/traefik.yml
+    when: traefik_enabled == true
+    tags: traefik
+
   - import_tasks: tasks/portainer.yml
     when: portainer_enabled == true
     tags: portainer
