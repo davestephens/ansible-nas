@@ -56,6 +56,7 @@ keep_packages_updated: false
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
 
+
 # Your email address, used for LetsEncrypt SSL certs
 ansible_nas_email: me@email.com
 
@@ -136,13 +137,6 @@ samba_shares:
     writable: yes
     path: "{{ samba_shares_root }}/photos"
 
-###
-### Nextcloud
-###
-
-# Used by the nginx container to determine what hostname to retrieve an SSL cert for
-# Ensure that this DNS name is registered and points to your external IP address
-nextcloud_external_hostname: external.hostname.com
 
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
