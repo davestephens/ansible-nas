@@ -33,9 +33,10 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
   - [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
   - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
-  - [Plex](https://www.plex.tv/) - Plex Media Server
-  - [Portainer](https://portainer.io/) - for managing Docker and running custom images
-  - [Radarr](https://radarr.video/) - for organising and downloading movies
+  - [NZBget](https://nzbget.net) - The most efficient usenet downloader
+  - [Plex](https://www.plex.tv/) Plex Media Server
+  - [Portainer](https://portainer.io/) for managing Docker and running custom images
+  - [Radarr](https://radarr.video/) for organising and downloading movies
   - [SABnzbd](https://sabnzbd.org//) Free and easy binary newsreader
   - [Sickrage](https://sickrage.github.io/) - for managing TV episodes
   - [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes

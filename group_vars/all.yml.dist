@@ -28,6 +28,7 @@ sickrage_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
 sabnzbd_enabled: false
+nzbget_enabled: false
 
 # System Management
 portainer_enabled: true
@@ -199,6 +200,14 @@ transmission_watch_directory: "{{ torrents_watch_directory }}"
 transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
+
+###
+### NZBGet
+###
+nzbget_config_directory: "{{ docker_home }}/nzbget/config"
+nzbget_downloads_directory: "{{ downloads_root }}/nzbget"
+nzbget_user_id: 0
+nzbget_group_id: 0
 
 ###
 ### SABnzbd
