@@ -1,4 +1,7 @@
 ---
+- name: Enable Universe repository
+  raw: apt-add-repository universe
+
 - name: Update apt-cache
   apt:
     update_cache: yes
@@ -12,15 +15,15 @@
 
 - name: Install some packages
   apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - smartmontools
-    - htop
-    - zfsutils-linux
-    - bonnie++
-    - unzip
-    - lm-sensors
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - smartmontools
+      - htop
+      - zfsutils-linux
+      - bonnie++
+      - unzip
+      - lm-sensors
 
 #  - name: Configure smartmontools
 
