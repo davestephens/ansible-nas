@@ -1,3 +1,3 @@
 [all]
-192.168.1.30
+nas-test.thecave ansible_python_interpreter=/usr/bin/python3
 
