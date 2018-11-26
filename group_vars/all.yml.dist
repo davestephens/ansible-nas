@@ -38,7 +38,6 @@ gitea_enabled: false
 znc_enabled: false
 
 
-
 ###
 ### General
 ###
@@ -60,10 +59,30 @@ ansible_nas_user: david
 ansible_nas_email: me@email.com
 
 ###
+### ZFS
+###
+# The below makes one big assumption about your ZFS configuration
+# We assume that you have Ubuntu installed on a separate drive (like a SSD)
+# and that you have a single ZFS pool to which all your other drives are allocated
+# This is the most common configuration. For more advanced setups, you will need
+# to tweak the various settings below to point to where your folders/datasets are
+# mounted or located
+#
+# Below are some property recommendations for your pool
+# we do NOT set these for you.
+# ZFS pool property recommendations:
+#     atime: off
+#     aclinherit: passthrough
+#     xattr: off
+#     compression: lz4
+#     dedup: off (setting this to on is bad)
+zfs_zpool_name: tank
+
+###
 ### Docker
 ###
 # Where you want Docker to store its images and container data.
-docker_home: /mnt/Volume2/docker
+docker_home: "/mnt/{{ zfs_zpool_name }}/docker"
 
 # Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
 # You'll need to change this if your docker_home isn't on zfs and Docker won't start (you'll probably want overlay2 instead)
@@ -74,7 +93,7 @@ docker_storage_driver: zfs
 ###
 # The location where all shares will be created by default. Can be overridden on a per-share basis.
 # This path will be mounted to backup containers, Duplicati
-samba_shares_root: /mnt/Volume3
+samba_shares_root: "/mnt/{{ zfs_zpool_name }}"
 
 # Where stuff downloaded will be stored
 downloads_root: "{{ samba_shares_root }}/downloads"

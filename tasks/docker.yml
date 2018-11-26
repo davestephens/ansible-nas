@@ -9,11 +9,10 @@
     name: docker-py
     state: present
 
-- name: create docker home
-  file:
-    path: "{{ docker_home }}"
-    mode: 0755
-    state: directory
+- name: create docker home zfs dataset
+  zfs:
+    name: "{{ zfs_zpool_name }}/docker"
+    state: present
 
 - name: add user account to docker group
   user:
