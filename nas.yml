@@ -47,6 +47,10 @@
   - import_tasks: tasks/glances.yml
     when: glances_enabled == true
     tags: glances
+  
+  - import_tasks: tasks/netdata.yml
+    when: netdata_enabled == true
+    tags: netdata
 
   - import_tasks: tasks/duplicati.yml
     when: duplicati_enabled == true

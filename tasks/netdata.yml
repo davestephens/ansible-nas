@@ -1,0 +1,57 @@
+###### Create
+- name: Netdata Docker Container
+  docker_container:
+    name: netdata
+    hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
+    image: netdata/netdata
+    state: started
+    pull: true
+    ports:
+      - "19999:19999"
+    volumes:
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    capabilities:
+      - SYS_PTRACE
+    security_opts:
+      - apparmor:unconfined
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Create Prometheus Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ prometheus_data_directory }}"
+
+- name: Template prometheus.yml
+  template:
+    src: prometheus/netdata-prometheus.yml
+    dest: "{{ prometheus_data_directory }}/netdata-prometheus.yml"
+
+- name: Inject netdata hostname in to Prometheus config file
+  replace:
+    path: "{{ prometheus_data_directory }}/netdata-prometheus.yml"
+    regexp: 'ansible-nas-hostname\.ansible-nas-domain'
+    replace: '{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}'
+    
+- name: Create Docker Volume for Prometheus Data
+  docker_volume:
+    name: netdata-prometheus
+    state: present
+
+- name: Prometheus Docker Container
+  docker_container:
+    name: netdata-prometheus
+    image: prom/prometheus
+    pull: true
+    state: started
+    ports:
+      - "9090:9090"
+    volumes:
+      - "{{ prometheus_data_directory }}/netdata-prometheus.yml:/etc/prometheus/prometheus.yml"
+      - netdata-prometheus:/prometheus
+    restart_policy: unless-stopped
+    memory: 1g
