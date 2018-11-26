@@ -16,7 +16,7 @@
     volumes:
       - "{{ movies_root }}:/movies:rw"
       - "{{ tv_root }}:/tv:rw"
-      - "{{ sabnzbd_downloads_directory }}/downloads:/downloads:rw"
+      - "{{ sabnzbd_downloads_directory }}:/downloads:rw"
       - "{{ sabnzbd_config_directory }}:/config:rw"
     ports:
       - "8181:8080"
