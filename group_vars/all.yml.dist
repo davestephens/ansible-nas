@@ -59,6 +59,13 @@ ansible_nas_user: david
 # Your email address, used for LetsEncrypt SSL certs
 ansible_nas_email: me@email.com
 
+## Outgoing email configuration
+outgoing_email_from: "{{ ansible_nas_email }}"
+outgoing_email_to: "{{ ansible_nas_email }}"
+outgoing_email_server: your.smtp.server
+outgoing_email_username: user1234
+outgoing_email_password: Abcd1234
+
 ###
 ### Docker
 ###
