@@ -9,6 +9,9 @@
     when: traefik_enabled == true
     tags: traefik
 
+  - import_tasks: tasks/heimdall.yml
+    tags: heimdall
+
   - import_tasks: tasks/portainer.yml
     when: portainer_enabled == true
     tags: portainer

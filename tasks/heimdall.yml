@@ -1,0 +1,42 @@
+---
+- name: Create Heimdall group
+  group:
+    name: heimdall
+    gid: 1310
+    state: present
+
+- name: Create Heimdall user
+  user:
+    name: heimdall
+    uid: 1310
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: heimdall
+
+- name: Create Heimdall Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: heimdall
+    group: heimdall
+  with_items:
+    - "{{ heimdall_data_directory }}"
+
+- name: Create Heimdall container
+  docker_container:
+    name: heimdall
+    image: "{{ heimdall_docker_image }}"
+    pull: true
+    volumes:
+      - "{{ heimdall_data_directory }}:/config:rw"
+    env:
+      PUID: 1310
+      PGID: 1310
+      TZ: "{{ ansible_nas_timezone }}"
+    ports:
+      - "10080:80"
+      - "10443:443"
+    restart_policy: unless-stopped
+    memory: 1g
