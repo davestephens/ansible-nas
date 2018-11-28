@@ -38,9 +38,10 @@
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud-user
       MYSQL_PASSWORD: nextcloud-pass
-      VIRTUAL_HOST: "{{ nextcloud_external_hostname }}"
-      VIRTUAL_PORT: 80
-      LETSENCRYPT_HOST: "{{ nextcloud_external_hostname }}"
-      LETSENCRYPT_EMAIL: "{{ ansible_nas_email }}"
+    labels:
+      traefik.backend: "nextcloud"
+      traefik.frontend.rule: "Host:nextcloud.{{ ansible_nas_domain }}"
+      traefik.enable: "true"
+      traefik.port: "80"
     restart_policy: unless-stopped
     memory: 1g
