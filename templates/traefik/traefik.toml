@@ -7,7 +7,7 @@
 # Optional
 # Default: false
 #
-debug = true
+debug = false
 
 # Log level
 #
@@ -37,7 +37,7 @@ defaultEntryPoints = ["http", "https"]
   [entryPoints.https]
   address = ":443"
     [entryPoints.https.tls]
-
+    
   [entryPoints.traefik]
   address = ":8083"
 
@@ -176,4 +176,23 @@ onDemand = false # create certificate when container is created
 
   [[acme.domains]]
   main = "ansible-nas.{{ ansible_nas_domain }}"
-  sans = ["nextcloud.{{ ansible_nas_domain }}","gitea.{{ ansible_nas_domain }}","guacamole.{{ ansible_nas_domain }}"]
+
+
+  # we request a certificate for everything, because why not.
+  sans = ["couchpotato.{{ ansible_nas_domain }}",
+          "duplicati.{{ ansible_nas_domain }}",
+          "emby.{{ ansible_nas_domain }}",
+          "gitea.{{ ansible_nas_domain }}",
+          "glances.{{ ansible_nas_domain }}",
+          "grafana.{{ ansible_nas_domain }}",
+          "guacamole.{{ ansible_nas_domain }}",
+          "heimdall.{{ ansible_nas_domain }}",
+          "nextcloud.{{ ansible_nas_domain }}",
+          "plex.{{ ansible_nas_domain }}",
+          "portainer.{{ ansible_nas_domain }}",
+          "radarr.{{ ansible_nas_domain }}",
+          "sickrage.{{ ansible_nas_domain }}",
+          "sonarr.{{ ansible_nas_domain }}",
+          "tautulli.{{ ansible_nas_domain }}",
+          "transmission.{{ ansible_nas_domain }}",
+          "znc.{{ ansible_nas_domain }}"]
