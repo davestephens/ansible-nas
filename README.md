@@ -18,23 +18,24 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of docker co
 
 ### Docker Containers Used
 
-  - [CouchPotato](https://couchpota.to/) for downloading and managing movies
-  - [Duplicati](https://www.duplicati.com/) for backing up your stuff
+  - [CouchPotato](https://couchpota.to/) - for downloading and managing movies
+  - [Duplicati](https://www.duplicati.com/) - for backing up your stuff
   - [Emby](https://emby.media/) - Media streaming and management
   - [Gitea](https://gitea.io/en-us/) - Self-hosted Github clone
-  - [Glances](https://nicolargo.github.io/glances/) for seeing the state of your system via a web browser
+  - [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
   - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
   - [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
+  - [Heimdall](https://heimdall.site/) - Home server dashboard
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
   - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
-  - [Plex](https://www.plex.tv/) Plex Media Server
-  - [Nginx](https://www.nginx.com/) - HTTP(S) proxy and web server
-  - [Portainer](https://portainer.io/) for managing Docker and running custom images
-  - [Radarr](https://radarr.video/) for organising and downloading movies
-  - [Sickrage](https://sickrage.github.io/) for managing TV episodes
-  - [Sonarr](https://sonarr.tv/) for downloading and managing TV episodes
-  - [Tautulli](http://tautulli.com/) Monitor Your Plex Media Server
+  - [Plex](https://www.plex.tv/) - Plex Media Server
+  - [Portainer](https://portainer.io/) - for managing Docker and running custom images
+  - [Radarr](https://radarr.video/) - for organising and downloading movies
+  - [Sickrage](https://sickrage.github.io/) - for managing TV episodes
+  - [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
+  - [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
   - [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
+  - [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
   - [Transmission](https://transmissionbt.com/) BitTorrent client (with OpenVPN if you have a supported VPN provider)
   - [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 
