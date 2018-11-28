@@ -1,19 +1,23 @@
 # Ansible NAS
 
 After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using
-just a stock Ubuntu install, some clever Ansible config and a bunch of docker containers.
+just a stock Ubuntu install, some clever Ansible config and a bunch of Docker containers.
 
 
 ## What This Sets Up
 
+* An awesome dashboard to your home server (Heimdall)
 * Any number of Samba shares for you to store your stuff
 * A BitTorrent client
 * Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
 * Media streaming via Plex or Emby
-* A Docker host with Portainer for image and container management
+* A Dropbox replacement via Nextcloud
 * Various ways to see stats about your NAS - Glances, dashboards in Grafana
 * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
 * An IRC bouncer
+* Source control with Gitea
+* SSL secured external access to some applications via Traefik
+* A Docker host with Portainer for image and container management
 
 
 ### Docker Containers Used
