@@ -1,5 +1,7 @@
 # Ansible NAS
 
+[![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat) [![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/DAVFoundation/api_doc/blob/master/LICENSE)
+
 After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using
 just a stock Ubuntu install, some clever Ansible config and a bunch of Docker containers.
 
@@ -88,14 +90,14 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 6. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
 
 
-## TODO
+## Getting Help
 
-1. Get the tests working on Docker
-2. Create useful Grafana dashboards
-3. Handle Docker containers being enabled then subsequently disabled (i.e clean up afterwards)
-4. SMART disk monitoring
+Getting help is easy! You can:
+
+- Raise an [issue](https://github.com/davestephens/ansible-nas/issues)
+- Chat on [Gitter](https://gitter.im/Ansible-NAS/Chat)
 
 
 ## Contributing
 
-Contributions welcome, please feel free to raise a PR! Please restrict pull requests to one piece of functionality or bugfix at a time, thanks! :+1:
+Contributions are welcome, please feel free to raise a PR! Please restrict pull requests to one piece of functionality or bugfix at a time, thanks! :+1:
