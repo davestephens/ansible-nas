@@ -3,6 +3,7 @@ For :bug: bug reports, please fill out the information below plus any additional
 If you're reporting an issue with execution of the Ansible-NAS playbook, please run the playbook with `-vvv`, and ideally isolate the problematic part with `--tags <ansible tag>` where possible.
 
 **Short problem description**
+
 Enter a couple of lines about the issue.
 
 **Environment**
@@ -12,10 +13,17 @@ Enter a couple of lines about the issue.
 - Ansible-NAS Python version (`python --version` on the Ansible-NAS box):
 
 **Expected behavior**
+
 What should happen?
 
 **Actual behavior**
+
 What actually happens?
 
 **Steps to reproduce**
+
 What does someone need to do to reproduce this?
+
+**Playbook Output**
+
+Paste the output of the playbook at the problematic point.
