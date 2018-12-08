@@ -107,4 +107,4 @@ Contributions are welcome, please feel free to raise a PR!
 - Please know that your efforts are appreciated, thanks! :+1:
 
 Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) - you'll get some nice
-recommended extentions and task setups if you do the same.
+recommended extensions and task setups if you do the same.
