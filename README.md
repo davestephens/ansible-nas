@@ -57,12 +57,12 @@ That said, if specific functionality you want isn't included and you think other
 
 Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive.
 That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be
-gained by automating it.  
+gained by automating it.
 
 
 ## Hardware
 
-Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS running on an HP Microserver. 
+Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS running on an HP Microserver.
 
 
 ## How To Use
@@ -100,4 +100,11 @@ Getting help is easy! You can:
 
 ## Contributing
 
-Contributions are welcome, please feel free to raise a PR! Please restrict pull requests to one piece of functionality or bugfix at a time, thanks! :+1:
+Contributions are welcome, please feel free to raise a PR!
+
+- Please restrict pull requests to one piece of functionality or bugfix at a time.
+- Please run `ansible-lint` against the playbook before committing. (There is a VSCode task set up to run the right command for you)
+- Please know that your efforts are appreciated, thanks! :+1:
+
+Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) - you'll get some nice
+recommended extentions and task setups if you do the same.
