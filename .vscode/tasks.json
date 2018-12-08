@@ -20,6 +20,12 @@
                 "kind": "test",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Run Ansible-Lint",
+            "type": "shell",
+            "command": "ansible-lint nas.yml",
+            "group": "test"
         }
     ]
 }

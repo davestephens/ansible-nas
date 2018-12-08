@@ -23,7 +23,7 @@
       MYSQL_DATABASE: guacamole
       MYSQL_USER: guacamole-user
       MYSQL_PASSWORD: guacamole-pass
-      MYSQL_ROOT_PASSWORD: guacamole-secret     
+      MYSQL_ROOT_PASSWORD: guacamole-secret
     restart_policy: unless-stopped
     memory: 1g
 

@@ -32,3 +32,5 @@
      name: docker
      state: restarted
   when: docker_config.changed
+  tags:
+    - skip_ansible_lint

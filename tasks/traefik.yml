@@ -7,7 +7,7 @@
 - name: Nginx Letsencrypt Container is absent
   docker_container:
     name: letsencrypt-nginx-proxy-companion
-    state: absent 
+    state: absent
 
 - name: Create Trafik Directories
   file:

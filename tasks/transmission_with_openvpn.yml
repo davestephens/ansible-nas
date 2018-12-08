@@ -1,5 +1,6 @@
 ---
-- include_vars: group_vars/vpn_credentials.yml
+- name: Include VPN credentials
+  include_vars: group_vars/vpn_credentials.yml
 
 - name: Create Transmission Directories
   file:
