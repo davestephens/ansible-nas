@@ -1,0 +1,13 @@
+---
+services: docker
+
+env:
+  - playbook: nas.yml
+    distro: ubuntu1804
+    test_syntax: true
+    test_playbook: false
+    test_idempotence: false
+
+script:
+  - cp ${PWD}/tests/all.yml.test ${PWD}/group_vars/test.yml
+  - ${PWD}/tests/test.sh

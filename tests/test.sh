@@ -23,11 +23,13 @@ neutral='\033[0m'
 timestamp=$(date +%s)
 
 # Allow environment variables to override defaults.
-distro=${distro:-"ubuntu1604"}
+distro=${distro:-"ubuntu1804"}
 docker_owner=${docker_owner:-"geerlingguy"}
 playbook=${playbook:-"nas.yml"}
 cleanup=${cleanup:-"true"}
 container_id=${container_id:-$timestamp}
+test_syntax=${test_syntax:-"true"}
+test_playbook=${test_playbook:-"false"}
 test_idempotence=${test_idempotence:-"false"}
 init="/lib/systemd/systemd"
 opts="--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
@@ -53,15 +55,21 @@ docker exec --tty $container_id env TERM=xterm ansible-playbook --version
 
 printf "\n"
 
-# Test Ansible syntax.
-printf ${green}"Checking Ansible playbook syntax."${neutral}"\n"
-docker exec --tty $container_id env TERM=xterm ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook --syntax-check
+if [ "$test_syntax" = true ]; then
+  # Test Ansible syntax.
+  printf ${green}"Checking Ansible playbook syntax."${neutral}"\n"
+  docker exec --tty $container_id env TERM=xterm ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook --syntax-check
+fi
 
 printf "\n"
 
-# Run Ansible playbook.
-printf ${green}"Running command: docker exec $container_id env TERM=xterm ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook"${neutral}"\n"
-docker exec $container_id env TERM=xterm env ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook 
+if [ "$test_playbook" = true ]; then
+  # Run Ansible playbook.
+  printf ${green}"Running command: docker exec $container_id env TERM=xterm ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook"${neutral}"\n"
+  docker exec $container_id env TERM=xterm env ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/playbooks/playbook_under_test/$playbook 
+fi
+
+printf "\n"
 
 if [ "$test_idempotence" = true ]; then
   # Run Ansible playbook again (idempotence test).
