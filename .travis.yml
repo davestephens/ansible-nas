@@ -1,4 +1,6 @@
 ---
+language: python
+
 services: docker
 
 env:
@@ -8,6 +10,10 @@ env:
     test_playbook: false
     test_idempotence: false
 
+install:
+  - pip install ansible-lint
+
 script:
   - cp ${PWD}/tests/all.yml.test ${PWD}/group_vars/test.yml
+  - ansible-lint ${PWD}/nas.yml
   - ${PWD}/tests/test.sh
