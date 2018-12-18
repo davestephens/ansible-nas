@@ -33,6 +33,7 @@ portainer_enabled: true
 glances_enabled: true
 stats_enabled: false
 guacamole_enabled: false
+netdata_enabled: false
 
 # Backup & Restore
 duplicati_enabled: true

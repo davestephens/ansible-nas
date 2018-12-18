@@ -32,6 +32,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
   - [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
   - [Heimdall](https://heimdall.site/) - Home server dashboard
   - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+  - [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
   - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
   - [Plex](https://www.plex.tv/) - Plex Media Server
   - [Portainer](https://portainer.io/) - for managing Docker and running custom images
