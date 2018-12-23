@@ -29,14 +29,14 @@ couchpotato_enabled: false
 radarr_enabled: false
 
 # System Management
-portainer_enabled: true
-glances_enabled: true
+portainer_enabled: false
+glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
 netdata_enabled: false
 
 # Backup & Restore
-duplicati_enabled: true
+duplicati_enabled: false
 nextcloud_enabled: false
 gitea_enabled: false
 
@@ -48,7 +48,7 @@ znc_enabled: false
 ### General
 ###
 # Sets the hostname of your Ansible NAS
-ansible_nas_hostname: ansible-nas
+ansible_nas_hostname: ansible-nas-test
 
 # Sets the timezone for your Ansible NAS
 # You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
@@ -73,11 +73,12 @@ ansible_nas_domain: example.com
 docker_image_directory: "{{ docker_home }}/data"
 
 # Where you want Docker to store its container data.
+# "container data" is things like transmission config, gitea repos, couchpotato's database etc
 docker_home: /mnt/Volume2/docker
 
 # Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
 # You'll need to change this if your docker_home isn't on zfs and Docker won't start (you'll probably want overlay2 instead)
-docker_storage_driver: zfs
+docker_storage_driver: overlay2
 
 ###
 ### Samba
