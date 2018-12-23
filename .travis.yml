@@ -14,6 +14,6 @@ install:
   - pip install ansible-lint
 
 script:
-  - cp ${PWD}/tests/all.yml.test ${PWD}/group_vars/test.yml
+  - cp ${PWD}/tests/test.yml ${PWD}/group_vars/all.yml
   - ansible-lint ${PWD}/nas.yml
   - ${PWD}/tests/test.sh
