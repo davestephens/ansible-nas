@@ -3,12 +3,14 @@
   apt:
     update_cache: yes
     cache_valid_time: 3600
+  register: result
+  until: result is succeeded
 
 - name: Upgrade all packages
   apt:
     upgrade: true
     state: latest
-  when: keep_packages_updated == true
+  when: keep_packages_updated
   tags:
     - skip_ansible_lint
 
@@ -23,6 +25,8 @@
     - bonnie++
     - unzip
     - lm-sensors
+  register: result
+  until: result is succeeded
 
 #  - name: Configure smartmontools
 

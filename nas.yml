@@ -2,86 +2,88 @@
 - hosts: all
   tasks:
   - import_tasks: tasks/general.yml
+    tags: general
 
   - import_tasks: tasks/docker.yml
+    tags: docker
 
   - import_tasks: tasks/traefik.yml
-    when: traefik_enabled == true
+    when: traefik_enabled
     tags: traefik
 
   - import_tasks: tasks/heimdall.yml
     tags: heimdall
 
   - import_tasks: tasks/portainer.yml
-    when: portainer_enabled == true
+    when: portainer_enabled
     tags: portainer
 
   - import_tasks: tasks/plex.yml
-    when: plex_enabled == true
+    when: plex_enabled
     tags: plex
 
   - import_tasks: tasks/emby.yml
-    when: emby_enabled == true
+    when: emby_enabled
     tags: emby
 
   - import_tasks: tasks/tautulli.yml
-    when: tautulli_enabled == true
+    when: tautulli_enabled
     tags: tautulli
 
   - import_tasks: tasks/transmission.yml
-    when: transmission_enabled == true
+    when: transmission_enabled
     tags: transmission
 
   - import_tasks: tasks/transmission_with_openvpn.yml
-    when: transmission_with_openvpn_enabled == true
+    when: transmission_with_openvpn_enabled
     tags: transmission
 
   - import_tasks: tasks/sonarr.yml
-    when: sonarr_enabled == true
+    when: sonarr_enabled
     tags: sonarr
 
   - import_tasks: tasks/radarr.yml
-    when: radarr_enabled == true
+    when: radarr_enabled
     tags: radarr
 
   - import_tasks: tasks/glances.yml
-    when: glances_enabled == true
+    when: glances_enabled
     tags: glances
-  
+
   - import_tasks: tasks/netdata.yml
-    when: netdata_enabled == true
+    when: netdata_enabled
     tags: netdata
 
   - import_tasks: tasks/duplicati.yml
-    when: duplicati_enabled == true
+    when: duplicati_enabled
     tags: duplicati
 
   - import_tasks: tasks/couchpotato.yml
-    when: couchpotato_enabled == true
+    when: couchpotato_enabled
     tags: couchpotato
 
   - import_tasks: tasks/sickrage.yml
-    when: sickrage_enabled == true
+    when: sickrage_enabled
     tags: sickrage
 
   - import_tasks: tasks/znc.yml
-    when: znc_enabled == true
+    when: znc_enabled
     tags: znc
 
   - import_tasks: tasks/nextcloud.yml
-    when: nextcloud_enabled == true
+    when: nextcloud_enabled
     tags: nextcloud
 
   - import_tasks: tasks/gitea.yml
-    when: gitea_enabled == true
+    when: gitea_enabled
     tags: gitea
 
   - import_tasks: tasks/stats.yml
-    when: stats_enabled == true
+    when: stats_enabled
     tags: stats
 
   - import_tasks: tasks/guacamole.yml
-    when: guacamole_enabled == true
+    when: guacamole_enabled
     tags: guacamole
 
   roles:

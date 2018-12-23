@@ -3,11 +3,15 @@
   apt:
     name: python-pip
     state: present
+  register: result
+  until: result is succeeded
 
 - name: 'Install docker-py'
   pip:
     name: docker-py
     state: present
+  register: result
+  until: result is succeeded
 
 - name: create docker home
   file:
