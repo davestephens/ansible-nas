@@ -1,17 +1,5 @@
-# Welcome to MkDocs
+# Welcome to Ansible-NAS
 
-For full documentation visit [mkdocs.org](https://mkdocs.org).
+![Ansible-NAS Logo](https://github.com/davestephens/ansible-nas/raw/master/misc/ansible-nas.png "Ansible-NAS Logo")
 
-## Commands
-
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using just a stock Ubuntu install, some clever Ansible config and a bunch of Docker containers. Ansible-NAS was born!
