@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="ansible-nas.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="405.71429"
+     inkscape:cy="617.14286"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1023"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:Roboto;letter-spacing:0px;word-spacing:-1.85208333px;fill:#000080;fill-opacity:1;stroke:none;stroke-width:0.26458332;"
+       x="61.439754"
+       y="119.78419"
+       id="text3723"><tspan
+         sodipodi:role="line"
+         id="tspan3721"
+         x="61.439754"
+         y="119.78419"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.11111069px;font-family:'Arimo for Powerline';-inkscape-font-specification:'Arimo for Powerline';word-spacing:-1.85208333px;fill:#000080;stroke-width:0.26458332;"><tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Arimo for Powerline';-inkscape-font-specification:'Arimo for Powerline Bold';word-spacing:-1.85208333px;"
+   id="tspan3749">ANSIBLE </tspan>NAS</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="96.751572"
+       y="111.51495"
+       id="text3747"><tspan
+         sodipodi:role="line"
+         id="tspan3745"
+         x="96.751572"
+         y="120.87872"
+         style="stroke-width:0.26458332" /></text>
+    <path
+       id="path3799"
+       d="M 59.100503,114.54015 55.9697,110.21483 a 1.4301351,1.3744537 0 0 0 -1.174022,-0.58956 h -8.039685 a 1.4301351,1.3744537 0 0 0 -1.174022,0.58956 l -3.130803,4.32532 a 1.4301649,1.3744824 0 0 0 -0.256144,0.78493 v 3.92137 c 0,0.7591 0.640283,1.37445 1.430138,1.37445 h 14.301347 c 0.789855,0 1.430138,-0.61535 1.430138,-1.37445 v -3.92137 c 0,-0.28065 -0.08938,-0.55454 -0.256144,-0.78493 z m -12.34451,-3.54042 h 8.039685 l 2.321376,3.20706 H 44.434617 Z m 11.170516,8.24672 H 43.625162 v -3.66521 h 14.301347 z m -0.953422,-1.8326 c 0,0.50605 -0.426865,0.9163 -0.953424,0.9163 -0.526552,0 -0.953423,-0.41025 -0.953423,-0.9163 0,-0.50606 0.426871,-0.91631 0.953423,-0.91631 0.526559,0 0.953424,0.41025 0.953424,0.91631 z m -2.86027,0 c 0,0.50605 -0.426865,0.9163 -0.953423,0.9163 -0.526558,0 -0.953423,-0.41025 -0.953423,-0.9163 0,-0.50606 0.426865,-0.91631 0.953423,-0.91631 0.526558,0 0.953423,0.41025 0.953423,0.91631 z"
+       inkscape:connector-curvature="0"
+       style="fill:#3737c8;stroke-width:0.0292087" />
+  </g>
+</svg>
