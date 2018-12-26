@@ -1,9 +1,9 @@
 # Ansible NAS
+
 [![Build Status](https://img.shields.io/travis/com/davestephens/ansible-nas.svg?logo=travis&style=flat-square)](https://travis-ci.com/davestephens/ansible-nas) [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat) [![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/davestephens/ansible-nas/blob/master/LICENSE)
 
 After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using
 just a stock Ubuntu install, some clever Ansible config and a bunch of Docker containers.
-
 
 ## What This Sets Up
 
@@ -19,7 +19,6 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * Source control with Gitea
 * SSL secured external access to some applications via Traefik
 * A Docker host with Portainer for image and container management
-
 
 ### Docker Containers Used
 
@@ -45,13 +44,11 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
   - [Transmission](https://transmissionbt.com/) BitTorrent client (with OpenVPN if you have a supported VPN provider)
   - [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 
-
 ## What This Could Do
 
 Ansible-NAS can run anything that's in a Docker image, which is why Portainer is included. A NAS configuration is a pretty personal thing based on what you download, what media you view, how many photos you take...so it's difficult to please everyone.
 
 That said, if specific functionality you want isn't included and you think others could benefit, add it and raise a PR!
-
 
 ## What This Doesn't Do
 
@@ -59,13 +56,8 @@ Ansible NAS doesn't set up your disk partitions, primarily because getting it wr
 That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be
 gained by automating it.
 
+## Quick Start
 
-## Hardware
-
-Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS running on an HP Microserver.
-
-
-## How To Use
 1. Enable the Ubuntu Universe repository: `sudo add-apt-repository universe`
 2. Install Ansible: `sudo apt install ansible`
 3. `git clone https://github.com/davestephens/ansible-nas.git && cd ansible-nas`
@@ -77,6 +69,9 @@ Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu 
 8. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need sudo to install Ansible roles)
 9. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
 
+## Documentation
+
+You can read the docs [here](https://davestephens.github.io/ansible-nas). PRs for more documentation always welcome!
 
 ## Migrating from FreeNAS
 
@@ -89,14 +84,17 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 5. `zpool import <pool_name>` against the pools you want to attach.
 6. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
 
+## Hardware
+
+Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS running on an HP Microserver.
 
 ## Getting Help
 
 Getting help is easy! You can:
 
+- Read the [docs](https://davestephens.github.io/ansible-nas)
 - Raise an [issue](https://github.com/davestephens/ansible-nas/issues)
 - Chat on [Gitter](https://gitter.im/Ansible-NAS/Chat)
-
 
 ## Contributing
 
