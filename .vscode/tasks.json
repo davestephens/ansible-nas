@@ -22,10 +22,22 @@
             }
         },
         {
-            "label": "Run Ansible-Lint",
+            "label": "Run ansible-lint",
             "type": "shell",
             "command": "ansible-lint nas.yml",
             "group": "test"
+        },
+        {
+            "label": "Serve docs locally (mkdocs serve)",
+            "type": "shell",
+            "command": "mkdocs serve",
+            "group": "test"
+        },
+        {
+            "label": "Deploy docs to GitHub (mkdocs gh-deploy)",
+            "type": "shell",
+            "command": "mkdocs gh-deploy",
+            "group": "build"
         }
     ]
 }
