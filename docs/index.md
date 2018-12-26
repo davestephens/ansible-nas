@@ -1,5 +1,22 @@
-# Welcome to Ansible-NAS
-
-![Ansible-NAS Logo](https://github.com/davestephens/ansible-nas/raw/master/misc/ansible-nas.png "Ansible-NAS Logo")
+![Ansible-NAS Logo](https://raw.githubusercontent.com/davestephens/ansible-nas/master/misc/ansible-nas.png "Ansible-NAS Logo")
 
 After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using just a stock Ubuntu install, some clever Ansible config and a bunch of Docker containers. Ansible-NAS was born!
+
+## Features
+
+* An awesome dashboard to your home server (Heimdall)
+* Any number of Samba shares for you to store your stuff
+* A BitTorrent client
+* Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
+* Media streaming via Plex or Emby
+* A Dropbox replacement via Nextcloud
+* Various ways to see stats about your NAS - Glances, dashboards in Grafana
+* A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
+* An IRC bouncer
+* Source control with Gitea
+* SSL secured external access to some applications via Traefik
+* A Docker host with Portainer management - run anything that's shipped as a Docker container
+
+## Getting Started
+
+Head to [installation](installation.md) if you're ready to roll, or [testing](testing.md) if you want to spin up a test VM first.

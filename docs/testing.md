@@ -1,5 +1,3 @@
-# Testing Ansible-NAS
-
 ## Vagrant
 
 A [Vagrant](https://www.vagrantup.com/) Vagrantfile and launch script (`tests/test-vagrant.sh`) are provided to spin up a testing VM. The config in `tests/test.yml` is used by the script to override any existing config in `group_vars/all.yml`.
@@ -12,7 +10,7 @@ Once you're done testing, destroy the VM with `vagrant destroy`.
 
 ## Travis CI
 
-Travis CI runs some sanity checks against branches. These can be viewed [here](https://github.com/davestephens/ansible-nas/blob/master/.travis.yml).
+Travis CI runs some sanity checks against branches once pushed to GitHub. These can be viewed [here](https://github.com/davestephens/ansible-nas/blob/master/.travis.yml).
 
 ### ansible-lint
 
