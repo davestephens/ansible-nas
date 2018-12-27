@@ -1,0 +1,20 @@
+---
+# When group is not specified, the default (users) is used.
+- file:
+    path: "{{ item.path }}"
+    owner: root
+    group: users
+    mode: u=rwx,g=rwx,o=rx,g+s
+    state: directory
+  with_items:
+    - "{{ samba_shares }}"
+  when: item.group is not defined
+- file:
+    path: "{{ item.path }}"
+    owner: root
+    group: "{{ item.group }}"
+    mode: u=rwx,g=rwx,o=rx,g+s
+    state: directory
+  with_items:
+    - "{{ samba_shares }}"
+  when: item.group is defined

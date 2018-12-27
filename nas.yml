@@ -1,5 +1,10 @@
 ---
 - hosts: all
+  pre_tasks:
+    - import_tasks: tasks/samba-create-user-accounts.yml
+      when: samba_users and samba_create_user_accounts_enabled
+      tags: samba_create_user_accounts
+
   tasks:
   - import_tasks: tasks/general.yml
     tags: general
@@ -85,6 +90,10 @@
   - import_tasks: tasks/guacamole.yml
     when: guacamole_enabled
     tags: guacamole
+
+  - import_tasks: tasks/samba-sticky-directories.yml
+    when: samba_sticky_directories_enabled
+    tags: samba_sticky_directories
 
   roles:
     - role: bertvv.samba
