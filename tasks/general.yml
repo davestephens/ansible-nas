@@ -1,4 +1,9 @@
 ---
+- name: Set login banner
+  template:
+    src: ansible-nas/motd.txt
+    dest: /etc/motd
+
 - name: Update apt-cache
   apt:
     update_cache: yes
