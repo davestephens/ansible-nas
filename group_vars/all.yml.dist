@@ -99,6 +99,21 @@ torrents_root: "{{ samba_shares_root }}/torrents"
 # mess with Samba user permissions.
 samba_guest_account: nobody
 
+# Make samba share directories use group sticky bit. This applies to all
+# samba_shares and will honor "group" if it is specfied.
+samba_sticky_directories_enabled: false
+
+# If you define samba_users, this will create those users on the NAS and
+# disable their accounts for normal logins.  See tasks/samba-create-user-accounts.yml
+samba_create_user_accounts_enabled: false
+
+# Example non-login user accounts to be created on NAS.
+#samba_users:
+#- name: guest
+#	password: password
+#- name: jesse
+#	password: password
+
 # Shares you want published over Samba.
 samba_shares:
   - name: downloads
@@ -143,6 +158,13 @@ samba_shares:
     writable: yes
     path: "{{ samba_shares_root }}/photos"
 
+# Example "user only" share
+#  - name: jesse
+#    comment: "Jesse's Stuff"
+#    path: "{{ samba_shares_root }}/jesse"
+#    group: jesse
+#    valid_users: jesse
+#    write_list: +jesse # you can use the user or group form here
 
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
