@@ -11,6 +11,7 @@ Enter a couple of lines about the issue.
 - Ansible version (paste the entire output of `ansible --version` on the machine you run the playbook from):
 - Ansible-NAS operating system (`uname -a` on the Ansible-NAS box):
 - Ansible-NAS Python version (`python --version` on the Ansible-NAS box):
+- Vagrant version, if testing (`vagrant --version`)
 
 **Expected behavior**
 
