@@ -1,6 +1,7 @@
 ---
 # When group is not specified, the default (users) is used.
-- file:
+- name: Make samba shares sgid using default group users
+  file:
     path: "{{ item.path }}"
     owner: root
     group: users
@@ -9,7 +10,9 @@
   with_items:
     - "{{ samba_shares }}"
   when: item.group is not defined
-- file:
+
+- name: Make samba shares sgid when group is specified
+  file:
     path: "{{ item.path }}"
     owner: root
     group: "{{ item.group }}"

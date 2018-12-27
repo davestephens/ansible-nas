@@ -1,10 +1,7 @@
 ---
-#- debug:
-#    msg: "name: {{ item.name }}, password: {{ item.password }}"
-#  with_items:
-#    - "{{ samba_users }}"
 # Password lock only via ansible 2.6
-- user:
+- name: "Create Samba Non-login User Accounts"
+  user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
     password_lock: yes
@@ -17,8 +14,10 @@
   with_items:
     - "{{ samba_users }}"
   when: ansible_version.major >= 2 and ansible_version.minor >= 6
-# Handle it if ansible < 2.6
-- user:
+
+  # Handle it if ansible < 2.6
+- name: "Create Samba Non-login User Account for ansible < 2.6"
+  user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
     create_home: no
@@ -30,6 +29,7 @@
   with_items:
     - "{{ samba_users }}"
   when: ansible_version.major == 2 and ansible_version.minor < 6
+
 - name: Lock account, this is specific to ubuntu but is only needed for ansible < 2.6
   shell: usermod --lock "{{ item.name }}"
   with_items:
