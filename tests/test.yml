@@ -47,10 +47,10 @@ watchtower_enabled: false
 duplicati_enabled: false
 nextcloud_enabled: false
 gitea_enabled: false
+timemachine_enabled: false
 
 # IRC bouncer
 znc_enabled: false
-
 
 ###
 ### General
@@ -181,6 +181,16 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ samba_shares_root }}/photos"
+
+###
+### Time Machine
+###
+# data directory needs to be an absolute path
+timemachine_data_directory: /mnt/zpool1/timemachine
+timemachine_volume_size_limit: 0
+timemachine_password: timemachine
+timemachine_share_name: TimeMachine
+timemachine_log_level: error
 
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
