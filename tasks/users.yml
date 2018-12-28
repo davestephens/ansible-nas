@@ -1,0 +1,14 @@
+---
+- name: Create ansible-nas group
+  group:
+    name: ansible-nas
+    state: present
+
+- name: Create ansible-nas user
+  user:
+    name: ansible-nas
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: ansible-nas

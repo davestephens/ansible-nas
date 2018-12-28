@@ -101,7 +101,13 @@ torrents_root: "{{ samba_shares_root }}/torrents"
 
 # The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
 # mess with Samba user permissions.
-samba_guest_account: nobody
+samba_guest_account: ansible-nas
+
+# How Samba behaves when an unknown user connects, see Samba docs for more info
+samba_map_to_guest: Bad Password
+
+# The Netbios hostname used by Samba on your network
+samba_netbios_name: "{{ ansible_nas_hostname }}"
 
 # Shares you want published over Samba.
 samba_shares:
@@ -110,6 +116,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
+    browsable: yes
     path: "{{ downloads_root }}"
 
   - name: movies
@@ -117,6 +124,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
+    browsable: yes
     path: "{{ movies_root }}"
 
   - name: tv
@@ -124,6 +132,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
+    browsable: yes
     path: "{{ tv_root }}"
 
   - name: dump
@@ -131,6 +140,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
+    browsable: yes
     path: "{{ samba_shares_root }}/dump"
 
   - name: games
@@ -138,6 +148,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
+    browsable: yes
     path: "{{ samba_shares_root }}/games"
 
   - name: photos
@@ -145,6 +156,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
+    browsable: yes
     path: "{{ samba_shares_root }}/photos"
 
 

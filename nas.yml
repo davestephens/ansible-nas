@@ -1,5 +1,21 @@
 ---
 - hosts: all
+
+  pre_tasks:
+    - import_tasks: tasks/users.yml
+      tags: users
+
+  roles:
+    - role: bertvv.samba
+      tags:
+        - samba
+        - skip_ansible_lint
+
+    - role: geerlingguy.docker
+      tags:
+        - docker
+        - skip_ansible_lint
+
   tasks:
   - import_tasks: tasks/general.yml
     tags: general
@@ -86,14 +102,4 @@
     when: guacamole_enabled
     tags: guacamole
 
-  roles:
-    - role: bertvv.samba
-      tags:
-        - samba
-        - skip_ansible_lint
-
-    - role: geerlingguy.docker
-      tags:
-        - docker
-        - skip_ansible_lint
 
