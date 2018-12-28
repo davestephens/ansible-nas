@@ -98,15 +98,8 @@ tv_root: "{{ samba_shares_root }}/tv"
 # Where torrent files are stored (picked up by Transmission for downloading)
 torrents_root: "{{ samba_shares_root }}/torrents"
 
-# The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
-# mess with Samba user permissions.
-samba_guest_account: ansible-nas
-
-# How Samba behaves when an unknown user connects, see Samba docs for more info
-samba_map_to_guest: Bad Password
-
-# The Netbios hostname used by Samba on your network
-samba_netbios_name: "{{ ansible_nas_hostname }}"
+# The description that'll appear next to your Ansible-NAS box when browsing your network
+samba_server_string: Ansible NAS
 
 # Shares you want published over Samba.
 samba_shares:
@@ -162,6 +155,22 @@ samba_shares:
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
 ##################################################################
+
+###
+### Samba
+###
+# Seems to break browsing of the \\server-name shares root when enabled
+samba_mitigate_cve_2017_7494: false
+
+# The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
+# mess with Samba user permissions.
+samba_guest_account: ansible-nas
+
+# How Samba behaves when an unknown user connects, see Samba docs for more info
+samba_map_to_guest: Bad Password
+
+# The Netbios hostname used by Samba on your network
+samba_netbios_name: "{{ ansible_nas_hostname }}"
 
 ###
 ### Traefik
