@@ -323,26 +323,17 @@ guacamole_data_directory: "{{ docker_home }}/guacamole"
 ###
 ### Watchtower
 ###
-# Sets the 6 field cron schedule to use for checks and updates
-watchtower_cron_schedule: "0 0 5 * * *"
+# Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
+watchtower_cron_schedule: 0 0 5 * * *
 
-## Notifications
-# If enabling notifications, you MUST correctly setup the relevant
-# section below
-watchtower_notifications_enabled: false
-# Set the type of notification. email, or slack
-# uncomment below if you wish to use notifications
-watchtower_notifications_type: email
-# Set the notifications level. panic, fatal, error, warn, info (default) or debug
-watchtower_notifications_level: info
+# Sets the Watchtower Docker start command. Different options can be supplied based on whether you want to receive
+# notifications or not, some examples are provided below. See https://github.com/v2tec/watchtower for more info.
 
-# Email
-watchtower_email_from: "{{ ansible_nas_email }}"
-watchtower_email_to: "{{ ansible_nas_email }}"
-watchtower_email_server: smtp.gmail.com
-watchtower_email_server_user: "{{ ansible_nas_email }}"
-watchtower_email_server_password: abcd1234
+# No notifications
+watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
 
-# Slack
-watchtower_slack_hook_url: https://hooks.slack.com/services/???/???/???
-watchtower_slack_identifier: "watchtower-{{ ansible_nas_hostname }}"
+# Email notifications
+# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'email' --notification-email-from 'ansible@nas.com' --notification-email-to 'notifications@ansible-nas.com' --notification-email-server 'my.email.server.com' --notification-email-server-port '25' --notification-email-server-user 'email_username' --notification-email-server-password 'top-secret'"
+
+# Slack notifications
+# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"
