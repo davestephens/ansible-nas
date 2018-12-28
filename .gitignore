@@ -6,3 +6,9 @@ inventory
 roles
 *.retry
 *.log
+
+# Vim
+[._]sw[a-p]
+
+# Session
+Session.vim

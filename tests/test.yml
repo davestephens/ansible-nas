@@ -66,6 +66,9 @@ ansible_nas_email: me@example.com
 # Applications will have subdomain SSL certificates created, eg ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
 
+# Install extra packages
+ansible_nas_extra_packages: ['smartmontools', 'htop', 'zfsutils-linux', 'bonnie++', 'unzip', 'lm-sensors']
+
 ###
 ### Docker
 ###
