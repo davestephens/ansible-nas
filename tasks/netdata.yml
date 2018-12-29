@@ -25,4 +25,3 @@
       - apparmor:unconfined
     restart_policy: unless-stopped
     memory: 1g
-

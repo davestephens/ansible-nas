@@ -34,6 +34,7 @@ glances_enabled: true
 stats_enabled: false
 guacamole_enabled: false
 netdata_enabled: false
+watchtower_enabled: false
 
 # Backup & Restore
 duplicati_enabled: true
@@ -65,9 +66,6 @@ ansible_nas_email: me@example.com
 
 # Applications will have subdomain SSL certificates created, eg ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
-
-# Install extra packages
-ansible_nas_extra_packages: ['smartmontools', 'htop', 'zfsutils-linux', 'bonnie++', 'unzip', 'lm-sensors']
 
 ###
 ### Docker
@@ -158,6 +156,18 @@ samba_shares:
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
 ##################################################################
+
+###
+### General
+###
+# Extra packages to install
+ansible_nas_extra_packages: 
+  - smartmontools
+  - htop
+  - zfsutils-linux
+  - bonnie++
+  - unzip
+  - lm-sensors
 
 ###
 ### Samba
@@ -320,3 +330,21 @@ nginx_data_directory: "{{ docker_home }}/nginx"
 guacamole_docker_image: guacamole/guacamole:0.9.14
 guacamole_guacd_docker_image: guacamole/guacd:0.9.14
 guacamole_data_directory: "{{ docker_home }}/guacamole"
+
+###
+### Watchtower
+###
+# Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
+watchtower_cron_schedule: 0 0 5 * * *
+
+# Sets the Watchtower Docker start command. Different options can be supplied based on whether you want to receive
+# notifications or not, some examples are provided below. See https://github.com/v2tec/watchtower for more info.
+
+# No notifications
+watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
+
+# Email notifications
+# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'email' --notification-email-from 'ansible@nas.com' --notification-email-to '{{ ansible_nas_email }}' --notification-email-server 'my.email.server.com' --notification-email-server-port '25' --notification-email-server-user 'email_username' --notification-email-server-password 'top-secret'"
+
+# Slack notifications
+# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"

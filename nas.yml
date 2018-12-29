@@ -34,6 +34,10 @@
     when: portainer_enabled
     tags: portainer
 
+  - import_tasks: tasks/watchtower.yml
+    when: watchtower_enabled
+    tags: watchtower
+
   - import_tasks: tasks/plex.yml
     when: plex_enabled
     tags: plex
