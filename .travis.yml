@@ -12,8 +12,19 @@ env:
 
 install:
   - pip install ansible-lint
+  - pip install mkdocs
 
 script:
   - cp ${PWD}/tests/test.yml ${PWD}/group_vars/all.yml
   - ansible-lint ${PWD}/nas.yml
   - ${PWD}/tests/test.sh
+  - mkdocs build
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  local-dir: site/
+  github-token: $GHPAGES
+  keep-history: true
+  on:
+    branch: master
