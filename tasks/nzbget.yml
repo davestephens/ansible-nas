@@ -11,6 +11,7 @@
   docker_container:
     name: nzbget
     image: linuxserver/nzbget
+    state: stopped
     pull: true
     volumes:
       - "{{ movies_root }}:/movies:rw"
