@@ -11,4 +11,3 @@
     command: "{{ watchtower_command }}"
     restart_policy: unless-stopped
     memory: 1g
-
