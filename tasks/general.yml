@@ -21,15 +21,8 @@
 
 - name: Install some packages
   apt:
-    name: "{{ item }}"
+    name: "{{ ansible_nas_extra_packages }}"
     state: present
-  with_items:
-    - smartmontools
-    - htop
-    - zfsutils-linux
-    - bonnie++
-    - unzip
-    - lm-sensors
   register: result
   until: result is succeeded
 
