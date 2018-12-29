@@ -13,6 +13,7 @@ env:
 install:
   - pip install ansible-lint
   - pip install mkdocs
+  - pip install mkdocs-material
 
 script:
   - cp ${PWD}/tests/test.yml ${PWD}/group_vars/all.yml
