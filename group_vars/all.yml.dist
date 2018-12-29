@@ -100,11 +100,6 @@ movies_root: "{{ samba_shares_root }}/movies"
 # Where your TV episodes are stored
 tv_root: "{{ samba_shares_root }}/tv"
 
-# Where the torrent program works from
-torrents_root: "{{ downloads_root }}/torrents"
-# Torrent watch directory (picked up by Transmission for downloading)
-torrents_watch_directory: "{{ downloads_root }}/torrents/watch"
-
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
 
@@ -195,8 +190,7 @@ heimdall_data_directory: "{{ docker_home }}/heimdall"
 ### Transmission
 ###
 transmission_config_directory: "{{ docker_home }}/transmission/config"
-transmission_download_directory: "{{ torrents_root }}"
-transmission_watch_directory: "{{ torrents_watch_directory }}"
+transmission_watch_directory: "{{ downloads_root }}/transmission/watch"
 transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
@@ -205,7 +199,6 @@ transmission_local_network: "192.168.1.0/24"
 ### NZBGet
 ###
 nzbget_config_directory: "{{ docker_home }}/nzbget/config"
-nzbget_downloads_directory: "{{ downloads_root }}/nzbget"
 nzbget_user_id: 0
 nzbget_group_id: 0
 
@@ -213,7 +206,6 @@ nzbget_group_id: 0
 ### SABnzbd
 ###
 sabnzbd_config_directory: "{{ docker_home }}/sabnzbd/config"
-sabnzbd_downloads_directory: "{{ downloads_root }}/sabnzbd"
 sabnzbd_user_id: 0
 sabnzbd_group_id: 0
 
@@ -254,7 +246,6 @@ duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 ###
 sonarr_data_directory: "{{ docker_home }}/sonarr/config"
 sonarr_tv_directory: "{{ tv_root }}"
-sonarr_download_directory: "{{ downloads_root }}"
 sonarr_user_id: 0
 sonarr_group_id: 0
 
@@ -263,7 +254,6 @@ sonarr_group_id: 0
 ### Radarr
 ###
 radarr_movies_directory: "{{ movies_root }}"
-radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
 radarr_user_id: 0
 radarr_group_id: 0
@@ -274,7 +264,6 @@ radarr_group_id: 0
 ###
 couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
 couchpotato_movies_directory: "{{ movies_root }}"
-couchpotato_downloads_directory: "{{ downloads_root }}"
 couchpotato_torrents_directory: "{{ torrents_root }}"
 couchpotato_user_id: 0
 couchpotato_group_id: 0
@@ -285,7 +274,6 @@ couchpotato_group_id: 0
 ###
 sickrage_config_directory: "{{ docker_home }}/sickrage/config"
 sickrage_tv_directory: "{{ tv_root }}"
-sickrage_downloads_directory: "{{ downloads_root }}"
 sickrage_user_id: 0
 sickrage_group_id: 0
 

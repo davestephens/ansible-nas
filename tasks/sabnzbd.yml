@@ -5,19 +5,22 @@
     state: directory
   with_items:
     - "{{ sabnzbd_config_directory }}"
-    - "{{ sabnzbd_downloads_directory }}"
+    - "{{ downloads_root }}/sabnzbd/complete"
+    - "{{ downloads_root }}/sabnzbd/incomplete"
+    - "{{ downloads_root }}/sabnzbd/scripts"
+    - "{{ downloads_root }}/sabnzbd/watch"
 
 - name: Create SABnzbd Container
   docker_container:
     name: sabnzbd
     image: linuxserver/sabnzbd
-    hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}" 
+    hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
     pull: true
     volumes:
-      - "{{ movies_root }}:/movies:rw"
-      - "{{ tv_root }}:/tv:rw"
-      - "{{ sabnzbd_downloads_directory }}:/downloads:rw"
-      - "{{ sabnzbd_config_directory }}:/config:rw"
+      - "{{ movies_root }}:/movies"
+      - "{{ tv_root }}:/tv"
+      - "{{ sabnzbd_config_directory }}:/config"
+      - "{{ downloads_root }}:/downloads"
     ports:
       - "8181:8080"
       - "9191:9090"

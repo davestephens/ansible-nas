@@ -83,11 +83,11 @@
     tags: sickrage
 
   - import_tasks: tasks/nzbget.yml
-    when: nzbget_enabled == true
+    when: nzbget_enabled
     tags: nzbget
 
   - import_tasks: tasks/sabnzbd.yml
-    when: sabnzbd_enabled == true
+    when: sabnzbd_enabled
     tags: sabnzbd
 
   - import_tasks: tasks/znc.yml

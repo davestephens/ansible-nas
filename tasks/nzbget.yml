@@ -5,7 +5,7 @@
     state: directory
   with_items:
     - "{{ nzbget_config_directory }}"
-    - "{{ nzbget_downloads_directory }}"
+    - "{{ downloads_root }}/nzbget"
 
 - name: Create NZBget Container
   docker_container:
@@ -15,8 +15,8 @@
     volumes:
       - "{{ movies_root }}:/movies:rw"
       - "{{ tv_root }}:/tv:rw"
-      - "{{ nzbget_downloads_directory }}:/downloads:rw"
-      - "{{ nzbget_config_directory }}:/config:rw"
+      - "{{ downloads_root }}:/downloads"
+      - "{{ nzbget_config_directory }}:/config"
     ports:
       - "6789:6789"
     env:

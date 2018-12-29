@@ -7,7 +7,7 @@
   with_items:
     - "{{ transmission_config_directory }}"
     - "{{ transmission_download_directory }}"
-    - "{{ torrents_watch_directory }}"
+    - "{{ transmission_watch_directory }}"
 
 - name: Transmission Docker Container
   docker_container:
@@ -28,4 +28,3 @@
       PGID: "{{ transmission_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
-
