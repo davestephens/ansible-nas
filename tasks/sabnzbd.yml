@@ -21,6 +21,7 @@
       - "{{ tv_root }}:/tv"
       - "{{ sabnzbd_config_directory }}:/config"
       - "{{ downloads_root }}:/downloads"
+      - "{{ downloads_root }}/sabnzbd/incomplete:/incomplete-downloads"
     ports:
       - "8181:8080"
       - "9191:9090"
@@ -30,3 +31,41 @@
       PGID: "{{ sabnzbd_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
+
+- name: Stop SABnzbd Container
+  docker_container:
+    name: sabnzbd
+    state: stopped
+
+- name: Set SABnzbd watch folder
+  ini_file:
+    path: "{{ sabnzbd_config_directory }}/sabnzbd.ini"
+    section: misc
+    option: dirscan_dir
+    value: "/downloads/sabnzbd/watch"
+
+- name: Set SABnzbd scripts folder
+  ini_file:
+    path: "{{ sabnzbd_config_directory }}/sabnzbd.ini"
+    section: misc
+    option: script_dir
+    value: "/downloads/sabnzbd/scripts"
+
+- name: Set SABnzbd incomplete folder
+  ini_file:
+    path: "{{ sabnzbd_config_directory }}/sabnzbd.ini"
+    section: misc
+    option: download_dir
+    value: "/incomplete-downloads"
+
+- name: Set SABnzbd complete folder
+  ini_file:
+    path: "{{ sabnzbd_config_directory }}/sabnzbd.ini"
+    section: misc
+    option: complete_dir
+    value: "/downloads/sabnzbd/complete"
+
+- name: Start SABnzbd Container
+  docker_container:
+    name: sabnzbd
+    state: started

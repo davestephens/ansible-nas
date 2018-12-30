@@ -13,9 +13,9 @@
     image: linuxserver/sickrage
     pull: true
     volumes:
-      - "{{ sickrage_config_directory }}:/config:rw"
-      - "{{ sickrage_downloads_directory }}/completed:/downloads:rw"
-      - "{{ sickrage_tv_directory }}:/tv:rw"
+      - "{{ sickrage_config_directory }}:/config"
+      - "{{ downloads_root }}:/downloads"
+      - "{{ sickrage_tv_directory }}:/tv"
     ports:
       - "8081:8081"
     env:

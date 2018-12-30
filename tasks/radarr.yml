@@ -12,9 +12,9 @@
     image: linuxserver/radarr
     pull: true
     volumes:
-      - "{{ radarr_movies_directory }}:/movies:rw"
+      - "{{ radarr_data_directory }}:/config"
+      - "{{ radarr_movies_directory }}:/movies"
       - "{{ downloads_root }}:/downloads"
-      - "{{ radarr_data_directory }}:/config:rw"
     ports:
       - "7878:7878"
     env:

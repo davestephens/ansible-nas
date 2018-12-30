@@ -13,10 +13,10 @@
     image: linuxserver/couchpotato
     pull: true
     volumes:
-      - "{{ couchpotato_config_directory }}:/config:rw"
-      - "{{ downloads_root }}:/downloads:rw"
-      - "{{ couchpotato_movies_directory }}:/movies:rw"
-      - "{{ couchpotato_torrents_directory }}:/torrents:rw"
+      - "{{ couchpotato_config_directory }}:/config"
+      - "{{ downloads_root }}:/downloads"
+      - "{{ couchpotato_movies_directory }}:/movies"
+      - "{{ couchpotato_torrents_directory }}:/torrents"
     ports:
       - "5050:5050"
     env:

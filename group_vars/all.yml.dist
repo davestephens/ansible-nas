@@ -94,6 +94,9 @@ samba_shares_root: /mnt/Volume3
 # Where stuff downloaded will be stored
 downloads_root: "{{ samba_shares_root }}/downloads"
 
+# Where torrent files are stored (picked up by Transmission for downloading)
+torrents_root: "{{ downloads_root }}/torrents"
+
 # Where your movies are stored
 movies_root: "{{ samba_shares_root }}/movies"
 

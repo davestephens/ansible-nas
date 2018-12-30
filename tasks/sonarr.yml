@@ -12,9 +12,9 @@
     image: linuxserver/sonarr
     pull: true
     volumes:
-      - "{{ sonarr_tv_directory }}:/tv:rw"
-      - "{{ sonarr_download_directory }}/complete:/downloads:rw"
-      - "{{ sonarr_data_directory }}:/config:rw"
+      - "{{ sonarr_tv_directory }}:/tv"
+      - "{{ download_root }}:/downloads"
+      - "{{ sonarr_data_directory }}:/config"
     ports:
       - "8989:8989"
     env:
