@@ -7,7 +7,7 @@
     - "{{ nzbget_config_directory }}"
     - "{{ downloads_root }}/nzbget"
 
-- name: Create NZBget Container
+- name: Initial NZBget Container creation
   docker_container:
     name: nzbget
     image: linuxserver/nzbget
@@ -38,7 +38,12 @@
     regexp: '^MainDir\=\/downloads$'
     replace: "MainDir=/downloads/nzbget"
 
-- name: ReCreate NZBget Container with correct path
+- name: Remove redundant /downloads/nzbget/nzbget if it exists
+  file:
+    path: "{{ downloads_root }}/nzbget/nzbget/"
+    state: absent
+
+- name: Create NZBget Container with correct downloads path
   docker_container:
     name: nzbget
     image: linuxserver/nzbget
