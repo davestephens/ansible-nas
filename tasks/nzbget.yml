@@ -11,7 +11,38 @@
   docker_container:
     name: nzbget
     image: linuxserver/nzbget
-    state: stopped
+    state: started
+    pull: true
+    volumes:
+      - "{{ movies_root }}:/movies:rw"
+      - "{{ tv_root }}:/tv:rw"
+      - "{{ downloads_root }}/nzbget:/downloads"
+      - "{{ nzbget_config_directory }}:/config"
+    ports:
+      - "6789:6789"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ nzbget_user_id }}"
+      PGID: "{{ nzbget_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Remove NZBget Container so we can reconfigure the downloads path
+  docker_container:
+    name: nzbget
+    state: absent
+
+- name: Reconfigure NZBGet MainDir to /downloads/nzbget
+  replace:
+    path: "{{ nzbget_config_directory }}/nzbget.conf"
+    regexp: '^MainDir\=\/downloads$'
+    replace: "MainDir=/downloads/nzbget"
+
+- name: ReCreate NZBget Container with correct path
+  docker_container:
+    name: nzbget
+    image: linuxserver/nzbget
+    state: started
     pull: true
     volumes:
       - "{{ movies_root }}:/movies:rw"

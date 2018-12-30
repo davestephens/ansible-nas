@@ -2,7 +2,7 @@
 
 Homepage: [https://nzbget.net/](https://nzbget.net/)
 
-NZBGet is a free NZB (Newsgroup Bin) downloader.  
+NZBGet is a free NZB (Newsgroup Bin) downloader.
 
 ## Usage
 
@@ -14,5 +14,7 @@ The default admin user and password are `nzbget` and `tegbzn6789`.
 
 ## Specific Configuration
 
-Correct paths need to be set to enable smooth functionality with other components for Ansible NAS.
+Correct paths need to be set to enable smooth functionality with other components of Ansible NAS.
 
+The Ansible NAS process modifies the NZBGet folder from /downloads to /downloads/nzbget to facilitate multiple download clients
+being used.
