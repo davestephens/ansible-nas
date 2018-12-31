@@ -12,6 +12,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * A BitTorrent client
 * Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
 * Media streaming via Plex or Emby
+* An RSS newsfeed reader - Miniflux
 * A Dropbox replacement via Nextcloud
 * Various ways to see stats about your NAS - Glances, dashboards in Grafana
 * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
@@ -22,28 +23,29 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 
 ### Docker Containers Used
 
-  - [CouchPotato](https://couchpota.to/) - for downloading and managing movies
-  - [Duplicati](https://www.duplicati.com/) - for backing up your stuff
-  - [Emby](https://emby.media/) - Media streaming and management
-  - [Gitea](https://gitea.io/en-us/) - Self-hosted Github clone
-  - [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
-  - [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
-  - [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
-  - [Heimdall](https://heimdall.site/) - Home server dashboard
-  - [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
-  - [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
-  - [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
-  - [Plex](https://www.plex.tv/) - Plex Media Server
-  - [Portainer](https://portainer.io/) - for managing Docker and running custom images
-  - [Radarr](https://radarr.video/) - for organising and downloading movies
-  - [Sickrage](https://sickrage.github.io/) - for managing TV episodes
-  - [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
-  - [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
-  - [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
-  - [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
-  - [Transmission](https://transmissionbt.com/) BitTorrent client (with OpenVPN if you have a supported VPN provider)
-  - [Watchtower](https://github.com/v2tec/watchtower) Monitor your Docker containers and update them if a new version is available
-  - [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
+* [CouchPotato](https://couchpota.to/) - for downloading and managing movies
+* [Duplicati](https://www.duplicati.com/) - for backing up your stuff
+* [Emby](https://emby.media/) - Media streaming and management
+* [Gitea](https://gitea.io/en-us/) - Self-hosted Github clone
+* [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
+* [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
+* [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
+* [Heimdall](https://heimdall.site/) - Home server dashboard
+* [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+* [Miniflux](https://miniflux.app/) - An RSS news reader
+* [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
+* [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
+* [Plex](https://www.plex.tv/) - Plex Media Server
+* [Portainer](https://portainer.io/) - for managing Docker and running custom images
+* [Radarr](https://radarr.video/) - for organising and downloading movies
+* [Sickrage](https://sickrage.github.io/) - for managing TV episodes
+* [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
+* [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
+* [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
+* [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
+* [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
+* [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
+* [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 
 ## What This Could Do
 
@@ -58,6 +60,8 @@ That aside, configuring partitions is usually a one-time (or very infrequent) ev
 gained by automating it.
 
 ## Quick Start
+
+:skull: Before running anything, check out the playbook and understand what it does. Run it against a VM and make sure you're happy. ***Do not*** blindly download code from the internet and trust that it's going to work as you expect. :skull: 
 
 1. Enable the Ubuntu Universe repository: `sudo add-apt-repository universe`
 2. Install Ansible: `sudo apt install ansible`
@@ -78,12 +82,12 @@ You can read the docs [here](https://davestephens.github.io/ansible-nas). PRs fo
 
 Assuming that your Ubuntu system disk is separate from your storage (it should be!):
 
-1. Disconnect your drives.
-2. Run Ansible NAS against your server.
-3. Reconnect your drives.
-4. SSH to the server and run `zpool list` to determine available ZFS pools.
-5. `zpool import <pool_name>` against the pools you want to attach.
-6. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
+1. Ensure you have a working backup of your data.
+2. Check that the working backup you think you have actually works.
+3. SSH to the server and run `zpool list` to determine available ZFS pools.
+4. `zpool import <pool_name>` against each of the pools you want to attach.
+5. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
+6. Follow the Quick Start instructions above.
 
 ## Hardware
 
@@ -93,18 +97,18 @@ Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu 
 
 Getting help is easy! You can:
 
-- Read the [docs](https://davestephens.github.io/ansible-nas)
-- Raise an [issue](https://github.com/davestephens/ansible-nas/issues)
-- Chat on [Gitter](https://gitter.im/Ansible-NAS/Chat)
+* Read the [docs](https://davestephens.github.io/ansible-nas)
+* Raise an [issue](https://github.com/davestephens/ansible-nas/issues)
+* Chat on [Gitter](https://gitter.im/Ansible-NAS/Chat)
 
 ## Contributing
 
 Contributions are welcome, please feel free to raise a PR!
 
-- Restrict pull requests to one piece of functionality or bugfix at a time.
-- Test your new functionality or bugfix using the included `tests/test-vagrant.sh` script to spin up a test VM.
-- Run `ansible-lint` against the playbook before committing. (There is a VSCode task set up to run the right command for you)
-- Please know that your efforts are appreciated, thanks! :+1:
+* Restrict pull requests to one piece of functionality or bugfix at a time.
+* Test your new functionality or bugfix using the included `tests/test-vagrant.sh` script to spin up a test VM.
+* Run `ansible-lint` against the playbook before committing. (There is a VSCode task set up to run the right command for you)
+* Please know that your efforts are appreciated, thanks! :+1:
 
 Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) - you'll get some nice
 recommended extensions and task setups if you do the same.
