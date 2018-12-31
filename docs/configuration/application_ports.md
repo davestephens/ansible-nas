@@ -14,6 +14,7 @@ By default, applications can be found on the ports listed below.
 | Grafana         | 3000   |           |
 | Guacamole       | 8090   |           |
 | Heimdall        | 10080  |           |
+| Miniflux        | 8070   |           |
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
 | Plex            | 32400  |           |

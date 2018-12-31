@@ -90,6 +90,10 @@
     when: znc_enabled
     tags: znc
 
+  - import_tasks: tasks/miniflux.yml
+    when: miniflux_enabled
+    tags: miniflux
+
   - import_tasks: tasks/nextcloud.yml
     when: nextcloud_enabled
     tags: nextcloud

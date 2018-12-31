@@ -28,6 +28,9 @@ sickrage_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
 
+# News
+miniflux_enabled: false
+
 # System Management
 portainer_enabled: true
 glances_enabled: true
@@ -161,7 +164,7 @@ samba_shares:
 ### General
 ###
 # Extra packages to install
-ansible_nas_extra_packages: 
+ansible_nas_extra_packages:
   - smartmontools
   - htop
   - zfsutils-linux
@@ -330,6 +333,13 @@ nginx_data_directory: "{{ docker_home }}/nginx"
 guacamole_docker_image: guacamole/guacamole:0.9.14
 guacamole_guacd_docker_image: guacamole/guacd:0.9.14
 guacamole_data_directory: "{{ docker_home }}/guacamole"
+
+###
+### Miniflux
+###
+miniflux_data_directory: "{{ docker_home }}/miniflux"
+miniflux_admin_username: admin
+miniflux_admin_password: supersecure
 
 ###
 ### Watchtower
