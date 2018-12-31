@@ -1,3 +1,30 @@
-site_name: Ansible-NAS
+# Project information
+site_name: 'Ansible-NAS'
+site_description: 'Build a fully functional NAS with an Ubuntu box and this playbook'
+site_author: 'David Stephens'
+site_url: 'https://davestephens.uk/ansible-nas'
+
+# Configuration
 theme:
   name: 'material'
+  language: 'en'
+  palette:
+    primary: 'indigo'
+    accent: 'indigo'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+
+# Repository
+repo_name: 'davestephens/ansible-nas'
+repo_url: 'https://github.com/davestephens/ansible-nas'
+
+# Copyright
+copyright: 'Copyright &copy; 2017 - 2019 David Stephens'
+
+# Customization
+extra:
+  manifest: 'manifest.webmanifest'
+  social:
+    - type: 'github'
+      link: 'https://github.com/davestephens'
