@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/watchtower/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/miniflux/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Watchtower - Ansible-NAS</title>
+        <title>Miniflux - Ansible-NAS</title>
       
     
     
@@ -107,7 +107,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#watchtower" tabindex="1" class="md-skip">
+      <a href="#miniflux" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -133,7 +133,7 @@
                 Ansible-NAS
               </span>
               <span class="md-header-nav__topic">
-                Watchtower
+                Miniflux
               </span>
             
           
@@ -329,42 +329,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href="../miniflux/" title="Miniflux" class="md-nav__link">
-      Miniflux
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../traefik/" title="Traefik" class="md-nav__link">
-      Traefik
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../transmission/" title="Transmission" class="md-nav__link">
-      Transmission
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -376,11 +340,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Watchtower
+        Miniflux
       </label>
     
-    <a href="./" title="Watchtower" class="md-nav__link md-nav__link--active">
-      Watchtower
+    <a href="./" title="Miniflux" class="md-nav__link md-nav__link--active">
+      Miniflux
     </a>
     
       
@@ -415,6 +379,42 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../traefik/" title="Traefik" class="md-nav__link">
+      Traefik
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../transmission/" title="Transmission" class="md-nav__link">
+      Transmission
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../watchtower/" title="Watchtower" class="md-nav__link">
+      Watchtower
+    </a>
   </li>
 
         
@@ -545,17 +545,17 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/watchtower.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/miniflux.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="watchtower">Watchtower</h1>
-<p>Homepage: <a href="https://github.com/v2tec/watchtower">https://github.com/v2tec/watchtower</a></p>
-<p>A process for watching your Docker containers and automatically udpating and restarting them whenever their base image is refreshed.</p>
+                <h1 id="miniflux">Miniflux</h1>
+<p>Homepage: <a href="https://miniflux.app/">https://miniflux.app/</a></p>
+<p>Miniflux is a minimalist and opinionated feed reader.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>watchtower_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>Set <code>miniflux_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>The Miniflux web interface can be found at http://ansible_nas_host_or_ip:8070, the default username is <code>admin</code> and password <code>supersecure</code>.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>By default Watchtower is configured to check daily at 5am for updates.</p>
-<p>Various notification options are available, and can be configured by updating <code>watchtower_command</code> in your <code>group_vars/all.yml</code> file. A few examples are provided. The full set of options can be found at the <a href="https://github.com/v2tec/watchtower">Watchtower GitHub project page</a>.</p>
+<p>An admin user will be created with the username and password of <code>miniflux_admin_username</code> and <code>miniflux_admin_password</code> respectively. These can be found in the Miniflux section within <code>all.yml.dist</code>.</p>
                 
                   
                 
@@ -576,7 +576,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../transmission/" title="Transmission" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../upgrading/" title="Upgrading" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -585,19 +585,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Transmission
+                Upgrading
               </span>
             </div>
           </a>
         
         
-          <a href="../../configuration/application_ports/" title="Application Ports" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../traefik/" title="Traefik" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Application Ports
+                Traefik
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

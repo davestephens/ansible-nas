@@ -1,63 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/installation/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/support/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/testing/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/upgrading/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/applications/miniflux/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/applications/traefik/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/applications/transmission/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/applications/watchtower/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/configuration/application_ports/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/configuration/custom_applications/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>None</loc>
-     <lastmod>2018-12-30</lastmod>
+     <loc>https://davestephens.uk/ansible-nas/configuration/router_confiiguration/</loc>
+     <lastmod>2018-12-31</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://davestephens.uk/ansible-nas/configuration/shares/</loc>
+     <lastmod>2018-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
