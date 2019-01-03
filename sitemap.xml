@@ -31,6 +31,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/airsonic/</loc>
+     <lastmod>2019-01-03</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/miniflux/</loc>
      <lastmod>2019-01-03</lastmod>
      <changefreq>daily</changefreq>
