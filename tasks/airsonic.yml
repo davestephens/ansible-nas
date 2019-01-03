@@ -1,0 +1,30 @@
+---
+- name: Create Airsonic Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ airsonic_data_directory }}/data"
+    - "{{ airsonic_data_directory }}/playlists"
+
+- name: Airsonic Docker Container
+  docker_container:
+    name: airsonic
+    image: airsonic/airsonic:latest
+    pull: true
+    volumes:
+      - "{{ airsonic_data_directory }}/data:/airsonic/data:rw"
+      - "{{ airsonic_data_directory }}/playlists:/airsonic/playlists:rw"
+      - "{{ samba_shares_root }}/music:/airsonic/music:rw"
+      - "{{ samba_shares_root }}/podcasts:/airsonic/podcasts:rw"
+    ports:
+      - "4040:4040"
+    labels:
+      traefik.backend: "airsonic"
+      traefik.frontend.rule: "Host:airsonic.{{ ansible_nas_domain }}"
+      traefik.enable: "true"
+      traefik.port: "4040"
+    restart_policy: unless-stopped
+    memory: 1g
+

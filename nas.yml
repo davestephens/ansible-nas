@@ -110,4 +110,8 @@
     when: guacamole_enabled
     tags: guacamole
 
+  - import_tasks: tasks/airsonic.yml
+    when: airsonic_enabled
+    tags: airsonic
+
 

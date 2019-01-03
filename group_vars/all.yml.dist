@@ -28,6 +28,9 @@ sickrage_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
 
+# Music
+airsonic_enabled: true
+
 # News
 miniflux_enabled: false
 
@@ -102,6 +105,12 @@ tv_root: "{{ samba_shares_root }}/tv"
 # Where torrent files are stored (picked up by Transmission for downloading)
 torrents_root: "{{ samba_shares_root }}/torrents"
 
+# Where music is stored
+music_root: "{{ samba_shares_root }}/music"
+
+# Where podcasts are stored
+podcasts_root: "{{ samba_shares_root }}/podcasts"
+
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
 
@@ -131,6 +140,22 @@ samba_shares:
     browsable: yes
     path: "{{ tv_root }}"
 
+  - name: music
+    comment: 'Music'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browsable: yes
+    path: "{{ samba_shares_root }}/music"
+
+  - name: podcasts
+    comment: 'Podcasts'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browsable: yes
+    path: "{{ samba_shares_root }}/podcasts"
+
   - name: dump
     comment: 'File dump'
     guest_ok: yes
@@ -154,7 +179,6 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ samba_shares_root }}/photos"
-
 
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
@@ -340,6 +364,11 @@ guacamole_data_directory: "{{ docker_home }}/guacamole"
 miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
 miniflux_admin_password: supersecure
+
+###
+### Airsonic
+###
+airsonic_data_directory: "{{ docker_home }}/airsonic"
 
 ###
 ### Watchtower
