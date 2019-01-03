@@ -12,6 +12,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * A BitTorrent client
 * Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
 * Media streaming via Plex or Emby
+* Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
 * A Dropbox replacement via Nextcloud
 * Various ways to see stats about your NAS - Glances, dashboards in Grafana
@@ -23,6 +24,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 
 ### Docker Containers Used
 
+* [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
