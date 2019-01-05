@@ -7,7 +7,7 @@
 # Traefik will allow access to certain applications externally. To enable this you'll need a domain name that points to your 
 # home static IP address, or use a dynamic DNS provider like no-ip. You'll also need to map ports 80 and 443 from your router
 # to your ansible-nas server.
-traefik_enabled: true
+traefik_enabled: false
 
 # BitTorrent
 # If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
@@ -35,6 +35,7 @@ airsonic_enabled: false
 miniflux_enabled: false
 
 # System Management
+heimdall_enabled: false
 portainer_enabled: false
 glances_enabled: false
 stats_enabled: false

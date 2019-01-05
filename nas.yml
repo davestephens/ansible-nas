@@ -23,16 +23,17 @@
   - import_tasks: tasks/docker.yml
     tags: docker
 
+  - import_tasks: tasks/portainer.yml
+    when: portainer_enabled
+    tags: portainer
+
   - import_tasks: tasks/traefik.yml
     when: traefik_enabled
     tags: traefik
 
   - import_tasks: tasks/heimdall.yml
+    when: heimdall_enabled
     tags: heimdall
-
-  - import_tasks: tasks/portainer.yml
-    when: portainer_enabled
-    tags: portainer
 
   - import_tasks: tasks/watchtower.yml
     when: watchtower_enabled
@@ -113,5 +114,3 @@
   - import_tasks: tasks/airsonic.yml
     when: airsonic_enabled
     tags: airsonic
-
-
