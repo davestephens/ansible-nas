@@ -7,7 +7,7 @@
 # Traefik will allow access to certain applications externally. To enable this you'll need a domain name that points to your 
 # home static IP address, or use a dynamic DNS provider like no-ip. You'll also need to map ports 80 and 443 from your router
 # to your ansible-nas server.
-traefik_enabled: true
+traefik_enabled: false
 
 # BitTorrent
 # If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
@@ -62,7 +62,7 @@ ansible_nas_hostname: ansible-nas-test
 ansible_nas_timezone: Etc/UTC
 
 # Update all apt packages when playbook is run
-keep_packages_updated: false
+keep_packages_updated: true
 
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
