@@ -6,8 +6,11 @@
 
 - name: Enable Universe repository
   raw: apt-add-repository universe
-  tags:
-    - skip_ansible_lint
+  register: add_repo_result
+  changed_when: "'distribution component enabled for all sources' in add_repo_result.stdout"
+  until: add_repo_result.rc == 0
+  retries: 3
+  delay: 1
 
 - name: Update apt-cache
   apt:
