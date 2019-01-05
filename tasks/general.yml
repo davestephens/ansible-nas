@@ -4,6 +4,9 @@
     src: ansible-nas/motd.txt
     dest: /etc/motd
 
+- name: Enable Universe repository
+  raw: apt-add-repository universe
+
 - name: Update apt-cache
   apt:
     update_cache: yes
