@@ -5,6 +5,15 @@
     state: present
   register: result
   until: result is succeeded
+  when: ansible_python_version < 3
+
+- name: install python3-pip
+  apt:
+    name: python3-pip
+    state: present
+  register: result
+  until: result is succeeded
+  when: ansible_python_version >= 3
 
 - name: 'Install docker-py'
   pip:
