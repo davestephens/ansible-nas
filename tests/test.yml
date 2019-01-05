@@ -63,7 +63,7 @@ ansible_nas_hostname: ansible-nas-test
 ansible_nas_timezone: Etc/UTC
 
 # Update all apt packages when playbook is run
-keep_packages_updated: true
+keep_packages_updated: false
 
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
