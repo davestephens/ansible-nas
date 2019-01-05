@@ -32,6 +32,7 @@
     tags: traefik
 
   - import_tasks: tasks/heimdall.yml
+    when: heimdall_enabled
     tags: heimdall
 
   - import_tasks: tasks/watchtower.yml

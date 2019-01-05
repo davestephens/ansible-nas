@@ -35,6 +35,7 @@ airsonic_enabled: false
 miniflux_enabled: false
 
 # System Management
+heimdall_enabled: false
 portainer_enabled: false
 glances_enabled: false
 stats_enabled: false
