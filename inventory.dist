@@ -4,7 +4,3 @@
 # Example using from remote workstation
 # [all]
 # 192.168.1.30
-
-# Example using from remote without python2 on host
-# [all]
-# 192.168.1.30 ansible_python_interpreter=/usr/bin/python3
