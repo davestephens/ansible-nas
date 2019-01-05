@@ -6,6 +6,8 @@
 
 - name: Enable Universe repository
   raw: apt-add-repository universe
+  tags:
+    - skip_ansible_lint
 
 - name: Update apt-cache
   apt:
