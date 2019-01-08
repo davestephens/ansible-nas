@@ -44,6 +44,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
+* [TimeMachine](https://github.com/mbentley/docker-timemachine) - Mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
