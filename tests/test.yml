@@ -36,7 +36,7 @@ miniflux_enabled: false
 
 # System Management
 heimdall_enabled: false
-portainer_enabled: true
+portainer_enabled: false
 glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
@@ -47,7 +47,7 @@ watchtower_enabled: false
 duplicati_enabled: false
 nextcloud_enabled: false
 gitea_enabled: false
-timemachine_enabled: true
+timemachine_enabled: false
 
 # IRC bouncer
 znc_enabled: false
