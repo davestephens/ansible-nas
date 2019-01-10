@@ -182,15 +182,6 @@ samba_shares:
     browsable: yes
     path: "{{ samba_shares_root }}/photos"
 
-###
-### Time Machine
-###
-timemachine_data_directory: /mnt/Volume3/timemachine # needs to be an absolute path
-timemachine_volume_size_limit: 0
-timemachine_password: timemachine
-timemachine_share_name: TimeMachine
-timemachine_log_level: error
-
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
 ##################################################################
@@ -400,3 +391,12 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
 
 # Slack notifications
 # watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"
+
+###
+### Time Machine
+###
+timemachine_data_directory: "{{ docker_home }}/timemachine"
+timemachine_volume_size_limit: 0
+timemachine_password: timemachine
+timemachine_share_name: TimeMachine
+timemachine_log_level: error

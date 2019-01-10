@@ -3,13 +3,13 @@
 Apple docs: [https://support.apple.com/en-us/HT201250](https://support.apple.com/en-us/HT201250)
 Docker image: [https://github.com/mbentley/docker-timemachine](https://github.com/mbentley/docker-timemachine)
 
-Time Machine is an application that allows you to backup files from you Mac.
+Time Machine is an application that allows you to backup files from your Mac.
 
 ## Usage
 
 Set `timemachine_enabled: true` in your `group_vars/all.yml` file.
 
-Set the Time Machine specific variables:
+## Specific Configuration
 
 <dl>
   <dt><strong>timemachine_data_directory</strong></dt>
