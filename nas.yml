@@ -103,6 +103,10 @@
     when: gitea_enabled
     tags: gitea
 
+  - import_tasks: tasks/timemachine.yml
+    when: timemachine_enabled
+    tags: timemachine
+
   - import_tasks: tasks/stats.yml
     when: stats_enabled
     tags: stats
