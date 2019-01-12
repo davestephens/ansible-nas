@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/traefik/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/timemachine/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Traefik - Ansible-NAS</title>
+        <title>Time Machine - Ansible-NAS</title>
       
     
     
@@ -107,7 +107,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#traefik" tabindex="1" class="md-skip">
+      <a href="#time-machine" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -133,7 +133,7 @@
                 Ansible-NAS
               </span>
               <span class="md-header-nav__topic">
-                Traefik
+                Time Machine
               </span>
             
           
@@ -365,18 +365,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href="../timemachine/" title="Time Machine" class="md-nav__link">
-      Time Machine
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -388,11 +376,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Traefik
+        Time Machine
       </label>
     
-    <a href="./" title="Traefik" class="md-nav__link md-nav__link--active">
-      Traefik
+    <a href="./" title="Time Machine" class="md-nav__link md-nav__link--active">
+      Time Machine
     </a>
     
       
@@ -427,6 +415,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../traefik/" title="Traefik" class="md-nav__link">
+      Traefik
+    </a>
   </li>
 
         
@@ -581,17 +581,27 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/traefik.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/timemachine.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="traefik">Traefik</h1>
-<p>Homepage: <a href="https://traefik.io">https://traefik.io</a></p>
-<p>Traefik is used to provide external access to your Ansible-NAS box. Additionally, Traefik will automatically request and renew SSL certificates for you.</p>
+                <h1 id="time-machine">Time Machine</h1>
+<p>Apple docs: <a href="https://support.apple.com/en-us/HT201250">https://support.apple.com/en-us/HT201250</a>
+Docker image: <a href="https://github.com/mbentley/docker-timemachine">https://github.com/mbentley/docker-timemachine</a></p>
+<p>Time Machine is an application that allows you to backup files from your Mac.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>traefik_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>Traefik's web interface can be found at http://ansible_nas_host_or_ip:8083.</p>
+<p>Set <code>timemachine_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>You'll need to map port 80 and 443 from your router to your Ansible-NAS box. A quick search should reveal instruction for your model of router.</p>
+<dl>
+  <dt><strong>timemachine_data_directory</strong></dt>
+  <dd>The absolute path on Ansible NAS where the backup files will be stored</dd>
+  <dt><strong>timemachine_volume_size_limit</strong></dt>
+  <dd>The maximum amount of space Time Machine can use for the backups in units of MiB.  Set it to 0 for no limit.</dd>
+  <dt><strong>timemachine_share_name</strong></dt>
+  <dd>The name of the share as it will appear in the Time Machine application. Default is 'TimeMachine'</dd>
+  <dt><strong>timemachine_password</strong></dt>
+  <dd>The password used to access the share.  Default is 'timemachine'</dd>
+  <dt><strong>timemachine_log_level</strong></dt>
+  <dd>The verbosity of the logs.  'Error' is the default.</dd>
                 
                   
                 
@@ -612,7 +622,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../timemachine/" title="Time Machine" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../miniflux/" title="Miniflux" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -621,19 +631,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Time Machine
+                Miniflux
               </span>
             </div>
           </a>
         
         
-          <a href="../transmission/" title="Transmission" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../traefik/" title="Traefik" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Transmission
+                Traefik
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
