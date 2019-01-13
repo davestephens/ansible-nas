@@ -6,18 +6,46 @@
     # mode: 0755
   with_items:
     - "{{ transmission_config_directory }}"
-    - "{{ transmission_download_directory }}"
-    - "{{ transmission_watch_directory }}"
+    - "{{ downloads_root }}/transmission"
+    - "{{ torrents_root }}"
+
+# Check for folders in the old location
+- name: Check for old transmission complete folder
+  stat:
+    path: "{{ downloads_root }}/complete"
+  register: tcf
+
+- name: Check for old transmission incomplete folder
+  stat:
+    path: "{{ downloads_root }}/incomplete"
+  register: tif
+
+# - name: Delete current transmission container
+#   docker_container:
+#     name: transmission
+#     state: absent
+#   when: tcf.stat.isdir is defined and tcf.stat.isdir
+
+- name: Move transmission complete folder to new location
+  command: mv "{{ downloads_root }}/complete" "{{ downloads_root }}/transmission"
+  when: tcf.stat.isdir is defined and tcf.stat.isdir
+  register: tcf_move
+
+- name: Move transmission incomplete folder to new location
+  command: mv "{{ downloads_root }}/incomplete" "{{ downloads_root }}/transmission"
+  when: tif.stat.isdir is defined and tif.stat.isdir
+  register: tif_move
 
 - name: Transmission Docker Container
   docker_container:
     name: transmission
     image: linuxserver/transmission
     pull: true
+    state: started
     volumes:
-      - "{{ transmission_config_directory }}:/config:rw"
-      - "{{ transmission_download_directory }}:/downloads:rw"
-      - "{{ transmission_watch_directory }}:/watch:rw"
+      - "{{ transmission_config_directory }}:/config"
+      - "{{ downloads_root }}:/downloads"
+      - "{{ torrents_root }}:/watch"
     ports:
       - "9092:9091"
       - "51414:51413"
@@ -27,8 +55,56 @@
       PGID: "{{ transmission_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
+  register: transmission_container
     labels:
       traefik.backend: "transmission"
       traefik.frontend.rule: "Host:transmission.{{ ansible_nas_domain }}"
       traefik.enable: "{{ transmission_available_externally }}"
       traefik.port: "9091"
+
+- name: Stop Transmission Container
+  docker_container:
+    name: transmission
+    state: stopped
+  when: transmission_container.changed
+
+- name: Enable Transmission User login
+  replace:
+    path: "{{ transmission_config_directory }}/settings.json"
+    regexp: '^\s+"rpc-authentication-required": false,$'
+    replace: '    "rpc-authentication-required": true,'
+  when: transmission_container.changed
+
+- name: Set Transmission Username
+  replace:
+    path: "{{ transmission_config_directory }}/settings.json"
+    regexp: '^\s+"rpc-username": "",$'
+    replace: '    "rpc-username": "admin",'
+  when: transmission_container.changed
+
+- name: Set Transmission Password
+  replace:
+    path: "{{ transmission_config_directory }}/settings.json"
+    regexp: '^\s+"rpc-password": "{1ddd3f1f6a71d655cde7767242a23a575b44c909n5YuRT\.f",$'
+    replace: '    "rpc-password": "admin",'
+  when: transmission_container.changed
+
+- name: Update Transmission download dir setting
+  replace:
+    path: "{{ transmission_config_directory }}/settings.json"
+    regexp: '^\s+"download-dir": "/downloads/complete",$'
+    replace: '    "download-dir": "/downloads/transmission/complete",'
+  when: transmission_container.changed
+
+- name: Update Transmission incomplete dir setting
+  replace:
+    path: "{{ transmission_config_directory }}/settings.json"
+    regexp: '^\s+"incomplete-dir": "/downloads/incomplete",$'
+    replace: '    "incomplete-dir": "/downloads/transmission/incomplete",'
+  when: transmission_container.changed
+
+- name: Start Transmission Container
+  docker_container:
+    name: transmission
+    state: started
+  when: transmission_container.changed

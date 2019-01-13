@@ -9,8 +9,8 @@
     # mode: 0755
   with_items:
     - "{{ transmission_config_directory }}"
-    - "{{ transmission_download_directory }}"
-    - "{{ transmission_watch_directory }}"
+    - "{{ downloads_root }}/transmission"
+    - "{{ torrents_root }}"
 
 - name: Transmission with VPN
   docker_container:
@@ -18,19 +18,19 @@
     image: haugene/transmission-openvpn
     pull: true
     volumes:
-      - "/etc/localtime:/etc/localtime:ro"
-      - "{{ transmission_download_directory }}:/storage/downloads:rw"
-      - "{{ transmission_config_directory }}:/config:rw"
-      - "{{ transmission_watch_directory }}:/storage/watch:rw"
+      - "{{ transmission_config_directory }}:/config"
+      - "{{ downloads_root }}:/downloads"
+      - "{{ torrents_root }}:/watch"
       - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
     ports:
       - "9091:9091"
       - "51413:51413"
     env:
       TRANSMISSION_HOME: /config
-      TRANSMISSION_DOWNLOAD_DIR: /storage/downloads/complete
-      TRANSMISSION_INCOMPLETE_DIR: /storage/downloads/incomplete
-      TRANSMISSION_WATCH_DIR: /storage/watch
+      TRANSMISSION_DOWNLOAD_DIR: /downloads/transmission/complete
+      TRANSMISSION_INCOMPLETE_DIR: /downloads/transmission/incomplete
+      TRANSMISSION_WATCH_DIR: /watch
       OPENVPN_PROVIDER: "{{ openvpn_provider }}"
       OPENVPN_USERNAME: "{{ openvpn_username }}"
       OPENVPN_PASSWORD: "{{ openvpn_password }}"
