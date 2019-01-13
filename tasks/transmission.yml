@@ -9,6 +9,48 @@
     - "{{ downloads_root }}/transmission"
     - "{{ torrents_root }}"
 
+- name: Transmission Docker Container
+  docker_container:
+    name: transmission
+    image: dperson/transmission
+    state: started
+    volumes:
+      - "{{ transmission_config_directory }}:/var/lib/transmission-daemon/info"
+      - "{{ downloads_root }}:/downloads"
+      - "{{ torrents_root }}:/watch"
+    ports:
+      - "9092:9091"
+      - "51414:51413"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      USERID: "{{ transmission_user_id }}"
+      GROUPID: "{{ transmission_group_id }}"
+      TR_DOWNLOAD_DIR: "/downloads/transmission/complete"
+      TR_INCOMPLETE_DIR: "/downloads/transmission/incomplete"
+      TR_WATCH_DIR: "/watch"
+    restart_policy: unless-stopped
+    memory: 1g
+  register: transmission_container
+    labels:
+      traefik.backend: "transmission"
+      traefik.frontend.rule: "Host:transmission.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ transmission_available_externally }}"
+      traefik.port: "9091"
+
+- name: Wait for transmission container startup
+  pause:
+    seconds: 20
+  when: transmission_container.changed
+
+# Brand new container requires a restart to correctly set
+# changed download paths. Probably due to settings.json
+# being missing on container creation
+- name: Stop current transmission container
+  docker_container:
+    name: transmission
+    state: stopped
+  when: transmission_container.changed
+
 # Check for folders in the old location
 - name: Check for old transmission complete folder
   stat:
@@ -20,12 +62,6 @@
     path: "{{ downloads_root }}/incomplete"
   register: tif
 
-# - name: Delete current transmission container
-#   docker_container:
-#     name: transmission
-#     state: absent
-#   when: tcf.stat.isdir is defined and tcf.stat.isdir
-
 - name: Move transmission complete folder to new location
   command: mv "{{ downloads_root }}/complete" "{{ downloads_root }}/transmission"
   when: tcf.stat.isdir is defined and tcf.stat.isdir
@@ -36,75 +72,7 @@
   when: tif.stat.isdir is defined and tif.stat.isdir
   register: tif_move
 
-- name: Transmission Docker Container
-  docker_container:
-    name: transmission
-    image: linuxserver/transmission
-    pull: true
-    state: started
-    volumes:
-      - "{{ transmission_config_directory }}:/config"
-      - "{{ downloads_root }}:/downloads"
-      - "{{ torrents_root }}:/watch"
-    ports:
-      - "9092:9091"
-      - "51414:51413"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ transmission_user_id }}"
-      PGID: "{{ transmission_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
-  register: transmission_container
-    labels:
-      traefik.backend: "transmission"
-      traefik.frontend.rule: "Host:transmission.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ transmission_available_externally }}"
-      traefik.port: "9091"
-
-- name: Stop Transmission Container
-  docker_container:
-    name: transmission
-    state: stopped
-  when: transmission_container.changed
-
-- name: Enable Transmission User login
-  replace:
-    path: "{{ transmission_config_directory }}/settings.json"
-    regexp: '^\s+"rpc-authentication-required": false,$'
-    replace: '    "rpc-authentication-required": true,'
-  when: transmission_container.changed
-
-- name: Set Transmission Username
-  replace:
-    path: "{{ transmission_config_directory }}/settings.json"
-    regexp: '^\s+"rpc-username": "",$'
-    replace: '    "rpc-username": "admin",'
-  when: transmission_container.changed
-
-- name: Set Transmission Password
-  replace:
-    path: "{{ transmission_config_directory }}/settings.json"
-    regexp: '^\s+"rpc-password": "{1ddd3f1f6a71d655cde7767242a23a575b44c909n5YuRT\.f",$'
-    replace: '    "rpc-password": "admin",'
-  when: transmission_container.changed
-
-- name: Update Transmission download dir setting
-  replace:
-    path: "{{ transmission_config_directory }}/settings.json"
-    regexp: '^\s+"download-dir": "/downloads/complete",$'
-    replace: '    "download-dir": "/downloads/transmission/complete",'
-  when: transmission_container.changed
-
-- name: Update Transmission incomplete dir setting
-  replace:
-    path: "{{ transmission_config_directory }}/settings.json"
-    regexp: '^\s+"incomplete-dir": "/downloads/incomplete",$'
-    replace: '    "incomplete-dir": "/downloads/transmission/incomplete",'
-  when: transmission_container.changed
-
 - name: Start Transmission Container
   docker_container:
     name: transmission
     state: started
-  when: transmission_container.changed
