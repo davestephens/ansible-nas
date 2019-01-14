@@ -39,8 +39,10 @@
 
 - name: Wait for transmission container startup
   pause:
-    seconds: 20
+    seconds: 60
   when: transmission_container.changed
+  tags:
+    - skip_ansible_lint
 
 # Brand new container requires a restart to correctly set
 # changed download paths. Probably due to settings.json
@@ -50,6 +52,8 @@
     name: transmission
     state: stopped
   when: transmission_container.changed
+  tags:
+    - skip_ansible_lint
 
 # Check for folders in the old location
 - name: Check for old transmission complete folder

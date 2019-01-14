@@ -50,3 +50,38 @@
       traefik.frontend.rule: "Host:transmission-openvpn.{{ ansible_nas_domain }}"
       traefik.enable: "{{ transmission_with_openvpn_available_externally }}"
       traefik.port: "9091"
+  register: transmission_openvpn_container
+
+- name: Stop current transmission container
+  docker_container:
+    name: transmission-openvpn
+    state: stopped
+  when: transmission_openvpn_container.changed
+  tags:
+    - skip_ansible_lint
+
+# Check for folders in the old location
+- name: Check for old transmission complete folder
+  stat:
+    path: "{{ downloads_root }}/complete"
+  register: tcf
+
+- name: Check for old transmission incomplete folder
+  stat:
+    path: "{{ downloads_root }}/incomplete"
+  register: tif
+
+- name: Move transmission complete folder to new location
+  command: mv "{{ downloads_root }}/complete" "{{ downloads_root }}/transmission"
+  when: tcf.stat.isdir is defined and tcf.stat.isdir
+  register: tcf_move
+
+- name: Move transmission incomplete folder to new location
+  command: mv "{{ downloads_root }}/incomplete" "{{ downloads_root }}/transmission"
+  when: tif.stat.isdir is defined and tif.stat.isdir
+  register: tif_move
+
+- name: Start Transmission OpenVPN Container
+  docker_container:
+    name: transmission-openvpn
+    state: started
