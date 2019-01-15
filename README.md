@@ -21,10 +21,12 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * Source control with Gitea
 * SSL secured external access to some applications via Traefik
 * A Docker host with Portainer for image and container management
+* An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 
 ### Docker Containers Used
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
+* [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your dynamic IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management

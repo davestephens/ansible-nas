@@ -118,3 +118,7 @@
   - import_tasks: tasks/airsonic.yml
     when: airsonic_enabled
     tags: airsonic
+
+  - import_tasks: tasks/cloudflare_ddns.yml
+    when: cloudflare_ddns_enabled
+    tags: cloudflare_ddns

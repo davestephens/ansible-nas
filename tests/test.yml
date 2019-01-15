@@ -42,6 +42,7 @@ stats_enabled: false
 guacamole_enabled: false
 netdata_enabled: false
 watchtower_enabled: false
+cloudflare_ddns_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
@@ -181,6 +182,24 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ samba_shares_root }}/photos"
+
+###
+### Cloudflare
+###
+# Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to
+# set the options below.
+
+# Your domain name
+cloudflare_zone: awesomedomain.com
+
+# The hostname you want the container to update. You shouldn't need to change this.
+cloudflare_host: "*.{{ cloudflare_zone }}"
+
+# Email address used to register for Cloudflare
+cloudflare_email: dave@awesomedomain.com
+
+# Cloudflare 'Global API Key', can be found on the 'My Profile' page
+cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
