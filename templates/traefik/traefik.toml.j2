@@ -164,6 +164,9 @@ storage = "acme.json"
 entryPoint = "https"
 acmeLogging = true
 onDemand = false # create certificate when container is created
+{% if traefik_production == false %}
+caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+{% endif %}
 
   # [acme.dnsChallenge]
   # provider = "cloudflare"

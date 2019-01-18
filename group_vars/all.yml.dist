@@ -8,7 +8,11 @@
 # home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
 # You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "availble_externally" 
 # settings.
-traefik_enabled: false
+# Default sets Traefik to use Let's Encrypt "staging" environment. This allows you to test
+# your config without hitting their rate limits for production.
+# Once you are happy with everything (seeing documentation for Traefik), set traefik_production to true
+traefik_enabled: true
+traefik_production: false
 
 # BitTorrent
 # If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
