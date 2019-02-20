@@ -223,7 +223,10 @@ ansible_python_interpreter: /usr/bin/python3
 ### Samba
 ###
 # Seems to break browsing of the \\server-name shares root when enabled
+# Should not be needed with newer samba versions
 samba_mitigate_cve_2017_7494: false
+# Enable apple exentensions for compatibility with apple clients
+samba_apple_extensions: yes
 
 # The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
 # mess with Samba user permissions.
@@ -419,3 +422,4 @@ timemachine_volume_size_limit: 0
 timemachine_password: timemachine
 timemachine_share_name: TimeMachine
 timemachine_log_level: error
+timemachine_port: 10445
