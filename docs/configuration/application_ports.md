@@ -5,6 +5,7 @@ By default, applications can be found on the ports listed below.
 | Application     | Port   | Notes     |
 |-----------------|--------|-----------|
 | Couchpotato     | 5050   |           |
+| Deluge          | 8112   |           |
 | Duplicati       | 8200   |           |
 | Emby            | 8096   | HTTP      |
 | Emby            | 8920   | HTTPS     |

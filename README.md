@@ -28,6 +28,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your dynamic IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
+* [Deluge](https://deluge-torrent.org/) - BitTorrent client
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
 * [Gitea](https://gitea.io/en-us/) - Self-hosted Github clone
