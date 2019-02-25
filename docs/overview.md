@@ -47,12 +47,20 @@ technologies involved and be able to set up the basic stuff yourself.
 
 As a to-do list, before you can even install Ansible-NAS, you'll have to:
 
-1. Choose, buy, configure, and test your own **hardware**. Note that ZFS eats
-   RAM like a pig, prefers to have the hard drives all to itself, and should be
-   run with ECC memory if at all possible. If you're paranoid (a good mindset
-   when dealing with servers), you'll probably want an uninterruptible power
-   supply (UPS) of some sort as well and SMART monitoring for your hard drives.
-   See the [FreeNAS hardware
+1. Choose, buy, configure, and test your own **hardware**. Note that ZFS loves
+   RAM - it will run [with 1 GB](https://wiki.freebsd.org/ZFSTuningGuide), but
+   it won't be happy. The ZFS on Linux (ZoL) people
+   [recommend](https://github.com/zfsonlinux/zfs/wiki/FAQ#hardware-requirements)
+   at least 8 GB for best performance, but the more, the better. As robust as
+   ZFS is, it assumes the data in memory is correct, so [very bad
+   things](http://research.cs.wisc.edu/adsl/Publications/zfs-corruption-fast10.pdf)
+   happen to your data if there is memory corruption. For this reason, it is
+   [strongly
+   recommended](https://github.com/zfsonlinux/zfs/wiki/FAQ#do-i-have-to-use-ecc-memory-for-zfs)
+   to use ECC RAM. ZFS also prefers to have the hard drives all to itself. If
+   you're paranoid (a good mindset when dealing with servers), you'll probably
+   want an uninterruptible power supply (UPS) of some sort as well and SMART
+   monitoring for your hard drives. See the [FreeNAS hardware
    requirements](https://freenas.org/hardware-requirements/) as a guideline.
 
 1. Install **Ubuntu Server**, preferably a Long Term Support (LTS) edition such
@@ -63,15 +71,18 @@ As a to-do list, before you can even install Ansible-NAS, you'll have to:
 
 1. Install **ZFS** and set up storage. This includes creating data sets for
    various parts of the system, some form of automatic snapshot handling, and
-   possibly automatic backups to another server or an external hard drive. If
-   you are completely new to ZFS, expect a rather brutal learning curve.
+   possibly automatic backups to another server or an external hard drive.
    Currently on Linux, it is [something of a
    hassle](https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.04-Root-on-ZFS) to
-   use ZFS on the root file system. There is a slightly dated (2012) but
-   extensive [introduction to ZFS on
+   use ZFS on the root file system. If you are completely new to ZFS, expect a
+   brutal learning curve. There is a slightly dated (2012) but extensive
+   [introduction to ZFS on
    Linux](https://pthree.org/2012/04/17/install-zfs-on-debian-gnulinux/) by
-   Aaron Toponce to get you started.
-
+   Aaron Toponce to get you started, or you can watch [this
+   video](https://www.youtube.com/watch?v=MsY-BafQgj4) that introduces the
+   philosophy and big picture of ZFS.
+   
+   
 After that, you can continue with the actual [installation](installation.md) of
 Ansible-NAS.
 
