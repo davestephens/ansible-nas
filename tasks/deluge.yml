@@ -1,0 +1,44 @@
+---
+- name: Create Deluge Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ deluge_config_directory }}"
+    - "{{ deluge_download_directory }}"
+    - "{{ deluge_watch_directory }}"
+
+- name: Configure Deluge
+  template:
+    src: deluge/core.conf
+    dest: "{{ deluge_config_directory }}/core.conf"
+
+- name: Configure Deluge Authentication
+  template:
+    src: deluge/auth
+    dest: "{{ deluge_config_directory }}/auth"
+
+- name: Configure Deluge WebUI
+  template:
+    src: deluge/web.conf
+    dest: "{{ deluge_config_directory }}/web.conf"
+
+- name: Deluge Docker Container
+  docker_container:
+    name: deluge
+    image: linuxserver/deluge
+    pull: true
+    volumes:
+      - "{{ deluge_config_directory }}:/config:rw"
+      - "{{ deluge_download_directory }}:/downloads:rw"
+      - "{{ deluge_watch_directory }}:/watch:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    ports:
+      - "8112:8112"
+    env:
+      PUID: "{{ deluge_user_id }}"
+      PGID: "{{ deluge_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+

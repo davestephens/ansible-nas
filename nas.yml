@@ -59,6 +59,10 @@
     when: transmission_with_openvpn_enabled
     tags: transmission
 
+  - import_tasks: tasks/deluge.yml
+    when: deluge_enabled
+    tags: deluge
+
   - import_tasks: tasks/sonarr.yml
     when: sonarr_enabled
     tags: sonarr

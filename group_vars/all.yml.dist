@@ -15,6 +15,9 @@ traefik_enabled: false
 transmission_with_openvpn_enabled: false
 transmission_enabled: false
 
+# Deluge BitTorrent client
+deluge_enabled: false
+
 # Plex
 plex_enabled: false
 tautulli_enabled: false
@@ -257,6 +260,15 @@ transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
 
+###
+#### Deluge
+####
+deluge_config_directory: "{{ docker_home }}/deluge/config"
+deluge_download_directory: "{{ downloads_root }}"
+deluge_watch_directory: "{{ torrents_root }}"
+deluge_user_id: 0
+deluge_group_id: 0
+deluge_local_network: "172.16.1.0/24"
 
 ###
 ### Plex
