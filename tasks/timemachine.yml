@@ -1,0 +1,25 @@
+---
+- name: Time Machine Directories
+  file:
+    path: "{{ timemachine_data_directory }}"
+    state: directory
+
+- name: Time Machine Docker Container
+  docker_container:
+    name: timemachine
+    image: mbentley/timemachine:latest
+    pull: true
+    ports:
+      - "548:548"
+    env:
+      VOLUME_SIZE_LIMIT: "{{ timemachine_volume_size_limit }}"
+      PASSWORD: "{{ timemachine_password }}"
+      SHARE_NAME: "{{ timemachine_share_name }}"
+      LOG_LEVEL: "{{ timemachine_log_level }}"
+    volumes:
+      - "{{ timemachine_data_directory }}/data:/opt/timemachine"
+      - "{{ timemachine_data_directory }}/logs:/var/log/supervisor"
+      - "/var/run/dbus:/var/run/dbus"
+    network_mode: host
+    restart_policy: unless-stopped
+    memory: 1g
