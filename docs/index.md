@@ -20,4 +20,7 @@ After getting burned by broken FreeNAS updates one too many times, I figured I c
 
 ## Getting Started
 
-Head to [installation](installation.md) if you're ready to roll, or [testing](testing.md) if you want to spin up a test VM first.
+Head to [installation](installation.md) if you're ready to roll, or
+[testing](testing.md) if you want to spin up a test VM first. If this is all
+very confusing, there is also an [overview](overview.md) of the project and what
+is required for complete beginners.
