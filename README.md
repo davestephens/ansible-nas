@@ -39,6 +39,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
+* [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [Plex](https://www.plex.tv/) - Plex Media Server
