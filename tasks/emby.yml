@@ -17,6 +17,7 @@
     ports:
       - "8096:8096" # HTTP port
       - "8920:8920" # HTTPS port
+    network_mode: host
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ emby_user_id }}"
