@@ -122,3 +122,7 @@
   - import_tasks: tasks/cloudflare_ddns.yml
     when: cloudflare_ddns_enabled
     tags: cloudflare_ddns
+
+  - import_tasks: tasks/minidlna.yml
+    when: minidlna_enabled
+    tags: minidlna
