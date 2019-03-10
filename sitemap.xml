@@ -51,6 +51,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/minidlna/</loc>
+     <lastmod>2019-03-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/miniflux/</loc>
      <lastmod>2019-03-10</lastmod>
      <changefreq>daily</changefreq>
