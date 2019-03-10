@@ -30,6 +30,7 @@ sonarr_enabled: false
 sickrage_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
+get_iplayer_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -429,3 +430,9 @@ timemachine_log_level: error
 minidlna_media_directory1: "{{ movies_root }}"
 minidlna_media_directory2: "{{ tv_root }}"
 minidlna_friendly_name: "{{ ansible_nas_hostname }}"
+
+###
+### get_iplayer
+###
+get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
+get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"

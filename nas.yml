@@ -126,3 +126,7 @@
   - import_tasks: tasks/minidlna.yml
     when: minidlna_enabled
     tags: minidlna
+    
+  - import_tasks: tasks/get_iplayer.yml
+    when: get_iplayer_enabled
+    tags: get_iplayer
