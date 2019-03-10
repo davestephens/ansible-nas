@@ -8,7 +8,7 @@ After getting burned by broken FreeNAS updates one too many times, I figured I c
 * Any number of Samba shares for you to store your stuff
 * A BitTorrent client
 * Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
-* Media streaming via Plex or Emby
+* Media streaming via Plex, Emby or MiniDLNA
 * Music streaming with Airsonic
 * A Dropbox replacement via Nextcloud
 * Various ways to see stats about your NAS - Glances, dashboards in Grafana

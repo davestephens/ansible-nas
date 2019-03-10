@@ -22,6 +22,9 @@ tautulli_enabled: false
 # Emby
 emby_enabled: false
 
+# minidlna
+minidlna_enabled: false
+
 # Media Sourcing
 sonarr_enabled: false
 sickrage_enabled: false
@@ -420,6 +423,13 @@ timemachine_volume_size_limit: 0
 timemachine_password: timemachine
 timemachine_share_name: TimeMachine
 timemachine_log_level: error
+
+###
+### minidlna
+###
+minidlna_media_directory1: "{{ movies_root }}"
+minidlna_media_directory2: "{{ tv_root }}"
+minidlna_friendly_name: "{{ ansible_nas_hostname }}"
 
 ###
 ### get_iplayer
