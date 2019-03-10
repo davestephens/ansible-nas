@@ -122,3 +122,7 @@
   - import_tasks: tasks/cloudflare_ddns.yml
     when: cloudflare_ddns_enabled
     tags: cloudflare_ddns
+
+  - import_tasks: tasks/get_iplayer.yml
+    when: get_iplayer_enabled
+    tags: get_iplayer

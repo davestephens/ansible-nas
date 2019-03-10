@@ -27,6 +27,7 @@ sonarr_enabled: false
 sickrage_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
+get_iplayer_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -419,3 +420,9 @@ timemachine_volume_size_limit: 0
 timemachine_password: timemachine
 timemachine_share_name: TimeMachine
 timemachine_log_level: error
+
+###
+### get_iplayer
+###
+get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
+get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
