@@ -5,11 +5,14 @@ dashboard of your new NAS, because most of the applications included come with a
 web interface. Heimdall lets you create "apps" for them which appear as little
 icons on the screen. 
 
-To add applications to Heimdall, you'll need the IP address of your NAS. If you
-don't know the address for some reason and have not installed
-[Avahi](https://www.avahi.org/) for zero-configuration networking (mDNS), you
-can `ssh` into your NAS and type `ip a` to find it. The entry "link/ether",
-usually the second one after the loopback device, will show the address. 
+To add applications to Heimdall, you'll need the IP address of your NAS.  If you
+don't know it for some reason, you will have to look up using the console with
+`ip a`. The entry "link/ether", usually the second one after the loopback
+device, will show the address. Another alternative is to make sure
+[Avahi](https://www.avahi.org/) is installed for zero-configuration networking
+(mDNS). This will allow you to `ssh` into your NAS and with the extension
+`.local` to your machines name, such as `ssh tardis.local`. Then you can use the
+`ip a` command again.
 
 Next, you need the application's port, which you can look up in the [list of
 ports](application_ports.md). You can test the combination of address and port
