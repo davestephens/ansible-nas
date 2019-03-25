@@ -206,6 +206,13 @@ cloudflare_email: dave@awesomedomain.com
 # Cloudflare 'Global API Key', can be found on the 'My Profile' page
 cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 
+###
+### Guacamole
+###
+# If you enable the variable below, you can add TOTP 2-Factor authentication for all of your guacamole users.
+# Please read about this extension here: https://guacamole.apache.org/doc/gug/totp-auth.html
+enable_guacamole_totp: false
+
 ##################################################################
 ###### You shouldn't need to edit anything below this point ######
 ##################################################################
@@ -382,8 +389,6 @@ nginx_data_directory: "{{ docker_home }}/nginx"
 ###
 ### Guacamole
 ###
-guacamole_docker_image: guacamole/guacamole:0.9.14
-guacamole_guacd_docker_image: guacamole/guacd:0.9.14
 guacamole_data_directory: "{{ docker_home }}/guacamole"
 
 ###
