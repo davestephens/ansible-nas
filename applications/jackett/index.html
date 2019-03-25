@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/transmission/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/jackett/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Transmission - Ansible-NAS</title>
+        <title>jackett - Ansible-NAS</title>
       
     
     
@@ -110,7 +110,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#transmission" tabindex="1" class="md-skip">
+      <a href="#jackett" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -135,7 +135,7 @@
               Ansible-NAS
             </span>
             <span class="md-header-nav__topic">
-              Transmission
+              jackett
             </span>
           
         </div>
@@ -396,11 +396,49 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../jackett/" title="jackett" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        jackett
+      </label>
+    
+    <a href="./" title="jackett" class="md-nav__link md-nav__link--active">
       jackett
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" title="Usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -456,56 +494,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Transmission
-      </label>
-    
-    <a href="./" title="Transmission" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../transmission/" title="Transmission" class="md-nav__link">
       Transmission
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" title="Usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specific-configuration" title="Specific Configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -625,13 +618,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#specific-configuration" title="Specific Configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
       
       
       
@@ -648,19 +634,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/transmission.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/jackett.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="transmission">Transmission</h1>
-<p>Homepage: <a href="https://transmissionbt.com/">https://transmissionbt.com/</a></p>
-<p>Transmission is a free BitTorrent client. Two versions are provided - one that tunnels through a VPN and one that connects
-directly. </p>
+                <h1 id="jackett">jackett</h1>
+<p>Homepage: <a href="https://github.com/Jackett/Jackett">https://github.com/Jackett/Jackett</a></p>
+<p>Jackett works as a proxy server: it translates queries from apps (Sonarr, Radarr, SickRage, CouchPotato, Mylar, DuckieTV, qBittorrent, Nefarious etc) into tracker-site-specific http queries, parses the html response, then sends results back to the requesting software. This allows for getting recent uploads (like RSS) and performing searches. Jackett is a single repository of maintained indexer scraping &amp; translation logic - removing the burden from other apps.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>transmission_enabled: true</code>, or <code>transmission_with_openvpn_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>Transmission's web interface can be found at http://ansible_nas_host_or_ip:9091 (with VPN) or http://ansible_nas_host_or_ip:9092 (without VPN).</p>
-<h2 id="specific-configuration">Specific Configuration</h2>
-<p>If you enable Tranmission with OpenVPN, you'll need to copy <code>group_vars/vpn_credentials.yml.dist</code> to
-<code>group_vars/vpn_credentials.yml</code> and fill in your settings.</p>
+<p>Set <code>jackett: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>The jackett web interface can be found at http://ansible_nas_host_or_ip:9117.</p>
                 
                   
                 
@@ -681,7 +663,7 @@ directly. </p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../traefik/" title="Traefik" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../get_iplayer/" title="get_iplayer" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -690,19 +672,19 @@ directly. </p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Traefik
+                get_iplayer
               </span>
             </div>
           </a>
         
         
-          <a href="../watchtower/" title="Watchtower" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../minidlna/" title="MiniDLNA" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Watchtower
+                MiniDLNA
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
