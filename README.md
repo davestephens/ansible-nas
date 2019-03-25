@@ -37,6 +37,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+* [Jackett] (https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
