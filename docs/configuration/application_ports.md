@@ -15,6 +15,7 @@ By default, applications can be found on the ports listed below.
 | Grafana         | 3000   |           |
 | Guacamole       | 8090   |           |
 | Heimdall        | 10080  |           |
+| Jackett         | 9117   |           |
 | MiniDLNA        | 8201   |           |
 | Miniflux        | 8070   |           |
 | MyMediaForAlexa | 52051  |           |

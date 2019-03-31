@@ -13,8 +13,9 @@ Enter a couple of lines about the issue.
 - Ansible-NAS kernel (`cat /etc/lsb-release` on the Ansible-NAS box):
 - Ansible-NAS Python version (`python --version` on the Ansible-NAS box):
 - Ansible-NAS Docker version (`docker --version` on the Ansible-NAS box):
-- Vagrant version, if testing (`vagrant --version`)
+- Latest Docker logs (`journalctl -u docker.service` on the Ansible-NAS box):
 - Are you running the playbook from a remote box or the Ansible-NAS box itself? 
+- Vagrant version, if testing (`vagrant --version`)
 
 **Expected behavior**
 

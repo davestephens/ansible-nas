@@ -31,6 +31,7 @@ sickrage_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
 get_iplayer_enabled: false
+jackett_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -443,3 +444,8 @@ get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
 ###
 mymediaforalexa_media_directory: "{{ music_root }}"
 mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
+
+###
+### jackett
+###
+jackett_data_directory: "{{ docker_home }}/jackett"
