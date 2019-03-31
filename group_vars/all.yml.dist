@@ -441,5 +441,5 @@ get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
 ###
 ### mymediaforalexa
 ###
-mymediaforalexa_media_directory: "{{ mp3_root }}"
+mymediaforalexa_media_directory: "{{ music_root }}"
 mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
