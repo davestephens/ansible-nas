@@ -18,6 +18,7 @@ By default, applications can be found on the ports listed below.
 | Jackett         | 9117   |           |
 | MiniDLNA        | 8201   |           |
 | Miniflux        | 8070   |           |
+| MyMediaForAlexa | 52051  |           |
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
 | Plex            | 32400  |           |

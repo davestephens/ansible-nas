@@ -131,6 +131,10 @@
     when: (get_iplayer_enabled | default(False))
     tags: get_iplayer
 
+  - import_tasks: tasks/mymediaforalexa.yml
+    when: (mymediaforalexa_enabled | default(False))
+    tags: mymediaforalexa
+
   - import_tasks: tasks/jackett.yml
     when: (jackett_enabled | default(False))
     tags: jackett

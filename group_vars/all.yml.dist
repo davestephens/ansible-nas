@@ -35,6 +35,7 @@ jackett_enabled: false
 
 # Music
 airsonic_enabled: false
+mymediaforalexa_enabled: false
 
 # News
 miniflux_enabled: false
@@ -437,6 +438,12 @@ minidlna_friendly_name: "{{ ansible_nas_hostname }}"
 ###
 get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
 get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
+
+###
+### mymediaforalexa
+###
+mymediaforalexa_media_directory: "{{ music_root }}"
+mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 
 ###
 ### jackett
