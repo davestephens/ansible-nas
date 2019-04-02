@@ -290,7 +290,9 @@ transmission_local_network: "192.168.1.0/24"
 plex_available_externally: "false"
 plex_config_directory: "{{ docker_home }}/plex/config"
 plex_movies_directory: "{{ movies_root }}"
+plex_movies_permissions: "ro"
 plex_tv_directory: "{{ tv_root }}"
+plex_tv_permissions: "ro"
 plex_user_id: 0
 plex_group_id: 0
 
@@ -300,7 +302,9 @@ plex_group_id: 0
 emby_available_externally: "false"
 emby_config_directory: "{{ docker_home }}/emby/config"
 emby_movies_directory: "{{ movies_root }}"
+emby_movies_permissions: "ro"
 emby_tv_directory: "{{ tv_root }}"
+emby_tv_permissions: "ro"
 emby_user_id: 0
 emby_group_id: 0
 
