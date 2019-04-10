@@ -138,3 +138,7 @@
   - import_tasks: tasks/jackett.yml
     when: (jackett_enabled | default(False))
     tags: jackett
+
+  - import_tasks: tasks/bitwarden.yml
+    when: (bitwarden_enabled | default(False))
+    tags: bitwarden
