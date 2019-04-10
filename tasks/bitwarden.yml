@@ -11,7 +11,7 @@
     image: mprasil/bitwarden:latest
     pull: true
     ports:
-      #- "19080:80"
+      - "19080:80"
       - "3012:3012"
     volumes:
       - "{{ bitwarden_data_directory }}:/data:rw"

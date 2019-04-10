@@ -26,6 +26,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 ### Docker Containers Used
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
+* [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your dynamic IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
