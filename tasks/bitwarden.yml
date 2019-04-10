@@ -17,7 +17,7 @@
       - "{{ bitwarden_data_directory }}:/data:rw"
     env:
       SIGNUPS_ALLOWED: "false"
-      ADMIN_TOKEN: "{{ bitwarden_admin_token }}" 
+      ADMIN_TOKEN: "{{ bitwarden_admin_token }}"
       LOG_FILE: "/data/bitwarden.log"
     labels:
       traefik.backend: "bitwarden"
