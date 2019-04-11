@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/configuration/router_confiiguration/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/configuration/external_access/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Router Configuration - Ansible-NAS</title>
+        <title>External Access - Ansible-NAS</title>
       
     
     
@@ -110,7 +110,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#router-configuration" tabindex="1" class="md-skip">
+      <a href="#external-access" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -135,7 +135,7 @@
               Ansible-NAS
             </span>
             <span class="md-header-nav__topic">
-              Router Configuration
+              External Access
             </span>
           
         </div>
@@ -550,9 +550,66 @@
       
     
     
-    <a href="./" title="Router Configuration" class="md-nav__link md-nav__link--active">
-      Router Configuration
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        External Access
+      </label>
+    
+    <a href="./" title="External Access" class="md-nav__link md-nav__link--active">
+      External Access
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#skull-skull-skull-warning-skull-skull-skull" title=":skull: :skull: :skull: Warning! :skull: :skull: :skull:" class="md-nav__link">
+    :skull: :skull: :skull: Warning! :skull: :skull: :skull:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-traefik" title="Enable Traefik" class="md-nav__link">
+    Enable Traefik
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-name-and-dns-configuration" title="Domain Name and DNS Configuration" class="md-nav__link">
+    Domain Name and DNS Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#router-configuration" title="Router Configuration" class="md-nav__link">
+    Router Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-specific-applications" title="Enable Specific Applications" class="md-nav__link">
+    Enable Specific Applications
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -591,6 +648,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#skull-skull-skull-warning-skull-skull-skull" title=":skull: :skull: :skull: Warning! :skull: :skull: :skull:" class="md-nav__link">
+    :skull: :skull: :skull: Warning! :skull: :skull: :skull:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-traefik" title="Enable Traefik" class="md-nav__link">
+    Enable Traefik
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-name-and-dns-configuration" title="Domain Name and DNS Configuration" class="md-nav__link">
+    Domain Name and DNS Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#router-configuration" title="Router Configuration" class="md-nav__link">
+    Router Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-specific-applications" title="Enable Specific Applications" class="md-nav__link">
+    Enable Specific Applications
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -601,12 +702,32 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/configuration/router_confiiguration.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/configuration/external_access.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="router-configuration">Router Configuration</h1>
-<p>If you want to make certain Ansible-NAS applications available outside of your home (for example Nextcloud), then you need to map ports 80 and 443 from your router to your Ansible-NAS box.</p>
+                <h1 id="external-access">External Access</h1>
+<p>There are a number of steps required to enable external access to the applications running on your NAS:</p>
+<ul>
+<li>Enable Traefik</li>
+<li>Domain name and DNS configuration</li>
+<li>Router configuration</li>
+<li>Enable specific applications for external access</li>
+</ul>
+<h2 id="skull-skull-skull-warning-skull-skull-skull">:skull: :skull: :skull: Warning! :skull: :skull: :skull:</h2>
+<p>Enabling access to applications externally <strong>does not</strong> automatically secure them. If you can access an application from within your own network without a username and password, this will also be the case externally.</p>
+<p>It is your responsiblity to ensure that applications you enable external access to are secured appropriately!</p>
+<h2 id="enable-traefik">Enable Traefik</h2>
+<p>Traefik routes traffic from ports 80 (HTTP) and 443 (HTTPS) on your Ansible-NAS box to the relevant application, based on hostname.</p>
+<p>Simply set <code>traefik_enabled: true</code> in your <code>all.yml</code>. By default it listens on ports 80 and 443, but doesn't route any traffic.</p>
+<h2 id="domain-name-and-dns-configuration">Domain Name and DNS Configuration</h2>
+<p>Set <code>ansible_nas_domain</code> to the domain name you want to use for your Ansible-NAS. You'll need somewhere to host the DNS for that domain - Cloudflare is a good free solution. Once you have an account and Cloudflare is hosting the DNS for your domain, create a wildcard DNS entry (<code>*.myawesomedomain.com</code>) and set it to your current IP address.</p>
+<p>You then need to enable the Cloudflare Dynamic DNS container (<code>cloudflare_ddns_enabled: true</code>) so the wildcard DNS entry for your
+domain name is updated if/when your ISP issues you a new IP address.</p>
+<h2 id="router-configuration">Router Configuration</h2>
+<p>You need to map ports 80 and 443 from your router to your Ansible-NAS box.</p>
 <p>How to do this is entirely dependent on your router (and out of scope of these docs), but if you're using Ansible-NAS then this should be within your skillset. :)</p>
+<h2 id="enable-specific-applications">Enable Specific Applications</h2>
+<p>Every application has a <code>&lt;application_name&gt;_available_externally</code> setting in the Advanced Settings section of <code>all.yml</code>. Setting this to <code>true</code> will configure Traefik to route <code>&lt;application&gt;.yourdomain.com</code> to the application, making it available externally.</p>
                 
                   
                 
