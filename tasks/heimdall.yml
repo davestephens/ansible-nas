@@ -40,3 +40,8 @@
       - "10443:443"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "heimdall"
+      traefik.frontend.rule: "Host:heimdall.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ heimdall_available_externally }}"
+      traefik.port: "80"

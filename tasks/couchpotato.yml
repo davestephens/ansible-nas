@@ -25,3 +25,8 @@
       PGID: "{{ couchpotato_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "couchpotato"
+      traefik.frontend.rule: "Host:couchpotato.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ couchpotato_available_externally }}"
+      traefik.port: "5050"

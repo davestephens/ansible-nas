@@ -19,3 +19,8 @@
     env:
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
+    labels:
+      traefik.backend: "jackett"
+      traefik.frontend.rule: "Host:jackett.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ jackett_available_externally }}"
+      traefik.port: "9117"

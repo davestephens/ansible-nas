@@ -38,10 +38,10 @@
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud-user
       MYSQL_PASSWORD: nextcloud-pass
+    restart_policy: unless-stopped
+    memory: 1g
     labels:
       traefik.backend: "nextcloud"
       traefik.frontend.rule: "Host:nextcloud.{{ ansible_nas_domain }}"
-      traefik.enable: "true"
+      traefik.enable: "{{ nextcloud_available_externally }}"
       traefik.port: "80"
-    restart_policy: unless-stopped
-    memory: 1g

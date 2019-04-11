@@ -23,3 +23,8 @@
       PGID: "{{ radarr_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "radarr"
+      traefik.frontend.rule: "Host:radarr.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ radarr_available_externally }}"
+      traefik.port: "7878"

@@ -24,3 +24,8 @@
       PGID: "{{ sickrage_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "sickrage"
+      traefik.frontend.rule: "Host:sickrage.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ sickrage_available_externally }}"
+      traefik.port: "8081"

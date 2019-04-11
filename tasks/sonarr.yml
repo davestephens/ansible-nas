@@ -23,3 +23,8 @@
       PGID: "{{ sonarr_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "sonarr"
+      traefik.frontend.rule: "Host:sonarr.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ sonarr_available_externally }}"
+      traefik.port: "8989"

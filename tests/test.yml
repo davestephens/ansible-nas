@@ -207,15 +207,16 @@ cloudflare_email: dave@awesomedomain.com
 # Cloudflare 'Global API Key', can be found on the 'My Profile' page
 cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 
-##################################################################
-###### You shouldn't need to edit anything below this point ######
-##################################################################
+######################################################################################
+###### Advanced Settings                                                        ######
+###### Ensure you know what you're doing before getting stuck in down here 8-)  ######
+######################################################################################
 
 ###
 ### General
 ###
 # Extra packages to install
-ansible_nas_extra_packages: 
+ansible_nas_extra_packages:
   - smartmontools
   - htop
   - zfsutils-linux
@@ -244,18 +245,22 @@ samba_netbios_name: "{{ ansible_nas_hostname }}"
 ###
 ### Traefik
 ###
-traefik_docker_image: traefik:1.7
+traefik_docker_image: traefik:latest
 traefik_data_directory: "{{ docker_home }}/traefik"
+traefik_debug: "false"
 
 ###
 ### Heimdall
 ###
+heimdall_available_externally: "false"
 heimdall_docker_image: linuxserver/heimdall:latest
 heimdall_data_directory: "{{ docker_home }}/heimdall"
 
 ###
 ### Transmission
 ###
+transmission_available_externally: "false"
+transmission_with_openvpn_available_externally: "false"
 transmission_config_directory: "{{ docker_home }}/transmission/config"
 transmission_download_directory: "{{ downloads_root }}"
 transmission_watch_directory: "{{ torrents_root }}"
@@ -267,6 +272,7 @@ transmission_local_network: "192.168.1.0/24"
 ###
 ### Plex
 ###
+plex_available_externally: "false"
 plex_config_directory: "{{ docker_home }}/plex/config"
 plex_movies_directory: "{{ movies_root }}"
 plex_tv_directory: "{{ tv_root }}"
@@ -276,6 +282,7 @@ plex_group_id: 0
 ###
 ### Emby
 ###
+emby_available_externally: "false"
 emby_config_directory: "{{ docker_home }}/emby/config"
 emby_movies_directory: "{{ movies_root }}"
 emby_tv_directory: "{{ tv_root }}"
@@ -285,6 +292,7 @@ emby_group_id: 0
 ###
 ### Tautulli
 ###
+tautulli_available_externally: "false"
 tautulli_config_directory: "{{ docker_home }}/tautulli/config"
 tautulli_user_id: 0
 tautulli_group_id: 0
@@ -293,12 +301,14 @@ tautulli_group_id: 0
 ###
 ### Duplicati
 ###
+duplicati_available_externally: "false"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 
 
 ###
 ### Sonarr
 ###
+sonarr_available_externally: "false"
 sonarr_data_directory: "{{ docker_home }}/sonarr/config"
 sonarr_tv_directory: "{{ tv_root }}"
 sonarr_download_directory: "{{ downloads_root }}"
@@ -309,6 +319,7 @@ sonarr_group_id: 0
 ###
 ### Radarr
 ###
+radarr_available_externally: "false"
 radarr_movies_directory: "{{ movies_root }}"
 radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
@@ -319,6 +330,7 @@ radarr_group_id: 0
 ###
 ### Couchpotato
 ###
+couchpotato_available_externally: "false"
 couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
 couchpotato_movies_directory: "{{ movies_root }}"
 couchpotato_downloads_directory: "{{ downloads_root }}"
@@ -330,12 +342,17 @@ couchpotato_group_id: 0
 ###
 ### Sickrage
 ###
+sickrage_available_externally: "false"
 sickrage_config_directory: "{{ docker_home }}/sickrage/config"
 sickrage_tv_directory: "{{ tv_root }}"
 sickrage_downloads_directory: "{{ downloads_root }}"
 sickrage_user_id: 0
 sickrage_group_id: 0
 
+###
+### Netdata
+###
+netdata_available_externally: "false"
 
 ###
 ### OpenVPN
@@ -346,12 +363,14 @@ openvpn_config_directory: "{{ docker_home }}/openvpn"
 ###
 ### Portainer
 ###
+portainer_available_externally: "false"
 portainer_data_directory: "{{ docker_home }}/portainer/config"
 
 
 ###
 ### ZNC
 ###
+znc_available_externally: "false"
 znc_data_directory: "{{ docker_home }}/znc"
 znc_user_id: 0
 znc_group_id: 0
@@ -360,6 +379,7 @@ znc_group_id: 0
 ###
 ### Stats
 ###
+grafana_available_externally: "false"
 telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
@@ -368,11 +388,18 @@ stat_collection_interval: 15s
 ###
 ### Gitea
 ###
+gitea_available_externally: "false"
 gitea_data_directory: "{{ docker_home }}/gitea"
+
+###
+### Glances
+###
+glances_available_externally: "false"
 
 ###
 ### Nextcloud
 ###
+nextcloud_available_externally: "false"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 
 ###
@@ -383,6 +410,7 @@ nginx_data_directory: "{{ docker_home }}/nginx"
 ###
 ### Guacamole
 ###
+guacamole_available_externally: "false"
 guacamole_docker_image: guacamole/guacamole:0.9.14
 guacamole_guacd_docker_image: guacamole/guacd:0.9.14
 guacamole_data_directory: "{{ docker_home }}/guacamole"
@@ -390,6 +418,7 @@ guacamole_data_directory: "{{ docker_home }}/guacamole"
 ###
 ### Miniflux
 ###
+miniflux_available_externally: "false"
 miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
 miniflux_admin_password: supersecure
@@ -397,6 +426,7 @@ miniflux_admin_password: supersecure
 ###
 ### Airsonic
 ###
+airsonic_available_externally: "false"
 airsonic_data_directory: "{{ docker_home }}/airsonic"
 
 ###
@@ -420,7 +450,7 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
 ###
 ### Time Machine
 ###
-timemachine_data_directory: "{{ docker_home }}/timemachine" # needs to be an absolute path
+timemachine_data_directory: "{{ docker_home }}/timemachine"
 timemachine_volume_size_limit: 0
 timemachine_password: timemachine
 timemachine_share_name: TimeMachine
@@ -448,4 +478,5 @@ mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 ###
 ### jackett
 ###
+jackett_available_externally: "false"
 jackett_data_directory: "{{ docker_home }}/jackett"

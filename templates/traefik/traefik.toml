@@ -7,7 +7,7 @@
 # Optional
 # Default: false
 #
-debug = false
+debug = {{ traefik_debug }}
 
 # Log level
 #
@@ -37,7 +37,7 @@ defaultEntryPoints = ["http", "https"]
   [entryPoints.https]
   address = ":443"
     [entryPoints.https.tls]
-    
+
   [entryPoints.traefik]
   address = ":8083"
 
@@ -171,7 +171,7 @@ onDemand = false # create certificate when container is created
 
   # [acme.httpChallenge]
   # entryPoint = "http"
-  
+
   [acme.tlsChallenge]
 
   [[acme.domains]]
@@ -188,6 +188,7 @@ onDemand = false # create certificate when container is created
           "grafana.{{ ansible_nas_domain }}",
           "guacamole.{{ ansible_nas_domain }}",
           "heimdall.{{ ansible_nas_domain }}",
+          "jackett.{{ ansible_nas_domain }}",
           "miniflux.{{ ansible_nas_domain }}",
           "netdata.{{ ansible_nas_domain }}",
           "nextcloud.{{ ansible_nas_domain }}",
@@ -198,4 +199,5 @@ onDemand = false # create certificate when container is created
           "sonarr.{{ ansible_nas_domain }}",
           "tautulli.{{ ansible_nas_domain }}",
           "transmission.{{ ansible_nas_domain }}",
+          "transmission-openvpn.{{ ansible_nas_domain }}",
           "znc.{{ ansible_nas_domain }}"]

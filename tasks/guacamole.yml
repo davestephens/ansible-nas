@@ -49,10 +49,10 @@
       MYSQL_DATABASE: guacamole
       MYSQL_USER: guacamole-user
       MYSQL_PASSWORD: guacamole-pass
+    restart_policy: unless-stopped
+    memory: 1g
     labels:
       traefik.backend: "guacamole"
       traefik.frontend.rule: "Host:guacamole.{{ ansible_nas_domain }}"
-      traefik.enable: "true"
+      traefik.enable: "{{ guacamole_available_externally }}"
       traefik.port: "8080"
-    restart_policy: unless-stopped
-    memory: 1g

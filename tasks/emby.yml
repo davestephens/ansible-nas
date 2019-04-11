@@ -24,3 +24,8 @@
       PGID: "{{ emby_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "emby"
+      traefik.frontend.rule: "Host:emby.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ emby_available_externally }}"
+      traefik.port: "8096"
