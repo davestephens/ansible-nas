@@ -1,4 +1,4 @@
-# jackett
+# Jackett
 
 Homepage: [https://github.com/Jackett/Jackett](https://github.com/Jackett/Jackett)
 
@@ -8,4 +8,4 @@ Jackett works as a proxy server: it translates queries from apps (Sonarr, Radarr
 
 Set `jackett: true` in your `group_vars/all.yml` file.
 
-The jackett web interface can be found at http://ansible_nas_host_or_ip:9117.
+The Jackett web interface can be found at http://ansible_nas_host_or_ip:9117.
