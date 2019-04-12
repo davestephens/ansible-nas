@@ -17,7 +17,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * A Dropbox replacement via Nextcloud
 * Various ways to see stats about your NAS - Glances, dashboards in Grafana
 * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
-* An IRC bouncer
+* An IRC bouncer and web-based client
 * Source control with Gitea
 * SSL secured external access to some applications via Traefik
 * A Docker host with Portainer for image and container management
@@ -50,6 +50,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
+* [The Lounge](https://thelounge.chat) - Web based always-on IRC client
 * [TimeMachine](https://github.com/mbentley/docker-timemachine) - Mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)

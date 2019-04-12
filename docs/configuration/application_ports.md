@@ -27,6 +27,7 @@ By default, applications can be found on the ports listed below.
 | Sickrage        | 8081   |           |
 | Sonarr          | 8989   |           |
 | Tautulli        | 8181   |           |
+| The Lounge      | 9000   |           |
 | Traefik         | 8083   |           |
 | Transmission    | 9091   | with VPN  |
 | Transmission    | 9092   |           |

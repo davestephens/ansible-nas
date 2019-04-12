@@ -56,8 +56,9 @@ nextcloud_enabled: false
 gitea_enabled: false
 timemachine_enabled: false
 
-# IRC bouncer
+# IRC
 znc_enabled: false
+thelounge_enabled: false
 
 ###
 ### General
@@ -480,3 +481,8 @@ mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 ###
 jackett_available_externally: "false"
 jackett_data_directory: "{{ docker_home }}/jackett"
+
+###
+### The Lounge
+###
+thelounge_data_directory: "{{ docker_home }}/thelounge"

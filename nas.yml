@@ -59,6 +59,10 @@
     when: (transmission_with_openvpn_enabled | default(False))
     tags: transmission
 
+  - import_tasks: tasks/thelounge.yml
+    when: (thelounge_enabled | default(False))
+    tags: thelounge
+
   - import_tasks: tasks/sonarr.yml
     when: (sonarr_enabled | default(False))
     tags: sonarr
