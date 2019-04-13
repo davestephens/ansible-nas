@@ -27,4 +27,5 @@ Head to [installation](installation.md) if you're ready to roll, or to
 you're done, check out the [post-installation](post_installation.md) steps. 
 
 If this is all very confusing, there is also an [overview](overview.md) of the
-project and what is required for complete beginners.
+project and what is required for complete beginners. If you're only confused
+abot ZFS, we'll help you [get started](zfs_overview.md) as well.

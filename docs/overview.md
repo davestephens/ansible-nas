@@ -48,20 +48,13 @@ technologies involved and be able to set up the basic stuff yourself.
 As a to-do list, before you can even install Ansible-NAS, you'll have to:
 
 1. Choose, buy, configure, and test your own **hardware**. Note that ZFS loves
-   RAM - it will run [with 1 GB](https://wiki.freebsd.org/ZFSTuningGuide), but
-   it won't be happy. The ZFS on Linux (ZoL) people
-   [recommend](https://github.com/zfsonlinux/zfs/wiki/FAQ#hardware-requirements)
-   at least 8 GB for best performance, but the more, the better. As robust as
-   ZFS is, it assumes the data in memory is correct, so [very bad
-   things](http://research.cs.wisc.edu/adsl/Publications/zfs-corruption-fast10.pdf)
-   happen to your data if there is memory corruption. For this reason, it is
-   [strongly
-   recommended](https://github.com/zfsonlinux/zfs/wiki/FAQ#do-i-have-to-use-ecc-memory-for-zfs)
-   to use ECC RAM. ZFS also prefers to have the hard drives all to itself. If
-   you're paranoid (a good mindset when dealing with servers), you'll probably
-   want an uninterruptible power supply (UPS) of some sort as well and SMART
-   monitoring for your hard drives. See the [FreeNAS hardware
-   requirements](https://freenas.org/hardware-requirements/) as a guideline.
+   RAM, and it is [recommended](zfs_overview.md) you use ECC RAM. ZFS also
+   prefers to have the hard drives all to itself. If you're paranoid (a good
+   mindset when dealing with servers), you'll probably want an uninterruptible
+   power supply (UPS) of some sort as well and SMART monitoring for your hard
+   drives. See the [FreeNAS hardware
+   requirements](https://freenas.org/hardware-requirements/) as a guideline, but
+   remember you'll also be running Docker.
 
 1. Install **Ubuntu Server**, preferably a Long Term Support (LTS) edition such
    as 18.04, and keep it updated. You'll probably want to perform other basic
@@ -69,19 +62,13 @@ As a to-do list, before you can even install Ansible-NAS, you'll have to:
    [various guides](https://devanswers.co/ubuntu-18-04-initial-server-setup/)
    for this, but if you're just getting started, you'll probably need a book.
 
-1. Install **ZFS** and set up storage. This includes creating data sets for
-   various parts of the system, some form of automatic snapshot handling, and
-   possibly automatic backups to another server or an external hard drive.
-   Currently on Linux, it is [something of a
-   hassle](https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.04-Root-on-ZFS) to
-   use ZFS on the root file system. If you are completely new to ZFS, expect a
-   brutal learning curve. There is a slightly dated (2012) but extensive
-   [introduction to ZFS on
-   Linux](https://pthree.org/2012/04/17/install-zfs-on-debian-gnulinux/) by
-   Aaron Toponce to get you started, or you can watch [this
-   video](https://www.youtube.com/watch?v=MsY-BafQgj4) that introduces the
-   philosophy and big picture of ZFS.
-   
+1. Install **ZFS** and set up storage. You can use a different file system and
+   volume manager, but Ansible-NAS historically tends towards ZFS. You'll have
+   to create datasets for various parts of the system, some form of automatic
+   snapshot handling, and possibly automatic backups to another server or an
+   external hard drive. If you are completely new to ZFS, expect a brutal
+   learning curve. A [brief introduction](zfs_overview.md) is included here, as
+   well as a [basic example](zfs_configuration.md) of a very simple ZFS setup.
    
 After that, you can continue with the actual [installation](installation.md) of
 Ansible-NAS.
@@ -91,6 +78,6 @@ Ansible-NAS.
 The easiest way to take Ansible-NAS for a spin is in a virtual machine, for
 instance in [VirtualBox](https://www.virtualbox.org/). You'll want to create
 three virtual hard drives for testing: One of the actual NAS, and the two others
-to create a mirrored ZFS pool. Note because of the RAM requirements of ZFS,
-you might run into problems with a virtual machine, but this will let you
-experiment with installing, configuring, and running a complete system. 
+to create a mirrored ZFS pool. A virtual machine will probably not be happy or
+fast, but this will let you experiment with installing, configuring, and running
+a complete system. 
