@@ -35,8 +35,8 @@ redundancy. The actual Ubuntu system will be on a different drive and is not our
 concern.
 
 > [Root on ZFS](https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.04-Root-on-ZFS)
-> is currently still a hassle for Ubuntu. If that changes, this document might
-> be updated accordingly. Until then, don't ask us about it.
+> is still a hassle for Ubuntu. If that changes, this document might be updated
+> accordingly. Until then, don't ask us about it.
 
 The Ubuntu kernel is already ready for ZFS. We only need the utility package
 which we install with `sudo apt install zfsutils`.
@@ -54,21 +54,22 @@ create our ZFS pool, we will use a command in this form:
 
 The options from simple to complex are:
 
-**<NAME>**: ZFS pools traditionally take their names from characters in the [The
+**NAME**: ZFS pools traditionally take their names from characters in the [The
 Matrix](https://www.imdb.com/title/tt0133093/fullcredits). The two most common
-are `tank` and `dozer`. Whatever you use, it should be short.
+are `tank` and `dozer`. Whatever you use, it should be short - think `ash`, not
+`xenomorph`. 
 
-**<DRIVES>**: The Linux command `lsblk` will give you a quick overview of the
+**DRIVES**: The Linux command `lsblk` will give you a quick overview of the
 hard drives in the system. However, we don't pass the drive specification in the
 format `/dev/sde` because this is not persistent. Instead,
-[use](https://github.com/zfsonlinux/zfs/wiki/FAQ#selecting-dev-names-when-creating-a-pool)
+[always use](https://github.com/zfsonlinux/zfs/wiki/FAQ#selecting-dev-names-when-creating-a-pool)
 the output of `ls /dev/disk/by-id/` to find the drives' IDs. 
    
-**<ASHIFT>**: This is required to pass the [sector
+**ASHIFT**: This is required to pass the [sector
 size](https://github.com/zfsonlinux/zfs/wiki/FAQ#advanced-format-disks) of the
 drive to ZFS for optimal performance. You might have to do this by hand because
-some drives lie: Whereas modern drives have 4k sector sizes (or 8k in case of
-many SSDs), they will report 512 bytes because Windows XP [can't handle 4k
+some drives lie: Whereas modern drives have 4k sector sizes (or 8k for many
+SSDs), they will report 512 bytes because Windows XP [can't handle 4k
 sectors](https://support.microsoft.com/en-us/help/2510009/microsoft-support-policy-for-4k-sector-hard-drives-in-windows).
 ZFS tries to [catch the
 liars](https://github.com/zfsonlinux/zfs/blob/master/cmd/zpool/zpool_vdev.c) and
