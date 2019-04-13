@@ -93,8 +93,8 @@ docker_image_directory: "{{ docker_home }}/data"
 docker_home: /mnt/Volume2/docker
 
 # Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
-# You'll need to change this if your docker_home isn't on zfs and Docker won't start (you'll probably want overlay2 instead)
-docker_storage_driver: zfs
+# You might want to change this to ZFS, depending on your underlying filesystem.
+docker_storage_driver: overlay2
 
 ###
 ### Samba
