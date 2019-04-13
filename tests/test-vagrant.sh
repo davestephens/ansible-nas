@@ -33,6 +33,8 @@ test_needs() {
 testing_init() {
     log "Checking Vagrant installation"
     test_needs vagrant
+    log "Copy all.yml.dist to test.yml"
+    cp -f $PLAYBOOK_DIR/group_vars/all.yml.dist $PLAYBOOK_DIR/tests/test.yml
 }
 
 header
