@@ -54,31 +54,31 @@ create our ZFS pool, we will use a command in this form:
 
 The options from simple to complex are:
 
-1. **<NAME>**: ZFS pools traditionally take their names from characters in the
-   [The Matrix](https://www.imdb.com/title/tt0133093/fullcredits). The two most
-   common are `tank` and `dozer`. Whatever you use, it should be short.
+**<NAME>**: ZFS pools traditionally take their names from characters in the [The
+Matrix](https://www.imdb.com/title/tt0133093/fullcredits). The two most common
+are `tank` and `dozer`. Whatever you use, it should be short.
 
-1. **<DRIVES>**: The Linux command `lsblk` will give you a quick overview of the
-   hard drives in the system. However, we don't pass the drive specification in
-   the format `/dev/sde` because this is not persistant. Instead,
-   [use](https://github.com/zfsonlinux/zfs/wiki/FAQ#selecting-dev-names-when-creating-a-pool)
-   the output of `ls /dev/disk/by-id/` to find the drives' IDs. 
+**<DRIVES>**: The Linux command `lsblk` will give you a quick overview of the
+hard drives in the system. However, we don't pass the drive specification in the
+format `/dev/sde` because this is not persistent. Instead,
+[use](https://github.com/zfsonlinux/zfs/wiki/FAQ#selecting-dev-names-when-creating-a-pool)
+the output of `ls /dev/disk/by-id/` to find the drives' IDs. 
    
-1. **<ASHIFT>**: This is required to pass the [sector
-   size](https://github.com/zfsonlinux/zfs/wiki/FAQ#advanced-format-disks) of
-   the drive to ZFS for optimal performance. You might have to do this by hand
-   because some drives lie: Whereas modern drives have 4k sector sizes (or 8k in
-   case of many SSDs), they will report 512 bytes because Windows XP [can't
-   handle 4k
-   sectors](https://support.microsoft.com/en-us/help/2510009/microsoft-support-policy-for-4k-sector-hard-drives-in-windows).
-   ZFS tries to [catch the
-   liars](https://github.com/zfsonlinux/zfs/blob/master/cmd/zpool/zpool_vdev.c)
-   and use the correct value. However, this sometimes fails, and you have to add
-   it by hand. The `ashift` value is a power of two, so we have **9** for 512
-   bytes, **12** for 4k, and **13** for 8k. You can create a pool without this
-   parameter and then use `zdb -C | grep ashift` to see what ZFS generated
-   automatically. If it isn't what you think, destroy the pool again and add it
-   manually.
+**<ASHIFT>**: This is required to pass the [sector
+size](https://github.com/zfsonlinux/zfs/wiki/FAQ#advanced-format-disks) of the
+drive to ZFS for optimal performance. You might have to do this by hand because
+some drives lie: Whereas modern drives have 4k sector sizes (or 8k in case of
+many SSDs), they will report 512 bytes because Windows XP [can't handle 4k
+sectors](https://support.microsoft.com/en-us/help/2510009/microsoft-support-policy-for-4k-sector-hard-drives-in-windows).
+ZFS tries to [catch the
+liars](https://github.com/zfsonlinux/zfs/blob/master/cmd/zpool/zpool_vdev.c) and
+use the correct value. However, this sometimes fails, and you have to add it by
+hand. 
+
+The `ashift` value is a power of two, so we have **9** for 512 bytes, **12** for
+4k, and **13** for 8k. You can create a pool without this parameter and then use
+`zdb -C | grep ashift` to see what ZFS generated automatically. If it isn't what
+you think, destroy the pool again and add it manually.
 
 In our pretend case, we use two 3 TB WD Red drives. Listing all drives by ID
 gives us something like this, but with real serial numbers:
@@ -200,7 +200,7 @@ known best configurations.
 
 ## Setting up scrubs
 
-On Ubuntu, scrubs are configurated out of the box to run on the second Sunday of
+On Ubuntu, scrubs are configured out of the box to run on the second Sunday of
 every month. See `/etc/cron.d/zfsutils-linux` to change this.
 
 
