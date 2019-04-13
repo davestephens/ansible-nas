@@ -44,7 +44,7 @@ miniflux_enabled: false
 # System Management
 heimdall_enabled: true
 portainer_enabled: true
-glances_enabled: true
+glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
 netdata_enabled: false
