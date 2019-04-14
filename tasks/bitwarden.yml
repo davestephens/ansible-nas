@@ -19,15 +19,15 @@
       SIGNUPS_ALLOWED: "false"
       ADMIN_TOKEN: "{{ bitwarden_admin_token }}"
       LOG_FILE: "/data/bitwarden.log"
+      WEBSOCKET_ENABLED: "true"
     labels:
       traefik.backend: "bitwarden"
       traefik.web.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }}"
       traefik.enable: "true"
       traefik.web.port: "80"
-      #traefik.web.frontend.headers.customFrameOptionsValue: "ALLOW-FROM http://{{ ansible_nas_domain }}"
-      #traefik.web.frontend.headers.customFrameOptionsValue: "ALLOW-FROM https://{{ ansible_nas_domain }}"
-      #traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
-      #traefik.hub.port: "3012"
+      traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
+      traefik.hub.port: "3012"
+      traefik.hub.protocol: "ws"
     restart_policy: unless-stopped
     #memory: 1g
 
