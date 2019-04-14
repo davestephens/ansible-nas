@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/airsonic/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/bitwarden/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Airsonic - Ansible-NAS</title>
+        <title>Bitwarden(_rs) Password Management - Ansible-NAS</title>
       
     
     
@@ -110,7 +110,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#airsonic" tabindex="1" class="md-skip">
+      <a href="#bitwarden_rs-password-management" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -135,7 +135,7 @@
               Ansible-NAS
             </span>
             <span class="md-header-nav__topic">
-              Airsonic
+              Bitwarden(_rs) Password Management
             </span>
           
         </div>
@@ -360,6 +360,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../airsonic/" title="Airsonic" class="md-nav__link">
+      Airsonic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -371,11 +383,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Airsonic
+        Bitwarden(_rs) Password Management
       </label>
     
-    <a href="./" title="Airsonic" class="md-nav__link md-nav__link--active">
-      Airsonic
+    <a href="./" title="Bitwarden(_rs) Password Management" class="md-nav__link md-nav__link--active">
+      Bitwarden(_rs) Password Management
     </a>
     
       
@@ -410,18 +422,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../bitwarden/" title="Bitwarden(_rs) Password Management" class="md-nav__link">
-      Bitwarden(_rs) Password Management
-    </a>
   </li>
 
         
@@ -684,17 +684,19 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/airsonic.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/bitwarden.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="airsonic">Airsonic</h1>
-<p>Homepage: <a href="https://airsonic.github.io/">https://airsonic.github.io/</a></p>
-<p>Airsonic is a free, web-based media streamer, providing ubiquitous access to your music. Use it to share your music with friends, or to listen to your own music while at work. You can stream to multiple players simultaneously, for instance to one player in your kitchen and another in your living room</p>
+                <h1 id="bitwarden_rs-password-management">Bitwarden(_rs) Password Management</h1>
+<p>Homepage: <a href="https://github.com/dani-garcia/bitwarden_rs">https://github.com/dani-garcia/bitwarden_rs</a>
+Bitwarden: <a href="https://bitwarden.com/">https://bitwarden.com/</a></p>
+<p>This is a Bitwarden server API implementation written in Rust compatible with upstream Bitwarden clients*, perfect for self-hosted deployment where running the official resource-heavy service might not be ideal.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>airsonic_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>The Airsonic web interface can be found at http://ansible_nas_host_or_ip:4040.</p>
+<p>Set <code>bitwarden_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>The default username and password is <code>admin</code> - you'll need to change this immediately after logging in.</p>
+<p>Make sure you set your admin token! It is bitwarden_admin_token in <code>group_vars/all.yml</code> file. The string you put here will be the login to the admin section of your bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running: openssl rand -base64 48.</p>
+<p>To create a user, you need to change a variable in ./tasks/bitwarden.yml. Set "SIGNUPS_ALLOWED" to "true", and reprovision the container. Once you have created your user, I would reccomend setting it to false and reprovisioning one more time.</p>
+<p>There is currently an issue with websockets and this configuration; traefik does not work correctly when enabled. If this issue gets resolved, I will update the file. Until that time, please note that synchronizations between your vault and browser extensions will not be instant. You will need to force a sync or wait on the scheduled sync (approx. 1h).</p>
                 
                   
                 
@@ -715,7 +717,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../upgrading/" title="Upgrading" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../airsonic/" title="Airsonic" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -724,19 +726,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Upgrading
+                Airsonic
               </span>
             </div>
           </a>
         
         
-          <a href="../bitwarden/" title="Bitwarden(_rs) Password Management" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../cloudflare_ddns/" title="Cloudflare Dynamic DNS Updater" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Bitwarden(_rs) Password Management
+                Cloudflare Dynamic DNS Updater
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
