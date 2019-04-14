@@ -61,6 +61,9 @@ timemachine_enabled: false
 znc_enabled: false
 thelounge_enabled: false
 
+# Password Management
+bitwarden_enabled: false
+
 ###
 ### General
 ###
@@ -208,10 +211,9 @@ cloudflare_email: "{{ ansible_nas_email }}"
 # Cloudflare 'Global API Key', can be found on the 'My Profile' page
 cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 
-######################################################################################
-###### Advanced Settings                                                        ######
-###### Ensure you know what you're doing before getting stuck in down here 8-)  ######
-######################################################################################
+##################################################################
+###### You shouldn't need to edit anything below this point ######
+##################################################################
 
 ###
 ### General
@@ -486,3 +488,14 @@ jackett_data_directory: "{{ docker_home }}/jackett"
 ### The Lounge
 ###
 thelounge_data_directory: "{{ docker_home }}/thelounge"
+
+###
+### Bitwarden
+###
+bitwarden_data_directory: "{{ docker_home }}/bitwarden"
+bitwarden_available_externally: "false"
+
+# Keep this token secret, this is password to access admin area of your server!
+# This token can be anything, but it's recommended to use a long, randomly generated string of characters,
+# for example running openssl rand -base64 48
+bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
