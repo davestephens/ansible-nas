@@ -487,13 +487,14 @@ jackett_data_directory: "{{ docker_home }}/jackett"
 ###
 ### The Lounge
 ###
+thelounge_available_externally: "false"
 thelounge_data_directory: "{{ docker_home }}/thelounge"
 
 ###
 ### Bitwarden
 ###
-bitwarden_data_directory: "{{ docker_home }}/bitwarden"
 bitwarden_available_externally: "false"
+bitwarden_data_directory: "{{ docker_home }}/bitwarden"
 
 # Keep this token secret, this is password to access admin area of your server!
 # This token can be anything, but it's recommended to use a long, randomly generated string of characters,

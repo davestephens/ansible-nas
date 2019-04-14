@@ -26,4 +26,9 @@
       - "/var/run/dbus:/var/run/dbus"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "thelounge"
+      traefik.frontend.rule: "Host:thelounge.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ thelounge_available_externally }}"
+      traefik.port: "9000"
 
