@@ -23,7 +23,7 @@
     labels:
       traefik.backend: "bitwarden"
       traefik.web.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }}"
-      traefik.enable: "true"
+      traefik.enable: "{{ bitwarden_available_externally }}"
       traefik.web.port: "80"
       traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
       traefik.hub.port: "3012"
