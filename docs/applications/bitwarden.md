@@ -11,8 +11,10 @@ Set `bitwarden_enabled: true` in your `group_vars/all.yml` file.
 
 ## Specific Configuration
 
-Make sure you set your admin token! It is bitwarden_admin_token in `group_vars/all.yml` file. The string you put here will be the login to the admin section of your bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running: openssl rand -base64 48.
+Make sure you set your admin token! It is `bitwarden_admin_token` in `group_vars/all.yml` file. The string you put here will be the login to the admin section of your bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running:
+`openssl rand -base64 48`.
 
-To create a user, you need to change a variable in ./tasks/bitwarden.yml. Set "SIGNUPS_ALLOWED" to "true", and reprovision the container. Once you have created your user, I would reccomend setting it to false and reprovisioning one more time.
+To create a user, you need to set `bitwarden_allow_signups` to `true` in your `all.yml`, and re-run the playbook to reprovision the
+container. Once you've created your users, set `bitwarden_allow_signups` back to `false` and run again.
 
-There is currently an issue with websockets and this configuration; traefik does not work correctly when enabled. If this issue gets resolved, I will update the file. Until that time, please note that synchronizations between your vault and browser extensions will not be instant. You will need to force a sync or wait on the scheduled sync (approx. 1h).
+For speed you can target just Bitwarden by appending `-t bitwarden` to your `ansible-playbook` command.

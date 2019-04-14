@@ -500,3 +500,8 @@ bitwarden_data_directory: "{{ docker_home }}/bitwarden"
 # This token can be anything, but it's recommended to use a long, randomly generated string of characters,
 # for example running openssl rand -base64 48
 bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
+
+# To create a user set this to "true", and reprovision the container by re-running the ansible-nas playbook.
+# Once you have created your user, set to "false" and run one more time.
+# Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
+bitwarden_allow_signups: false
