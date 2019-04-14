@@ -694,9 +694,11 @@ Bitwarden: <a href="https://bitwarden.com/">https://bitwarden.com/</a></p>
 <h2 id="usage">Usage</h2>
 <p>Set <code>bitwarden_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>Make sure you set your admin token! It is bitwarden_admin_token in <code>group_vars/all.yml</code> file. The string you put here will be the login to the admin section of your bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running: openssl rand -base64 48.</p>
-<p>To create a user, you need to change a variable in ./tasks/bitwarden.yml. Set "SIGNUPS_ALLOWED" to "true", and reprovision the container. Once you have created your user, I would reccomend setting it to false and reprovisioning one more time.</p>
-<p>There is currently an issue with websockets and this configuration; traefik does not work correctly when enabled. If this issue gets resolved, I will update the file. Until that time, please note that synchronizations between your vault and browser extensions will not be instant. You will need to force a sync or wait on the scheduled sync (approx. 1h).</p>
+<p>Make sure you set your admin token! It is <code>bitwarden_admin_token</code> in <code>group_vars/all.yml</code> file. The string you put here will be the login to the admin section of your bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running:
+<code>openssl rand -base64 48</code>.</p>
+<p>To create a user, you need to set <code>bitwarden_allow_signups</code> to <code>true</code> in your <code>all.yml</code>, and re-run the playbook to reprovision the
+container. Once you've created your users, set <code>bitwarden_allow_signups</code> back to <code>false</code> and run again.</p>
+<p>For speed you can target just Bitwarden by appending <code>-t bitwarden</code> to your <code>ansible-playbook</code> command.</p>
                 
                   
                 
