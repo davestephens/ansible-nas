@@ -118,8 +118,13 @@ Getting help is easy! You can:
 Contributions are welcome, please feel free to raise a PR!
 
 * Restrict pull requests to one piece of functionality or bugfix at a time.
-* Test your new functionality or bugfix using the included `tests/test-vagrant.sh` script to spin up a test VM.
-* Run `ansible-lint` against the playbook before committing. (There is a VSCode task set up to run the right command for you)
+* Test your new functionality or bugfix using the included
+  `tests/test-vagrant.sh` script to spin up a test VM. Note that Ansible-NAS
+  requires Vagrant version 2.2.2 or later, so for stock Ubuntu 18.04.2, you will
+  have to download and install the newest version from
+  https://www.vagrantup.com/downloads.html . 
+* Run `ansible-lint` against the playbook before committing. (There is a VSCode
+  task set up to run the right command for you)
 * Please know that your efforts are appreciated, thanks! :+1:
 
 Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) - you'll get some nice
