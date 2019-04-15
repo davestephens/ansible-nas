@@ -171,7 +171,10 @@ again:
 ECC corrects [single bit errors](https://en.wikipedia.org/wiki/ECC_memory) in
 memory. It is _always_ better to have it on _any_ computer if you can afford it,
 and ZFS is no exception. However, there is absolutely no requirement for ZFS to
-have ECC RAM. 
+have ECC RAM. If you just don't care about long-term bitrot because, hey, you
+can always just download [Night of the Living
+Dead](https://archive.org/details/night_of_the_living_dead) all over again,
+you're prefectly free to use normal RAM.
 
 ### No, the SLOG is not really a write cache
 
