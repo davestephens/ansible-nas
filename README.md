@@ -10,7 +10,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * An awesome dashboard to your home server (Heimdall)
 * Any number of Samba shares for you to store your stuff
 * A BitTorrent client
-* Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
+* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
@@ -47,7 +47,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [Radarr](https://radarr.video/) - for organising and downloading movies
-* [Sickrage](https://sickrage.github.io/) - for managing TV episodes
+* [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
