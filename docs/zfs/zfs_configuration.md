@@ -7,8 +7,8 @@ overview](zfs_overview.md) introduction first.
 Unlike other NAS variants, Ansible-NAS does not install, configure or manage the
 disks or file systems for you. It doesn't care which file system you use - ZFS,
 Btrfs, XFS or EXT4, take your pick. Nor does it provides a mechanism for
-external backups, snapshots or disk monitoring. As Tony Stark said to Loki in
-_Avengers_: It's all on you.
+snapshots or disk monitoring. As Tony Stark said to Loki in _Avengers_: It's all
+on you.
 
 However, Ansible-NAS has traditionally been used with the powerful ZFS
 filesystem. Since out of the box support for [ZFS on
@@ -222,11 +222,7 @@ ZED_NOTIFY_VERBOSE=1
 If `zed` is not enabled, you might have to run `systemctl enable zed`. You can
 test the setup by manually starting a scrub with `sudo zpool scrub tank`. 
 
-
 ## Setting up automatic snapshots
 
 See [sanoid](https://github.com/jimsalterjrs/sanoid/) as a tool for snapshot
 management. 
-
-
-

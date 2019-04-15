@@ -47,28 +47,30 @@ technologies involved and be able to set up the basic stuff yourself.
 
 As a to-do list, before you can even install Ansible-NAS, you'll have to:
 
-1. Choose, buy, configure, and test your own **hardware**. Note that ZFS loves
-   RAM, and it is [recommended](zfs_overview.md) you use ECC RAM. ZFS also
-   prefers to have the hard drives all to itself. If you're paranoid (a good
-   mindset when dealing with servers), you'll probably want an uninterruptible
-   power supply (UPS) of some sort as well and SMART monitoring for your hard
-   drives. See the [FreeNAS hardware
+1. Choose, buy, configure, and test your own **hardware**. If you're paranoid (a
+   good mindset when dealing with servers), you'll probably want an
+   uninterruptible power supply (UPS) of some sort as well as SMART monitoring
+   for your hard drives. See the [FreeNAS hardware
    requirements](https://freenas.org/hardware-requirements/) as a guideline, but
-   remember you'll also be running Docker.
+   remember you'll also be running Docker. If you use ZFS (see below), take into
+   account it [loves RAM](zfs/zfs_overview.md) and prefers to have the hard
+   drives all to itself.
 
-1. Install **Ubuntu Server**, preferably a Long Term Support (LTS) edition such
-   as 18.04, and keep it updated. You'll probably want to perform other basic
-   setup tasks like hardening SSH and including email notifications. There are
-   [various guides](https://devanswers.co/ubuntu-18-04-initial-server-setup/)
-   for this, but if you're just getting started, you'll probably need a book.
+1. Install **Ubuntu Server**, currently 18.04 LTS, and keep it updated. You'll
+   probably want to perform other basic setup tasks like hardening SSH and
+   including email notifications. There are [various
+   guides](https://devanswers.co/ubuntu-18-04-initial-server-setup/) for this,
+   but if you're just getting started, you'll probably need a book.
 
-1. Install **ZFS** and set up storage. You can use a different file system and
-   volume manager, but Ansible-NAS historically tends towards ZFS. You'll have
-   to create datasets for various parts of the system, some form of automatic
-   snapshot handling, and possibly automatic backups to another server or an
-   external hard drive. If you are completely new to ZFS, expect a brutal
-   learning curve. A [brief introduction](zfs_overview.md) is included here, as
-   well as a [basic example](zfs_configuration.md) of a very simple ZFS setup.
+You will probably want to install a specialized filesystem for bulk storage such
+as [ZFS](http://www.open-zfs.org/wiki/Main_Page) or
+[Btrfs](https://btrfs.wiki.kernel.org/index.php/Main_Page). Both offer features
+such as snapshots, checksumming and scrubing to protect your data against
+bitrot, ransomware and other nasties. Ansible-NAS historically prefers **ZFS**
+because this lets you swap storage pools with
+[FreeNAS](https://freenas.org/zfs/). A [brief introduction](zfs/zfs_overview.md)
+to ZFS is included in the Ansible-NAS documentation, as well as [an
+example](zfs_configuration.md) of a very simple ZFS setup.
    
 After that, you can continue with the actual [installation](installation.md) of
 Ansible-NAS.
@@ -78,6 +80,5 @@ Ansible-NAS.
 The easiest way to take Ansible-NAS for a spin is in a virtual machine, for
 instance in [VirtualBox](https://www.virtualbox.org/). You'll want to create
 three virtual hard drives for testing: One of the actual NAS, and the two others
-to create a mirrored ZFS pool. A virtual machine will probably not be happy or
-fast, but this will let you experiment with installing, configuring, and running
-a complete system. 
+to create a mirrored ZFS pool. This will let you experiment with installing,
+configuring, and running a complete system. 
