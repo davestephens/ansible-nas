@@ -112,13 +112,10 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 
 ## Requirements
 
-<<<<<<< HEAD
-* Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu Server 18.04.2 LTS. 
-* You can run Ansible-NAS on whatever you like, read the docs for more info. I use an HP Microserver.
-=======
-Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu
-Server 18.04.1 LTS running on an HP Microserver.
->>>>>>> Added permissions parameters to Plex and Emby
+* Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu
+  Server 18.04.2 LTS. 
+* You can run Ansible-NAS on whatever you like, read the docs for more info. I
+  use an HP Microserver.
 
 ## Getting Help
 
