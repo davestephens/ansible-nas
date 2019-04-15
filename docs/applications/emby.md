@@ -7,7 +7,6 @@ install for Ansible-NAS provides a server, which various clients can then
 connect to from various platforms such as other computers, smartphones and smart
 TVs.
 
-
 Note that [Plex](https://www.plex.tv/), also included in Ansible-NAS, has a very
 similar functionality.
 
@@ -24,7 +23,7 @@ configured) of your NAS. Note that Heimdall has a dedicated icon for emby.
 
 By default, Ansible-NAS gives emby read/write access to the folders where your
 movies and TV shows are stored. To change this to read-only, edit the following
-lines in `tasks/emby.yml`
+lines in `all.yml`:
 
 ```
       - "{{ emby_movies_directory }}:/movies:rw"
@@ -38,39 +37,11 @@ configuration directory read/write.
 
 ## File system considerations
 
-You might want to create special ZFS datasets for TV shows and movies, as these
-are usually large files. This means you can change the record size parameter
-from its default value of 128K to 1M. Larger blocks cut down on the metadata
-that the system has to manage, as various parts of ZFS work on the block level. 
+Movie and TV show files are almost alway very large and pre-compressed. If you
+are using a specialized filesystem such das ZFS for bulk storage, you'll want to
+set the parameters accordingly. The [ZFS
+configuration documentation](zfs/zfc_configuration.md) has an example of this.
 
-Assuming we have a ZFS pool named `tank`, the instruction sequence might look
-something like this:
-
-```
-        sudo zfs create tank/movies
-        sudo zfs set recordsize=1M tank/movies
-
-        sudo zfs create tank/tv
-        sudo zfs set recordsize=1M tank/tv
-```
-
-Changing the record size will not affect files already stored in the data set,
-only new files. See [this
-discussion](https://blog.programster.org/zfs-record-size) about record sizes for
-media data sets and [this
-video](https://www.youtube.com/watch?v=SJB1cJfcjYI&feature=youtu.be&t=14m41s)
-for more information. 
-
-Since video files are almost always compressed, you might want to turn off
-`compression` for the data set. However, ZFS automatically detects data that
-can't be compressed and aborts the procedure. 
-
-> At time of writing, native encryption of ZFS datasets is not supported in the
-> release versions of ZFS on Linux (ZoL), but is scheduled for [version
-> 0.8.0](https://github.com/zfsonlinux/zfs/releases/tag/zfs-0.8.0-rc3) sometime
-> in 2019. It is unclear when Ubuntu will upgrade their version of ZFS.
-
-To see all properties of a ZFS dataset, use `zfs get all <DATASET>`.
 
 ## Naming movies and TV shows
 
