@@ -100,9 +100,10 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 5. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
 6. Follow the Quick Start instructions above.
 
-## Hardware
+## Requirements
 
-Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS running on an HP Microserver.
+* Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu Server 18.04.2 LTS. 
+* You can run Ansible-NAS on whatever you like, read the docs for more info. I use an HP Microserver.
 
 ## Getting Help
 
