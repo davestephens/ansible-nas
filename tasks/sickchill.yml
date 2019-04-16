@@ -20,7 +20,7 @@
     pull: true
     volumes:
       - "{{ sickchill_config_directory }}:/config:rw"
-      - "{{ sickchill_downloads_directory }}/completed:/downloads:rw"
+      - "{{ sickchill_downloads_directory }}:/downloads:rw"
       - "{{ sickchill_tv_directory }}:/tv:rw"
     ports:
       - "8081:8081"

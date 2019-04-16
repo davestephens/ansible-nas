@@ -348,7 +348,7 @@ couchpotato_group_id: 0
 sickchill_available_externally: "false"
 sickchill_config_directory: "{{ docker_home }}/sickchill/config"
 sickchill_tv_directory: "{{ tv_root }}"
-sickchill_downloads_directory: "{{ downloads_root }}"
+sickchill_downloads_directory: "{{ downloads_root }}/completed"
 sickchill_user_id: 0
 sickchill_group_id: 0
 
