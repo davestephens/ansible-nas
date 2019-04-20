@@ -194,6 +194,18 @@ samba_shares:
     path: "{{ samba_shares_root }}/photos"
 
 ###
+### NFS
+###
+# Data you want published over NFS. More info on the nfs config format can be found at
+# https://help.ubuntu.com/community/SettingUpNFSHowTo#Shares
+# WARNING: Weird things might happen if you share the same data over Samba and NFS and allow writes on both!
+
+nfs_shares_root: /mnt/Volume3
+
+nfs_exports:
+  - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"
+
+###
 ### Cloudflare
 ###
 # Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to

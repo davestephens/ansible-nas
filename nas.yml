@@ -11,6 +11,11 @@
         - samba
         - skip_ansible_lint
 
+    - role: geerlingguy.nfs
+      tags:
+        - nfs
+        - skip_ansible_lint
+
     - role: geerlingguy.docker
       tags:
         - docker

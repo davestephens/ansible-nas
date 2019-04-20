@@ -8,7 +8,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 ## What This Sets Up
 
 * An awesome dashboard to your home server (Heimdall)
-* Any number of Samba shares for you to store your stuff
+* Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
 * Media streaming via Plex or Emby
@@ -19,7 +19,7 @@ just a stock Ubuntu install, some clever Ansible config and a bunch of Docker co
 * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
 * An IRC bouncer and web-based client
 * Source control with Gitea
-* SSL secured external access to some applications via Traefik
+* SSL secured external access to applications via Traefik
 * A Docker host with Portainer for image and container management
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 
