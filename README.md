@@ -100,9 +100,10 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 5. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
 6. Follow the Quick Start instructions above.
 
-## Hardware
+## Requirements
 
-Ansible NAS should work on any recent Ubuntu box. Development is done on Ubuntu Server 18.04.1 LTS running on an HP Microserver.
+* Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu Server 18.04.2 LTS. 
+* You can run Ansible-NAS on whatever you like, read the docs for more info. I use an HP Microserver.
 
 ## Getting Help
 
@@ -117,8 +118,13 @@ Getting help is easy! You can:
 Contributions are welcome, please feel free to raise a PR!
 
 * Restrict pull requests to one piece of functionality or bugfix at a time.
-* Test your new functionality or bugfix using the included `tests/test-vagrant.sh` script to spin up a test VM.
-* Run `ansible-lint` against the playbook before committing. (There is a VSCode task set up to run the right command for you)
+* Test your new functionality or bugfix using the included
+  `tests/test-vagrant.sh` script to spin up a test VM. Note that Ansible-NAS
+  requires Vagrant version 2.2.2 or later, so for stock Ubuntu 18.04.2, you will
+  have to download and install the newest version from
+  https://www.vagrantup.com/downloads.html . 
+* Run `ansible-lint` against the playbook before committing. (There is a VSCode
+  task set up to run the right command for you)
 * Please know that your efforts are appreciated, thanks! :+1:
 
 Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) - you'll get some nice
