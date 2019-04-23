@@ -26,7 +26,7 @@ By default, applications can be found on the ports listed below.
 | Plex            | 32400  |           |
 | Portainer       | 9000   |           |
 | Radarr          | 7878   |           |
-| Sickrage        | 8081   |           |
+| Sickchill       | 8081   |           |
 | Sonarr          | 8989   |           |
 | Tautulli        | 8181   |           |
 | The Lounge      | 9000   |           |

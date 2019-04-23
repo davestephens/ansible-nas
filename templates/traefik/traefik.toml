@@ -196,7 +196,7 @@ onDemand = false # create certificate when container is created
           "plex.{{ ansible_nas_domain }}",
           "portainer.{{ ansible_nas_domain }}",
           "radarr.{{ ansible_nas_domain }}",
-          "sickrage.{{ ansible_nas_domain }}",
+          "sickchill.{{ ansible_nas_domain }}",
           "sonarr.{{ ansible_nas_domain }}",
           "tautulli.{{ ansible_nas_domain }}",
           "thelounge.{{ ansible_nas_domain }}",

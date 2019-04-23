@@ -9,7 +9,7 @@ Ansible config and a bunch of Docker containers. Ansible-NAS was born!
 * An awesome dashboard to your home server (Heimdall)
 * Any number of Samba shares for you to store your stuff
 * A BitTorrent client
-* Various media management tools - Sonarr, Sickrage, CouchPotato, Radarr
+* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr
 * Media streaming via Plex, Emby or MiniDLNA
 * Music streaming with Airsonic
 * A Dropbox replacement via Nextcloud
