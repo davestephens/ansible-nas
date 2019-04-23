@@ -28,7 +28,7 @@ minidlna_enabled: false
 
 # Media Sourcing
 sonarr_enabled: false
-sickrage_enabled: false
+sickchill_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
 get_iplayer_enabled: false
@@ -355,14 +355,14 @@ couchpotato_group_id: 0
 
 
 ###
-### Sickrage
+### Sickchill
 ###
-sickrage_available_externally: "false"
-sickrage_config_directory: "{{ docker_home }}/sickrage/config"
-sickrage_tv_directory: "{{ tv_root }}"
-sickrage_downloads_directory: "{{ downloads_root }}"
-sickrage_user_id: 0
-sickrage_group_id: 0
+sickchill_available_externally: "false"
+sickchill_config_directory: "{{ docker_home }}/sickchill/config"
+sickchill_tv_directory: "{{ tv_root }}"
+sickchill_downloads_directory: "{{ downloads_root }}/completed"
+sickchill_user_id: 0
+sickchill_group_id: 0
 
 ###
 ### Netdata

@@ -92,9 +92,9 @@
     when: (couchpotato_enabled | default(False))
     tags: couchpotato
 
-  - import_tasks: tasks/sickrage.yml
-    when: (sickrage_enabled | default(False))
-    tags: sickrage
+  - import_tasks: tasks/sickchill.yml
+    when: (sickchill_enabled | default(False))
+    tags: sickchill
 
   - import_tasks: tasks/znc.yml
     when: (znc_enabled | default(False))
