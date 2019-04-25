@@ -174,7 +174,8 @@ and ZFS is no exception. However, there is absolutely no requirement for ZFS to
 have ECC RAM. If you just don't care about the danger of random bit flips
 because, hey, you can always just download [Night of the Living
 Dead](https://archive.org/details/night_of_the_living_dead) all over again,
-you're prefectly free to use normal RAM.
+you're prefectly free to use normal RAM. If you do use ECC RAM, make sure your
+processor and motherboard support it.
 
 ### No, the SLOG is not really a write cache
 
