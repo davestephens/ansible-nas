@@ -602,6 +602,54 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+    
+    <label class="md-nav__link" for="nav-11">
+      Zfs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-11">
+        Zfs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../zfs/zfs_configuration/" title="Zfs configuration" class="md-nav__link">
+      Zfs configuration
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../zfs/zfs_overview/" title="Zfs overview" class="md-nav__link">
+      Zfs overview
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -634,20 +682,24 @@
 <p>Copy <code>group_vars/all.yml.dist</code> to  <code>group_vars/all.yml</code>.</p>
 </li>
 <li>
-<p>Open up <code>group_vars/all.yml</code> and follow the instructions there for configuring your Ansible NAS.</p>
+<p>Open up <code>group_vars/all.yml</code> and follow the instructions there for
+   configuring your Ansible NAS.</p>
 </li>
 <li>
-<p>If you plan to use Transmission with OpenVPN, also copy <code>group_vars/vpn_credentials.yml.dist</code> to
-<code>group_vars/vpn_credentials.yml</code> and fill in your settings.</p>
+<p>If you plan to use Transmission with OpenVPN, also copy
+   <code>group_vars/vpn_credentials.yml.dist</code> to <code>group_vars/vpn_credentials.yml</code> and
+   fill in your settings.</p>
 </li>
 <li>
 <p>Copy <code>inventory.dist</code> to <code>inventory</code> and update it.</p>
 </li>
 <li>
-<p>Install the dependent roles: <code>ansible-galaxy install -r requirements.yml</code> (you might need sudo to install Ansible roles)</p>
+<p>Install the dependent roles: <code>ansible-galaxy install -r requirements.yml</code>
+   (you might need sudo to install Ansible roles)</p>
 </li>
 <li>
-<p>Run the playbook - something like <code>ansible-playbook -i inventory nas.yml -b -K</code> should do you nicely.</p>
+<p>Run the playbook - something like <code>ansible-playbook -i inventory nas.yml -b
+   -K</code> should do you nicely.</p>
 </li>
 </ol>
                 
