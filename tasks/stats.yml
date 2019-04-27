@@ -30,6 +30,8 @@
     ports:
       - "8086:8086"
     restart_policy: unless-stopped
+    env:
+      INFLUXDB_LOGGING_LEVEL: "error"
     memory: 1g
 
 - name: Template telegraf.conf
