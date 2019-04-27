@@ -13,7 +13,7 @@
     pull: true
     volumes:
       - "{{ radarr_movies_directory }}:/movies:rw"
-      - "{{ radarr_download_directory }}:/downloads:rw"
+      - "{{ radarr_download_directory }}/complete:/downloads:rw"
       - "{{ radarr_data_directory }}:/config:rw"
     ports:
       - "7878:7878"
