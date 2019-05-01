@@ -1,0 +1,78 @@
+---
+- name: Create Elasticsearch Directories
+  file:
+    path: "{{ elasticsearch_data_directory }}"
+    state: directory
+    mode: 0777
+
+- name: Create Docker Elasticsearch network
+  docker_network:
+    name: elasticsearch
+
+- name: Create Elasticsearch Open Distro Container
+  docker_container:
+    name: elasticsearch-opendistro
+    image: amazon/opendistro-for-elasticsearch:0.8.0
+    pull: true
+    volumes:
+      - "{{ elasticsearch_data_directory }}:/usr/share/elasticsearch/data:rw"
+    networks:
+      - name: elasticsearch
+    env:
+      cluster.name: "ansible-nas"
+      bootstrap.memory_lock: "true"
+      discovery.zen.minimum_master_nodes: "1"
+      discovery.type: "single-node"
+      network.host: "0.0.0.0"
+      ES_JAVA_OPTS: "-Xms1024m -Xmx1024m"
+    ulimits:
+      - "memlock:-1:-1"
+    ports:
+      - "9200:9200"
+    restart_policy: unless-stopped
+    memory: 2g
+
+- name: Create Elasticsearch Kibana Open Distro Container
+  docker_container:
+    name: elasticsearch-opendistro-kibana
+    image: amazon/opendistro-for-elasticsearch-kibana:0.8.0
+    pull: true
+    networks:
+      - name: elasticsearch
+    env:
+      ELASTICSEARCH_URL: "https://elasticsearch-opendistro:9200"
+    ports:
+      - "5601:5601"
+    restart_policy: unless-stopped
+    memory: 1gvag
+
+- name: Create Filebeat Directory
+  file:
+    path: "{{ filebeat_config_directory }}"
+    state: directory
+
+- name: Template Filebeat config
+  template:
+    src: "templates/filebeat/filebeat.yml"
+    dest: "{{ filebeat_config_directory }}/filebeat.docker.yml"
+
+- name: Create Filebeat Container
+  docker_container:
+    name: filebeat
+    image: docker.elastic.co/beats/filebeat:6.6.2
+    pull: true
+    volumes:
+      - "{{ filebeat_config_directory }}/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "{{ docker_image_directory }}/containers:/var/lib/docker/containers:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/:/host_filesystem:ro"
+    networks:
+      - name: elasticsearch
+    user: root:root
+    env:
+      output.elasticsearch.hosts: "['https://elasticsearch-opendistro:9200']"
+      output.elasticsearch.username: "{{ elasticsearch_admin_username }}"
+      output.elasticsearch.password: "{{ elasticsearch_admin_password }}"
+      strict.perms: "false"
+    restart_policy: unless-stopped
+    memory: 1g

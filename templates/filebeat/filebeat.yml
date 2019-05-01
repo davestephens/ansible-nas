@@ -1,0 +1,25 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+filebeat.inputs:
+  - type: log
+    paths:
+      - /host_filesystem/var/log/auth.log
+      - /host_filesystem/var/log/syslog
+
+processors:
+  - add_cloud_metadata: ~
+
+output.elasticsearch:
+  hosts: ["https://elasticsearch-opendistro:9200"]
+  username: "{{ elasticsearch_admin_username }}"
+  password: "{{ elasticsearch_admin_password }}"
+  ssl.verification_mode: "none"
+  logging.level: info
