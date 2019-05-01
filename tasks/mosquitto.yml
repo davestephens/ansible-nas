@@ -1,0 +1,56 @@
+---
+- name: Create Mosquitto group
+  group:
+    name: mosquitto
+    gid: 1311
+    state: present
+
+- name: Create Mosquitto user
+  user:
+    name: mosquitto
+    uid: 1311
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: mosquitto
+
+- name: Create Mosquitto Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: mosquitto
+    group: mosquitto
+  with_items:
+    - "{{ mosquitto_data_directory }}/config"
+    - "{{ mosquitto_data_directory }}/data"
+    - "{{ mosquitto_data_directory }}/log"
+
+- name: Template mosquitto.conf
+  template:
+    src: mosquitto/mosquitto.conf
+    dest: "{{ mosquitto_data_directory }}/config/mosquitto.conf"
+
+- name: Create Mosquitto container
+  docker_container:
+    name: mosquitto
+    image: "{{ mosquitto_docker_image }}"
+    pull: true
+    volumes:
+      - "{{ mosquitto_data_directory }}:/config:rw"
+      - "{{ mosquitto_data_directory }}:/data:rw"
+      - "{{ mosquitto_data_directory }}:/log:rw"
+    env:
+      PUID: 1311
+      PGID: 1311
+      TZ: "{{ ansible_nas_timezone }}"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "mosquitto"
+      traefik.frontend.rule: "Host:mosquitto.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ mosquitto_available_externally }}"
+      traefik.port: "80"
