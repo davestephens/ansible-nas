@@ -1,0 +1,69 @@
+- name: Create Firefly III Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ firefly_data_directory }}/postgresql"
+    - "{{ firefly_data_directory }}/mysql"
+    - "{{ firefly_data_directory }}/upload"
+    - "{{ firefly_data_directory }}/export"
+
+# - name: Create Postgres for Firefly III
+#   docker_container:
+#     name: firefly-postgres
+#     image: postgres:11.1
+#     pull: true
+#     volumes:
+#       - "{{ firefly_data_directory }}/postgresql:/var/lib/postgresql/data:rw"
+#     env:
+#       POSTGRES_USER: "firefly"
+#       POSTGRES_PASSWORD: "supersecure"
+#     restart_policy: unless-stopped
+#     memory: 1g
+
+- name: Create MySQL container for Firefly
+  docker_container:
+    name: firefly-mysql
+    image: mysql:5.7
+    pull: true
+    volumes:
+      - "{{ firefly_data_directory }}/mysql:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: firefly
+      MYSQL_USER: firefly
+      MYSQL_PASSWORD: firefly
+      MYSQL_ROOT_PASSWORD: firefly
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Wait for MySQL to init
+  pause:
+    seconds: 30
+
+- name: Create Firefly III container
+  docker_container:
+    name: firefly
+    image: jc5x/firefly-iii:latest
+    pull: true
+    volumes:
+      - "{{ firefly_data_directory }}/export:/var/www/firefly-iii/storage/export:rw"
+      - "{{ firefly_data_directory }}/upload:/var/www/firefly-iii/storage/upload:rw"
+    links:
+      - firefly-mysql:db
+    ports:
+      - "8066:80"
+    env:
+      FF_APP_ENV: "local"
+      FF_APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
+      FF_DB_HOST: "db"
+      FF_DB_NAME: "firefly"
+      FF_DB_USER: "firefly"
+      FF_DB_PASSWORD: "firefly"
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "firefly"
+      traefik.frontend.rule: "Host:firefly.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ firefly_available_externally }}"
+      traefik.port: "8080"
