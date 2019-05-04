@@ -241,28 +241,97 @@ ansible_nas_extra_packages:
 
 ansible_python_interpreter: /usr/bin/python3
 
-###
-### Samba
-###
-# Seems to break browsing of the \\server-name shares root when enabled
-samba_mitigate_cve_2017_7494: false
 
-# The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
-# mess with Samba user permissions.
-samba_guest_account: ansible-nas
+##### Keep entries below this line in alphabetical order #####
 
-# How Samba behaves when an unknown user connects, see Samba docs for more info
-samba_map_to_guest: Bad Password
-
-# The Netbios hostname used by Samba on your network
-samba_netbios_name: "{{ ansible_nas_hostname }}"
 
 ###
-### Traefik
+### Airsonic
 ###
-traefik_docker_image: traefik:latest
-traefik_data_directory: "{{ docker_home }}/traefik"
-traefik_debug: "false"
+airsonic_available_externally: "false"
+airsonic_data_directory: "{{ docker_home }}/airsonic"
+
+
+###
+### Bitwarden
+###
+bitwarden_available_externally: "false"
+bitwarden_data_directory: "{{ docker_home }}/bitwarden"
+
+# Keep this token secret, this is password to access admin area of your server!
+# This token can be anything, but it's recommended to use a long, randomly
+# generated string of characters, for example running openssl rand -base64 48
+bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
+
+# To create a user set this to "true", and reprovision the container by
+# re-running the ansible-nas playbook.  Once you have created your user, set to
+# "false" and run one more time.  Target just Bitwarden by running:
+# ansible-playbook -i inventory nas.yml -b -K -t bitwarden
+bitwarden_allow_signups: false
+
+
+###
+### Couchpotato
+###
+couchpotato_available_externally: "false"
+couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
+couchpotato_movies_directory: "{{ movies_root }}"
+couchpotato_downloads_directory: "{{ downloads_root }}"
+couchpotato_torrents_directory: "{{ torrents_root }}"
+couchpotato_user_id: 0
+couchpotato_group_id: 0
+
+
+###
+### Duplicati
+###
+duplicati_available_externally: "false"
+duplicati_data_directory: "{{ docker_home }}/duplicati/config"
+
+
+###
+### Emby
+###
+# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
+# delete your files
+emby_available_externally: "false"
+emby_config_directory: "{{ docker_home }}/emby/config"
+emby_movies_directory: "{{ movies_root }}"
+emby_movies_permissions: "rw"
+emby_tv_directory: "{{ tv_root }}"
+emby_tv_permissions: "rw"
+emby_user_id: 0
+emby_group_id: 0
+
+
+###
+### Get_iplayer
+###
+get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
+get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
+
+
+###
+### Gitea
+###
+gitea_available_externally: "false"
+gitea_data_directory: "{{ docker_home }}/gitea"
+
+
+###
+### Glances
+###
+glances_available_externally: "false"
+
+
+###
+### Guacamole
+###
+guacamole_available_externally: "false"
+guacamole_docker_image: guacamole/guacamole:0.9.14
+guacamole_guacd_docker_image: guacamole/guacd:0.9.14
+guacamole_data_directory: "{{ docker_home }}/guacamole"
+
 
 ###
 ### Heimdall
@@ -271,17 +340,64 @@ heimdall_available_externally: "false"
 heimdall_docker_image: linuxserver/heimdall:latest
 heimdall_data_directory: "{{ docker_home }}/heimdall"
 
+
 ###
-### Transmission
+### Jackett
 ###
-transmission_available_externally: "false"
-transmission_with_openvpn_available_externally: "false"
-transmission_config_directory: "{{ docker_home }}/transmission/config"
-transmission_download_directory: "{{ downloads_root }}"
-transmission_watch_directory: "{{ torrents_root }}"
-transmission_user_id: 0
-transmission_group_id: 0
-transmission_local_network: "192.168.1.0/24"
+jackett_available_externally: "false"
+jackett_data_directory: "{{ docker_home }}/jackett"
+
+
+# Lounge --> The Lounge
+
+
+###
+### Minidlna
+###
+minidlna_media_directory1: "{{ movies_root }}"
+minidlna_media_directory2: "{{ tv_root }}"
+minidlna_friendly_name: "{{ ansible_nas_hostname }}"
+
+
+###
+### Miniflux
+###
+miniflux_available_externally: "false"
+miniflux_data_directory: "{{ docker_home }}/miniflux"
+miniflux_admin_username: admin
+miniflux_admin_password: supersecure
+
+
+###
+### Mymediaforalexa
+###
+mymediaforalexa_media_directory: "{{ music_root }}"
+mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
+
+
+###
+### Netdata
+###
+netdata_available_externally: "false"
+
+
+###
+### Nextcloud
+###
+nextcloud_available_externally: "false"
+nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+
+
+###
+### Nginx
+###
+nginx_data_directory: "{{ docker_home }}/nginx"
+
+
+###
+### OpenVPN
+###
+openvpn_config_directory: "{{ docker_home }}/openvpn"
 
 
 ###
@@ -298,45 +414,12 @@ plex_tv_permissions: "rw"
 plex_user_id: 0
 plex_group_id: 0
 
-###
-### Emby
-###
-# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
-# delete your files
-emby_available_externally: "false"
-emby_config_directory: "{{ docker_home }}/emby/config"
-emby_movies_directory: "{{ movies_root }}"
-emby_movies_permissions: "rw"
-emby_tv_directory: "{{ tv_root }}"
-emby_tv_permissions: "rw"
-emby_user_id: 0
-emby_group_id: 0
 
 ###
-### Tautulli
+### Portainer
 ###
-tautulli_available_externally: "false"
-tautulli_config_directory: "{{ docker_home }}/tautulli/config"
-tautulli_user_id: 0
-tautulli_group_id: 0
-
-
-###
-### Duplicati
-###
-duplicati_available_externally: "false"
-duplicati_data_directory: "{{ docker_home }}/duplicati/config"
-
-
-###
-### Sonarr
-###
-sonarr_available_externally: "false"
-sonarr_data_directory: "{{ docker_home }}/sonarr/config"
-sonarr_tv_directory: "{{ tv_root }}"
-sonarr_download_directory: "{{ downloads_root }}"
-sonarr_user_id: 0
-sonarr_group_id: 0
+portainer_available_externally: "false"
+portainer_data_directory: "{{ docker_home }}/portainer/config"
 
 
 ###
@@ -351,15 +434,20 @@ radarr_group_id: 0
 
 
 ###
-### Couchpotato
+### Samba
 ###
-couchpotato_available_externally: "false"
-couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
-couchpotato_movies_directory: "{{ movies_root }}"
-couchpotato_downloads_directory: "{{ downloads_root }}"
-couchpotato_torrents_directory: "{{ torrents_root }}"
-couchpotato_user_id: 0
-couchpotato_group_id: 0
+# Seems to break browsing of the \\server-name shares root when enabled
+samba_mitigate_cve_2017_7494: false
+
+# The account used when Samba shares are accessed. Shouldn't need to change this
+# unless you want to mess with Samba user permissions.
+samba_guest_account: ansible-nas
+
+# How Samba behaves when an unknown user connects, see Samba docs for more info
+samba_map_to_guest: Bad Password
+
+# The Netbios hostname used by Samba on your network
+samba_netbios_name: "{{ ansible_nas_hostname }}"
 
 
 ###
@@ -372,31 +460,16 @@ sickchill_downloads_directory: "{{ downloads_root }}/completed"
 sickchill_user_id: 0
 sickchill_group_id: 0
 
-###
-### Netdata
-###
-netdata_available_externally: "false"
 
 ###
-### OpenVPN
+### Sonarr
 ###
-openvpn_config_directory: "{{ docker_home }}/openvpn"
-
-
-###
-### Portainer
-###
-portainer_available_externally: "false"
-portainer_data_directory: "{{ docker_home }}/portainer/config"
-
-
-###
-### ZNC
-###
-znc_available_externally: "false"
-znc_data_directory: "{{ docker_home }}/znc"
-znc_user_id: 0
-znc_group_id: 0
+sonarr_available_externally: "false"
+sonarr_data_directory: "{{ docker_home }}/sonarr/config"
+sonarr_tv_directory: "{{ tv_root }}"
+sonarr_download_directory: "{{ downloads_root }}"
+sonarr_user_id: 0
+sonarr_group_id: 0
 
 
 ###
@@ -408,67 +481,22 @@ influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
 
-###
-### Gitea
-###
-gitea_available_externally: "false"
-gitea_data_directory: "{{ docker_home }}/gitea"
 
 ###
-### Glances
+### Tautulli
 ###
-glances_available_externally: "false"
+tautulli_available_externally: "false"
+tautulli_config_directory: "{{ docker_home }}/tautulli/config"
+tautulli_user_id: 0
+tautulli_group_id: 0
+
 
 ###
-### Nextcloud
+### The Lounge
 ###
-nextcloud_available_externally: "false"
-nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+thelounge_available_externally: "false"
+thelounge_data_directory: "{{ docker_home }}/thelounge"
 
-###
-### nginx
-###
-nginx_data_directory: "{{ docker_home }}/nginx"
-
-###
-### Guacamole
-###
-guacamole_available_externally: "false"
-guacamole_docker_image: guacamole/guacamole:0.9.14
-guacamole_guacd_docker_image: guacamole/guacd:0.9.14
-guacamole_data_directory: "{{ docker_home }}/guacamole"
-
-###
-### Miniflux
-###
-miniflux_available_externally: "false"
-miniflux_data_directory: "{{ docker_home }}/miniflux"
-miniflux_admin_username: admin
-miniflux_admin_password: supersecure
-
-###
-### Airsonic
-###
-airsonic_available_externally: "false"
-airsonic_data_directory: "{{ docker_home }}/airsonic"
-
-###
-### Watchtower
-###
-# Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
-watchtower_cron_schedule: 0 0 5 * * *
-
-# Sets the Watchtower Docker start command. Different options can be supplied based on whether you want to receive
-# notifications or not, some examples are provided below. See https://github.com/v2tec/watchtower for more info.
-
-# No notifications
-watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
-
-# Email notifications
-# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'email' --notification-email-from 'ansible@nas.com' --notification-email-to '{{ ansible_nas_email }}' --notification-email-server 'my.email.server.com' --notification-email-server-port '25' --notification-email-server-user 'email_username' --notification-email-server-password 'top-secret'"
-
-# Slack notifications
-# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"
 
 ###
 ### Time Machine
@@ -479,49 +507,57 @@ timemachine_password: timemachine
 timemachine_share_name: TimeMachine
 timemachine_log_level: error
 
-###
-### minidlna
-###
-minidlna_media_directory1: "{{ movies_root }}"
-minidlna_media_directory2: "{{ tv_root }}"
-minidlna_friendly_name: "{{ ansible_nas_hostname }}"
 
 ###
-### get_iplayer
+### Traefik
 ###
-get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
-get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
+traefik_docker_image: traefik:latest
+traefik_data_directory: "{{ docker_home }}/traefik"
+traefik_debug: "false"
+
 
 ###
-### mymediaforalexa
+### Transmission
 ###
-mymediaforalexa_media_directory: "{{ music_root }}"
-mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
+transmission_available_externally: "false"
+transmission_with_openvpn_available_externally: "false"
+transmission_config_directory: "{{ docker_home }}/transmission/config"
+transmission_download_directory: "{{ downloads_root }}"
+transmission_watch_directory: "{{ torrents_root }}"
+transmission_user_id: 0
+transmission_group_id: 0
+transmission_local_network: "192.168.1.0/24"
+
 
 ###
-### Jackett
+### Watchtower
 ###
-jackett_available_externally: "false"
-jackett_data_directory: "{{ docker_home }}/jackett"
+
+# Sets the 6 field cron schedule to use for checks and updates. This will check
+# at 5am daily.
+watchtower_cron_schedule: 0 0 5 * * *
+
+# Sets the Watchtower Docker start command. Different options can be supplied
+# based on whether you want to receive notifications or not, some examples are
+# provided below. See https://github.com/v2tec/watchtower for more info.
+
+# No notifications
+watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
+
+# Email notifications
+# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'email' --notification-email-from 'ansible@nas.com' --notification-email-to '{{ ansible_nas_email }}' --notification-email-server 'my.email.server.com' --notification-email-server-port '25' --notification-email-server-user 'email_username' --notification-email-server-password 'top-secret'"
+
+# Slack notifications
+# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"
+
 
 ###
-### The Lounge
+### ZNC
 ###
-thelounge_available_externally: "false"
-thelounge_data_directory: "{{ docker_home }}/thelounge"
+znc_available_externally: "false"
+znc_data_directory: "{{ docker_home }}/znc"
+znc_user_id: 0
+znc_group_id: 0
 
-###
-### Bitwarden
-###
-bitwarden_available_externally: "false"
-bitwarden_data_directory: "{{ docker_home }}/bitwarden"
 
-# Keep this token secret, this is password to access admin area of your server!
-# This token can be anything, but it's recommended to use a long, randomly generated string of characters,
-# for example running openssl rand -base64 48
-bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
-
-# To create a user set this to "true", and reprovision the container by re-running the ansible-nas playbook.
-# Once you have created your user, set to "false" and run one more time.
-# Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
-bitwarden_allow_signups: false
+##### The End #####
