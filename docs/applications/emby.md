@@ -4,8 +4,7 @@ Homepage: [https://emby.media/](https://emby.media/)
 
 Emby is a mostly open-source media server with a client-server model. This
 install for Ansible-NAS provides a server, which various clients can then
-connect to from various platforms such as other computers, smartphones and smart
-TVs.
+connect to from platforms such as other computers, smartphones and smart TVs.
 
 Note that [Plex](https://www.plex.tv/), also included in Ansible-NAS, has a very
 similar functionality.
@@ -13,21 +12,20 @@ similar functionality.
 ## Usage
 
 Set `emby_enabled: true` in your `group_vars/all.yml` file. There are further
-parameters you can edit such as `movies_root` and `tv_root` lower down in this
-file. 
+parameters you can edit such as `movies_root` and `tv_root` lower down. 
 
 ## Specific Configuration
 
 The emby web interface can be found at port 8096 (http) or 8920 (https, if
-configured) of your NAS. Note that Heimdall has a dedicated icon for emby. 
+configured) of your NAS. Heimdall has a dedicated icon for emby. 
 
 By default, Ansible-NAS gives emby read/write access to the folders where your
 movies and TV shows are stored. To change this to read-only, edit the following
 lines in `all.yml`:
 
 ```
-      - "{{ emby_movies_directory }}:/movies:rw"
-      - "{{ emby_tv_directory}}:/tv:rw"
+        emby_movies_permissions: "rw"
+        emby_tv_permissions: "rw"
 ```
 
 so that they end in `ro` instead of `rw`. Note that emby will not be able to
@@ -38,17 +36,17 @@ configuration directory read/write.
 ## File system considerations
 
 Movie and TV show files are almost alway very large and pre-compressed. If you
-are using a specialized filesystem such das ZFS for bulk storage, you'll want to
-set the parameters accordingly. The [ZFS
-configuration documentation](zfs/zfc_configuration.md) has an example of this.
+are using a specialized filesystem such as ZFS for bulk storage, you'll want to
+set the parameters accordingly. The [ZFS configuration
+documentation](zfs/zfc_configuration.md) has an example of this.
 
 
 ## Naming movies and TV shows
 
-Emby is fussy about how movies and TV shows must be named to enable automatic
-downloads of cover art and metadata. In short, movie files should follow how
-movies are listed in the [IMDb](https://www.imdb.com/), including the year of
-publication: 
+Emby is very fussy about how movies and TV shows must be named to enable
+automatic downloads of cover art and metadata. In short, movie files should
+follow how movies are listed in the [IMDb](https://www.imdb.com/), including the
+year of publication: 
 
 ```
         movies/Bride of Frankenstein (1935).mp4
