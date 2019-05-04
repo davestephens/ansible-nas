@@ -224,7 +224,61 @@ ZED_NOTIFY_VERBOSE=1
 If `zed` is not enabled, you might have to run `systemctl enable zed`. You can
 test the setup by manually starting a scrub with `sudo zpool scrub tank`. 
 
+
 ## Setting up automatic snapshots
+
+Snapshots create a "frozen" version of a filesystem, providing a safe copy of
+the contents. Correctly configured, they provide very good protection against
+accidential deletion and certain types of attacks such as ransomware. On
+copy-on-write (COW) filesystems such as ZFS, they are cheap to create. It is
+very rare that you _won't_ want snapshots.
+
+> Snapshots do not replace the need for backups. Nothing replaces the need for
+> backups except more backups.
+
+
+### Managing snapshots by hand
+
+If you have data in a filesystem that never or very rarely changes, it might be
+easiest to manage snapshots by hand. Use the `snapshot` command with the
+name of the filesystem combined with an identifier separated by the `@` sign.
+Traditionally, this is the date of the snapshot.
+
+```
+        zfs snapshot tank/movies@20190424
+```
+
+To see the list of snapshots in the system, run
+
+```
+        zfs list -t snapshot 
+```
+
+To revert ("roll back") to the previous snapshot, use the `rollback` option. 
+
+```
+        zfs rollback tank/movies@20190424
+```
+
+By default, you can only rollback to the most recent snapshot, which is the most
+common case. Anything before then requires trickery outside the scope of this
+document. Finally, to get rid of a snapshot, use the `destroy` command.
+
+```
+        zfs destroy tank/movies@20190424
+```
+
+> Be **very** careful with the `destroy` command. If you leave out the snapshot
+> identifier and only list the filesystem - in our example, `tank/movies` - the
+> filesystem itself will immediately be destroyed. There will be no confirmation
+> prompt, because ZFS doesn't believe in that sort of thing.
+
+
+### Managing snapshots with Sanoid
+
+Usually, you'll want the process of creating new and deleting old snapshots to
+be automatic, especially on filesystems that change frequently. 
 
 See [sanoid](https://github.com/jimsalterjrs/sanoid/) as a tool for snapshot
 management. 
+
