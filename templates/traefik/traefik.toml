@@ -195,6 +195,7 @@ onDemand = false # create certificate when container is created
           "nextcloud.{{ ansible_nas_domain }}",
           "plex.{{ ansible_nas_domain }}",
           "portainer.{{ ansible_nas_domain }}",
+          "pyload.{{ ansible_nas_domain }}",
           "radarr.{{ ansible_nas_domain }}",
           "sickchill.{{ ansible_nas_domain }}",
           "sonarr.{{ ansible_nas_domain }}",
