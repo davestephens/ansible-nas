@@ -63,6 +63,10 @@
   - import_tasks: tasks/transmission_with_openvpn.yml
     when: (transmission_with_openvpn_enabled | default(False))
     tags: transmission
+    
+  - import_tasks: tasks/pyload.yml
+    when: (pyload_enabled | default(False))
+    tags: pyload
 
   - import_tasks: tasks/thelounge.yml
     when: (thelounge_enabled | default(False))
