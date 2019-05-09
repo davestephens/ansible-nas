@@ -70,7 +70,7 @@ bitrot, ransomware and other nasties. Ansible-NAS historically prefers **ZFS**
 because this lets you swap storage pools with
 [FreeNAS](https://freenas.org/zfs/). A [brief introduction](zfs/zfs_overview.md)
 to ZFS is included in the Ansible-NAS documentation, as well as [an
-example](zfs_configuration.md) of a very simple ZFS setup.
+example](zfs/zfs_configuration.md) of a very simple ZFS setup.
    
 After that, you can continue with the actual [installation](installation.md) of
 Ansible-NAS.

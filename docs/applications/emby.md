@@ -38,7 +38,7 @@ configuration directory read/write.
 Movie and TV show files are almost alway very large and pre-compressed. If you
 are using a specialized filesystem such as ZFS for bulk storage, you'll want to
 set the parameters accordingly. The [ZFS configuration
-documentation](zfs/zfc_configuration.md) has an example of this.
+documentation](../zfs/zfc_configuration.md) has an example of this.
 
 
 ## Naming movies and TV shows
