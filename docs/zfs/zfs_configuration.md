@@ -228,10 +228,10 @@ test the setup by manually starting a scrub with `sudo zpool scrub tank`.
 ## Setting up automatic snapshots
 
 Snapshots create a "frozen" version of a filesystem, providing a safe copy of
-the contents. Correctly configured, they provide very good protection against
+the contents. Correctly configured, they provide good protection against
 accidential deletion and certain types of attacks such as ransomware. On
-copy-on-write (COW) filesystems such as ZFS, they are cheap to create. It is
-very rare that you _won't_ want snapshots.
+copy-on-write (COW) filesystems such as ZFS, they are cheap and fast to create.
+It is very rare that you _won't_ want snapshots.
 
 > Snapshots do not replace the need for backups. Nothing replaces the need for
 > backups except more backups.
@@ -240,9 +240,9 @@ very rare that you _won't_ want snapshots.
 ### Managing snapshots by hand
 
 If you have data in a filesystem that never or very rarely changes, it might be
-easiest to manage snapshots by hand. Use the `snapshot` command with the
-name of the filesystem combined with an identifier separated by the `@` sign.
-Traditionally, this is the date of the snapshot.
+easiest to just manage snapshots by hand after every major change. Use the
+`snapshot` command with the name of the filesystem combined with an identifier
+separated by the `@` sign. Traditionally, this is the date of the snapshot.
 
 ```
         zfs snapshot tank/movies@20190424
@@ -260,9 +260,9 @@ To revert ("roll back") to the previous snapshot, use the `rollback` option.
         zfs rollback tank/movies@20190424
 ```
 
-By default, you can only rollback to the most recent snapshot, which is the most
-common case. Anything before then requires trickery outside the scope of this
-document. Finally, to get rid of a snapshot, use the `destroy` command.
+By default, you can only rollback to the most recent snapshot. Anything before
+then requires trickery outside the scope of this document. Finally, to get rid
+of a snapshot, use the `destroy` command.
 
 ```
         zfs destroy tank/movies@20190424
@@ -277,8 +277,87 @@ document. Finally, to get rid of a snapshot, use the `destroy` command.
 ### Managing snapshots with Sanoid
 
 Usually, you'll want the process of creating new and deleting old snapshots to
-be automatic, especially on filesystems that change frequently. 
+be automatic, especially on filesystems that change frequently. One tool for
+this is [sanoid](https://github.com/jimsalterjrs/sanoid/). There are various
+instructions for setting it up, the following is based on notes from
+[SvennD](https://www.svennd.be/zfs-snapshots-of-proxmox-using-sanoid/). For this
+example, we'll assume we have a single dataset `tank/movies` that holds, ah,
+movies. 
 
-See [sanoid](https://github.com/jimsalterjrs/sanoid/) as a tool for snapshot
-management. 
+First, we install sanoid to the `/opt` directory. This assumes that perl itself
+is already installed.
 
+```
+        sudo apt install libconfig-inifiles-perl
+        cd /opt
+        sudo git clone https://github.com/jimsalterjrs/sanoid
+```
+
+It is probably easiest to link sanoid to `/usr/sbin`: 
+
+``` 
+        sudo ln /opt/sanoid/sanoid /usr/sbin/
+```
+
+Then we need to setup the configuration files. 
+
+```
+        sudo mkdir /etc/sanoid
+        sudo cp /opt/sanoid/sanoid.conf /etc/sanoid/sanoid.conf
+        sudo cp /opt/sanoid/sanoid.defaults.conf /etc/sanoid/sanoid.defaults.conf
+```
+
+We don't change the defaults file, but it has to be copied anyway. Next, we edit
+the `/etc/sanoid/sanoid.conf` configuration file in two steps: We design a
+"template" and then tell sanoid which filesystems to use it on. 
+
+The configuration file included with sanoid contains a "production" template for
+filesystems that change frequently. For media files, we assume that there is not
+going to be that much change from day-to-day, and especially there will be very
+few deletions. We snapshot because this provides some protection against
+cryptolocker attacks and against accidential deletions. For our example, we
+configure for two hourly snapshots (against "oh crap" deletions), 31 daily, one
+monthly and one yearly snapshot.
+
+```
+        [template_media]
+                frequently = 0
+                hourly = 2
+                daily = 31
+                monthly = 1
+                yearly = 1
+                autosnap = yes
+                autoprune = yes
+```
+
+The number of daily snapshots might seem high, but remember, if nothing has
+changed, a ZFS snapshot is basically free. 
+
+Once we have an entry for the template, we assign it to the filesystem.
+
+```
+        [tank/movies]
+                use_template = media
+```
+
+Finally, we edit `/etc/crontab` to run sanoid every five minutes:
+
+```
+        */5 * * * * root /usr/sbin/sanoid --cron
+```
+
+After five minutes, you should see the first snapshots (use `zfs list -t
+snapshot` again). The list will look something like this: 
+
+```
+NAME                                                USED  AVAIL  REFER  MOUNTPOINT
+tank/movies@autosnap_2019-05-17_13:55:01_yearly      0B      -  1,53G  -
+tank/movies@autosnap_2019-05-17_13:55:01_monthly     0B      -  1,53G  -
+tank/movies@autosnap_2019-05-17_13:55:01_daily       0B      -  1,53G  -
+```
+
+Note that the snapshots use no bytes, because we haven't changed anything. 
+
+This is a very simple use of sanoid. Other functions include running scripts
+before and after snapshots, and setups to help with backups. See the included
+configuration files for examples.
