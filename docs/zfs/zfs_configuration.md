@@ -225,11 +225,11 @@ If `zed` is not enabled, you might have to run `systemctl enable zed`. You can
 test the setup by manually starting a scrub with `sudo zpool scrub tank`. 
 
 
-## Setting up automatic snapshots
+## Snapshots
 
 Snapshots create a "frozen" version of a filesystem, providing a safe copy of
 the contents. Correctly configured, they provide good protection against
-accidential deletion and certain types of attacks such as ransomware. On
+accidental deletion and certain types of attacks such as ransomware. On
 copy-on-write (COW) filesystems such as ZFS, they are cheap and fast to create.
 It is very rare that you _won't_ want snapshots.
 
@@ -240,12 +240,14 @@ It is very rare that you _won't_ want snapshots.
 ### Managing snapshots by hand
 
 If you have data in a filesystem that never or very rarely changes, it might be
-easiest to just manage snapshots by hand after every major change. Use the
-`snapshot` command with the name of the filesystem combined with an identifier
-separated by the `@` sign. Traditionally, this is the date of the snapshot.
+easiest to just take a snapshot by hand after every major change. Use the `zfs
+snapshot` command with the name of the filesystem combined with an identifier
+separated by the `@` sign. Traditionally, this somehow includes the date of the
+snapshot, usually in some variant of the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) format.
 
 ```
-        zfs snapshot tank/movies@20190424
+        zfs snapshot tank/movies@2019-04-24
 ```
 
 To see the list of snapshots in the system, run
@@ -254,24 +256,25 @@ To see the list of snapshots in the system, run
         zfs list -t snapshot 
 ```
 
-To revert ("roll back") to the previous snapshot, use the `rollback` option. 
+To revert ("roll back") to the previous snapshot, use the `zfs rollback`
+command. 
 
 ```
-        zfs rollback tank/movies@20190424
+        zfs rollback tank/movies@2019-04-24
 ```
 
-By default, you can only rollback to the most recent snapshot. Anything before
+By default, you can only roll back to the most recent snapshot. Anything before
 then requires trickery outside the scope of this document. Finally, to get rid
-of a snapshot, use the `destroy` command.
+of a snapshot, use the `zfs destroy` command.
 
 ```
-        zfs destroy tank/movies@20190424
+        zfs destroy tank/movies@2019-04-24
 ```
 
-> Be **very** careful with the `destroy` command. If you leave out the snapshot
-> identifier and only list the filesystem - in our example, `tank/movies` - the
-> filesystem itself will immediately be destroyed. There will be no confirmation
-> prompt, because ZFS doesn't believe in that sort of thing.
+> Be **very** careful with `destroy`. If you leave out the snapshot identifier
+> and only list the filesystem - in our example, `tank/movies` - the filesystem
+> itself will immediately be destroyed. There will be no confirmation prompt,
+> because ZFS doesn't believe in that sort of thing.
 
 
 ### Managing snapshots with Sanoid
@@ -284,7 +287,7 @@ instructions for setting it up, the following is based on notes from
 example, we'll assume we have a single dataset `tank/movies` that holds, ah,
 movies. 
 
-First, we install sanoid to the `/opt` directory. This assumes that perl itself
+First, we install sanoid to the `/opt` directory. This assumes that Perl itself
 is already installed.
 
 ```
@@ -307,17 +310,20 @@ Then we need to setup the configuration files.
         sudo cp /opt/sanoid/sanoid.defaults.conf /etc/sanoid/sanoid.defaults.conf
 ```
 
-We don't change the defaults file, but it has to be copied anyway. Next, we edit
-the `/etc/sanoid/sanoid.conf` configuration file in two steps: We design a
-"template" and then tell sanoid which filesystems to use it on. 
+We don't change the defaults file, but it has to be copied to the folder anyway.
+Next, we edit the `/etc/sanoid/sanoid.conf` configuration file in two steps: We
+design the "templates" and then tell sanoid which filesystems to use it on. 
 
 The configuration file included with sanoid contains a "production" template for
 filesystems that change frequently. For media files, we assume that there is not
 going to be that much change from day-to-day, and especially there will be very
-few deletions. We snapshot because this provides some protection against
-cryptolocker attacks and against accidential deletions. For our example, we
-configure for two hourly snapshots (against "oh crap" deletions), 31 daily, one
-monthly and one yearly snapshot.
+few deletions. We use snapshots because this provides protection against
+cryptolocker attacks and against accidental deletions. 
+
+> Again, snapshots, even lots of snapshots, do not replace backups. 
+
+For our example, we configure for two hourly snapshots (against "oh crap"
+deletions), 31 daily, one monthly and one yearly snapshot.
 
 ```
         [template_media]
@@ -330,7 +336,7 @@ monthly and one yearly snapshot.
                 autoprune = yes
 ```
 
-The number of daily snapshots might seem high, but remember, if nothing has
+That might seem like a bunch of daily snapshots, but remember, if nothing has
 changed, a ZFS snapshot is basically free. 
 
 Once we have an entry for the template, we assign it to the filesystem.
@@ -347,7 +353,7 @@ Finally, we edit `/etc/crontab` to run sanoid every five minutes:
 ```
 
 After five minutes, you should see the first snapshots (use `zfs list -t
-snapshot` again). The list will look something like this: 
+snapshot` again). The list will look something like this mock example: 
 
 ```
 NAME                                                USED  AVAIL  REFER  MOUNTPOINT
@@ -356,7 +362,7 @@ tank/movies@autosnap_2019-05-17_13:55:01_monthly     0B      -  1,53G  -
 tank/movies@autosnap_2019-05-17_13:55:01_daily       0B      -  1,53G  -
 ```
 
-Note that the snapshots use no bytes, because we haven't changed anything. 
+Note that the snapshots use no storage, because we haven't changed anything. 
 
 This is a very simple use of sanoid. Other functions include running scripts
 before and after snapshots, and setups to help with backups. See the included
