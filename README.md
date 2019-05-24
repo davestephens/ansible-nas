@@ -1,6 +1,6 @@
 # Ansible NAS
 
-[![Build Status](https://img.shields.io/travis/com/davestephens/ansible-nas.svg?logo=travis&style=flat-square)](https://travis-ci.com/davestephens/ansible-nas) [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat) [![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/davestephens/ansible-nas/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/com/davestephens/ansible-nas.svg?logo=travis&style=flat-square)](https://travis-ci.com/davestephens/ansible-nas) [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat) [![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/davestephens/ansible-nas/blob/master/LICENSE) [![Beerpay](https://beerpay.io/davestephens/ansible-nas/badge.svg?style=flat-square)](https://beerpay.io/davestephens/ansible-nas)
 
 After getting burned by broken FreeNAS updates one too many times, I figured I
 could do a much better job myself using just a stock Ubuntu install, some clever
