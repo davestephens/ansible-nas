@@ -10,6 +10,7 @@ By default, applications can be found on the ports listed below.
 | Duplicati       | 8200   |           |
 | Emby            | 8096   | HTTP      |
 | Emby            | 8920   | HTTPS     |
+| Firefly III     | 8066   |           |
 | get_iplayer     | 8182   |           |
 | Gitea           | 3001   | Web       |
 | Gitea           | 222    | SSH       |
