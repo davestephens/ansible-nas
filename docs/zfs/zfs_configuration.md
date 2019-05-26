@@ -1,3 +1,5 @@
+# ZFS Configuration
+
 This text deals with specific ZFS configuration questions for Ansible-NAS. If
 you are new to ZFS and are looking for the big picture, please read the [ZFS
 overview](zfs_overview.md) introduction first.

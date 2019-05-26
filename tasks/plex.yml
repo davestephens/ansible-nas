@@ -13,8 +13,8 @@
     pull: true
     volumes:
       - "{{ plex_config_directory }}:/config:rw"
-      - "{{ plex_movies_directory }}:/movies:rw"
-      - "{{ plex_tv_directory }}:/tv:rw"
+      - "{{ plex_movies_directory }}:/movies:{{ plex_movies_permissions }}"
+      - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
     network_mode: "host"
     env:
       TZ: "{{ ansible_nas_timezone }}"

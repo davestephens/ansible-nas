@@ -12,8 +12,8 @@
     pull: true
     volumes:
       - "{{ emby_config_directory }}:/config:rw"
-      - "{{ emby_movies_directory }}:/movies:rw"
-      - "{{ emby_tv_directory }}:/tv:rw"
+      - "{{ emby_movies_directory }}:/movies:{{ emby_movies_permissions }}"
+      - "{{ emby_tv_directory }}:/tv:{{ emby_tv_permissions }}"
     ports:
       - "8096:8096" # HTTP port
       - "8920:8920" # HTTPS port

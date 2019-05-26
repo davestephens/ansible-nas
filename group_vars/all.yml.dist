@@ -290,20 +290,28 @@ transmission_local_network: "192.168.1.0/24"
 ###
 ### Plex
 ###
+# If you're paranoid, set permissions to "ro" so Plex won't ever be able to
+# delete your files
 plex_available_externally: "false"
 plex_config_directory: "{{ docker_home }}/plex/config"
 plex_movies_directory: "{{ movies_root }}"
+plex_movies_permissions: "rw"
 plex_tv_directory: "{{ tv_root }}"
+plex_tv_permissions: "rw"
 plex_user_id: 0
 plex_group_id: 0
 
 ###
 ### Emby
 ###
+# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
+# delete your files
 emby_available_externally: "false"
 emby_config_directory: "{{ docker_home }}/emby/config"
 emby_movies_directory: "{{ movies_root }}"
+emby_movies_permissions: "rw"
 emby_tv_directory: "{{ tv_root }}"
+emby_tv_permissions: "rw"
 emby_user_id: 0
 emby_group_id: 0
 
