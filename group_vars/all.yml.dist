@@ -278,6 +278,7 @@ heimdall_data_directory: "{{ docker_home }}/heimdall"
 ### Transmission
 ###
 transmission_available_externally: "false"
+transmission_with_openvpn_available_externally: "false"
 transmission_config_directory: "{{ docker_home }}/transmission/config"
 transmission_download_directory: "{{ downloads_root }}"
 transmission_watch_directory: "{{ torrents_root }}"
