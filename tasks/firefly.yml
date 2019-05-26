@@ -8,19 +8,6 @@
     - "{{ firefly_data_directory }}/upload"
     - "{{ firefly_data_directory }}/export"
 
-# - name: Create Postgres for Firefly III
-#   docker_container:
-#     name: firefly-postgres
-#     image: postgres:11.1
-#     pull: true
-#     volumes:
-#       - "{{ firefly_data_directory }}/postgresql:/var/lib/postgresql/data:rw"
-#     env:
-#       POSTGRES_USER: "firefly"
-#       POSTGRES_PASSWORD: "supersecure"
-#     restart_policy: unless-stopped
-#     memory: 1g
-
 - name: Create MySQL container for Firefly
   docker_container:
     name: firefly-mysql
