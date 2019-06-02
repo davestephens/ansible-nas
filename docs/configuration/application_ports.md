@@ -24,6 +24,7 @@ By default, applications can be found on the ports listed below.
 | MyMediaForAlexa | 52051  |           |
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
+| NZBGet          | 6789   |           |
 | Plex            | 32400  |           |
 | Portainer       | 9000   |           |
 | Radarr          | 7878   |           |

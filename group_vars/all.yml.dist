@@ -10,11 +10,12 @@
 # settings.
 traefik_enabled: false
 
-# BitTorrent
+# Downloading
 # If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
 # to group_vars/vpn_credentials.yml, then update it with your own settings.
 transmission_with_openvpn_enabled: false
 transmission_enabled: false
+nzbget_enabled: false
 
 # Plex
 plex_enabled: false
@@ -534,3 +535,12 @@ bitwarden_allow_signups: false
 ###
 firefly_available_externally: "false"
 firefly_data_directory: "{{ docker_home }}/firefly"
+
+###
+### Nzbget
+###
+nzbget_available_externally: "false"
+nzbget_data_directory: "{{ docker_home }}/nzbget"
+nzbget_download_directory: "{{ downloads_root }}"
+nzbget_user_id: 0
+nzbget_group_id: 0
