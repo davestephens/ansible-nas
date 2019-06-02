@@ -91,6 +91,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/nzbget/</loc>
+     <lastmod>2019-06-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/thelounge/</loc>
      <lastmod>2019-06-02</lastmod>
      <changefreq>daily</changefreq>
