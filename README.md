@@ -6,7 +6,7 @@ After getting burned by broken FreeNAS updates one too many times, I figured I
 could do a much better job myself using just a stock Ubuntu install, some clever
 Ansible config and a bunch of Docker containers.
 
-## What This Sets Up
+## What Ansible-NAS Can Set Up
 
 * An awesome dashboard to your home server (Heimdall)
 * Any number of Samba shares or NFS exports for you to store your stuff
@@ -23,15 +23,17 @@ Ansible config and a bunch of Docker containers.
 * SSL secured external access to applications via Traefik
 * A Docker host with Portainer for image and container management
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
+* A Personal finance manager
 
 ### Docker Containers Used
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
-* [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your dynamic IP address
+* [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
+* [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
 * [Gitea](https://gitea.io/en-us/) - Self-hosted Github clone
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
@@ -71,10 +73,9 @@ others could benefit, add it and raise a PR!
 
 ## What This Doesn't Do
 
-Ansible NAS doesn't set up your disk partitions, primarily because getting it
-wrong can be incredibly destructive.  That aside, configuring partitions is
-usually a one-time (or very infrequent) event, so there's not much to be gained
-by automating it.
+Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive.
+That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be
+gained by automating it. Check out the [docs](https://davestephens.github.io/ansible-nas) for recommended setups.
 
 ## Quick Start
 
@@ -134,7 +135,7 @@ Contributions are welcome, please feel free to raise a PR!
   `tests/test-vagrant.sh` script to spin up a test VM. Note that Ansible-NAS
   requires Vagrant version 2.2.2 or later, so for stock Ubuntu 18.04.2, you will
   have to download and install the newest version from
-  https://www.vagrantup.com/downloads.html . 
+  https://www.vagrantup.com/downloads.html.
 * Run `ansible-lint` against the playbook before committing. (There is a VSCode
   task set up to run the right command for you)
 * Please know that your efforts are appreciated, thanks! :+1:
