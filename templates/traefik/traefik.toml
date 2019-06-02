@@ -184,6 +184,7 @@ onDemand = false # create certificate when container is created
           "couchpotato.{{ ansible_nas_domain }}",
           "duplicati.{{ ansible_nas_domain }}",
           "emby.{{ ansible_nas_domain }}",
+          "firefly.{{ ansible_nas_domain }}",
           "gitea.{{ ansible_nas_domain }}",
           "glances.{{ ansible_nas_domain }}",
           "grafana.{{ ansible_nas_domain }}",
