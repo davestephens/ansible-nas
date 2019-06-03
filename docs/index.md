@@ -24,8 +24,8 @@ Ansible config and a bunch of Docker containers. Ansible-NAS was born!
 
 Head to [installation](installation.md) if you're ready to roll, or to
 [testing](testing.md) if you want to spin up a test Virtual Machine first. Once
-you're done, check out the [post-installation](post_installation.md) steps. 
+you're done, check out the [post-installation](post_installation.md) steps.
 
 If this is all very confusing, there is also an [overview](overview.md) of the
 project and what is required for complete beginners. If you're only confused
-abot ZFS, we'll help you [get started](zfs/zfs_overview.md) as well.
+about ZFS, we'll help you [get started](zfs/zfs_overview.md) as well.

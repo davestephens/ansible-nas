@@ -59,14 +59,14 @@ The options from simple to complex are:
 **NAME**: ZFS pools traditionally take their names from characters in the [The
 Matrix](https://www.imdb.com/title/tt0133093/fullcredits). The two most common
 are `tank` and `dozer`. Whatever you use, it should be short - think `ash`, not
-`xenomorph`. 
+`xenomorph`.
 
 **DRIVES**: The Linux command `lsblk` will give you a quick overview of the
 hard drives in the system. However, we don't pass the drive specification in the
 format `/dev/sde` because this is not persistent. Instead,
 [always use](https://github.com/zfsonlinux/zfs/wiki/FAQ#selecting-dev-names-when-creating-a-pool)
 the output of `ls /dev/disk/by-id/` to find the drives' IDs. 
-   
+
 **ASHIFT**: This is required to pass the [sector
 size](https://github.com/zfsonlinux/zfs/wiki/FAQ#advanced-format-disks) of the
 drive to ZFS for optimal performance. You might have to do this by hand because
@@ -179,7 +179,7 @@ pre-compressed files - should probably take the exact same parameters.
 ### Downloads 
 
 For downloads, we can leave most of the default parameters the way they are. 
-                
+
 ```
         sudo zfs create tank/downloads
         sudo zfs set exec=off tank/downloads
