@@ -25,6 +25,7 @@ By default, applications can be found on the ports listed below.
 | Nextcloud       | 8080   |           |
 | Plex            | 32400  |           |
 | Portainer       | 9000   |           |
+| pyload          | 8000   |           |
 | Radarr          | 7878   |           |
 | Sickchill       | 8081   |           |
 | Sonarr          | 8989   |           |
