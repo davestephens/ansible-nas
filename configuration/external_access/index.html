@@ -8,7 +8,7 @@
 </ul>
 <h2 id="skull-skull-skull-warning-skull-skull-skull">:skull: :skull: :skull: Warning! :skull: :skull: :skull:</h2>
 <p>Enabling access to applications externally <strong>does not</strong> automatically secure them. If you can access an application from within your own network without a username and password, this will also be the case externally.</p>
-<p>It is your responsiblity to ensure that applications you enable external access to are secured appropriately!</p>
+<p>It is your responsibility to ensure that applications you enable external access to are secured appropriately!</p>
 <h2 id="enable-traefik">Enable Traefik</h2>
 <p>Traefik routes traffic from ports 80 (HTTP) and 443 (HTTPS) on your Ansible-NAS box to the relevant application, based on hostname.</p>
 <p>Simply set <code>traefik_enabled: true</code> in your <code>all.yml</code>. By default it listens on ports 80 and 443, but doesn't route any traffic.</p>

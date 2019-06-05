@@ -9,7 +9,7 @@ manager originally created by Sun Microsystems starting in 2001. First released
 in 2005 for OpenSolaris, Oracle later bought Sun and switched to developing ZFS
 as closed source software. An open source fork took the name
 <a href="http://www.open-zfs.org/wiki/Main_Page">OpenZFS</a>, but is still called "ZFS" for
-short. It runs on Linux, FreeBSD, illumos and other platforms.  </p>
+short. It runs on Linux, FreeBSD, illumos and other platforms.</p>
 <p>ZFS aims to be the <a href="https://blogs.oracle.com/bonwick/zfs:-the-last-word-in-filesystems">"last word in
 filesystems"</a>,
 a technology so future-proof that Michael W. Lucas and Allan Jude famously
@@ -61,7 +61,7 @@ share the available storage in their pool. </p>
 organized as <strong>virtual devices</strong> (VDEVs). This is where the physical redundancy
 in ZFS is located. Drives in a VDEV can be "mirrored" or combined as "RaidZ",
 roughly the equivalent of RAID5. These VDEVs are then combined into a pool by the
-administrator. The command might look something like this:  </p>
+administrator. The command might look something like this:</p>
 <pre><code>        sudo zpool create tank mirror /dev/sda /dev/sdb
 </code></pre>
 
@@ -84,7 +84,7 @@ with ransomware, you can simply laugh maniacally and revert to the old version: 
 
 <p>Of course, you would lose any texts you might have added to the filesystem
 between that snapshot and now. Usually, you'll have some form of <strong>automatic
-snapshot administration</strong> configured.  </p>
+snapshot administration</strong> configured.</p>
 <p>To detect bitrot and other data defects, ZFS periodically runs <strong>scrubs</strong>: The
 system compares the available copies of each data record with their checksums.
 If there is a mismatch, the data is repaired.</p>
@@ -112,7 +112,7 @@ wrong. Partially this is because it has been in use for almost 15 years now and
 things change, partially it is the result of being used on different operating
 systems which have minor differences under the hood. Also, Google searches tend
 to first return the Oracle documentation for their closed source ZFS variant,
-which is increasingly diverging from the open source OpenZFS standard.  </p>
+which is increasingly diverging from the open source OpenZFS standard.</p>
 <p>To clear up some of the most common misunderstandings:</p>
 <h3 id="no-zfs-does-not-need-at-least-8-gb-of-ram">No, ZFS does not need at least 8 GB of RAM</h3>
 <p>This myth is especially common <a href="https://www.ixsystems.com/community/threads/does-freenas-really-need-8gb-of-ram.38685/">in FreeNAS
@@ -152,7 +152,7 @@ and ZFS is no exception. However, there is absolutely no requirement for ZFS to
 have ECC RAM. If you just don't care about the danger of random bit flips
 because, hey, you can always just download <a href="https://archive.org/details/night_of_the_living_dead">Night of the Living
 Dead</a> all over again,
-you're prefectly free to use normal RAM. If you do use ECC RAM, make sure your
+you're perfectly free to use normal RAM. If you do use ECC RAM, make sure your
 processor and motherboard support it.</p>
 <h3 id="no-the-slog-is-not-really-a-write-cache">No, the SLOG is not really a write cache</h3>
 <p>You'll read the suggestion to add a fast SSD or NVMe as a "SLOG drive"

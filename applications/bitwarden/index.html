@@ -5,7 +5,7 @@ Bitwarden: <a href="https://bitwarden.com/">https://bitwarden.com/</a></p>
 <h2 id="usage">Usage</h2>
 <p>Set <code>bitwarden_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>Make sure you set your admin token! It is <code>bitwarden_admin_token</code> in <code>group_vars/all.yml</code> file. The string you put here will be the login to the admin section of your bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running:
+<p>Make sure you set your admin token! It is <code>bitwarden_admin_token</code> in <code>group_vars/all.yml</code> file. The string you put here will be the login to the admin section of your Bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running:
 <code>openssl rand -base64 48</code>.</p>
 <p>To create a user, you need to set <code>bitwarden_allow_signups</code> to <code>true</code> in your <code>all.yml</code>, and re-run the playbook to reprovision the
 container. Once you've created your users, set <code>bitwarden_allow_signups</code> back to <code>false</code> and run again.</p>
