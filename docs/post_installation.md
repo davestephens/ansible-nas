@@ -3,7 +3,7 @@ So you've installed Ansible-NAS. Now what?
 The first thing to do is to configure [Heimdall](https://heimdall.site/) as the
 dashboard of your new NAS, because most of the applications included come with a
 web interface. Heimdall lets you create "apps" for them which appear as little
-icons on the screen. 
+icons on the screen.
 
 To add applications to Heimdall, you'll need the IP address of your NAS.  If you
 don't know it for some reason, you will have to look up using the console with

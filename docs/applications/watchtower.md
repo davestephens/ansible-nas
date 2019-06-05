@@ -2,7 +2,7 @@
 
 Homepage: [https://github.com/v2tec/watchtower](https://github.com/v2tec/watchtower)
 
-A process for watching your Docker containers and automatically udpating and restarting them whenever their base image is refreshed.
+A process for watching your Docker containers and automatically updating and restarting them whenever their base image is refreshed.
 
 ## Usage
 

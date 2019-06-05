@@ -2,7 +2,7 @@
 
 Homepage: [https://nzbget.net/](https://nzbget.net/)
 
-The most efficient usenet downloader. NZBGet is written in C++ and designed with performance in mind to achieve maximum download speed by using very little system resources.
+The most efficient Usenet downloader. NZBGet is written in C++ and designed with performance in mind to achieve maximum download speed by using very little system resources.
 
 ## Usage
 

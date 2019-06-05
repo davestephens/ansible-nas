@@ -10,14 +10,14 @@ small box that sits in the corner and runs 24/7. These days, a NAS doesn't just
 only handle files, but also offers other services, for instance video streaming
 with [Plex](https://www.plex.tv/) or [Emby](https://emby.media/index.html). You
 can buy consumer NAS boxes from [various
-manifacturers](https://en.wikipedia.org/wiki/List_of_NAS_manufacturers) where
+manufacturers](https://en.wikipedia.org/wiki/List_of_NAS_manufacturers) where
 you just have to add the hard drives, or you can configure your own hardware and
-use open-source software as the operating system. 
+use open-source software as the operating system.
 
 One example of the second variant you'll see mentioned here is
 [FreeNAS](https://freenas.org/). It is based on
 [FreeBSD](https://www.freebsd.org/), which like Linux belongs to the family of
-Unix-like operating systems. One strength of FreeBSD/FreeNAS is that it  
+Unix-like operating systems. One strength of FreeBSD/FreeNAS is that it
 includes the powerful ZFS file system
 ([OpenZFS](http://www.open-zfs.org/wiki/Main_Page), to be exact).  However, it
 does not support the [Docker](https://www.docker.com/) containers the way Linux
@@ -30,7 +30,7 @@ using Docker on Linux with ZFS. This is possible because the
 technologies. As the name says, Ansible-NAS uses
 [Ansible](https://www.ansible.com/) server automation which is usually deployed
 on big multi-machine enterprise systems, not small home servers the size of a
-breadbox. 
+breadbox.
 
 ## Before you take the plunge
 
@@ -38,12 +38,12 @@ The commercial NAS vendors try to make setting up and running a NAS as simple
 and painless as possible - for a fee, obviously. The open-source NAS software
 providers have lots of resources to help you get started with your own hardware.
 FreeNAS for instance comes with extensive documentation, good introductions to
-ZFS and other topics, and a large community to lean on. 
+ZFS and other topics, and a large community to lean on.
 
 With Ansible-NAS, at this point at least, you're pretty much on your own. Though
 there is a [Gitter](https://gitter.im/Ansible-NAS/Chat) chat room (see
 [support](support.md)), you're expected to have some familiarity with the
-technologies involved and be able to set up the basic stuff yourself. 
+technologies involved and be able to set up the basic stuff yourself.
 
 As a to-do list, before you can even install Ansible-NAS, you'll have to:
 
@@ -65,13 +65,13 @@ As a to-do list, before you can even install Ansible-NAS, you'll have to:
 You will probably want to install a specialized filesystem for bulk storage such
 as [ZFS](http://www.open-zfs.org/wiki/Main_Page) or
 [Btrfs](https://btrfs.wiki.kernel.org/index.php/Main_Page). Both offer features
-such as snapshots, checksumming and scrubing to protect your data against
+such as snapshots, checksumming and scrubbing to protect your data against
 bitrot, ransomware and other nasties. Ansible-NAS historically prefers **ZFS**
 because this lets you swap storage pools with
 [FreeNAS](https://freenas.org/zfs/). A [brief introduction](zfs/zfs_overview.md)
 to ZFS is included in the Ansible-NAS documentation, as well as [an
 example](zfs/zfs_configuration.md) of a very simple ZFS setup.
-   
+
 After that, you can continue with the actual [installation](installation.md) of
 Ansible-NAS.
 

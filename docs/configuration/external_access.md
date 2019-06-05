@@ -11,7 +11,7 @@ There are a number of steps required to enable external access to the applicatio
 
 Enabling access to applications externally **does not** automatically secure them. If you can access an application from within your own network without a username and password, this will also be the case externally.
 
-It is your responsiblity to ensure that applications you enable external access to are secured appropriately!
+It is your responsibility to ensure that applications you enable external access to are secured appropriately!
 
 ## Enable Traefik
 

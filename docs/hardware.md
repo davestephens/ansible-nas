@@ -16,6 +16,6 @@ The [homeserver Reddit](https://www.reddit.com/r/HomeServer/) has lots of good i
 
 ## HP Microserver
 
-Ansible-NAS development is tested against an HP Microserver N54L, with 16GB of memory, a 60gb SSD for the OS and 4x2TB WD Red NAS drives for storage. It works great :-)
+Ansible-NAS development is tested against an HP Microserver N54L, with 16GB of memory, a 60GB SSD for the OS and 4x2TB WD Red NAS drives for storage. It works great :-)
 
 This is obviously not the only solution but a reasonable one if you just want a single box to buy, and many different models are available on eBay for varying costs.
