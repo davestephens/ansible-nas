@@ -163,7 +163,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/music"
+    path: "{{ music_root }}"
 
   - name: podcasts
     comment: 'Podcasts'
@@ -171,7 +171,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/podcasts"
+    path: "{{ podcasts_root }}"
 
   - name: dump
     comment: 'File dump'
