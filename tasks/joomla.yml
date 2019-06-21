@@ -43,11 +43,11 @@
       - mysql_joomla:mysql_joomla
     env:
       - JOOMLA_DB_HOST: mysql_joomla
-      - JOOMLA_DB_PASSWORD: "{{ mysql_password }}
+      - JOOMLA_DB_PASSWORD: "{{ mysql_password }}"
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "joomla"
-      traefik.frontend.rule: "Host: joomla.{{ ansible_nas_domain }}"
+      traefik.backend: joomla
+      traefik.frontend.rule: Host: joomla."{{ ansible_nas_domain }}"
       traefik.enable: "{{ joomla_available_externally }}"
-      traefik.port: "8181"
+      traefik.port: 8181
