@@ -6,7 +6,7 @@
     # mode: 0755
   with_items:
     - "{{ docker_home }}/joomla"
----
+
 - name: Create MySQL Directorys for Joomla
   file:
     path: "{{ item }}"
@@ -29,6 +29,7 @@
       MYSQL_ROOT_PASSWORD: mysql_root_password
     restart_policy: unless-stopped
     memory: 1g
+
 - name: joomla Docker Container
   docker_container:
     name: joomla
