@@ -159,3 +159,7 @@
   - import_tasks: tasks/nzbget.yml
     when: (nzbget_enabled | default(False))
     tags: nzbget
+
+  - import_tasks: tasks/wallabag.yml
+    when: (wallabag_enabled | default(False))
+    tags: wallabag

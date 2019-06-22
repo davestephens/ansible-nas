@@ -68,6 +68,9 @@ bitwarden_enabled: false
 # Finance
 firefly_enabled: false
 
+# Wallabag
+wallabag_enabled: false
+
 ###
 ### General
 ###
@@ -544,3 +547,9 @@ nzbget_data_directory: "{{ docker_home }}/nzbget"
 nzbget_download_directory: "{{ downloads_root }}"
 nzbget_user_id: 0
 nzbget_group_id: 0
+
+###
+### Wallabag
+###
+wallabag_available_externally: "false"
+wallabag_data_directory: "{{ docker_home }}/wallabag"
