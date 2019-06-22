@@ -42,8 +42,7 @@
     links:
       - "mysql_joomla:mysql_joomla"
     env:
-      JOOMLA_DB_HOST: mysql_joomla
-      JOOMLA_DB_PASSWORD: "{{ mysql_password }}"
+      JOOMLA_DB_PASSWORD: "{{ mysql_root_password }}"
     restart_policy: unless-stopped
     memory: 1g
     labels:
