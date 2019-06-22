@@ -68,6 +68,10 @@
     when: (transmission_with_openvpn_enabled | default(False))
     tags: transmission
 
+  - import_tasks: tasks/pyload.yml
+    when: (pyload_enabled | default(False))
+    tags: pyload
+
   - import_tasks: tasks/thelounge.yml
     when: (thelounge_enabled | default(False))
     tags: thelounge

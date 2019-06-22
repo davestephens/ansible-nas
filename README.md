@@ -51,6 +51,7 @@ Ansible config and a bunch of Docker containers.
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
+* [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [Radarr](https://radarr.video/) - for organising and downloading movies
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes

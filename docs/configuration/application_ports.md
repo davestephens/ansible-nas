@@ -27,6 +27,7 @@ By default, applications can be found on the ports listed below.
 | NZBGet          | 6789   |           |
 | Plex            | 32400  |           |
 | Portainer       | 9000   |           |
+| pyload          | 8000   |           |
 | Radarr          | 7878   |           |
 | Sickchill       | 8081   |           |
 | Sonarr          | 8989   |           |

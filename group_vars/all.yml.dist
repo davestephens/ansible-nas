@@ -17,6 +17,9 @@ transmission_with_openvpn_enabled: false
 transmission_enabled: false
 nzbget_enabled: false
 
+# Downloaders
+pyload_enabled: false
+
 # Plex
 plex_enabled: false
 tautulli_enabled: false
@@ -290,6 +293,14 @@ transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
 
+###
+### pyLoad
+###
+pyload_available_externally: "false"
+pyload_config_directory: "{{ docker_home }}/pyload"
+pyload_download_directory: "{{ downloads_root }}"
+pyload_user_id: 0
+pyload_group_id: 0
 
 ###
 ### Plex
