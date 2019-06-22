@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/nzbget/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/wallabag/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>NZBget - Ansible-NAS</title>
+        <title>Wallabag - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#nzbget" tabindex="1" class="md-skip">
+      <a href="#wallabag" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                NZBget
+                Wallabag
               
             </span>
           
@@ -465,49 +465,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        NZBget
-      </label>
-    
-    <a href="./" title="NZBget" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../nzbget/" title="NZBget" class="md-nav__link">
       NZBget
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" title="Usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -563,11 +525,49 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../wallabag/" title="Wallabag" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Wallabag
+      </label>
+    
+    <a href="./" title="Wallabag" class="md-nav__link md-nav__link--active">
       Wallabag
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" title="Usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -763,15 +763,18 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/nzbget.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/wallabag.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="nzbget">NZBget</h1>
-<p>Homepage: <a href="https://nzbget.net/">https://nzbget.net/</a></p>
-<p>The most efficient Usenet downloader. NZBGet is written in C++ and designed with performance in mind to achieve maximum download speed by using very little system resources.</p>
+                <h1 id="wallabag">Wallabag</h1>
+<p>Homepage: <a href="https://www.wallabag.org/">https://www.wallabag.org/</a></p>
+<p>wallabag is a self-hostable PHP application allowing you to not miss any content anymore. Click, save and read it when you can. It extracts content so that you can read it when you have time.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>nzbget_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>The NZBget web interface can be found at http://ansible_nas_host_or_ip:6789, the default username is <code>nzbget</code> and password <code>tegbzn6789</code>. Change this once you've logged in!</p>
+<p>Set <code>wallabag_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>If you want to access Wallabag externally, don't forget to set <code>wallabag_available_externally: "true"</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>I reccomend using the mobile app, which will sync with this installation so you have access to your saved articles even if you don't have signal or wifi access.</p>
+<p>The default credentials are wallabag:wallabag</p>
+<p>The Wallabag web interface can be found at http://ansible_nas_host_or_ip:7780.</p>
                 
                   
                 
@@ -792,7 +795,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../mymediaforalexa/" title="My Media for Alexa" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../transmission/" title="Transmission" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -801,19 +804,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                My Media for Alexa
+                Transmission
               </span>
             </div>
           </a>
         
         
-          <a href="../thelounge/" title="The Lounge" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../watchtower/" title="Watchtower" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                The Lounge
+                Watchtower
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
