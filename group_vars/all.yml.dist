@@ -11,9 +11,6 @@
 traefik_enabled: false
 
 # Joomla
-mysql_root_password: changeme
-mysql_password: changeme
-joomla_available_externally: false
 joomla_enabled: false
 
 
@@ -294,6 +291,12 @@ transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
 
+###
+### Joomla
+###
+mysql_root_password: changeme
+mysql_password: changeme
+joomla_available_externally: "false"
 
 ###
 ### Plex
