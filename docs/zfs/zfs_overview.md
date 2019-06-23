@@ -12,7 +12,7 @@ manager originally created by Sun Microsystems starting in 2001. First released
 in 2005 for OpenSolaris, Oracle later bought Sun and switched to developing ZFS
 as closed source software. An open source fork took the name
 [OpenZFS](http://www.open-zfs.org/wiki/Main_Page), but is still called "ZFS" for
-short. It runs on Linux, FreeBSD, illumos and other platforms.  
+short. It runs on Linux, FreeBSD, illumos and other platforms.
 
 ZFS aims to be the ["last word in
 filesystems"](https://blogs.oracle.com/bonwick/zfs:-the-last-word-in-filesystems),
@@ -65,7 +65,7 @@ Pools do not directly consist of hard disks or SSDs. Instead, drives are
 organized as **virtual devices** (VDEVs). This is where the physical redundancy
 in ZFS is located. Drives in a VDEV can be "mirrored" or combined as "RaidZ",
 roughly the equivalent of RAID5. These VDEVs are then combined into a pool by the
-administrator. The command might look something like this:  
+administrator. The command might look something like this:
 
 ```
         sudo zpool create tank mirror /dev/sda /dev/sdb
@@ -96,7 +96,7 @@ with ransomware, you can simply laugh maniacally and revert to the old version:
 
 Of course, you would lose any texts you might have added to the filesystem
 between that snapshot and now. Usually, you'll have some form of **automatic
-snapshot administration** configured.  
+snapshot administration** configured.
 
 To detect bitrot and other data defects, ZFS periodically runs **scrubs**: The
 system compares the available copies of each data record with their checksums.
@@ -130,7 +130,7 @@ wrong. Partially this is because it has been in use for almost 15 years now and
 things change, partially it is the result of being used on different operating
 systems which have minor differences under the hood. Also, Google searches tend
 to first return the Oracle documentation for their closed source ZFS variant,
-which is increasingly diverging from the open source OpenZFS standard.  
+which is increasingly diverging from the open source OpenZFS standard.
 
 To clear up some of the most common misunderstandings:
 
@@ -162,7 +162,7 @@ This is another case where a recommendation has been taken as a requirement. To
 quote the [ZFS on Linux
 FAQ](https://github.com/zfsonlinux/zfs/wiki/FAQ#do-i-have-to-use-ecc-memory-for-zfs)
 again: 
-   
+
 > Using ECC memory for OpenZFS is strongly recommended for enterprise
 > environments where the strongest data integrity guarantees are required.
 > Without ECC memory rare random bit flips caused by cosmic rays or by faulty
@@ -176,7 +176,7 @@ and ZFS is no exception. However, there is absolutely no requirement for ZFS to
 have ECC RAM. If you just don't care about the danger of random bit flips
 because, hey, you can always just download [Night of the Living
 Dead](https://archive.org/details/night_of_the_living_dead) all over again,
-you're prefectly free to use normal RAM. If you do use ECC RAM, make sure your
+you're perfectly free to use normal RAM. If you do use ECC RAM, make sure your
 processor and motherboard support it.
 
 ### No, the SLOG is not really a write cache

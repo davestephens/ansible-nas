@@ -11,6 +11,7 @@ Ansible config and a bunch of Docker containers.
 * An awesome dashboard to your home server (Heimdall)
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
+* A Usenet downloader
 * Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
@@ -47,8 +48,10 @@ Ansible config and a bunch of Docker containers.
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
+* [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
+* [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [Radarr](https://radarr.video/) - for organising and downloading movies
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
@@ -58,6 +61,7 @@ Ansible config and a bunch of Docker containers.
 * [TimeMachine](https://github.com/mbentley/docker-timemachine) - Mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
+* [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
 * [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 

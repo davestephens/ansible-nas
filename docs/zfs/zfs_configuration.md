@@ -59,14 +59,14 @@ The options from simple to complex are:
 **NAME**: ZFS pools traditionally take their names from characters in the [The
 Matrix](https://www.imdb.com/title/tt0133093/fullcredits). The two most common
 are `tank` and `dozer`. Whatever you use, it should be short - think `ash`, not
-`xenomorph`. 
+`xenomorph`.
 
 **DRIVES**: The Linux command `lsblk` will give you a quick overview of the
 hard drives in the system. However, we don't pass the drive specification in the
 format `/dev/sde` because this is not persistent. Instead,
 [always use](https://github.com/zfsonlinux/zfs/wiki/FAQ#selecting-dev-names-when-creating-a-pool)
 the output of `ls /dev/disk/by-id/` to find the drives' IDs. 
-   
+
 **ASHIFT**: This is required to pass the [sector
 size](https://github.com/zfsonlinux/zfs/wiki/FAQ#advanced-format-disks) of the
 drive to ZFS for optimal performance. You might have to do this by hand because
@@ -179,7 +179,7 @@ pre-compressed files - should probably take the exact same parameters.
 ### Downloads 
 
 For downloads, we can leave most of the default parameters the way they are. 
-                
+
 ```
         sudo zfs create tank/downloads
         sudo zfs set exec=off tank/downloads
@@ -224,7 +224,146 @@ ZED_NOTIFY_VERBOSE=1
 If `zed` is not enabled, you might have to run `systemctl enable zed`. You can
 test the setup by manually starting a scrub with `sudo zpool scrub tank`. 
 
-## Setting up automatic snapshots
 
-See [sanoid](https://github.com/jimsalterjrs/sanoid/) as a tool for snapshot
-management. 
+## Snapshots
+
+Snapshots create a "frozen" version of a filesystem, providing a safe copy of
+the contents. Correctly configured, they provide good protection against
+accidental deletion and certain types of attacks such as ransomware. On
+copy-on-write (COW) filesystems such as ZFS, they are cheap and fast to create.
+It is very rare that you _won't_ want snapshots.
+
+> Snapshots do not replace the need for backups. Nothing replaces the need for
+> backups except more backups.
+
+
+### Managing snapshots by hand
+
+If you have data in a filesystem that never or very rarely changes, it might be
+easiest to just take a snapshot by hand after every major change. Use the `zfs
+snapshot` command with the name of the filesystem combined with an identifier
+separated by the `@` sign. Traditionally, this somehow includes the date of the
+snapshot, usually in some variant of the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) format.
+
+```
+        zfs snapshot tank/movies@2019-04-24
+```
+
+To see the list of snapshots in the system, run
+
+```
+        zfs list -t snapshot 
+```
+
+To revert ("roll back") to the previous snapshot, use the `zfs rollback`
+command. 
+
+```
+        zfs rollback tank/movies@2019-04-24
+```
+
+By default, you can only roll back to the most recent snapshot. Anything before
+then requires trickery outside the scope of this document. Finally, to get rid
+of a snapshot, use the `zfs destroy` command.
+
+```
+        zfs destroy tank/movies@2019-04-24
+```
+
+> Be **very** careful with `destroy`. If you leave out the snapshot identifier
+> and only list the filesystem - in our example, `tank/movies` - the filesystem
+> itself will immediately be destroyed. There will be no confirmation prompt,
+> because ZFS doesn't believe in that sort of thing.
+
+
+### Managing snapshots with Sanoid
+
+Usually, you'll want the process of creating new and deleting old snapshots to
+be automatic, especially on filesystems that change frequently. One tool for
+this is [sanoid](https://github.com/jimsalterjrs/sanoid/). There are various
+instructions for setting it up, the following is based on notes from
+[SvennD](https://www.svennd.be/zfs-snapshots-of-proxmox-using-sanoid/). For this
+example, we'll assume we have a single dataset `tank/movies` that holds, ah,
+movies. 
+
+First, we install sanoid to the `/opt` directory. This assumes that Perl itself
+is already installed.
+
+```
+        sudo apt install libconfig-inifiles-perl
+        cd /opt
+        sudo git clone https://github.com/jimsalterjrs/sanoid
+```
+
+It is probably easiest to link sanoid to `/usr/sbin`: 
+
+``` 
+        sudo ln /opt/sanoid/sanoid /usr/sbin/
+```
+
+Then we need to setup the configuration files. 
+
+```
+        sudo mkdir /etc/sanoid
+        sudo cp /opt/sanoid/sanoid.conf /etc/sanoid/sanoid.conf
+        sudo cp /opt/sanoid/sanoid.defaults.conf /etc/sanoid/sanoid.defaults.conf
+```
+
+We don't change the defaults file, but it has to be copied to the folder anyway.
+Next, we edit the `/etc/sanoid/sanoid.conf` configuration file in two steps: We
+design the "templates" and then tell sanoid which filesystems to use it on. 
+
+The configuration file included with sanoid contains a "production" template for
+filesystems that change frequently. For media files, we assume that there is not
+going to be that much change from day-to-day, and especially there will be very
+few deletions. We use snapshots because this provides protection against
+cryptolocker attacks and against accidental deletions. 
+
+> Again, snapshots, even lots of snapshots, do not replace backups. 
+
+For our example, we configure for two hourly snapshots (against "oh crap"
+deletions), 31 daily, one monthly and one yearly snapshot.
+
+```
+        [template_media]
+                frequently = 0
+                hourly = 2
+                daily = 31
+                monthly = 1
+                yearly = 1
+                autosnap = yes
+                autoprune = yes
+```
+
+That might seem like a bunch of daily snapshots, but remember, if nothing has
+changed, a ZFS snapshot is basically free. 
+
+Once we have an entry for the template, we assign it to the filesystem.
+
+```
+        [tank/movies]
+                use_template = media
+```
+
+Finally, we edit `/etc/crontab` to run sanoid every five minutes:
+
+```
+        */5 * * * * root /usr/sbin/sanoid --cron
+```
+
+After five minutes, you should see the first snapshots (use `zfs list -t
+snapshot` again). The list will look something like this mock example: 
+
+```
+NAME                                                USED  AVAIL  REFER  MOUNTPOINT
+tank/movies@autosnap_2019-05-17_13:55:01_yearly      0B      -  1,53G  -
+tank/movies@autosnap_2019-05-17_13:55:01_monthly     0B      -  1,53G  -
+tank/movies@autosnap_2019-05-17_13:55:01_daily       0B      -  1,53G  -
+```
+
+Note that the snapshots use no storage, because we haven't changed anything. 
+
+This is a very simple use of sanoid. Other functions include running scripts
+before and after snapshots, and setups to help with backups. See the included
+configuration files for examples.

@@ -8,4 +8,4 @@ Firefly III is a self-hosted financial manager. It can help you keep track of ex
 
 Set `firefly_enabled: true` in your `group_vars/all.yml` file.
 
-The very basic MiniDLNA web interface can be found at http://ansible_nas_host_or_ip:8066.
+The Firefly III web interface can be found at http://ansible_nas_host_or_ip:8066.

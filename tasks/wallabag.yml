@@ -1,0 +1,28 @@
+- name: Create Wallabag Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ wallabag_data_directory }}/data"
+    - "{{ wallabag_data_directory }}/images"
+
+- name: Wallabag Docker Container
+  docker_container:
+    name: wallabag
+    image: wallabag/wallabag:latest
+    pull: true
+    volumes:
+      - "{{ wallabag_data_directory }}/data:/var/www/wallabag/data:rw"
+      - "{{ wallabag_data_directory }}/images:/var/www/wallabag/web/assets/images:rw"
+    ports:
+      - "7780:80"
+    env:
+      SYMFONY__ENV__DOMAIN_NAME: "https://wallabag.{{ ansible_nas_domain }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "wallabag"
+      traefik.frontend.rule: "Host:wallabag.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ wallabag_available_externally }}"
+      traefik.port: "80"
+      traefik.frontend.headers.SSLRedirect: "true"
+    memory: 1g
