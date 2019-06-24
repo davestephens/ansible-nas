@@ -163,7 +163,7 @@ email = "{{ ansible_nas_email }}"
 storage = "acme.json"
 entryPoint = "https"
 acmeLogging = true
-onDemand = true # create certificate when container is created
+onDemand = false # create certificate when container is created
 
   # [acme.dnsChallenge]
   # provider = "cloudflare"
@@ -205,5 +205,4 @@ onDemand = true # create certificate when container is created
           "transmission.{{ ansible_nas_domain }}",
           "transmission-openvpn.{{ ansible_nas_domain }}",
           "znc.{{ ansible_nas_domain }}",
-          "joomla.{{ ansible_nas_domain }}"
-          ]
+          "joomla.{{ ansible_nas_domain }}"]
