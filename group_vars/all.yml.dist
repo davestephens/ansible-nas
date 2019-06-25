@@ -533,5 +533,4 @@ bitwarden_allow_signups: false
 ### Mosquitto
 ###
 mosquitto_available_externally: "false"
-mosquitto_docker_image: eclipse-mosquitto:latest
 mosquitto_data_directory: "{{ docker_home }}/mosquitto"
