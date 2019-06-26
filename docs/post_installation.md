@@ -18,7 +18,7 @@ Next, you need the application's port, which you can look up in the [list of
 ports](configuration/application_ports.md). You can test the combination of address and port
 in your browser by typing them joined by a colon. For instance, for Glances on a
 machine with the IPv4 address 192.168.1.2, the full address would be
-`http://192.168.1.2:61208`. Once you are sure it works, use this address and
+`http://192.168.1.2:61208`. Once you are sure it works, use this address and 
 port combination when creating the Heimdall icon.
 
 [Glances](https://nicolargo.github.io/glances/) and
