@@ -2,13 +2,14 @@
   file:
     path: "{{ item }}"
     state: directory
+    mode: 0777
   with_items:
     - "{{ mosquitto_data_directory }}/config"
     - "{{ mosquitto_data_directory }}/data"
     - "{{ mosquitto_data_directory }}/log"
 
 - name: Template mosquitto.conf
-  template:
+  copy:
     src: mosquitto/mosquitto.conf
     dest: "{{ mosquitto_data_directory }}/config/mosquitto.conf"
 
@@ -18,13 +19,9 @@
     image: eclipse-mosquitto:latest
     pull: true
     volumes:
-      - "{{ mosquitto_data_directory }}:/config:rw"
-      - "{{ mosquitto_data_directory }}:/data:rw"
-      - "{{ mosquitto_data_directory }}:/log:rw"
-    env:
-      PUID: 1311
-      PGID: 1311
-      TZ: "{{ ansible_nas_timezone }}"
+      - "{{ mosquitto_data_directory }}/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw"
+      - "{{ mosquitto_data_directory }}/data:/mosquitto/data:rw"
+      - "{{ mosquitto_data_directory }}/log:/mosquitto/log:rw"
     ports:
       - "1883:1883"
       - "9001:9001"
