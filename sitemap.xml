@@ -61,6 +61,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/emby/</loc>
+     <lastmod>2019-06-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/firefly/</loc>
      <lastmod>2019-06-26</lastmod>
      <changefreq>daily</changefreq>
