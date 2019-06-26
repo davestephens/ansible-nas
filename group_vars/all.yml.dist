@@ -74,6 +74,9 @@ firefly_enabled: false
 # Wallabag
 wallabag_enabled: false
 
+# MQTT
+mosquitto_enabled: false
+
 ###
 ### General
 ###
@@ -564,3 +567,8 @@ nzbget_group_id: 0
 ###
 wallabag_available_externally: "false"
 wallabag_data_directory: "{{ docker_home }}/wallabag"
+
+### Mosquitto
+###
+mosquitto_available_externally: "false"
+mosquitto_data_directory: "{{ docker_home }}/mosquitto"
