@@ -1,5 +1,10 @@
 ---
+
 - hosts: all
+
+  ## uncomment to use vault file
+  #vars_files:
+  #- group_vars/vault.yml
 
   pre_tasks:
     - import_tasks: tasks/users.yml

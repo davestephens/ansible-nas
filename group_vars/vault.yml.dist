@@ -1,0 +1,28 @@
+cluster_sudo_pass: cluster_sudo_pass
+ansible_host: 1.1.1.1
+
+my_openvpn_username: username
+my_openvpn_password: password
+my_openvpn_provider: provider
+my_openvpn_config: config
+
+ansible_nas_hostname: hostname
+ansible_nas_timezone: timezone
+ansible_nas_user: user
+ansible_nas_email: email
+ansible_nas_domain: domain
+
+samba_shares_root: /mnt/Volume/samba
+docker_home: /mnt/Volume/docker
+
+email_server: my.email.server.com
+email_server_user: email_server_user
+email_server_password: email_server_password
+
+slack_hook_url: https://hooks.slack.com/services/xxx/xxx/xxx
+
+# openssl rand -base64 48
+bitwarden_admin_token: abc
+
+miniflux_admin_username: miniflux
+miniflux_admin_password: supersecure

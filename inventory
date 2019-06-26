@@ -1,0 +1,12 @@
+# Example for running it directly on NAS server
+# localhost ansible_connection=local
+
+# Example using from remote workstation
+[all]
+'{{ ansible_host }}'
+
+
+[all:vars]
+ansible_become=yes
+ansible_become_method=sudo
+ansible_become_pass='{{ cluster_sudo_pass }}'

@@ -99,6 +99,36 @@ download code from the internet and trust that it's going to work as you expect.
 8. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need sudo to install Ansible roles)
 9. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
 
+## Secure Repo Quick Start
+If you want to keep your credentials in your repo but secure them via [vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html), my branch allows you to segregate critical secure info from configuration info and deploy without entering your sudo password everytime.
+
+To setup...
+
+```bash
+ansible-galaxy install -r requirements.yml
+cp group_vars/vault.yml.dist group_vars/vault.yml
+cp group_vars/all.yml.dist-vault group_vars/all.yml
+echo 'yourpassword' > .vault_pass
+ansible-vault encrypt group_vars/vault.yml --vault-password-file .vault_pass
+ansible-vault edit group_vars/vault.yml --vault-password-file .vault_pass
+```
+
+Once you have set your secure values in the vault...
+
+1. Set your less secure config values in `group_vars/all.yml`.
+2. Toggle the noted files in the `.gitignore`.
+3. Uncomment the vault include in `nas.yml`.
+4. Create a new branch for yourself, check it out, commit your changes, and push to your private repo.
+
+Always merge upstream changes into this branch.  Of course, any commits intended for upstream probably should not derive from this branch.  But now you can store your config data on your own git repo without the added risk of leaking credentials.
+
+You will not need to use `-k` for the password prompt on your deploys, so the command is...
+
+```bash
+ansible-playbook -i inventory nas.yml -b
+```
+
+
 ## Documentation
 
 You can read the docs [here](https://davestephens.github.io/ansible-nas). PRs
