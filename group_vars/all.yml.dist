@@ -572,3 +572,59 @@ wallabag_data_directory: "{{ docker_home }}/wallabag"
 ###
 mosquitto_available_externally: "false"
 mosquitto_data_directory: "{{ docker_home }}/mosquitto"
+
+###
+### Port Management. Listed in default port order.
+###
+nginx_host_port_http:         "79"    #Maps to container port 80. Modified original host port due to clash with traefik.
+traefik_host_port_http:       "80"    #Maps to container port 80
+the_lounge_host_port_1:       "113"   #Maps to container port 9001
+gitea_host_port_2:            "222"   #Maps to container port 22. SSH Config states port 222, this is the external port not internal?
+nginx_host_port_https:        "432"   #Maps to container port 433. Modified original host port due to clash with traefik.
+traefik_host_port_https:      "433"   #Maps to container port 433
+timemachine_host_port:        "548"   #Maps to container port 548
+mosquitto_host_port_1:        "1883"  #Maps to container port 1883
+grafana_host_port:            "3000"  #Maps to container port 3000
+gitea_host_port_1:            "3001"  #Maps to container port 3000
+bitwarden_host_port_2:        "3012"  #Maps to container port 3012
+airsonic_host_port:           "4040"  #Maps to container port 4040
+couchpotato_host_port:        "5050"  #Maps to container port 5050
+znc_host_port:                "6677"  #Maps to container port 6677
+nbzget_host_port:             "6789"  #Maps to container port 6789
+radarr_host_port:             "7878"  #Maps to container port 7878
+wallabag_host_port:           "7780"  #Maps to container port 80
+pyload_host_port:             "8000"  #Maps to container port 8000
+firefly_host_port:            "8066"  #Maps to container port 80. Traefik port states 8080?
+miniflux_host_port:           "8070"  #Maps to container port 8080
+nextcloud_host_port:          "8080"  #Maps to container port 80
+sickchill_host_port:          "8081"  #Maps to container port 8081
+influxdb_host_port:           "8086"  #Maps to container port 8086. Used by grafana container.
+traefik_host_port_admin:      "8083"  #Maps to container port 8083
+guacamole_host_port:          "8090"  #Maps to container port 8080 
+emby_host_port_http:          "8096"  #Maps to container port 8096
+tautulli_host_port:           "8181"  #Maps to container port 8181
+get_iplayer_host_port:        "8182"  #Maps to container port 8181
+duplicati_host_port:          "8200"  #Maps to container port 8200
+minidlna_host_port:           "8201"  #Maps to container port 8201
+emby_host_port_https:         "8920"  #Maps to container port 8920
+sonarr_host_port:             "8989"  #Maps to container port 8989
+portainer_host_port:          "9000"  #Maps to container port 9000
+the_lounge_host_port_2:       "9002"  #Maps to container port 9000. Modified original host port due to clash with portainer.
+mosquitto_host_port_2:        "9001"  #Maps to container port 9001
+transmission_vpn_host_port_1: "9091"  #Maps to container port 9091
+transmission_host_port_1:     "9092"  #Maps to container port 9091
+jackett_host_port:            "9117"  #Maps to container port 9117
+heimdall_host_port_http:      "10080" #Maps to container port 80
+heimdall_host_port_https:     "10443" #Maps to container port 433
+bitwarden_host_port_1:        "19080" #Maps to container port 80
+netdata_host_port:            "19999" #Maps to container port 19999
+plex_host_port:               "32400" #Maps to container port 32400 
+transmission_vpn_host_port_2: "51413" #Maps to container port 51413
+transmission_host_port_2:     "51414" #Maps to container port 51413
+glances_host_port_1:          "61208" #Maps to container port 61208 
+glances_host_port_2:          "61209" #Maps to container port 61209
+
+### No ports for these containers are currently defined.
+cloudflare_host_port:         ""                     #No ports currently defined
+mymediaforalexa_host_port:    ""                      #No ports currently defined
+watchtower_host_port:         ""                     #No ports currently defined

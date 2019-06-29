@@ -23,7 +23,7 @@
       - "{{ mosquitto_data_directory }}/data:/mosquitto/data:rw"
       - "{{ mosquitto_data_directory }}/log:/mosquitto/log:rw"
     ports:
-      - "1883:1883"
-      - "9001:9001"
+      - "{{ mosquitto_host_port_1 }}:1883"
+      - "{{ mosquitto_host_port_2 }}:9001"
     restart_policy: unless-stopped
     memory: 1g

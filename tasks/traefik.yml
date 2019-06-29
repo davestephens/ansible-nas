@@ -27,9 +27,9 @@
     image: "{{ traefik_docker_image }}"
     pull: true
     ports:
-      - "80:80"
-      - "443:443"
-      - "8083:8083"
+      - "{{ traefik_host_port_http }}:80"
+      - "{{ traefik_host_port_https }}:443"
+      - "{{ traefik_host_port_admin }}:8083"
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"

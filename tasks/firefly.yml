@@ -38,7 +38,7 @@
     links:
       - firefly-mysql:db
     ports:
-      - "8066:80"
+      - "{{ firefly_host_port }}:80"
     env:
       FF_APP_ENV: "local"
       FF_APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"

@@ -44,7 +44,7 @@
         - guacamole-mysql:mysql
         - guacamole-guacd:guacd
     ports:
-      - "8090:8080"
+      - "{{ guacamole_host_port }}:8080"
     env:
       MYSQL_DATABASE: guacamole
       MYSQL_USER: guacamole-user

@@ -10,7 +10,7 @@
     image: mbentley/timemachine:latest
     pull: true
     ports:
-      - "548:548"
+      - "{{ timemachine_host_port }}:548"
     env:
       VOLUME_SIZE_LIMIT: "{{ timemachine_volume_size_limit }}"
       PASSWORD: "{{ timemachine_password }}"

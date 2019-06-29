@@ -18,7 +18,7 @@
       - "{{ couchpotato_movies_directory }}:/movies:rw"
       - "{{ couchpotato_torrents_directory }}:/torrents:rw"
     ports:
-      - "5050:5050"
+      - "{{ couchpotato_host_port }}:5050"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ couchpotato_user_id }}"

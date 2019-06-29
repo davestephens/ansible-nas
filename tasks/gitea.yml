@@ -51,8 +51,8 @@
     volumes:
       - "{{ gitea_data_directory }}/gitea:/data:rw"
     ports:
-      - "3001:3000"
-      - "222:22"
+      - "{{ gitea_host_port_1 }}:3000"
+      - "{{ gitea_host_port_2 }}:22"
     env:
       DB_TYPE: mysql
       DB_HOST: db:3306
