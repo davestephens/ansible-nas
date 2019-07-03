@@ -87,18 +87,35 @@ gained by automating it. Check out the [docs](https://davestephens.github.io/ans
 :skull: Before running anything, check out the playbook and understand what it
 does. Run it against a VM and make sure you're happy. ***Do not*** blindly
 download code from the internet and trust that it's going to work as you expect.
-:skull: 
+:skull:
 
-1. Enable the Ubuntu Universe repository: `sudo add-apt-repository universe`
-2. Install Ansible: `sudo apt install ansible`
-3. `git clone https://github.com/davestephens/ansible-nas.git && cd ansible-nas`
-4. Copy `group_vars/all.yml.dist` to  `group_vars/all.yml`.
-5. Open up `group_vars/all.yml` and follow the instructions there for configuring your Ansible NAS.
-6. If you plan to use Transmission with OpenVPN, also copy `group_vars/vpn_credentials.yml.dist` to
-`group_vars/vpn_credentials.yml` and fill in your settings.
-7. Copy `inventory.dist` to `inventory` and update it.
-8. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need sudo to install Ansible roles)
+
+1. Enable the Ubuntu Universe repository:
+
+    `sudo add-apt-repository universe`
+
+2. Install Ansible:
+
+    `sudo apt install ansible`
+
+3. Clone Ansible-NAS:
+
+    `git clone https://github.com/davestephens/ansible-nas.git && cd ansible-nas`
+
+4. Create your own inventory and config files by copying `inventories/sample` to your own directory:
+
+    `cp -rfp inventories/sample inventories/my-ansible-nas`
+
+5. Review `group_vars/all.yml`. Change settings by overriding them in inventories/my-ansible-nas/group_vars/all.yml`.
+
+6. If you plan to use Transmission with OpenVPN, update `inventories/my-ansible-nas/group_vars/vpn_credentials.yml`.
+
+7. Update `inventories/my-ansible-nas/inventory`.
+
+8. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles).
+
 9. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
+
 
 ## Documentation
 
@@ -119,7 +136,7 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 ## Requirements
 
 * Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu
-  Server 18.04.2 LTS. 
+  Server 18.04 LTS. 
 * You can run Ansible-NAS on whatever you like, read the docs for more info. I
   use an HP Microserver.
 
