@@ -190,6 +190,7 @@ onDemand = false # create certificate when container is created
           "grafana.{{ ansible_nas_domain }}",
           "guacamole.{{ ansible_nas_domain }}",
           "heimdall.{{ ansible_nas_domain }}",
+          "homeassistant.{{ ansible_nas_domain }}",
           "jackett.{{ ansible_nas_domain }}",
           "miniflux.{{ ansible_nas_domain }}",
           "netdata.{{ ansible_nas_domain }}",
