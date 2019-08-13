@@ -1,25 +1,25 @@
 ---
 - name: Create openHAB group
   group:
-    name: openhab 
-    gid: 9001 
+    name: openhab
+    gid: 9001
     state: present
 
 - name: Create openHAB user
   user:
-    name: openhab 
-    uid: 9001 
+    name: openhab
+    uid: 9001
     state: present
     system: yes
     update_password: on_create
     create_home: no
-    group: openhab 
+    group: openhab
 
 - name: Create openHAB Directories
   file:
     path: "{{ item }}"
     state: directory
-    owner: openhab 
+    owner: openhab
     group: openhab
   with_items:
     - "{{ openhab_data_directory }}"
