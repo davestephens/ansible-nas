@@ -79,6 +79,7 @@ mosquitto_enabled: false
 
 # Smarthome
 openhab_enabled: false
+
 ###
 ### General
 ###
