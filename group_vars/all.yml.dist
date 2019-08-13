@@ -77,6 +77,8 @@ wallabag_enabled: false
 # MQTT
 mosquitto_enabled: false
 
+# Smarthome
+openhab_enabled: false
 ###
 ### General
 ###
@@ -572,3 +574,11 @@ wallabag_data_directory: "{{ docker_home }}/wallabag"
 ###
 mosquitto_available_externally: "false"
 mosquitto_data_directory: "{{ docker_home }}/mosquitto"
+
+###
+### openHAB 
+###
+openhab_available_externally: "false"
+openhab_docker_image: openhab/openhab:latest
+openhab_data_directory: "{{ docker_home }}/openhab"
+
