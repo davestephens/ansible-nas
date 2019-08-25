@@ -320,6 +320,15 @@ plex_user_id: 0
 plex_group_id: 0
 
 ###
+### Homebridge
+###
+homebridge_available_externally: "false"
+homebridge_config_directory: "{{ docker_home }}/homebridge/config"
+homebridge_user_id: 0
+homebridge_group_id: 0
+homebridge_ui_port: 8087
+
+###
 ### Emby
 ###
 # If you're paranoid, set permissions to "ro" so Emby won't ever be able to
