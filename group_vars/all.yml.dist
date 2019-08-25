@@ -264,6 +264,7 @@ transmission_local_network: "192.168.1.0/24"
 plex_config_directory: "{{ docker_home }}/plex/config"
 plex_movies_directory: "{{ movies_root }}"
 plex_tv_directory: "{{ tv_root }}"
+plex_music_directory: "{{ music_root }}"
 plex_user_id: 0
 plex_group_id: 0
 
