@@ -9,7 +9,6 @@ Contributing to Ansible-NAS is easy! Add your functionality, then raise a pull r
 
 If you're adding a new application:
 
-* Ensure that all added parameters are also included in `tests/test.yml`.
 * Ensure that the new application is disabled by default.
 * Add a documentation page to `docs/applications/` - use an existing application as an example.
 * Add the frontend port to `docs/configuration/application_ports.md`, ensuring you've not clashed with an existing application.

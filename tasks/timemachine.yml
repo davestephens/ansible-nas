@@ -4,15 +4,11 @@
     path: "{{ timemachine_data_directory }}"
     state: directory
 
-- name: Build time machine image
-  command: >
-    docker build -t awlx/samba-timemachine https://github.com/awlx/samba-timemachine.git
-
 - name: Time Machine Docker Container
   docker_container:
      name: timemachine
-     image: awlx/samba-timemachine:latest
-     pull: false
+     image: ryanolf/samba-timemachine:latest
+     pull: true
      ports:
         - "{{ timemachine_port }}:445"
      env:

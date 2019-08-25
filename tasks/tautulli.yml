@@ -20,3 +20,8 @@
       PGID: "{{ tautulli_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "tautulli"
+      traefik.frontend.rule: "Host:tautulli.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ tautulli_available_externally }}"
+      traefik.port: "8181"

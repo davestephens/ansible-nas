@@ -15,10 +15,10 @@
     volumes:
       - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: nextcloud-user
-      MYSQL_PASSWORD: nextcloud-pass
-      MYSQL_ROOT_PASSWORD: nextcloud-secret
+      MYSQL_DATABASE: "nextcloud"
+      MYSQL_USER: "nextcloud-user"
+      MYSQL_PASSWORD: "nextcloud-pass"
+      MYSQL_ROOT_PASSWORD: "nextcloud-secret"
     restart_policy: unless-stopped
     memory: 1g
 
@@ -34,14 +34,15 @@
     ports:
       - "8080:80"
     env:
-      MYSQL_HOST: mysql
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: nextcloud-user
-      MYSQL_PASSWORD: nextcloud-pass
+      MYSQL_HOST: "mysql"
+      MYSQL_DATABASE: "nextcloud"
+      MYSQL_USER: "nextcloud-user"
+      MYSQL_PASSWORD: "nextcloud-pass"
+      NEXTCLOUD_TRUSTED_DOMAINS: "nextcloud.{{ ansible_nas_domain }}"
+    restart_policy: unless-stopped
+    memory: 1g
     labels:
       traefik.backend: "nextcloud"
       traefik.frontend.rule: "Host:nextcloud.{{ ansible_nas_domain }}"
-      traefik.enable: "true"
+      traefik.enable: "{{ nextcloud_available_externally }}"
       traefik.port: "80"
-    restart_policy: unless-stopped
-    memory: 1g

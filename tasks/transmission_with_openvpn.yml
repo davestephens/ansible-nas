@@ -27,10 +27,10 @@
       - "9091:9091"
       - "51413:51413"
     env:
-      TRANSMISSION_HOME: /config
-      TRANSMISSION_DOWNLOAD_DIR: /storage/downloads/complete
-      TRANSMISSION_INCOMPLETE_DIR: /storage/downloads/incomplete
-      TRANSMISSION_WATCH_DIR: /storage/watch
+      TRANSMISSION_HOME: "/config"
+      TRANSMISSION_DOWNLOAD_DIR: "/storage/downloads/complete"
+      TRANSMISSION_INCOMPLETE_DIR: "/storage/downloads/incomplete"
+      TRANSMISSION_WATCH_DIR: "/storage/watch"
       OPENVPN_PROVIDER: "{{ openvpn_provider }}"
       OPENVPN_USERNAME: "{{ openvpn_username }}"
       OPENVPN_PASSWORD: "{{ openvpn_password }}"
@@ -38,10 +38,15 @@
       PUID: "{{ transmission_user_id }}"
       PGID: "{{ transmission_group_id }}"
       LOCAL_NETWORK: "{{ transmission_local_network }}"
-      ENABLE_UFW: false
+      ENABLE_UFW: "false"
     devices:
       - /dev/net/tun
     capabilities:
       - NET_ADMIN
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "transmission-openvpn"
+      traefik.frontend.rule: "Host:transmission-openvpn.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ transmission_with_openvpn_available_externally }}"
+      traefik.port: "9091"

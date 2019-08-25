@@ -4,16 +4,21 @@
 # Set these options to true or false to toggle specific features
 
 # External Access
-# Traefik will allow access to certain applications externally. To enable this you'll need a domain name that points to your 
-# home static IP address, cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip. 
-# You'll also need to map ports 80 and 443 from your router to your ansible-nas server.
+# Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
+# home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
+# You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "availble_externally" 
+# settings.
 traefik_enabled: false
 
-# BitTorrent
+# Downloading
 # If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
 # to group_vars/vpn_credentials.yml, then update it with your own settings.
 transmission_with_openvpn_enabled: false
 transmission_enabled: false
+nzbget_enabled: false
+
+# Downloaders
+pyload_enabled: false
 
 # Plex
 plex_enabled: false
@@ -22,14 +27,20 @@ tautulli_enabled: false
 # Emby
 emby_enabled: false
 
+# minidlna
+minidlna_enabled: false
+
 # Media Sourcing
 sonarr_enabled: false
-sickrage_enabled: false
+sickchill_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
+get_iplayer_enabled: false
+jackett_enabled: false
 
 # Music
 airsonic_enabled: false
+mymediaforalexa_enabled: false
 
 # News
 miniflux_enabled: false
@@ -37,7 +48,7 @@ miniflux_enabled: false
 # System Management
 heimdall_enabled: true
 portainer_enabled: true
-glances_enabled: true
+glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
 netdata_enabled: false
@@ -50,9 +61,21 @@ nextcloud_enabled: false
 gitea_enabled: false
 timemachine_enabled: false
 
-# IRC bouncer
+# IRC
 znc_enabled: false
+thelounge_enabled: false
 
+# Password Management
+bitwarden_enabled: false
+
+# Finance
+firefly_enabled: false
+
+# Wallabag
+wallabag_enabled: false
+
+# MQTT
+mosquitto_enabled: false
 
 ###
 ### General
@@ -86,8 +109,8 @@ docker_image_directory: "{{ docker_home }}/data"
 docker_home: /mnt/Volume2/docker
 
 # Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
-# You'll need to change this if your docker_home isn't on zfs and Docker won't start (you'll probably want overlay2 instead)
-docker_storage_driver: zfs
+# You might want to change this to ZFS, depending on your underlying filesystem.
+docker_storage_driver: overlay2
 
 ###
 ### Samba
@@ -149,7 +172,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/music"
+    path: "{{ music_root }}"
 
   - name: podcasts
     comment: 'Podcasts'
@@ -157,7 +180,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/podcasts"
+    path: "{{ podcasts_root }}"
 
   - name: dump
     comment: 'File dump'
@@ -184,19 +207,31 @@ samba_shares:
     path: "{{ samba_shares_root }}/photos"
 
 ###
+### NFS
+###
+# Data you want published over NFS. More info on the nfs config format can be found at
+# https://help.ubuntu.com/community/SettingUpNFSHowTo#Shares
+# WARNING: Weird things might happen if you share the same data over Samba and NFS and allow writes on both!
+
+nfs_shares_root: /mnt/Volume3
+
+nfs_exports:
+  - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"
+
+###
 ### Cloudflare
 ###
 # Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to
 # set the options below.
 
 # Your domain name
-cloudflare_zone: awesomedomain.com
+cloudflare_zone: "{{ ansible_nas_domain }}"
 
 # The hostname you want the container to update. You shouldn't need to change this.
 cloudflare_host: "*.{{ cloudflare_zone }}"
 
 # Email address used to register for Cloudflare
-cloudflare_email: dave@awesomedomain.com
+cloudflare_email: "{{ ansible_nas_email }}"
 
 # Cloudflare 'Global API Key', can be found on the 'My Profile' page
 cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
@@ -223,7 +258,6 @@ ansible_python_interpreter: /usr/bin/python3
 ### Samba
 ###
 # Seems to break browsing of the \\server-name shares root when enabled
-# Should not be needed with newer samba versions
 samba_mitigate_cve_2017_7494: false
 # Enable apple exentensions for compatibility with apple clients
 samba_apple_extensions: yes
@@ -241,18 +275,22 @@ samba_netbios_name: "{{ ansible_nas_hostname }}"
 ###
 ### Traefik
 ###
-traefik_docker_image: traefik:1.7
+traefik_docker_image: traefik:latest
 traefik_data_directory: "{{ docker_home }}/traefik"
+traefik_debug: "false"
 
 ###
 ### Heimdall
 ###
+heimdall_available_externally: "false"
 heimdall_docker_image: linuxserver/heimdall:latest
 heimdall_data_directory: "{{ docker_home }}/heimdall"
 
 ###
 ### Transmission
 ###
+transmission_available_externally: "false"
+transmission_with_openvpn_available_externally: "false"
 transmission_config_directory: "{{ docker_home }}/transmission/config"
 transmission_download_directory: "{{ downloads_root }}"
 transmission_watch_directory: "{{ torrents_root }}"
@@ -260,28 +298,47 @@ transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
 
+###
+### pyLoad
+###
+pyload_available_externally: "false"
+pyload_config_directory: "{{ docker_home }}/pyload"
+pyload_download_directory: "{{ downloads_root }}"
+pyload_user_id: 0
+pyload_group_id: 0
 
 ###
 ### Plex
 ###
+# If you're paranoid, set permissions to "ro" so Plex won't ever be able to
+# delete your files
+plex_available_externally: "false"
 plex_config_directory: "{{ docker_home }}/plex/config"
 plex_movies_directory: "{{ movies_root }}"
+plex_movies_permissions: "rw"
 plex_tv_directory: "{{ tv_root }}"
+plex_tv_permissions: "rw"
 plex_user_id: 0
 plex_group_id: 0
 
 ###
 ### Emby
 ###
+# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
+# delete your files
+emby_available_externally: "false"
 emby_config_directory: "{{ docker_home }}/emby/config"
 emby_movies_directory: "{{ movies_root }}"
+emby_movies_permissions: "rw"
 emby_tv_directory: "{{ tv_root }}"
+emby_tv_permissions: "rw"
 emby_user_id: 0
 emby_group_id: 0
 
 ###
 ### Tautulli
 ###
+tautulli_available_externally: "false"
 tautulli_config_directory: "{{ docker_home }}/tautulli/config"
 tautulli_user_id: 0
 tautulli_group_id: 0
@@ -290,12 +347,14 @@ tautulli_group_id: 0
 ###
 ### Duplicati
 ###
+duplicati_available_externally: "false"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 
 
 ###
 ### Sonarr
 ###
+sonarr_available_externally: "false"
 sonarr_data_directory: "{{ docker_home }}/sonarr/config"
 sonarr_tv_directory: "{{ tv_root }}"
 sonarr_download_directory: "{{ downloads_root }}"
@@ -306,6 +365,7 @@ sonarr_group_id: 0
 ###
 ### Radarr
 ###
+radarr_available_externally: "false"
 radarr_movies_directory: "{{ movies_root }}"
 radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
@@ -316,6 +376,7 @@ radarr_group_id: 0
 ###
 ### Couchpotato
 ###
+couchpotato_available_externally: "false"
 couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
 couchpotato_movies_directory: "{{ movies_root }}"
 couchpotato_downloads_directory: "{{ downloads_root }}"
@@ -325,14 +386,19 @@ couchpotato_group_id: 0
 
 
 ###
-### Sickrage
+### Sickchill
 ###
-sickrage_config_directory: "{{ docker_home }}/sickrage/config"
-sickrage_tv_directory: "{{ tv_root }}"
-sickrage_downloads_directory: "{{ downloads_root }}"
-sickrage_user_id: 0
-sickrage_group_id: 0
+sickchill_available_externally: "false"
+sickchill_config_directory: "{{ docker_home }}/sickchill/config"
+sickchill_tv_directory: "{{ tv_root }}"
+sickchill_downloads_directory: "{{ downloads_root }}/completed"
+sickchill_user_id: 0
+sickchill_group_id: 0
 
+###
+### Netdata
+###
+netdata_available_externally: "false"
 
 ###
 ### OpenVPN
@@ -343,12 +409,14 @@ openvpn_config_directory: "{{ docker_home }}/openvpn"
 ###
 ### Portainer
 ###
+portainer_available_externally: "false"
 portainer_data_directory: "{{ docker_home }}/portainer/config"
 
 
 ###
 ### ZNC
 ###
+znc_available_externally: "false"
 znc_data_directory: "{{ docker_home }}/znc"
 znc_user_id: 0
 znc_group_id: 0
@@ -357,6 +425,7 @@ znc_group_id: 0
 ###
 ### Stats
 ###
+grafana_available_externally: "false"
 telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
@@ -365,11 +434,18 @@ stat_collection_interval: 15s
 ###
 ### Gitea
 ###
+gitea_available_externally: "false"
 gitea_data_directory: "{{ docker_home }}/gitea"
+
+###
+### Glances
+###
+glances_available_externally: "false"
 
 ###
 ### Nextcloud
 ###
+nextcloud_available_externally: "false"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 
 ###
@@ -380,6 +456,7 @@ nginx_data_directory: "{{ docker_home }}/nginx"
 ###
 ### Guacamole
 ###
+guacamole_available_externally: "false"
 guacamole_docker_image: guacamole/guacamole:0.9.14
 guacamole_guacd_docker_image: guacamole/guacd:0.9.14
 guacamole_data_directory: "{{ docker_home }}/guacamole"
@@ -387,6 +464,7 @@ guacamole_data_directory: "{{ docker_home }}/guacamole"
 ###
 ### Miniflux
 ###
+miniflux_available_externally: "false"
 miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
 miniflux_admin_password: supersecure
@@ -394,6 +472,7 @@ miniflux_admin_password: supersecure
 ###
 ### Airsonic
 ###
+airsonic_available_externally: "false"
 airsonic_data_directory: "{{ docker_home }}/airsonic"
 
 ###
@@ -420,6 +499,79 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
 timemachine_data_directory: "{{ docker_home }}/timemachine"
 timemachine_volume_size_limit: 0
 timemachine_password: timemachine
-timemachine_share_name: TimeMachine
+timemachine_share_name: Data
 timemachine_log_level: error
 timemachine_port: 10445
+
+###
+### minidlna
+###
+minidlna_media_directory1: "{{ movies_root }}"
+minidlna_media_directory2: "{{ tv_root }}"
+minidlna_friendly_name: "{{ ansible_nas_hostname }}"
+
+###
+### get_iplayer
+###
+get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
+get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
+
+###
+### mymediaforalexa
+###
+mymediaforalexa_media_directory: "{{ music_root }}"
+mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
+
+###
+### Jackett
+###
+jackett_available_externally: "false"
+jackett_data_directory: "{{ docker_home }}/jackett"
+
+###
+### The Lounge
+###
+thelounge_available_externally: "false"
+thelounge_data_directory: "{{ docker_home }}/thelounge"
+
+###
+### Bitwarden
+###
+bitwarden_available_externally: "false"
+bitwarden_data_directory: "{{ docker_home }}/bitwarden"
+
+# Keep this token secret, this is password to access admin area of your server!
+# This token can be anything, but it's recommended to use a long, randomly generated string of characters,
+# for example running openssl rand -base64 48
+bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
+
+# To create a user set this to "true", and reprovision the container by re-running the ansible-nas playbook.
+# Once you have created your user, set to "false" and run one more time.
+# Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
+bitwarden_allow_signups: false
+
+###
+### Firefly
+###
+firefly_available_externally: "false"
+firefly_data_directory: "{{ docker_home }}/firefly"
+
+###
+### Nzbget
+###
+nzbget_available_externally: "false"
+nzbget_data_directory: "{{ docker_home }}/nzbget"
+nzbget_download_directory: "{{ downloads_root }}"
+nzbget_user_id: 0
+nzbget_group_id: 0
+
+###
+### Wallabag
+###
+wallabag_available_externally: "false"
+wallabag_data_directory: "{{ docker_home }}/wallabag"
+
+### Mosquitto
+###
+mosquitto_available_externally: "false"
+mosquitto_data_directory: "{{ docker_home }}/mosquitto"

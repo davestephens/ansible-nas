@@ -30,6 +30,8 @@
     ports:
       - "8086:8086"
     restart_policy: unless-stopped
+    env:
+      INFLUXDB_LOGGING_LEVEL: "error"
     memory: 1g
 
 - name: Template telegraf.conf
@@ -65,3 +67,8 @@
       - "3000:3000"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "grafana"
+      traefik.frontend.rule: "Host:grafana.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ grafana_available_externally }}"
+      traefik.port: "3000"

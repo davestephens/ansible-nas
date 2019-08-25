@@ -1,0 +1,29 @@
+- name: Create Mosquitto Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  with_items:
+    - "{{ mosquitto_data_directory }}/config"
+    - "{{ mosquitto_data_directory }}/data"
+    - "{{ mosquitto_data_directory }}/log"
+
+- name: Template mosquitto.conf
+  copy:
+    src: mosquitto/mosquitto.conf
+    dest: "{{ mosquitto_data_directory }}/config/mosquitto.conf"
+
+- name: Create Mosquitto container
+  docker_container:
+    name: mosquitto
+    image: eclipse-mosquitto:latest
+    pull: true
+    volumes:
+      - "{{ mosquitto_data_directory }}/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw"
+      - "{{ mosquitto_data_directory }}/data:/mosquitto/data:rw"
+      - "{{ mosquitto_data_directory }}/log:/mosquitto/log:rw"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    restart_policy: unless-stopped
+    memory: 1g

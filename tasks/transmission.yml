@@ -27,4 +27,8 @@
       PGID: "{{ transmission_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
-
+    labels:
+      traefik.backend: "transmission"
+      traefik.frontend.rule: "Host:transmission.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ transmission_available_externally }}"
+      traefik.port: "9091"

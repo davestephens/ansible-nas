@@ -1,0 +1,41 @@
+- name: Create Bitwarden Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ bitwarden_data_directory }}"
+
+- name: Bitwarden Docker Container
+  docker_container:
+    name: bitwarden
+    image: mprasil/bitwarden:latest
+    pull: true
+    ports:
+      - "19080:80"
+      - "3012:3012"
+    volumes:
+      - "{{ bitwarden_data_directory }}:/data:rw"
+    env:
+      SIGNUPS_ALLOWED: "{{ bitwarden_allow_signups }}"
+      ADMIN_TOKEN: "{{ bitwarden_admin_token }}"
+      LOG_FILE: "/data/bitwarden.log"
+      WEBSOCKET_ENABLED: "true"
+    labels:
+      traefik.backend: "bitwarden"
+      traefik.web.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ bitwarden_available_externally }}"
+      traefik.web.port: "80"
+      traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
+      traefik.hub.port: "3012"
+      traefik.hub.protocol: "ws"
+    restart_policy: unless-stopped
+    #memory: 1g
+
+- name: Bitwarden Backup Container
+  docker_container:
+    name: bitwarden-backup
+    image: bruceforce/bw_backup:latest
+    pull: true
+    restart_policy: unless-stopped
+    volumes_from: bitwarden
+    memory: 1g
