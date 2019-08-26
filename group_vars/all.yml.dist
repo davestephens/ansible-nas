@@ -317,6 +317,8 @@ plex_movies_directory: "{{ movies_root }}"
 plex_movies_permissions: "rw"
 plex_tv_directory: "{{ tv_root }}"
 plex_tv_permissions: "rw"
+plex_music_directory: "{{ music_root }}"
+plex_music_permissions: "rw"
 plex_user_id: 0
 plex_group_id: 0
 
