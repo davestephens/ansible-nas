@@ -1,4 +1,4 @@
-# Shares
+# Samba Shares
 
 Ansible-NAS uses the awesome [bertvv.samba](https://github.com/bertvv/ansible-role-samba) Ansible role to configure Samba - check out the project page for the many different options you can use to configure a share.
 

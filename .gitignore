@@ -1,5 +1,6 @@
 group_vars/all.yml
 group_vars/vpn_credentials.yml
+tests/test.yml
 site
 inventory
 .vagrant

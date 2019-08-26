@@ -34,10 +34,10 @@
     volumes:
       - "{{ gitea_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
-      MYSQL_DATABASE: gitea
-      MYSQL_USER: gitea
-      MYSQL_PASSWORD: gitea
-      MYSQL_ROOT_PASSWORD: gitea
+      MYSQL_DATABASE: "gitea"
+      MYSQL_USER: "gitea"
+      MYSQL_PASSWORD: "gitea"
+      MYSQL_ROOT_PASSWORD: "gitea"
     restart_policy: unless-stopped
     memory: 1g
 
@@ -67,3 +67,8 @@
       USER_GID: 1309
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "gitea"
+      traefik.frontend.rule: "Host:gitea.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ gitea_available_externally }}"
+      traefik.port: "3000"

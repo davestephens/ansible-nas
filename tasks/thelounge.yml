@@ -1,0 +1,34 @@
+---
+- name: The Lounge Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ thelounge_data_directory }}"
+    - "{{ thelounge_data_directory }}/users"
+
+- name: Set up admin user
+  copy:
+    src: files/thelounge/users/admin.json
+    dest: "{{ thelounge_data_directory }}/users/admin.json"
+    mode: 0777
+
+- name: The Lounge Docker Container
+  docker_container:
+    name: thelounge
+    image: thelounge/thelounge:latest
+    pull: true
+    ports:
+      - "113:9001"
+      - "9000:9000"
+    volumes:
+      - "{{ thelounge_data_directory }}:/var/opt/thelounge"
+      - "/var/run/dbus:/var/run/dbus"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "thelounge"
+      traefik.frontend.rule: "Host:thelounge.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ thelounge_available_externally }}"
+      traefik.port: "9000"
+

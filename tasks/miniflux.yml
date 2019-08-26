@@ -13,8 +13,8 @@
     volumes:
       - "{{ miniflux_data_directory }}/postgres:/var/lib/postgresql/data:rw"
     env:
-      POSTGRES_USER: miniflux
-      POSTGRES_PASSWORD: supersecure
+      POSTGRES_USER: "miniflux"
+      POSTGRES_PASSWORD: "supersecure"
     restart_policy: unless-stopped
     memory: 1g
 
@@ -28,10 +28,15 @@
     ports:
       - "8070:8080"
     env:
-      DATABASE_URL: postgres://miniflux:supersecure@db/miniflux?sslmode=disable
-      RUN_MIGRATIONS: 1
-      CREATE_ADMIN: 1
+      DATABASE_URL: "postgres://miniflux:supersecure@db/miniflux?sslmode=disable"
+      RUN_MIGRATIONS: "1"
+      CREATE_ADMIN: "1"
       ADMIN_USERNAME: "{{ miniflux_admin_username }}"
       ADMIN_PASSWORD: "{{ miniflux_admin_password }}"
     restart_policy: unless-stopped
     memory: 1g
+    labels:
+      traefik.backend: "miniflux"
+      traefik.frontend.rule: "Host:miniflux.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ miniflux_available_externally }}"
+      traefik.port: "8080"

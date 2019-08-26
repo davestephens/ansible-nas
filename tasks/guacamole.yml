@@ -20,10 +20,10 @@
       - "{{ guacamole_data_directory }}/mysql:/var/lib/mysql:rw"
       - "{{ guacamole_data_directory }}/initdb-0.9.14.sql:/docker-entrypoint-initdb.d/initdb-0.9.14.sql:ro"
     env:
-      MYSQL_DATABASE: guacamole
-      MYSQL_USER: guacamole-user
-      MYSQL_PASSWORD: guacamole-pass
-      MYSQL_ROOT_PASSWORD: guacamole-secret
+      MYSQL_DATABASE: "guacamole"
+      MYSQL_USER: "guacamole-user"
+      MYSQL_PASSWORD: "guacamole-pass"
+      MYSQL_ROOT_PASSWORD: "guacamole-secret"
     restart_policy: unless-stopped
     memory: 1g
 
@@ -46,13 +46,13 @@
     ports:
       - "8090:8080"
     env:
-      MYSQL_DATABASE: guacamole
-      MYSQL_USER: guacamole-user
-      MYSQL_PASSWORD: guacamole-pass
+      MYSQL_DATABASE: "guacamole"
+      MYSQL_USER: "guacamole-user"
+      MYSQL_PASSWORD: "guacamole-pass"
+    restart_policy: unless-stopped
+    memory: 1g
     labels:
       traefik.backend: "guacamole"
       traefik.frontend.rule: "Host:guacamole.{{ ansible_nas_domain }}"
-      traefik.enable: "true"
+      traefik.enable: "{{ guacamole_available_externally }}"
       traefik.port: "8080"
-    restart_policy: unless-stopped
-    memory: 1g
