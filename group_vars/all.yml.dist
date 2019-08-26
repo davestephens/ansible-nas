@@ -251,6 +251,7 @@ ansible_nas_extra_packages:
   - bonnie++
   - unzip
   - lm-sensors
+  - ctop
 
 ansible_python_interpreter: /usr/bin/python3
 
