@@ -12,4 +12,3 @@
     update_password: on_create
     create_home: no
     group: ansible-nas
-    shell: /usr/sbin/nologin
