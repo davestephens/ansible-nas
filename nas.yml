@@ -175,4 +175,3 @@
   - import_tasks: tasks/jellyfin.yml
     when: (jellyfin_enabled | default(False))
     tags: jellyfin
-    
