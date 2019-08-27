@@ -13,7 +13,7 @@ Ansible config and a bunch of Docker containers.
 * A BitTorrent client
 * A Usenet downloader
 * Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr
-* Media streaming via Plex or Emby
+* Media streaming via Plex, Emby or Jellyfin
 * Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
 * A Dropbox replacement via Nextcloud
@@ -43,6 +43,7 @@ Ansible config and a bunch of Docker containers.
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
+* [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
