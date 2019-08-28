@@ -16,7 +16,7 @@
         PASS: "{{ timemachine_password }}"
         SHARENAME: "{{ timemachine_share_name }}"
      volumes:
-        - "{{ timemachine_data_directory }}:/backups"
+        - "{{ timemachine_data_directory }}/data:/backups"
      network_mode: bridge
      restart_policy: unless-stopped
      memory: 1g
