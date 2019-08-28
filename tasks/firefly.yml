@@ -40,12 +40,12 @@
     ports:
       - "8066:80"
     env:
-      FF_APP_ENV: "local"
-      FF_APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
-      FF_DB_HOST: "db"
-      FF_DB_NAME: "firefly"
-      FF_DB_USER: "firefly"
-      FF_DB_PASSWORD: "firefly"
+      APP_ENV: "local"
+      APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
+      DB_HOST: "db"
+      DB_DATABASE: "firefly"
+      DB_USERNAME: "firefly"
+      DB_PASSWORD: "firefly"
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
     memory: 1g

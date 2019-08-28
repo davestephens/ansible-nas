@@ -251,6 +251,7 @@ ansible_nas_extra_packages:
   - bonnie++
   - unzip
   - lm-sensors
+  - ctop
 
 ansible_python_interpreter: /usr/bin/python3
 
@@ -318,6 +319,8 @@ plex_movies_directory: "{{ movies_root }}"
 plex_movies_permissions: "rw"
 plex_tv_directory: "{{ tv_root }}"
 plex_tv_permissions: "rw"
+plex_music_directory: "{{ music_root }}"
+plex_music_permissions: "rw"
 plex_user_id: 0
 plex_group_id: 0
 
