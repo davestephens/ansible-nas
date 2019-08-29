@@ -325,6 +325,7 @@ plex_group_id: 0
 ###
 ### Homebridge
 ###
+homebridge_available_externally: "false"
 homebridge_config_directory: "{{ docker_home }}/homebridge/config"
 homebridge_user_id: 0
 homebridge_group_id: 0
