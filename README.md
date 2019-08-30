@@ -151,3 +151,7 @@ recommended extensions and task setups if you do the same.
 ## Support
 
 If you've enjoyed Ansible-NAS as much as I do working on it, please consider [buying me a coffee](https://ko-fi.com/davestephens) :coffee:
+
+## Thanks
+
+Thanks to the awesome dudes at [JetBrains](https://www.jetbrains.com/?from=Ansible-NAS) for supplying core contributors with JetBrains Open Source licenses!
