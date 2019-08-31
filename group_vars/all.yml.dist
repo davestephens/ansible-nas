@@ -77,6 +77,9 @@ wallabag_enabled: false
 # MQTT
 mosquitto_enabled: false
 
+# Calibre
+calibre_enabled: false
+
 ###
 ### General
 ###
@@ -571,7 +574,18 @@ nzbget_group_id: 0
 wallabag_available_externally: "false"
 wallabag_data_directory: "{{ docker_home }}/wallabag"
 
+###
 ### Mosquitto
 ###
 mosquitto_available_externally: "false"
 mosquitto_data_directory: "{{ docker_home }}/mosquitto"
+
+###
+### Calibre
+###
+calibre_available_externally: "false"
+calibre_data_directory: "{{ docker_home }}/calibre"
+calibre_user_id: 0
+calibre_group_id: 0
+#To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
+calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
