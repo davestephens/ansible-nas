@@ -140,6 +140,9 @@ music_root: "{{ samba_shares_root }}/music"
 # Where podcasts are stored
 podcasts_root: "{{ samba_shares_root }}/podcasts"
 
+# Where your books are stored
+books_root: "{{ samba_shares_root }}/books"
+
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
 
@@ -208,6 +211,14 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ samba_shares_root }}/photos"
+
+  - name: books
+    comment: 'Books'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browsable: yes
+    path: "{{ samba_shares_root }}/books"
 
 ###
 ### NFS

@@ -4,7 +4,6 @@
     state: directory
   with_items:
     - "{{ calibre_data_directory }}/config"
-    - "{{ calibre_data_directory }}/books"
 - name: Calibre Docker Container
   docker_container:
     name: calibre
@@ -12,7 +11,7 @@
     pull: true
     volumes:
       - "{{ calibre_data_directory }}/config:/config"
-      - "{{ calibre_data_directory }}/books:/books"
+      - "{{ samba_shares_root }}/books:/books"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ calibre_user_id }}"
