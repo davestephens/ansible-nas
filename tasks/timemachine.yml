@@ -17,8 +17,8 @@
       SHARE_NAME: "{{ timemachine_share_name }}"
       LOG_LEVEL: "{{ timemachine_log_level }}"
     volumes:
-      - "{{ timemachine_data_directory }}/data:/opt/timemachine"
-      - "{{ timemachine_data_directory }}/logs:/var/log/supervisor"
+      - "{{ timemachine_data_directory }}:/opt/timemachine"
+      - "{{ timemachine_log_directory }}:/var/log/supervisor"
       - "/var/run/dbus:/var/run/dbus"
     network_mode: host
     restart_policy: unless-stopped

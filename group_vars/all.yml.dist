@@ -497,7 +497,8 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
 ###
 ### Time Machine
 ###
-timemachine_data_directory: "{{ docker_home }}/timemachine"
+timemachine_data_directory: "{{ docker_home }}/timemachine/data/"
+timemachine_log_directory: "{{ docker_home }}/timemachine/logs/"
 timemachine_volume_size_limit: 0
 timemachine_password: timemachine
 timemachine_share_name: TimeMachine
