@@ -9,7 +9,7 @@
     name: letsencrypt-nginx-proxy-companion
     state: absent
 
-- name: Create Trafik Directories
+- name: Create Traefik Directories
   file:
     path: "{{ item }}"
     state: directory
