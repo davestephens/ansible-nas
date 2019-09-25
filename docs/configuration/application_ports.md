@@ -5,6 +5,7 @@ By default, applications can be found on the ports listed below.
 | Application     | Port   | Notes     |
 |-----------------|--------|-----------|
 | Couchpotato     | 5050   |           |
+| Bazarr          | 6767   |           |
 | Bitwarden "hub" | 3012   | Web Not.  |
 | Bitwarden       | 19080  | HTTP      |
 | Duplicati       | 8200   |           |

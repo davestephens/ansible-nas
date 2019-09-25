@@ -171,3 +171,8 @@
   - import_tasks: tasks/mosquitto.yml
     when: (mosquitto_enabled | default(False))
     tags: mosquitto
+
+  - import_tasks: tasks/bazarr.yml
+    when: (bazarr_enabled | default(False))
+    tags: bazarr
+
