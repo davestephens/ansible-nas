@@ -1,0 +1,22 @@
+- name: Create Syncthing Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ syncthing_data_directory }}"
+
+- name: Syncthing Docker Container
+  docker_container:
+    name: syncthing
+    image: syncthing/syncthing:latest
+    pull: true
+    network_mode: host
+    volumes:
+      - "{{ syncthing_data_directory }}:/var/syncthing:rw"
+    env:
+      STGUIADDRESS: ""
+    labels:
+      traefik.web.frontend.rule: "Host:syncthing.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ syncthing_available_externally }}"
+      traefik.port: "8384"
+    restart_policy: unless-stopped

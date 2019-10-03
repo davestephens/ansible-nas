@@ -7,6 +7,8 @@ By default, applications can be found on the ports listed below.
 | Couchpotato     | 5050   |           |
 | Bitwarden "hub" | 3012   | Web Not.  |
 | Bitwarden       | 19080  | HTTP      |
+| Syncthing admin | 8384   | HTTP      |
+| Syncthing P2P   | 22000  |           |
 | Duplicati       | 8200   |           |
 | Emby            | 8096   | HTTP      |
 | Emby            | 8920   | HTTPS     |
