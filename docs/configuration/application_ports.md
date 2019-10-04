@@ -21,12 +21,15 @@ By default, applications can be found on the ports listed below.
 | Jackett         | 9117   |           |
 | MiniDLNA        | 8201   |           |
 | Miniflux        | 8070   |           |
+| Mosquitto       | 1883   | MQTT      |
+| Mosquitto       | 9001   | Websocket |
 | MyMediaForAlexa | 52051  |           |
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
 | NZBGet          | 6789   |           |
 | Plex            | 32400  |           |
 | Portainer       | 9000   |           |
+| pyload          | 8000   |           |
 | Radarr          | 7878   |           |
 | Sickchill       | 8081   |           |
 | Sonarr          | 8989   |           |
@@ -35,4 +38,5 @@ By default, applications can be found on the ports listed below.
 | Traefik         | 8083   |           |
 | Transmission    | 9091   | with VPN  |
 | Transmission    | 9092   |           |
+| Wallabag        | 7780   |           |
 | ZNC             | 6677   |           |

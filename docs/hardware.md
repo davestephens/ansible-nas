@@ -10,7 +10,7 @@ The [homeserver Reddit](https://www.reddit.com/r/HomeServer/) has lots of good i
 
 2. How many applications do you intend to run in parallel? How much memory do these applications require?
 
-3. Are you going to run the [ZFS](zfs/zfs_overview/) file system? (you should!)
+3. Are you going to run the [ZFS](zfs/zfs_overview.md) file system? (you should!)
 
 4. What are you intending to store on your Ansible-NAS? Is it data you can download again, or is it important to you that you don't lose it? Do you need mirrored disks?
 

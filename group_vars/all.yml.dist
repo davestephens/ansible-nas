@@ -6,7 +6,7 @@
 # External Access
 # Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
 # home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
-# You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "availble_externally" 
+# You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
 # settings.
 traefik_enabled: false
 
@@ -20,6 +20,9 @@ joomla_enabled: false
 transmission_with_openvpn_enabled: false
 transmission_enabled: false
 nzbget_enabled: false
+
+# Downloaders
+pyload_enabled: false
 
 # Plex
 plex_enabled: false
@@ -72,6 +75,12 @@ bitwarden_enabled: false
 # Finance
 firefly_enabled: false
 
+# Wallabag
+wallabag_enabled: false
+
+# MQTT
+mosquitto_enabled: false
+
 ###
 ### General
 ###
@@ -88,10 +97,10 @@ keep_packages_updated: false
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
 
-# Your email and domain, used for LetsEncrypt SSL certs
+# Your email and domain, used for Let's Encrypt SSL certs
 ansible_nas_email: me@example.com
 
-# Applications will have subdomain SSL certificates created, eg ansible-nas.<your-domain>, nextcloud.<your-domain>
+# Applications will have subdomain SSL certificates created, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
 
 ###
@@ -204,7 +213,7 @@ samba_shares:
 ###
 ### NFS
 ###
-# Data you want published over NFS. More info on the nfs config format can be found at
+# Data you want published over NFS. More info on the NFS config format can be found at
 # https://help.ubuntu.com/community/SettingUpNFSHowTo#Shares
 # WARNING: Weird things might happen if you share the same data over Samba and NFS and allow writes on both!
 
@@ -246,6 +255,7 @@ ansible_nas_extra_packages:
   - bonnie++
   - unzip
   - lm-sensors
+  - ctop
 
 ansible_python_interpreter: /usr/bin/python3
 
@@ -262,7 +272,7 @@ samba_guest_account: ansible-nas
 # How Samba behaves when an unknown user connects, see Samba docs for more info
 samba_map_to_guest: Bad Password
 
-# The Netbios hostname used by Samba on your network
+# The NetBIOS hostname used by Samba on your network
 samba_netbios_name: "{{ ansible_nas_hostname }}"
 
 ###
@@ -290,14 +300,24 @@ transmission_watch_directory: "{{ torrents_root }}"
 transmission_user_id: 0
 transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
-
-###
 ### Joomla
 ###
 ### for security, change the MySQL passwords
 mysql_root_password: changeme
 mysql_password: changeme
 joomla_available_externally: "false"
+###
+
+
+=======
+### pyLoad
+###
+pyload_available_externally: "false"
+pyload_config_directory: "{{ docker_home }}/pyload"
+pyload_download_directory: "{{ downloads_root }}"
+pyload_user_id: 0
+pyload_group_id: 0
+
 
 ###
 ### Plex
@@ -310,6 +330,8 @@ plex_movies_directory: "{{ movies_root }}"
 plex_movies_permissions: "rw"
 plex_tv_directory: "{{ tv_root }}"
 plex_tv_permissions: "rw"
+plex_music_directory: "{{ music_root }}"
+plex_music_permissions: "rw"
 plex_user_id: 0
 plex_group_id: 0
 
@@ -555,3 +577,14 @@ nzbget_data_directory: "{{ docker_home }}/nzbget"
 nzbget_download_directory: "{{ downloads_root }}"
 nzbget_user_id: 0
 nzbget_group_id: 0
+
+###
+### Wallabag
+###
+wallabag_available_externally: "false"
+wallabag_data_directory: "{{ docker_home }}/wallabag"
+
+### Mosquitto
+###
+mosquitto_available_externally: "false"
+mosquitto_data_directory: "{{ docker_home }}/mosquitto"

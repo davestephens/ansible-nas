@@ -68,6 +68,10 @@
     when: (transmission_with_openvpn_enabled | default(False))
     tags: transmission
 
+  - import_tasks: tasks/pyload.yml
+    when: (pyload_enabled | default(False))
+    tags: pyload
+
   - import_tasks: tasks/thelounge.yml
     when: (thelounge_enabled | default(False))
     tags: thelounge
@@ -163,3 +167,11 @@
   - import_tasks: tasks/nzbget.yml
     when: (nzbget_enabled | default(False))
     tags: nzbget
+
+  - import_tasks: tasks/wallabag.yml
+    when: (wallabag_enabled | default(False))
+    tags: wallabag
+
+  - import_tasks: tasks/mosquitto.yml
+    when: (mosquitto_enabled | default(False))
+    tags: mosquitto
