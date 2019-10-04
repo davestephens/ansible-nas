@@ -294,6 +294,7 @@ transmission_local_network: "192.168.1.0/24"
 ###
 ### Joomla
 ###
+### for security, change the MySQL passwords
 mysql_root_password: changeme
 mysql_password: changeme
 joomla_available_externally: "false"
