@@ -4,6 +4,7 @@ By default, applications can be found on the ports listed below.
 
 | Application     | Port   | Notes     |
 |-----------------|--------|-----------|
+| Cloud Commander | 7373   |           |
 | Couchpotato     | 5050   |           |
 | Bitwarden "hub" | 3012   | Web Not.  |
 | Bitwarden       | 19080  | HTTP      |

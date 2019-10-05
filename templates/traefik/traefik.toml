@@ -181,6 +181,7 @@ onDemand = false # create certificate when container is created
   # we request a certificate for everything, because why not.
   sans = ["airsonic.{{ ansible_nas_domain }}",
           "bitwarden.{{ ansible_nas_domain }}",
+          "cloudcmd.{{ ansible_nas_domain }}",
           "couchpotato.{{ ansible_nas_domain }}",
           "duplicati.{{ ansible_nas_domain }}",
           "emby.{{ ansible_nas_domain }}",
