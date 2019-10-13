@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/pyload/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/calibre/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>pyLoad - Ansible-NAS</title>
+        <title>Calibre(-web) eBook Library - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#pyload" tabindex="1" class="md-skip">
+      <a href="#calibre-web-ebook-library" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                pyLoad
+                Calibre(-web) eBook Library
               
             </span>
           
@@ -381,11 +381,76 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../calibre/" title="Calibre(-web) eBook Library" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Calibre(-web) eBook Library
+      </label>
+    
+    <a href="./" title="Calibre(-web) eBook Library" class="md-nav__link md-nav__link--active">
       Calibre(-web) eBook Library
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#admin-login" class="md-nav__link">
+    Admin login
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ebook-conversion" class="md-nav__link">
+    eBook Conversion
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -525,56 +590,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        pyLoad
-      </label>
-    
-    <a href="./" title="pyLoad" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../pyload/" title="pyLoad" class="md-nav__link">
       pyLoad
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -819,6 +839,26 @@
     Specific Configuration
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#admin-login" class="md-nav__link">
+    Admin login
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ebook-conversion" class="md-nav__link">
+    eBook Conversion
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
       
@@ -837,19 +877,28 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/pyload.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/calibre.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="pyload">pyLoad</h1>
-<p>Homepage: <a href="https://pyload.net//">https://pyload.net/</a></p>
-<p>Free and Open Source download manager written in Python and designed to be extremely lightweight, easily extensible and fully manageable via web
-.</p>
+                <h1 id="calibre-web-ebook-library">Calibre(-web) eBook Library</h1>
+<p>Homepage: <a href="https://github.com/linuxserver/docker-calibre-web">https://github.com/janeczku/calibre-web</a></p>
+<p>Calibre-Web is a web app providing a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>pyload_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>pyLoad's web interface can be found at http://ansible_nas_host_or_ip:8000</p>
+<p>Set <code>calibre_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>Default username is <code>pyload</code> and default password is <code>pyload</code>. </p>
-<p>In order to add or remove users, you will need to access the container from an interactive shell (can easily be done from portainer, if installed) and enter pyLoad's home directory <code>/opt/pyload</code> and using the command <code>python pyLoadCore.py -u</code> and follow the on-screen prompts. More commands to configure and customize pyLoad can be found on it's website.</p>
+<h3 id="admin-login">Admin login</h3>
+<p><strong>Default admin login:</strong> Username: admin Password: admin123</p>
+<h3 id="ebook-conversion">eBook Conversion</h3>
+<p>If you do not need eBook conversion you can disable it to save resources by setting the <code>calibre_ebook_conversion</code> variable in <code>group_vars/all.yml</code> file to be empty.</p>
+<ul>
+<li>
+<p>Conversion enabled: <code>calibre_ebook_conversion: "linuxserver/calibre-web:calibre"</code></p>
+</li>
+<li>
+<p>Conversion disabled: <code>calibre_ebook_conversion: ""</code></p>
+</li>
+</ul>
+<p>You can target just Calibre by appending <code>-t calibre</code> to your <code>ansible-playbook</code> command.</p>
                 
                   
                 
@@ -870,7 +919,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../nzbget/" title="NZBget" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../bitwarden/" title="Bitwarden(_rs) Password Management" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -879,19 +928,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                NZBget
+                Bitwarden(_rs) Password Management
               </span>
             </div>
           </a>
         
         
-          <a href="../thelounge/" title="The Lounge" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../cloudflare_ddns/" title="Cloudflare Dynamic DNS Updater" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                The Lounge
+                Cloudflare Dynamic DNS Updater
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
