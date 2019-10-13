@@ -11,10 +11,16 @@ Set `calibre_enabled: true` in your `group_vars/all.yml` file.
 
 ## Specific Configuration
 
-If you do not need eBook conversion you can disable it to save resources by setting the `calibre_ebook_conversion` variable in `group_vars/all.yml` file to be empty:
-Conversion enabled:
-`calibre_ebook_conversion: "linuxserver/calibre-web:calibre"`
-Conversion disabled:
-`calibre_ebook_conversion: ""`
+### Admin login
+
+**Default admin login:** Username: admin Password: admin123
+
+### eBook Conversion
+
+If you do not need eBook conversion you can disable it to save resources by setting the `calibre_ebook_conversion` variable in `group_vars/all.yml` file to be empty.
+
+ - Conversion enabled: `calibre_ebook_conversion: "linuxserver/calibre-web:calibre"`
+
+ - Conversion disabled: `calibre_ebook_conversion: ""`
 
 You can target just Calibre by appending `-t calibre` to your `ansible-playbook` command.
