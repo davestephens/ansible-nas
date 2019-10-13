@@ -43,6 +43,7 @@ Ansible config and a bunch of Docker containers.
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
+* [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients

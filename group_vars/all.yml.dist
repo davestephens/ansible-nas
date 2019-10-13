@@ -74,7 +74,8 @@ firefly_enabled: false
 # Wallabag
 wallabag_enabled: false
 
-# MQTT
+# Home Automation
+homeassistant_enabled: true
 mosquitto_enabled: false
 
 # Calibre
@@ -600,3 +601,8 @@ calibre_user_id: "0"
 calibre_group_id: "0"
 # To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
 calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
+
+### Home Assistant
+###
+homeassistant_available_externally: "false"
+homeassistant_data_directory: "{{ docker_home }}/homeassistant"
