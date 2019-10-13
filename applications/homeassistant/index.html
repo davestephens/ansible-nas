@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/get_iplayer/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/homeassistant/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>get_iplayer - Ansible-NAS</title>
+        <title>Home Assistant - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#get_iplayer" tabindex="1" class="md-skip">
+      <a href="#home-assistant" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                get_iplayer
+                Home Assistant
               
             </span>
           
@@ -429,6 +429,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../get_iplayer/" title="get_iplayer" class="md-nav__link">
+      get_iplayer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -440,11 +452,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        get_iplayer
+        Home Assistant
       </label>
     
-    <a href="./" title="get_iplayer" class="md-nav__link md-nav__link--active">
-      get_iplayer
+    <a href="./" title="Home Assistant" class="md-nav__link md-nav__link--active">
+      Home Assistant
     </a>
     
       
@@ -472,18 +484,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../homeassistant/" title="Home Assistant" class="md-nav__link">
-      Home Assistant
-    </a>
   </li>
 
         
@@ -835,15 +835,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/get_iplayer.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/homeassistant.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="get_iplayer">get_iplayer</h1>
-<p>Homepage: <a href="https://github.com/get-iplayer/get_iplayer">https://github.com/get-iplayer/get_iplayer</a></p>
-<p>Downloads TV and radio programmes from BBC iPlayer.</p>
+                <h1 id="home-assistant">Home Assistant</h1>
+<p>Homepage: <a href="https://www.home-assistant.io/">https://www.home-assistant.io/</a></p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>get_iplayer_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>The get_iplayer web interface can be found at http://ansible_nas_host_or_ip:8182.</p>
+<p>Set <code>homeassistant_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>If you want to access Home Assistant externally, don't forget to set <code>homeassistant_available_externally: "true"</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>The Home Assistant web interface can be found at http://ansible_nas_host_or_ip:8123.</p>
                 
                   
                 
@@ -864,7 +864,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../firefly/" title="Firefly III" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../get_iplayer/" title="get_iplayer" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -873,19 +873,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Firefly III
+                get_iplayer
               </span>
             </div>
           </a>
         
         
-          <a href="../homeassistant/" title="Home Assistant" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../jackett/" title="Jackett" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Home Assistant
+                Jackett
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

@@ -81,6 +81,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/homeassistant/</loc>
+     <lastmod>2019-10-13</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/jackett/</loc>
      <lastmod>2019-10-13</lastmod>
      <changefreq>daily</changefreq>
