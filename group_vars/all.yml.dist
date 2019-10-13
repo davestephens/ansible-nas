@@ -75,7 +75,7 @@ firefly_enabled: false
 wallabag_enabled: false
 
 # Home Automation
-homeassistant_enabled: true
+homeassistant_enabled: false
 mosquitto_enabled: false
 
 # Calibre
