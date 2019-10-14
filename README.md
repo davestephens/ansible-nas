@@ -12,7 +12,7 @@ Ansible config and a bunch of Docker containers.
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
-* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr. Bazarr
+* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
