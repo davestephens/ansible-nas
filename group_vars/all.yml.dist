@@ -37,6 +37,8 @@ couchpotato_enabled: false
 radarr_enabled: false
 get_iplayer_enabled: false
 jackett_enabled: false
+bazarr_enabled: false
+
 
 # Music
 airsonic_enabled: false
@@ -387,6 +389,16 @@ radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
 radarr_user_id: 0
 radarr_group_id: 0
+
+###
+### Bazarr
+###
+bazarr_available_externally: "false"
+bazarr_data_directory: "{{ docker_home }}/bazarr/config"
+bazarr_tv_directory: "{{ tv_root }}"
+bazarr_movies_directory: "{{ movies_root }}"
+bazarr_user_id: 0
+bazarr_group_id: 0
 
 
 ###

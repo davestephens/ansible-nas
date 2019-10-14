@@ -179,3 +179,8 @@
   - import_tasks: tasks/homeassistant.yml
     when: (homeassistant_enabled | default(False))
     tags: homeassistant
+    
+  - import_tasks: tasks/bazarr.yml
+    when: (bazarr_enabled | default(False))
+    tags: bazarr
+
