@@ -12,7 +12,7 @@ Ansible config and a bunch of Docker containers.
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
-* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr
+* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
@@ -30,6 +30,7 @@ Ansible config and a bunch of Docker containers.
 ### Docker Containers Used
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
+* [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
 * [Calibre](https://hub.docker.com/r/linuxserver/calibre-web) - eBook Library
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
