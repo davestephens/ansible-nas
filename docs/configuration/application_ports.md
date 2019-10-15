@@ -30,6 +30,8 @@ By default, applications can be found on the ports listed below.
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
 | NZBGet          | 6789   |           |
+| openHAB         | 7777   | HTTP      |
+| openHAB         | 7778   | HTTPS     |
 | Plex            | 32400  |           |
 | Portainer       | 9000   |           |
 | pyload          | 8000   |           |

@@ -184,3 +184,8 @@
     when: (bazarr_enabled | default(False))
     tags: bazarr
 
+  - import_tasks: tasks/openhab.yml
+    when: (openhab_enabled | default(False))
+    tags: openhab
+
+
