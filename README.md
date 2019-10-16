@@ -28,7 +28,6 @@ Ansible config and a bunch of Docker containers.
 * eBook management with calibre-web
 * A dual panel local file manager
 
-
 ### Docker Containers Used
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
