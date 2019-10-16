@@ -4,6 +4,7 @@ By default, applications can be found on the ports listed below.
 
 | Application     | Port   | Notes     |
 |-----------------|--------|-----------|
+| Airsonic        | 4040   |           |
 | Couchpotato     | 5050   |           |
 | Bazarr          | 6767   |           |
 | Bitwarden "hub" | 3012   | Web Not.  |
