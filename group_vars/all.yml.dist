@@ -43,6 +43,7 @@ bazarr_enabled: false
 # Music
 airsonic_enabled: false
 mymediaforalexa_enabled: false
+lidarr_enabled: false
 
 # News
 miniflux_enabled: false
@@ -402,6 +403,16 @@ bazarr_tv_directory: "{{ tv_root }}"
 bazarr_movies_directory: "{{ movies_root }}"
 bazarr_user_id: "0"
 bazarr_group_id: "0"
+
+###
+### lidarr
+###
+lidarr_available_externally: "false"
+lidarr_data_directory: "{{ docker_home }}/lidarr/config"
+lidarr_music_directory: "{{ music_root }}"
+lidarr_downloads_directory: "{{ downloads_root }}"
+lidarr_user_id: 0
+lidarr_group_id: 0
 
 
 ###

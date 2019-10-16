@@ -188,4 +188,6 @@
     when: (openhab_enabled | default(False))
     tags: openhab
 
-
+  - import_tasks: tasks/lidarr.yml
+    when: (lidarr_enabled | default(False))
+    tags: lidarr
