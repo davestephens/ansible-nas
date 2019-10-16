@@ -172,10 +172,6 @@
     when: (mosquitto_enabled | default(False))
     tags: mosquitto
 
-  - import_tasks: tasks/cloudcmd.yml
-    when: (cloudcmd_enabled | default(False))
-    tags: cloudcmd
-
   - import_tasks: tasks/calibre.yml
     when: (calibre_enabled | default(False))
     tags: calibre
