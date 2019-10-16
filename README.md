@@ -12,7 +12,7 @@ Ansible config and a bunch of Docker containers.
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
-* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr
+* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
@@ -25,12 +25,16 @@ Ansible config and a bunch of Docker containers.
 * A Docker host with Portainer for image and container management
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 * A Personal finance manager
+* eBook management with calibre-web
 * A dual panel local file manager
+
 
 ### Docker Containers Used
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
+* [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
+* [Calibre](https://hub.docker.com/r/linuxserver/calibre-web) - eBook Library
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
@@ -43,6 +47,7 @@ Ansible config and a bunch of Docker containers.
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
+* [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
@@ -52,6 +57,7 @@ Ansible config and a bunch of Docker containers.
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
+* [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
