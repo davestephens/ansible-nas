@@ -27,6 +27,9 @@ tautulli_enabled: false
 # Emby
 emby_enabled: false
 
+# Jellyfin
+jellyfin_enabled: false
+
 # minidlna
 minidlna_enabled: false
 
@@ -629,3 +632,17 @@ homeassistant_data_directory: "{{ docker_home }}/homeassistant"
 openhab_available_externally: "false"
 openhab_docker_image: openhab/openhab:latest
 openhab_data_directory: "{{ docker_home }}/openhab"
+
+###
+### Jellyfin
+###
+# If you're paranoid, set permissions to "ro" so jellyfin won't ever be able to
+# delete your files
+jellyfin_available_externally: "false"
+jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
+jellyfin_movies_directory: "{{ movies_root }}"
+jellyfin_movies_permissions: "rw"
+jellyfin_tv_directory: "{{ tv_root }}"
+jellyfin_tv_permissions: "rw"
+jellyfin_user_id: 0
+jellyfin_group_id: 0
