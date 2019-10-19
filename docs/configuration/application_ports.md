@@ -23,6 +23,8 @@ By default, applications can be found on the ports listed below.
 | Heimdall        | 10080  |           |
 | Home Assistant  | 8123   |           |
 | Jackett         | 9117   |           |
+| Jellyfin        | 8896   | HTTP      |
+| Jellyfin        | 8928   | HTTPS     |
 | MiniDLNA        | 8201   |           |
 | Miniflux        | 8070   |           |
 | Mosquitto       | 1883   | MQTT      |

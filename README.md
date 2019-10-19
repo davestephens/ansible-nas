@@ -13,7 +13,7 @@ Ansible config and a bunch of Docker containers.
 * A BitTorrent client
 * A Usenet downloader
 * Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr
-* Media streaming via Plex or Emby
+* Media streaming via Plex, Emby or Jellyfin
 * Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
 * A Dropbox replacement via Nextcloud
@@ -47,6 +47,7 @@ Ansible config and a bunch of Docker containers.
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
+* [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
@@ -92,7 +93,7 @@ gained by automating it. Check out the [docs](https://davestephens.github.io/ans
 :skull: Before running anything, check out the playbook and understand what it
 does. Run it against a VM and make sure you're happy. ***Do not*** blindly
 download code from the internet and trust that it's going to work as you expect.
-:skull: 
+:skull:
 
 1. Enable the Ubuntu Universe repository: `sudo add-apt-repository universe`
 2. Install Ansible: `sudo apt install ansible`
@@ -124,7 +125,7 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 ## Requirements
 
 * Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu
-  Server 18.04.2 LTS. 
+  Server 18.04.2 LTS.
 * You can run Ansible-NAS on whatever you like, read the docs for more info. I
   use an HP Microserver.
 
