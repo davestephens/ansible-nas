@@ -101,6 +101,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/joomla/</loc>
+     <lastmod>2019-10-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/minidlna/</loc>
      <lastmod>2019-10-19</lastmod>
      <changefreq>daily</changefreq>
