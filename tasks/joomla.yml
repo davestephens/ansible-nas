@@ -3,46 +3,39 @@
   file:
     path: "{{ item }}"
     state: directory
-    # mode: 0755
   with_items:
-    - "{{ docker_home }}/joomla"
-
-- name: Create MySQL Directorys for Joomla
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ docker_home }}/JoomlaDB"
+    - "{{ joomla_data_directory }}"
+    - "{{ joomla_data_directory }}/db"
 
 - name: MySQL Docker Container for Joomla
   docker_container:
-    name: mysql_joomla
-    image: mysql
+    name: joomla_mysql
+    image: mysql:5.7
     pull: true
     volumes:
-      - "{{ docker_home }}/JoomlaDB:/var/lib/mysql"
+      - "{{ joomla_data_directory }}/db:/var/lib/mysql"
     env:
-      MYSQL_DATABASE: joomla
-      MYSQL_USER: joomla
-      MYSQL_PASSWORD: "{{ mysql_password }}"
-      MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
+      MYSQL_DATABASE: "joomla"
+      MYSQL_USER: "joomla"
+      MYSQL_ROOT_PASSWORD: "{{ joomla_database_password }}"
     restart_policy: unless-stopped
     memory: 1g
 
-- name: joomla Docker Container
+- name: Joomla Docker Container
   docker_container:
     name: joomla
     image: joomla
     pull: true
     volumes:
-      - "{{ docker_home }}/joomla:/var/www/html:rw"
+      - "{{ joomla_data_directory }}:/var/www/html:rw"
     ports:
       - "8181:80"
     links:
-      - "mysql_joomla:mysql_joomla"
+      - "joomla_mysql:mysql"
     env:
-      JOOMLA_DB_PASSWORD: "{{ mysql_root_password }}"
+      JOOMLA_DB_HOST: "mysql"
+      JOOMLA_DB_USER: "root"
+      JOOMLA_DB_PASSWORD: "{{ joomla_database_password }}"
     restart_policy: unless-stopped
     memory: 1g
     labels:
