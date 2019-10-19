@@ -644,5 +644,5 @@ jellyfin_movies_directory: "{{ movies_root }}"
 jellyfin_movies_permissions: "rw"
 jellyfin_tv_directory: "{{ tv_root }}"
 jellyfin_tv_permissions: "rw"
-jellyfin_user_id: 0
-jellyfin_group_id: 0
+jellyfin_user_id: "0"
+jellyfin_group_id: "0"
