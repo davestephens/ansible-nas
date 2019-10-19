@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/minidlna/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/jellyfin/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>MiniDLNA - Ansible-NAS</title>
+        <title>Jellyfin - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#minidlna" tabindex="1" class="md-skip">
+      <a href="#jellyfin" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                MiniDLNA
+                Jellyfin
               
             </span>
           
@@ -477,18 +477,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href="../jellyfin/" title="Jellyfin" class="md-nav__link">
-      Jellyfin
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -500,11 +488,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        MiniDLNA
+        Jellyfin
       </label>
     
-    <a href="./" title="MiniDLNA" class="md-nav__link md-nav__link--active">
-      MiniDLNA
+    <a href="./" title="Jellyfin" class="md-nav__link md-nav__link--active">
+      Jellyfin
     </a>
     
       
@@ -524,6 +512,27 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-system-considerations" class="md-nav__link">
+    File system considerations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#naming-movies-and-tv-shows" class="md-nav__link">
+    Naming movies and TV shows
+  </a>
+  
+</li>
+      
       
       
       
@@ -532,6 +541,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../minidlna/" title="MiniDLNA" class="md-nav__link">
+      MiniDLNA
+    </a>
   </li>
 
         
@@ -855,6 +876,27 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-system-considerations" class="md-nav__link">
+    File system considerations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#naming-movies-and-tv-shows" class="md-nav__link">
+    Naming movies and TV shows
+  </a>
+  
+</li>
+      
       
       
       
@@ -871,15 +913,59 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/minidlna.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/jellyfin.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="minidlna">MiniDLNA</h1>
-<p>Homepage: <a href="https://sourceforge.net/projects/minidlna/">https://sourceforge.net/projects/minidlna/</a></p>
-<p>MiniDLNA is server software with the aim of being fully compliant with DLNA/UPnP clients. The MiniDNLA daemon serves media files (music, pictures, and video) to clients on a network. Example clients include applications such as Totem and Kodi, and devices such as portable media players, Smartphones, Televisions, and gaming systems (such as PS3 and Xbox 360).</p>
+                <h1 id="jellyfin">Jellyfin</h1>
+<p>Homepage: <a href="https://jellyfin.github.io/">https://jellyfin.github.io/</a></p>
+<p>Jellyfin is a Free Software Media System that puts you in control of managing and streaming your media. It is an alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user devices via multiple apps. Jellyfin is descended from Emby's 3.5.2 release and ported to the .NET Core framework to enable full cross-platform support. There are no strings attached, no premium licenses or features, and no hidden agendas: just a team who want to build something better and work together to achieve it. We welcome anyone who is interested in joining us in our quest!</p>
+<p>Note that <a href="https://www.plex.tv/">Plex</a>, also included in Ansible-NAS, has a very
+similar functionality.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>minidlna_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>The very basic MiniDLNA web interface can be found at http://ansible_nas_host_or_ip:8201.</p>
+<p>Set <code>jellyfin_enabled: true</code> in your <code>group_vars/all.yml</code> file. There are further
+parameters you can edit such as <code>movies_root</code> and <code>tv_root</code> lower down. </p>
+<h2 id="specific-configuration">Specific Configuration</h2>
+<p>The jellyfin web interface can be found at port 8896 (http) or 8928 (https, if
+configured) of your NAS.</p>
+<p>By default, Ansible-NAS gives jellyfin read/write access to the folders where your
+movies and TV shows are stored. To change this to read-only, edit the following
+lines in <code>all.yml</code>:</p>
+<pre><code>        jellyfin_movies_permissions: &quot;rw&quot;
+        jellyfin_tv_permissions: &quot;rw&quot;
+</code></pre>
+
+<p>so that they end in <code>ro</code> instead of <code>rw</code>. Note that jellyfin will not be able to
+delete files then, which might be exactly what you want. However, you will not
+have the option to store cover art in the related folders. Always leave the
+configuration directory read/write. </p>
+<h2 id="file-system-considerations">File system considerations</h2>
+<p>Movie and TV show files are almost alway very large and pre-compressed. If you
+are using a specialized filesystem such as ZFS for bulk storage, you'll want to
+set the parameters accordingly. The <a href="../zfs/zfc_configuration.md">ZFS configuration
+documentation</a> has an example of this.</p>
+<h2 id="naming-movies-and-tv-shows">Naming movies and TV shows</h2>
+<p>jellyfin is very fussy about how movies and TV shows must be named to enable
+automatic downloads of cover art and metadata. In short, movie files should
+follow how movies are listed in the <a href="https://www.imdb.com/">IMDb</a>, including the
+year of publication: </p>
+<pre><code>        movies/Bride of Frankenstein (1935).mp4
+</code></pre>
+
+<p>Note the spaces. You should probably remove colons and other special characters. </p>
+<p>TV shows require a folder structure with the name of the series - again if
+possible with the year of publication - followed by sub-folders for the
+individual seasons. For example, the first episode of the first season of
+the original "Doctor Who" could be stored as:</p>
+<pre><code>        tv/Doctor Who (1963)/Season 1/Doctor Who - s01e01.mp4
+</code></pre>
+
+<p>The <a href="https://www.thetvdb.com/">TVDB</a> is one source for the exact names of TV
+shows.</p>
+<p>Unfortunately, there are number of special cases, especially related to split
+movies and older series. See the <a href="https://github.com/MediaBrowser/Wiki/wiki/Movie%20naming">movie
+naming</a> and <a href="https://github.com/MediaBrowser/Wiki/wiki/TV-naming">TV
+naming</a> guides for further
+information.</p>
                 
                   
                 
@@ -900,7 +986,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../jellyfin/" title="Jellyfin" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../jackett/" title="Jackett" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -909,19 +995,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Jellyfin
+                Jackett
               </span>
             </div>
           </a>
         
         
-          <a href="../miniflux/" title="Miniflux" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../minidlna/" title="MiniDLNA" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Miniflux
+                MiniDLNA
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
