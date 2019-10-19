@@ -26,6 +26,7 @@ Ansible config and a bunch of Docker containers.
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 * A Personal finance manager
 * eBook management with calibre-web
+* Content management with Joomla
 
 ### Docker Containers Used
 
@@ -48,6 +49,7 @@ Ansible config and a bunch of Docker containers.
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
+* [Joomla](https://www.joomla.org/) - Open source content management system
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker

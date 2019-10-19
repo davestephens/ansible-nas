@@ -195,6 +195,7 @@ onDemand = false # create certificate when container is created
           "homeassistant.{{ ansible_nas_domain }}",
           "jackett.{{ ansible_nas_domain }}",
           "jellyfin.{{ ansible_nas_domain }}",
+          "joomla.{{ ansible_nas_domain }}",
           "miniflux.{{ ansible_nas_domain }}",
           "netdata.{{ ansible_nas_domain }}",
           "nextcloud.{{ ansible_nas_domain }}",

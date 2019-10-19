@@ -89,6 +89,9 @@ calibre_enabled: false
 # Smarthome
 openhab_enabled: false
 
+# Joomla
+joomla_enabled: false
+
 ###
 ### General
 ###
@@ -321,6 +324,13 @@ transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
 
 ###
+### Joomla
+###
+joomla_data_directory: "{{ docker_home }}/joomla"
+joomla_available_externally: "false"
+joomla_database_password: top_secret
+
+###
 ### pyLoad
 ###
 pyload_available_externally: "false"
@@ -328,6 +338,7 @@ pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
 pyload_user_id: 0
 pyload_group_id: 0
+
 
 ###
 ### Plex
