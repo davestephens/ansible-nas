@@ -65,7 +65,7 @@ Ansible config and a bunch of Docker containers.
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client
-* [TimeMachine](https://github.com/mbentley/docker-timemachine) - Mac backup server
+* [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server (see [upgrade note](https://davidstephens.uk/ansible-nas/upgrading/))
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.

@@ -43,6 +43,7 @@ By default, applications can be found on the ports listed below.
 | Sonarr          | 8989   |           |
 | Tautulli        | 8181   |           |
 | The Lounge      | 9000   |           |
+| Time Machine    | 10445  | SMB       |
 | Traefik         | 8083   |           |
 | Transmission    | 9091   | with VPN  |
 | Transmission    | 9092   |           |
