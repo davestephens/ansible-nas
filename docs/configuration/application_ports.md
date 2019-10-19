@@ -4,9 +4,12 @@ By default, applications can be found on the ports listed below.
 
 | Application     | Port   | Notes     |
 |-----------------|--------|-----------|
+| Airsonic        | 4040   |           |
 | Couchpotato     | 5050   |           |
+| Bazarr          | 6767   |           |
 | Bitwarden "hub" | 3012   | Web Not.  |
 | Bitwarden       | 19080  | HTTP      |
+| Calibre         | 8084   | HTTP      |
 | Duplicati       | 8200   |           |
 | Emby            | 8096   | HTTP      |
 | Emby            | 8920   | HTTPS     |
@@ -18,7 +21,10 @@ By default, applications can be found on the ports listed below.
 | Grafana         | 3000   |           |
 | Guacamole       | 8090   |           |
 | Heimdall        | 10080  |           |
+| Home Assistant  | 8123   |           |
 | Jackett         | 9117   |           |
+| Jellyfin        | 8896   | HTTP      |
+| Jellyfin        | 8928   | HTTPS     |
 | MiniDLNA        | 8201   |           |
 | Miniflux        | 8070   |           |
 | Mosquitto       | 1883   | MQTT      |
@@ -27,6 +33,8 @@ By default, applications can be found on the ports listed below.
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
 | NZBGet          | 6789   |           |
+| openHAB         | 7777   | HTTP      |
+| openHAB         | 7778   | HTTPS     |
 | Plex            | 32400  |           |
 | Portainer       | 9000   |           |
 | pyload          | 8000   |           |
