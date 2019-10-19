@@ -171,3 +171,23 @@
   - import_tasks: tasks/mosquitto.yml
     when: (mosquitto_enabled | default(False))
     tags: mosquitto
+
+  - import_tasks: tasks/calibre.yml
+    when: (calibre_enabled | default(False))
+    tags: calibre
+
+  - import_tasks: tasks/homeassistant.yml
+    when: (homeassistant_enabled | default(False))
+    tags: homeassistant
+
+  - import_tasks: tasks/bazarr.yml
+    when: (bazarr_enabled | default(False))
+    tags: bazarr
+
+  - import_tasks: tasks/openhab.yml
+    when: (openhab_enabled | default(False))
+    tags: openhab
+
+  - import_tasks: tasks/jellyfin.yml
+    when: (jellyfin_enabled | default(False))
+    tags: jellyfin
