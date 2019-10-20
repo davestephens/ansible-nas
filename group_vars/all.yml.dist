@@ -59,7 +59,7 @@ guacamole_enabled: false
 netdata_enabled: false
 watchtower_enabled: false
 cloudflare_ddns_enabled: false
-cloudcmd_enabled: true
+cloudcmd_enabled: false
 
 
 # Backup & Restore
@@ -530,8 +530,8 @@ airsonic_data_directory: "{{ docker_home }}/airsonic"
 cloudcmd_available_externally: "false"
 cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
 cloudcmd_browse_directory: "/"
-cloudcmd_user_id: 0
-cloudcmd_group_id: 0
+cloudcmd_user_id: "0"
+cloudcmd_group_id: "0"
 
 ###
 ### Watchtower
