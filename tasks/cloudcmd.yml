@@ -26,4 +26,4 @@
       traefik.backend: "cloudcmd"
       traefik.frontend.rule: "Host:cloudcmd.{{ ansible_nas_domain }}"
       traefik.enable: "{{ cloudcmd_available_externally }}"
-      traefik.port: "7373"
+      traefik.port: "8000"
