@@ -544,11 +544,11 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
 ### Time Machine
 ###
 timemachine_data_directory: "{{ docker_home }}/timemachine"
-timemachine_volume_size_limit: 0
+timemachine_volume_size_limit: "0"
 timemachine_password: timemachine
 timemachine_share_name: Data
 timemachine_log_level: error
-timemachine_port: 10445
+timemachine_port: "10445"
 
 ###
 ### minidlna
