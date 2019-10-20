@@ -195,3 +195,7 @@
   - import_tasks: tasks/jellyfin.yml
     when: (jellyfin_enabled | default(False))
     tags: jellyfin
+
+  - import_tasks: tasks/cloudcmd.yml
+    when: (cloudcmd_enabled | default(False))
+    tags: cloudcmd

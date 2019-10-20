@@ -5,11 +5,12 @@ By default, applications can be found on the ports listed below.
 | Application     | Port   | Notes     |
 |-----------------|--------|-----------|
 | Airsonic        | 4040   |           |
-| Couchpotato     | 5050   |           |
 | Bazarr          | 6767   |           |
 | Bitwarden "hub" | 3012   | Web Not.  |
 | Bitwarden       | 19080  | HTTP      |
 | Calibre         | 8084   | HTTP      |
+| Cloud Commander | 7373   |           |
+| Couchpotato     | 5050   |           |
 | Duplicati       | 8200   |           |
 | Emby            | 8096   | HTTP      |
 | Emby            | 8920   | HTTPS     |
