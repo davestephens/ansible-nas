@@ -8,4 +8,10 @@ Cloud Commander is a file manager for the web. It includes a command-line consol
 
 ## Usage
 
-Set `cloudcmd_enabled: true` in your `group_vars/all.yml` file. Then setup the folder you want to manager with `cloudcmd_browse_directory`, if you define it as `/` you will see all of your nas in `/mnt/fs`.
+Set `cloudcmd_enabled: true` in your `group_vars/all.yml` file.
+
+By default your the root of your Ansible-NAS box (`/`) is mounted into `/mnt/fs` within the container. If you'd like to 
+change this update `cloudcmd_browse_directory` in your `group_vars/all.yml` file.
+
+If you enable external access to Cloud Commander (note that this is not recommended) then ensure you configure authorisation
+within the application (F10 from the main menu).
