@@ -66,6 +66,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/cloudcmd/</loc>
+     <lastmod>2019-10-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/cloudflare_ddns/</loc>
      <lastmod>2019-10-20</lastmod>
      <changefreq>daily</changefreq>

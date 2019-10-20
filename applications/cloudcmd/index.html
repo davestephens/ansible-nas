@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/mymediaforalexa/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/cloudcmd/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>My Media for Alexa - Ansible-NAS</title>
+        <title>Cloud Commander file manager - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#my-media-for-alexa" tabindex="1" class="md-skip">
+      <a href="#cloud-commander-file-manager" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                My Media for Alexa
+                Cloud Commander file manager
               
             </span>
           
@@ -405,11 +405,49 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../cloudcmd/" title="Cloud Commander file manager" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Cloud Commander file manager
+      </label>
+    
+    <a href="./" title="Cloud Commander file manager" class="md-nav__link md-nav__link--active">
       Cloud Commander file manager
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -549,49 +587,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        My Media for Alexa
-      </label>
-    
-    <a href="./" title="My Media for Alexa" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../mymediaforalexa/" title="My Media for Alexa" class="md-nav__link">
       My Media for Alexa
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -895,15 +895,18 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/mymediaforalexa.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/cloudcmd.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="my-media-for-alexa">My Media for Alexa</h1>
-<p>Homepage: <a href="https://www.mymediaalexa.com/">https://www.mymediaalexa.com/</a></p>
-<p>My Media lets you stream your music collection to your Amazon Echo or Amazon Dot without having to upload all your music collection to the Cloud. This keeps your music under your control.</p>
+                <h1 id="cloud-commander-file-manager">Cloud Commander file manager</h1>
+<p>Homepage: <a href="https://cloudcmd.io/">https://cloudcmd.io/</a></p>
+<p>Cloud Commander is a file manager for the web. It includes a command-line console and a text editor. Cloud Commander helps you manage your server and work with files, directories and programs in a web browser from any computer, mobile or tablet.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>mymediaforalexa_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>The My Media for Alexa web interface can be found at http://ansible_nas_host_or_ip:52051.</p>
+<p>Set <code>cloudcmd_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>By default your the root of your Ansible-NAS box (<code>/</code>) is mounted into <code>/mnt/fs</code> within the container. If you'd like to 
+change this update <code>cloudcmd_browse_directory</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>If you enable external access to Cloud Commander (note that this is not recommended) then ensure you configure authorisation
+within the application (F10 from the main menu).</p>
                 
                   
                 
@@ -924,7 +927,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../mosquitto/" title="Mosquitto" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../calibre/" title="Calibre(-web) eBook Library" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -933,19 +936,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Mosquitto
+                Calibre(-web) eBook Library
               </span>
             </div>
           </a>
         
         
-          <a href="../nextcloud/" title="Nextcloud" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../cloudflare_ddns/" title="Cloudflare Dynamic DNS Updater" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Nextcloud
+                Cloudflare Dynamic DNS Updater
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
