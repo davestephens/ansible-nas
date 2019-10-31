@@ -21,7 +21,7 @@ Ansible config and a bunch of Docker containers.
 * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
 * An IRC bouncer and web-based client
 * Source control with Gitea
-* SSL secured external access to applications via Traefik
+* SSL secured external access to applications via Traefik and Let's Encrypt or Step Certificates
 * A Docker host with Portainer for image and container management
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 * A Personal finance manager
@@ -66,6 +66,7 @@ Ansible config and a bunch of Docker containers.
 * [Radarr](https://radarr.video/) - for organising and downloading movies
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
+* [Step Certificates](https://smallstep.com/certificates/) - A private certificate authority (CA) and ACME server for secure automated certificate management
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client

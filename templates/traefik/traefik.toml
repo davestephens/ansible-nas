@@ -208,6 +208,7 @@ onDemand = false # create certificate when container is created
           "radarr.{{ ansible_nas_domain }}",
           "sickchill.{{ ansible_nas_domain }}",
           "sonarr.{{ ansible_nas_domain }}",
+          "stepca.{{ ansible_nas_domain }}",
           "tautulli.{{ ansible_nas_domain }}",
           "thelounge.{{ ansible_nas_domain }}",
           "transmission.{{ ansible_nas_domain }}",

@@ -1,0 +1,46 @@
+---
+- name: Create step-ca directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: 1000
+    group: 1000
+  with_items:
+    - "{{ stepca_directory }}"
+    - "{{ stepca_directory }}/config"
+    - "{{ stepca_directory }}/certs"
+    - "{{ stepca_directory }}/db"
+    - "{{ stepca_directory }}/secrets"
+
+- name: Create step-ca password file
+  copy:
+    content: "{{ stepca_password }}"
+    dest: "{{ stepca_directory }}/secrets/intermediate_pass"
+    owner: 1000
+    group: 1000
+
+- name: Initialize Step Certificates CA
+  docker_container:
+    name: step-ca
+    image: smallstep/step-ca
+    pull: true
+    cleanup: yes
+    volumes:
+      - "{{ stepca_directory }}:/home/step:rw"
+    memory: 1g
+    command: "step ca init --name 'Ansible-NAS CA' --provisioner {{ ansible_nas_email }} --dns stepca.{{ ansible_nas_domain }} --address ':8443' --password-file secrets/intermediate_pass"
+  when: (stepca_init | default(False)) 
+
+- name: Create Step Certificates container 
+  docker_container:
+    name: step-ca
+    image: smallstep/step-ca
+    pull: true
+    volumes:
+      - "{{ stepca_directory }}:/home/step:rw"
+    ports:
+      - "8443:8443"
+    restart_policy: unless-stopped
+    memory: 1g
+    env:
+      PWDPATH: /home/step/secrets/intermediate_pass

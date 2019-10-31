@@ -199,3 +199,7 @@
   - import_tasks: tasks/cloudcmd.yml
     when: (cloudcmd_enabled | default(False))
     tags: cloudcmd
+
+  - import_tasks: tasks/step-ca.yml
+    when: (stepca_enabled | default(False))
+    tags: stepca
