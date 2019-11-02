@@ -157,6 +157,9 @@ podcasts_root: "{{ samba_shares_root }}/podcasts"
 # Where your books are stored
 books_root: "{{ samba_shares_root }}/books"
 
+# Where photos are stored
+photos_root: "{{ samba_shares_root }}/photos"
+
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
 
@@ -355,6 +358,8 @@ plex_movies_directory: "{{ movies_root }}"
 plex_movies_permissions: "rw"
 plex_tv_directory: "{{ tv_root }}"
 plex_tv_permissions: "rw"
+plex_photos_directory: "{{ photos_root }}"
+plex_photos_permissions: "rw"
 plex_music_directory: "{{ music_root }}"
 plex_music_permissions: "rw"
 plex_user_id: 0
