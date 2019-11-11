@@ -16,5 +16,28 @@ Make sure you change the step-ca password. Step Certificates uses this to encryp
 
 The certificate authority will also have to be initialized first. This can be done by setting `stepca_init: true` in your `group_vars/all.yml` file and then running `ansible-playbook -i inventory nas.yml -b -K -t stepca`. Once you have initialized the CA, set the `stepca_init` variable to false.
 
-## Step Certificates as a CA for Traefik
-When your `group_vars/all.yml` file contains `stepca_enabled: true`, Traefik will use Step Certificates as a CA instead of Let's Encrypt for your TLS certificate.
+## Add your root certificate to your clients
+When using certificates signed by your own CA, you need to add the CA's root certificate to the trusted root store of each of your devices.
+
+First get the certificate fingerprint:
+
+```shell
+docker exec -ti step-ca step certificate fingerprint /home/step/certs/root_ca.crt
+```
+
+Then on your Linux desktop install the [step-cli](https://github.com/smallstep/cli/releases) package. After this, bootstrap your CA:
+
+```
+step ca bootstrap --fingerprint $FP --ca-url $CA
+```
+
+Use the fingerprint instead of `$FP` and the URI of your CA instead of `$CA`: `{{ ansible_nas_domain }}:8443`. This downloads your CA's root certificate. Then install it system-wide with:
+
+```
+sudo step certificate install --all .step/certs/root_ca.crt
+```
+
+## Step Certificates as a CA and ACME server for Traefik
+If Step Certificates is enabled, Traefik will use it as a CA and ACME server instead of Let's Encrypt.
+
+This setup requires that you have a local DNS server running that resolves every possible subdomain `*.{{ ansible_nas_domain }}` to the IP address of `{{ ansible_nas_domain }}`. This essentially mimics Cloudflare's wildcard DNS entries, but for your local domain.
