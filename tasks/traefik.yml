@@ -30,5 +30,8 @@
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "{{ stepca_directory }}/certs:/certs:ro"
     restart_policy: unless-stopped
     memory: 1g
+    env:
+      LEGO_CA_CERTIFICATES: "/certs/root_ca.crt"

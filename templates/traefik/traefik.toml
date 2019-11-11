@@ -164,15 +164,21 @@ storage = "acme.json"
 entryPoint = "https"
 acmeLogging = true
 onDemand = false # create certificate when container is created
+{% if stepca_enabled | default(False) %}
+caServer = "https://{{ ansible_nas_domain }}:8443/acme/acme/directory"
+{% endif %}
 
   # [acme.dnsChallenge]
   # provider = "cloudflare"
   # delayBeforeCheck = 0
 
-  # [acme.httpChallenge]
-  # entryPoint = "http"
-
+{% if stepca_enabled | default(False) %}
+  [acme.httpChallenge]
+  entryPoint = "http"
+{% else %}
   [acme.tlsChallenge]
+{% endif %}
+
 
   [[acme.domains]]
   main = "ansible-nas.{{ ansible_nas_domain }}"
