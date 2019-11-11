@@ -29,7 +29,7 @@
       - "{{ stepca_directory }}:/home/step:rw"
     memory: 1g
     command: "step ca init --name 'Ansible-NAS CA' --provisioner {{ ansible_nas_email }} --dns {{ ansible_nas_domain }} --address ':8443' --password-file secrets/intermediate_pass"
-  when: (stepca_init | default(False)) 
+  when: (stepca_init | default(False))
 
 - name: Create ACME provisioner
   docker_container:
@@ -41,9 +41,9 @@
       - "{{ stepca_directory }}:/home/step:rw"
     memory: 1g
     command: "step ca provisioner add acme --type ACME"
-  when: (stepca_init | default(False)) 
+  when: (stepca_init | default(False))
 
-- name: Create Step Certificates container 
+- name: Create Step Certificates container
   docker_container:
     name: step-ca
     image: smallstep/step-ca
