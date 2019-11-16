@@ -3,18 +3,18 @@
   tasks:
   - name: Warning!
     debug:
-      msg: "This playbook will repermission ALL existing data in the shares defined in group_vars/all.yml to be owned by the ansible-nas user and group. If this is not what you want, exit now."
+      msg: "This playbook will repermission ALL existing data in the shares defined in group_vars/all.yml to be owned by root and accessible/writable by all users. This is to prevent any permission issues with running containers that move data around, such as Radarr, Sonarr, Couchpotato etc. If this is not what you want, exit now."
 
-  - name: 20s to change your mind...
+  - name: 30s to change your mind...
     pause:
-      seconds: 20
+      seconds: 30
 
   - name: "Permission share data"
     file:
       path: "{{ item.path }}"
-      owner: ansible-nas
-      group: ansible-nas
-      mode: "u=rwX,g=rwX,o=rX"
+      owner: root
+      group: root
+      mode: "u=rwX,g=rwX,o=rwX"
       recurse: true
     loop: "{{ samba_shares }}"
 
