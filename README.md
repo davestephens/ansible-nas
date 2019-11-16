@@ -12,8 +12,8 @@ Ansible config and a bunch of Docker containers.
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
-* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr
-* Media streaming via Plex or Emby
+* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr
+* Media streaming via Plex, Emby or Jellyfin
 * Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
 * A Dropbox replacement via Nextcloud
@@ -25,11 +25,17 @@ Ansible config and a bunch of Docker containers.
 * A Docker host with Portainer for image and container management
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 * A Personal finance manager
+* eBook management with calibre-web
+* Content management with Joomla
+* A dual panel local file manager
 
 ### Docker Containers Used
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
+* [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
+* [Calibre](https://hub.docker.com/r/linuxserver/calibre-web) - eBook Library
+* [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
@@ -41,8 +47,11 @@ Ansible config and a bunch of Docker containers.
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
+* [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
+* [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
+* [Joomla](https://www.joomla.org/) - Open source content management system
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
@@ -50,6 +59,7 @@ Ansible config and a bunch of Docker containers.
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
+* [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
@@ -59,7 +69,7 @@ Ansible config and a bunch of Docker containers.
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client
-* [TimeMachine](https://github.com/mbentley/docker-timemachine) - Mac backup server
+* [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
@@ -87,7 +97,7 @@ gained by automating it. Check out the [docs](https://davestephens.github.io/ans
 :skull: Before running anything, check out the playbook and understand what it
 does. Run it against a VM and make sure you're happy. ***Do not*** blindly
 download code from the internet and trust that it's going to work as you expect.
-:skull: 
+:skull:
 
 1. Enable the Ubuntu Universe repository: `sudo add-apt-repository universe`
 2. Install Ansible: `sudo apt install ansible`
@@ -119,7 +129,7 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 ## Requirements
 
 * Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu
-  Server 18.04.2 LTS. 
+  Server 18.04.3 LTS.
 * You can run Ansible-NAS on whatever you like, read the docs for more info. I
   use an HP Microserver.
 

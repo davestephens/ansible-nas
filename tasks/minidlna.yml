@@ -1,3 +1,4 @@
+---
 - name: minidlna Docker Container
   docker_container:
     name: minidlna
@@ -12,7 +13,7 @@
       MINIDLNA_MEDIA_DIR1: "/media1"
       MINIDLNA_MEDIA_DIR2: "/media2"
       MINIDLNA_FRIENDLY_NAME: "{{ minidlna_friendly_name }}"
-      MINIDLNA_PORT: "8201"
+      MINIDLNA_PORT: "{{ minidlna_host_port }}"
     network_mode: host
     restart_policy: unless-stopped
     memory: 1g

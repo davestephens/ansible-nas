@@ -1,3 +1,4 @@
+---
 - name: Create Miniflux Directories
   file:
     path: "{{ item }}"
@@ -26,7 +27,7 @@
     links:
         - miniflux-postgres:db
     ports:
-      - "8070:8080"
+      - "{{ miniflux_host_port }}:8080"
     env:
       DATABASE_URL: "postgres://miniflux:supersecure@db/miniflux?sslmode=disable"
       RUN_MIGRATIONS: "1"

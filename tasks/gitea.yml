@@ -51,20 +51,20 @@
     volumes:
       - "{{ gitea_data_directory }}/gitea:/data:rw"
     ports:
-      - "3001:3000"
-      - "222:22"
+      - "{{ gitea_host_port_1 }}:3000"
+      - "{{ gitea_host_port_2 }}:22"
     env:
-      DB_TYPE: mysql
-      DB_HOST: db:3306
-      DB_NAME: gitea
-      DB_USER: gitea
-      DB_PASSWD: gitea
-      RUN_MODE: prod
+      DB_TYPE: "mysql"
+      DB_HOST: "db:3306"
+      DB_NAME: "gitea"
+      DB_USER: "gitea"
+      DB_PASSWD: "gitea"
+      RUN_MODE: "prod"
       SSH_DOMAIN: "{{ ansible_nas_hostname }}"
-      SSH_PORT: 222
+      SSH_PORT: "222"
       ROOT_URL: "http://{{ ansible_nas_hostname }}:3001/"
-      USER_UID: 1309
-      USER_GID: 1309
+      USER_UID: "1309"
+      USER_GID: "1309"
     restart_policy: unless-stopped
     memory: 1g
     labels:

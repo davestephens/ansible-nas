@@ -12,7 +12,7 @@
     state: started
     pull: true
     ports:
-      - "19999:19999"
+      - "{{ netdata_host_port }}:19999"
     volumes:
       - "/proc:/host/proc:ro"
       - "/sys:/host/sys:ro"
