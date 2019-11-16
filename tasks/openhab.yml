@@ -1,0 +1,51 @@
+---
+- name: Create openHAB group
+  group:
+    name: openhab
+    gid: 9001
+    state: present
+
+- name: Create openHAB user
+  user:
+    name: openhab
+    uid: 9001
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: openhab
+
+- name: Create openHAB Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: openhab
+    group: openhab
+  with_items:
+    - "{{ openhab_data_directory }}"
+    - "{{ openhab_data_directory }}/conf"
+    - "{{ openhab_data_directory }}/userdata"
+    - "{{ openhab_data_directory }}/addons"
+
+- name: Create openHAB container
+  docker_container:
+    name: openHAB
+    image: "{{ openhab_docker_image }}"
+    pull: true
+    network_mode: "host"
+    volumes:
+      - "{{ openhab_data_directory }}/conf:/openhab/conf:rw"
+      - "{{ openhab_data_directory }}/userdata:/openhab/userdata:rw"
+      - "{{ openhab_data_directory }}/addons:/openhab/addons:rw"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    env:
+      OPENHAB_HTTP_PORT: "7777"
+      OPENHAB_HTTPS_PORT: "7778"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "openhab"
+      traefik.frontend.rule: "Host:openhab.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ openhab_available_externally }}"
+      traefik.port: "80"
