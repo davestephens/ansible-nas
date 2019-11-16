@@ -1,0 +1,28 @@
+---
+- name: Create Restic Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ restic_data_directory }}"
+
+- name: Restic Docker Container
+  docker_container:
+    name: restic
+    image: lobaro/restic-backup-docker:1.2-0.9.4
+    pull: true
+    env:
+      RESTIC_PASSWORD: "{{ restic_password }}"
+      RESTIC_TAG: "restic on {{ ansible_nas_hostname }}"
+      BACKUP_CRON: "01 04 * * *" # at 04:01 (am) every day
+      # always keep last 10; keep (at least) one per hour in 24h period; keep
+      # (at least) one a day for a month (approx); keep (at least) one a week
+      # for a year (approx); keep (at least) one a month # for two years; don't
+      # keep any after 3 years.
+      RESTIC_FORGET_ARGS: "--prune --keep-last 10 --keep-hourly 24 --keep-daily 32 --keep-weekly 52 --keep-monthly 24 --keep-yearly 3"
+    volumes:
+      - "{{ restic_repository_dir }}:/mnt/restic"
+      - "{{ samba_shares_root }}:/data"
+      - "{{ restic_data_directory }}:/config:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart_policy: unless-stopped
