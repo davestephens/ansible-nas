@@ -13,7 +13,10 @@
     pull: true
     volumes:
       - "{{ tautulli_config_directory }}:/config:rw"
+      ###Should also be mapped to Plex log directory as read only###
     network_mode: "host"
+    ports:
+      - "{{ tautulli_host_port }}:8181"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ tautulli_user_id }}"

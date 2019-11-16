@@ -12,7 +12,7 @@
     image: linuxserver/duplicati
     pull: true
     ports:
-      - "8200:8200"
+      - "{{ duplicati_host_port }}:8200"
     volumes:
       - "{{ duplicati_data_directory }}:/config:rw"
       - "{{ samba_shares_root }}:/source/shares:ro"

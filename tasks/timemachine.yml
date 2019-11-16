@@ -37,3 +37,4 @@
   service:
      name: avahi-daemon
      state: reloaded
+
