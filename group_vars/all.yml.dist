@@ -88,6 +88,9 @@ mosquitto_enabled: false
 # Calibre
 calibre_enabled: false
 
+# Ubooquity
+ubooquity_enabled: false
+
 # Smarthome
 openhab_enabled: false
 
@@ -156,6 +159,9 @@ podcasts_root: "{{ samba_shares_root }}/podcasts"
 
 # Where your books are stored
 books_root: "{{ samba_shares_root }}/books"
+
+# Where your books are stored
+comics_root: "{{ samba_shares_root }}/comics"
 
 # Where photos are stored
 photos_root: "{{ samba_shares_root }}/photos"
@@ -236,6 +242,14 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ samba_shares_root }}/books"
+
+  - name: comics
+    comment: 'Comics'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browsable: yes
+    path: "{{ samba_shares_root }}/comics"
 
 ###
 ### NFS
@@ -676,3 +690,11 @@ jellyfin_tv_directory: "{{ tv_root }}"
 jellyfin_tv_permissions: "rw"
 jellyfin_user_id: "0"
 jellyfin_group_id: "0"
+
+###
+### Ubooquity
+###
+ubooquity_available_externally: "false"
+ubooquity_data_directory: "{{ docker_home }}/ubooquity"
+ubooquity_user_id: 0
+ubooquity_group_id: 0
