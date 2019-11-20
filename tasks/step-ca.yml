@@ -28,7 +28,13 @@
     volumes:
       - "{{ stepca_directory }}:/home/step:rw"
     memory: 1g
-    command: "step ca init --name 'Ansible-NAS CA' --provisioner {{ ansible_nas_email }} --dns {{ ansible_nas_domain }} --address ':8443' --password-file secrets/intermediate_pass"
+    command: |
+      step ca init
+      --name 'Ansible-NAS CA'
+      --provisioner {{ ansible_nas_email }}
+      --dns {{ ansible_nas_domain }}
+      --address ':8443'
+      --password-file secrets/intermediate_pass
   when: (stepca_init | default(False))
 
 - name: Create ACME provisioner
