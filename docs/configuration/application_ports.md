@@ -34,6 +34,7 @@ By default, applications can be found on the ports listed below.
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
 | NZBGet          | 6789   |           |
+| Ombi            | 3579   |           |
 | openHAB         | 7777   | HTTP      |
 | openHAB         | 7778   | HTTPS     |
 | Plex            | 32400  |           |

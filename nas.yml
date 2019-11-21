@@ -199,3 +199,7 @@
   - import_tasks: tasks/cloudcmd.yml
     when: (cloudcmd_enabled | default(False))
     tags: cloudcmd
+
+  - import_tasks: tasks/ombi.yml
+    when: (ombi_enabled | default(False))
+    tags: ombi
