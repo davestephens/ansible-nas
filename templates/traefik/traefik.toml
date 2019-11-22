@@ -165,7 +165,7 @@ entryPoint = "https"
 acmeLogging = true
 onDemand = false # create certificate when container is created
 {% if stepca_enabled | default(False) %}
-caServer = "https://{{ ansible_nas_domain }}:8443/acme/acme/directory"
+caServer = "https://stepca.{{ ansible_nas_domain }}:8443/acme/acme/directory"
 {% endif %}
 
   # [acme.dnsChallenge]
