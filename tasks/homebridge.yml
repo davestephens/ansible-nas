@@ -1,0 +1,30 @@
+---
+- name: Create Homebridge Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ homebridge_config_directory }}"
+
+- name: Homebridge Docker Container
+  docker_container:
+    name: homebridge
+    image: oznu/homebridge
+    pull: true
+    volumes:
+            - "{{ homebridge_config_directory }}:/homebridge"
+    network_mode: host
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PGID: "{{ homebridge_group_id | string }}"
+      PUID: "{{ homebridge_user_id | string }}"
+      HOMEBRIDGE_CONFIG_UI: "1"
+      HOMEBRIDGE_CONFIG_UI_PORT: "{{ homebridge_ui_port | string }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "homebridge"
+      traefik.frontend.rule: "Host:homebridge.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ homebridge_available_externally | string }}"
+      traefik.port: "{{ homebridge_ui_port | string }}"
