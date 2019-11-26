@@ -23,6 +23,7 @@ By default, applications can be found on the ports listed below.
 | Guacamole       | 8090   |           |
 | Heimdall        | 10080  |           |
 | Home Assistant  | 8123   |           |
+| Homebridge      | 8087   |           |
 | Jackett         | 9117   |           |
 | Jellyfin        | 8896   | HTTP      |
 | Jellyfin        | 8928   | HTTPS     |
