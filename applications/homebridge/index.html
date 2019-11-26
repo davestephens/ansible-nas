@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/nextcloud/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/homebridge/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Nextcloud - Ansible-NAS</title>
+        <title>Homebridge - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#nextcloud" tabindex="1" class="md-skip">
+      <a href="#homebridge" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Nextcloud
+                Homebridge
               
             </span>
           
@@ -477,11 +477,49 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../homebridge/" title="Homebridge" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Homebridge
+      </label>
+    
+    <a href="./" title="Homebridge" class="md-nav__link md-nav__link--active">
       Homebridge
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -573,49 +611,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Nextcloud
-      </label>
-    
-    <a href="./" title="Nextcloud" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../nextcloud/" title="Nextcloud" class="md-nav__link">
       Nextcloud
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -907,29 +907,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/nextcloud.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/homebridge.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="nextcloud">Nextcloud</h1>
-<p>Homepage: <a href="https://nextcloud.com">https://nextcloud.com</a></p>
+                <h1 id="homebridge">Homebridge</h1>
+<p>Homepage: <a href="https://github.com/nfarina/homebridge">https://github.com/nfarina/homebridge</a></p>
+<p>Homebridge is a lightweight NodeJS server you can run on your home network that emulates the iOS HomeKit API. It supports Plugins, which are community-contributed modules that provide a basic bridge from HomeKit to various 3rd-party APIs provided by manufacturers of "smart home" devices.</p>
 <h2 id="usage">Usage</h2>
-<p>Tread carefully.</p>
-<p>External access may require that you manually configure your Fully Qualified Domain Name (FQDN) as a trusted domain within the application.  There is an evnironment variable set up for this in the "nextcloud task" which will most likely make manual configuration unneccessary.  If you get the following <a href="https://docs.nextcloud.com/server/14/admin_manual/installation/installation_wizard.html#trusted-domains">screenshot</a> warning when trying to access nextcloud externally you'll need to manually set it up.</p>
-<p>This can be accomplished in two commands.</p>
-<pre><code class="bash"># On the server where the docker containers are running
-$ docker exec -it --user www-data nextcloud /bin/bash
-$ php occ config:system:set trusted_domains INDEX_FOR_NEW_ENTRY_SEE_DOCS_LINK_BELOW --value=YOUR_FQDN_HERE --update-only
-</code></pre>
-
-<p>The above commands are documented in the administration guide for Nextcloud:</p>
-<ul>
-<li>
-<p><a href="https://docs.nextcloud.com/server/14/admin_manual/configuration_server/occ_command.html#setting-an-array-configuration-value">set array values</a></p>
-</li>
-<li>
-<p><a href="https://github.com/nextcloud/docker">docker container docs, references environment variables</a></p>
-</li>
-</ul>
+<p>Set <code>homebridge_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>The Homebridge web interface can be found at http://ansible_nas_host_or_ip:8087. The default username and password is 'admin' - change this after your first login!</p>
                 
                   
                 
@@ -950,7 +936,7 @@ $ php occ config:system:set trusted_domains INDEX_FOR_NEW_ENTRY_SEE_DOCS_LINK_BE
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../mymediaforalexa/" title="My Media for Alexa" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../homeassistant/" title="Home Assistant" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -959,19 +945,19 @@ $ php occ config:system:set trusted_domains INDEX_FOR_NEW_ENTRY_SEE_DOCS_LINK_BE
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                My Media for Alexa
+                Home Assistant
               </span>
             </div>
           </a>
         
         
-          <a href="../nzbget/" title="NZBget" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../jackett/" title="Jackett" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                NZBget
+                Jackett
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
