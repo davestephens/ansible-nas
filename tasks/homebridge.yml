@@ -3,7 +3,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    # mode: 0755
   with_items:
     - "{{ homebridge_config_directory }}"
 
@@ -13,18 +12,18 @@
     image: oznu/homebridge
     pull: true
     volumes:
-            - "{{ homebridge_config_directory }}:/homebridge"
+      - "{{ homebridge_config_directory }}:/homebridge"
     network_mode: host
     env:
       TZ: "{{ ansible_nas_timezone }}"
-      PGID: "{{ homebridge_group_id | string }}"
-      PUID: "{{ homebridge_user_id | string }}"
+      PGID: "{{ homebridge_group_id }}"
+      PUID: "{{ homebridge_user_id }}"
       HOMEBRIDGE_CONFIG_UI: "1"
-      HOMEBRIDGE_CONFIG_UI_PORT: "{{ homebridge_ui_port | string }}"
+      HOMEBRIDGE_CONFIG_UI_PORT: "8087"
     restart_policy: unless-stopped
     memory: 1g
     labels:
       traefik.backend: "homebridge"
       traefik.frontend.rule: "Host:homebridge.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ homebridge_available_externally | string }}"
-      traefik.port: "{{ homebridge_ui_port | string }}"
+      traefik.enable: "{{ homebridge_available_externally }}"
+      traefik.port: "8087"
