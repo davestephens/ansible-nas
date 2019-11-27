@@ -403,11 +403,11 @@ duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 ###
 ### Restic
 ###
-restic_available_externally: "false"
-restic_data_directory: "{{ docker_home }}/restic/config"
-# restic_repository_dir: "/mnt/Volume4/restic_repo"
+restic_config_directory: "{{ docker_home }}/restic/config"
 restic_repository_dir: "/mnt/backup/restic_repo"
 restic_password: "changethis"
+restic_backup_cron: "01 04 * * *" # at 04:01 (am) every day
+restic_forget_args: "--prune --keep-last 10 --keep-hourly 24 --keep-daily 32 --keep-weekly 52 --keep-monthly 24 --keep-yearly 3"
 
 ###
 ### Sonarr
