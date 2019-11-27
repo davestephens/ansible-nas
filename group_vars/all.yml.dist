@@ -62,6 +62,7 @@ cloudcmd_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
+restic_enabled: false
 nextcloud_enabled: false
 gitea_enabled: false
 timemachine_enabled: false
@@ -399,6 +400,14 @@ tautulli_group_id: 0
 duplicati_available_externally: "false"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 
+###
+### Restic
+###
+restic_available_externally: "false"
+restic_data_directory: "{{ docker_home }}/restic/config"
+# restic_repository_dir: "/mnt/Volume4/restic_repo"
+restic_repository_dir: "/mnt/backup/restic_repo"
+restic_password: "changethis"
 
 ###
 ### Sonarr

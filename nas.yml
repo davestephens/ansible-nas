@@ -96,6 +96,10 @@
     when: (duplicati_enabled | default(False))
     tags: duplicati
 
+  - import_tasks: tasks/restic.yml
+    when: (restic_enabled | default(False))
+    tags: restic
+
   - import_tasks: tasks/couchpotato.yml
     when: (couchpotato_enabled | default(False))
     tags: couchpotato
