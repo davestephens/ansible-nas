@@ -22,7 +22,8 @@ A clear and concise description of what the bug is.
 - Latest Docker logs (`journalctl -u docker.service` on the Ansible-NAS box):
 - Are you running the playbook from a remote box or the Ansible-NAS box itself? 
 - Vagrant version, if testing (`vagrant --version`):
-- Ansible-NAS filesystems (`df -hT on the Ansible-NAS box`):
+- Ansible-NAS filesystems (`df -hT` on the Ansible-NAS box):
+- Mounted filesystems (`mount` on the Ansible-NAS box)
 
 **all.yml Variables**
 - `docker_image_directory`:
