@@ -102,24 +102,26 @@ Our new pool is named `tank` and is mirrored. To see information about it, use
 `ashift`), use `sudo zpool destroy tank` and start over _now_ before it's too
 late.
 
-### Pool default parameters
+### Pool and filesystem properties
 
-Setting pool-wide default parameters makes life easier when we create our
-filesystems. To see them all, you can use the command `zfs get all tank`. Most
-are perfectly sensible, some you'll [want to
-change](https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/):
+Pools have properties that apply either to the pool itself or to filesystems
+created in the pool. You can use the command `zpool get all tank` to see the
+pool properties and `zfs get all tank` to see the filesystem properties. Most
+default values are perfecly sensible, some you'll [want to
+change](https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/). Setting
+defaults makes life easier when we create our filesystems.
 
 ```
+        sudo zpool set autoexpand=on tank
         sudo zfs set atime=off tank
         sudo zfs set compression=lz4 tank
-        sudo zfs set autoexpand=on tank
 ```
 
-The `atime` parameter means that your system updates a time stamp every time a
-file is accessed, which uses a lot of resources. Usually, you don't care.
+`autoexpand=on` lets the pool grow when you add larger hard drives. `atime=off`
+means that your system won't update a time stamp every time a file is accessed,
+something which would use a lot of resources. Usually, you don't care.
 Compression is a no-brainer on modern CPUs and should be on by default (we will
-discuss exceptions for compressed media files later). The `autoexpand` lets the
-pool grow when you add larger hard drives.
+discuss exceptions for compressed media files later).
 
 ## Creating filesystems
 
