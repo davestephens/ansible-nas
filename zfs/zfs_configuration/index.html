@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.1">
     
     
       
@@ -859,8 +859,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pool-default-parameters" class="md-nav__link">
-    Pool default parameters
+  <a href="#pool-and-filesystem-properties" class="md-nav__link">
+    Pool and filesystem properties
   </a>
   
 </li>
@@ -1023,8 +1023,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pool-default-parameters" class="md-nav__link">
-    Pool default parameters
+  <a href="#pool-and-filesystem-properties" class="md-nav__link">
+    Pool and filesystem properties
   </a>
   
 </li>
@@ -1211,21 +1211,23 @@ gives us something like this, but with real serial numbers:</p>
 <code>zpool status tank</code> (no <code>sudo</code> necessary). If you screwed up (usually with
 <code>ashift</code>), use <code>sudo zpool destroy tank</code> and start over <em>now</em> before it's too
 late.</p>
-<h3 id="pool-default-parameters">Pool default parameters</h3>
-<p>Setting pool-wide default parameters makes life easier when we create our
-filesystems. To see them all, you can use the command <code>zfs get all tank</code>. Most
-are perfectly sensible, some you'll <a href="https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/">want to
-change</a>:</p>
-<pre><code>        sudo zfs set atime=off tank
+<h3 id="pool-and-filesystem-properties">Pool and filesystem properties</h3>
+<p>Pools have properties that apply either to the pool itself or to filesystems
+created in the pool. You can use the command <code>zpool get all tank</code> to see the
+pool properties and <code>zfs get all tank</code> to see the filesystem properties. Most
+default values are perfecly sensible, some you'll <a href="https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/">want to
+change</a>. Setting
+defaults makes life easier when we create our filesystems.</p>
+<pre><code>        sudo zpool set autoexpand=on tank
+        sudo zfs set atime=off tank
         sudo zfs set compression=lz4 tank
-        sudo zfs set autoexpand=on tank
 </code></pre>
 
-<p>The <code>atime</code> parameter means that your system updates a time stamp every time a
-file is accessed, which uses a lot of resources. Usually, you don't care.
+<p><code>autoexpand=on</code> lets the pool grow when you add larger hard drives. <code>atime=off</code>
+means that your system won't update a time stamp every time a file is accessed,
+something which would use a lot of resources. Usually, you don't care.
 Compression is a no-brainer on modern CPUs and should be on by default (we will
-discuss exceptions for compressed media files later). The <code>autoexpand</code> lets the
-pool grow when you add larger hard drives.</p>
+discuss exceptions for compressed media files later).</p>
 <h2 id="creating-filesystems">Creating filesystems</h2>
 <p>To actually store the data, we need filesystems (also known as "datasets"). For
 our very simple default Ansible-NAS setup, we will create two: One filesystem
@@ -1493,7 +1495,7 @@ configuration files for examples.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application.a8b5e56f.js"></script>
+      <script src="../../assets/javascripts/application.8e03edeb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
