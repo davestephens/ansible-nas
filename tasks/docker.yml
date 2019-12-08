@@ -22,7 +22,7 @@
 - name: add user account to docker group
   user:
     name: "{{ ansible_nas_user }}"
-    group: docker
+    groups: docker
     append: yes
 
 - name: update docker home from install default
