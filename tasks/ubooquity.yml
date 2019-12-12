@@ -25,7 +25,6 @@
       - "2202:2202"
       - "2203:2203"
     restart_policy: unless-stopped
-    #memory: 1g
     labels:
       traefik.backend:  "ubooquity"
       traefik.frontend.rule: "Host:ubooquity.{{ ansible_nas_domain }}"
