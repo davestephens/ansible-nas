@@ -5,7 +5,7 @@ Documentation: [https://vaemendis.github.io/ubooquity-doc/](https://vaemendis.gi
 Docker Image: [https://hub.docker.com/r/linuxserver/ubooquity/](https://hub.docker.com/r/linuxserver/ubooquity/)
 
 Ubooquity is a free, lightweight and easy-to-use home server for your comics and ebooks. Use it to access your files from anywhere, with a tablet, an e-reader, a phone or a computer.
-po
+
 ## Usage
 
 Set `ubooquity_enabled: true` in your `group_vars/all.yml` file.
