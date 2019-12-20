@@ -156,6 +156,10 @@
     when: (jackett_enabled | default(False))
     tags: jackett
 
+  - import_tasks: tasks/joomla.yml
+    when: (joomla_enabled | default(False))
+    tags: joomla
+
   - import_tasks: tasks/bitwarden.yml
     when: (bitwarden_enabled | default(False))
     tags: bitwarden
@@ -171,3 +175,31 @@
   - import_tasks: tasks/mosquitto.yml
     when: (mosquitto_enabled | default(False))
     tags: mosquitto
+
+  - import_tasks: tasks/homebridge.yml
+    when: (homebridge_enabled | default(False))
+    tags: homebridge
+
+  - import_tasks: tasks/calibre.yml
+    when: (calibre_enabled | default(False))
+    tags: calibre
+
+  - import_tasks: tasks/homeassistant.yml
+    when: (homeassistant_enabled | default(False))
+    tags: homeassistant
+
+  - import_tasks: tasks/bazarr.yml
+    when: (bazarr_enabled | default(False))
+    tags: bazarr
+
+  - import_tasks: tasks/openhab.yml
+    when: (openhab_enabled | default(False))
+    tags: openhab
+
+  - import_tasks: tasks/jellyfin.yml
+    when: (jellyfin_enabled | default(False))
+    tags: jellyfin
+
+  - import_tasks: tasks/cloudcmd.yml
+    when: (cloudcmd_enabled | default(False))
+    tags: cloudcmd

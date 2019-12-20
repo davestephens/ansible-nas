@@ -47,6 +47,7 @@
 - name: "Permission share directories"
   file:
     path: "{{ item.path }}"
+    state: directory
     owner: ansible-nas
     group: ansible-nas
     mode: "u=rwX,g=rwX,o=rX"

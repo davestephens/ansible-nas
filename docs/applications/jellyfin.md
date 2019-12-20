@@ -1,34 +1,32 @@
-# Emby
+# Jellyfin
 
-Homepage: [https://emby.media/](https://emby.media/)
+Homepage: [https://jellyfin.github.io/](https://jellyfin.github.io/)
 
-Emby is a mostly open-source media server with a client-server model. This
-install for Ansible-NAS provides a server, which various clients can then
-connect to from platforms such as other computers, smartphones and smart TVs.
+Jellyfin is a Free Software Media System that puts you in control of managing and streaming your media. It is an alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user devices via multiple apps. Jellyfin is descended from Emby's 3.5.2 release and ported to the .NET Core framework to enable full cross-platform support. There are no strings attached, no premium licenses or features, and no hidden agendas: just a team who want to build something better and work together to achieve it. We welcome anyone who is interested in joining us in our quest!
 
 Note that [Plex](https://www.plex.tv/), also included in Ansible-NAS, has a very
 similar functionality.
 
 ## Usage
 
-Set `emby_enabled: true` in your `group_vars/all.yml` file. There are further
+Set `jellyfin_enabled: true` in your `group_vars/all.yml` file. There are further
 parameters you can edit such as `movies_root` and `tv_root` lower down. 
 
 ## Specific Configuration
 
-The emby web interface can be found at port 8096 (http) or 8920 (https, if
-configured) of your NAS. Heimdall has a dedicated icon for emby. 
+The jellyfin web interface can be found at port 8896 (http) or 8928 (https, if
+configured) of your NAS.
 
-By default, Ansible-NAS gives emby read/write access to the folders where your
+By default, Ansible-NAS gives jellyfin read/write access to the folders where your
 movies and TV shows are stored. To change this to read-only, edit the following
 lines in `all.yml`:
 
 ```
-        emby_movies_permissions: "rw"
-        emby_tv_permissions: "rw"
+        jellyfin_movies_permissions: "rw"
+        jellyfin_tv_permissions: "rw"
 ```
 
-so that they end in `ro` instead of `rw`. Note that emby will not be able to
+so that they end in `ro` instead of `rw`. Note that jellyfin will not be able to
 delete files then, which might be exactly what you want. However, you will not
 have the option to store cover art in the related folders. Always leave the
 configuration directory read/write. 
@@ -38,12 +36,12 @@ configuration directory read/write.
 Movie and TV show files are almost alway very large and pre-compressed. If you
 are using a specialized filesystem such as ZFS for bulk storage, you'll want to
 set the parameters accordingly. The [ZFS configuration
-documentation](../zfs/zfs_configuration.md) has an example of this.
+documentation](../zfs/zfc_configuration.md) has an example of this.
 
 
 ## Naming movies and TV shows
 
-Emby is very fussy about how movies and TV shows must be named to enable
+jellyfin is very fussy about how movies and TV shows must be named to enable
 automatic downloads of cover art and metadata. In short, movie files should
 follow how movies are listed in the [IMDb](https://www.imdb.com/), including the
 year of publication: 
@@ -71,4 +69,3 @@ movies and older series. See the [movie
 naming](https://github.com/MediaBrowser/Wiki/wiki/Movie%20naming) and [TV
 naming](https://github.com/MediaBrowser/Wiki/wiki/TV-naming) guides for further
 information.
-

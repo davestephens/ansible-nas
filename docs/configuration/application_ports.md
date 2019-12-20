@@ -4,9 +4,13 @@ By default, applications can be found on the ports listed below.
 
 | Application     | Port   | Notes     |
 |-----------------|--------|-----------|
-| Couchpotato     | 5050   |           |
+| Airsonic        | 4040   |           |
+| Bazarr          | 6767   |           |
 | Bitwarden "hub" | 3012   | Web Not.  |
 | Bitwarden       | 19080  | HTTP      |
+| Calibre         | 8084   | HTTP      |
+| Cloud Commander | 7373   |           |
+| Couchpotato     | 5050   |           |
 | Duplicati       | 8200   |           |
 | Emby            | 8096   | HTTP      |
 | Emby            | 8920   | HTTPS     |
@@ -18,7 +22,11 @@ By default, applications can be found on the ports listed below.
 | Grafana         | 3000   |           |
 | Guacamole       | 8090   |           |
 | Heimdall        | 10080  |           |
+| Home Assistant  | 8123   |           |
+| Homebridge      | 8087   |           |
 | Jackett         | 9117   |           |
+| Jellyfin        | 8896   | HTTP      |
+| Jellyfin        | 8928   | HTTPS     |
 | MiniDLNA        | 8201   |           |
 | Miniflux        | 8070   |           |
 | Mosquitto       | 1883   | MQTT      |
@@ -27,6 +35,8 @@ By default, applications can be found on the ports listed below.
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
 | NZBGet          | 6789   |           |
+| openHAB         | 7777   | HTTP      |
+| openHAB         | 7778   | HTTPS     |
 | Plex            | 32400  |           |
 | Portainer       | 9000   |           |
 | pyload          | 8000   |           |
@@ -35,6 +45,7 @@ By default, applications can be found on the ports listed below.
 | Sonarr          | 8989   |           |
 | Tautulli        | 8181   |           |
 | The Lounge      | 9000   |           |
+| Time Machine    | 10445  | SMB       |
 | Traefik         | 8083   |           |
 | Transmission    | 9091   | with VPN  |
 | Transmission    | 9092   |           |

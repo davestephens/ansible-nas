@@ -1,0 +1,29 @@
+- name: Create Calibre Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ calibre_data_directory }}/config"
+
+- name: Calibre Docker Container
+  docker_container:
+    name: calibre
+    image: linuxserver/calibre-web:latest
+    pull: true
+    volumes:
+      - "{{ calibre_data_directory }}/config:/config"
+      - "{{ books_root }}:/books"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ calibre_user_id }}"
+      PGID: "{{ calibre_group_id }}"
+      DOCKER_MODS: "{{ calibre_ebook_conversion }}"
+    ports:
+      - "8084:8083"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "calibre"
+      traefik.frontend.rule: "Host:calibre.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ calibre_available_externally }}"
+      traefik.port: "8083"
+    memory: 1g

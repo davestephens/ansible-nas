@@ -17,7 +17,7 @@
 # External Access
 # Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
 # home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
-# You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "availble_externally" 
+# You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
 # settings.
 traefik_enabled: false
 
@@ -36,6 +36,9 @@ tautulli_enabled: false
 # Emby
 emby_enabled: false
 
+# Jellyfin
+jellyfin_enabled: false
+
 # minidlna
 minidlna_enabled: false
 
@@ -46,6 +49,7 @@ couchpotato_enabled: false
 radarr_enabled: false
 get_iplayer_enabled: false
 jackett_enabled: false
+bazarr_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -63,6 +67,7 @@ guacamole_enabled: false
 netdata_enabled: false
 watchtower_enabled: false
 cloudflare_ddns_enabled: false
+cloudcmd_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
@@ -83,8 +88,17 @@ firefly_enabled: false
 # Wallabag
 wallabag_enabled: false
 
-# MQTT
+# Home Automation
+homeassistant_enabled: false
 mosquitto_enabled: false
+homebridge_enabled: false
+openhab_enabled: false
+
+# Calibre
+calibre_enabled: false
+
+# Joomla
+joomla_enabled: false
 
 ###
 ### General
@@ -102,10 +116,10 @@ keep_packages_updated: false
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
 
-# Your email and domain, used for LetsEncrypt SSL certs
+# Your email and domain, used for Let's Encrypt SSL certs
 ansible_nas_email: me@example.com
 
-# Applications will have subdomain SSL certificates created, eg ansible-nas.<your-domain>, nextcloud.<your-domain>
+# Applications will have subdomain SSL certificates created, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
 
 ###
@@ -145,6 +159,12 @@ music_root: "{{ samba_shares_root }}/music"
 
 # Where podcasts are stored
 podcasts_root: "{{ samba_shares_root }}/podcasts"
+
+# Where your books are stored
+books_root: "{{ samba_shares_root }}/books"
+
+# Where photos are stored
+photos_root: "{{ samba_shares_root }}/photos"
 
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
@@ -215,10 +235,18 @@ samba_shares:
     browsable: yes
     path: "{{ samba_shares_root }}/photos"
 
+  - name: books
+    comment: 'Books'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browsable: yes
+    path: "{{ samba_shares_root }}/books"
+
 ###
 ### NFS
 ###
-# Data you want published over NFS. More info on the nfs config format can be found at
+# Data you want published over NFS. More info on the NFS config format can be found at
 # https://help.ubuntu.com/community/SettingUpNFSHowTo#Shares
 # WARNING: Weird things might happen if you share the same data over Samba and NFS and allow writes on both!
 
@@ -260,6 +288,7 @@ ansible_nas_extra_packages:
   - bonnie++
   - unzip
   - lm-sensors
+  - ctop
 
 ansible_python_interpreter: /usr/bin/python3
 
@@ -268,6 +297,8 @@ ansible_python_interpreter: /usr/bin/python3
 ###
 # Seems to break browsing of the \\server-name shares root when enabled
 samba_mitigate_cve_2017_7494: false
+# Enable apple exentensions for compatibility with apple clients
+samba_apple_extensions: yes
 
 # The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
 # mess with Samba user permissions.
@@ -276,13 +307,13 @@ samba_guest_account: ansible-nas
 # How Samba behaves when an unknown user connects, see Samba docs for more info
 samba_map_to_guest: Bad Password
 
-# The Netbios hostname used by Samba on your network
+# The NetBIOS hostname used by Samba on your network
 samba_netbios_name: "{{ ansible_nas_hostname }}"
 
 ###
 ### Traefik
 ###
-traefik_docker_image: traefik:latest
+traefik_docker_image: traefik:v1.7
 traefik_data_directory: "{{ docker_home }}/traefik"
 traefik_debug: "false"
 
@@ -306,6 +337,13 @@ transmission_group_id: 0
 transmission_local_network: "192.168.1.0/24"
 
 ###
+### Joomla
+###
+joomla_data_directory: "{{ docker_home }}/joomla"
+joomla_available_externally: "false"
+joomla_database_password: top_secret
+
+###
 ### pyLoad
 ###
 pyload_available_externally: "false"
@@ -313,6 +351,7 @@ pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
 pyload_user_id: 0
 pyload_group_id: 0
+
 
 ###
 ### Plex
@@ -325,8 +364,20 @@ plex_movies_directory: "{{ movies_root }}"
 plex_movies_permissions: "rw"
 plex_tv_directory: "{{ tv_root }}"
 plex_tv_permissions: "rw"
+plex_photos_directory: "{{ photos_root }}"
+plex_photos_permissions: "rw"
+plex_music_directory: "{{ music_root }}"
+plex_music_permissions: "rw"
 plex_user_id: 0
 plex_group_id: 0
+
+###
+### Homebridge
+###
+homebridge_available_externally: "false"
+homebridge_config_directory: "{{ docker_home }}/homebridge/config"
+homebridge_user_id: "0"
+homebridge_group_id: "0"
 
 ###
 ### Emby
@@ -378,6 +429,16 @@ radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
 radarr_user_id: 0
 radarr_group_id: 0
+
+###
+### Bazarr
+###
+bazarr_available_externally: "false"
+bazarr_data_directory: "{{ docker_home }}/bazarr/config"
+bazarr_tv_directory: "{{ tv_root }}"
+bazarr_movies_directory: "{{ movies_root }}"
+bazarr_user_id: "0"
+bazarr_group_id: "0"
 
 
 ###
@@ -483,6 +544,15 @@ airsonic_available_externally: "false"
 airsonic_data_directory: "{{ docker_home }}/airsonic"
 
 ###
+### CloudCmd
+###
+cloudcmd_available_externally: "false"
+cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
+cloudcmd_browse_directory: "/"
+cloudcmd_user_id: "0"
+cloudcmd_group_id: "0"
+
+###
 ### Watchtower
 ###
 # Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
@@ -504,10 +574,11 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
 ### Time Machine
 ###
 timemachine_data_directory: "{{ docker_home }}/timemachine"
-timemachine_volume_size_limit: 0
+timemachine_volume_size_limit: "0"
 timemachine_password: timemachine
-timemachine_share_name: TimeMachine
+timemachine_share_name: Data
 timemachine_log_level: error
+timemachine_port: "10445"
 
 ###
 ### minidlna
@@ -577,7 +648,45 @@ nzbget_group_id: 0
 wallabag_available_externally: "false"
 wallabag_data_directory: "{{ docker_home }}/wallabag"
 
+###
 ### Mosquitto
 ###
 mosquitto_available_externally: "false"
 mosquitto_data_directory: "{{ docker_home }}/mosquitto"
+
+###
+### Calibre
+###
+calibre_available_externally: "false"
+calibre_data_directory: "{{ docker_home }}/calibre"
+calibre_user_id: "0"
+calibre_group_id: "0"
+# To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
+calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
+
+###
+### Home Assistant
+###
+homeassistant_available_externally: "false"
+homeassistant_data_directory: "{{ docker_home }}/homeassistant"
+
+###
+### openHAB
+###
+openhab_available_externally: "false"
+openhab_docker_image: openhab/openhab:latest
+openhab_data_directory: "{{ docker_home }}/openhab"
+
+###
+### Jellyfin
+###
+# If you're paranoid, set permissions to "ro" so jellyfin won't ever be able to
+# delete your files
+jellyfin_available_externally: "false"
+jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
+jellyfin_movies_directory: "{{ movies_root }}"
+jellyfin_movies_permissions: "rw"
+jellyfin_tv_directory: "{{ tv_root }}"
+jellyfin_tv_permissions: "rw"
+jellyfin_user_id: "0"
+jellyfin_group_id: "0"

@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+	<name replace-wildcards="yes">Time Capsule on %h</name>
+	<service>
+		<type>_adisk._tcp</type>
+		<txt-record>sys=waMa=0,adVF=0x100</txt-record>
+		<txt-record>dk0=adVN={{ timemachine_share_name }},adVF=0x82</txt-record>
+	</service>
+	<service>
+		<type>_smb._tcp</type>
+		<port>{{ timemachine_port }}</port>
+	</service>
+	<service>
+		<type>_device-info._tcp</type>
+		<port>0</port>
+		<txt-record>model=TimeCapsule6</txt-record>
+	</service>
+</service-group>

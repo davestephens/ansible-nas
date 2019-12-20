@@ -7,19 +7,35 @@
 - name: Time Machine Docker Container
   docker_container:
     name: timemachine
-    image: mbentley/timemachine:latest
+    image: awlnx/samba-timemachine:latest
     pull: true
     ports:
-      - "548:548"
+      - "{{ timemachine_port }}:445"
     env:
-      VOLUME_SIZE_LIMIT: "{{ timemachine_volume_size_limit }}"
-      PASSWORD: "{{ timemachine_password }}"
-      SHARE_NAME: "{{ timemachine_share_name }}"
-      LOG_LEVEL: "{{ timemachine_log_level }}"
+      TMSIZE: "{{ timemachine_volume_size_limit }}"
+      PASS: "{{ timemachine_password }}"
+      SHARENAME: "{{ timemachine_share_name }}"
     volumes:
-      - "{{ timemachine_data_directory }}/data:/opt/timemachine"
-      - "{{ timemachine_data_directory }}/logs:/var/log/supervisor"
-      - "/var/run/dbus:/var/run/dbus"
-    network_mode: host
+      - "{{ timemachine_data_directory }}/data:/backups"
+    ulimits:
+      - "nofile:1048576:1048576"
+    network_mode: bridge
     restart_policy: unless-stopped
     memory: 1g
+
+- name: Install avahi
+  apt:
+    name: "avahi-daemon"
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Setup timemachine service for avahi
+  template:
+    src: timemachine/timemachine.service
+    dest: "/etc/avahi/services/timemachine.service"
+
+- name: Reload avahi configuration
+  service:
+    name: avahi-daemon
+    state: reloaded
