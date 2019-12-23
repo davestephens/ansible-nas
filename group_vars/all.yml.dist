@@ -325,11 +325,6 @@ stepca_directory: "{{ docker_home }}/stepca"
 # for example running openssl rand -base64 48
 stepca_password: qwertyuiop1234567890poiuytrewq0987654321
 
-# To initialize your CA set this to "true" and run the ansible-nas playbook.
-# Target just Step Certificates by running: ansible-playbook -i inventory nas.yml -b -K -t stepca 
-# Once you have initialized the CA, set to "false".
-stepca_init: false
-
 ###
 ### Heimdall
 ###
