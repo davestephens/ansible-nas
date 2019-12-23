@@ -40,4 +40,4 @@ sudo step certificate install --all .step/certs/root_ca.crt
 ## Step Certificates as a CA and ACME server for Traefik
 If Step Certificates is enabled, Traefik will use it as a CA and ACME server instead of Let's Encrypt.
 
-This setup requires that you have a local DNS server running that resolves every possible subdomain `*.{{ ansible_nas_domain }}` to the IP address of `{{ ansible_nas_domain }}`. This essentially mimics Cloudflare's wildcard DNS entries, but for your local domain.
+This setup requires that you have a local DNS server running that resolves every possible subdomain `*.{{ ansible_nas_domain }}` to the IP address of `{{ ansible_nas_domain }}`. For instance, if you are running the OPNsense operating system on your router and are using Unbound DNS, go to **Services / Unbound DNS / Overrides** and add an override with host `*`, domain `{{ ansible_nas_domain }}`, type `A or AAA (IPv4 or IPv6 address)` and the IP address of your Ansible-NAS machine. This essentially mimics Cloudflare's wildcard DNS entries, but for your local domain.
