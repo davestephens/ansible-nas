@@ -40,11 +40,7 @@
       --dns stepca.{{ ansible_nas_domain }}
       --address ':8443'
       --password-file secrets/intermediate_pass
-  when: stepca_json.stat.exists == False
-
-- name: Get Step Certificates ca.json
-  command: cat "{{ stepca_directory }}/config/ca.json"
-  register: stepca_json_content
+  when: not stepca_json.stat.exists
 
 - name: Create ACME provisioner
   docker_container:
@@ -56,7 +52,7 @@
       - "{{ stepca_directory }}:/home/step:rw"
     memory: 1g
     command: "step ca provisioner add acme --type ACME"
-  when: stepca_json_content.stdout.find('ACME') == -1
+  when: lookup('file', stepca_directory + "/config/ca.json").find('ACME') == -1
 
 - name: Create Step Certificates container
   docker_container:
