@@ -15,6 +15,13 @@
     state: directory
   with_items:
     - "{{ traefik_data_directory }}"
+    - "{{ traefik_data_directory }}/acme"
+
+- name: Create acme.json with right permissions
+  file:
+    path: "{{ traefik_data_directory }}/acme/acme.json"
+    state: touch
+    mode: u=rw,g-rwx,o-rwx
 
 - name: Template Traefik config.toml
   template:
@@ -29,6 +36,7 @@
     network_mode: host
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+      - "{{ traefik_data_directory }}/acme:/etc/traefik/acme"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "{{ stepca_directory }}/certs:/certs:ro"
     restart_policy: unless-stopped

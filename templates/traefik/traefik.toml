@@ -160,7 +160,7 @@ exposedByDefault = false
 
 [acme]
 email = "{{ ansible_nas_email }}"
-storage = "acme.json"
+storage = "/etc/traefik/acme/acme.json"
 entryPoint = "https"
 acmeLogging = true
 onDemand = false # create certificate when container is created
