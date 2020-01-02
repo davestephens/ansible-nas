@@ -1,18 +1,18 @@
-- name: Create Bitwarden Directories
+- name: "Create Bitwarden Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
   with_items:
     - "{{ bitwarden_data_directory }}"
 
-- name: Bitwarden Docker Container
+- name: "Bitwarden Docker Container"
   docker_container:
-    name: bitwarden
-    image: mprasil/bitwarden:latest
-    pull: true
+    name: "bitwarden"
+    image: "{{ bitwarden_image }}"
+    pull: "true"
     ports:
-      - "19080:80"
-      - "3012:3012"
+      - "{{ bitwarden_port_a }}:80"
+      - "{{ bitwarden_port_b }}:3012"
     volumes:
       - "{{ bitwarden_data_directory }}:/data:rw"
     env:
@@ -21,20 +21,20 @@
       LOG_FILE: "/data/bitwarden.log"
       WEBSOCKET_ENABLED: "true"
     labels:
-      traefik.web.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }}"
+      traefik.web.frontend.rule: "Host:{{ bitwarden_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ bitwarden_available_externally }}"
-      traefik.web.port: "80"
-      traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
-      traefik.hub.port: "3012"
+      traefik.web.port: "bitwarden_port_a"
+      traefik.hub.frontend.rule: "Host:{{ bitwarden_subdomain }}.{{ ansible_nas_domain }};Path:/notifications/hub"
+      traefik.hub.port: "bitwarden_port_b"
       traefik.hub.protocol: "ws"
-    restart_policy: unless-stopped
+    restart_policy: "unless-stopped"
     #memory: 1g
 
-- name: Bitwarden Backup Container
+- name: "Bitwarden Backup Container"
   docker_container:
-    name: bitwarden-backup
-    image: bruceforce/bw_backup:latest
-    pull: true
-    restart_policy: unless-stopped
-    volumes_from: bitwarden
-    memory: 1g
+    name: "bitwarden-backup"
+    image: "{{ bitwarden_backup_image }}
+    pull: "true"
+    restart_policy: "unless-stopped"
+    volumes_from: "bitwarden"
+    memory: "1g"

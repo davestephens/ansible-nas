@@ -1,18 +1,18 @@
-- name: Create Firefly III Directories
+- name: "Create Firefly III Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
   with_items:
     - "{{ firefly_data_directory }}/postgresql"
     - "{{ firefly_data_directory }}/mysql"
     - "{{ firefly_data_directory }}/upload"
     - "{{ firefly_data_directory }}/export"
 
-- name: Create MySQL container for Firefly
+- name: "Create MySQL container for Firefly"
   docker_container:
-    name: firefly-mysql
-    image: mysql:5.7
-    pull: true
+    name: "firefly-mysql"
+    image: "mysql:5.7"
+    pull: "true"
     volumes:
       - "{{ firefly_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
@@ -20,37 +20,37 @@
       MYSQL_USER: "firefly"
       MYSQL_PASSWORD: "firefly"
       MYSQL_ROOT_PASSWORD: "firefly"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
 
-- name: Wait for MySQL to init
+- name: "Wait for MySQL to init"
   pause:
     seconds: 30
 
-- name: Create Firefly III container
+- name: "Create Firefly III container"
   docker_container:
-    name: firefly
-    image: jc5x/firefly-iii:latest
-    pull: true
+    name: "firefly"
+    image: "{{ firefly_image }}"
+    pull: "true"
     volumes:
       - "{{ firefly_data_directory }}/export:/var/www/firefly-iii/storage/export:rw"
       - "{{ firefly_data_directory }}/upload:/var/www/firefly-iii/storage/upload:rw"
     links:
       - firefly-mysql:db
     ports:
-      - "8066:80"
+      - "{{ firefly_port }}:80"
     env:
       APP_ENV: "local"
-      APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
+      APP_KEY: "{{ firefly_app_key }}"
       DB_HOST: "db"
       DB_DATABASE: "firefly"
       DB_USERNAME: "firefly"
       DB_PASSWORD: "firefly"
       TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "firefly"
-      traefik.frontend.rule: "Host:firefly.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ firefly_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ firefly_available_externally }}"
-      traefik.port: "8080"
+      traefik.port: "{{ firefly_port }}"

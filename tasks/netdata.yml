@@ -1,18 +1,18 @@
-###### Create
-- name: Get docker group id
+---
+- name: "Get docker group id"
   group:
-    name: docker
-  register: docker_group
+    name: "docker"
+  register: "docker_group"
 
-- name: Netdata Docker Container
+- name: "Netdata Docker Container"
   docker_container:
-    name: netdata
+    name: "netdata"
     hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
-    image: netdata/netdata
-    state: started
-    pull: true
+    image: "{{ netdata_image }}"
+    state: "started"
+    pull: "true"
     ports:
-      - "19999:19999"
+      - "{{ netdata_port }}:19999"
     volumes:
       - "/proc:/host/proc:ro"
       - "/sys:/host/sys:ro"
@@ -22,11 +22,11 @@
     capabilities:
       - SYS_PTRACE
     security_opts:
-      - apparmor:unconfined
-    restart_policy: unless-stopped
-    memory: 1g
+      - "apparmor:unconfined"
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "netdata"
-      traefik.frontend.rule: "Host:netdata.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ netdata_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ netdata_available_externally }}"
-      traefik.port: "19999"
+      traefik.port: "{{ netdata_port }}"

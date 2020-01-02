@@ -1,14 +1,14 @@
-- name: Cloudflare Dynamic DNS Container
+- name: "Cloudflare Dynamic DNS Container"
   docker_container:
-    name: cloudflare-ddns
-    image: joshava/cloudflare-ddns:latest
-    pull: true
+    name: "cloudflare-ddns"
+    image: "{{ cloudflare_image }}"
+    pull: "true"
     env:
       ZONE: "{{ cloudflare_zone }}"
       HOST: "{{ cloudflare_host }}"
       EMAIL: "{{ cloudflare_email }}"
       API: "{{ cloudflare_api_key }}"
       PROXY: "false"
-    restart_policy: unless-stopped
-    memory: 512MB
+    restart_policy: "unless-stopped"
+    memory: "512MB"
 

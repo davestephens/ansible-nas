@@ -1,5 +1,5 @@
 ---
-- name: Create Transmission Directories
+- name: "Create Transmission Directories"
   file:
     path: "{{ item }}"
     state: directory
@@ -9,26 +9,32 @@
     - "{{ transmission_download_directory }}"
     - "{{ transmission_watch_directory }}"
 
-- name: Transmission Docker Container
+- name: "Transmission Docker Container"
   docker_container:
-    name: transmission
-    image: linuxserver/transmission
+    name: "transmission"
+    image: "{{ transmission_image }}"
     pull: true
     volumes:
       - "{{ transmission_config_directory }}:/config:rw"
       - "{{ transmission_download_directory }}:/downloads:rw"
       - "{{ transmission_watch_directory }}:/watch:rw"
+      - "{{ movies_root }}:/movies:rw"
+      - "{{ tv_root }}:/tv:rw"
+      - "{{ music_root }}:/music:rw"
+      - "{{ podcasts_root }}:/podcasts:rw"
+      - "{{ books_root }}:/books:rw"
+      - "{{ audiobooks_root }}:/audiobooks:rw"
     ports:
-      - "9092:9091"
-      - "51414:51413"
+      - "{{ transmission_webui_port }}:9091"
+      - "{{ transmission_external_port }}:51413"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ transmission_user_id }}"
       PGID: "{{ transmission_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "transmission"
-      traefik.frontend.rule: "Host:transmission.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ transmission_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ transmission_available_externally }}"
-      traefik.port: "9091"
+      traefik.port: "{{ transmission_webui_port }}"

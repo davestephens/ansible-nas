@@ -1,14 +1,14 @@
 ---
-- name: Time Machine Directories
+- name: "Time Machine Directories"
   file:
     path: "{{ timemachine_data_directory }}"
-    state: directory
+    state: "directory"
 
-- name: Time Machine Docker Container
+- name: "2Time Machine Docker Container"
   docker_container:
-    name: timemachine
-    image: awlnx/samba-timemachine:latest
-    pull: true
+    name: "timemachine"
+    image: "{{ timemachine_image }}"
+    pull: "true"
     ports:
       - "{{ timemachine_port }}:445"
     env:
@@ -19,23 +19,23 @@
       - "{{ timemachine_data_directory }}/data:/backups"
     ulimits:
       - "nofile:1048576:1048576"
-    network_mode: bridge
-    restart_policy: unless-stopped
-    memory: 1g
+   # network_mode: bridge
+    restart_policy: "unless-stopped"
+    memory: "1g"
 
-- name: Install avahi
+- name: "Install avahi"
   apt:
     name: "avahi-daemon"
-    state: present
-  register: result
-  until: result is succeeded
+    state: "present"
+  register: "result"
+  until: "result is succeeded"
 
-- name: Setup timemachine service for avahi
+- name: "Setup timemachine service for avahi"
   template:
-    src: timemachine/timemachine.service
+    src: "timemachine/timemachine.service"
     dest: "/etc/avahi/services/timemachine.service"
 
-- name: Reload avahi configuration
+- name: "Reload avahi configuration"
   service:
-    name: avahi-daemon
-    state: reloaded
+    name: "avahi-daemon"
+    state: "reloaded"

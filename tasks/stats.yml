@@ -1,18 +1,18 @@
 ---
-- name: Create InfluxDB and Telegraf Directories
+- name: "Create InfluxDB and Telegraf Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
   with_items:
     - "{{ influxdb_data_directory }}"
     - "{{ telegraf_data_directory }}"
 
-- name: Create Grafana Directories
+- name: "Create Grafana Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
     owner: "472"
-    recurse: yes
+    recurse: "yes"
   with_items:
     - "{{ grafana_data_directory }}"
     - "{{ grafana_data_directory }}/data"
@@ -20,55 +20,55 @@
     - "{{ grafana_data_directory }}/config/provisioning"
     - "{{ grafana_data_directory }}/config/provisioning/datasources"
 
-- name: InfluxDB
+- name: "InfluxDB"
   docker_container:
-    name: influxdb
-    image: influxdb
-    pull: true
+    name: "influxdb"
+    image: "influxdb"
+    pull: "true"
     volumes:
       - "{{ influxdb_data_directory }}:/var/lib/influxdb:rw"
     ports:
-      - "8086:8086"
-    restart_policy: unless-stopped
+      - "{{ grafana_influxdb_port }}:8086"
+    restart_policy: "unless-stopped"
     env:
       INFLUXDB_LOGGING_LEVEL: "error"
-    memory: 1g
+    memory: "1g"
 
-- name: Template telegraf.conf
+- name: "Template telegraf.conf"
   template:
-    src: telegraf/telegraf.conf
+    src: "telegraf/telegraf.conf"
     dest: "{{ telegraf_data_directory }}/telegraf.conf"
 
-- name: Telegraf
+- name: "Telegraf"
   docker_container:
-    name: telegraf
-    image: telegraf
-    pull: true
+    name: "telegraf"
+    image: "telegraf"
+    pull: "true"
     volumes:
       - "{{ telegraf_data_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
 
-- name: Template Grafana data source
+- name: "Template Grafana data source"
   template:
-    src: grafana/provisioning/datasources/ansible-nas.yml
+    src: "grafana/provisioning/datasources/ansible-nas.yml"
     dest: "{{ grafana_data_directory }}/config/provisioning/datasources/ansible-nas.yml"
 
-- name: Grafana
+- name: "Grafana"
   docker_container:
-    name: grafana
-    image: grafana/grafana
-    pull: true
+    name: "grafana"
+    image: "{{ grafana_image }}"
+    pull: "true"
     volumes:
       - "{{ grafana_data_directory }}/data:/var/lib/grafana:rw"
       - "{{ grafana_data_directory }}/config/provisioning:/etc/grafana/provisioning:ro"
     ports:
-      - "3000:3000"
-    restart_policy: unless-stopped
-    memory: 1g
+      - "{{ grafana_port }}:3000"
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "grafana"
-      traefik.frontend.rule: "Host:grafana.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ grafana_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ grafana_available_externally }}"
-      traefik.port: "3000"
+      traefik.port: "{{ grafana_port }}"

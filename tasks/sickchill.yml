@@ -1,37 +1,37 @@
 ---
-- name: Remove Old Sickrage Docker Container
+- name: "Remove Old Sickrage Docker Container"
   docker_container:
-    name: sickrage
-    state: absent
-    keep_volumes: true
+    name: "sickrage"
+    state: "absent"
+    keep_volumes: "true"
 
-- name: Create Sickchill Directories
+- name: "Create Sickchill Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
     # mode: 0755
   with_items:
     - "{{ sickchill_config_directory }}"
 
-- name: Sickchill Docker Container
+- name: "Sickchill Docker Container"
   docker_container:
-    name: sickchill
-    image: linuxserver/sickchill
-    pull: true
+    name: "sickchill"
+    image: "{{ sickchill_image }}"
+    pull: "true"
     volumes:
       - "{{ sickchill_config_directory }}:/config:rw"
       - "{{ sickchill_downloads_directory }}:/downloads:rw"
       - "{{ sickchill_tv_directory }}:/tv:rw"
     ports:
-      - "8081:8081"
+      - "{{ sickchill_port }}:8081"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ sickchill_user_id }}"
       PGID: "{{ sickchill_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "sickchill"
-      traefik.frontend.rule: "Host:sickchill.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ sickchill_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ sickchill_available_externally }}"
-      traefik.port: "8081"
+      traefik.port: "{{ sickchill_port }}"

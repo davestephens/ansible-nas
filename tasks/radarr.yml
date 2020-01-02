@@ -1,30 +1,30 @@
 ---
-- name: Create Radarr Directories
+- name: "Create Radarr Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
   with_items:
     - "{{ radarr_data_directory }}"
 
-- name: Radarr
+- name: "Radarr"
   docker_container:
-    name: radarr
-    image: linuxserver/radarr
+    name: "radarr"
+    image: "{{ radarr_image }}"
     pull: true
     volumes:
       - "{{ radarr_movies_directory }}:/movies:rw"
       - "{{ radarr_download_directory }}/complete:/downloads:rw"
       - "{{ radarr_data_directory }}:/config:rw"
     ports:
-      - "7878:7878"
+      - "{{ radarr_port }}:7878"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ radarr_user_id }}"
       PGID: "{{ radarr_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "radarr"
-      traefik.frontend.rule: "Host:radarr.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ radarr_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ radarr_available_externally }}"
-      traefik.port: "7878"
+      traefik.port: "{{ radarr_port }}"

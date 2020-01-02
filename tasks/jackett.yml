@@ -1,26 +1,26 @@
 ---
-- name: Create jackett Directories
+- name: "Create jackett Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
   with_items:
     - "{{ jackett_data_directory }}"
 
-- name: jackett
+- name: "jackett"
   docker_container:
-    name: jackett
-    image: linuxserver/jackett
+    name: "jackett"
+    image: "{{ jackett_image }}"
     volumes:
       - "{{ jackett_data_directory }}:/config:rw"
       - "/etc/localtime:/etc/localtime:ro"
       - "{{ torrents_root }}:/downloads"
     ports:
-      - "9117:9117"
+      - "{{ jacket_port }}:9117"
     env:
       TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: unless-stopped
+    restart_policy: "unless-stopped"
     labels:
       traefik.backend: "jackett"
-      traefik.frontend.rule: "Host:jackett.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ jackett_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ jackett_available_externally }}"
-      traefik.port: "9117"
+      traefik.port: "{{ jacket_port }}"

@@ -1,15 +1,15 @@
 ---
-- name: Create ansible-nas group
+- name: "Create ansible-nas group"
   group:
-    name: ansible-nas
-    state: present
+    name: "ansible-nas"
+    state: "present"
 
-- name: Create ansible-nas user
+- name: "Create ansible-nas user"
   user:
-    name: ansible-nas
-    state: present
-    system: yes
-    update_password: on_create
-    create_home: no
-    group: ansible-nas
-    shell: /usr/sbin/nologin
+    name: "{{ ansible_nas_username }}"
+    state: "present"
+    system: "yes"
+    update_password: "on_create"
+    create_home: "no"
+    group: "{{ ansible_nas_usergroup }}"
+    shell: "/usr/sbin/nologin"

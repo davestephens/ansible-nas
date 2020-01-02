@@ -1,34 +1,34 @@
 ---
-- name: Create Heimdall group
+- name: "Create Heimdall group"
   group:
-    name: heimdall
-    gid: 1310
-    state: present
+    name: "heimdall"
+    gid: "1310"
+    state: "present"
 
-- name: Create Heimdall user
+- name: "Create Heimdall user"
   user:
-    name: heimdall
-    uid: 1310
-    state: present
-    system: yes
-    update_password: on_create
-    create_home: no
-    group: heimdall
+    name: "heimdall"
+    uid: "1310"
+    state: "present"
+    system: "yes"
+    update_password: "on_create"
+    create_home: "no"
+    group: "heimdall"
 
-- name: Create Heimdall Directories
+- name: "Create Heimdall Directories"
   file:
     path: "{{ item }}"
-    state: directory
-    owner: heimdall
-    group: heimdall
+    state: "directory"
+    owner: "heimdall"
+    group: "heimdall"
   with_items:
     - "{{ heimdall_data_directory }}"
 
-- name: Create Heimdall container
+- name: "Create Heimdall container"
   docker_container:
-    name: heimdall
+    name: "heimdall"
     image: "{{ heimdall_docker_image }}"
-    pull: true
+    pull: "true"
     volumes:
       - "{{ heimdall_data_directory }}:/config:rw"
     env:
@@ -36,12 +36,12 @@
       PGID: "1310"
       TZ: "{{ ansible_nas_timezone }}"
     ports:
-      - "10080:80"
-      - "10443:443"
-    restart_policy: unless-stopped
-    memory: 1g
+      - "{{ heimdall_port_http }}:80"
+      - "{{ heimdall_port_https }}:443"
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "heimdall"
-      traefik.frontend.rule: "Host:heimdall.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ heimdall_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ heimdall_available_externally }}"
-      traefik.port: "80"
+      traefik.port: "{{ heimdall_port_http }}"

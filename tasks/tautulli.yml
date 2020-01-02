@@ -1,27 +1,30 @@
-- name: Create Tautulli Directories
+- name: "Create Tautulli Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
     # mode: 0755
   with_items:
     - "{{ tautulli_config_directory }}"
 
-- name: Tautulli Docker Container
+- name: "Tautulli Docker Container"
   docker_container:
-    name: tautulli
-    image: linuxserver/tautulli
+    name: "tautulli"
+    image: "{{ tautulli_image }}"
     pull: true
     volumes:
       - "{{ tautulli_config_directory }}:/config:rw"
-    network_mode: "host"
+      - "{{ plex_logs }}:/logs:ro"
+   # network_mode: "host"
+    ports:
+      - "{{ tautulli_port }}:8181"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ tautulli_user_id }}"
       PGID: "{{ tautulli_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "tautulli"
-      traefik.frontend.rule: "Host:tautulli.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ tautulli_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ tautulli_available_externally }}"
-      traefik.port: "8181"
+      traefik.port: "{{ tautulli_port }}"

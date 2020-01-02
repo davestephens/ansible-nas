@@ -1,31 +1,35 @@
-- name: Create Plex Directories
+- name: "Create Plex Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
     # mode: 0755
   with_items:
     - "{{ plex_config_directory }}"
+    - "{{ plex_logs }}"
 
-- name: plex Docker Container
+- name: "plex Docker Container"
   docker_container:
-    name: plex
-    image: linuxserver/plex
-    pull: true
+    name: "plex"
+    image: "{{ plex_image }}"
+    pull: "true"
     volumes:
       - "{{ plex_config_directory }}:/config:rw"
+      - "{{ plex_logs }}:/opt/plex/Library/Application Support/Plex Media Server/Logs:rw"
       - "{{ plex_movies_directory }}:/movies:{{ plex_movies_permissions }}"
       - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
       - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
       - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
     network_mode: "host"
+    ports:
+      - "{{ plex_port }}:32400"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ plex_user_id }}"
       PGID: "{{ plex_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "plex"
       traefik.frontend.rule: "Host:plex.{{ ansible_nas_domain }}"
       traefik.enable: "{{ plex_available_externally }}"
-      traefik.port: "32400"
+      traefik.port: "{{ plex_port }}"

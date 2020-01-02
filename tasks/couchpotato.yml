@@ -1,32 +1,32 @@
 ---
-- name: Create Couchpotato Directories
+- name: "Create Couchpotato Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
     # mode: 0755
   with_items:
     - "{{ docker_home }}/couchpotato/config"
 
-- name: Couchpotato Docker Container
+- name: "Couchpotato Docker Container"
   docker_container:
-    name: couchpotato
-    image: linuxserver/couchpotato
-    pull: true
+    name: "couchpotato"
+    image: "{{ couchpotato_image }}"
+    pull: "true"
     volumes:
       - "{{ couchpotato_config_directory }}:/config:rw"
       - "{{ couchpotato_downloads_directory }}/completed:/downloads:rw"
       - "{{ couchpotato_movies_directory }}:/movies:rw"
       - "{{ couchpotato_torrents_directory }}:/torrents:rw"
     ports:
-      - "5050:5050"
+      - "{{ couchpotato_port }}:5050"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ couchpotato_user_id }}"
       PGID: "{{ couchpotato_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "1g"
     labels:
       traefik.backend: "couchpotato"
-      traefik.frontend.rule: "Host:couchpotato.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ couchpotato_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ couchpotato_available_externally }}"
-      traefik.port: "5050"
+      traefik.port: "{{ couchpotato_port }}"

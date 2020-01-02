@@ -1,20 +1,20 @@
-- name: Create mymedia for alexa Directories
+- name: "Create mymedia for alexa Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
   with_items:
     - "{{ mymediaforalexa_media_directory }}"
     - "{{ mymediaforalexa_data_directory }}"
 
-- name: mymedia for alexa Docker Container
+- name: "mymedia for alexa Docker Container"
   docker_container:
-    name: mymediaforalexa
-    image: bizmodeller/mymediaforalexa
-    pull: true
+    name: "mymediaforalexa"
+    image: "{{ mymediaforalexa_image }}"
+    pull: "true"
     volumes:
       - "{{ mymediaforalexa_media_directory }}:/medialibrary:rw"
       - "{{ mymediaforalexa_data_directory }}:/datadir:rw"
-    network_mode: host
-    restart_policy: unless-stopped
-    memory: 1g
+    network_mode: "host"
+    restart_policy: "unless-stopped"
+    memory: "1g"
 

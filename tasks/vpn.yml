@@ -1,27 +1,27 @@
 ---
-- include_vars: group_vars/vpn_credentials.yml
+- include_vars: "group_vars/vpn_credentials.yml"
 
-- name: Create NordVPN Config Directory
+- name: "Create NordVPN Config Directory"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
     # mode: 0755
   with_items:
     - "{{ openvpn_config_directory }}/nordvpn"
 
-- name: Download latest NordVPN configs
+- name: "Download latest NordVPN configs"
   unarchive:
-    src: https://nordvpn.com/api/files/zip
+    src: "https://nordvpn.com/api/files/zip"
     dest: "{{ openvpn_config_directory }}/nordvpn"
-    remote_src: True
+    remote_src: "True"
 
-- name: Replace NordVPN configs with credential file
+- name: "Replace NordVPN configs with credential file"
   shell: 'sed -i "s/auth-user-pass/auth-user-pass \/config\/openvpn-credentials.txt/" {{ openvpn_config_directory }}/nordvpn/*.ovpn'
 
-- name: VPN Container
+- name: "VPN Container"
   docker_container:
-    name: openvpn-client
-    image: dceschmidt/openvpn-client
+    name: "openvpn-client"
+    image: "{{ openvpn_client_image }}"
     pull: true
     env:
       OPENVPN_PROVIDER: "{{ openvpn_provider }}"
@@ -31,8 +31,8 @@
     volumes:
       "{{ openvpn_config_directory }}/nordvpn:/etc/openvpn/conf/nordvpn:rw"
     devices:
-      - /dev/net/tun
+      - "/dev/net/tun"
     capabilities:
-      - NET_ADMIN
-    restart_policy: unless-stopped
-    memory: 1g
+      - "NET_ADMIN"
+    restart_policy: "unless-stopped"
+    memory: "1g"

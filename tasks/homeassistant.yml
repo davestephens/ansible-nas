@@ -1,26 +1,26 @@
-- name: Create Home Assistant Directories
+- name: "Create Home Assistant Directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
   with_items:
     - "{{ homeassistant_data_directory }}/config"
 
-- name: Home Assistant Docker Container
+- name: "Home Assistant Docker Container"
   docker_container:
-    name: homeassistant
-    image: homeassistant/home-assistant
-    pull: true
+    name: "homeassistant"
+    image: "{{ homeassistant_image }}"
+    pull: "true"
     volumes:
       - "{{ homeassistant_data_directory }}/config:/config:rw"
     ports:
-      - "8123:8123"
-    restart_policy: unless-stopped
+      - "{{ homeassistant_port }}:8123"
+    restart_policy: "unless-stopped"
     env:
       TZ: "{{ ansible_nas_timezone }}"
     labels:
       traefik.backend: "homeassistant"
-      traefik.frontend.rule: "Host:homeassistant.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ homeassistant_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ homeassistant_available_externally }}"
-      traefik.port: "8123"
+      traefik.port: "{{ homeassistant_port }}"
       traefik.frontend.headers.SSLRedirect: "true"
-    memory: 1g
+    memory: "1g"

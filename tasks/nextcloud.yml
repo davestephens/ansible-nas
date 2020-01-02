@@ -1,17 +1,17 @@
 ---
-- name: Create Nextcloud directories
+- name: "Create Nextcloud directories"
   file:
     path: "{{ item }}"
-    state: directory
+    state: "directory"
   with_items:
     - "{{ nextcloud_data_directory }}/nextcloud"
     - "{{ nextcloud_data_directory }}/mysql"
 
-- name: Nextcloud Mysql Docker Container
+- name: "Nextcloud Mysql Docker Container"
   docker_container:
-    name: nextcloud-mysql
-    image: mysql:5.7
-    pull: true
+    name: "nextcloud-mysql"
+    image: "mysql:5.7"
+    pull: "true"
     volumes:
       - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
@@ -19,30 +19,30 @@
       MYSQL_USER: "nextcloud-user"
       MYSQL_PASSWORD: "nextcloud-pass"
       MYSQL_ROOT_PASSWORD: "nextcloud-secret"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
 
-- name: Nextcloud Docker Container
+- name: "Nextcloud Docker Container"
   docker_container:
-    name: nextcloud
-    image: nextcloud:14
-    pull: true
+    name: "nextcloud"
+    image: "{{ nextcloud_image }}"
+    pull: "true"
     links:
-        - nextcloud-mysql:mysql
+        - "nextcloud-mysql:mysql"
     volumes:
       - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
     ports:
-      - "8080:80"
+      - "{{ nextcloud_port }}:80"
     env:
       MYSQL_HOST: "mysql"
       MYSQL_DATABASE: "nextcloud"
       MYSQL_USER: "nextcloud-user"
       MYSQL_PASSWORD: "nextcloud-pass"
       NEXTCLOUD_TRUSTED_DOMAINS: "nextcloud.{{ ansible_nas_domain }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "nextcloud"
-      traefik.frontend.rule: "Host:nextcloud.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ nextcloud_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ nextcloud_available_externally }}"
-      traefik.port: "80"
+      traefik.port: "{{ nextcloud_port }}"
