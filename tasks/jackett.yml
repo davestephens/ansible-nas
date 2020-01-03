@@ -15,7 +15,7 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "{{ torrents_root }}:/downloads"
     ports:
-      - "{{ jacket_port }}:9117"
+      - "{{ jackett_port }}:9117"
     env:
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: "unless-stopped"
@@ -23,4 +23,4 @@
       traefik.backend: "jackett"
       traefik.frontend.rule: "Host:{{ jackett_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ jackett_available_externally }}"
-      traefik.port: "{{ jacket_port }}"
+      traefik.port: "{{ jackett_port }}"
