@@ -1,4 +1,4 @@
-# Cloud Commander file manager
+# FileBot
 
 Homepage: [https://www.filebot.net/)
 
