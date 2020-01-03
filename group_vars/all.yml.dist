@@ -406,7 +406,7 @@ plex_music_permissions: "rw"
 plex_user_id: "0"
 plex_group_id: "0"
 plex_image: "linuxserver/plex"
-plex_port: "plex_port"
+plex_port: "32400"
 plex_logs: "{{docker_home }}/plex/logs"
 plex_subdomain: "plex"
 
