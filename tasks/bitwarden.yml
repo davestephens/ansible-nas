@@ -33,7 +33,7 @@
 - name: "Bitwarden Backup Container"
   docker_container:
     name: "bitwarden-backup"
-    image: "{{ bitwarden_backup_image }}
+    image: "{{ bitwarden_backup_image }}"
     pull: "true"
     restart_policy: "unless-stopped"
     volumes_from: "bitwarden"
