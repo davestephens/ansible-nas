@@ -29,7 +29,7 @@ Then on your Linux desktop install the [step-cli](https://github.com/smallstep/c
 step ca bootstrap --fingerprint $FP --ca-url $CA
 ```
 
-Use the fingerprint instead of `$FP` and the URI of your CA instead of `$CA`: `{{ ansible_nas_domain }}:8443`. This downloads your CA's root certificate. Then [install](https://smallstep.com/docs/cli/certificate/install/) it system-wide with:
+Use the fingerprint instead of `$FP` and the URI of your CA instead of `$CA`: `stepca.{{ ansible_nas_domain }}:8443`. This downloads your CA's root certificate. Then [install](https://smallstep.com/docs/cli/certificate/install/) it system-wide with:
 
 ```
 sudo step certificate install --all .step/certs/root_ca.crt
