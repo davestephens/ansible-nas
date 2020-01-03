@@ -213,6 +213,6 @@ onDemand = false # create certificate when container is created
           "{{ tautulli_subdomain }}.{{ ansible_nas_domain }}",
           "{{ thelounge_subdomain }}.{{ ansible_nas_domain }}",
           "{{ transmission_subdomain }}.{{ ansible_nas_domain }}",
-          "{{ transmission-openvpn_subdomain }}.{{ ansible_nas_domain }}",
+          "{{ transmission_openvpn_subdomain }}.{{ ansible_nas_domain }}",
           "{{ wallabag_subdomain }}.{{ ansible_nas_domain }}",
           "{{ znc_subdomain }}.{{ ansible_nas_domain }}"]
