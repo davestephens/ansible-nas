@@ -9,7 +9,7 @@
 - name: "ZNC"
   docker_container:
     name: znc
-    image: "{{ znc_image }}
+    image: "{{ znc_image }}"
     pull: "true"
     volumes:
       - "{{ znc_data_directory }}:/znc-data:rw"
