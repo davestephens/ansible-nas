@@ -203,3 +203,7 @@
   - import_tasks: tasks/cloudcmd.yml
     when: (cloudcmd_enabled | default(False))
     tags: cloudcmd
+    
+  - import_tasks: tasks/filebot.yml
+    when: (filebot_enabled | default(False))
+    tags: filebot

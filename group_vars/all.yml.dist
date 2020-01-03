@@ -91,6 +91,9 @@ calibre_enabled: false
 # Joomla
 joomla_enabled: false
 
+# FileBot
+filebot_enabled: false
+
 ###
 ### General
 ###
@@ -681,3 +684,17 @@ jellyfin_tv_directory: "{{ tv_root }}"
 jellyfin_tv_permissions: "rw"
 jellyfin_user_id: "0"
 jellyfin_group_id: "0"
+
+###
+### Filebot
+###
+# If you're paranoid, comment out the movies, music, and tv directories so FileBot can only
+# interact with your downloads
+filebot_available_externally: "false"
+filebot_data_directory: "{{ docker_home }}/filebot/config"
+filebot_download_directory: "{{ downloads_root }}"
+filebot_movies_directory: "{{ movies_root }}"
+filebot_music_directory: "{{ music_root }}"
+filebot_tv_directory: "{{ tv_root }}"
+filebot_user_id: "0"
+filebot_group_id: "0"
