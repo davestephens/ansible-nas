@@ -237,7 +237,7 @@ samba_shares:
     writable: "yes"
     browsable: "yes"
     path: "{{ samba_shares_root }}/books"
-	
+
   - name: "audiobooks"
     comment: "Audiobooks"
     guest_ok: "yes"
@@ -245,7 +245,7 @@ samba_shares:
     writable: "yes"
     browsable: "yes"
     path: "{{ samba_shares_root }}/audiobooks"
-	
+
 ###
 ### NFS
 ###
@@ -357,7 +357,7 @@ transmission_image: "linuxserver/transmission"
 transmission_with_openvpn_available_externally: "false"
 transmission_openvpn_image: "haugene/transmission-openvpn"
 transmission_openvpn_config_directory: "{{ docker_home }}/transmissionvpn/config"
-transmission_download_directory: "{{ downloads_root }}"
+transmission_openvpn_download_directory: "{{ downloads_root }}"
 transmission_openvpn_watch_directory: "{{ torrents_openvpn_root }}"
 transmission_openvpn_user_id: "0"
 transmission_openvpn_group_id: "0"
