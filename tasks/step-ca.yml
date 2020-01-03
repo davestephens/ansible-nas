@@ -39,6 +39,7 @@
       --provisioner {{ ansible_nas_email }}
       --dns stepca.{{ ansible_nas_domain }}
       --address ':8443'
+      --ssh
       --password-file secrets/intermediate_pass
   when: not stepca_json.stat.exists
 
