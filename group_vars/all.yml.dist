@@ -41,6 +41,8 @@ radarr_enabled: false
 get_iplayer_enabled: false
 jackett_enabled: false
 bazarr_enabled: false
+ombi_enabled: false
+lidarr_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -87,6 +89,9 @@ openhab_enabled: false
 
 # Calibre
 calibre_enabled: false
+
+# Ubooquity
+ubooquity_enabled: false
 
 # Joomla
 joomla_enabled: false
@@ -153,6 +158,9 @@ podcasts_root: "{{ samba_shares_root }}/podcasts"
 
 # Where your books are stored
 books_root: "{{ samba_shares_root }}/books"
+
+# Where your books are stored
+comics_root: "{{ samba_shares_root }}/comics"
 
 # Where photos are stored
 photos_root: "{{ samba_shares_root }}/photos"
@@ -233,6 +241,14 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ samba_shares_root }}/books"
+
+  - name: comics
+    comment: 'Comics'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browsable: yes
+    path: "{{ samba_shares_root }}/comics"
 
 ###
 ### NFS
@@ -405,6 +421,7 @@ tautulli_user_id: "0"
 tautulli_group_id: "0"
 tautulli_port: "8185"
 
+
 ###
 ### Duplicati
 ###
@@ -446,6 +463,17 @@ bazarr_group_id: "0"
 bazarr_port: "6767"
 
 ###
+### lidarr
+###
+lidarr_available_externally: "false"
+lidarr_data_directory: "{{ docker_home }}/lidarr/config"
+lidarr_music_directory: "{{ music_root }}"
+lidarr_downloads_directory: "{{ downloads_root }}"
+lidarr_user_id: "0"
+lidarr_group_id: "0"
+lidarr_port: "8686"
+
+###
 ### Couchpotato
 ###
 couchpotato_available_externally: "false"
@@ -467,6 +495,15 @@ sickchill_downloads_directory: "{{ downloads_root }}/completed"
 sickchill_user_id: "0"
 sickchill_group_id: "0"
 sickchill_port: "8081"
+
+
+###
+### Ombi
+###
+ombi_available_externally: "false"
+ombi_config_directory: "{{ docker_home }}/ombi/config"
+ombi_user_id: "0"
+ombi_group_id: "0"
 
 ###
 ### Netdata
@@ -495,6 +532,7 @@ znc_data_directory: "{{ docker_home }}/znc"
 znc_user_id: "0"
 znc_group_id: "0"
 znc_port: "6677"
+
 
 ###
 ### Stats
@@ -727,3 +765,13 @@ jellyfin_user_id: "0"
 jellyfin_group_id: "0"
 jellyfin_port_http: "8896"
 jellyfin_port_https: "8928"
+
+###
+### Ubooquity
+###
+ubooquity_available_externally: "false"
+ubooquity_data_directory: "{{ docker_home }}/ubooquity"
+ubooquity_user_id: "0"
+ubooquity_group_id: "0"
+ubooquity_port_a: "2202"
+ubooquity_port_b: "2203"

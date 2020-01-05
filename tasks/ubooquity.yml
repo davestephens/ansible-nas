@@ -1,0 +1,32 @@
+---
+- name: Create Ubooquity Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ ubooquity_data_directory }}"
+
+- name: Ubooquity Docker Container
+  docker_container:
+    name: ubooquity
+    image: linuxserver/ubooquity:latest
+    pull: true
+    volumes:
+      - "{{ ubooquity_data_directory }}/config:/config:rw"
+      - "{{ ubooquity_data_directory }}/files:/files:rw"
+      - "{{ comics_root }}:/comics"
+      - "{{ books_root }}:/books"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ ubooquity_user_id|quote }}"
+      PGID: "{{ ubooquity_group_id|quote }}"
+      MAXMEM: "1024"
+    ports:
+      - "2202:2202"
+      - "2203:2203"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend:  "ubooquity"
+      traefik.frontend.rule: "Host:ubooquity.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ ubooquity_available_externally }}"
+      traefik.port: "2202"
