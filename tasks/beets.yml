@@ -1,0 +1,32 @@
+--
+- name: "Create beets Directories"
+  file:
+    path: "{{ item }}"
+    state: "directory"
+  with_items:
+    - "{{ beets_data_directory }}"
+    - "{{ beets_import_directory }}"
+    - "{{ beets_music_directory }}"
+
+- name: "beets Docker Container"
+  docker_container:
+    name: "beets"
+    image: "{{ beets_image }}"
+    pull: "true"
+    volumes:
+      - "{{ beets_data_directory }}:/config"
+      - "{{ beets_music_directory }}:/music:rw"
+      - "{{ beets_import_directory }}:/downloads:rw"
+   ports:
+      - "{{ beets_port }}:8337"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ beets_user_id }}"
+      PGID: "{{ beets_group_id }}"
+    restart_policy: "{{ beets_restart_policy }}"
+    memory: "{{ beets_memory_limit }}"
+    labels:
+      traefik.backend: "beets"
+      traefik.frontend.rule: "Host:{{ beets_subdomain }}.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ beets_available_externally }}"
+      traefik.port: "{{ beets_port }}"

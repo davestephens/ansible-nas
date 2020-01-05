@@ -1,0 +1,25 @@
+--
+- name: "Create dokuwiki Directories"
+  file:
+    path: "{{ item }}"
+    state: "directory"
+  with_items:
+    - "{{ dokuwiki_data_directory }}"
+
+- name: "dokuwiki Docker Container"
+  docker_container:
+    name: "dokuwiki"
+    image: "{{ dokuwiki_image }}"
+    pull: "true"
+    volumes:
+      - "{{ dokuwiki_data_directory }}:/bitnami"
+   ports:
+      - "{{ dokuwiki_port_http }}:80"
+      - "{{ dokuwiki_port_https }}:443"
+    restart_policy: "{{ dokuwiki_restart_policy }}"
+    memory: "{{ dokuwiki_memory_limit }}"
+    labels:
+      traefik.backend: "dokuwiki"
+      traefik.frontend.rule: "Host:{{ dokuwiki_subdomain }}.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ dokuwiki_available_externally }}"
+      traefik.port: "{{ dokuwiki_port_https }}"

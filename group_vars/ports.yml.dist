@@ -1,0 +1,25 @@
+###Edit the mapped ports for each container
+airsonic_port: "4040"             #Mapped to 4040
+bazarr_port: "6767"               #Mapped to 6767
+beets_port: "8337"                #Mapped to 8337
+bitwarden_port_a: "19080"         #Mapped to 80
+bitwarden_port_b: "3012"          #Mapped to 3012
+calibre_port: "8084"              #Mapped to 8083
+cloudcmd_port: "7373"             #Mapped to 8000
+couchpotato_port: "5050"          #Mapped to 5050
+dokuwiki_port_http: "9442"        #Mapped to 80
+dokuwiki_port_https: "9443"       #Mapped to 443
+duplicati_port: "8200"            #Mapped to 8200
+emby_port_http: "8096"            #Mapped to 8096
+emby_port_https: "8920"           #Mapped to 8920
+firefly_port: "8066"              #Mapped to 80
+
+
+
+
+
+
+
+
+
+
