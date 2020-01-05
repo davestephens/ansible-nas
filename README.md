@@ -28,6 +28,7 @@ Ansible config and a bunch of Docker containers.
 * eBook management with calibre-web
 * Content management with Joomla
 * A dual panel local file manager
+* Self-service media request web application
 
 ### Docker Containers Used
 
@@ -59,6 +60,7 @@ Ansible config and a bunch of Docker containers.
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
+* [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
