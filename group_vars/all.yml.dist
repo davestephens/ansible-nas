@@ -90,7 +90,6 @@ calibre_enabled: false
 
 # Joomla
 joomla_enabled: false
-joomla_image: "joomla"
 
 ###
 ### General
