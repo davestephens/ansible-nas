@@ -18,11 +18,11 @@
       PGID: "{{ duplicati_group_id }}"
     volumes:
       - "{{ duplicati_data_directory }}:/config:rw"
-      - "{{ samba_shares_root }}:/source/shares:rw"
+      - "{{ duplicati_shares }}:/source/shares:rw"
       - "{{ docker_home }}:/source/docker:rw"
       - "/etc/timezone:/etc/timezone:ro"
-    restart_policy: "unless-stopped"
-    memory: "1g"
+    restart_policy: "{{ duplicati_restart_policy }}"
+    memory: "{{ duplicati_memory_limit }}"
     labels:
       traefik.backend: "duplicati"
       traefik.frontend.rule: "Host:{{ duplicati_subdomain }}.{{ ansible_nas_domain }}"

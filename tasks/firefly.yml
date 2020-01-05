@@ -3,7 +3,6 @@
     path: "{{ item }}"
     state: "directory"
   with_items:
-    - "{{ firefly_data_directory }}/postgresql"
     - "{{ firefly_data_directory }}/mysql"
     - "{{ firefly_data_directory }}/upload"
     - "{{ firefly_data_directory }}/export"
@@ -18,8 +17,8 @@
     env:
       MYSQL_DATABASE: "firefly"
       MYSQL_USER: "firefly"
-      MYSQL_PASSWORD: "firefly"
-      MYSQL_ROOT_PASSWORD: "firefly"
+      MYSQL_PASSWORD: "{{ firefly_mysql_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ firefly_root_mysql_password }}"
     restart_policy: "unless-stopped"
     memory: "1g"
 
@@ -45,7 +44,7 @@
       DB_HOST: "db"
       DB_DATABASE: "firefly"
       DB_USERNAME: "firefly"
-      DB_PASSWORD: "firefly"
+      DB_PASSWORD: "{{ firefly_mysql_password }}"
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: "unless-stopped"
     memory: "1g"

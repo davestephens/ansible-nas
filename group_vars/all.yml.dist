@@ -3,93 +3,92 @@
 ###
 # Set these options to true or "false" to toggle specific features
 
-# External Access
+### External Access
 # Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
 # home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
 # You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
 # settings.
 traefik_enabled: "false"
 
-# Downloading
-# If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
-# to group_vars/vpn_credentials.yml, then update it with your own settings.
-transmission_with_openvpn_enabled: "false"
-transmission_enabled: "false"
-nzbget_enabled: "false"
-
-# Downloaders
-pyload_enabled: "false"
-
-# Plex
-plex_enabled: "false"
-tautulli_enabled: "false"
-
-# Emby
-emby_enabled: "false"
-
-# Jellyfin
-jellyfin_enabled: "false"
-
-# minidlna
-minidlna_enabled: "false"
-
-# Media Sourcing
-sonarr_enabled: "false"
-sickchill_enabled: "false"
-couchpotato_enabled: "false"
-radarr_enabled: "false"
-get_iplayer_enabled: "false"
-jackett_enabled: "false"
-bazarr_enabled: "false"
-
-# Music
-airsonic_enabled: "false"
-mymediaforalexa_enabled: "false"
-
-# News
-miniflux_enabled: "false"
-
-# System Management
-heimdall_enabled: true
-portainer_enabled: true
-glances_enabled: "false"
-stats_enabled: "false"
-guacamole_enabled: "false"
-netdata_enabled: "false"
-watchtower_enabled: "false"
-cloudflare_ddns_enabled: "false"
-cloudcmd_enabled: "false"
-
-# Backup & Restore
+### Backup & Restore
 duplicati_enabled: "false"
 nextcloud_enabled: "false"
-gitea_enabled: "false"
 timemachine_enabled: "false"
 
-# IRC
+### Content Management Systems, Wiki, Git and Blogs
+joomla_enabled: "false"
+dokuwiki_enabled: "false"
+gitea_enabled: "false"
+
+### Downloading
+# If you plan to use Transmission with OpenVPN, you'll need to copy group_vars/vpn_credentials.yml.dist
+# to group_vars/vpn_credentials.yml, then update it with your own settings.
+nzbget_enabled: "false"
+pyload_enabled: "false"
+transmission_enabled: "false"
+transmission_with_openvpn_enabled: "false"
+
+### EBooks
+calibre_enabled: "false"
+
+### IRC
 znc_enabled: "false"
 thelounge_enabled: "false"
 
-# Password Management
-bitwarden_enabled: "false"
-
-# Finance
+### Finance
 firefly_enabled: "false"
 
-# Wallabag
-wallabag_enabled: "false"
+### Games
+minetest_enabled: "false"
 
-# Home Automation
+### Home Automation
 homeassistant_enabled: "false"
 mosquitto_enabled: "false"
 homebridge_enabled: "false"
 openhab_enabled: "false"
 
-# Calibre
-calibre_enabled: "false"
+### Media Management and Distribution
+emby_enabled: "false"
+htpcmanager_enabled: "false"
+jellyfin_enabled: "false"
+minidlna_enabled: "false"
+plex_enabled: "false"
+tautulli_enabled: "false"
 
-# Joomla
-joomla_enabled: "false"
+### Media Sourcing
+bazarr_enabled: "false"
+couchpotato_enabled: "false"
+get_iplayer_enabled: "false"
+jackett_enabled: "false"
+radarr_enabled: "false"
+sickchill_enabled: "false"
+sonarr_enabled: "false"
+
+### Music
+airsonic_enabled: "false"
+beets_enabled: "false"
+mymediaforalexa_enabled: "false"
+
+### News
+miniflux_enabled: "false"
+
+### Password Management
+bitwarden_enabled: "false"
+
+### System Management
+cloudcmd_enabled: "false"
+cloudflare_ddns_enabled: "false"
+docker-autoheal_enabled: "false"
+glances_enabled: "false"
+guacamole_enabled: "false"
+heimdall_enabled: true
+netdata_enabled: "false"
+portainer_enabled: true
+stats_enabled: "false"
+watchtower_enabled: "false"
+
+### Webtools
+wallabag_enabled: "false"
 
 ###
 ### General
@@ -258,35 +257,27 @@ nfs_shares_root: "/mnt/Volume3"
 nfs_exports:
   - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"
 
+
 ###
 ### Cloudflare
 ###
-# Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to
-# set the options below.
-
+## Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to set the options below.
+## Don't forget to set cloudflare_api_key in secret.yml
 # Your domain name
 cloudflare_zone: "{{ ansible_nas_domain }}"
-
 # The hostname you want the container to update. You shouldn't need to change this.
 cloudflare_host: "*.{{ cloudflare_zone }}"
-
 # Email address used to register for Cloudflare
 cloudflare_email: "{{ ansible_nas_email }}"
-
-# Cloudflare 'Global API Key', can be found on the 'My Profile' page
-cloudflare_api_key: "abcdeabcdeabcdeabcde1234512345"
-
-# Other Settings (You shouldn't need to edit these)
+# Container Settings (You shouldn't need to edit these unless you need to fine tune the container)
 cloudflare_image: "joshava/cloudflare-ddns:latest"
-
-##################################################################
-###### You shouldn't need to edit anything below this point ######
-##################################################################
+cloudflare_restart_policy: "unless-stopped"
+cloudflare_memory_limit: "512MB"
 
 ###
 ### General
 ###
-# Extra packages to install
+# Extra packages to install - you shouldn't edit these, but can add your own
 ansible_nas_extra_packages:
   - "smartmontools"
   - "htop"
@@ -295,7 +286,7 @@ ansible_nas_extra_packages:
   - "unzip"
   - "lm-sensors"
   - "ctop"
-
+# Path to Python
 ansible_python_interpreter: "/usr/bin/python3"
 
 ###
@@ -303,21 +294,193 @@ ansible_python_interpreter: "/usr/bin/python3"
 ###
 # Seems to break browsing of the \\server-name shares root when enabled
 samba_mitigate_cve_2017_7494: "false"
-
 # Enable apple exentensions for compatibility with apple clients
 samba_apple_extensions: "yes"
-
 # The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
 # mess with Samba user permissions.
 ansible_nas_username: "ansible-nas"
 ansible_nas_usergroup: "ansible-nas"
 samba_guest_account: "{{ ansible_nas_username }}"
-
 # How Samba behaves when an unknown user connects, see Samba docs for more info
 samba_map_to_guest: "Bad Password"
-
 # The NetBIOS hostname used by Samba on your network
 samba_netbios_name: "{{ ansible_nas_hostname }}"
+
+###############################################################
+###### Fine tune the container settings below this point ######
+###############################################################
+
+###
+### Airsonic
+###
+# If you're paranoid, set airsonic_permissions to "ro" to prevent airsonic modifying your music, podcasts or audiobooks folders
+airsonic_available_externally: "false"
+airsonic_image: "airsonic/airsonic:latest"
+airsonic_data_directory: "{{ docker_home }}/airsonic"
+airsonic_permissions: "rw"
+airsonic_audiobooks: "{{ audiobooks_root }}"
+airsonic_music: "{{ music_root }}"
+airsonic_podcasts: "{{ podcasts_root }}"
+airsonic_memory_limit: "1g"
+airsonic_restart_policy: "unless-stopped"
+airsonic_subdomain: "airsonic"
+
+###
+### Autoheal
+###
+# autoheal_interval, autoheal_kill_wait and autoheal_start_period is in seconds
+autoheal_image: "willfarrell/autoheal"
+autoheal_interval: "5"
+autoheal_start_after: "0"
+autoheal_kill_wait: "10"
+autoheal_restart_policy: "always"
+autoheal_memory_limit: "1g"
+
+###
+### Bazarr
+###
+# If you're paranoid, set bazarr_permissions to "ro" to prevent Bazarr modifying your videos
+bazarr_available_externally: "false"
+bazarr_data_directory: "{{ docker_home }}/bazarr/config"
+bazarr_permissions: "rw"
+bazarr_tv_directory: "{{ tv_root }}"
+bazarr_movies_directory: "{{ movies_root }}"
+bazarr_user_id: "0"
+bazarr_group_id: "0"
+bazarr_image: "linuxserver/bazarr"
+bazarr_memory_limit: "1g"
+bazarr_restart_policy: "unless-stopped"
+bazarr_subdomain: "bazarr"
+
+###
+### Beets
+###
+beets_avaliable_externally: "false"
+beets_data_directory: "{{ docker_home }}/beets"
+beets_import_directory: "{{ downloads_root }}"
+beets_music_directory: "{{ music_root }}"
+beets_image: "linuxserver/beets"
+beets_user_id: "0"
+beets_group_id: "0"
+beets_restart_policy: "unless-stopped"
+beets_memory_limit: "1g"
+beets_subdomain: "beets"
+
+###
+### Bitwarden
+###
+# Don't forget to set bitwarden_admin_token in secret.yml
+bitwarden_available_externally: "false"
+bitwarden_data_directory: "{{ docker_home }}/bitwarden"
+bitwarden_image: "mprasil/bitwarden:latest"
+bitwarden_backup_image: "bruceforce/bw_backup:latest"
+bitwarden_restart_policy: "unless-stopped"
+bitwarden_memory_limit: "1g"
+bitwarden_backup_memory_limit: "1g"
+bitwarden_subdomain: "bitwarden"
+# To create an initial user set this to "true", and reprovision the container by re-running the ansible-nas playbook.
+# Once you have created your user, set to "false" and run one more time.
+# Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
+bitwarden_allow_signups: "false"
+
+###
+### Calibre
+###
+# To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
+calibre_available_externally: "false"
+calibre_data_directory: "{{ docker_home }}/calibre"
+calibre_image: "linuxserver/calibre-web:latest"
+calibre_books_root: "{{ books_root }}"
+calibre_user_id: "0"
+calibre_group_id: "0"
+calibre_restart_policy: "unless-stopped"
+calibre_memory_limit: "1g"
+calibre_subdomain: "calibre"
+#calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
+calibre_ebook_conversion: ""
+
+###
+### CloudCmd
+###
+cloudcmd_available_externally: "false"
+cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
+cloudcmd_browse_directory: "/"
+cloudcmd_image: "coderaiser/cloudcmd"
+cloudcmd_user_id: "0"
+cloudcmd_group_id: "0"
+cloudcmd_restart_policy: "unless-stopped"
+cloudcmd_memory_limit: "1g"
+cloudcmd_subdomain: "cloudcmd"
+
+###
+### Couchpotato
+###
+couchpotato_available_externally: "false"
+couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
+couchpotato_movies_directory: "{{ movies_root }}"
+couchpotato_downloads_directory: "{{ downloads_root }}/completed"
+couchpotato_torrents_directory: "{{ torrents_root }}"
+couchpotato_user_id: "0"
+couchpotato_group_id: "0"
+couchpotato_image: "linuxserver/couchpotato"
+couchpotato_restart_policy: "unless-stopped"
+couchpotato_memory_limit: "1g"
+couchpotato_subdomain: "couchpotato"
+
+###
+### Dokuwiki
+###
+dokuwiki_avaliable_externally: "false"
+dokuwiki_data_directory: "{{ docker_home }}/dokuwiki"
+dokuwiki_image: "bitnami/dokuwiki:0"
+dokuwiki_restart_policy: "unless-stopped"
+dokuwiki_memory_limit: "1g"
+dokuwiki_subdomain: "dokuwiki"
+
+###
+### Duplicati
+###
+duplicati_available_externally: "false"
+duplicati_data_directory: "{{ docker_home }}/duplicati/config"
+duplicati_shares: "{{ samba_shares_root }}"
+duplicati_image: "linuxserver/duplicati"
+duplicati_user_id: "0"
+duplicati_group_id: "0"
+duplicati_restart_policy: "unless-stopped"
+duplicati_memory_limit: "1g"
+duplicati_subdomain: "duplicati"
+
+###
+### Emby
+###
+# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
+# delete your files
+emby_available_externally: "false"
+emby_config_directory: "{{ docker_home }}/emby/config"
+emby_movies_directory: "{{ movies_root }}"
+emby_movies_permissions: "rw"
+emby_tv_directory: "{{ tv_root }}"
+emby_tv_permissions: "rw"
+emby_user_id: "0"
+emby_group_id: "0"
+emby_image: "emby/embyserver"
+emby_restart_policy: "unless-stopped"
+emby_memory_limit: "1g"
+emby_subdomain: "emby"
+
+###
+### Firefly
+###
+# Don't forget to set firefly_app_key, firefly_mysql_password and firefly_root_mysql_password in secrets.yml
+firefly_available_externally: "false"
+firefly_data_directory: "{{ docker_home }}/firefly"
+firefly_image: "jc5x/firefly-iii:latest"
+firefly_subdomain: "firefly"
+
+
+
+
+
 
 ###
 ### Traefik
@@ -421,23 +584,7 @@ homebridge_image: "oznu/homebridge"
 homebridge_port: "8087"
 homebridge_subdomain: "homebridge"
 
-###
-### Emby
-###
-# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
-# delete your files
-emby_available_externally: "false"
-emby_config_directory: "{{ docker_home }}/emby/config"
-emby_movies_directory: "{{ movies_root }}"
-emby_movies_permissions: "rw"
-emby_tv_directory: "{{ tv_root }}"
-emby_tv_permissions: "rw"
-emby_user_id: "0"
-emby_group_id: "0"
-emby_image: "emby/embyserver"
-emby_port_http: "8096"
-emby_port_https: "8920"
-emby_subdomain: "emby"
+
 
 ###
 ### Tautulli
@@ -450,16 +597,7 @@ tautulli_image: "linuxserver/tautulli"
 tautulli_port: "8185"
 tautulli_subdomain: "tautulli"
 
-###
-### Duplicati
-###
-duplicati_available_externally: "false"
-duplicati_data_directory: "{{ docker_home }}/duplicati/config"
-duplicati_image: "linuxserver/duplicati"
-duplicati_port: "8200"
-duplicati_subdomain: "duplicati"
-duplicati_user_id: "0"
-duplicati_group_id: "0"
+
 
 ###
 ### Sonarr
@@ -487,32 +625,9 @@ radarr_image: "linuxserver/radarr"
 radarr_port: "7878"
 radarr_subdomain: "radarr"
 
-###
-### Bazarr
-###
-bazarr_available_externally: "false"
-bazarr_data_directory: "{{ docker_home }}/bazarr/config"
-bazarr_tv_directory: "{{ tv_root }}"
-bazarr_movies_directory: "{{ movies_root }}"
-bazarr_user_id: "0"
-bazarr_group_id: "0"
-bazarr_image: "linuxserver/bazarr"
-bazarr_port: "6767"
-bazarr_subdomain: "bazarr"
 
-###
-### Couchpotato
-###
-couchpotato_available_externally: "false"
-couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
-couchpotato_movies_directory: "{{ movies_root }}"
-couchpotato_downloads_directory: "{{ downloads_root }}"
-couchpotato_torrents_directory: "{{ torrents_root }}"
-couchpotato_user_id: "0"
-couchpotato_group_id: "0"
-couchpotato_image: "linuxserver/couchpotato"
-couchpotato_port: "5050"
-couchpotato_subdomain: "couchpotato"
+
+
 
 ###
 ### Sickchill
@@ -632,26 +747,9 @@ miniflux_image: "miniflux/miniflux:latest"
 miniflux_port: "8070"
 miniflux_subdomain: "miniflux"
 
-###
-### Airsonic
-###
-airsonic_available_externally: "false"
-airsonic_data_directory: "{{ docker_home }}/airsonic"
-airsonic_image: "airsonic/airsonic:latest"
-airsonic_port: "4040"
-airsonic_subdomain: "airsonic"
 
-###
-### CloudCmd
-###
-cloudcmd_available_externally: "false"
-cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
-cloudcmd_browse_directory: "/"
-cloudcmd_user_id: "0"
-cloudcmd_group_id: "0"
-cloudcmd_image: "coderaiser/cloudcmd"
-cloudcmd_port: "7373"
-cloudcmd_subdomain: "cloudcmd"
+
+
 
 ###
 ### Watchtower
@@ -728,36 +826,8 @@ thelounge_port_one: "113"
 thelounge_port_two: "9002"
 thelounge_subdomain: "thelounge"
 
-###
-### Bitwarden
-###
-bitwarden_available_externally: "false"
-bitwarden_data_directory: "{{ docker_home }}/bitwarden"
-bitwarden_image: "mprasil/bitwarden:latest"
-bitwarden_port_a: "19080"
-bitwarden_port_b: "3012"
-bitwarden_subdomain: "bitwarden"
-bitwarden_backup_image: "bruceforce/bw_backup:latest"
 
-# Keep this token secret, this is password to access admin area of your server!
-# This token can be anything, but it's recommended to use a long, randomly generated string of characters,
-# for example running openssl rand -base64 48
-bitwarden_admin_token: "qwertyuiop1234567890poiuytrewq0987654321"
 
-# To create a user set this to "true", and reprovision the container by re-running the ansible-nas playbook.
-# Once you have created your user, set to "false" and run one more time.
-# Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
-bitwarden_allow_signups: "false"
-
-###
-### Firefly
-###
-firefly_available_externally: "false"
-firefly_data_directory: "{{ docker_home }}/firefly"
-firefly_image: "jc5x/firefly-iii:latest"
-firefly_port: "8066"
-firefly_subdomain: "firefly"
-firefly_app_key: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
 
 ###
 ### Nzbget
@@ -789,18 +859,7 @@ mosquitto_image: "eclipse-mosquitto:latest"
 mosquitto_port_a: "1883"
 mosquitto_port_b: "9001"
 
-###
-### Calibre
-###
-calibre_available_externally: "false"
-calibre_data_directory: "{{ docker_home }}/calibre"
-calibre_user_id: "0"
-calibre_group_id: "0"
-calibre_image: "linuxserver/calibre-web:latest"
-calibre_port: "8084"
-calibre_subdomain: "calibre"
-# To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
-calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
+
 
 ###
 ### Home Assistant
@@ -837,4 +896,62 @@ jellyfin_group_id: "0"
 jellyfin_image: "linuxserver/jellyfin"
 jellyfin_port_http: "8896"
 jellyfin_port_https: "8928"
-jellyfin_subdomain: "jellyfin"
+jellyfin_subdomain: "jellyfin"minetest_data_directory
+
+
+
+###
+### Minetest
+###
+minetest_available_eternally: "false"
+minetest_image: "linuxserver/minetest"
+minetest_port: "30000"
+minetest_data_directory: "{{ docker_home }}/minetest"
+minetest_user_id: "0"
+minetest_group_id: "0"
+minetest_subdomain: "minetest"
+
+###
+### htpcmanager
+###
+htpcmanager_available_externally: "false"
+htpcmanager_image: "linuxserver/htpcmanager"
+htpcmanager_data_directory: "{{ docker_home }}/htpcmanager"
+htpcmanager_port: "8085"
+htpcmanager_user_id: "0"
+htpcmanager_group_id: "0"
+htpcmanager_subdomain: "htpcmanager"
+
+
+
+
+
+###
+### Redmine
+###
+redmine_avaliable_externally: "false"
+redmine_image: "bitnami/redmine:4"
+redmine_database: "{{ docker_home }}/redmine/database"
+redmine_data_directory: "{{ docker_home }}/redmine/data"
+redmine_port: "4653"
+redmine_subdomain: "redmine"
+
+###
+### Lazylibrarian
+###
+lazylibrarian_avaliable_externally: "false"
+lazylibrarian_image: "linuxserver/lazylibrarian"
+lazylibrarian_user_id: "0"
+lazylibrarian_group_id: "0"
+lazylibrarian_data_directory: "{{ docker_home }}/lazylibrarian"
+lazylibrarian_books: "{{ books_root }}"
+lazylibrarian_downloads: "{{ downloads_root }}"
+lazylibrarian_port: "5299"
+lazylibrarian_subdomain: "lazylibrarian"
+## Set lazylibrarian_with_calibre as "linuxserver/calibre-web:calibre" to enable calibre db import. Set as "" to disable
+#lazylibrarian_with_calibre: "linuxserver/calibre-web:calibre"
+lazylibrarian_with_calibre: ""
+
+###
+###
+###
