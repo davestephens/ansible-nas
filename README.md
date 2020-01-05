@@ -12,8 +12,9 @@ Ansible config and a bunch of Docker containers.
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
-* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr
-* Media streaming via Plex, Emby or Jellyfin
+
+* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, Lidarr
+* Media streaming via Plex or Emby
 * Music streaming with Airsonic
 * An RSS newsfeed reader - Miniflux
 * A Dropbox replacement via Nextcloud
@@ -28,6 +29,7 @@ Ansible config and a bunch of Docker containers.
 * eBook management with calibre-web
 * Content management with Joomla
 * A dual panel local file manager
+* Self-service media request web application
 
 ### Docker Containers Used
 
@@ -52,6 +54,7 @@ Ansible config and a bunch of Docker containers.
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [Joomla](https://www.joomla.org/) - Open source content management system
+* [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
@@ -59,6 +62,7 @@ Ansible config and a bunch of Docker containers.
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
+* [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
@@ -72,6 +76,7 @@ Ansible config and a bunch of Docker containers.
 * [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
+* [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
 * [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
@@ -160,20 +165,8 @@ Getting help is easy! You can:
 
 ## Contributing
 
-Contributions are welcome, please feel free to raise a PR!
+Contributions are always welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
-* Restrict pull requests to one piece of functionality or bugfix at a time.
-* Test your new functionality or bugfix using the included
-  `tests/test-vagrant.sh` script to spin up a test VM. Note that Ansible-NAS
-  requires Vagrant version 2.2.2 or later, so for stock Ubuntu 18.04.2, you will
-  have to download and install the newest version from
-  https://www.vagrantup.com/downloads.html.
-* Run `ansible-lint` against the playbook before committing. (There is a VSCode
-  task set up to run the right command for you)
-* Please know that your efforts are appreciated, thanks! :+1:
-
-Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) - you'll get some nice
-recommended extensions and task setups if you do the same.
 
 ## Support
 
