@@ -8,9 +8,9 @@
     state: directory
     # mode: 0755
   with_items:
-    - "{{ transmission_config_directory }}"
-    - "{{ transmission_download_directory }}"
-    - "{{ transmission_watch_directory }}"
+    - "{{ transmission_openvpn_config_directory }}"
+    - "{{ transmission_openvpn_download_directory }}"
+    - "{{ transmission_openvpn_watch_directory }}"
 
 - name: Transmission with VPN
   docker_container:
@@ -19,13 +19,19 @@
     pull: true
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "{{ transmission_download_directory }}:/storage/downloads:rw"
-      - "{{ transmission_config_directory }}:/config:rw"
-      - "{{ transmission_watch_directory }}:/storage/watch:rw"
+      - "{{ transmission_openvpn_download_directory }}:/storage/downloads:rw"
+      - "{{ transmission_openvpn_config_directory }}:/config:rw"
+      - "{{ transmission_openvpn_watch_directory }}:/storage/watch:rw"
       - "/etc/timezone:/etc/timezone:ro"
+      - "{{ movies_root }}:/movies:rw"
+      - "{{ tv_root }}:/tv:rw"
+      - "{{ music_root }}:/music:rw"
+      - "{{ podcasts_root }}:/podcasts:rw"
+      - "{{ books_root }}:/books:rw"
+      - "{{ audiobooks_root }}:/audiobooks:rw"
     ports:
-      - "9091:9091"
-      - "51413:51413"
+      - "9093:9091"
+      - "51415:51413"
     env:
       TRANSMISSION_HOME: "/config"
       TRANSMISSION_DOWNLOAD_DIR: "/storage/downloads/complete"
@@ -35,8 +41,8 @@
       OPENVPN_USERNAME: "{{ openvpn_username }}"
       OPENVPN_PASSWORD: "{{ openvpn_password }}"
       OPENVPN_CONFIG: "{{ openvpn_config }}"
-      PUID: "{{ transmission_user_id }}"
-      PGID: "{{ transmission_group_id }}"
+      PUID: "{{ transmission_openvpn_user_id }}"
+      PGID: "{{ transmission_openvpn_group_id }}"
       LOCAL_NETWORK: "{{ transmission_local_network }}"
       ENABLE_UFW: "false"
     devices:
@@ -49,4 +55,4 @@
       traefik.backend: "transmission-openvpn"
       traefik.frontend.rule: "Host:transmission-openvpn.{{ ansible_nas_domain }}"
       traefik.enable: "{{ transmission_with_openvpn_available_externally }}"
-      traefik.port: "9091"
+      traefik.port: "9093"
