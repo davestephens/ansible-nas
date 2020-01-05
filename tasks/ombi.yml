@@ -1,0 +1,26 @@
+---
+- name: Create ombi Directories
+  file:
+    path: "{{ ombi_config_directory }}"
+    state: directory
+
+- name: ombi
+  docker_container:
+    name: ombi
+    image: linuxserver/ombi
+    pull: true
+    volumes:
+      - "{{ ombi_config_directory }}:/config:rw"
+    ports:
+      - "3579:3579"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ ombi_user_id }}"
+      PGID: "{{ ombi_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "ombi"
+      traefik.frontend.rule: "Host:ombi.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ ombi_available_externally }}"
+      traefik.port: "3579"
