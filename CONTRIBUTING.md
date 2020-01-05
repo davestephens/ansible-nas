@@ -12,6 +12,7 @@ If you're adding a new application:
 * Ensure that the new application is disabled by default.
 * Add a documentation page to `docs/applications/` - use an existing application as an example.
 * Add the frontend port to `docs/configuration/application_ports.md`, ensuring you've not clashed with an existing application.
+* Add to the list of Docker containers used in README.md
 
 ## Things to bear in mind
 
