@@ -42,11 +42,11 @@ get_iplayer_enabled: false
 jackett_enabled: false
 bazarr_enabled: false
 ombi_enabled: false
+lidarr_enabled: true
 
 # Music
 airsonic_enabled: false
 mymediaforalexa_enabled: false
-lidarr_enabled: true
 
 # News
 miniflux_enabled: false

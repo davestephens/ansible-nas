@@ -1,10 +1,8 @@
 ---
-- name: Create lidarr Directories
+- name: Create lidarr Directory
   file:
-    path: "{{ item }}"
+    path: "{{ lidarr_data_directory }}"
     state: directory
-  with_items:
-    - "{{ lidarr_data_directory }}"
 
 - name: lidarr
   docker_container:
