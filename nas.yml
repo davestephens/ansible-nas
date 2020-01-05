@@ -47,6 +47,10 @@
   - import_tasks: tasks/plex.yml
     when: (plex_enabled | default(False))
     tags: plex
+    
+  - import_tasks: tasks/pytivo.yml
+    when: (pytivo_enabled | default(False))
+    tags: pytivo
 
   - import_tasks: tasks/firefly.yml
     when: (firefly_enabled | default(False))
