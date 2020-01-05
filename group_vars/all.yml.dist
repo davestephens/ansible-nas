@@ -46,6 +46,7 @@ ombi_enabled: false
 # Music
 airsonic_enabled: false
 mymediaforalexa_enabled: false
+lidarr_enabled: true
 
 # News
 miniflux_enabled: false
@@ -338,8 +339,8 @@ transmission_with_openvpn_available_externally: "false"
 transmission_config_directory: "{{ docker_home }}/transmission/config"
 transmission_download_directory: "{{ downloads_root }}"
 transmission_watch_directory: "{{ torrents_root }}"
-transmission_user_id: 0
-transmission_group_id: 0
+transmission_user_id: "0"
+transmission_group_id: "0"
 transmission_local_network: "192.168.1.0/24"
 
 ###
@@ -355,8 +356,8 @@ joomla_database_password: top_secret
 pyload_available_externally: "false"
 pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
-pyload_user_id: 0
-pyload_group_id: 0
+pyload_user_id: "0"
+pyload_group_id: "0"
 
 
 ###
@@ -374,8 +375,8 @@ plex_photos_directory: "{{ photos_root }}"
 plex_photos_permissions: "rw"
 plex_music_directory: "{{ music_root }}"
 plex_music_permissions: "rw"
-plex_user_id: 0
-plex_group_id: 0
+plex_user_id: "0"
+plex_group_id: "0"
 
 ###
 ### Homebridge
@@ -396,16 +397,16 @@ emby_movies_directory: "{{ movies_root }}"
 emby_movies_permissions: "rw"
 emby_tv_directory: "{{ tv_root }}"
 emby_tv_permissions: "rw"
-emby_user_id: 0
-emby_group_id: 0
+emby_user_id: "0"
+emby_group_id: "0"
 
 ###
 ### Tautulli
 ###
 tautulli_available_externally: "false"
 tautulli_config_directory: "{{ docker_home }}/tautulli/config"
-tautulli_user_id: 0
-tautulli_group_id: 0
+tautulli_user_id: "0"
+tautulli_group_id: "0"
 
 
 ###
@@ -422,8 +423,8 @@ sonarr_available_externally: "false"
 sonarr_data_directory: "{{ docker_home }}/sonarr/config"
 sonarr_tv_directory: "{{ tv_root }}"
 sonarr_download_directory: "{{ downloads_root }}"
-sonarr_user_id: 0
-sonarr_group_id: 0
+sonarr_user_id: "0"
+sonarr_group_id: "0"
 
 
 ###
@@ -433,8 +434,8 @@ radarr_available_externally: "false"
 radarr_movies_directory: "{{ movies_root }}"
 radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
-radarr_user_id: 0
-radarr_group_id: 0
+radarr_user_id: "0"
+radarr_group_id: "0"
 
 ###
 ### Bazarr
@@ -446,6 +447,16 @@ bazarr_movies_directory: "{{ movies_root }}"
 bazarr_user_id: "0"
 bazarr_group_id: "0"
 
+###
+### lidarr
+###
+lidarr_available_externally: "false"
+lidarr_data_directory: "{{ docker_home }}/lidarr/config"
+lidarr_music_directory: "{{ music_root }}"
+lidarr_downloads_directory: "{{ downloads_root }}"
+lidarr_user_id: "0"
+lidarr_group_id: "0"
+
 
 ###
 ### Couchpotato
@@ -455,8 +466,8 @@ couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
 couchpotato_movies_directory: "{{ movies_root }}"
 couchpotato_downloads_directory: "{{ downloads_root }}"
 couchpotato_torrents_directory: "{{ torrents_root }}"
-couchpotato_user_id: 0
-couchpotato_group_id: 0
+couchpotato_user_id: "0"
+couchpotato_group_id: "0"
 
 
 ###
@@ -466,16 +477,16 @@ sickchill_available_externally: "false"
 sickchill_config_directory: "{{ docker_home }}/sickchill/config"
 sickchill_tv_directory: "{{ tv_root }}"
 sickchill_downloads_directory: "{{ downloads_root }}/completed"
-sickchill_user_id: 0
-sickchill_group_id: 0
+sickchill_user_id: "0"
+sickchill_group_id: "0"
 
 ###
 ### Ombi
 ###
 ombi_available_externally: "false"
 ombi_config_directory: "{{ docker_home }}/ombi/config"
-ombi_user_id: 0
-ombi_group_id: 0
+ombi_user_id: "0"
+ombi_group_id: "0"
 
 ###
 ### Netdata
@@ -500,8 +511,8 @@ portainer_data_directory: "{{ docker_home }}/portainer/config"
 ###
 znc_available_externally: "false"
 znc_data_directory: "{{ docker_home }}/znc"
-znc_user_id: 0
-znc_group_id: 0
+znc_user_id: "0"
+znc_group_id: "0"
 
 
 ###
@@ -653,8 +664,8 @@ firefly_data_directory: "{{ docker_home }}/firefly"
 nzbget_available_externally: "false"
 nzbget_data_directory: "{{ docker_home }}/nzbget"
 nzbget_download_directory: "{{ downloads_root }}"
-nzbget_user_id: 0
-nzbget_group_id: 0
+nzbget_user_id: "0"
+nzbget_group_id: "0"
 
 ###
 ### Wallabag
@@ -710,5 +721,5 @@ jellyfin_group_id: "0"
 ###
 ubooquity_available_externally: "false"
 ubooquity_data_directory: "{{ docker_home }}/ubooquity"
-ubooquity_user_id: 0
-ubooquity_group_id: 0
+ubooquity_user_id: "0"
+ubooquity_group_id: "0"
