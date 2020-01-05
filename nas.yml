@@ -203,3 +203,7 @@
   - import_tasks: tasks/cloudcmd.yml
     when: (cloudcmd_enabled | default(False))
     tags: cloudcmd
+
+  - import_tasks: tasks/ubooquity.yml
+    when: (ubooquity_enabled | default(False))
+    tags: ubooquity
