@@ -204,6 +204,14 @@
     when: (cloudcmd_enabled | default(False))
     tags: cloudcmd
 
+  - import_tasks: tasks/ubooquity.yml
+    when: (ubooquity_enabled | default(False))
+    tags: ubooquity
+
   - import_tasks: tasks/ombi.yml
     when: (ombi_enabled | default(False))
     tags: ombi
+
+  - import_tasks: tasks/lidarr.yml
+    when: (lidarr_enabled | default(False))
+    tags: lidarr
