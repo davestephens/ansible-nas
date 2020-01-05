@@ -41,7 +41,8 @@ radarr_enabled: "false"
 get_iplayer_enabled: "false"
 jackett_enabled: "false"
 bazarr_enabled: "false"
-ombi_enabled: false
+ombi_enabled: "false"
+
 
 # Music
 airsonic_enabled: "false"
@@ -76,7 +77,7 @@ bitwarden_enabled: "false"
 
 # Finance
 firefly_enabled: "false"
-
+	
 # Wallabag
 wallabag_enabled: "false"
 

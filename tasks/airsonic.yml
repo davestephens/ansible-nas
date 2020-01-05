@@ -19,7 +19,6 @@
       - "{{ music_root }}:/airsonic/music:rw"
       - "{{ podcasts_root }}:/airsonic/podcasts:rw"
       - "{{ audiobooks_root }}:/airsonic/audiobooks:rw"
-
     ports:
       - "{{ airsonic_port }}:4040"
     restart_policy: "unless-stopped"
