@@ -203,6 +203,7 @@ onDemand = false # create certificate when container is created
           "{{ netdata_subdomain }}.{{ ansible_nas_domain }}",
           "{{ nextcloud_subdomain }}.{{ ansible_nas_domain }}",
           "{{ nzbget_subdomain }}.{{ ansible_nas_domain }}",
+		  "{{ ombi_subdomain }}.{{ ansible_nas_domain }}",
           "{{ openhab_subdomain }}.{{ ansible_nas_domain }}",
           "{{ plex_subdomain }}.{{ ansible_nas_domain }}",
           "{{ portainer_subdomain }}.{{ ansible_nas_domain }}",

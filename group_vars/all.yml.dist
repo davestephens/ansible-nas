@@ -41,6 +41,7 @@ radarr_enabled: "false"
 get_iplayer_enabled: "false"
 jackett_enabled: "false"
 bazarr_enabled: "false"
+ombi_enabled: false
 
 # Music
 airsonic_enabled: "false"
@@ -526,6 +527,17 @@ sickchill_group_id: "0"
 sickchill_image: "linuxserver/sickchill"
 sickchill_port: "8081"
 sickchill_subdomain: "sickchill"
+
+###
+### Ombi
+###
+ombi_available_externally: "false"
+ombi_config_directory: "{{ docker_home }}/ombi/config"
+ombi_user_id: "0"
+ombi_group_id: "0"
+ombi_subdomain: "ombi"
+ombi_image: "linuxserver/ombi"
+ombi_port: "3579"
 
 ###
 ### Netdata
