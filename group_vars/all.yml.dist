@@ -41,6 +41,7 @@ radarr_enabled: false
 get_iplayer_enabled: false
 jackett_enabled: false
 bazarr_enabled: false
+ombi_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -453,6 +454,14 @@ sickchill_tv_directory: "{{ tv_root }}"
 sickchill_downloads_directory: "{{ downloads_root }}/completed"
 sickchill_user_id: 0
 sickchill_group_id: 0
+
+###
+### Ombi
+###
+ombi_available_externally: "false"
+ombi_config_directory: "{{ docker_home }}/ombi/config"
+ombi_user_id: 0
+ombi_group_id: 0
 
 ###
 ### Netdata
