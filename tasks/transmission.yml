@@ -8,6 +8,7 @@
     - "{{ transmission_config_directory }}"
     - "{{ transmission_download_directory }}"
     - "{{ transmission_watch_directory }}"
+    
 
 - name: Transmission Docker Container
   docker_container:
@@ -18,6 +19,12 @@
       - "{{ transmission_config_directory }}:/config:rw"
       - "{{ transmission_download_directory }}:/downloads:rw"
       - "{{ transmission_watch_directory }}:/watch:rw"
+      - "{{ movies_root }}:/movies:rw"
+      - "{{ tv_root }}:/tv:rw"
+      - "{{ music_root }}:/music:rw"
+      - "{{ podcasts_root }}:/podcasts:rw"
+      - "{{ books_root }}:/books:rw"
+      - "{{ audiobooks_root }}:/audiobooks:rw"
     ports:
       - "9092:9091"
       - "51414:51413"
