@@ -351,6 +351,7 @@ pyload_group_id: 0
 # delete your files
 plex_available_externally: "false"
 plex_config_directory: "{{ docker_home }}/plex/config"
+plex_logs: "{{docker_home }}/plex/logs"
 plex_movies_directory: "{{ movies_root }}"
 plex_movies_permissions: "rw"
 plex_tv_directory: "{{ tv_root }}"

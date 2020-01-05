@@ -5,6 +5,7 @@
     # mode: 0755
   with_items:
     - "{{ tautulli_config_directory }}"
+    - "{{ plex_logs }}"
 
 - name: Tautulli Docker Container
   docker_container:
@@ -13,6 +14,7 @@
     pull: true
     volumes:
       - "{{ tautulli_config_directory }}:/config:rw"
+      - "{{ plex_logs }}:/logs:ro"
     network_mode: "host"
     env:
       TZ: "{{ ansible_nas_timezone }}"

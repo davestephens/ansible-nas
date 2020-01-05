@@ -5,6 +5,7 @@
     # mode: 0755
   with_items:
     - "{{ plex_config_directory }}"
+    - "{{ plex_logs }}"
 
 - name: plex Docker Container
   docker_container:
@@ -13,6 +14,7 @@
     pull: true
     volumes:
       - "{{ plex_config_directory }}:/config:rw"
+      - "{{ plex_logs }}:/opt/plex/Library/Application Support/Plex Media Server/Logs:rw"
       - "{{ plex_movies_directory }}:/movies:{{ plex_movies_permissions }}"
       - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
       - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
