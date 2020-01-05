@@ -1,0 +1,28 @@
+---
+- name: Create lidarr Directory
+  file:
+    path: "{{ lidarr_data_directory }}"
+    state: directory
+
+- name: lidarr
+  docker_container:
+    name: lidarr
+    image: linuxserver/lidarr
+    pull: true
+    volumes:
+      - "{{ lidarr_music_directory }}:/music:rw"
+      - "{{ lidarr_downloads_directory }}:/downloads:rw"
+      - "{{ lidarr_data_directory }}:/config:rw"
+    ports:
+      - "8686:8686"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ lidarr_user_id }}"
+      PGID: "{{ lidarr_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "lidarr"
+      traefik.frontend.rule: "Host:lidarr.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ lidarr_available_externally }}"
+      traefik.port: "8686"
