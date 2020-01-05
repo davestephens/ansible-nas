@@ -42,7 +42,7 @@ get_iplayer_enabled: false
 jackett_enabled: false
 bazarr_enabled: false
 ombi_enabled: false
-lidarr_enabled: true
+lidarr_enabled: false
 
 # Music
 airsonic_enabled: false
