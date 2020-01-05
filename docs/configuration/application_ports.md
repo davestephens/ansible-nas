@@ -49,5 +49,7 @@ By default, applications can be found on the ports listed below.
 | Traefik         | 8083   |           |
 | Transmission    | 9091   | with VPN  |
 | Transmission    | 9092   |           |
+| Ubooquity       | 2202   |           |
+| Ubooquity       | 2203   | Admin     |
 | Wallabag        | 7780   |           |
 | ZNC             | 6677   |           |
