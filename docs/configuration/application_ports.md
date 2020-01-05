@@ -27,6 +27,7 @@ By default, applications can be found on the ports listed below.
 | Jackett         | 9117   |           |
 | Jellyfin        | 8896   | HTTP      |
 | Jellyfin        | 8928   | HTTPS     |
+| Lidarr          | 8686   |           |
 | MiniDLNA        | 8201   |           |
 | Miniflux        | 8070   |           |
 | Mosquitto       | 1883   | MQTT      |
@@ -35,6 +36,7 @@ By default, applications can be found on the ports listed below.
 | Netdata         | 19999  |           |
 | Nextcloud       | 8080   |           |
 | NZBGet          | 6789   |           |
+| Ombi            | 3579   |           |
 | openHAB         | 7777   | HTTP      |
 | openHAB         | 7778   | HTTPS     |
 | Plex            | 32400  |           |
@@ -49,5 +51,7 @@ By default, applications can be found on the ports listed below.
 | Traefik         | 8083   |           |
 | Transmission    | 9091   | with VPN  |
 | Transmission    | 9092   |           |
+| Ubooquity       | 2202   |           |
+| Ubooquity       | 2203   | Admin     |
 | Wallabag        | 7780   |           |
 | ZNC             | 6677   |           |
