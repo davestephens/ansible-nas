@@ -147,13 +147,13 @@ movies_root: "{{ samba_shares_root }}/movies"
 # Where your TV episodes are stored
 tv_root: "{{ samba_shares_root }}/tv"
 
-# Where torrent files are stored (picked up by Transmission for downloading)
+# Where your torrent files are stored (picked up by Transmission for downloading)
 torrents_root: "{{ samba_shares_root }}/torrents"
 
-# Where music is stored
+# Where your music is stored
 music_root: "{{ samba_shares_root }}/music"
 
-# Where podcasts are stored
+# Where your podcasts are stored
 podcasts_root: "{{ samba_shares_root }}/podcasts"
 
 # Where your books are stored
@@ -162,7 +162,7 @@ books_root: "{{ samba_shares_root }}/books"
 # Where your books are stored
 comics_root: "{{ samba_shares_root }}/comics"
 
-# Where photos are stored
+# Where your photos are stored
 photos_root: "{{ samba_shares_root }}/photos"
 
 # The description that'll appear next to your Ansible-NAS box when browsing your network
