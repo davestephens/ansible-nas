@@ -16,7 +16,7 @@
       - "{{ bazarr_movies_directory }}:/movies:rw"
       - "{{ bazarr_data_directory }}:/config:rw"
     ports:
-      - "6767:6767"
+      - "{{ bazarr_port }}:6767"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ bazarr_user_id }}"
@@ -27,4 +27,4 @@
       traefik.backend: "bazarr"
       traefik.frontend.rule: "Host:bazarr.{{ ansible_nas_domain }}"
       traefik.enable: "{{ bazarr_available_externally }}"
-      traefik.port: "6767"
+      traefik.port: "{{ bazarr_port }}"

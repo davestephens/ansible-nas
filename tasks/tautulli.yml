@@ -15,7 +15,9 @@
     volumes:
       - "{{ tautulli_config_directory }}:/config:rw"
       - "{{ plex_logs }}:/logs:ro"
-    network_mode: "host"
+   #network_mode: "host"
+    ports:
+      - "{{ tautulli_port }}:8181"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ tautulli_user_id }}"
@@ -26,4 +28,4 @@
       traefik.backend: "tautulli"
       traefik.frontend.rule: "Host:tautulli.{{ ansible_nas_domain }}"
       traefik.enable: "{{ tautulli_available_externally }}"
-      traefik.port: "8181"
+      traefik.port: "{{ tautulli_port }}"

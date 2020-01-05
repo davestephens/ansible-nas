@@ -4,8 +4,8 @@
     image: nicolargo/glances
     pull: true
     ports:
-      - "61208:61208"
-      - "61209:61209"
+      - "{{ glances_port_one }}:61208"
+      - "{{ glances_port_two }}:61209"
     volumes:
       #- "/glances.conf:/glances/conf/glances.conf"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -20,4 +20,4 @@
       traefik.backend: "glances"
       traefik.frontend.rule: "Host:glances.{{ ansible_nas_domain }}"
       traefik.enable: "{{ glances_available_externally }}"
-      traefik.port: "61208"
+      traefik.port: "{{ glances_port_one }}"

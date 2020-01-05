@@ -12,7 +12,7 @@
     state: started
     pull: true
     ports:
-      - "19999:19999"
+      - "{{ netdata_port }}:19999"
     volumes:
       - "/proc:/host/proc:ro"
       - "/sys:/host/sys:ro"
@@ -29,4 +29,4 @@
       traefik.backend: "netdata"
       traefik.frontend.rule: "Host:netdata.{{ ansible_nas_domain }}"
       traefik.enable: "{{ netdata_available_externally }}"
-      traefik.port: "19999"
+      traefik.port: "{{ netdata_port }}"

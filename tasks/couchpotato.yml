@@ -18,7 +18,7 @@
       - "{{ couchpotato_movies_directory }}:/movies:rw"
       - "{{ couchpotato_torrents_directory }}:/torrents:rw"
     ports:
-      - "5050:5050"
+      - "{{ couchpotato_port }}:5050"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ couchpotato_user_id }}"
@@ -29,4 +29,4 @@
       traefik.backend: "couchpotato"
       traefik.frontend.rule: "Host:couchpotato.{{ ansible_nas_domain }}"
       traefik.enable: "{{ couchpotato_available_externally }}"
-      traefik.port: "5050"
+      traefik.port: "{{ couchpotato_port }}"

@@ -17,7 +17,7 @@
       - "{{ pyload_config_directory }}:/opt/pyload/pyload-config:rw"
       - "{{ pyload_download_directory }}:/opt/pyload/Downloads:rw"
     ports:
-      - "8000:8000"
+      - "{{ pyload_port }}:8000"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       UID: "{{ pyload_user_id }}"
@@ -28,4 +28,4 @@
       traefik.backend: "pyload"
       traefik.frontend.rule: "Host:pyload.{{ ansible_nas_domain }}"
       traefik.enable: "{{ pyload_available_externally }}"
-      traefik.port: "8000"
+      traefik.port: "{{ pyload_port }}"

@@ -15,7 +15,7 @@
       - "{{ cloudcmd_data_directory }}:/config:rw"
       - "{{ cloudcmd_browse_directory }}:/mnt/fs"
     ports:
-      - "7373:8000"
+      - "{{ cloudcmd_port }}:8000"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ cloudcmd_user_id }}"
@@ -26,4 +26,4 @@
       traefik.backend: "cloudcmd"
       traefik.frontend.rule: "Host:cloudcmd.{{ ansible_nas_domain }}"
       traefik.enable: "{{ cloudcmd_available_externally }}"
-      traefik.port: "8000"
+      traefik.port: "{{ cloudcmd_port }}"

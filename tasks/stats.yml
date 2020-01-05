@@ -28,7 +28,7 @@
     volumes:
       - "{{ influxdb_data_directory }}:/var/lib/influxdb:rw"
     ports:
-      - "8086:8086"
+      - "{{ grafana_influxdb_port }}:8086"
     restart_policy: unless-stopped
     env:
       INFLUXDB_LOGGING_LEVEL: "error"
@@ -64,11 +64,11 @@
       - "{{ grafana_data_directory }}/data:/var/lib/grafana:rw"
       - "{{ grafana_data_directory }}/config/provisioning:/etc/grafana/provisioning:ro"
     ports:
-      - "3000:3000"
+      - "{{ grafana_port }}:3000"
     restart_policy: unless-stopped
     memory: 1g
     labels:
       traefik.backend: "grafana"
       traefik.frontend.rule: "Host:grafana.{{ ansible_nas_domain }}"
       traefik.enable: "{{ grafana_available_externally }}"
-      traefik.port: "3000"
+      traefik.port: "{{ grafana_port }}"

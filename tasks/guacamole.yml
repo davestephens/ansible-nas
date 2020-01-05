@@ -44,7 +44,7 @@
         - guacamole-mysql:mysql
         - guacamole-guacd:guacd
     ports:
-      - "8090:8080"
+      - "{{ guacamole_port }}:8080"
     env:
       MYSQL_DATABASE: "guacamole"
       MYSQL_USER: "guacamole-user"
@@ -55,4 +55,4 @@
       traefik.backend: "guacamole"
       traefik.frontend.rule: "Host:guacamole.{{ ansible_nas_domain }}"
       traefik.enable: "{{ guacamole_available_externally }}"
-      traefik.port: "8080"
+      traefik.port: "{{ guacamole_port }}"

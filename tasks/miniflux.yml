@@ -26,7 +26,7 @@
     links:
         - miniflux-postgres:db
     ports:
-      - "8070:8080"
+      - "{{ miniflux_port }}:8080"
     env:
       DATABASE_URL: "postgres://miniflux:supersecure@db/miniflux?sslmode=disable"
       RUN_MIGRATIONS: "1"
@@ -39,4 +39,4 @@
       traefik.backend: "miniflux"
       traefik.frontend.rule: "Host:miniflux.{{ ansible_nas_domain }}"
       traefik.enable: "{{ miniflux_available_externally }}"
-      traefik.port: "8080"
+      traefik.port: "{{ miniflux_port }}"

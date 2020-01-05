@@ -36,12 +36,12 @@
       PGID: "1310"
       TZ: "{{ ansible_nas_timezone }}"
     ports:
-      - "10080:80"
-      - "10443:443"
+      - "{{ heimdall_port_http }}:80"
+      - "{{ heimdall_port_https }}:443"
     restart_policy: unless-stopped
     memory: 1g
     labels:
       traefik.backend: "heimdall"
       traefik.frontend.rule: "Host:heimdall.{{ ansible_nas_domain }}"
       traefik.enable: "{{ heimdall_available_externally }}"
-      traefik.port: "80"
+      traefik.port: "{{ heimdall_port_http }}"

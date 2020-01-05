@@ -314,6 +314,8 @@ traefik_debug: "false"
 heimdall_available_externally: "false"
 heimdall_docker_image: linuxserver/heimdall:latest
 heimdall_data_directory: "{{ docker_home }}/heimdall"
+heimdall_port_http: "10080"
+heimdall_port_https: "10443"
 
 ###
 ### Transmission
@@ -323,9 +325,13 @@ transmission_with_openvpn_available_externally: "false"
 transmission_config_directory: "{{ docker_home }}/transmission/config"
 transmission_download_directory: "{{ downloads_root }}"
 transmission_watch_directory: "{{ torrents_root }}"
-transmission_user_id: 0
-transmission_group_id: 0
+transmission_user_id: "0"
+transmission_group_id: "0"
 transmission_local_network: "192.168.1.0/24"
+transmission_webui_port: "9092"
+transmission_external_port: "51414"
+transmission_openvpn_webui_port: "9093"
+transmission_openvpn_external_port: "51415"
 
 ###
 ### Joomla
@@ -333,6 +339,7 @@ transmission_local_network: "192.168.1.0/24"
 joomla_data_directory: "{{ docker_home }}/joomla"
 joomla_available_externally: "false"
 joomla_database_password: top_secret
+joomla_port: "8181"
 
 ###
 ### pyLoad
@@ -340,9 +347,9 @@ joomla_database_password: top_secret
 pyload_available_externally: "false"
 pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
-pyload_user_id: 0
-pyload_group_id: 0
-
+pyload_user_id: "0"
+pyload_group_id: "0"
+pyload_port: "8000"
 
 ###
 ### Plex
@@ -360,8 +367,9 @@ plex_photos_directory: "{{ photos_root }}"
 plex_photos_permissions: "rw"
 plex_music_directory: "{{ music_root }}"
 plex_music_permissions: "rw"
-plex_user_id: 0
-plex_group_id: 0
+plex_user_id: "0"
+plex_group_id: "0"
+plex_port: "32400"
 
 ###
 ### Homebridge
@@ -370,6 +378,7 @@ homebridge_available_externally: "false"
 homebridge_config_directory: "{{ docker_home }}/homebridge/config"
 homebridge_user_id: "0"
 homebridge_group_id: "0"
+homebridge_port: "8087"
 
 ###
 ### Emby
@@ -382,24 +391,26 @@ emby_movies_directory: "{{ movies_root }}"
 emby_movies_permissions: "rw"
 emby_tv_directory: "{{ tv_root }}"
 emby_tv_permissions: "rw"
-emby_user_id: 0
-emby_group_id: 0
+emby_user_id: "0"
+emby_group_id: "0"
+emby_port_http: "8096"
+emby_port_https: "8920"
 
 ###
 ### Tautulli
 ###
 tautulli_available_externally: "false"
 tautulli_config_directory: "{{ docker_home }}/tautulli/config"
-tautulli_user_id: 0
-tautulli_group_id: 0
-
+tautulli_user_id: "0"
+tautulli_group_id: "0"
+tautulli_port: "8185"
 
 ###
 ### Duplicati
 ###
 duplicati_available_externally: "false"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
-
+duplicati_port: "8200"
 
 ###
 ### Sonarr
@@ -408,9 +419,9 @@ sonarr_available_externally: "false"
 sonarr_data_directory: "{{ docker_home }}/sonarr/config"
 sonarr_tv_directory: "{{ tv_root }}"
 sonarr_download_directory: "{{ downloads_root }}"
-sonarr_user_id: 0
-sonarr_group_id: 0
-
+sonarr_user_id: "0"
+sonarr_group_id: "0"
+sonarr_port: "8989"
 
 ###
 ### Radarr
@@ -419,8 +430,9 @@ radarr_available_externally: "false"
 radarr_movies_directory: "{{ movies_root }}"
 radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
-radarr_user_id: 0
-radarr_group_id: 0
+radarr_user_id: "0"
+radarr_group_id: "0"
+radarr_port: "7878"
 
 ###
 ### Bazarr
@@ -431,7 +443,7 @@ bazarr_tv_directory: "{{ tv_root }}"
 bazarr_movies_directory: "{{ movies_root }}"
 bazarr_user_id: "0"
 bazarr_group_id: "0"
-
+bazarr_port: "6767"
 
 ###
 ### Couchpotato
@@ -441,9 +453,9 @@ couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
 couchpotato_movies_directory: "{{ movies_root }}"
 couchpotato_downloads_directory: "{{ downloads_root }}"
 couchpotato_torrents_directory: "{{ torrents_root }}"
-couchpotato_user_id: 0
-couchpotato_group_id: 0
-
+couchpotato_user_id: "0"
+couchpotato_group_id: "0"
+couchpotato_port: "5050" 
 
 ###
 ### Sickchill
@@ -452,13 +464,15 @@ sickchill_available_externally: "false"
 sickchill_config_directory: "{{ docker_home }}/sickchill/config"
 sickchill_tv_directory: "{{ tv_root }}"
 sickchill_downloads_directory: "{{ downloads_root }}/completed"
-sickchill_user_id: 0
-sickchill_group_id: 0
+sickchill_user_id: "0"
+sickchill_group_id: "0"
+sickchill_port: "8081"
 
 ###
 ### Netdata
 ###
 netdata_available_externally: "false"
+netdata_port: "19999"
 
 ###
 ### OpenVPN
@@ -471,16 +485,16 @@ openvpn_config_directory: "{{ docker_home }}/openvpn"
 ###
 portainer_available_externally: "false"
 portainer_data_directory: "{{ docker_home }}/portainer/config"
-
+portainer_port: "9000"
 
 ###
 ### ZNC
 ###
 znc_available_externally: "false"
 znc_data_directory: "{{ docker_home }}/znc"
-znc_user_id: 0
-znc_group_id: 0
-
+znc_user_id: "0"
+znc_group_id: "0"
+znc_port: "6677"
 
 ###
 ### Stats
@@ -490,28 +504,37 @@ telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
+grafana_influxdb_port: "8086"
+grafana_port: "3000"
 
 ###
 ### Gitea
 ###
 gitea_available_externally: "false"
 gitea_data_directory: "{{ docker_home }}/gitea"
+gitea_port_http: "3001"
+gitea_port_ssh: "222"
 
 ###
 ### Glances
 ###
 glances_available_externally: "false"
+glances_port_one: "61208"
+glances_port_two: "61209"
 
 ###
 ### Nextcloud
 ###
 nextcloud_available_externally: "false"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+nextcloud_port: "8080"
 
 ###
 ### nginx
 ###
 nginx_data_directory: "{{ docker_home }}/nginx"
+nginx_port_http: "80"
+nginx_port_https: "443"
 
 ###
 ### Guacamole
@@ -520,6 +543,7 @@ guacamole_available_externally: "false"
 guacamole_docker_image: guacamole/guacamole:0.9.14
 guacamole_guacd_docker_image: guacamole/guacd:0.9.14
 guacamole_data_directory: "{{ docker_home }}/guacamole"
+guacamole_port: "8090"
 
 ###
 ### Miniflux
@@ -528,12 +552,14 @@ miniflux_available_externally: "false"
 miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
 miniflux_admin_password: supersecure
+miniflux_port: "8070"
 
 ###
 ### Airsonic
 ###
 airsonic_available_externally: "false"
 airsonic_data_directory: "{{ docker_home }}/airsonic"
+airsonic_port: "4040"
 
 ###
 ### CloudCmd
@@ -543,6 +569,7 @@ cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
 cloudcmd_browse_directory: "/"
 cloudcmd_user_id: "0"
 cloudcmd_group_id: "0"
+cloudcmd_port: "7373"
 
 ###
 ### Watchtower
@@ -578,12 +605,14 @@ timemachine_port: "10445"
 minidlna_media_directory1: "{{ movies_root }}"
 minidlna_media_directory2: "{{ tv_root }}"
 minidlna_friendly_name: "{{ ansible_nas_hostname }}"
+minidlna_port: "8201"
 
 ###
 ### get_iplayer
 ###
 get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
 get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
+get_iplayer_port: "8182"
 
 ###
 ### mymediaforalexa
@@ -596,18 +625,23 @@ mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 ###
 jackett_available_externally: "false"
 jackett_data_directory: "{{ docker_home }}/jackett"
+jackett_port: "9117"
 
 ###
 ### The Lounge
 ###
 thelounge_available_externally: "false"
 thelounge_data_directory: "{{ docker_home }}/thelounge"
+thelounge_port_one: "113"
+thelounge_port_two: "9002"
 
 ###
 ### Bitwarden
 ###
 bitwarden_available_externally: "false"
 bitwarden_data_directory: "{{ docker_home }}/bitwarden"
+bitwarden_port_a: "19080"
+bitwarden_port_b: "3012"
 
 # Keep this token secret, this is password to access admin area of your server!
 # This token can be anything, but it's recommended to use a long, randomly generated string of characters,
@@ -624,6 +658,7 @@ bitwarden_allow_signups: false
 ###
 firefly_available_externally: "false"
 firefly_data_directory: "{{ docker_home }}/firefly"
+firefly_port: "8066"
 
 ###
 ### Nzbget
@@ -631,20 +666,24 @@ firefly_data_directory: "{{ docker_home }}/firefly"
 nzbget_available_externally: "false"
 nzbget_data_directory: "{{ docker_home }}/nzbget"
 nzbget_download_directory: "{{ downloads_root }}"
-nzbget_user_id: 0
-nzbget_group_id: 0
+nzbget_user_id: "0"
+nzbget_group_id: "0"
+nzbget_port: "6789"
 
 ###
 ### Wallabag
 ###
 wallabag_available_externally: "false"
 wallabag_data_directory: "{{ docker_home }}/wallabag"
+wallabag_port: "7780"
 
 ###
 ### Mosquitto
 ###
 mosquitto_available_externally: "false"
 mosquitto_data_directory: "{{ docker_home }}/mosquitto"
+mosquitto_port_a: "1883"
+mosquitto_port_b: "9001"
 
 ###
 ### Calibre
@@ -653,6 +692,7 @@ calibre_available_externally: "false"
 calibre_data_directory: "{{ docker_home }}/calibre"
 calibre_user_id: "0"
 calibre_group_id: "0"
+calibre_port: "8084"
 # To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
 calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 
@@ -661,6 +701,7 @@ calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 ###
 homeassistant_available_externally: "false"
 homeassistant_data_directory: "{{ docker_home }}/homeassistant"
+homeassistant_port: "8123"
 
 ###
 ### openHAB
@@ -668,6 +709,8 @@ homeassistant_data_directory: "{{ docker_home }}/homeassistant"
 openhab_available_externally: "false"
 openhab_docker_image: openhab/openhab:latest
 openhab_data_directory: "{{ docker_home }}/openhab"
+openhab_port_http: "7777"
+openhab_port_https: "7778"
 
 ###
 ### Jellyfin
@@ -682,3 +725,5 @@ jellyfin_tv_directory: "{{ tv_root }}"
 jellyfin_tv_permissions: "rw"
 jellyfin_user_id: "0"
 jellyfin_group_id: "0"
+jellyfin_port_http: "8896"
+jellyfin_port_https: "8928"
