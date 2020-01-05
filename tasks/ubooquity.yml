@@ -9,7 +9,7 @@
 - name: Ubooquity Docker Container
   docker_container:
     name: ubooquity
-    image: linuxserver/ubooquity:latest
+    image: "{{ ubooquity_image }}"
     pull: true
     volumes:
       - "{{ ubooquity_data_directory }}/config:/config:rw"

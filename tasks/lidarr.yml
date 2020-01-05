@@ -7,7 +7,7 @@
 - name: lidarr
   docker_container:
     name: lidarr
-    image: linuxserver/lidarr
+    image: "{{ lidarr_image }}"
     pull: true
     volumes:
       - "{{ lidarr_music_directory }}:/music:rw"
