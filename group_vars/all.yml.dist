@@ -51,8 +51,8 @@ mymediaforalexa_enabled: "false"
 miniflux_enabled: "false"
 
 # System Management
-heimdall_enabled: true
-portainer_enabled: true
+heimdall_enabled: "true"
+portainer_enabled: "true"
 glances_enabled: "false"
 stats_enabled: "false"
 guacamole_enabled: "false"
@@ -277,7 +277,7 @@ cloudflare_email: "{{ ansible_nas_email }}"
 # Cloudflare 'Global API Key', can be found on the 'My Profile' page
 cloudflare_api_key: "abcdeabcdeabcdeabcde1234512345"
 
-# Other Settings (You shouldn't need to edit these)
+# Container Settings (You shouldn't need to edit these)
 cloudflare_image: "joshava/cloudflare-ddns:latest"
 
 ##################################################################
