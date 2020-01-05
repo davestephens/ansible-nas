@@ -8,7 +8,7 @@
 - name: Jellyfin Docker Container
   docker_container:
     name: jellyfin
-    image: linuxserver/jellyfin
+    image: "{{ jellyfin_image }}"
     pull: true
     volumes:
       - "{{ jellyfin_config_directory }}:/config:rw"

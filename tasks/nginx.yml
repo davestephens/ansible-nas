@@ -12,7 +12,7 @@
 - name: Nginx Docker Container
   docker_container:
     name: nginx-proxy
-    image: jwilder/nginx-proxy
+    image: "{{ nginx_image }}"
     pull: true
     ports:
       - "80:80"

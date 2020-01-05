@@ -8,7 +8,7 @@
 - name: Bitwarden Docker Container
   docker_container:
     name: bitwarden
-    image: mprasil/bitwarden:latest
+    image: "{{ bitwarden_image }}"
     pull: true
     ports:
       - "19080:80"
@@ -33,7 +33,7 @@
 - name: Bitwarden Backup Container
   docker_container:
     name: bitwarden-backup
-    image: bruceforce/bw_backup:latest
+    image: "{{ bitwarden_backup_image }}"
     pull: true
     restart_policy: unless-stopped
     volumes_from: bitwarden

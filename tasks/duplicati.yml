@@ -9,7 +9,7 @@
 - name: Dupicati Docker Container
   docker_container:
     name: duplicati
-    image: linuxserver/duplicati
+    image: "{{ duplicati_image }}"
     pull: true
     ports:
       - "8200:8200"

@@ -16,7 +16,7 @@
 - name: Create Mosquitto container
   docker_container:
     name: mosquitto
-    image: eclipse-mosquitto:latest
+    image: "{{ mosquitto_image }}"
     pull: true
     volumes:
       - "{{ mosquitto_data_directory }}/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw"

@@ -8,7 +8,7 @@
 - name: Home Assistant Docker Container
   docker_container:
     name: homeassistant
-    image: homeassistant/home-assistant
+    image: "{{ homeassistant_image }}"
     pull: true
     volumes:
       - "{{ homeassistant_data_directory }}/config:/config:rw"

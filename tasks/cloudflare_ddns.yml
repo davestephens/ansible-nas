@@ -1,7 +1,7 @@
 - name: Cloudflare Dynamic DNS Container
   docker_container:
     name: cloudflare-ddns
-    image: joshava/cloudflare-ddns:latest
+    image: "{{ cloudflare_image }}"
     pull: true
     env:
       ZONE: "{{ cloudflare_zone }}"

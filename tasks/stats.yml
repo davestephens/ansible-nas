@@ -42,7 +42,7 @@
 - name: Telegraf
   docker_container:
     name: telegraf
-    image: telegraf
+    image: "{{ telegrag_image }}"
     pull: true
     volumes:
       - "{{ telegraf_data_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
@@ -58,7 +58,7 @@
 - name: Grafana
   docker_container:
     name: grafana
-    image: grafana/grafana
+    image: "{{ grafana_image }}"
     pull: true
     volumes:
       - "{{ grafana_data_directory }}/data:/var/lib/grafana:rw"

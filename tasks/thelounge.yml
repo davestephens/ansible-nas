@@ -16,7 +16,7 @@
 - name: The Lounge Docker Container
   docker_container:
     name: thelounge
-    image: thelounge/thelounge:latest
+    image: "{{ thelounge_image }}"
     pull: true
     ports:
       - "113:9001"

@@ -44,7 +44,7 @@
 - name: Create Gitea container
   docker_container:
     name: gitea
-    image: gitea/gitea:1.6
+    image: "{{ gitea_image }}"
     pull: true
     links:
         - gitea-mysql:db

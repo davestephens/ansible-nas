@@ -7,7 +7,7 @@
 - name: Time Machine Docker Container
   docker_container:
     name: timemachine
-    image: awlnx/samba-timemachine:latest
+    image: "{{ timemachine_image }}"
     pull: true
     ports:
       - "{{ timemachine_port }}:445"

@@ -9,7 +9,7 @@
 - name: Homebridge Docker Container
   docker_container:
     name: homebridge
-    image: oznu/homebridge
+    image: "{{ homebridge_image }}"
     pull: true
     volumes:
       - "{{ homebridge_config_directory }}:/homebridge"

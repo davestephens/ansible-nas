@@ -11,7 +11,7 @@
 - name: pyLoad Docker Container
   docker_container:
     name: pyload
-    image: writl/pyload
+    image: "{{ pyload_image }}"
     pull: true
     volumes:
       - "{{ pyload_config_directory }}:/opt/pyload/pyload-config:rw"

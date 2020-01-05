@@ -11,7 +11,7 @@
 - name: Airsonic Docker Container
   docker_container:
     name: airsonic
-    image: airsonic/airsonic:latest
+    image: "{{ airsonic_image }}"
     pull: true
     volumes:
       - "{{ airsonic_data_directory }}/data:/airsonic/data:rw"

@@ -16,7 +16,7 @@
 - name: Sickchill Docker Container
   docker_container:
     name: sickchill
-    image: linuxserver/sickchill
+    image: "{{ sickchill_image }}"
     pull: true
     volumes:
       - "{{ sickchill_config_directory }}:/config:rw"

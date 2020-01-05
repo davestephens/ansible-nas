@@ -15,7 +15,7 @@
 - name: Transmission with VPN
   docker_container:
     name: transmission-openvpn
-    image: haugene/transmission-openvpn
+    image: "{{ transmission_openvpn_image }}"
     pull: true
     volumes:
       - "/etc/localtime:/etc/localtime:ro"

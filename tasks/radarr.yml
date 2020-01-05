@@ -9,7 +9,7 @@
 - name: Radarr
   docker_container:
     name: radarr
-    image: linuxserver/radarr
+    image: "{{ radarr_image }}"
     pull: true
     volumes:
       - "{{ radarr_movies_directory }}:/movies:rw"

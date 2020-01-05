@@ -9,7 +9,7 @@
 - name: NZBGet
   docker_container:
     name: nzbget
-    image: linuxserver/nzbget
+    image: "{{ nzbget_image }}"
     pull: true
     volumes:
       - "{{ nzbget_download_directory }}:/downloads:rw"

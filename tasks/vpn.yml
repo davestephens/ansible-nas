@@ -21,7 +21,7 @@
 - name: VPN Container
   docker_container:
     name: openvpn-client
-    image: dceschmidt/openvpn-client
+    image: "{{ openvpn_client_image }}"
     pull: true
     env:
       OPENVPN_PROVIDER: "{{ openvpn_provider }}"

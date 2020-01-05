@@ -9,7 +9,7 @@
 - name: Portainer Docker Container
   docker_container:
     name: portainer
-    image: portainer/portainer
+    image: "{{ portainer_image }}"
     pull: true
     volumes:
       - "{{ portainer_data_directory }}:/data:rw"

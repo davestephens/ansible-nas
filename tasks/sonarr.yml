@@ -9,7 +9,7 @@
 - name: Sonarr
   docker_container:
     name: sonarr
-    image: linuxserver/sonarr
+    image: "{{ sonarr_image }}"
     pull: true
     volumes:
       - "{{ sonarr_tv_directory }}:/tv:rw"

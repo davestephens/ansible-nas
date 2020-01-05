@@ -10,7 +10,7 @@
 - name: plex Docker Container
   docker_container:
     name: plex
-    image: linuxserver/plex
+    image: "{{ plex_image }}"
     pull: true
     volumes:
       - "{{ plex_config_directory }}:/config:rw"

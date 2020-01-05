@@ -9,7 +9,7 @@
 - name: Bazarr
   docker_container:
     name: bazarr
-    image: linuxserver/bazarr
+    image: "{{ bazarr_image }}"
     pull: true
     volumes:
       - "{{ bazarr_tv_directory }}:/tv:rw"

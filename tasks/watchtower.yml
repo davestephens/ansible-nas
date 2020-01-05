@@ -2,7 +2,7 @@
 - name: Watchtower Docker Container
   docker_container:
     name: watchtower
-    image: v2tec/watchtower
+    image: "{{ watchtower_image }}"
     pull: true
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"

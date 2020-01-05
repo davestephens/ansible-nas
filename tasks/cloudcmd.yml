@@ -9,7 +9,7 @@
 - name: CloudCmd
   docker_container:
     name: cloudcmd
-    image: coderaiser/cloudcmd
+    image: "{{ cloudcmd_image }}"
     pull: true
     volumes:
       - "{{ cloudcmd_data_directory }}:/config:rw"
@@ -26,4 +26,4 @@
       traefik.backend: "cloudcmd"
       traefik.frontend.rule: "Host:cloudcmd.{{ ansible_nas_domain }}"
       traefik.enable: "{{ cloudcmd_available_externally }}"
-      traefik.port: "8000"
+      traefik.port: "7373"

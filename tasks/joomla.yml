@@ -24,7 +24,7 @@
 - name: Joomla Docker Container
   docker_container:
     name: joomla
-    image: joomla
+    image: "{{ joomla_image }}"
     pull: true
     volumes:
       - "{{ joomla_data_directory }}:/var/www/html:rw"

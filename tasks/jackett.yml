@@ -9,7 +9,7 @@
 - name: jackett
   docker_container:
     name: jackett
-    image: linuxserver/jackett
+    image: "{{ jackett_image }}"
     volumes:
       - "{{ jackett_data_directory }}:/config:rw"
       - "/etc/localtime:/etc/localtime:ro"

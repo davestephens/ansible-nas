@@ -8,7 +8,7 @@
 - name: Calibre Docker Container
   docker_container:
     name: calibre
-    image: linuxserver/calibre-web:latest
+    image: "{{ calibre_image }}"
     pull: true
     volumes:
       - "{{ calibre_data_directory }}/config:/config"

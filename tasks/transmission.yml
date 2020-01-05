@@ -12,7 +12,7 @@
 - name: Transmission Docker Container
   docker_container:
     name: transmission
-    image: linuxserver/transmission
+    image: "{{ transmission_image }}"
     pull: true
     volumes:
       - "{{ transmission_config_directory }}:/config:rw"

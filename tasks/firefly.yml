@@ -30,7 +30,7 @@
 - name: Create Firefly III container
   docker_container:
     name: firefly
-    image: jc5x/firefly-iii:latest
+    image: "{{ firefly_image }}"
     pull: true
     volumes:
       - "{{ firefly_data_directory }}/export:/var/www/firefly-iii/storage/export:rw"

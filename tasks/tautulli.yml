@@ -10,7 +10,7 @@
 - name: Tautulli Docker Container
   docker_container:
     name: tautulli
-    image: linuxserver/tautulli
+    image: "{{ tautulli_image }}"
     pull: true
     volumes:
       - "{{ tautulli_config_directory }}:/config:rw"

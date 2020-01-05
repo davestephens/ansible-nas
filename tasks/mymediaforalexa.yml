@@ -9,7 +9,7 @@
 - name: mymedia for alexa Docker Container
   docker_container:
     name: mymediaforalexa
-    image: bizmodeller/mymediaforalexa
+    image: "{{ mymediaforalexa_image }}"
     pull: true
     volumes:
       - "{{ mymediaforalexa_media_directory }}:/medialibrary:rw"

@@ -1,7 +1,7 @@
 - name: minidlna Docker Container
   docker_container:
     name: minidlna
-    image: vladgh/minidlna
+    image: "{{ minidlna_image }}"
     pull: true
     volumes:
       - "{{ minidlna_media_directory1 }}:/media1:rw"

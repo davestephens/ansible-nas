@@ -9,7 +9,7 @@
 - name: get_iplayer Docker Container
   docker_container:
     name: get_iplayer
-    image: kolonuk/get_iplayer
+    image: "{{ get_iplayer_image }}"
     pull: true
     volumes:
       - "{{ get_iplayer_config_directory }}:/root/.get_iplayer:rw"

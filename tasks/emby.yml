@@ -8,7 +8,7 @@
 - name: emby Docker Container
   docker_container:
     name: emby
-    image: emby/embyserver
+    image: "{{ emby_image }}"
     pull: true
     volumes:
       - "{{ emby_config_directory }}:/config:rw"

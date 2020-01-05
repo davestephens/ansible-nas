@@ -21,7 +21,7 @@
 - name: Create Miniflux container
   docker_container:
     name: miniflux
-    image: miniflux/miniflux:latest
+    image: "{{ miniflux_image }}"
     pull: true
     links:
         - miniflux-postgres:db

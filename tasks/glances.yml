@@ -1,7 +1,7 @@
 - name: Glances Docker Container
   docker_container:
     name: glances
-    image: nicolargo/glances
+    image: "{{ glances_image }}"
     pull: true
     ports:
       - "61208:61208"
