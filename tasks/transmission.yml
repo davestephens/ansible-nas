@@ -8,8 +8,6 @@
     - "{{ transmission_config_directory }}"
     - "{{ transmission_download_directory }}"
     - "{{ transmission_watch_directory }}"
-    
-
 - name: Transmission Docker Container
   docker_container:
     name: transmission
