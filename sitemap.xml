@@ -111,6 +111,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/lidarr/</loc>
+     <lastmod>2020-01-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/minidlna/</loc>
      <lastmod>2020-01-05</lastmod>
      <changefreq>daily</changefreq>
