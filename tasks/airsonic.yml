@@ -16,14 +16,14 @@
     volumes:
       - "{{ airsonic_data_directory }}/data:/airsonic/data:rw"
       - "{{ airsonic_data_directory }}/playlists:/airsonic/playlists:rw"
-      - "{{ airsonic_music }}:/airsonic/music:{{ airsonic_permissions}}"
-      - "{{ airsonic_podcasts }}:/airsonic/podcasts:{{ airsonic_permissions}}"
-      - "{{ airsonic_audiobooks }}:/airsonic/audiobooks:{{ airsonic_permissions}}"
+      - "{{ music_root }}:/airsonic/music:rw"
+      - "{{ podcasts_root }}:/airsonic/podcasts:rw"
+      - "{{ audiobooks_root }}:/airsonic/audiobooks:rw"
 
     ports:
       - "{{ airsonic_port }}:4040"
-    restart_policy: "{{ airsonic_restart_policy }}"
-    memory: ""
+    restart_policy: "unless-stopped"
+    memory: "1g"
     labels:
       traefik.backend: "airsonic"
       traefik.frontend.rule: "Host:{{ airsonic_subdomain }}.{{ ansible_nas_domain }}"

@@ -12,7 +12,7 @@
     pull: "true"
     volumes:
       - "{{ calibre_data_directory }}/config:/config"
-      - "{{ calibre_books_root }}:/books"
+      - "{{ books_root }}:/books"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ calibre_user_id }}"
@@ -20,10 +20,10 @@
       DOCKER_MODS: "{{ calibre_ebook_conversion }}"
     ports:
       - "{{ calibre_port }}:8083"
-    restart_policy: "{{ calibre_restart_policy }}"
+    restart_policy: "unless-stopped"
     labels:
       traefik.backend: "calibre"
       traefik.frontend.rule: "Host:{{ calibre_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ calibre_available_externally }}"
       traefik.port: "{{ calibre_port }} "
-    memory: "{{ calibre_memory_limit }}"
+    memory: "1g"
