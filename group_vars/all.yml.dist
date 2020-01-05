@@ -41,9 +41,6 @@ radarr_enabled: false
 get_iplayer_enabled: false
 jackett_enabled: false
 bazarr_enabled: false
-
-
-# Ombi
 ombi_enabled: false
 
 # Music
@@ -63,7 +60,6 @@ netdata_enabled: false
 watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
-
 
 # Backup & Restore
 duplicati_enabled: false
@@ -87,12 +83,11 @@ wallabag_enabled: false
 # Home Automation
 homeassistant_enabled: false
 mosquitto_enabled: false
+homebridge_enabled: false
+openhab_enabled: false
 
 # Calibre
 calibre_enabled: false
-
-# Smarthome
-openhab_enabled: false
 
 # Joomla
 joomla_enabled: false
@@ -367,6 +362,14 @@ plex_music_directory: "{{ music_root }}"
 plex_music_permissions: "rw"
 plex_user_id: 0
 plex_group_id: 0
+
+###
+### Homebridge
+###
+homebridge_available_externally: "false"
+homebridge_config_directory: "{{ docker_home }}/homebridge/config"
+homebridge_user_id: "0"
+homebridge_group_id: "0"
 
 ###
 ### Emby

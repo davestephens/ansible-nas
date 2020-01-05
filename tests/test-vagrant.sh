@@ -4,7 +4,7 @@ PLAYBOOK_DIR=$DIR/..
 
 header() {
     clear
-    cat << EndOfMessage
+    cat << "EndOfMessage"
                      ._____.   .__
 _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
 \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/

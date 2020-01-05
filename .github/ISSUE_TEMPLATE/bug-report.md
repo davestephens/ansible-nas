@@ -21,7 +21,15 @@ A clear and concise description of what the bug is.
 - Ansible-NAS Docker version (`docker --version` on the Ansible-NAS box):
 - Latest Docker logs (`journalctl -u docker.service` on the Ansible-NAS box):
 - Are you running the playbook from a remote box or the Ansible-NAS box itself? 
-- Vagrant version, if testing (`vagrant --version`)
+- Vagrant version, if testing (`vagrant --version`):
+- Ansible-NAS filesystems (`df -hT` on the Ansible-NAS box):
+- Mounted filesystems (`mount` on the Ansible-NAS box)
+
+**all.yml Variables**
+- `docker_image_directory`:
+- `docker_home`:
+- `docker_storage_driver`:
+- `samba_shares_root`:
 
 **Expected behavior**
 What should happen?
