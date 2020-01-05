@@ -29,4 +29,3 @@
       traefik.frontend.rule: "Host:{{ airsonic_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ airsonic_available_externally }}"
       traefik.port: "{{ airsonic_port }}"
-
