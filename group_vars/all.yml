@@ -25,31 +25,24 @@ traefik_enabled: false
 transmission_with_openvpn_enabled: false # Please see docs about how to set VPN credentials
 transmission_enabled: false
 nzbget_enabled: false
-
-# Downloaders
 pyload_enabled: false
 
-# Plex
+
+# Media Serving
 plex_enabled: false
 tautulli_enabled: false
 
-# Emby
-emby_enabled: false
-
-# Jellyfin
-jellyfin_enabled: false
-
-# minidlna
-minidlna_enabled: false
-
 # Media Sourcing
-sonarr_enabled: false
+sonarr_enabled: false         # tv
 sickchill_enabled: false
 couchpotato_enabled: false
 radarr_enabled: false
 get_iplayer_enabled: false
 jackett_enabled: false
-bazarr_enabled: false
+bazarr_enabled: false         # subtitles
+minidlna_enabled: false
+jellyfin_enabled: false
+emby_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -72,8 +65,10 @@ cloudcmd_enabled: false
 # Backup & Restore
 duplicati_enabled: false
 nextcloud_enabled: false
-gitea_enabled: false
 timemachine_enabled: false
+
+# Software build and CI
+gitea_enabled: false
 
 # IRC
 znc_enabled: false
@@ -94,10 +89,10 @@ mosquitto_enabled: false
 homebridge_enabled: false
 openhab_enabled: false
 
-# Calibre
+# Books
 calibre_enabled: false
 
-# Joomla
+# CMS
 joomla_enabled: false
 
 ###
@@ -297,6 +292,7 @@ ansible_python_interpreter: /usr/bin/python3
 ###
 # Seems to break browsing of the \\server-name shares root when enabled
 samba_mitigate_cve_2017_7494: false
+
 # Enable apple exentensions for compatibility with apple clients
 samba_apple_extensions: yes
 
