@@ -27,6 +27,9 @@ tautulli_enabled: false
 # Emby
 emby_enabled: false
 
+# Gotify
+gotify_enabled: false
+
 # Jellyfin
 jellyfin_enabled: false
 
@@ -545,6 +548,16 @@ nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 ### nginx
 ###
 nginx_data_directory: "{{ docker_home }}/nginx"
+
+###
+### Gotify
+###
+gotify_available_externally: "false"
+gotify_data_directory: "{{ docker_home }}/gotify/config"
+gotify_port_http: "8077"
+gotify_port_https: "8078"
+gotify_user_id: 0
+gotify_group_id: 0
 
 ###
 ### Guacamole
