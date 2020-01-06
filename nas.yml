@@ -127,6 +127,10 @@
   - import_tasks: tasks/stats.yml
     when: (stats_enabled | default(False))
     tags: stats
+    
+  - import_tasks: tasks/gotify.yml
+    when: (gotify_enabled | default(False))
+    tags: gotify
 
   - import_tasks: tasks/guacamole.yml
     when: (guacamole_enabled | default(False))
