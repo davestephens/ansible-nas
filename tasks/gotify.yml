@@ -1,0 +1,32 @@
+
+# created by bcurran3 2020/01/05 : last modified by bcurran3 2020/01/06
+
+- name: Gotify Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ gotify_data_directory }}/app/data"
+
+- name: Gotify Docker Container
+  docker_container:
+    name: gotify
+    image: gotify/server
+    pull: true
+    volumes:
+      - "{{ gotify_data_directory }}/data:/var/www/wallabag/data:rw"
+    ports:
+      - "{{ gotify_port_http }}:80"
+      - "{{ gotify_port_https }}:443"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ gotify_user_id }}"
+      PGID: "{{ gotify_group_id }}"
+    restart_policy: unless-stopped
+    labels:
+      gotify.backend: "gotify"
+      gotify.frontend.rule: "Host:gotify.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ gotify_available_externally }}"
+      traefik.port: "{{ gotify_port_http }}"
+    memory: 1g
+    
