@@ -47,7 +47,7 @@
   - import_tasks: tasks/plex.yml
     when: (plex_enabled | default(False))
     tags: plex
-    
+
   - import_tasks: tasks/pytivo.yml
     when: (pytivo_enabled | default(False))
     tags: pytivo
