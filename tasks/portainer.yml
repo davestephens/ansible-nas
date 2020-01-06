@@ -23,5 +23,4 @@
       traefik.backend: "portainer"
       traefik.frontend.rule: "Host:portainer.{{ ansible_nas_domain }}"
       traefik.enable: "{{ portainer_available_externally }}"
-      traefik.port: "9000"
-
+      traefik.port: "{{ portainer_port_http }}"
