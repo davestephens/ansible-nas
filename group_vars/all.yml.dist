@@ -520,7 +520,7 @@ openvpn_config_directory: "{{ docker_home }}/openvpn"
 ###
 portainer_available_externally: "false"
 portainer_data_directory: "{{ docker_home }}/portainer/config"
-portainer_port_http: "9000"
+# portainer_port_http: "9000"
 
 
 ###
