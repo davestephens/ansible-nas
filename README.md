@@ -47,6 +47,7 @@ Ansible config and a bunch of Docker containers.
 * [Gitea](https://gitea.io/en-us/) - Self-hosted Github clone
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
+* [Gotify] (https://gotify.net/)- a simple server for sending and receiving messages
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
