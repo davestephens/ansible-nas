@@ -501,6 +501,7 @@ ombi_available_externally: "false"
 ombi_config_directory: "{{ docker_home }}/ombi/config"
 ombi_user_id: "0"
 ombi_group_id: "0"
+ombi_image: "linuxserver/ombi"
 
 ###
 ### Netdata

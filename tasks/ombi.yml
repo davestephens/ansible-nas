@@ -7,7 +7,7 @@
 - name: ombi
   docker_container:
     name: ombi
-    image: linuxserver/ombi
+    image: "{{ ombi_image }}"
     pull: true
     volumes:
       - "{{ ombi_config_directory }}:/config:rw"
