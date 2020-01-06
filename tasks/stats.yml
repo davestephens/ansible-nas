@@ -42,7 +42,7 @@
 - name: Telegraf
   docker_container:
     name: telegraf
-    image: "{{ telegrag_image }}"
+    image: "{{ telegraf_image }}"
     pull: true
     volumes:
       - "{{ telegraf_data_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
