@@ -12,7 +12,6 @@ Ansible config and a bunch of Docker containers.
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
-
 * Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, Lidarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
@@ -31,7 +30,7 @@ Ansible config and a bunch of Docker containers.
 * A dual panel local file manager
 * Self-service media request web application
 
-### Docker Containers Used
+### Available Applications
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
@@ -121,16 +120,17 @@ download code from the internet and trust that it's going to work as you expect.
 
     `cp -rfp inventories/sample inventories/my-ansible-nas`
 
-5. Review `group_vars/all.yml`. Change settings by overriding them in inventories/my-ansible-nas/group_vars/all.yml`.
+5. Review `group_vars/all.yml`. Change settings by overriding them in `inventories/my-ansible-nas/group_vars/all.yml`.
 
-6. If you plan to use Transmission with OpenVPN, update `inventories/my-ansible-nas/group_vars/vpn_credentials.yml`.
+6. Update `inventories/my-ansible-nas/inventory`.
 
-7. Update `inventories/my-ansible-nas/inventory`.
+7. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles).
 
-8. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles).
+8. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
 
-9. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
+## Upgrading
 
+**The way Ansible-NAS configuration is structured has changed!** See [Upgrading](https://davestephens.github.io/ansible-nas/upgrading/) for more information. See the **Getting Help** section if you get stuck.
 
 ## Documentation
 
@@ -166,7 +166,6 @@ Getting help is easy! You can:
 ## Contributing
 
 Contributions are always welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
-
 
 ## Support
 
