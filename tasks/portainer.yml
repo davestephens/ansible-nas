@@ -17,7 +17,7 @@
       - "/etc/timezone:/etc/timezone:ro"
     ports:
       - "9000:9000"
-    restart_policy: "{{ portainer_restart_policy }}}"
+    restart_policy: "{{ portainer_restart_policy }}"
     memory: "{{ portainer_memory_limit }}"
     labels:
       traefik.backend: "portainer"
