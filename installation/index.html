@@ -317,8 +317,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../upgrading/" title="Upgrading" class="md-nav__link">
-      Upgrading
+    <a href="../upgrading/" title="Upgrading Ansible-NAS" class="md-nav__link">
+      Upgrading Ansible-NAS
     </a>
   </li>
 
@@ -868,39 +868,39 @@
                 
                   <h1>Installation</h1>
                 
-                <p>You can run Ansible-NAS from the computer you plan to use for your NAS, or from a remote controlling machine. The steps for deployment are exactly the same, just pay attention to editing the inventory file in step 7.</p>
+                <p>:skull: :skull: :skull: Before running anything, check out the playbook and understand what it
+does. Run it against a VM and make sure you're happy. <strong><em>Do not</em></strong> blindly
+download code from the internet and trust that it's going to work as you expect.
+:skull: :skull: :skull:</p>
+<p>You can run Ansible-NAS from the computer you plan to use for your NAS, or from a remote controlling machine. The steps for deployment are exactly the same, just pay attention to editing the inventory file in step 7.</p>
 <ol>
 <li>
-<p>Enable the Ubuntu Universe repository: <code>sudo add-apt-repository universe</code></p>
+<p>Enable the Ubuntu Universe repository:</p>
+<p><code>sudo add-apt-repository universe</code></p>
 </li>
 <li>
-<p>Install Ansible: <code>sudo apt install ansible</code></p>
+<p>Install Ansible:</p>
+<p><code>sudo apt install ansible</code></p>
 </li>
 <li>
+<p>Clone Ansible-NAS:</p>
 <p><code>git clone https://github.com/davestephens/ansible-nas.git &amp;&amp; cd ansible-nas</code></p>
 </li>
 <li>
-<p>Copy <code>group_vars/all.yml.dist</code> to  <code>group_vars/all.yml</code>.</p>
+<p>Create your own inventory and config files by copying <code>inventories/sample</code> to your own directory:</p>
+<p><code>cp -rfp inventories/sample inventories/my-ansible-nas</code></p>
 </li>
 <li>
-<p>Open up <code>group_vars/all.yml</code> and follow the instructions there for
-   configuring your Ansible NAS.</p>
+<p>Review <code>group_vars/all.yml</code>. Change settings by overriding them in <code>inventories/my-ansible-nas/group_vars/all.yml</code>.</p>
 </li>
 <li>
-<p>If you plan to use Transmission with OpenVPN, also copy
-   <code>group_vars/vpn_credentials.yml.dist</code> to <code>group_vars/vpn_credentials.yml</code> and
-   fill in your settings.</p>
+<p>Update <code>inventories/my-ansible-nas/inventory</code>.</p>
 </li>
 <li>
-<p>Copy <code>inventory.dist</code> to <code>inventory</code> and update it.</p>
+<p>Install the dependent roles: <code>ansible-galaxy install -r requirements.yml</code> (you might need <code>sudo</code> to install Ansible roles).</p>
 </li>
 <li>
-<p>Install the dependent roles: <code>ansible-galaxy install -r requirements.yml</code>
-   (you might need sudo to install Ansible roles)</p>
-</li>
-<li>
-<p>Run the playbook - something like <code>ansible-playbook -i inventory nas.yml -b
-   -K</code> should do you nicely.</p>
+<p>Run the playbook - something like <code>ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K</code> should do you nicely.</p>
 </li>
 </ol>
                 

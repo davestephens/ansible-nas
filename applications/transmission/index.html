@@ -314,8 +314,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../upgrading/" title="Upgrading" class="md-nav__link">
-      Upgrading
+    <a href="../../upgrading/" title="Upgrading Ansible-NAS" class="md-nav__link">
+      Upgrading Ansible-NAS
     </a>
   </li>
 
@@ -956,8 +956,14 @@ directly.</p>
 <p>Set <code>transmission_enabled: true</code>, or <code>transmission_with_openvpn_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
 <p>Transmission's web interface can be found at http://ansible_nas_host_or_ip:9091 (with VPN) or http://ansible_nas_host_or_ip:9092 (without VPN).</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>If you enable Transmission with OpenVPN, you'll need to copy <code>group_vars/vpn_credentials.yml.dist</code> to
-<code>group_vars/vpn_credentials.yml</code> and fill in your settings.</p>
+<p>If you enable Transmission with OpenVPN, you'll need to add the following to your inventory <code>all.yml</code>:</p>
+<pre><code>openvpn_username: super_secret_username
+openvpn_password: super_secret_password
+openvpn_provider: NORDVPN
+openvpn_config: uk686.nordvpn.com.udp
+</code></pre>
+
+<p>See https://hub.docker.com/r/haugene/transmission-openvpn/ for supported VPN providers.</p>
                 
                   
                 
