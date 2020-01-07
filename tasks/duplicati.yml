@@ -18,6 +18,10 @@
       - "{{ samba_shares_root }}:/source/shares:ro"
       - "{{ docker_home }}:/source/docker:ro"
       - "/etc/timezone:/etc/timezone:ro"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ duplicati_user_id }}"
+      PGID: "{{ duplicati_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
     labels:

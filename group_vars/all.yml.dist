@@ -414,7 +414,8 @@ tautulli_group_id: "0"
 ###
 duplicati_available_externally: "false"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
-
+duplicati_user_id: "0"
+duplicati_group_id: "0"
 
 ###
 ### Sonarr
