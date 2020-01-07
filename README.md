@@ -126,7 +126,7 @@ download code from the internet and trust that it's going to work as you expect.
 
 7. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles).
 
-8. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
+8. Run the playbook - something like `ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K` should do you nicely.
 
 ## Upgrading
 
