@@ -567,6 +567,8 @@ miniflux_admin_password: supersecure
 ###
 airsonic_available_externally: "false"
 airsonic_data_directory: "{{ docker_home }}/airsonic"
+airsonic_music_directory: "{{ music_root }}"
+airsonic_podcasts_directory: "{{ podcasts_root }}"
 
 ###
 ### CloudCmd
@@ -629,6 +631,7 @@ mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 ###
 jackett_available_externally: "false"
 jackett_data_directory: "{{ docker_home }}/jackett"
+jacket_torrents_root: "{{ torrents_root }}"
 
 ###
 ### The Lounge
@@ -686,6 +689,7 @@ calibre_available_externally: "false"
 calibre_data_directory: "{{ docker_home }}/calibre"
 calibre_user_id: "0"
 calibre_group_id: "0"
+calibre_books_root: "{{ books_root }}"
 # To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
 calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 
