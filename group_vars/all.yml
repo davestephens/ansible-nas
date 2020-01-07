@@ -32,7 +32,6 @@ couchpotato_enabled: false
 radarr_enabled: false
 get_iplayer_enabled: false
 jackett_enabled: false
-bazarr_enabled: false         # subtitles
 minidlna_enabled: false
 jellyfin_enabled: false
 emby_enabled: false
@@ -120,7 +119,7 @@ ansible_nas_user: david
 # Your email and domain, used for Let's Encrypt SSL certs
 ansible_nas_email: me@example.com
 
-# Applications will have subdomain SSL certificates created, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
+# Applications will have subdomain SSL certificates created if Traefik is enabled, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
 
 ###
