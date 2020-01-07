@@ -18,6 +18,6 @@
     memory: 1g
     labels:
       traefik.backend: "glances"
-      traefik.frontend.rule: "Host:glances.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ glances_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ glances_available_externally }}"
       traefik.port: "61208"

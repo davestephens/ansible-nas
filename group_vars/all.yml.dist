@@ -330,6 +330,7 @@ traefik_debug: "false"
 heimdall_available_externally: "false"
 heimdall_docker_image: linuxserver/heimdall:latest
 heimdall_data_directory: "{{ docker_home }}/heimdall"
+heimdall_subdomain: "heimdall"
 
 ###
 ### Transmission
@@ -342,6 +343,8 @@ transmission_watch_directory: "{{ torrents_root }}"
 transmission_user_id: "0"
 transmission_group_id: "0"
 transmission_local_network: "192.168.1.0/24"
+transmission_subdomain: "transmission"
+transmission_openvpn_subdomain: "transmission-openvpn"
 
 ###
 ### Joomla
@@ -349,6 +352,7 @@ transmission_local_network: "192.168.1.0/24"
 joomla_data_directory: "{{ docker_home }}/joomla"
 joomla_available_externally: "false"
 joomla_database_password: top_secret
+joomla_subdomain: "joomla"
 
 ###
 ### pyLoad
@@ -358,7 +362,7 @@ pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
 pyload_user_id: "0"
 pyload_group_id: "0"
-
+pyload_subdomain: "pyload"
 
 ###
 ### Plex
@@ -377,6 +381,7 @@ plex_music_directory: "{{ music_root }}"
 plex_music_permissions: "rw"
 plex_user_id: "0"
 plex_group_id: "0"
+plex_subdomain: "plex"
 
 ###
 ### Homebridge
@@ -385,6 +390,7 @@ homebridge_available_externally: "false"
 homebridge_config_directory: "{{ docker_home }}/homebridge/config"
 homebridge_user_id: "0"
 homebridge_group_id: "0"
+homebridge_subdomain: "homebridge"
 
 ###
 ### Emby
@@ -399,6 +405,7 @@ emby_tv_directory: "{{ tv_root }}"
 emby_tv_permissions: "rw"
 emby_user_id: "0"
 emby_group_id: "0"
+emby_subdomain: "emby"
 
 ###
 ### Tautulli
@@ -407,14 +414,14 @@ tautulli_available_externally: "false"
 tautulli_config_directory: "{{ docker_home }}/tautulli/config"
 tautulli_user_id: "0"
 tautulli_group_id: "0"
-
+tautulli_subdomain: "tautulli"
 
 ###
 ### Duplicati
 ###
 duplicati_available_externally: "false"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
-
+duplicati_subdomain: "duplicati"
 
 ###
 ### Sonarr
@@ -425,7 +432,7 @@ sonarr_tv_directory: "{{ tv_root }}"
 sonarr_download_directory: "{{ downloads_root }}"
 sonarr_user_id: "0"
 sonarr_group_id: "0"
-
+sonarr_subdomain: "sonarr"
 
 ###
 ### Radarr
@@ -436,6 +443,7 @@ radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
 radarr_user_id: "0"
 radarr_group_id: "0"
+radarr_subdomain: "radarr"
 
 ###
 ### Bazarr
@@ -446,6 +454,7 @@ bazarr_tv_directory: "{{ tv_root }}"
 bazarr_movies_directory: "{{ movies_root }}"
 bazarr_user_id: "0"
 bazarr_group_id: "0"
+bazarr_subdomain: "bazarr"
 
 ###
 ### lidarr
@@ -456,7 +465,7 @@ lidarr_music_directory: "{{ music_root }}"
 lidarr_downloads_directory: "{{ downloads_root }}"
 lidarr_user_id: "0"
 lidarr_group_id: "0"
-
+lidarr_subdomain: "lidarr"
 
 ###
 ### Couchpotato
@@ -468,7 +477,7 @@ couchpotato_downloads_directory: "{{ downloads_root }}"
 couchpotato_torrents_directory: "{{ torrents_root }}"
 couchpotato_user_id: "0"
 couchpotato_group_id: "0"
-
+couchpotato_subdomain: "couchpotato"
 
 ###
 ### Sickchill
@@ -479,6 +488,7 @@ sickchill_tv_directory: "{{ tv_root }}"
 sickchill_downloads_directory: "{{ downloads_root }}/completed"
 sickchill_user_id: "0"
 sickchill_group_id: "0"
+sickchill_subdomain: "sickchill"
 
 ###
 ### Ombi
@@ -487,24 +497,25 @@ ombi_available_externally: "false"
 ombi_config_directory: "{{ docker_home }}/ombi/config"
 ombi_user_id: "0"
 ombi_group_id: "0"
+ombi_subdomain: "ombi"
 
 ###
 ### Netdata
 ###
 netdata_available_externally: "false"
+netdata_subdomain: "netdata"
 
 ###
 ### OpenVPN
 ###
 openvpn_config_directory: "{{ docker_home }}/openvpn"
 
-
 ###
 ### Portainer
 ###
 portainer_available_externally: "false"
 portainer_data_directory: "{{ docker_home }}/portainer/config"
-
+portainer_subdomain: "portainer"
 
 ###
 ### ZNC
@@ -513,7 +524,7 @@ znc_available_externally: "false"
 znc_data_directory: "{{ docker_home }}/znc"
 znc_user_id: "0"
 znc_group_id: "0"
-
+znc_subdomain: "znc"
 
 ###
 ### Stats
@@ -523,23 +534,27 @@ telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
+grafana_subdomain: "grafana"
 
 ###
 ### Gitea
 ###
 gitea_available_externally: "false"
 gitea_data_directory: "{{ docker_home }}/gitea"
+gitea_subdomain: "gitea"
 
 ###
 ### Glances
 ###
 glances_available_externally: "false"
+glances_subdomain: "glances"
 
 ###
 ### Nextcloud
 ###
 nextcloud_available_externally: "false"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+nextcloud_subdomain: "nextcloud"
 
 ###
 ### nginx
@@ -553,6 +568,7 @@ guacamole_available_externally: "false"
 guacamole_docker_image: guacamole/guacamole:0.9.14
 guacamole_guacd_docker_image: guacamole/guacd:0.9.14
 guacamole_data_directory: "{{ docker_home }}/guacamole"
+guacamole_subdomain: "guacamole"
 
 ###
 ### Miniflux
@@ -561,12 +577,14 @@ miniflux_available_externally: "false"
 miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
 miniflux_admin_password: supersecure
+miniflux_subdomain: "miniflux"
 
 ###
 ### Airsonic
 ###
 airsonic_available_externally: "false"
 airsonic_data_directory: "{{ docker_home }}/airsonic"
+airsonic_subdomain: "airsonic"
 
 ###
 ### CloudCmd
@@ -576,6 +594,7 @@ cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
 cloudcmd_browse_directory: "/"
 cloudcmd_user_id: "0"
 cloudcmd_group_id: "0"
+cloudcmd_subdomain: "cloudcmd"
 
 ###
 ### Watchtower
@@ -615,8 +634,11 @@ minidlna_friendly_name: "{{ ansible_nas_hostname }}"
 ###
 ### get_iplayer
 ###
+get_iplayer_avaliable_externally: "false"
 get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
 get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
+get_iplayer_subdomain: "get_iplayer"
+get_iplayer_port: "8182"
 
 ###
 ### mymediaforalexa
@@ -629,18 +651,21 @@ mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 ###
 jackett_available_externally: "false"
 jackett_data_directory: "{{ docker_home }}/jackett"
+jackett_subdomain: "jackett"
 
 ###
 ### The Lounge
 ###
 thelounge_available_externally: "false"
 thelounge_data_directory: "{{ docker_home }}/thelounge"
+thelounge_subdomain: "thelounge"
 
 ###
 ### Bitwarden
 ###
 bitwarden_available_externally: "false"
 bitwarden_data_directory: "{{ docker_home }}/bitwarden"
+bitwarden_subdomain: "bitwarden"
 
 # Keep this token secret, this is password to access admin area of your server!
 # This token can be anything, but it's recommended to use a long, randomly generated string of characters,
@@ -657,6 +682,7 @@ bitwarden_allow_signups: false
 ###
 firefly_available_externally: "false"
 firefly_data_directory: "{{ docker_home }}/firefly"
+firefly_subdomain: "firefly"
 
 ###
 ### Nzbget
@@ -666,12 +692,14 @@ nzbget_data_directory: "{{ docker_home }}/nzbget"
 nzbget_download_directory: "{{ downloads_root }}"
 nzbget_user_id: "0"
 nzbget_group_id: "0"
+nzbget_subdomain: "nzbget"
 
 ###
 ### Wallabag
 ###
 wallabag_available_externally: "false"
 wallabag_data_directory: "{{ docker_home }}/wallabag"
+wallabag_subdomain: "wallabag"
 
 ###
 ### Mosquitto
@@ -686,6 +714,7 @@ calibre_available_externally: "false"
 calibre_data_directory: "{{ docker_home }}/calibre"
 calibre_user_id: "0"
 calibre_group_id: "0"
+calibre_subdomain: "calibre"
 # To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
 calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 
@@ -694,6 +723,7 @@ calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 ###
 homeassistant_available_externally: "false"
 homeassistant_data_directory: "{{ docker_home }}/homeassistant"
+homeassistant_subdomain: "homeassistant"
 
 ###
 ### openHAB
@@ -701,6 +731,7 @@ homeassistant_data_directory: "{{ docker_home }}/homeassistant"
 openhab_available_externally: "false"
 openhab_docker_image: openhab/openhab:latest
 openhab_data_directory: "{{ docker_home }}/openhab"
+openhab_subdomain: "openhab"
 
 ###
 ### Jellyfin
@@ -715,6 +746,7 @@ jellyfin_tv_directory: "{{ tv_root }}"
 jellyfin_tv_permissions: "rw"
 jellyfin_user_id: "0"
 jellyfin_group_id: "0"
+jellyfin_subdomain: "jellyfin"
 
 ###
 ### Ubooquity
@@ -723,3 +755,4 @@ ubooquity_available_externally: "false"
 ubooquity_data_directory: "{{ docker_home }}/ubooquity"
 ubooquity_user_id: "0"
 ubooquity_group_id: "0"
+ubooquity_subdomain: "ubooquity"

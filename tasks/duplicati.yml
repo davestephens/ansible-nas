@@ -22,6 +22,6 @@
     memory: 1g
     labels:
       traefik.backend: "duplicati"
-      traefik.frontend.rule: "Host:duplicati.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ duplicati_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ duplicati_available_externally }}"
       traefik.port: "8200"

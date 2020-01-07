@@ -24,6 +24,6 @@
     memory: 1g
     labels:
       traefik.backend: "cloudcmd"
-      traefik.frontend.rule: "Host:cloudcmd.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ cloudcmd_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ cloudcmd_available_externally }}"
       traefik.port: "8000"

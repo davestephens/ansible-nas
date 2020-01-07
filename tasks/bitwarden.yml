@@ -21,10 +21,10 @@
       LOG_FILE: "/data/bitwarden.log"
       WEBSOCKET_ENABLED: "true"
     labels:
-      traefik.web.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }}"
+      traefik.web.frontend.rule: "Host:{{ bitwarden_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ bitwarden_available_externally }}"
       traefik.web.port: "80"
-      traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
+      traefik.hub.frontend.rule: "Host:{{ bitwarden_subdomain }}.{{ ansible_nas_domain }};Path:/notifications/hub"
       traefik.hub.port: "3012"
       traefik.hub.protocol: "ws"
     restart_policy: unless-stopped

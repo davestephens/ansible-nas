@@ -25,6 +25,6 @@
     memory: 1g
     labels:
       traefik.backend: "jellyfin"
-      traefik.frontend.rule: "Host:jellyfin.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ jellyfin_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ jellyfin_available_externally }}"
       traefik.port: "8096"

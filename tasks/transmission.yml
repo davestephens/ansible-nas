@@ -29,6 +29,6 @@
     memory: 1g
     labels:
       traefik.backend: "transmission"
-      traefik.frontend.rule: "Host:transmission.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ transmission_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ transmission_available_externally }}"
       traefik.port: "9091"

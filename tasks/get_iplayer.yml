@@ -15,7 +15,11 @@
       - "{{ get_iplayer_config_directory }}:/root/.get_iplayer:rw"
       - "{{ get_iplayer_download_directory }}:/root/output:rw"
     ports:
-      - "8182:8181"
+      - "{{ get_iplayer_port }}:8181"
     restart_policy: unless-stopped
     memory: 1g
-
+    labels:
+      traefik.backend: "get_iplayer"
+      traefik.frontend.rule: "Host:{{ get_iplayer_subdomain }}.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ get_iplayer_available_externally }}"
+      traefik.port: "{{ get_iplayer_port }}"

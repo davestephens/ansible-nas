@@ -69,6 +69,6 @@
     memory: 1g
     labels:
       traefik.backend: "gitea"
-      traefik.frontend.rule: "Host:gitea.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ gitea_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ gitea_available_externally }}"
       traefik.port: "3000"
