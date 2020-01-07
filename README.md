@@ -96,37 +96,9 @@ Ansible NAS doesn't set up your disk partitions, primarily because getting it wr
 That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be
 gained by automating it. Check out the [docs](https://davestephens.github.io/ansible-nas) for recommended setups.
 
-## Quick Start
+## Installation
 
-:skull: Before running anything, check out the playbook and understand what it
-does. Run it against a VM and make sure you're happy. ***Do not*** blindly
-download code from the internet and trust that it's going to work as you expect.
-:skull:
-
-
-1. Enable the Ubuntu Universe repository:
-
-    `sudo add-apt-repository universe`
-
-2. Install Ansible:
-
-    `sudo apt install ansible`
-
-3. Clone Ansible-NAS:
-
-    `git clone https://github.com/davestephens/ansible-nas.git && cd ansible-nas`
-
-4. Create your own inventory and config files by copying `inventories/sample` to your own directory:
-
-    `cp -rfp inventories/sample inventories/my-ansible-nas`
-
-5. Review `group_vars/all.yml`. Change settings by overriding them in `inventories/my-ansible-nas/group_vars/all.yml`.
-
-6. Update `inventories/my-ansible-nas/inventory`.
-
-7. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles).
-
-8. Run the playbook - something like `ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K` should do you nicely.
+See [Installation](https://davestephens.github.io/ansible-nas/installation/).
 
 ## Upgrading
 
