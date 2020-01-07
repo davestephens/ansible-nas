@@ -11,7 +11,7 @@
   copy:
     src: files/thelounge/users/admin.json
     dest: "{{ thelounge_data_directory }}/users/admin.json"
-    mode: 0777
+    mode: "0777"
 
 - name: The Lounge Docker Container
   docker_container:
@@ -24,8 +24,8 @@
     volumes:
       - "{{ thelounge_data_directory }}:/var/opt/thelounge"
       - "/var/run/dbus:/var/run/dbus"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ thelounge_restart_policy }}}"
+    memory: "{{ thelounge_memory_limit }}"
     labels:
       traefik.backend: "thelounge"
       traefik.frontend.rule: "Host:thelounge.{{ ansible_nas_domain }}"

@@ -30,5 +30,5 @@
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ traefik_restart_policy }}"
+    memory: "{{ traefik_memory_limit }}"

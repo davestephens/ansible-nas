@@ -18,10 +18,10 @@
     volumes:
       - "{{ timemachine_data_directory }}/data:/backups"
     ulimits:
-      - "nofile:1048576:1048576"
+      - "{{ timemachine_ulimits }}"
     network_mode: bridge
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ timemachine_restart_policy }}}"
+    memory: "{{ timemachine_memory_limit }}"
 
 - name: Install avahi
   apt:
@@ -32,7 +32,7 @@
 
 - name: Setup timemachine service for avahi
   template:
-    src: timemachine/timemachine.service
+    src: "timemachine/timemachine.service"
     dest: "/etc/avahi/services/timemachine.service"
 
 - name: Reload avahi configuration

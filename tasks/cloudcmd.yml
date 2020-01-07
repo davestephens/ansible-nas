@@ -20,8 +20,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ cloudcmd_user_id }}"
       PGID: "{{ cloudcmd_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ cloudcmd_restart_policy }}}"
+    memory: "{{ cloudcmd_memory_limit }}"
     labels:
       traefik.backend: "cloudcmd"
       traefik.frontend.rule: "Host:cloudcmd.{{ ansible_nas_domain }}"

@@ -29,10 +29,10 @@
       - "{{ influxdb_data_directory }}:/var/lib/influxdb:rw"
     ports:
       - "8086:8086"
-    restart_policy: unless-stopped
+    restart_policy: "{{ stats_influxdb_restart_policy }}"
     env:
       INFLUXDB_LOGGING_LEVEL: "error"
-    memory: 1g
+    memory: "{{ stats_influxdb_memory_limit }}"
 
 - name: Template telegraf.conf
   template:
@@ -47,8 +47,8 @@
     volumes:
       - "{{ telegraf_data_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ telegraf_restart_policy }}"
+    memory: "{{ telegraf_memory_limit }}"
 
 - name: Template Grafana data source
   template:
@@ -65,8 +65,8 @@
       - "{{ grafana_data_directory }}/config/provisioning:/etc/grafana/provisioning:ro"
     ports:
       - "3000:3000"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ grafana_restart_policy }}"
+    memory: "{{ grafana_memory_limit }}"
     labels:
       traefik.backend: "grafana"
       traefik.frontend.rule: "Host:grafana.{{ ansible_nas_domain }}"

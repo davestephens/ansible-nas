@@ -43,8 +43,8 @@
       - /dev/net/tun
     capabilities:
       - NET_ADMIN
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ transmission_openvpn_restart_policy }}}"
+    memory: "{{ transmission_openvpn_memory_limit }}"
     labels:
       traefik.backend: "transmission-openvpn"
       traefik.frontend.rule: "Host:transmission-openvpn.{{ ansible_nas_domain }}"

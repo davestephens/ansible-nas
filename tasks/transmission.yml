@@ -25,8 +25,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ transmission_user_id }}"
       PGID: "{{ transmission_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ transmission_restart_policy }}}"
+    memory: "{{ transmission_memory_limit }}"
     labels:
       traefik.backend: "transmission"
       traefik.frontend.rule: "Host:transmission.{{ ansible_nas_domain }}"

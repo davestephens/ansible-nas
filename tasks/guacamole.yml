@@ -8,13 +8,13 @@
 
 - name: Copy Guacamole database init script
   copy:
-    src: files/guacamole/initdb-0.9.14.sql
+    src: "files/guacamole/initdb-0.9.14.sql"
     dest: "{{ guacamole_data_directory }}/initdb-0.9.14.sql"
 
 - name: Guacamole Mysql Docker Container
   docker_container:
     name: guacamole-mysql
-    image: mysql:5.7
+    image: "mysql:5.7"
     pull: true
     volumes:
       - "{{ guacamole_data_directory }}/mysql:/var/lib/mysql:rw"
@@ -24,16 +24,16 @@
       MYSQL_USER: "guacamole-user"
       MYSQL_PASSWORD: "guacamole-pass"
       MYSQL_ROOT_PASSWORD: "guacamole-secret"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ guacamole_mysql_restart_policy }}}"
+    memory: "{{ guacamole_mysql_memory_limit }}"
 
 - name: Guacamole guacd Container
   docker_container:
     name: guacamole-guacd
     image: "{{ guacamole_guacd_docker_image }}"
     pull: true
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ guacamole_guacd_restart_policy }}}"
+    memory: "{{ guacamole_guacd_memory_limit }}"
 
 - name: Guacamole guacamole Container
   docker_container:
@@ -49,8 +49,8 @@
       MYSQL_DATABASE: "guacamole"
       MYSQL_USER: "guacamole-user"
       MYSQL_PASSWORD: "guacamole-pass"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ guacamole_restart_policy }}}"
+    memory: "{{ guacamole_memory_limit }}"
     labels:
       traefik.backend: "guacamole"
       traefik.frontend.rule: "Host:guacamole.{{ ansible_nas_domain }}"

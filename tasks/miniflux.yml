@@ -15,8 +15,8 @@
     env:
       POSTGRES_USER: "miniflux"
       POSTGRES_PASSWORD: "supersecure"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ miniflux_postgres_restart_policy }}}"
+    memory: "{{ miniflux_postgres_memory_limit }}"
 
 - name: Create Miniflux container
   docker_container:
@@ -33,8 +33,8 @@
       CREATE_ADMIN: "1"
       ADMIN_USERNAME: "{{ miniflux_admin_username }}"
       ADMIN_PASSWORD: "{{ miniflux_admin_password }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ miniflux_restart_policy }}}"
+    memory: "{{ miniflux_memory_limit }}"
     labels:
       traefik.backend: "miniflux"
       traefik.frontend.rule: "Host:miniflux.{{ ansible_nas_domain }}"

@@ -2,7 +2,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: 0777
+    mode: "0777"
   with_items:
     - "{{ mosquitto_data_directory }}/config"
     - "{{ mosquitto_data_directory }}/data"
@@ -25,5 +25,5 @@
     ports:
       - "1883:1883"
       - "9001:9001"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ mosquitto_restart_policy }}}"
+    memory: "{{ mosquitto_memory_limit }}"

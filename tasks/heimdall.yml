@@ -2,13 +2,13 @@
 - name: Create Heimdall group
   group:
     name: heimdall
-    gid: 1310
+    gid: "1310"
     state: present
 
 - name: Create Heimdall user
   user:
     name: heimdall
-    uid: 1310
+    uid: "1310"
     state: present
     system: yes
     update_password: on_create
@@ -38,8 +38,8 @@
     ports:
       - "10080:80"
       - "10443:443"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ heimdall_restart_policy }}"
+    memory: "{{ heimdall_memory_limit }}"
     labels:
       traefik.backend: "heimdall"
       traefik.frontend.rule: "Host:heimdall.{{ ansible_nas_domain }}"

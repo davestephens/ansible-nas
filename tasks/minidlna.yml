@@ -14,5 +14,5 @@
       MINIDLNA_FRIENDLY_NAME: "{{ minidlna_friendly_name }}"
       MINIDLNA_PORT: "8201"
     network_mode: host
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ minidlna_restart_policy }}}"
+    memory: "{{ minidlna_memory_limit }}"

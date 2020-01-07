@@ -19,8 +19,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ lidarr_user_id }}"
       PGID: "{{ lidarr_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ lidarr_restart_policy }}}"
+    memory: "{{ lidarr_memory_limit }}"
     labels:
       traefik.backend: "lidarr"
       traefik.frontend.rule: "Host:lidarr.{{ ansible_nas_domain }}"

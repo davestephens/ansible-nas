@@ -21,8 +21,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ radarr_user_id }}"
       PGID: "{{ radarr_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ radarr_restart_policy }}}"
+    memory: "{{ radarr_memory_limit }}"
     labels:
       traefik.backend: "radarr"
       traefik.frontend.rule: "Host:radarr.{{ ansible_nas_domain }}"

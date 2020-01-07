@@ -16,7 +16,7 @@
 - name: create docker home
   file:
     path: "{{ docker_home }}"
-    mode: 0755
+    mode: "0755"
     state: directory
 
 - name: add user account to docker group

@@ -20,8 +20,8 @@
       - "{{ samba_shares_root }}/podcasts:/airsonic/podcasts:rw"
     ports:
       - "4040:4040"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ airsonic_restart_policy }}}"
+    memory: "{{ airsonic_memory_limit }}"
     labels:
       traefik.backend: "airsonic"
       traefik.frontend.rule: "Host:airsonic.{{ ansible_nas_domain }}"

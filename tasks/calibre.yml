@@ -20,10 +20,10 @@
       DOCKER_MODS: "{{ calibre_ebook_conversion }}"
     ports:
       - "8084:8083"
-    restart_policy: unless-stopped
+    restart_policy: "{{ calibre_restart_policy }}}"
     labels:
       traefik.backend: "calibre"
       traefik.frontend.rule: "Host:calibre.{{ ansible_nas_domain }}"
       traefik.enable: "{{ calibre_available_externally }}"
       traefik.port: "8083"
-    memory: 1g
+    memory: "{{ calibre_memory_limit }}"

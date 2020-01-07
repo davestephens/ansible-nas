@@ -22,8 +22,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ emby_user_id }}"
       PGID: "{{ emby_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ emby_restart_policy }}}"
+    memory: "{{ emby_memory_limit }}"
     labels:
       traefik.backend: "emby"
       traefik.frontend.rule: "Host:emby.{{ ansible_nas_domain }}"

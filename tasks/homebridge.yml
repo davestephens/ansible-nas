@@ -20,8 +20,8 @@
       PUID: "{{ homebridge_user_id }}"
       HOMEBRIDGE_CONFIG_UI: "1"
       HOMEBRIDGE_CONFIG_UI_PORT: "8087"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ homebridge_restart_policy }}}"
+    memory: "{{ homebridge_memory_limit }}"
     labels:
       traefik.backend: "homebridge"
       traefik.frontend.rule: "Host:homebridge.{{ ansible_nas_domain }}"

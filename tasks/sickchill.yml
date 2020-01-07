@@ -28,8 +28,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ sickchill_user_id }}"
       PGID: "{{ sickchill_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ sickchill_restart_policy }}}"
+    memory: "{{ sickchill_memory_limit }}"
     labels:
       traefik.backend: "sickchill"
       traefik.frontend.rule: "Host:sickchill.{{ ansible_nas_domain }}"

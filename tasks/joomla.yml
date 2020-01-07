@@ -18,8 +18,8 @@
       MYSQL_DATABASE: "joomla"
       MYSQL_USER: "joomla"
       MYSQL_ROOT_PASSWORD: "{{ joomla_database_password }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ XXX_restart_policy }}}"
+    memory: "{{ XXX_memory_limit }}"
 
 - name: Joomla Docker Container
   docker_container:
@@ -36,8 +36,8 @@
       JOOMLA_DB_HOST: "mysql"
       JOOMLA_DB_USER: "root"
       JOOMLA_DB_PASSWORD: "{{ joomla_database_password }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ joomla_restart_policy }}}"
+    memory: "{{ joomla_memory_limit }}"
     labels:
       traefik.backend: "joomla"
       traefik.frontend.rule: "Host: joomla.{{ ansible_nas_domain }}"

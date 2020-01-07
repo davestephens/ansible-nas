@@ -18,7 +18,8 @@
       - "9117:9117"
     env:
       TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: unless-stopped
+    restart_policy: "{{ jackett_restart_policy }}}"
+    memory_limit: "{{ jackett_memory_limit }}"
     labels:
       traefik.backend: "jackett"
       traefik.frontend.rule: "Host:jackett.{{ ansible_nas_domain }}"

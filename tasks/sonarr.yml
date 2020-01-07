@@ -21,8 +21,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ sonarr_user_id }}"
       PGID: "{{ sonarr_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ sonarr_restart_policy }}}"
+    memory: "{{ sonarr_memory_limit }}"
     labels:
       traefik.backend: "sonarr"
       traefik.frontend.rule: "Host:sonarr.{{ ansible_nas_domain }}"

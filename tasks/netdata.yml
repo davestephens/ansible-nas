@@ -23,8 +23,8 @@
       - SYS_PTRACE
     security_opts:
       - apparmor:unconfined
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ netdata_restart_policy }}}"
+    memory: "{{ netdata_memory_limit }}"
     labels:
       traefik.backend: "netdata"
       traefik.frontend.rule: "Host:netdata.{{ ansible_nas_domain }}"

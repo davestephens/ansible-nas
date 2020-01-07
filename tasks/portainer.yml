@@ -17,8 +17,8 @@
       - "/etc/timezone:/etc/timezone:ro"
     ports:
       - "9000:9000"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ portainer_restart_policy }}}"
+    memory: "{{ portainer_memory_limit }}"
     labels:
       traefik.backend: "portainer"
       traefik.frontend.rule: "Host:portainer.{{ ansible_nas_domain }}"

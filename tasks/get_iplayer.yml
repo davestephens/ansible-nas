@@ -16,6 +16,6 @@
       - "{{ get_iplayer_download_directory }}:/root/output:rw"
     ports:
       - "8182:8181"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ get_iplayer_restart_policy }}}"
+    memory: "{{ get_iplayer_memory_limit }}"
 

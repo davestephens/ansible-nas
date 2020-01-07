@@ -11,7 +11,7 @@
 - name: Create MySQL container for Firefly
   docker_container:
     name: firefly-mysql
-    image: mysql:5.7
+    image: "mysql:5.7"
     pull: true
     volumes:
       - "{{ firefly_data_directory }}/mysql:/var/lib/mysql:rw"
@@ -20,12 +20,12 @@
       MYSQL_USER: "firefly"
       MYSQL_PASSWORD: "firefly"
       MYSQL_ROOT_PASSWORD: "firefly"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ firefly_mysql_restart_policy }}}"
+    memory: "{{ firefly_mysql_memory_limit }}"
 
 - name: Wait for MySQL to init
   pause:
-    seconds: 30
+    seconds: "30"
 
 - name: Create Firefly III container
   docker_container:
@@ -47,8 +47,8 @@
       DB_USERNAME: "firefly"
       DB_PASSWORD: "firefly"
       TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ firefly_restart_policy }}}"
+    memory: "{{ firefly_memory_limit }}"
     labels:
       traefik.backend: "firefly"
       traefik.frontend.rule: "Host:firefly.{{ ansible_nas_domain }}"

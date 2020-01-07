@@ -21,8 +21,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ bazarr_user_id }}"
       PGID: "{{ bazarr_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ bazarr_restart_policy }}}"
+    memory: "{{ bazarr_memory_limit }}"
     labels:
       traefik.backend: "bazarr"
       traefik.frontend.rule: "Host:bazarr.{{ ansible_nas_domain }}"

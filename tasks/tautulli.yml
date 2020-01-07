@@ -18,8 +18,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ tautulli_user_id }}"
       PGID: "{{ tautulli_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    restart_policy: "{{ tautulli_restart_policy }}}"
+    memory: "{{ tautulli_memory_limit }}"
     labels:
       traefik.backend: "tautulli"
       traefik.frontend.rule: "Host:tautulli.{{ ansible_nas_domain }}"
