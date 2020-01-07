@@ -25,5 +25,5 @@
     ports:
       - "1883:1883"
       - "9001:9001"
-    restart_policy: "{{ mosquitto_restart_policy }}}"
+    restart_policy: "{{ mosquitto_restart_policy }}"
     memory: "{{ mosquitto_memory_limit }}"

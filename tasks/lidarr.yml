@@ -19,7 +19,7 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ lidarr_user_id }}"
       PGID: "{{ lidarr_group_id }}"
-    restart_policy: "{{ lidarr_restart_policy }}}"
+    restart_policy: "{{ lidarr_restart_policy }}"
     memory: "{{ lidarr_memory_limit }}"
     labels:
       traefik.backend: "lidarr"

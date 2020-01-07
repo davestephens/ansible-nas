@@ -24,7 +24,7 @@
     volumes:
       - "{{ thelounge_data_directory }}:/var/opt/thelounge"
       - "/var/run/dbus:/var/run/dbus"
-    restart_policy: "{{ thelounge_restart_policy }}}"
+    restart_policy: "{{ thelounge_restart_policy }}"
     memory: "{{ thelounge_memory_limit }}"
     labels:
       traefik.backend: "thelounge"

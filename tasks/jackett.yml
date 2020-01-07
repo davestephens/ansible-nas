@@ -18,7 +18,7 @@
       - "9117:9117"
     env:
       TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: "{{ jackett_restart_policy }}}"
+    restart_policy: "{{ jackett_restart_policy }}"
     memory_limit: "{{ jackett_memory_limit }}"
     labels:
       traefik.backend: "jackett"

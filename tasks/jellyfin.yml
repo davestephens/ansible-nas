@@ -21,7 +21,7 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ jellyfin_user_id }}"
       PGID: "{{ jellyfin_group_id }}"
-    restart_policy: "{{ jellyfin_restart_policy }}}"
+    restart_policy: "{{ jellyfin_restart_policy }}"
     memory: "{{ jellyfin_memory_limit }}"
     labels:
       traefik.backend: "jellyfin"

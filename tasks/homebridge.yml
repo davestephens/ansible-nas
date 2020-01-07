@@ -20,7 +20,7 @@
       PUID: "{{ homebridge_user_id }}"
       HOMEBRIDGE_CONFIG_UI: "1"
       HOMEBRIDGE_CONFIG_UI_PORT: "8087"
-    restart_policy: "{{ homebridge_restart_policy }}}"
+    restart_policy: "{{ homebridge_restart_policy }}"
     memory: "{{ homebridge_memory_limit }}"
     labels:
       traefik.backend: "homebridge"

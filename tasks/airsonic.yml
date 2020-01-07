@@ -20,7 +20,7 @@
       - "{{ samba_shares_root }}/podcasts:/airsonic/podcasts:rw"
     ports:
       - "4040:4040"
-    restart_policy: "{{ airsonic_restart_policy }}}"
+    restart_policy: "{{ airsonic_restart_policy }}"
     memory: "{{ airsonic_memory_limit }}"
     labels:
       traefik.backend: "airsonic"

@@ -18,7 +18,7 @@
       - "7780:80"
     env:
       SYMFONY__ENV__DOMAIN_NAME: "https://wallabag.{{ ansible_nas_domain }}"
-    restart_policy: "{{ wallabag_restart_policy }}}"
+    restart_policy: "{{ wallabag_restart_policy }}"
     labels:
       traefik.backend: "wallabag"
       traefik.frontend.rule: "Host:wallabag.{{ ansible_nas_domain }}"

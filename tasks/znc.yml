@@ -19,7 +19,7 @@
     env:
       PUID: "{{ znc_user_id }}"
       PGID: "{{ znc_group_id }}"
-    restart_policy: "{{ znc_restart_policy }}}"
+    restart_policy: "{{ znc_restart_policy }}"
     memory: "{{ znc_memory_limit }}"
     labels:
       traefik.backend: "znc"

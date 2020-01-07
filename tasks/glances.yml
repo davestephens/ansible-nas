@@ -14,7 +14,7 @@
     network_mode: host
     env:
       GLANCES_OPT: "-w"
-    restart_policy: "{{ glances_restart_policy }}}"
+    restart_policy: "{{ glances_restart_policy }}"
     memory: "{{ glances_memory_limit }}"
     labels:
       traefik.backend: "glances"

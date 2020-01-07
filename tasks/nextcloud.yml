@@ -19,7 +19,7 @@
       MYSQL_USER: "nextcloud-user"
       MYSQL_PASSWORD: "nextcloud-pass"
       MYSQL_ROOT_PASSWORD: "nextcloud-secret"
-    restart_policy: "{{ nextcloud_mysql_restart_policy }}}"
+    restart_policy: "{{ nextcloud_mysql_restart_policy }}"
     memory: "{{ nextcloud_mysql_memory_limit }}"
 
 - name: Nextcloud Docker Container
@@ -39,7 +39,7 @@
       MYSQL_USER: "nextcloud-user"
       MYSQL_PASSWORD: "nextcloud-pass"
       NEXTCLOUD_TRUSTED_DOMAINS: "nextcloud.{{ ansible_nas_domain }}"
-    restart_policy: "{{ nextcloud_restart_policy }}}"
+    restart_policy: "{{ nextcloud_restart_policy }}"
     memory: "{{ nextcloud_memory_limit }}"
     labels:
       traefik.backend: "nextcloud"

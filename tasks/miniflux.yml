@@ -15,7 +15,7 @@
     env:
       POSTGRES_USER: "miniflux"
       POSTGRES_PASSWORD: "supersecure"
-    restart_policy: "{{ miniflux_postgres_restart_policy }}}"
+    restart_policy: "{{ miniflux_postgres_restart_policy }}"
     memory: "{{ miniflux_postgres_memory_limit }}"
 
 - name: Create Miniflux container
@@ -33,7 +33,7 @@
       CREATE_ADMIN: "1"
       ADMIN_USERNAME: "{{ miniflux_admin_username }}"
       ADMIN_PASSWORD: "{{ miniflux_admin_password }}"
-    restart_policy: "{{ miniflux_restart_policy }}}"
+    restart_policy: "{{ miniflux_restart_policy }}"
     memory: "{{ miniflux_memory_limit }}"
     labels:
       traefik.backend: "miniflux"

@@ -18,7 +18,7 @@
       - "{{ samba_shares_root }}:/source/shares:ro"
       - "{{ docker_home }}:/source/docker:ro"
       - "/etc/timezone:/etc/timezone:ro"
-    restart_policy: "{{ duplicati_restart_policy }}}"
+    restart_policy: "{{ duplicati_restart_policy }}"
     memory: "{{ duplicati_memory_limit }}"
     labels:
       traefik.backend: "duplicati"

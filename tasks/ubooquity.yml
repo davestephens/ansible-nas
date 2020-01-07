@@ -24,7 +24,7 @@
     ports:
       - "2202:2202"
       - "2203:2203"
-    restart_policy: "{{ ubooquity_restart_policy }}}"
+    restart_policy: "{{ ubooquity_restart_policy }}"
     labels:
       traefik.backend:  "ubooquity"
       traefik.frontend.rule: "Host:ubooquity.{{ ansible_nas_domain }}"

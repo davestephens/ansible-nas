@@ -20,7 +20,7 @@
     ulimits:
       - "{{ timemachine_ulimits }}"
     network_mode: bridge
-    restart_policy: "{{ timemachine_restart_policy }}}"
+    restart_policy: "{{ timemachine_restart_policy }}"
     memory: "{{ timemachine_memory_limit }}"
 
 - name: Install avahi

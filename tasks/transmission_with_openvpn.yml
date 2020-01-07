@@ -43,7 +43,7 @@
       - /dev/net/tun
     capabilities:
       - NET_ADMIN
-    restart_policy: "{{ transmission_openvpn_restart_policy }}}"
+    restart_policy: "{{ transmission_openvpn_restart_policy }}"
     memory: "{{ transmission_openvpn_memory_limit }}"
     labels:
       traefik.backend: "transmission-openvpn"

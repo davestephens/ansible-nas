@@ -42,7 +42,7 @@
     env:
       OPENHAB_HTTP_PORT: "7777"
       OPENHAB_HTTPS_PORT: "7778"
-    restart_policy: "{{ openhab_restart_policy }}}"
+    restart_policy: "{{ openhab_restart_policy }}"
     memory: "{{ openhab_memory_limit }}"
     labels:
       traefik.backend: "openhab"

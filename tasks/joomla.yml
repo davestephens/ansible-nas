@@ -18,7 +18,7 @@
       MYSQL_DATABASE: "joomla"
       MYSQL_USER: "joomla"
       MYSQL_ROOT_PASSWORD: "{{ joomla_database_password }}"
-    restart_policy: "{{ XXX_restart_policy }}}"
+    restart_policy: "{{ XXX_restart_policy }}"
     memory: "{{ XXX_memory_limit }}"
 
 - name: Joomla Docker Container
@@ -36,7 +36,7 @@
       JOOMLA_DB_HOST: "mysql"
       JOOMLA_DB_USER: "root"
       JOOMLA_DB_PASSWORD: "{{ joomla_database_password }}"
-    restart_policy: "{{ joomla_restart_policy }}}"
+    restart_policy: "{{ joomla_restart_policy }}"
     memory: "{{ joomla_memory_limit }}"
     labels:
       traefik.backend: "joomla"

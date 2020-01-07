@@ -22,7 +22,7 @@
       - "{{ nginx_data_directory }}/vhost.d:/etc/nginx/vhost.d:rw"
       - "{{ nginx_data_directory }}/html:/usr/share/nginx/html:rw"
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-    restart_policy: "{{ XXX_restart_policy }}}"
+    restart_policy: "{{ XXX_restart_policy }}"
     memory: "{{ XXX_memory_limit }}"
 
 - name: Nginx Letsencrypt Container
@@ -34,5 +34,5 @@
       - "{{ nginx_data_directory }}/certs:/etc/nginx/certs:rw"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     volumes_from: nginx-proxy
-    restart_policy: "{{ nginx_restart_policy }}}"
+    restart_policy: "{{ nginx_restart_policy }}"
     memory: "{{ nginx_memory_limit }}"

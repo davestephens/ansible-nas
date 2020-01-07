@@ -38,7 +38,7 @@
       MYSQL_USER: "gitea"
       MYSQL_PASSWORD: "gitea"
       MYSQL_ROOT_PASSWORD: "gitea"
-    restart_policy: "{{ gitea_mysql_restart_policy }}}"
+    restart_policy: "{{ gitea_mysql_restart_policy }}"
     memory: "{{ gitea_mysql_memory_limit }}"
 
 - name: Create Gitea container
@@ -65,7 +65,7 @@
       ROOT_URL: "http://{{ ansible_nas_hostname }}:3001/"
       USER_UID: "1309"
       USER_GID: "1309"
-    restart_policy: "{{ gitea_restart_policy }}}"
+    restart_policy: "{{ gitea_restart_policy }}"
     memory: "{{ gitea_memory_limit }}"
     labels:
       traefik.backend: "gitea"

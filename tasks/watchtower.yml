@@ -9,5 +9,5 @@
     env:
       TZ: "{{ ansible_nas_timezone }}"
     command: "{{ watchtower_command }}"
-    restart_policy: "{{ watchtower_restart_policy }}}"
+    restart_policy: "{{ watchtower_restart_policy }}"
     memory: "{{ watchtower_memory_limit }}"

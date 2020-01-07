@@ -15,6 +15,6 @@
       - "{{ mymediaforalexa_media_directory }}:/medialibrary:rw"
       - "{{ mymediaforalexa_data_directory }}:/datadir:rw"
     network_mode: host
-    restart_policy: "{{ mymediaforalexa_restart_policy }}}"
+    restart_policy: "{{ mymediaforalexa_restart_policy }}"
     memory: "{{ mymediaforalexa_memory_limit }}"
 

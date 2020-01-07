@@ -34,5 +34,5 @@
       - /dev/net/tun
     capabilities:
       - NET_ADMIN
-    restart_policy: "{{ vpn_restart_policy }}}"
+    restart_policy: "{{ vpn_restart_policy }}"
     memory: "{{ vpn_memory_limit }}"

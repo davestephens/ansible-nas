@@ -20,7 +20,7 @@
       MYSQL_USER: "firefly"
       MYSQL_PASSWORD: "firefly"
       MYSQL_ROOT_PASSWORD: "firefly"
-    restart_policy: "{{ firefly_mysql_restart_policy }}}"
+    restart_policy: "{{ firefly_mysql_restart_policy }}"
     memory: "{{ firefly_mysql_memory_limit }}"
 
 - name: Wait for MySQL to init
@@ -47,7 +47,7 @@
       DB_USERNAME: "firefly"
       DB_PASSWORD: "firefly"
       TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: "{{ firefly_restart_policy }}}"
+    restart_policy: "{{ firefly_restart_policy }}"
     memory: "{{ firefly_memory_limit }}"
     labels:
       traefik.backend: "firefly"
