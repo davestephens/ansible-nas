@@ -935,8 +935,8 @@
                 <h1 id="upgrading-ansible-nas">Upgrading Ansible-NAS</h1>
 <h2 id="upgrading-from-prior-to-january-2020-allymldist-config-style">Upgrading from prior to January 2020 (<code>all.yml.dist</code> config style)</h2>
 <p>If you're upgrading from <a href="https://github.com/davestephens/ansible-nas/commit/52c7fef3aba08e30331931747c81fb7b3bfd359a">this</a> commit or earlier, these instructions are relevant to you.</p>
-<p>Rather than having to merge every new config line into your own <code>all.yml</code> file, now you only need to maintain the differences that are relevant to you in your own <code>all.yml</code>, stored within an inventory directory. Your inventory <code>all.yml</code> takes prescendence over <code>group_vars/all.yml</code>, which is how this setup works. <code>group_vars/all.yml</code> is now tracked as part of the repo.</p>
-<p>This will make updates from <code>master</code> much simpler, as there will be no requirement to merge changes from <code>all.yml.dist</code> into your own <code>all.yml</code> any more. You simply pull from master, then add the bits you're interested in into your inventory <code>all.yml</code>.</p>
+<p>Rather than having to merge every new config line into your own <code>all.yml</code> file, now you only need to maintain the differences that are relevant to you in your own <code>nas.yml</code>, stored within an inventory directory. Your inventory <code>nas.yml</code> takes prescendence over <code>group_vars/all.yml</code>, which is how this setup works. <code>group_vars/all.yml</code> is now tracked as part of the repo.</p>
+<p>This will make updates from <code>master</code> much simpler, as there will be no requirement to merge changes from <code>all.yml.dist</code> into your own <code>all.yml</code> any more. You simply pull from master, then add the bits you're interested in into your inventory <code>nas.yml</code>.</p>
 <p>Instructions to upgrade from prior to January 2020 (<a href="[this](https://github.com/davestephens/ansible-nas/commit/52c7fef3aba08e30331931747c81fb7b3bfd359a)">this</a> commit or earlier):</p>
 <ul>
 <li>
@@ -954,10 +954,10 @@
 <p>Then:</p>
 <ul>
 <li>
-<p><strong>Quick and Dirty:</strong> Copy the contents of your <code>all.yml</code> into <code>inventories/my-ansible-nas/all.yml</code>.</p>
+<p><strong>Quick and Dirty:</strong> Copy the contents of your <code>all.yml</code> into <code>inventories/my-ansible-nas/group_vars/nas.yml</code>.</p>
 </li>
 <li>
-<p><strong>Nice and Tidy:</strong> Copy only the differences between your own <code>all.yml</code> and the distribution <code>group_vars/all.yml</code> into <code>inventories/my-ansible-nas/all.yml</code>. This is likely to be things like <code>ansible_nas_hostname</code>, <code>samba_shares</code>, <code>ansible_nas_timezone</code>, enabled applications, any application tweaks you've made in config etc.</p>
+<p><strong>Nice and Tidy:</strong> Copy only the differences between your own <code>all.yml</code> and the distribution <code>group_vars/all.yml</code> into <code>inventories/my-ansible-nas/group_vars/nas.yml</code>. This is likely to be things like <code>ansible_nas_hostname</code>, <code>samba_shares</code>, <code>ansible_nas_timezone</code>, enabled applications, any application tweaks you've made in config etc.</p>
 </li>
 </ul>
 </li>
