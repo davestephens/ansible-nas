@@ -287,10 +287,6 @@ cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 # Container Settings (You shouldn't need to edit these unless you need to fine tune the container)
 cloudflare_image: "joshava/cloudflare-ddns:latest"
 
-##################################################################
-###### You shouldn't need to edit anything below this point ######
-##################################################################
-
 ###
 ### General
 ###
