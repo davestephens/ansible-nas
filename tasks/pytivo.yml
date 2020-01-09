@@ -1,0 +1,37 @@
+# created by bcurran3 2020/01/04 : last modified by bcurran3 2020/01/04
+
+- name: Create the PyTivo config directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  with_items:
+    - "{{ pytivo_config_directory }}"
+
+- name: PyTivo Docker Container
+  docker_container:
+    name: pytivo
+    image: pinion/docker-pytivo
+    pull: true
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ pytivo_config_directory }}:/config:rw"
+      - "{{ pytivo_movies_directory }}:/movies:ro"
+      - "{{ pytivo_tv_directory }}:/tv:ro"
+      - "{{ pytivo_photos_directory }}:/photos:ro"
+      - "{{ pytivo_music_directory }}:/music:ro"
+      - "{{ pytivo_podcasts_directory }}:/podcasts:ro"
+      - "{{ pytivo_kidsmovies_directory }}:/kidsmovies:ro"
+      - "{{ pytivo_kidstv_directory }}:/kidstv:ro"
+    network_mode: "host"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ pytivo_user_id }}"
+      PGID: "{{ pytivo_group_id }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "pytivo"
+      traefik.frontend.rule: "Host:pytivo.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ pytivo_available_externally }}"
+      traefik.port: "9032"
+      
