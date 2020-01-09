@@ -24,6 +24,7 @@ pyload_enabled: false
 # Media Serving
 plex_enabled: false
 tautulli_enabled: false
+pytivo_enabled: false
 
 # Media Sourcing
 sonarr_enabled: false         # tv
@@ -368,6 +369,19 @@ pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
 pyload_user_id: "0"
 pyload_group_id: "0"
+
+###
+### PyTivo
+###
+pytivo_available_externally: "false"
+pytivo_config_directory: "{{ docker_home }}/pytivo/config"
+pytivo_movies_directory: "{{ movies_root }}"
+pytivo_tv_directory: "{{ tv_root }}"
+pytivo_photos_directory: "{{ photos_root }}"
+pytivo_music_directory: "{{ music_root }}"
+pytivo_podcasts_directory: "{{ podcasts_root }}"
+pytivo_user_id: "0"
+pytivo_group_id: "0"
 
 ###
 ### Plex
