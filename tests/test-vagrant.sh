@@ -4,7 +4,7 @@ PLAYBOOK_DIR=$DIR/..
 
 header() {
     clear
-    cat << "EndOfMessage"
+    cat <<"EndOfMessage"
                      ._____.   .__
 _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
 \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
@@ -17,12 +17,12 @@ EndOfMessage
     sleep 5
 }
 
-log()  {
+log() {
     printf "${TIME_FORMAT} %b\n" "$*";
 }
 
 fatal_error() {
-    printf  "${TIME_FORMAT} \e[41mERROR:\033[0m %b\n" "$*" >&2;
+    printf "${TIME_FORMAT} \e[41mERROR:\033[0m %b\n" "$*" >&2;
     exit 1
 }
 
@@ -33,14 +33,23 @@ test_needs() {
 testing_init() {
     log "Checking Vagrant installation"
     test_needs vagrant
-    log "Copy all.yml.dist to test.yml"
-    cp -f $PLAYBOOK_DIR/group_vars/all.yml.dist $PLAYBOOK_DIR/tests/test.yml
+    log "Copy all.yml to test.yml"
+    cp -f $PLAYBOOK_DIR/group_vars/all.yml $PLAYBOOK_DIR/tests/test.yml
 }
 
 header
 testing_init
 
 log "Starting Vagrant and running playbook"
-vagrant up
+while getopts ":p" opt; do
+    case $opt in
+    p)
+        vagrant up --provision
+        ;;
+    \?)
+        vagrant up
+        ;;
+    esac
+done
 
 log "Vagrant up completed, you can connect to the VM at http://172.30.1.5:10080. When you've finished testing, run 'vagrant destroy' to kill the VM."
