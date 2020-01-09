@@ -1,6 +1,0 @@
-# Example for running it directly on NAS server
-# localhost ansible_connection=local
-
-# Example using from remote workstation
-# [all]
-# 192.168.1.30

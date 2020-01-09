@@ -1,0 +1,18 @@
+##                       ._____.   .__
+##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
+##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
+##   / __ \|   |  \\___ \|  || \_\ \  |_\  ___/  /_____/ |   |  \/ __ \_\___ \
+##  (____  /___|  /____  >__||___  /____/\___  >         |___|  (____  /____  >
+##       \/     \/     \/        \/          \/               \/     \/     \/
+##     a n s i b l e - n a s      https://github.com/davestephens/ansible-nas
+
+
+[all]
+## Example when running from a remote workstation
+# ansible-nas ansible_host=192.168.1.30
+
+## Example when running directly on your Ansible-NAS server
+# ansible-nas ansible_connection=local ansible_host=localhost
+
+[nas]
+ansible-nas
