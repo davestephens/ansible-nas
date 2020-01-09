@@ -284,7 +284,6 @@ cloudflare_email: "{{ ansible_nas_email }}"
 # Cloudflare 'Global API Key', can be found on the 'My Profile' page
 cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 
-
 ###
 ### General
 ###
