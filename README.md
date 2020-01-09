@@ -12,7 +12,6 @@ Ansible config and a bunch of Docker containers.
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
-
 * Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, Lidarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
@@ -31,7 +30,7 @@ Ansible config and a bunch of Docker containers.
 * A dual panel local file manager
 * Self-service media request web application
 
-### Docker Containers Used
+### Available Applications
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
@@ -97,23 +96,13 @@ Ansible NAS doesn't set up your disk partitions, primarily because getting it wr
 That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be
 gained by automating it. Check out the [docs](https://davestephens.github.io/ansible-nas) for recommended setups.
 
-## Quick Start
+## Installation
 
-:skull: Before running anything, check out the playbook and understand what it
-does. Run it against a VM and make sure you're happy. ***Do not*** blindly
-download code from the internet and trust that it's going to work as you expect.
-:skull:
+See [Installation](https://davestephens.github.io/ansible-nas/installation/).
 
-1. Enable the Ubuntu Universe repository: `sudo add-apt-repository universe`
-2. Install Ansible: `sudo apt install ansible`
-3. `git clone https://github.com/davestephens/ansible-nas.git && cd ansible-nas`
-4. Copy `group_vars/all.yml.dist` to  `group_vars/all.yml`.
-5. Open up `group_vars/all.yml` and follow the instructions there for configuring your Ansible NAS.
-6. If you plan to use Transmission with OpenVPN, also copy `group_vars/vpn_credentials.yml.dist` to
-`group_vars/vpn_credentials.yml` and fill in your settings.
-7. Copy `inventory.dist` to `inventory` and update it.
-8. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need sudo to install Ansible roles)
-9. Run the playbook - something like `ansible-playbook -i inventory nas.yml -b -K` should do you nicely.
+## Upgrading
+
+**The way Ansible-NAS configuration is structured has changed!** See [Upgrading](https://davestephens.github.io/ansible-nas/upgrading/) for more information. See the **Getting Help** section if you get stuck.
 
 ## Documentation
 
@@ -149,7 +138,6 @@ Getting help is easy! You can:
 ## Contributing
 
 Contributions are always welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
-
 
 ## Support
 
