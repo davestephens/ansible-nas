@@ -19,4 +19,4 @@ Sonarr will get the file path from the Download client. On default settings with
 For Sonarr to understand that the `/tv` folder is a folder, you'll need to add a folder into it.
 You can also do this by adding a random series to the folder. Keep in mind to have the setting **Create empty movie folders** on **yes**
 
-For comprehensive configuration instructions see the [Sonarr github wiki(https://github.com/Sonarr/Sonarr/wiki)
+For comprehensive configuration instructions see the [Sonarr github wiki](https://github.com/Sonarr/Sonarr/wiki)
