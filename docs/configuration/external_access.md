@@ -35,3 +35,7 @@ How to do this is entirely dependent on your router (and out of scope of these d
 ## Enable Specific Applications
 
 Every application has a `<application_name>_available_externally` setting in the Advanced Settings section of `all.yml`. Setting this to `true` will configure Traefik to route `<application>.yourdomain.com` to the application, making it available externally.
+
+## Custom subdomains
+
+If you are going to edit the subdomain variables you need to be aware of some potential limitations. Letsencrypt will only allow a total of 5 duplicate certificates to be issued in a rolling 7 day period. It is highly recommended that if you wish to edit the subdomains for your installed services you do so either in a single batch before running the playbook again or before running the playbook for the first time. If you edit 6 subdomains and run the playbook between each edit, you will hit the letsencrypt rate limiter and be unable to use SSL for up to a week.
