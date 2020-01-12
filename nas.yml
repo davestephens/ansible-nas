@@ -48,6 +48,10 @@
     when: (plex_enabled | default(False))
     tags: plex
 
+  - import_tasks: tasks/logitechmediaserver.yml
+    when: (logitechmediaserver_enabled and not portainer_port_http == "9000" | default(False))
+    tags: logitechmediaserver
+
   - import_tasks: tasks/firefly.yml
     when: (firefly_enabled | default(False))
     tags: firefly
