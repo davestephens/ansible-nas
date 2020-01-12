@@ -42,6 +42,7 @@ lidarr_enabled: false
 # Music
 airsonic_enabled: false
 mymediaforalexa_enabled: false
+logitechmediaserver_enabled: false
 
 # News
 miniflux_enabled: false
@@ -386,6 +387,19 @@ plex_music_directory: "{{ music_root }}"
 plex_music_permissions: "rw"
 plex_user_id: "0"
 plex_group_id: "0"
+
+###
+### Logitech Media Server
+###
+# If you're paranoid, set permissions to "ro" so LMS won't ever be able to
+# change/delete your files
+logitechmediaserver_available_externally: "false"
+logitechmediaserver_webport: "9000"
+logitechmediaserver_config_directory: "{{ docker_home }}/logitechmediaserver/config"
+logitechmediaserver_music_directory: "{{ music_root }}"
+logitechmediaserver_music_permissions: "rw"
+logitechmediaserver_user_id: "0"
+logitechmediaserver_group_id: "0"
 
 ###
 ### Homebridge
