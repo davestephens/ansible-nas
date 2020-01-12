@@ -1,0 +1,33 @@
+# created by bcurran3 2020/01/04 : last modified by bcurran3 2020/01/05
+
+- name: Create Logitech Media Server Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ logitechmediaserver_config_directory }}"
+
+- name: logitechmediaserver Docker Container
+  docker_container:
+    name: logitechmediaserver
+    image: dlandon/logitechmediaserver
+    pull: true
+    volumes:
+      - "{{ logitechmediaserver_config_directory }}:/config:rw"
+      - "{{ logitechmediaserver_music_directory }}:/music:{{ logitechmediaserver_music_permissions }}"
+    network_mode: bridge
+    ports:
+      - "3483:3483"                              # control port
+      - "3483:3483/udp"                          # control and streaming for SLIMP3 players
+      - "9000:9000"                              # web and streaming port
+      - "9090:9090"                              # telnet ports
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "65534"
+      PGID: "100"
+    restart_policy: unless-stopped
+#    memory: 2g
+    labels:
+      traefik.backend: "logitechmediaserver"
+      traefik.frontend.rule: "Host:logitechmediaserver.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ logitechmediaserver_available_externally }}"
