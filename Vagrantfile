@@ -9,9 +9,8 @@ Vagrant.configure(2) do |config|
     ansible.compatibility_mode = "2.0"
     ansible.galaxy_role_file = "requirements.yml"
     ansible.playbook = "nas.yml"
+    ansible.inventory_path = "inventories/vagrant/inventory"
+    ansible.limit = "vagrant"
     ansible.become = true
-    ansible.raw_arguments = [
-      "--extra-vars @tests/test.yml"
-    ]
   end
 end

@@ -1,6 +1,6 @@
 ## Vagrant
 
-A [Vagrant](https://www.vagrantup.com/) Vagrantfile and launch script (`tests/test-vagrant.sh`) are provided to spin up a testing VM. The config in `tests/test.yml` is used by the script to override any existing config in `group_vars/all.yml`.
+A [Vagrant](https://www.vagrantup.com/) Vagrantfile and launch script (`tests/test-vagrant.sh`) are provided to spin up a testing VM. The config used for the Vagrant environment is located at `inventories/vagrant/group_vars/vagrant.yml`. You can modify it in order to activate services. By default, Heimdall is enabled.
 
 By default the VM will be available on 172.30.1.5. If everything has worked correctly after running `tests/test-vagrant.sh`, you should be able to connect to Heimdall on http://172.30.1.5:10080.
 

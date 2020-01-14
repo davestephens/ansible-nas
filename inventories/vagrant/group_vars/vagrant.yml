@@ -1,0 +1,9 @@
+###
+### General
+###
+
+# Sets the hostname of your Ansible NAS
+ansible_nas_hostname: vagrant-test
+
+# System Management
+heimdall_enabled: true
