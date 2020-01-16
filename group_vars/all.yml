@@ -99,7 +99,9 @@ joomla_enabled: false
 # You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
 # settings.
 traefik_enabled: false
-
+traefik_port_http: "80"
+traefik_port_https: "443"
+traefik_port_ui: "8083"
 ###
 ### General
 ###
