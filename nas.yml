@@ -25,6 +25,10 @@
   - import_tasks: tasks/general.yml
     tags: general
 
+  - import_tasks: tasks/avahi.yml
+    when: (avahi_enabled | default(False))
+    tags: avahi
+
   - import_tasks: tasks/docker.yml
     tags: docker
 
