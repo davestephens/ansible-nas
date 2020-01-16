@@ -23,7 +23,7 @@
       - "{{ sickchill_downloads_directory }}:/downloads:rw"
       - "{{ sickchill_tv_directory }}:/tv:rw"
     ports:
-      - "8081:8081"
+      - "{{ sickchill_port }}:8081"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ sickchill_user_id }}"
@@ -34,4 +34,4 @@
       traefik.backend: "sickchill"
       traefik.frontend.rule: "Host:sickchill.{{ ansible_nas_domain }}"
       traefik.enable: "{{ sickchill_available_externally }}"
-      traefik.port: "8081"
+      traefik.port: "{{ sickchill_port }}"

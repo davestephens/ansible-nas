@@ -19,12 +19,12 @@
       - "{{ samba_shares_root }}/music:/airsonic/music:rw"
       - "{{ samba_shares_root }}/podcasts:/airsonic/podcasts:rw"
     ports:
-      - "4040:4040"
+      - "{{ airsonic_port }}:4040"
     restart_policy: unless-stopped
     memory: 1g
     labels:
       traefik.backend: "airsonic"
       traefik.frontend.rule: "Host:airsonic.{{ ansible_nas_domain }}"
       traefik.enable: "{{ airsonic_available_externally }}"
-      traefik.port: "4040"
+      traefik.port: "{{ airsonic_port }}"
 

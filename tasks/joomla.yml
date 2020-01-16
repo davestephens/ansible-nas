@@ -29,7 +29,7 @@
     volumes:
       - "{{ joomla_data_directory }}:/var/www/html:rw"
     ports:
-      - "8181:80"
+      - "{{ joomla_port }}:80"
     links:
       - "joomla_mysql:mysql"
     env:
@@ -42,4 +42,4 @@
       traefik.backend: "joomla"
       traefik.frontend.rule: "Host: joomla.{{ ansible_nas_domain }}"
       traefik.enable: "{{ joomla_available_externally }}"
-      traefik.port: "80"
+      traefik.port: "{{ joomla_port }}"

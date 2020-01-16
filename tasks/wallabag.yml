@@ -15,7 +15,7 @@
       - "{{ wallabag_data_directory }}/data:/var/www/wallabag/data:rw"
       - "{{ wallabag_data_directory }}/images:/var/www/wallabag/web/assets/images:rw"
     ports:
-      - "7780:80"
+      - "{{ wallabag_port }}:80"
     env:
       SYMFONY__ENV__DOMAIN_NAME: "https://wallabag.{{ ansible_nas_domain }}"
     restart_policy: unless-stopped
@@ -23,6 +23,6 @@
       traefik.backend: "wallabag"
       traefik.frontend.rule: "Host:wallabag.{{ ansible_nas_domain }}"
       traefik.enable: "{{ wallabag_available_externally }}"
-      traefik.port: "80"
+      traefik.port: "{{ wallabag_port }}"
       traefik.frontend.headers.SSLRedirect: "true"
     memory: 1g

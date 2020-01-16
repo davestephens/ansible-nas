@@ -30,16 +30,16 @@ defaultEntryPoints = ["http", "https"]
 
 [entryPoints]
   [entryPoints.http]
-  address = ":80"
+  address = ":{{ traefik_port_http }}"
     [entryPoints.http.redirect]
     entryPoint = "https"
 
   [entryPoints.https]
-  address = ":443"
+  address = ":{{ traefik_port_https }}"
     [entryPoints.https.tls]
 
   [entryPoints.traefik]
-  address = ":8083"
+  address = ":{{ traefik_port_ui }}"
 
 ################################################################
 # Traefik logs configuration

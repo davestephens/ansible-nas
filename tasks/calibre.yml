@@ -19,11 +19,11 @@
       PGID: "{{ calibre_group_id }}"
       DOCKER_MODS: "{{ calibre_ebook_conversion }}"
     ports:
-      - "8084:8083"
+      - "{{ calibre_port }}:8083"
     restart_policy: unless-stopped
     labels:
       traefik.backend: "calibre"
       traefik.frontend.rule: "Host:calibre.{{ ansible_nas_domain }}"
       traefik.enable: "{{ calibre_available_externally }}"
-      traefik.port: "8083"
+      traefik.port: "{{ calibre_port }} "
     memory: 1g

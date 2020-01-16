@@ -51,8 +51,8 @@
     volumes:
       - "{{ gitea_data_directory }}/gitea:/data:rw"
     ports:
-      - "3001:3000"
-      - "222:22"
+      - "{{ gitea_port_http }}:3000"
+      - "{{ gitea_port_ssh }}:22"
     env:
       DB_TYPE: "mysql"
       DB_HOST: "db:3306"
@@ -61,8 +61,8 @@
       DB_PASSWD: "gitea"
       RUN_MODE: "prod"
       SSH_DOMAIN: "{{ ansible_nas_hostname }}"
-      SSH_PORT: "222"
-      ROOT_URL: "http://{{ ansible_nas_hostname }}:3001/"
+      SSH_PORT: "{{ gitea_port_ssh }}"
+      ROOT_URL: "http://{{ ansible_nas_hostname }}:{{ gitea_port_http }}/"
       USER_UID: "1309"
       USER_GID: "1309"
     restart_policy: unless-stopped
@@ -71,4 +71,4 @@
       traefik.backend: "gitea"
       traefik.frontend.rule: "Host:gitea.{{ ansible_nas_domain }}"
       traefik.enable: "{{ gitea_available_externally }}"
-      traefik.port: "3000"
+      traefik.port: "{{ gitea_port_http }}"

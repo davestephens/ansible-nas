@@ -32,7 +32,7 @@
     volumes:
       - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
     ports:
-      - "8080:80"
+      - "{{ nextcloud_port }}:80"
     env:
       MYSQL_HOST: "mysql"
       MYSQL_DATABASE: "nextcloud"
@@ -45,4 +45,4 @@
       traefik.backend: "nextcloud"
       traefik.frontend.rule: "Host:nextcloud.{{ ansible_nas_domain }}"
       traefik.enable: "{{ nextcloud_available_externally }}"
-      traefik.port: "80"
+      traefik.port: "{{ nextcloud_port }}"
