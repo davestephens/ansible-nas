@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/ombi/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/radarr/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Ombi - Ansible-NAS</title>
+        <title>Sonarr & Radarr - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#ombi" tabindex="1" class="md-skip">
+      <a href="#sonarr-radarr" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Ombi
+                Sonarr & Radarr
               
             </span>
           
@@ -597,49 +597,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Ombi
-      </label>
-    
-    <a href="./" title="Ombi" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../ombi/" title="Ombi" class="md-nav__link">
       Ombi
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -671,11 +633,56 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../radarr/" title="Sonarr & Radarr" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Sonarr & Radarr
+      </label>
+    
+    <a href="./" title="Sonarr & Radarr" class="md-nav__link md-nav__link--active">
       Sonarr & Radarr
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -939,6 +946,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+</li>
+      
       
       
       
@@ -955,14 +969,21 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/ombi.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/radarr.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="ombi">Ombi</h1>
-<p>Homepage: <a href="https://ombi.io/">https://ombi.io/</a></p>
-<p>Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves! Ombi can be linked to multiple TV Show and Movie DVR tools to create a seamless end-to-end experience for your users.</p>
+                <h1 id="sonarr-radarr">Sonarr &amp; Radarr</h1>
+<p>Homepage: <a href="https://radarr.video/">radarr</a></p>
+<p><strong>Radarr</strong> is an independent fork of Sonarr reworked for automatically downloading movies via Usenet and BitTorrent.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>ombi_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>Set <code>radarr_enabled: true</code> in your <code>/inventories/[my inventory]/group_vars/nas.yml</code> file.</p>
+<p>The Radarr web interface can be found at <code>http://ansible_nas_host_or_ip:7878</code> by default</p>
+<h2 id="specific-configuration">Specific Configuration</h2>
+<p><strong>First make sure Radarr has permissions to write and read the <code>/download</code>, and <code>/movies</code> folders</strong>. Do this by ensuring the <code>radarr_movies_directory:</code> and <code>radarr_download_directory</code> settings are correct.</p>
+<p>Radarr will get the file path from the Download client. On default settings with Transmission the path is <code>/storage/downloads/complete</code>. You will need to create a path mapping in the <strong>Remote Path Mappings</strong> settings under <strong>Download Client</strong>  to point to your internal path that is by default <code>/downloads</code>.  <em>If you have difficulties with the path mapping you could also just add a new volume path for the Transmission container and use <code>/downloads</code> as the download directory.</em></p>
+<p>For Radarr to understand that the <code>/movies</code> folder is a folder, you'll need to add a new subfolder into it.
+You can also do this by adding a random movie to the folder. Keep in mind to have the internal setting <strong>Create empty movie folders</strong> on <strong>yes</strong></p>
+<p>Comprehensive setup information can be found on the <a href="https://github.com/Radarr/Radarr/wiki/Setup-Guide">Radarr github wiki</a></p>
                 
                   
                 
@@ -984,7 +1005,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../nzbget/" title="NZBget" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../pyload/" title="pyLoad" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -993,19 +1014,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                NZBget
+                pyLoad
               </span>
             </div>
           </a>
         
         
-          <a href="../openhab/" title="openHAB" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../sonarr/" title="Sonarr & Radarr" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                openHAB
+                Sonarr & Radarr
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
