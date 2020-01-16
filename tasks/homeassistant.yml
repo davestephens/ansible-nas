@@ -14,6 +14,7 @@
       - "{{ homeassistant_data_directory }}/config:/config:rw"
     ports:
       - "{{ homeassistant_port }}:8123"
+    #network_mode: host
     restart_policy: unless-stopped
     env:
       TZ: "{{ ansible_nas_timezone }}"
