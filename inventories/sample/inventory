@@ -6,10 +6,13 @@
 ##       \/     \/     \/        \/          \/               \/     \/     \/
 ##     a n s i b l e - n a s      https://github.com/davestephens/ansible-nas
 
+
 [all]
+## Example when running from a remote workstation
+# ansible-nas ansible_host=192.168.1.30
 
 ## Example when running directly on your Ansible-NAS server
-# localhost ansible_connection=local
+# ansible-nas ansible_connection=local ansible_host=localhost
 
-## Example when running from a remote workstation
-# 192.168.1.30
+[nas]
+ansible-nas
