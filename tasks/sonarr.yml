@@ -27,4 +27,4 @@
       traefik.backend: "sonarr"
       traefik.frontend.rule: "Host:sonarr.{{ ansible_nas_domain }}"
       traefik.enable: "{{ sonarr_available_externally }}"
-      traefik.port: "{{ sonarr_port }}"
+      traefik.port: "8989"

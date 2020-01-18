@@ -28,4 +28,4 @@
       traefik.backend: "tautulli"
       traefik.frontend.rule: "Host:tautulli.{{ ansible_nas_domain }}"
       traefik.enable: "{{ tautulli_available_externally }}"
-      traefik.port: "{{ tautulli_port }}"
+      traefik.port: "8181"

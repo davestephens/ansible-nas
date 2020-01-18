@@ -46,4 +46,4 @@
       traefik.backend: "transmission-openvpn"
       traefik.frontend.rule: "Host:transmission-openvpn.{{ ansible_nas_domain }}"
       traefik.enable: "{{ transmission_with_openvpn_available_externally }}"
-      traefik.port: "{{ transmission_openvpn_webui_port }}"
+      traefik.port: "9091"

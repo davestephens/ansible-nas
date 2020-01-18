@@ -27,4 +27,4 @@
       traefik.backend: "jellyfin"
       traefik.frontend.rule: "Host:jellyfin.{{ ansible_nas_domain }}"
       traefik.enable: "{{ jellyfin_available_externally }}"
-      traefik.port: "{{ jellyfin_port_https }}"
+      traefik.port: "8096"

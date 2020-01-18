@@ -26,4 +26,4 @@
       traefik.backend: "homebridge"
       traefik.frontend.rule: "Host:homebridge.{{ ansible_nas_domain }}"
       traefik.enable: "{{ homebridge_available_externally }}"
-      traefik.port: "{{ homebridge_port }}"
+      traefik.port: "8087"

@@ -25,5 +25,5 @@
       traefik.backend: "calibre"
       traefik.frontend.rule: "Host:calibre.{{ ansible_nas_domain }}"
       traefik.enable: "{{ calibre_available_externally }}"
-      traefik.port: "{{ calibre_port }} "
+      traefik.port: "8083"
     memory: 1g

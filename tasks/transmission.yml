@@ -31,4 +31,4 @@
       traefik.backend: "transmission"
       traefik.frontend.rule: "Host:transmission.{{ ansible_nas_domain }}"
       traefik.enable: "{{ transmission_available_externally }}"
-      traefik.port: "{{ transmission_webui_port }}"
+      traefik.port: "9091"

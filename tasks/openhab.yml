@@ -48,4 +48,4 @@
       traefik.backend: "openhab"
       traefik.frontend.rule: "Host:openhab.{{ ansible_nas_domain }}"
       traefik.enable: "{{ openhab_available_externally }}"
-      traefik.port: "{{ openhab_port_https }}"
+      traefik.port: "7777"

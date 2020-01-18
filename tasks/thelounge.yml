@@ -30,5 +30,5 @@
       traefik.backend: "thelounge"
       traefik.frontend.rule: "Host:thelounge.{{ ansible_nas_domain }}"
       traefik.enable: "{{ thelounge_available_externally }}"
-      traefik.port: "thelounge_port_two"
+      traefik.port: "9000"
 

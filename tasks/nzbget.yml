@@ -26,4 +26,4 @@
       traefik.backend: "nzbget"
       traefik.frontend.rule: "Host:nzbget.{{ ansible_nas_domain }}"
       traefik.enable: "{{ nzbget_available_externally }}"
-      traefik.port: "{{ nzbget_port }}"
+      traefik.port: "6789"

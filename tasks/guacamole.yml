@@ -55,4 +55,4 @@
       traefik.backend: "guacamole"
       traefik.frontend.rule: "Host:guacamole.{{ ansible_nas_domain }}"
       traefik.enable: "{{ guacamole_available_externally }}"
-      traefik.port: "{{ guacamole_port }}"
+      traefik.port: "8080"

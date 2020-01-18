@@ -28,4 +28,4 @@
       traefik.backend: "pyload"
       traefik.frontend.rule: "Host:pyload.{{ ansible_nas_domain }}"
       traefik.enable: "{{ pyload_available_externally }}"
-      traefik.port: "{{ pyload_port }}"
+      traefik.port: "8000"

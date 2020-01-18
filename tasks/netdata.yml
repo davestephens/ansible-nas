@@ -29,4 +29,4 @@
       traefik.backend: "netdata"
       traefik.frontend.rule: "Host:netdata.{{ ansible_nas_domain }}"
       traefik.enable: "{{ netdata_available_externally }}"
-      traefik.port: "{{ netdata_port }}"
+      traefik.port: "19999"

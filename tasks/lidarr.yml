@@ -25,4 +25,4 @@
       traefik.backend: "lidarr"
       traefik.frontend.rule: "Host:lidarr.{{ ansible_nas_domain }}"
       traefik.enable: "{{ lidarr_available_externally }}"
-      traefik.port: "{{ lidarr_port }}"
+      traefik.port: "8686"

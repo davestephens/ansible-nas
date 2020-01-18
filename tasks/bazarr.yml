@@ -27,4 +27,4 @@
       traefik.backend: "bazarr"
       traefik.frontend.rule: "Host:bazarr.{{ ansible_nas_domain }}"
       traefik.enable: "{{ bazarr_available_externally }}"
-      traefik.port: "{{ bazarr_port }}"
+      traefik.port: "6767"

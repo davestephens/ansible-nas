@@ -25,4 +25,4 @@
       traefik.backend: "znc"
       traefik.frontend.rule: "Host:znc.{{ ansible_nas_domain }}"
       traefik.enable: "{{ znc_available_externally }}"
-      traefik.port: "{{ znc_port }}"
+      traefik.port: "6677"

@@ -42,4 +42,4 @@
       traefik.backend: "joomla"
       traefik.frontend.rule: "Host: joomla.{{ ansible_nas_domain }}"
       traefik.enable: "{{ joomla_available_externally }}"
-      traefik.port: "{{ joomla_port }}"
+      traefik.port: "80"

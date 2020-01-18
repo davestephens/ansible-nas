@@ -12,8 +12,6 @@
     pull: true
     volumes:
       - "{{ homeassistant_data_directory }}/config:/config:rw"
-    ports:
-      - "{{ homeassistant_port }}:8123"
     network_mode: host
     restart_policy: unless-stopped
     env:
@@ -22,6 +20,6 @@
       traefik.backend: "homeassistant"
       traefik.frontend.rule: "Host:homeassistant.{{ ansible_nas_domain }}"
       traefik.enable: "{{ homeassistant_available_externally }}"
-      traefik.port: "{{ homeassistant_port }}"
+      traefik.port: "8123"
       traefik.frontend.headers.SSLRedirect: "true"
     memory: 1g

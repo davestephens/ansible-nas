@@ -12,7 +12,7 @@
       MINIDLNA_MEDIA_DIR1: "/media1"
       MINIDLNA_MEDIA_DIR2: "/media2"
       MINIDLNA_FRIENDLY_NAME: "{{ minidlna_friendly_name }}"
-      MINIDLNA_PORT: "{{ minidlna_port }}"
+      MINIDLNA_PORT: "8201"
     network_mode: host
     restart_policy: unless-stopped
     memory: 1g

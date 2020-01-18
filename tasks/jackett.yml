@@ -23,4 +23,4 @@
       traefik.backend: "jackett"
       traefik.frontend.rule: "Host:jackett.{{ ansible_nas_domain }}"
       traefik.enable: "{{ jackett_available_externally }}"
-      traefik.port: "{{ jackett_port }}"
+      traefik.port: "9117"

@@ -71,4 +71,4 @@
       traefik.backend: "gitea"
       traefik.frontend.rule: "Host:gitea.{{ ansible_nas_domain }}"
       traefik.enable: "{{ gitea_available_externally }}"
-      traefik.port: "{{ gitea_port_http }}"
+      traefik.port: "3000"

@@ -27,4 +27,4 @@
       traefik.backend: "radarr"
       traefik.frontend.rule: "Host:radarr.{{ ansible_nas_domain }}"
       traefik.enable: "{{ radarr_available_externally }}"
-      traefik.port: "{{ radarr_port }}"
+      traefik.port: "7878"

@@ -28,4 +28,4 @@
       traefik.backend: "emby"
       traefik.frontend.rule: "Host:emby.{{ ansible_nas_domain }}"
       traefik.enable: "{{ emby_available_externally }}"
-      traefik.port: "{{ emby_port_https }}"
+      traefik.port: "8096"
