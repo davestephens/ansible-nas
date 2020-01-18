@@ -640,7 +640,7 @@ mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 ###
 jackett_available_externally: "false"
 jackett_data_directory: "{{ docker_home }}/jackett"
-jacket_torrents_root: "{{ torrents_root }}"
+jackett_torrents_root: "{{ torrents_root }}"
 
 ###
 ### The Lounge
