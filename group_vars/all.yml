@@ -93,6 +93,9 @@ ubooquity_enabled: false
 # Joomla
 joomla_enabled: false
 
+# SEO
+serposcope_enabled: false
+
 # External Access
 # Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
 # home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
@@ -786,3 +789,10 @@ ubooquity_user_id: "0"
 ubooquity_group_id: "0"
 ubooquity_port_webui: "2202"
 ubooquity_port_admin: "2203"
+
+###
+### Serposcope
+###
+serposcope_data_directory: "{{ docker_home }}/serposcope"
+serposcope_port: 7134
+serposcope_available_externally: "false"
