@@ -8,7 +8,7 @@
   
 - name: 'Check if docker-py is installed'
   shell: pip3 show docker-py
-  ignore_errors: true
+  failed_when: docker_py_check.rc != 1 and docker_py_check.rc != 0
   register: docker_py_check
 
 - name: 'Remove docker-py if installed'
