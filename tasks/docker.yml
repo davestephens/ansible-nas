@@ -5,7 +5,7 @@
     state: present
   register: result
   until: result is succeeded
-  
+
 - name: 'Check if docker-py is installed'
   shell: pip3 show docker-py
   failed_when: docker_py_check.rc != 1 and docker_py_check.rc != 0
