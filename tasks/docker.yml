@@ -5,19 +5,6 @@
     state: present
   register: result
   until: result is succeeded
-  
-- name: 'Check if docker-py is installed'
-  shell: pip3 show docker-py
-  ignore_errors: true
-  register: docker_py_check
-
-- name: 'Remove docker-py if installed'
-  pip:
-    name: docker-py
-    state: absent
-  when: docker_py_check.stdout.find('docker-py') != -1
-  register: result
-  until: result is succeeded
 
 - name: 'Install docker python module'
   pip:
