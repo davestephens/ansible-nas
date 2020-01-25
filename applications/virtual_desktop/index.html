@@ -13,7 +13,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/ubooquity/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/virtual_desktop/">
       
       
         <meta name="author" content="David Stephens">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Ubooquity Comic and Book Server - Ansible-NAS</title>
+        <title>Virtual Desktop - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#ubooquity-comic-and-book-server" tabindex="1" class="md-skip">
+      <a href="#virtual-desktop" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Ubooquity Comic and Book Server
+                Virtual Desktop
               
             </span>
           
@@ -729,6 +729,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../ubooquity/" title="Ubooquity Comic and Book Server" class="md-nav__link">
+      Ubooquity Comic and Book Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -740,11 +752,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Ubooquity Comic and Book Server
+        Virtual Desktop
       </label>
     
-    <a href="./" title="Ubooquity Comic and Book Server" class="md-nav__link md-nav__link--active">
-      Ubooquity Comic and Book Server
+    <a href="./" title="Virtual Desktop" class="md-nav__link md-nav__link--active">
+      Virtual Desktop
     </a>
     
       
@@ -769,18 +781,19 @@
     Specific Configuration
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#admin-login" class="md-nav__link">
-    Admin login
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mounts" class="md-nav__link">
+    Mounts
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#remote-access" class="md-nav__link">
+    Remote Access
+  </a>
   
 </li>
       
@@ -792,18 +805,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../virtual_desktop/" title="Virtual Desktop" class="md-nav__link">
-      Virtual Desktop
-    </a>
   </li>
 
         
@@ -1000,18 +1001,19 @@
     Specific Configuration
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#admin-login" class="md-nav__link">
-    Admin login
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mounts" class="md-nav__link">
+    Mounts
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#remote-access" class="md-nav__link">
+    Remote Access
+  </a>
   
 </li>
       
@@ -1031,22 +1033,29 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/ubooquity.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/virtual_desktop.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="ubooquity-comic-and-book-server">Ubooquity Comic and Book Server</h1>
-<p>Homepage: <a href="https://vaemendis.net/ubooquity/">https://vaemendis.net/ubooquity/</a>
-Documentation: <a href="https://vaemendis.github.io/ubooquity-doc/">https://vaemendis.github.io/ubooquity-doc/</a>
-Docker Image: <a href="https://hub.docker.com/r/linuxserver/ubooquity/">https://hub.docker.com/r/linuxserver/ubooquity/</a></p>
-<p>Ubooquity is a free, lightweight and easy-to-use home server for your comics and ebooks. Use it to access your files from anywhere, with a tablet, an e-reader, a phone or a computer.</p>
+                <h1 id="virtual-desktop">Virtual Desktop</h1>
+<p>It's possible to run a cut down desktop within a Docker container. We use <a href="https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom">RattyDAVE's custom Ubuntu Mate image</a>.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>ubooquity_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
-<p>Access the webui at http://<server>:2202/ubooquity by default. See specific configuration section below for information on setting up external access.</p>
+<p>Set <code>virtual_desktop_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>Important note: if you want to access Ubooquity externally through Traefik (at ubooquity.yourdomain.tld), you need to go to http://<server>:2203/ubooquity/admin and set the reverse proxy prefix to blank under "Advanced". Otherwise you will need to append "/ubooquity" to the url in order to access.</p>
-<h3 id="admin-login">Admin login</h3>
-<p>The admin portal is not exposed through Traefik. You can access the admin portal on port 2203.</p>
-<p>Upon your first run, the address is http://<server>:2203/ubooquity/admin. You will be able to set the admin password here.</p>
+<p>By default <code>{{ ansible_nas_user }}</code> will be granted access with a password of <code>topsecret</code> with sudo rights. To change or add additional users override <code>vd_users</code> in your <code>nas.yml</code>:</p>
+<pre><code>vd_users:
+  - username: &quot;{{ ansible_nas_user }}&quot;
+    password: &quot;topsecret&quot;
+    sudo: &quot;Y&quot;
+  - username: &quot;larrylaffer&quot;
+    password: &quot;kensentme&quot;
+    sudo: &quot;Y&quot;
+</code></pre>
+
+<h2 id="mounts">Mounts</h2>
+<p><code>{{ samba_shares_root }}</code> is mounted to <code>/samba</code>.
+<code>{{ docker_home }}</code> is mounted to <code>/docker</code>.</p>
+<h2 id="remote-access">Remote Access</h2>
+<p>It's possible to access your virtual desktop through a web browser! Check out <a href="guacamole">Guacamole</a>.</p>
                 
                   
                 
@@ -1068,7 +1077,7 @@ Docker Image: <a href="https://hub.docker.com/r/linuxserver/ubooquity/">https://
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../transmission/" title="Transmission" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../ubooquity/" title="Ubooquity Comic and Book Server" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1077,19 +1086,19 @@ Docker Image: <a href="https://hub.docker.com/r/linuxserver/ubooquity/">https://
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Transmission
+                Ubooquity Comic and Book Server
               </span>
             </div>
           </a>
         
         
-          <a href="../virtual_desktop/" title="Virtual Desktop" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../wallabag/" title="Wallabag" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Virtual Desktop
+                Wallabag
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

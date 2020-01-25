@@ -42,7 +42,7 @@
     
     
       
-        <title>Jellyfin - Ansible-NAS</title>
+        <title>Guacamole - Ansible-NAS</title>
       
     
     
@@ -93,7 +93,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#jellyfin" tabindex="1" class="md-skip">
+      <a href="#guacamole" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -119,7 +119,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Jellyfin
+                Guacamole
               
             </span>
           
@@ -464,11 +464,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Jellyfin
+        Guacamole
       </label>
     
-    <a href="./" title="Jellyfin" class="md-nav__link md-nav__link--active">
-      Jellyfin
+    <a href="./" title="Guacamole" class="md-nav__link md-nav__link--active">
+      Guacamole
     </a>
     
       
@@ -491,6 +491,13 @@
         <li class="md-nav__item">
   <a href="#specific-configuration" class="md-nav__link">
     Specific Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-connect-to" class="md-nav__link">
+    What to connect to?
   </a>
   
 </li>
@@ -788,6 +795,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../virtual_desktop/" title="Virtual Desktop" class="md-nav__link">
+      Virtual Desktop
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../wallabag/" title="Wallabag" class="md-nav__link">
       Wallabag
     </a>
@@ -977,6 +996,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#what-to-connect-to" class="md-nav__link">
+    What to connect to?
+  </a>
+  
+</li>
+      
       
       
       
@@ -996,13 +1022,15 @@
                   <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/guacamole.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="jellyfin">Jellyfin</h1>
+                <h1 id="guacamole">Guacamole</h1>
 <p>Homepage: <a href="https://guacamole.apache.org/">hhttps://guacamole.apache.org/</a></p>
 <p>Apache Guacamole is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH.</p>
 <h2 id="usage">Usage</h2>
 <p>Set <code>guacamole_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
 <p>The default username and password is <code>guacadmin</code>. Change it!</p>
+<h2 id="what-to-connect-to">What to connect to?</h2>
+<p>You can run a virtual desktop from your Ansible-NAS box, check out the <a href="virtual_desktop">docs</a>. </p>
                 
                   
                 

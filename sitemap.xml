@@ -206,6 +206,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://davestephens.uk/ansible-nas/applications/virtual_desktop/</loc>
+     <lastmod>2020-01-25</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://davestephens.uk/ansible-nas/applications/wallabag/</loc>
      <lastmod>2020-01-25</lastmod>
      <changefreq>daily</changefreq>
