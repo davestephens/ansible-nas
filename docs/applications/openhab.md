@@ -7,7 +7,7 @@ It allows you to connect many different IoT-Devices (which in this case means "I
 
 ## Usage
 
-Set `openhab_enabled: true` in your `group_vars/all.yml` file.  
+Set `openhab_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.  
 
 ## Specific Configuration
 

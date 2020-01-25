@@ -9,4 +9,4 @@ Ombi is a self-hosted web application that automatically gives your shared Plex 
 
 ## Usage
 
-Set `ombi_enabled: true` in your `group_vars/all.yml` file.
+Set `ombi_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
