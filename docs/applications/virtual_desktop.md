@@ -27,4 +27,4 @@ vd_users:
 
 ## Remote Access
 
-It's possible to access your virtual desktop through a web browser! Check out [Guacamole](guacamole).
+It's possible to access your virtual desktop through a web browser! Check out [Guacamole](guacamole.md).
