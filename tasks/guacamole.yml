@@ -4,51 +4,39 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ guacamole_data_directory }}/mysql"
+    - "{{ guacamole_data_directory }}/config"
 
-- name: Copy Guacamole database init script
-  copy:
-    src: files/guacamole/initdb-0.9.14.sql
-    dest: "{{ guacamole_data_directory }}/initdb-0.9.14.sql"
-
-- name: Guacamole Mysql Docker Container
+- name: Remove Old Guacamole Mysql Docker Container
   docker_container:
     name: guacamole-mysql
-    image: mysql:5.7
-    pull: true
-    volumes:
-      - "{{ guacamole_data_directory }}/mysql:/var/lib/mysql:rw"
-      - "{{ guacamole_data_directory }}/initdb-0.9.14.sql:/docker-entrypoint-initdb.d/initdb-0.9.14.sql:ro"
-    env:
-      MYSQL_DATABASE: "guacamole"
-      MYSQL_USER: "guacamole-user"
-      MYSQL_PASSWORD: "guacamole-pass"
-      MYSQL_ROOT_PASSWORD: "guacamole-secret"
-    restart_policy: unless-stopped
-    memory: 1g
+    state: absent
+    keep_volumes: true
 
-- name: Guacamole guacd Container
+- name: Remove Old Guacamole guacd Docker Container
   docker_container:
     name: guacamole-guacd
-    image: "{{ guacamole_guacd_docker_image }}"
-    pull: true
-    restart_policy: unless-stopped
-    memory: 1g
+    state: absent
+    keep_volumes: true
 
-- name: Guacamole guacamole Container
+- name: Remove old Guacamole directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ guacamole_data_directory }}/mysql"
+
+# docker run -v /home/david/.guac:/config:rw  -p 8080:8080   oznu/guacamole
+
+
+- name: Guacamole Container
   docker_container:
     name: guacamole
-    image: "{{ guacamole_docker_image }}"
+    image: "oznu/guacamole"
     pull: true
-    links:
-        - guacamole-mysql:mysql
-        - guacamole-guacd:guacd
+    volumes:
+      - "{{ guacamole_data_directory }}/config:/config:rw"
     ports:
       - "{{ guacamole_port }}:8080"
-    env:
-      MYSQL_DATABASE: "guacamole"
-      MYSQL_USER: "guacamole-user"
-      MYSQL_PASSWORD: "guacamole-pass"
     restart_policy: unless-stopped
     memory: 1g
     labels:
@@ -56,3 +44,9 @@
       traefik.frontend.rule: "Host:guacamole.{{ ansible_nas_domain }}"
       traefik.enable: "{{ guacamole_available_externally }}"
       traefik.port: "8080"
+
+- name: Restart Guacamole Container
+  docker_container:
+    name: guacamole
+    image: "oznu/guacamole"
+    restart: true
