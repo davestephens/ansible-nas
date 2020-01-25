@@ -1013,7 +1013,7 @@
 Bitwarden: <a href="https://bitwarden.com/">https://bitwarden.com/</a></p>
 <p>This is a Bitwarden server API implementation written in Rust compatible with upstream Bitwarden clients*, perfect for self-hosted deployment where running the official resource-heavy service might not be ideal.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>bitwarden_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>Set <code>bitwarden_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
 <p>Make sure you set your admin token! It is <code>bitwarden_admin_token</code> in <code>group_vars/all.yml</code> file. The string you put here will be the login to the admin section of your Bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running:
 <code>openssl rand -base64 48</code>.</p>

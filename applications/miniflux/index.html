@@ -1012,7 +1012,7 @@
 <p>Homepage: <a href="https://miniflux.app/">https://miniflux.app/</a></p>
 <p>Miniflux is a minimalist and opinionated feed reader.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>miniflux_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>Set <code>miniflux_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
 <p>The Miniflux web interface can be found at http://ansible_nas_host_or_ip:8070, the default username is <code>admin</code> and password <code>supersecure</code>.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
 <p>An admin user will be created with the username and password of <code>miniflux_admin_username</code> and <code>miniflux_admin_password</code> respectively. These can be found in the Miniflux section within <code>all.yml.dist</code>.</p>

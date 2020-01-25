@@ -1013,7 +1013,7 @@
 <p>Transmission is a free BitTorrent client. Two versions are provided - one that tunnels through a VPN and one that connects
 directly.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>transmission_enabled: true</code>, or <code>transmission_with_openvpn_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>Set <code>transmission_enabled: true</code>, or <code>transmission_with_openvpn_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
 <p>Transmission's web interface can be found at http://ansible_nas_host_or_ip:9091 (with VPN) or http://ansible_nas_host_or_ip:9092 (without VPN).</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
 <p>If you enable Transmission with OpenVPN, you'll need to add the following to your inventory <code>all.yml</code>:</p>

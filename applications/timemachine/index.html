@@ -1014,7 +1014,7 @@ Docker image: <a href="https://github.com/awlx/samba-timemachine">https://github
 <p>Time Machine is an application that allows you to backup files from your Mac.</p>
 <p>Older versions of Time Machine relied on AFP (netatalk) shares. Apple has deprecated Time Machine over AFP in favor of SMB (Samba), and current versions of Ansible-NAS use a Samba-based Time Machine share. If you are upgrading from an older version of Ansible-NAS, you will need to re-select your Time Machine back up disk by opening Time Machine Preferences and Selecting your backup disk via the "Select Disk..." option. Your Mac will find the old backups on the share and use them.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>timemachine_enabled: true</code> in your <code>group_vars/all.yml</code> file.</p>
+<p>Set <code>timemachine_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
 <p>Enabling Time Machine will result in the installation of Avahi on the NAS system (if it is not already installed) and a Time Machine service configuration file for Avahi will be added to the system (at <code>/etc/avahi/services/timemachine.service</code>) to allow for Time Machine discovery by Macs on the local network. Avahi runs on the system, rather than in a container, as the same Avahi instance can be used to announce any number of services.</p>
 <p>The Samba server included in the Time Machine docker container logs to <code>STDOUT</code> and is compatible with <a href="https://docs.docker.com/config/containers/logging/">Docker's built-in logging infrastructure.</a></p>
 <h2 id="specific-configuration">Specific Configuration</h2>
