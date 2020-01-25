@@ -56,6 +56,7 @@ netdata_enabled: false
 watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
+virtual_desktop_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
@@ -794,3 +795,14 @@ ubooquity_port_admin: "2203"
 serposcope_data_directory: "{{ docker_home }}/serposcope"
 serposcope_port: 7134
 serposcope_available_externally: "false"
+
+###
+### Virtual Desktop
+###
+vd_data_directory: "{{ docker_home }}/virtual_desktop"
+vd_docker_image: "rattydave/docker-ubuntu-xrdp-mate-custom:19.10-tools"
+vd_users:
+  - username: "{{ ansible_nas_user }}"
+    password: "topsecret"
+    sudo: "Y"
+vd_rdp_port: 3389

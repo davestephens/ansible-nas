@@ -78,6 +78,7 @@ Ansible config and a bunch of Docker containers.
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
+* [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
 * [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels

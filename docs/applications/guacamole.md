@@ -1,4 +1,4 @@
-# Jellyfin
+# Guacamole
 
 Homepage: [hhttps://guacamole.apache.org/](https://guacamole.apache.org/)
 
@@ -11,3 +11,7 @@ Set `guacamole_enabled: true` in your `inventories/<your_inventory>/nas.yml` fil
 ## Specific Configuration
 
 The default username and password is `guacadmin`. Change it!
+
+## What to connect to?
+
+You can run a virtual desktop from your Ansible-NAS box, check out the [docs](virtual_desktop). 
