@@ -15,7 +15,6 @@
     volumes:
       - "{{ tautulli_config_directory }}:/config:rw"
       - "{{ plex_logs }}:/logs:ro"
-   #network_mode: "host"
     ports:
       - "{{ tautulli_port }}:8181"
     env:
