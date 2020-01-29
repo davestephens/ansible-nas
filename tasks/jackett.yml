@@ -13,7 +13,7 @@
     volumes:
       - "{{ jackett_data_directory }}:/config:rw"
       - "/etc/localtime:/etc/localtime:ro"
-      - "{{ torrents_root }}:/downloads"
+      - "{{ jackett_torrents_root }}:/downloads"
     ports:
       - "{{ jackett_port }}:9117"
     env:
