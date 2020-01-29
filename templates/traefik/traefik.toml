@@ -30,16 +30,16 @@ defaultEntryPoints = ["http", "https"]
 
 [entryPoints]
   [entryPoints.http]
-  address = ":80"
+  address = ":{{ traefik_port_http }}"
     [entryPoints.http.redirect]
     entryPoint = "https"
 
   [entryPoints.https]
-  address = ":443"
+  address = ":{{ traefik_port_https }}"
     [entryPoints.https.tls]
 
   [entryPoints.traefik]
-  address = ":8083"
+  address = ":{{ traefik_port_ui }}"
 
 ################################################################
 # Traefik logs configuration
@@ -208,6 +208,7 @@ onDemand = false # create certificate when container is created
           "portainer.{{ ansible_nas_domain }}",
           "pyload.{{ ansible_nas_domain }}",
           "radarr.{{ ansible_nas_domain }}",
+          "serposcope.{{ ansible_nas_domain }}",
           "sickchill.{{ ansible_nas_domain }}",
           "sonarr.{{ ansible_nas_domain }}",
           "tautulli.{{ ansible_nas_domain }}",

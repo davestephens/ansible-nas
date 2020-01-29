@@ -16,7 +16,7 @@
       - "{{ radarr_download_directory }}/complete:/downloads:rw"
       - "{{ radarr_data_directory }}:/config:rw"
     ports:
-      - "7878:7878"
+      - "{{ radarr_port }}:7878"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ radarr_user_id }}"

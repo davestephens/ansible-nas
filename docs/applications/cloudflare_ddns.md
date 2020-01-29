@@ -8,8 +8,8 @@ host A record to point to your static IP, or enable this container to automatica
 
 ## Usage
 
-Set `cloudflare_ddns_enabled: true` in your `group_vars/all.yml` file.
+Set `cloudflare_ddns_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 ## Specific Configuration
 
-Make sure you set your Cloudflare login, domain and API key details within your `group_vars/all.yml` file.
+Make sure you set your Cloudflare login, domain and API key details within your `inventories/<your_inventory>/nas.yml` file.

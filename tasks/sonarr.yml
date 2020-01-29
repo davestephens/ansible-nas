@@ -16,7 +16,7 @@
       - "{{ sonarr_download_directory }}/complete:/downloads:rw"
       - "{{ sonarr_data_directory }}:/config:rw"
     ports:
-      - "8989:8989"
+      - "{{ sonarr_port }}:8989"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ sonarr_user_id }}"
