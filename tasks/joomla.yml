@@ -29,7 +29,7 @@
     volumes:
       - "{{ joomla_data_directory }}:/var/www/html:rw"
     ports:
-      - "8181:80"
+      - "{{ joomla_port }}:80"
     links:
       - "joomla_mysql:mysql"
     env:

@@ -6,9 +6,9 @@ wallabag is a self-hostable PHP application allowing you to not miss any content
 
 ## Usage
 
-Set `wallabag_enabled: true` in your `group_vars/all.yml` file.
+Set `wallabag_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-If you want to access Wallabag externally, don't forget to set `wallabag_available_externally: "true"` in your `group_vars/all.yml` file.
+If you want to access Wallabag externally, don't forget to set `wallabag_available_externally: "true"` in your `inventories/<your_inventory>/nas.yml` file.
 
 I reccomend using the mobile app, which will sync with this installation so you have access to your saved articles even if you don't have signal or wifi access.
 
