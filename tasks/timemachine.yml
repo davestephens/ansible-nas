@@ -2,7 +2,7 @@
 - name: Verify avahi installation
   fail:
     msg: "Avahi not enabled. Set the variable avahi_enabled to true in your playbook"
-  when: "avahi_enabled == false"
+  when: "not avahi_enabled"
 
 - name: Time Machine Directories
   file:
