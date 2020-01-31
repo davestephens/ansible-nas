@@ -12,8 +12,12 @@
 - name: Transmission Docker Container
   docker_container:
     name: transmission
+    hostname: "{{ transmission_hostname }}"
     image: linuxserver/transmission
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ transmission_config_directory }}:/config:rw"
       - "{{ transmission_download_directory }}:/downloads:rw"

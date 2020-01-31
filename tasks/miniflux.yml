@@ -8,8 +8,12 @@
 - name: Create Postgres for Miniflux
   docker_container:
     name: miniflux-postgres
+    hostname: "{{ miniflux_postgress_hostname }}"
     image: postgres:11.1
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ miniflux_data_directory }}/postgres:/var/lib/postgresql/data:rw"
     env:
@@ -21,8 +25,12 @@
 - name: Create Miniflux container
   docker_container:
     name: miniflux
+    hostname: "{{ miniflux_hostname }}"
     image: miniflux/miniflux:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     links:
         - miniflux-postgres:db
     ports:

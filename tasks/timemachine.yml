@@ -7,8 +7,12 @@
 - name: Time Machine Docker Container
   docker_container:
     name: timemachine
+    hostname: "{{ timemachine_hostname }}"
     image: awlnx/samba-timemachine:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     ports:
       - "{{ timemachine_port }}:445"
     env:

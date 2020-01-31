@@ -12,8 +12,12 @@
 - name: Nginx Docker Container
   docker_container:
     name: nginx-proxy
+    hostname: "{{ nginx_proxy_hostname }}"
     image: jwilder/nginx-proxy
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     ports:
       - "{{ nginx_port_http }}:80"
       - "{{ nginx_port_https }}:443"
@@ -30,6 +34,9 @@
     name: letsencrypt-nginx-proxy-companion
     image: jrcs/letsencrypt-nginx-proxy-companion
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ nginx_data_directory }}/certs:/etc/nginx/certs:rw"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"

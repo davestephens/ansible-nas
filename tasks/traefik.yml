@@ -24,9 +24,12 @@
 - name: Traefik Docker Container
   docker_container:
     name: traefik
+    hostname: "{{ traefik_hostname }}"
     image: "{{ traefik_docker_image }}"
     pull: true
-    network_mode: host
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"

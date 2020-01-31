@@ -16,8 +16,12 @@
 - name: Create Mosquitto container
   docker_container:
     name: mosquitto
+    hostname: "{{ mosquitto_hostname }}"
     image: eclipse-mosquitto:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ mosquitto_data_directory }}/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw"
       - "{{ mosquitto_data_directory }}/data:/mosquitto/data:rw"

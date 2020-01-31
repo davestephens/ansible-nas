@@ -15,8 +15,12 @@
 - name: Virtual Desktop Container
   docker_container:
     name: virtual_desktop
+    hostname: "{{ vd_hostname }}"
     image: "{{ vd_docker_image }}"
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ vd_data_directory }}/users.txt:/root/createusers.txt:ro"
       - "{{ vd_data_directory }}/home:/home:rw"

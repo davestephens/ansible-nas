@@ -8,8 +8,12 @@
 - name: Create MySQL container for Serposcope
   docker_container:
     name: serposcope-mysql
+    hostname: "{{ serposcope_mysql_hostname }}"
     image: mysql:5.7
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ serposcope_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
@@ -27,8 +31,12 @@
 - name: Create Serposcope container
   docker_container:
     name: serposcope
+    hostname: "{{ serposcope_hostname }}"
     image: davestephens/serposcope:2.11.0
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     links:
       - serposcope-mysql:db
     ports:

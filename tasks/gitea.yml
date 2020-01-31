@@ -29,8 +29,12 @@
 - name: Create MySQL container for Gitea
   docker_container:
     name: gitea-mysql
+    hostname: "{{ gitea_mysql_hostname }}"
     image: mysql:5.7
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ gitea_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
@@ -44,8 +48,12 @@
 - name: Create Gitea container
   docker_container:
     name: gitea
+    hostname: "{{ gitea_hostname }}"
     image: gitea/gitea:1.6
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     links:
         - gitea-mysql:db
     volumes:

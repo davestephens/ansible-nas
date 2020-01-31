@@ -10,8 +10,12 @@
 - name: Couchpotato Docker Container
   docker_container:
     name: couchpotato
+    hostname: "{{ couchpotato_hostname }}"
     image: linuxserver/couchpotato
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ couchpotato_config_directory }}:/config:rw"
       - "{{ couchpotato_downloads_directory }}/completed:/downloads:rw"

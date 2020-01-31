@@ -7,8 +7,12 @@
 - name: ombi
   docker_container:
     name: ombi
+    hostname: "{{ ombi_hostname }}"
     image: linuxserver/ombi
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ ombi_config_directory }}:/config:rw"
     ports:

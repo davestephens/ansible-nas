@@ -45,3 +45,21 @@
   when: docker_config.changed
   tags:
     - skip_ansible_lint
+
+- name: Create a docker bridge network
+  docker_network:
+    name: "{{ docker_network_name }}"
+    attachable: yes
+    driver: bridge
+    internal: no
+    appends: yes
+    state: present
+    scope: local
+    ipam_config:
+      - subnet: 172.20.0.0/16
+        gateway: 172.20.10.1
+        iprange: 172.20.10.126/25
+    driver_options:
+      com.docker.network.bridge.enable_icc: true
+      com.docker.network.bridge.enable_ip_masquerade: true
+      com.docker.network.bridge.host_brinding_ipv4: 0.0.0.0

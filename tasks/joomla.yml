@@ -10,8 +10,12 @@
 - name: MySQL Docker Container for Joomla
   docker_container:
     name: joomla_mysql
+    hostname: "{{ joomla_mysql_hostname }}"
     image: mysql:5.7
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ joomla_data_directory }}/db:/var/lib/mysql"
     env:
@@ -24,8 +28,12 @@
 - name: Joomla Docker Container
   docker_container:
     name: joomla
+    hostname: "{{ joomla_hostname }}"
     image: joomla
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ joomla_data_directory }}:/var/www/html:rw"
     ports:

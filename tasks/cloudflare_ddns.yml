@@ -1,8 +1,12 @@
 - name: Cloudflare Dynamic DNS Container
   docker_container:
     name: cloudflare-ddns
+    hostname: "{{ cloudflare_ddns_hostname }}"
     image: joshava/cloudflare-ddns:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     env:
       ZONE: "{{ cloudflare_zone }}"
       HOST: "{{ cloudflare_host }}"

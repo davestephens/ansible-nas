@@ -9,8 +9,12 @@
 - name: Sonarr
   docker_container:
     name: sonarr
+    hostname: "{{ sonarr_hostname }}"
     image: linuxserver/sonarr
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ sonarr_tv_directory }}:/tv:rw"
       - "{{ sonarr_download_directory }}/complete:/downloads:rw"

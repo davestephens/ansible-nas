@@ -12,8 +12,12 @@
 - name: Transmission with VPN
   docker_container:
     name: transmission-openvpn
+    hostname: "{{ transmission_openvpn_hostname }}"
     image: haugene/transmission-openvpn
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "{{ transmission_download_directory }}:/storage/downloads:rw"

@@ -9,8 +9,12 @@
 - name: Radarr
   docker_container:
     name: radarr
+    hostname: "{{ radarr_hostname }}"
     image: linuxserver/radarr
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ radarr_movies_directory }}:/movies:rw"
       - "{{ radarr_download_directory }}/complete:/downloads:rw"

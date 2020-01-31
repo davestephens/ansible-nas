@@ -16,8 +16,12 @@
 - name: The Lounge Docker Container
   docker_container:
     name: thelounge
+    hostname: "{{ thelounge_hostname }}"
     image: thelounge/thelounge:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     ports:
       - "{{ thelounge_port_one }}:9001"
       - "{{ thelounge_port_two }}:9000"
@@ -31,4 +35,3 @@
       traefik.frontend.rule: "Host:thelounge.{{ ansible_nas_domain }}"
       traefik.enable: "{{ thelounge_available_externally }}"
       traefik.port: "9000"
-

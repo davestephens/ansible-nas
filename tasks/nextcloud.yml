@@ -10,8 +10,12 @@
 - name: Nextcloud Mysql Docker Container
   docker_container:
     name: nextcloud-mysql
+    hostname: "{{ nextcloud_mysql_hostname }}"
     image: mysql:5.7
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
@@ -25,8 +29,12 @@
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
+    hostname: "{{ nextcloud_hostname }}"
     image: nextcloud:14
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     links:
         - nextcloud-mysql:mysql
     volumes:

@@ -9,8 +9,12 @@
 - name: ZNC
   docker_container:
     name: znc
+    hostname: "{{ znc_hostname }}"
     image: znc
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ znc_data_directory }}:/znc-data:rw"
       - "/etc/timezone:/etc/timezone:ro"

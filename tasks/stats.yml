@@ -23,8 +23,12 @@
 - name: InfluxDB
   docker_container:
     name: influxdb
+    hostname: "{{ influxdb_hostname }}"
     image: influxdb
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ influxdb_data_directory }}:/var/lib/influxdb:rw"
     ports:
@@ -42,8 +46,12 @@
 - name: Telegraf
   docker_container:
     name: telegraf
+    hostname: "{{ telegraf_hostname }}"
     image: telegraf
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ telegraf_data_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -58,8 +66,12 @@
 - name: Grafana
   docker_container:
     name: grafana
+    hsotname: "{{ grafana_hostname }}"
     image: grafana/grafana
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ grafana_data_directory }}/data:/var/lib/grafana:rw"
       - "{{ grafana_data_directory }}/config/provisioning:/etc/grafana/provisioning:ro"

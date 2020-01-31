@@ -9,8 +9,12 @@
 - name: Ubooquity Docker Container
   docker_container:
     name: ubooquity
+    hostname: "{{ ubooquity_hostname }}"
     image: linuxserver/ubooquity:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ ubooquity_data_directory }}/config:/config:rw"
       - "{{ ubooquity_data_directory }}/files:/files:rw"

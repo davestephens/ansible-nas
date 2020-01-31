@@ -2,8 +2,12 @@
 - name: Watchtower Docker Container
   docker_container:
     name: watchtower
+    hostname: "{{ watchtower_hostname }}"
     image: v2tec/watchtower
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     env:

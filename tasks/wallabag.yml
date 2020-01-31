@@ -9,8 +9,12 @@
 - name: Wallabag Docker Container
   docker_container:
     name: wallabag
+    hostname: "{{ wallabag_hostname }}"
     image: wallabag/wallabag:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ wallabag_data_directory }}/data:/var/www/wallabag/data:rw"
       - "{{ wallabag_data_directory }}/images:/var/www/wallabag/web/assets/images:rw"

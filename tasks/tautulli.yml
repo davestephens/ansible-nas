@@ -10,8 +10,12 @@
 - name: Tautulli Docker Container
   docker_container:
     name: tautulli
+    hostname: "{{ tautulli_hostname }}"
     image: linuxserver/tautulli
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ tautulli_config_directory }}:/config:rw"
       - "{{ plex_logs }}:/logs:ro"

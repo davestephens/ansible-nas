@@ -11,8 +11,12 @@
 - name: Create MySQL container for Firefly
   docker_container:
     name: firefly-mysql
+    hostname: "{{ firefly_mysql_hostname }}"
     image: mysql:5.7
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ firefly_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
@@ -30,8 +34,12 @@
 - name: Create Firefly III container
   docker_container:
     name: firefly
+    hostname: "{{ firefly_hostname }}"
     image: jc5x/firefly-iii:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ firefly_data_directory }}/export:/var/www/firefly-iii/storage/export:rw"
       - "{{ firefly_data_directory }}/upload:/var/www/firefly-iii/storage/upload:rw"

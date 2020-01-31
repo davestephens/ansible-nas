@@ -9,8 +9,12 @@
 - name: NZBGet
   docker_container:
     name: nzbget
+    hostname: "{{ nzbget_hostname }}"
     image: linuxserver/nzbget
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ nzbget_download_directory }}:/downloads:rw"
       - "{{ nzbget_data_directory }}:/config:rw"

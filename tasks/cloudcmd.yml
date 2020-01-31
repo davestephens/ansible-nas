@@ -9,8 +9,12 @@
 - name: CloudCmd
   docker_container:
     name: cloudcmd
+    hostname: "{{ cloudcmd_hostname }}"
     image: coderaiser/cloudcmd
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ cloudcmd_data_directory }}:/config:rw"
       - "{{ cloudcmd_browse_directory }}:/mnt/fs"

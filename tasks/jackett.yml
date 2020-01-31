@@ -9,7 +9,11 @@
 - name: jackett
   docker_container:
     name: jackett
+    hostname: "{{ jackett_hostname }}"
     image: linuxserver/jackett
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ jackett_data_directory }}:/config:rw"
       - "/etc/localtime:/etc/localtime:ro"

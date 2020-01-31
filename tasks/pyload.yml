@@ -11,8 +11,12 @@
 - name: pyLoad Docker Container
   docker_container:
     name: pyload
+    hostname: "{{ pyload_hostname }}"
     image: writl/pyload
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ pyload_config_directory }}:/opt/pyload/pyload-config:rw"
       - "{{ pyload_download_directory }}:/opt/pyload/Downloads:rw"

@@ -11,6 +11,9 @@
     image: netdata/netdata
     state: started
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     ports:
       - "{{ netdata_port }}:19999"
     volumes:

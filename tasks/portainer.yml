@@ -9,8 +9,12 @@
 - name: Portainer Docker Container
   docker_container:
     name: portainer
+    hostname: "{{ portainer_hostname }}"
     image: portainer/portainer
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ portainer_data_directory }}:/data:rw"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"

@@ -9,8 +9,12 @@
 - name: Dupicati Docker Container
   docker_container:
     name: duplicati
+    hostname: "{{ duplicati_hostname }}"
     image: linuxserver/duplicati
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     ports:
       - "{{ duplicati_port }}:8200"
     volumes:

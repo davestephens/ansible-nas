@@ -31,8 +31,12 @@
 - name: Guacamole Container
   docker_container:
     name: guacamole
+    hostname: "{{ guacamole_hostname }}"
     image: "oznu/guacamole"
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ guacamole_data_directory }}/config:/config:rw"
     ports:

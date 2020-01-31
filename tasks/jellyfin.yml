@@ -8,8 +8,12 @@
 - name: Jellyfin Docker Container
   docker_container:
     name: jellyfin
+    hostname: "{{ jellyfin_hostname }}"
     image: linuxserver/jellyfin
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ jellyfin_config_directory }}:/config:rw"
       - "{{ jellyfin_movies_directory }}:/movies:{{ jellyfin_movies_permissions }}"

@@ -11,8 +11,12 @@
 - name: Airsonic Docker Container
   docker_container:
     name: airsonic
+    hostname: "{{ airsonic_hostname }}"
     image: airsonic/airsonic:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ airsonic_data_directory }}/data:/airsonic/data:rw"
       - "{{ airsonic_data_directory }}/playlists:/airsonic/playlists:rw"

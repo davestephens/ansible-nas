@@ -8,8 +8,12 @@
 - name: Bitwarden Docker Container
   docker_container:
     name: bitwarden
+    hostname: "{{ bitwarden_hostname }}"
     image: mprasil/bitwarden:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     ports:
       - "{{ bitwarden_port_a }}:80"
       - "{{ bitwarden_port_b }}:3012"
@@ -35,6 +39,9 @@
     name: bitwarden-backup
     image: bruceforce/bw_backup:latest
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     restart_policy: unless-stopped
     volumes_from: bitwarden
     memory: 1g

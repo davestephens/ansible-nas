@@ -9,8 +9,12 @@
 - name: Bazarr
   docker_container:
     name: bazarr
+    hostname: "{{ bazarr_hostname }}"
     image: linuxserver/bazarr
     pull: true
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ bazarr_tv_directory }}:/tv:rw"
       - "{{ bazarr_movies_directory }}:/movies:rw"
