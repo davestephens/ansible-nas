@@ -15,8 +15,8 @@
     image: jwilder/nginx-proxy
     pull: true
     ports:
-      - "80:80"
-      - "443:443"
+      - "{{ nginx_port_http }}:80"
+      - "{{ nginx_port_https }}:443"
     volumes:
       - "{{ nginx_data_directory }}/certs:/etc/nginx/certs:ro"
       - "{{ nginx_data_directory }}/vhost.d:/etc/nginx/vhost.d:rw"

@@ -19,8 +19,8 @@
     image: thelounge/thelounge:latest
     pull: true
     ports:
-      - "113:9001"
-      - "9000:9000"
+      - "{{ thelounge_port_one }}:9001"
+      - "{{ thelounge_port_two }}:9000"
     volumes:
       - "{{ thelounge_data_directory }}:/var/opt/thelounge"
       - "/var/run/dbus:/var/run/dbus"

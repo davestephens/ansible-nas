@@ -11,6 +11,12 @@ You can run Ansible-NAS from the computer you plan to use for your NAS, or from 
 
 2. Install Ansible:
 
+    `sudo apt update`
+
+    `sudo apt install software-properties-common`
+
+    `sudo apt-add-repository --yes --update ppa:ansible/ansible`
+
     `sudo apt install ansible`
 
 3. Clone Ansible-NAS:
