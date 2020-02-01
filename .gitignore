@@ -4,6 +4,7 @@ site
 roles
 *.retry
 *.log
+inventories/hoarder/
 
 # Vim
 [._]sw[a-p]

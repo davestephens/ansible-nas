@@ -1,0 +1,25 @@
+---
+- name: Create MySQL Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ mysqlserver_data_directory }}"
+
+- name: mysql
+  docker_container:
+    name: mysql
+    image: mysql/mysql-server:5.7
+    pull: true
+    volumes:
+      - "{{ mysqlserver_data_directory }}:/var/lib/mysql:rw"
+    ports:
+      - "{{ mysqlserver_port }}:3306"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ nzbget_user_id }}"
+      PGID: "{{ nzbget_group_id }}"
+      MYSQL_ROOT_PASSWORD: "{{ mysqlserver_root_password }}"
+      MYSQL_ROOT_HOST: "%%"
+    restart_policy: unless-stopped
+    memory: 1g

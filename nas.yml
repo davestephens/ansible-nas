@@ -223,3 +223,7 @@
   - import_tasks: tasks/virtual_desktop.yml
     when: (virtual_desktop_enabled | default(False))
     tags: virtual_desktop
+
+  - import_tasks: tasks/mysqlserver.yml
+    when: (mysqlserver_enabled | default(False))
+    tags: mysqlserver
