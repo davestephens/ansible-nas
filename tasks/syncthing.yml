@@ -15,7 +15,7 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ syncthing_user_id }}"
       PGID: "{{ syncthing_group_id }}"
-      UMASK_SET: " {{ syncthing_umask }}"
+      UMASK_SET: "{{ syncthing_umask }}"
     restart_policy: unless-stopped
     memory: 512m
     labels:
