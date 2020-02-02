@@ -1,0 +1,26 @@
+---
+- name: Syncthing Docker Container
+  docker_container:
+    name: syncthing
+    image: linuxserver/syncthing
+    pull: true
+    volumes:
+      - "{{ syncthing_config_directory }}:/config:rw"
+      - "{{ syncthing_data_directory }}:/data1:rw"
+    ports:
+      - "{{ syncthing_ui_port }}:8384"
+      - "{{ syncthing_data_port }}:22000"
+      - "{{ syncthing_discovery_port }}:21027/udp"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ syncthing_user_id }}"
+      PGID: "{{ syncthing_group_id }}"
+      UMASK_SET: " {{ syncthing_umask }}"
+    restart_policy: unless-stopped
+    memory: 512m
+    labels:
+      traefik.backend: "syncthing"
+      traefik.frontend.rule: "Host:syncthing.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ syncthing_available_externally }}"
+      traefik.port: "8384"
+

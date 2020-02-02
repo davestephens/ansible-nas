@@ -62,6 +62,7 @@ virtual_desktop_enabled: false
 duplicati_enabled: false
 nextcloud_enabled: false
 timemachine_enabled: false
+syncthing_enabled: false
 
 # Software build and CI
 gitea_enabled: false
@@ -498,7 +499,7 @@ couchpotato_downloads_directory: "{{ downloads_root }}"
 couchpotato_torrents_directory: "{{ torrents_root }}"
 couchpotato_user_id: "0"
 couchpotato_group_id: "0"
-couchpotato_port: "5050" 
+couchpotato_port: "5050"
 
 ###
 ### Sickchill
@@ -811,3 +812,16 @@ vd_users:
     password: "topsecret"
     sudo: "Y"
 vd_rdp_port: 3389
+
+###
+### Syncthing
+###
+syncthing_ui_port: "8085"
+syncthing_data_port: "22000"
+syncthing_discovery_port: "21027"
+syncthing_user_id: "0"
+syncthing_group_id: "0"
+syncthing_umask: "022"
+syncthing_config_directory: "{{ docker_home }}/syncthing"
+syncthing_data_directory: "{{ samba_shares_root }}"
+syncthing_available_externally: "false"
