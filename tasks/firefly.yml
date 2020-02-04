@@ -14,7 +14,6 @@
     hostname: "{{ firefly_mysql_hostname }}"
     image: mysql:5.7
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:
@@ -37,7 +36,6 @@
     hostname: "{{ firefly_hostname }}"
     image: jc5x/firefly-iii:latest
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

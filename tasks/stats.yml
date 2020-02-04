@@ -26,7 +26,6 @@
     hostname: "{{ influxdb_hostname }}"
     image: influxdb
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:
@@ -49,7 +48,6 @@
     hostname: "{{ telegraf_hostname }}"
     image: telegraf
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:
@@ -69,7 +67,6 @@
     hsotname: "{{ grafana_hostname }}"
     image: grafana/grafana
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

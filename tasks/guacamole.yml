@@ -34,7 +34,6 @@
     hostname: "{{ guacamole_hostname }}"
     image: "oznu/guacamole"
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

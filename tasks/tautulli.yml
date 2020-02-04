@@ -13,7 +13,6 @@
     hostname: "{{ tautulli_hostname }}"
     image: linuxserver/tautulli
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

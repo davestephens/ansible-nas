@@ -11,7 +11,6 @@
     hostname: "{{ homeassistant_hostname }}"
     image: homeassistant/home-assistant
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

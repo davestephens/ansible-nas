@@ -11,7 +11,6 @@
     hostname: "{{ miniflux_postgress_hostname }}"
     image: postgres:11.1
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:
@@ -28,7 +27,6 @@
     hostname: "{{ miniflux_hostname }}"
     image: miniflux/miniflux:latest
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     links:

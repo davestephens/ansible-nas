@@ -15,7 +15,6 @@
     hostname: "{{ nginx_proxy_hostname }}"
     image: jwilder/nginx-proxy
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     ports:
@@ -34,7 +33,6 @@
     name: letsencrypt-nginx-proxy-companion
     image: jrcs/letsencrypt-nginx-proxy-companion
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

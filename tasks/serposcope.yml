@@ -11,7 +11,6 @@
     hostname: "{{ serposcope_mysql_hostname }}"
     image: mysql:5.7
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:
@@ -34,7 +33,6 @@
     hostname: "{{ serposcope_hostname }}"
     image: davestephens/serposcope:2.11.0
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     links:

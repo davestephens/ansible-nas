@@ -12,7 +12,6 @@
     hostname: "{{ homebridge_hostname }}"
     image: oznu/homebridge
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

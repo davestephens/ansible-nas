@@ -12,7 +12,6 @@
     hostname: "{{ bazarr_hostname }}"
     image: linuxserver/bazarr
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

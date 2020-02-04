@@ -4,7 +4,6 @@
     hostname: "{{ glances_hostname }}"
     image: nicolargo/glances
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     ports:

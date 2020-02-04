@@ -30,7 +30,6 @@
     hostname: "{{ heimdall_hostname }}"
     image: "{{ heimdall_docker_image }}"
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

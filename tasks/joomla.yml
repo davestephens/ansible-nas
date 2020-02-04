@@ -13,7 +13,6 @@
     hostname: "{{ joomla_mysql_hostname }}"
     image: mysql:5.7
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:
@@ -31,7 +30,6 @@
     hostname: "{{ joomla_hostname }}"
     image: joomla
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

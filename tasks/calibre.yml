@@ -4,14 +4,12 @@
     state: directory
   with_items:
     - "{{ calibre_data_directory }}/config"
-
 - name: Calibre Docker Container
   docker_container:
     name: calibre
     hostname: "{{ calibre_hostname }}"
     image: linuxserver/calibre-web:latest
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

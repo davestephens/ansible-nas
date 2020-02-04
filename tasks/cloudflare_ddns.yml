@@ -4,7 +4,6 @@
     hostname: "{{ cloudflare_ddns_hostname }}"
     image: joshava/cloudflare-ddns:latest
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     env:

@@ -32,7 +32,6 @@
     hostname: "{{ gitea_mysql_hostname }}"
     image: mysql:5.7
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:
@@ -51,7 +50,6 @@
     hostname: "{{ gitea_hostname }}"
     image: gitea/gitea:1.6
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     links:

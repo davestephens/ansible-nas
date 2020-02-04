@@ -12,7 +12,6 @@
     hostname: "{{ znc_hostname }}"
     image: znc
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:

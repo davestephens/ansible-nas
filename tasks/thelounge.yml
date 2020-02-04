@@ -19,7 +19,6 @@
     hostname: "{{ thelounge_hostname }}"
     image: thelounge/thelounge:latest
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     ports:

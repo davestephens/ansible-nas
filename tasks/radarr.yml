@@ -12,7 +12,6 @@
     hostname: "{{ radarr_hostname }}"
     image: linuxserver/radarr
     pull: true
-    networks_cli_compatible: yes
     networks:
       - name: "{{ docker_network_name }}"
     volumes:
