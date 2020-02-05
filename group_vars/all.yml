@@ -331,7 +331,6 @@ samba_netbios_name: "{{ ansible_nas_hostname }}"
 ### Traefik
 ###
 traefik_docker_image: traefik:v1.7
-traefik_hostname: "traefik"
 traefik_data_directory: "{{ docker_home }}/traefik"
 traefik_debug: "false"
 
@@ -339,7 +338,6 @@ traefik_debug: "false"
 ### Heimdall
 ###
 heimdall_available_externally: "false"
-heimdall_hostname: "heimdall"
 heimdall_docker_image: linuxserver/heimdall:latest
 heimdall_data_directory: "{{ docker_home }}/heimdall"
 heimdall_port_http: "10080"
@@ -349,9 +347,7 @@ heimdall_port_https: "10443"
 ### Transmission
 ###
 transmission_available_externally: "false"
-transmission_hostname: "transmission"
 transmission_with_openvpn_available_externally: "false"
-transmission_openvpn_hostname: "transmission"
 transmission_config_directory: "{{ docker_home }}/transmission/config"
 transmission_download_directory: "{{ downloads_root }}"
 transmission_watch_directory: "{{ torrents_root }}"
@@ -375,8 +371,6 @@ openvpn_config: United-Kingdom
 ### Joomla
 ###
 joomla_available_externally: "false"
-joomla_hostname: "joomla"
-joomla_mysql_hostname: "joomla-mysql"
 joomla_data_directory: "{{ docker_home }}/joomla"
 joomla_database_password: top_secret
 joomla_port: "8181"
@@ -385,7 +379,6 @@ joomla_port: "8181"
 ### pyLoad
 ###
 pyload_available_externally: "false"
-pyload_hostname: "pyload"
 pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
 pyload_user_id: "0"
@@ -398,7 +391,6 @@ pyload_port: "8000"
 # If you're paranoid, set permissions to "ro" so Plex won't ever be able to
 # delete your files
 plex_available_externally: "false"
-plex_hostname: "plex"
 plex_config_directory: "{{ docker_home }}/plex/config"
 plex_logs: "{{ docker_home }}/plex/logs"
 plex_movies_directory: "{{ movies_root }}"
@@ -417,7 +409,6 @@ plex_port: "32400"
 ### Homebridge
 ###
 homebridge_available_externally: "false"
-homebridge_hostname: "homebridge"
 homebridge_config_directory: "{{ docker_home }}/homebridge/config"
 homebridge_user_id: "0"
 homebridge_group_id: "0"
@@ -429,7 +420,6 @@ homebridge_port: "8087"
 # If you're paranoid, set permissions to "ro" so Emby won't ever be able to
 # delete your files
 emby_available_externally: "false"
-emby_hostname: "emby"
 emby_config_directory: "{{ docker_home }}/emby/config"
 emby_movies_directory: "{{ movies_root }}"
 emby_movies_permissions: "rw"
@@ -444,7 +434,6 @@ emby_port_https: "8920"
 ### Tautulli
 ###
 tautulli_available_externally: "false"
-tautulli_hostname: "tautulli"
 tautulli_config_directory: "{{ docker_home }}/tautulli/config"
 tautulli_user_id: "0"
 tautulli_group_id: "0"
@@ -455,7 +444,6 @@ tautulli_port: "8185"
 ### Duplicati
 ###
 duplicati_available_externally: "false"
-duplicati_hostname: "duplicati"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 duplicati_port: "8200"
 
@@ -463,7 +451,6 @@ duplicati_port: "8200"
 ### Sonarr
 ###
 sonarr_available_externally: "false"
-sonarr_hostname: "sonarr"
 sonarr_data_directory: "{{ docker_home }}/sonarr/config"
 sonarr_tv_directory: "{{ tv_root }}"
 sonarr_download_directory: "{{ downloads_root }}"
@@ -475,7 +462,6 @@ sonarr_port: "8989"
 ### Radarr
 ###
 radarr_available_externally: "false"
-radarr_hostname: "radarr"
 radarr_movies_directory: "{{ movies_root }}"
 radarr_download_directory: "{{ downloads_root }}"
 radarr_data_directory: "{{ docker_home }}/radarr"
@@ -487,7 +473,6 @@ radarr_port: "7878"
 ### Bazarr
 ###
 bazarr_available_externally: "false"
-bazarr_hostname: "bazarr"
 bazarr_data_directory: "{{ docker_home }}/bazarr/config"
 bazarr_tv_directory: "{{ tv_root }}"
 bazarr_movies_directory: "{{ movies_root }}"
@@ -499,7 +484,6 @@ bazarr_port: "6767"
 ### lidarr
 ###
 lidarr_available_externally: "false"
-lidarr_hostname: "lidarr"
 lidarr_data_directory: "{{ docker_home }}/lidarr/config"
 lidarr_music_directory: "{{ music_root }}"
 lidarr_downloads_directory: "{{ downloads_root }}"
@@ -511,7 +495,6 @@ lidarr_port: "8686"
 ### Couchpotato
 ###
 couchpotato_available_externally: "false"
-couchpotato_hostname: "couchpotato"
 couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
 couchpotato_movies_directory: "{{ movies_root }}"
 couchpotato_downloads_directory: "{{ downloads_root }}"
@@ -524,7 +507,6 @@ couchpotato_port: "5050"
 ### Sickchill
 ###
 sickchill_available_externally: "false"
-sickchill_hostname: "sickchill"
 sickchill_config_directory: "{{ docker_home }}/sickchill/config"
 sickchill_tv_directory: "{{ tv_root }}"
 sickchill_downloads_directory: "{{ downloads_root }}/completed"
@@ -537,7 +519,6 @@ sickchill_port: "8081"
 ### Ombi
 ###
 ombi_available_externally: "false"
-ombi_hostname: "ombi"
 ombi_config_directory: "{{ docker_home }}/ombi/config"
 ombi_user_id: "0"
 ombi_group_id: "0"
@@ -546,13 +527,11 @@ ombi_group_id: "0"
 ### Netdata
 ###
 netdata_available_externally: "false"
-netdata_hostname: "netdata"
 netdata_port: "19999"
 
 ###
 ### OpenVPN
 ###
-openvpn_client_hostname: "openvpn"
 openvpn_config_directory: "{{ docker_home }}/openvpn"
 
 
@@ -560,7 +539,6 @@ openvpn_config_directory: "{{ docker_home }}/openvpn"
 ### Portainer
 ###
 portainer_available_externally: "false"
-portainer_hostname: "portainer"
 portainer_data_directory: "{{ docker_home }}/portainer/config"
 portainer_port: "9000"
 
@@ -568,7 +546,6 @@ portainer_port: "9000"
 ### ZNC
 ###
 znc_available_externally: "false"
-znc_hostname: "znc"
 znc_data_directory: "{{ docker_home }}/znc"
 znc_user_id: "0"
 znc_group_id: "0"
@@ -579,9 +556,6 @@ znc_port: "6677"
 ### Stats
 ###
 grafana_available_externally: "false"
-grafana_hostname: "grafana"
-influxdb_hostname: "influxdb"
-telegraf_hostname: "telegraf"
 telegraf_data_directory: "{{ docker_home }}/telegraf"
 influxdb_data_directory: "{{ docker_home }}/influxdb"
 grafana_data_directory: "{{ docker_home }}/grafana"
@@ -593,8 +567,6 @@ grafana_port: "3000"
 ### Gitea
 ###
 gitea_available_externally: "false"
-gitea_hostname: "gitea"
-gitea_mysql_hostname: "gitea-mysql"
 gitea_data_directory: "{{ docker_home }}/gitea"
 gitea_port_http: "3001"
 gitea_port_ssh: "222"
@@ -603,7 +575,6 @@ gitea_port_ssh: "222"
 ### Glances
 ###
 glances_available_externally: "false"
-glances_hostname: "glances"
 glances_port_one: "61208"
 glances_port_two: "61209"
 
@@ -611,7 +582,6 @@ glances_port_two: "61209"
 ### Nextcloud
 ###
 nextcloud_available_externally: "false"
-nextcloud_hostname: "nextcloud"
 nextcloud_mysql_hostname: "nextcloud-mysql"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 nextcloud_port: "8080"
@@ -627,7 +597,6 @@ nginx_port_https: "443"
 ### Guacamole
 ###
 guacamole_available_externally: "false"
-guacamole_hostname: "guacamole"
 guacamole_data_directory: "{{ docker_home }}/guacamole"
 guacamole_port: "8090"
 
@@ -635,7 +604,6 @@ guacamole_port: "8090"
 ### Miniflux
 ###
 miniflux_available_externally: "false"
-miniflux_hostname: "miniflux"
 miniflux_postgress_hostname: "miniflux-postgress"
 miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
@@ -646,7 +614,6 @@ miniflux_port: "8070"
 ### Airsonic
 ###
 airsonic_available_externally: "false"
-airsonic_hostname: "airsonic"
 airsonic_data_directory: "{{ docker_home }}/airsonic"
 airsonic_music_directory: "{{ music_root }}"
 airsonic_podcasts_directory: "{{ podcasts_root }}"
@@ -657,7 +624,6 @@ airsonic_port: "4040"
 ### CloudCmd
 ###
 cloudcmd_available_externally: "false"
-cloudcmd_hostname: "cloudcmd"
 cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
 cloudcmd_browse_directory: "/"
 cloudcmd_user_id: "0"
@@ -667,7 +633,6 @@ cloudcmd_port: "7373"
 ###
 ### Watchtower
 ###
-watchtower_hostname: "watchtower"
 # Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
 watchtower_cron_schedule: 0 0 5 * * *
 
@@ -686,7 +651,6 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
 ###
 ### Time Machine
 ###
-timemachine_hostname: "timemachine"
 timemachine_data_directory: "{{ docker_home }}/timemachine"
 timemachine_volume_size_limit: "0"
 timemachine_password: timemachine
@@ -697,7 +661,6 @@ timemachine_port: "10445"
 ###
 ### minidlna
 ###
-minidlna_hostname: "minidlna"
 minidlna_media_directory1: "{{ movies_root }}"
 minidlna_media_directory2: "{{ tv_root }}"
 minidlna_friendly_name: "{{ ansible_nas_hostname }}"
@@ -706,7 +669,6 @@ minidlna_port: "8201"
 ###
 ### get_iplayer
 ###
-get_iplayer_hostname: "getiplayer"
 get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
 get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
 get_iplayer_port: "8182"
@@ -714,7 +676,6 @@ get_iplayer_port: "8182"
 ###
 ### mymediaforalexa
 ###
-mymediaforalexa_hostname: "mymediaforalexa"
 mymediaforalexa_media_directory: "{{ music_root }}"
 mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 
@@ -722,7 +683,6 @@ mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 ### Jackett
 ###
 jackett_available_externally: "false"
-jackett_hostname: "jackett"
 jackett_data_directory: "{{ docker_home }}/jackett"
 jackett_torrents_root: "{{ torrents_root }}"
 jackett_port: "9117"
@@ -731,7 +691,6 @@ jackett_port: "9117"
 ### The Lounge
 ###
 thelounge_available_externally: "false"
-thelounge_hostname: "thelounge"
 thelounge_data_directory: "{{ docker_home }}/thelounge"
 thelounge_port_one: "113"
 thelounge_port_two: "9002"
@@ -740,7 +699,6 @@ thelounge_port_two: "9002"
 ### Bitwarden
 ###
 bitwarden_available_externally: "false"
-bitwarden_hostname: "bitwarden"
 bitwarden_data_directory: "{{ docker_home }}/bitwarden"
 bitwarden_port_a: "19080"
 bitwarden_port_b: "3012"
@@ -759,7 +717,6 @@ bitwarden_allow_signups: false
 ### Firefly
 ###
 firefly_available_externally: "false"
-firefly_hostname: "firefly"
 firefly_mysql_hostname: "firefly-mysql"
 firefly_data_directory: "{{ docker_home }}/firefly"
 firefly_port: "8066"
@@ -768,7 +725,6 @@ firefly_port: "8066"
 ### Nzbget
 ###
 nzbget_available_externally: "false"
-nzbget_hostname: "nzbget"
 nzbget_data_directory: "{{ docker_home }}/nzbget"
 nzbget_download_directory: "{{ downloads_root }}"
 nzbget_user_id: "0"
@@ -779,7 +735,6 @@ nzbget_port: "6789"
 ### Wallabag
 ###
 wallabag_available_externally: "false"
-wallabag_hostname: "wallabag"
 wallabag_data_directory: "{{ docker_home }}/wallabag"
 wallabag_port: "7780"
 
@@ -787,7 +742,6 @@ wallabag_port: "7780"
 ### Mosquitto
 ###
 mosquitto_available_externally: "false"
-mosquitto_hostname: "mosquitto"
 mosquitto_data_directory: "{{ docker_home }}/mosquitto"
 mosquitto_port_a: "1883"
 mosquitto_port_b: "9001"
@@ -796,7 +750,6 @@ mosquitto_port_b: "9001"
 ### Calibre
 ###
 calibre_available_externally: "false"
-calibre_hostname: "calibre"
 calibre_data_directory: "{{ docker_home }}/calibre"
 calibre_user_id: "0"
 calibre_group_id: "0"
@@ -809,7 +762,6 @@ calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 ### Home Assistant
 ###
 homeassistant_available_externally: "false"
-homeassistant_hostname: "homeassistant"
 homeassistant_data_directory: "{{ docker_home }}/homeassistant"
 homeassistant_port: "8123"
 
@@ -817,7 +769,6 @@ homeassistant_port: "8123"
 ### openHAB
 ###
 openhab_available_externally: "false"
-openhab_hostname: "openhab"
 openhab_docker_image: openhab/openhab:latest
 openhab_data_directory: "{{ docker_home }}/openhab"
 openhab_port_http: "7777"
@@ -829,7 +780,6 @@ openhab_port_https: "7778"
 # If you're paranoid, set permissions to "ro" so jellyfin won't ever be able to
 # delete your files
 jellyfin_available_externally: "false"
-jellyfin_hostname: "jellyfin"
 jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
 jellyfin_movies_directory: "{{ movies_root }}"
 jellyfin_movies_permissions: "rw"
@@ -844,7 +794,6 @@ jellyfin_port_https: "8928"
 ### Ubooquity
 ###
 ubooquity_available_externally: "false"
-ubooquity_hostname: "ubooquity"
 ubooquity_data_directory: "{{ docker_home }}/ubooquity"
 ubooquity_user_id: "0"
 ubooquity_group_id: "0"
@@ -855,7 +804,6 @@ ubooquity_port_admin: "2203"
 ### Serposcope
 ###
 serposcope_available_externally: "false"
-serposcope_hostname: "serposcope"
 serposcope_mysql_hostname: "serposcope-mysql"
 serposcope_data_directory: "{{ docker_home }}/serposcope"
 serposcope_port: 7134
