@@ -819,8 +819,6 @@ vd_rdp_port: 3389
 syncthing_ui_port: "8085"
 syncthing_data_port: "22000"
 syncthing_discovery_port: "21027"
-syncthing_user_id: "0"
-syncthing_group_id: "0"
 syncthing_umask: "022"
 syncthing_config_directory: "{{ docker_home }}/syncthing"
 syncthing_data_directory: "{{ samba_shares_root }}"

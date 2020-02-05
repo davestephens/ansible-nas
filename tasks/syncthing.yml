@@ -1,4 +1,14 @@
 ---
+- name: Create Syncthing user
+  user:
+    name: syncthing
+    uid: 1311
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: ansible-nas
+
 - name: Syncthing Docker Container
   docker_container:
     name: syncthing
@@ -13,8 +23,8 @@
       - "{{ syncthing_discovery_port }}:21027/udp"
     env:
       TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ syncthing_user_id }}"
-      PGID: "{{ syncthing_group_id }}"
+      PUID: "1311"
+      PGID: "1001"
       UMASK_SET: "{{ syncthing_umask }}"
     restart_policy: unless-stopped
     memory: 512m
