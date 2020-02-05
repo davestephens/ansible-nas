@@ -64,7 +64,7 @@
 - name: Grafana
   docker_container:
     name: grafana
-    hsotname: grafana
+    hostname: grafana
     image: grafana/grafana
     pull: true
     networks:
