@@ -2,11 +2,13 @@
 - name: Create ansible-nas group
   group:
     name: ansible-nas
+    gid: "{{ ansible_nas_gid }}"
     state: present
 
 - name: Create ansible-nas user
   user:
     name: ansible-nas
+    uid: "{{ ansible_nas_uid }}"
     state: present
     system: yes
     update_password: on_create
