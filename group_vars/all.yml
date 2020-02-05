@@ -113,8 +113,8 @@ traefik_port_ui: "8083"
 ansible_nas_hostname: ansible-nas
 
 # User ID/Group ID used for "samba_shares_root" share
-ansible_nas_uid: 1001
-ansible_nas_gid: 1001
+ansible_nas_uid: 1002
+ansible_nas_gid: 1002
 
 # Sets the timezone for your Ansible NAS
 # You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
