@@ -27,7 +27,7 @@
 - name: Create Heimdall container
   docker_container:
     name: heimdall
-    hostname: "{{ heimdall_hostname }}"
+    hostname: heimdall
     image: "{{ heimdall_docker_image }}"
     pull: true
     networks:

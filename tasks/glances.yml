@@ -1,11 +1,9 @@
 - name: Glances Docker Container
   docker_container:
     name: glances
-    hostname: "{{ glances_hostname }}"
+    hostname: glances
     image: nicolargo/glances
     pull: true
-    networks:
-      - name: "{{ docker_network_name }}"
     ports:
       - "{{ glances_port_one }}:61208"
       - "{{ glances_port_two }}:61209"
@@ -14,6 +12,7 @@
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/timezone:/etc/timezone:ro"
     pid_mode: host
+    network_mode: host
     env:
       GLANCES_OPT: "-w"
     restart_policy: unless-stopped

@@ -12,7 +12,7 @@
 - name: Transmission with VPN
   docker_container:
     name: transmission-openvpn
-    hostname: "{{ transmission_openvpn_hostname }}"
+    hostname: transmission-openvpn
     image: haugene/transmission-openvpn
     pull: true
     networks:

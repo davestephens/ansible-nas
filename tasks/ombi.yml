@@ -7,7 +7,7 @@
 - name: ombi
   docker_container:
     name: ombi
-    hostname: "{{ ombi_hostname }}"
+    hostname: ombi
     image: linuxserver/ombi
     pull: true
     networks:

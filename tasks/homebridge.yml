@@ -9,13 +9,12 @@
 - name: Homebridge Docker Container
   docker_container:
     name: homebridge
-    hostname: "{{ homebridge_hostname }}"
+    hostname: homebridge
     image: oznu/homebridge
     pull: true
-    networks:
-      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ homebridge_config_directory }}:/homebridge"
+    network_mode: host
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PGID: "{{ homebridge_group_id }}"

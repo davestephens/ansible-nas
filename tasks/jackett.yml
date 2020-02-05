@@ -9,7 +9,7 @@
 - name: jackett
   docker_container:
     name: jackett
-    hostname: "{{ jackett_hostname }}"
+    hostname: jackett
     image: linuxserver/jackett
     networks:
       - name: "{{ docker_network_name }}"

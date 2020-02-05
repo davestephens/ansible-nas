@@ -9,7 +9,7 @@
 - name: Dupicati Docker Container
   docker_container:
     name: duplicati
-    hostname: "{{ duplicati_hostname }}"
+    hostname: duplicati
     image: linuxserver/duplicati
     pull: true
     networks:

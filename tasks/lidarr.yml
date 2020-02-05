@@ -7,7 +7,7 @@
 - name: lidarr
   docker_container:
     name: lidarr
-    hostname: "{{ lidarr_hostname }}"
+    hostname: lidarr
     image: linuxserver/lidarr
     pull: true
     networks:

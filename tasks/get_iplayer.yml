@@ -9,7 +9,7 @@
 - name: get_iplayer Docker Container
   docker_container:
     name: get_iplayer
-    hostname: "{{ get_iplayer_hostname }}"
+    hostname: get_iplayer
     image: kolonuk/get_iplayer
     pull: true
     networks:

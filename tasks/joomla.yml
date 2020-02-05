@@ -10,7 +10,7 @@
 - name: MySQL Docker Container for Joomla
   docker_container:
     name: joomla_mysql
-    hostname: "{{ joomla_mysql_hostname }}"
+    hostname: joomla_mysql
     image: mysql:5.7
     pull: true
     networks:
@@ -27,7 +27,7 @@
 - name: Joomla Docker Container
   docker_container:
     name: joomla
-    hostname: "{{ joomla_hostname }}"
+    hostname: joomla
     image: joomla
     pull: true
     networks:

@@ -9,7 +9,7 @@
 - name: NZBGet
   docker_container:
     name: nzbget
-    hostname: "{{ nzbget_hostname }}"
+    hostname: nzbget
     image: linuxserver/nzbget
     pull: true
     networks:

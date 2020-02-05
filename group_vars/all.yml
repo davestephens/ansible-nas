@@ -142,7 +142,7 @@ docker_home: /mnt/Volume2/docker
 docker_storage_driver: overlay2
 
 # Name you would like for your docker network. Completely cosmetic.
-docker_network_name: "docker_network"
+docker_network_name: "ansible_nas_bridge"
 
 ###
 ### Samba

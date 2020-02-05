@@ -8,7 +8,7 @@
 - name: Create MySQL container for Serposcope
   docker_container:
     name: serposcope-mysql
-    hostname: "{{ serposcope_mysql_hostname }}"
+    hostname: serposcope-mysql
     image: mysql:5.7
     pull: true
     networks:
@@ -30,7 +30,7 @@
 - name: Create Serposcope container
   docker_container:
     name: serposcope
-    hostname: "{{ serposcope_hostname }}"
+    hostname: serposcope
     image: davestephens/serposcope:2.11.0
     pull: true
     networks:

@@ -10,22 +10,9 @@
 - name: plex Docker Container
   docker_container:
     name: plex
-    hostname: "{{ plex_hostname }}"
+    hostname: plex
     image: linuxserver/plex
     pull: true
-    networks:
-      - name: "{{ docker_network_name }}"
-    ports:
-      - "32400:32400/tcp"
-      - "3005:3005/tcp"
-      - "8324:8324/tcp"
-      - "32469:32469/tcp"
-      - "1900:1900/udp" #DLNA conflicts with openhab
-      - "5353:5353/udp"
-      - "32410:32410/udp"
-      - "32412:32412/udp"
-      - "32413:32413/udp"
-      - "32414:32414/udp"
     volumes:
       - "{{ plex_config_directory }}:/config:rw"
       - "{{ plex_logs }}:/opt/plex/Library/Application Support/Plex Media Server/Logs:rw"
@@ -33,6 +20,7 @@
       - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
       - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
       - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
+    network_mode: "host"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ plex_user_id }}"

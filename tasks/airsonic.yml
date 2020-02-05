@@ -11,7 +11,7 @@
 - name: Airsonic Docker Container
   docker_container:
     name: airsonic
-    hostname: "{{ airsonic_hostname }}"
+    hostname: airsonic
     image: airsonic/airsonic:latest
     pull: true
     networks:

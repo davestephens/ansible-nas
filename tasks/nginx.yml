@@ -12,7 +12,7 @@
 - name: Nginx Docker Container
   docker_container:
     name: nginx-proxy
-    hostname: "{{ nginx_proxy_hostname }}"
+    hostname: nginx-proxy
     image: jwilder/nginx-proxy
     pull: true
     networks:

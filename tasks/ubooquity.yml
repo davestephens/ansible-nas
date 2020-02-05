@@ -9,7 +9,7 @@
 - name: Ubooquity Docker Container
   docker_container:
     name: ubooquity
-    hostname: "{{ ubooquity_hostname }}"
+    hostname: ubooquity
     image: linuxserver/ubooquity:latest
     pull: true
     networks:

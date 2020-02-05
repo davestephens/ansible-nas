@@ -9,7 +9,7 @@
 - name: Radarr
   docker_container:
     name: radarr
-    hostname: "{{ radarr_hostname }}"
+    hostname: radarr
     image: linuxserver/radarr
     pull: true
     networks:

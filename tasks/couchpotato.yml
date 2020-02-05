@@ -10,7 +10,7 @@
 - name: Couchpotato Docker Container
   docker_container:
     name: couchpotato
-    hostname: "{{ couchpotato_hostname }}"
+    hostname: couchpotato
     image: linuxserver/couchpotato
     pull: true
     networks:

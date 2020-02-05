@@ -9,7 +9,7 @@
 - name: CloudCmd
   docker_container:
     name: cloudcmd
-    hostname: "{{ cloudcmd_hostname }}"
+    hostname: cloudcmd
     image: coderaiser/cloudcmd
     pull: true
     networks:

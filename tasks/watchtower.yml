@@ -2,7 +2,7 @@
 - name: Watchtower Docker Container
   docker_container:
     name: watchtower
-    hostname: "{{ watchtower_hostname }}"
+    hostname: watchtower
     image: v2tec/watchtower
     pull: true
     networks:

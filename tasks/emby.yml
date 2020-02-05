@@ -8,7 +8,7 @@
 - name: emby Docker Container
   docker_container:
     name: emby
-    hostname: "{{ emby_hostname }}"
+    hostname: emby
     image: emby/embyserver
     pull: true
     networks:

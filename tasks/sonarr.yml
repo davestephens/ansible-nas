@@ -9,7 +9,7 @@
 - name: Sonarr
   docker_container:
     name: sonarr
-    hostname: "{{ sonarr_hostname }}"
+    hostname: sonarr
     image: linuxserver/sonarr
     pull: true
     networks:

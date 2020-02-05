@@ -16,7 +16,7 @@
 - name: The Lounge Docker Container
   docker_container:
     name: thelounge
-    hostname: "{{ thelounge_hostname }}"
+    hostname: thelounge
     image: thelounge/thelounge:latest
     pull: true
     networks:

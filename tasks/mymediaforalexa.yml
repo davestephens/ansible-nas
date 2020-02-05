@@ -9,16 +9,12 @@
 - name: mymedia for alexa Docker Container
   docker_container:
     name: mymediaforalexa
-    hostname: "{{ mymediaforalexa_hostname }}"
+    hostname: mymediaforalexa
     image: bizmodeller/mymediaforalexa
     pull: true
-    networks:
-      - name: "{{ docker_network_name }}"
     volumes:
       - "{{ mymediaforalexa_media_directory }}:/medialibrary:rw"
       - "{{ mymediaforalexa_data_directory }}:/datadir:rw"
-    ports:
-      - "52050:52050"
-      - "52051:52051"
+    network_mode: host
     restart_policy: unless-stopped
     memory: 1g

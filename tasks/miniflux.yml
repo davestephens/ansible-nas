@@ -8,7 +8,7 @@
 - name: Create Postgres for Miniflux
   docker_container:
     name: miniflux-postgres
-    hostname: "{{ miniflux_postgress_hostname }}"
+    hostname: miniflux-postgres
     image: postgres:11.1
     pull: true
     networks:
@@ -24,7 +24,7 @@
 - name: Create Miniflux container
   docker_container:
     name: miniflux
-    hostname: "{{ miniflux_hostname }}"
+    hostname: miniflux
     image: miniflux/miniflux:latest
     pull: true
     networks:

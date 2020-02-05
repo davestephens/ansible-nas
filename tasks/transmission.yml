@@ -12,7 +12,7 @@
 - name: Transmission Docker Container
   docker_container:
     name: transmission
-    hostname: "{{ transmission_hostname }}"
+    hostname: transmission
     image: linuxserver/transmission
     pull: true
     networks:

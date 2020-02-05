@@ -9,7 +9,7 @@
 - name: Bazarr
   docker_container:
     name: bazarr
-    hostname: "{{ bazarr_hostname }}"
+    hostname: bazarr
     image: linuxserver/bazarr
     pull: true
     networks:

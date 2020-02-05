@@ -29,7 +29,7 @@
 - name: Create MySQL container for Gitea
   docker_container:
     name: gitea-mysql
-    hostname: "{{ gitea_mysql_hostname }}"
+    hostname: gitea-mysql
     image: mysql:5.7
     pull: true
     networks:
@@ -47,7 +47,7 @@
 - name: Create Gitea container
   docker_container:
     name: gitea
-    hostname: "{{ gitea_hostname }}"
+    hostname: gitea
     image: gitea/gitea:1.6
     pull: true
     networks:

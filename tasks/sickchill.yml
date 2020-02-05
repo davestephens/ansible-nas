@@ -16,7 +16,7 @@
 - name: Sickchill Docker Container
   docker_container:
     name: sickchill
-    hostname: "{{ sickchill_hostname }}"
+    hostname: sickchill
     image: linuxserver/sickchill
     pull: true
     networks:

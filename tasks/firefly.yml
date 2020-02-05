@@ -11,7 +11,7 @@
 - name: Create MySQL container for Firefly
   docker_container:
     name: firefly-mysql
-    hostname: "{{ firefly_mysql_hostname }}"
+    hostname: firefly-mysql
     image: mysql:5.7
     pull: true
     networks:
@@ -33,7 +33,7 @@
 - name: Create Firefly III container
   docker_container:
     name: firefly
-    hostname: "{{ firefly_hostname }}"
+    hostname: firefly
     image: jc5x/firefly-iii:latest
     pull: true
     networks:

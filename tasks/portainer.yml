@@ -9,7 +9,7 @@
 - name: Portainer Docker Container
   docker_container:
     name: portainer
-    hostname: "{{ portainer_hostname }}"
+    hostname: portainer
     image: portainer/portainer
     pull: true
     networks:

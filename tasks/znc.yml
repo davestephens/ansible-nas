@@ -9,7 +9,7 @@
 - name: ZNC
   docker_container:
     name: znc
-    hostname: "{{ znc_hostname }}"
+    hostname: znc
     image: znc
     pull: true
     networks:

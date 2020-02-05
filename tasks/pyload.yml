@@ -11,7 +11,7 @@
 - name: pyLoad Docker Container
   docker_container:
     name: pyload
-    hostname: "{{ pyload_hostname }}"
+    hostname: pyload
     image: writl/pyload
     pull: true
     networks:

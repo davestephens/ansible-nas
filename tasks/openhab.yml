@@ -30,15 +30,10 @@
 - name: Create openHAB container
   docker_container:
     name: openHAB
-    hostname: "{{ openhab_hostname }}"
+    hostname: openhab
     image: "{{ openhab_docker_image }}"
     pull: true
-    networks:
-      - name: "{{ docker_network_name }}"
-    ports:
-      - "{{ openhab_port_http }}:8080"
-      - "{{ openhab_port_https }}:8443"
-      - "1900:1900"
+    network_mode: host
     volumes:
       - "{{ openhab_data_directory }}/conf:/openhab/conf:rw"
       - "{{ openhab_data_directory }}/userdata:/openhab/userdata:rw"

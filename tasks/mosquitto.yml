@@ -16,7 +16,7 @@
 - name: Create Mosquitto container
   docker_container:
     name: mosquitto
-    hostname: "{{ mosquitto_hostname }}"
+    hostname: mosquitto
     image: eclipse-mosquitto:latest
     pull: true
     networks:

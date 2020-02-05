@@ -10,7 +10,7 @@
 - name: Tautulli Docker Container
   docker_container:
     name: tautulli
-    hostname: "{{ tautulli_hostname }}"
+    hostname: tautulli
     image: linuxserver/tautulli
     pull: true
     networks:

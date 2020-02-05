@@ -9,7 +9,7 @@
 - name: Wallabag Docker Container
   docker_container:
     name: wallabag
-    hostname: "{{ wallabag_hostname }}"
+    hostname: wallabag
     image: wallabag/wallabag:latest
     pull: true
     networks:

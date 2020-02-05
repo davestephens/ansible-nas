@@ -23,7 +23,7 @@
 - name: InfluxDB
   docker_container:
     name: influxdb
-    hostname: "{{ influxdb_hostname }}"
+    hostname: influxdb
     image: influxdb
     pull: true
     networks:
@@ -45,7 +45,7 @@
 - name: Telegraf
   docker_container:
     name: telegraf
-    hostname: "{{ telegraf_hostname }}"
+    hostname: telegraf
     image: telegraf
     pull: true
     networks:
@@ -64,7 +64,7 @@
 - name: Grafana
   docker_container:
     name: grafana
-    hsotname: "{{ grafana_hostname }}"
+    hsotname: grafana
     image: grafana/grafana
     pull: true
     networks:

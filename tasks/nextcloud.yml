@@ -10,7 +10,7 @@
 - name: Nextcloud Mysql Docker Container
   docker_container:
     name: nextcloud-mysql
-    hostname: "{{ nextcloud_mysql_hostname }}"
+    hostname: nextcloud-mysql
     image: mysql:5.7
     pull: true
     networks:
@@ -28,7 +28,7 @@
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
-    hostname: "{{ nextcloud_hostname }}"
+    hostname: nextcloud
     image: nextcloud:14
     pull: true
     networks:

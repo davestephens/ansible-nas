@@ -21,7 +21,7 @@
 - name: VPN Container
   docker_container:
     name: openvpn-client
-    hostname: "{{ openvpn_client_hostname }}"
+    hostname: openvpn-client
     image: dceschmidt/openvpn-client
     pull: true
     networks:

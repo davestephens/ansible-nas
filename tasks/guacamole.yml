@@ -31,7 +31,7 @@
 - name: Guacamole Container
   docker_container:
     name: guacamole
-    hostname: "{{ guacamole_hostname }}"
+    hostname: guacamole
     image: "oznu/guacamole"
     pull: true
     networks:

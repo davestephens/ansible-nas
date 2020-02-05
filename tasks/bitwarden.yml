@@ -8,7 +8,7 @@
 - name: Bitwarden Docker Container
   docker_container:
     name: bitwarden
-    hostname: "{{ bitwarden_hostname }}"
+    hostname: bitwarden
     image: mprasil/bitwarden:latest
     pull: true
     networks:
@@ -38,7 +38,6 @@
     name: bitwarden-backup
     image: bruceforce/bw_backup:latest
     pull: true
-    
     networks:
       - name: "{{ docker_network_name }}"
     restart_policy: unless-stopped
