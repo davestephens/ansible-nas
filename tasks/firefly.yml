@@ -42,6 +42,7 @@
     env:
       APP_ENV: "local"
       APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
+      DB_CONNECTION: "mysql"
       DB_HOST: "db"
       DB_DATABASE: "firefly"
       DB_USERNAME: "firefly"
