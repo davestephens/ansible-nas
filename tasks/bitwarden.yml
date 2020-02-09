@@ -11,8 +11,8 @@
     image: "{{ bitwarden_image }}"
     pull: true
     ports:
-      - "19080:80"
-      - "3012:3012"
+      - "{{ bitwarden_port_a }}:80"
+      - "{{ bitwarden_port_b }}:3012"
     volumes:
       - "{{ bitwarden_data_directory }}:/data:rw"
     env:
@@ -25,7 +25,7 @@
       traefik.enable: "{{ bitwarden_available_externally }}"
       traefik.web.port: "80"
       traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
-      traefik.hub.port: "3012"
+      traefik.hub.port: "bitwarden_port_b"
       traefik.hub.protocol: "ws"
     restart_policy: unless-stopped
     #memory: 1g

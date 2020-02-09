@@ -15,8 +15,8 @@
       - "{{ jellyfin_movies_directory }}:/movies:{{ jellyfin_movies_permissions }}"
       - "{{ jellyfin_tv_directory }}:/tv:{{ jellyfin_tv_permissions }}"
     ports:
-      - "8896:8096" # HTTP port
-      - "8928:8920" # HTTPS port
+      - "{{ jellyfin_port_http }}:8096"
+      - "{{ jellyfin_port_https }}:8920"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ jellyfin_user_id }}"

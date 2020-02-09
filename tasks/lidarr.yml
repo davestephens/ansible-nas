@@ -14,7 +14,7 @@
       - "{{ lidarr_downloads_directory }}:/downloads:rw"
       - "{{ lidarr_data_directory }}:/config:rw"
     ports:
-      - "8686:8686"
+      - "{{ lidarr_port }}:8686"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ lidarr_user_id }}"

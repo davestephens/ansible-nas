@@ -16,10 +16,10 @@
     volumes:
       - "{{ airsonic_data_directory }}/data:/airsonic/data:rw"
       - "{{ airsonic_data_directory }}/playlists:/airsonic/playlists:rw"
-      - "{{ samba_shares_root }}/music:/airsonic/music:rw"
-      - "{{ samba_shares_root }}/podcasts:/airsonic/podcasts:rw"
+      - "{{ airsonic_music_directory }}:/airsonic/music:rw"
+      - "{{ airsonic_podcasts_directory }}:/airsonic/podcasts:rw"
     ports:
-      - "4040:4040"
+      - "{{ airsonic_port }}:4040"
     restart_policy: unless-stopped
     memory: 1g
     labels:

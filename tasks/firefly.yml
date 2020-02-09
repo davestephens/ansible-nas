@@ -38,10 +38,11 @@
     links:
       - firefly-mysql:db
     ports:
-      - "8066:80"
+      - "{{ firefly_port }}:80"
     env:
       APP_ENV: "local"
       APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
+      DB_CONNECTION: "mysql"
       DB_HOST: "db"
       DB_DATABASE: "firefly"
       DB_USERNAME: "firefly"
@@ -53,4 +54,4 @@
       traefik.backend: "firefly"
       traefik.frontend.rule: "Host:firefly.{{ ansible_nas_domain }}"
       traefik.enable: "{{ firefly_available_externally }}"
-      traefik.port: "8080"
+      traefik.port: "80"

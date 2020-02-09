@@ -19,7 +19,7 @@
       PGID: "{{ homebridge_group_id }}"
       PUID: "{{ homebridge_user_id }}"
       HOMEBRIDGE_CONFIG_UI: "1"
-      HOMEBRIDGE_CONFIG_UI_PORT: "8087"
+      HOMEBRIDGE_CONFIG_UI_PORT: "{{ homebridge_port }}"
     restart_policy: unless-stopped
     memory: 1g
     labels:

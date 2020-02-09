@@ -23,7 +23,7 @@
       - "{{ sickchill_downloads_directory }}:/downloads:rw"
       - "{{ sickchill_tv_directory }}:/tv:rw"
     ports:
-      - "8081:8081"
+      - "{{ sickchill_port }}:8081"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ sickchill_user_id }}"

@@ -13,9 +13,9 @@
     volumes:
       - "{{ jackett_data_directory }}:/config:rw"
       - "/etc/localtime:/etc/localtime:ro"
-      - "{{ torrents_root }}:/downloads"
+      - "{{ jackett_torrents_root }}:/downloads"
     ports:
-      - "9117:9117"
+      - "{{ jackett_port }}:9117"
     env:
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped

@@ -5,6 +5,8 @@ Homepage: [https://nextcloud.com](https://nextcloud.com)
 
 ## Usage
 
+Set `nextcloud_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+
 Tread carefully.
 
 External access may require that you manually configure your Fully Qualified Domain Name (FQDN) as a trusted domain within the application.  There is an evnironment variable set up for this in the "nextcloud task" which will most likely make manual configuration unneccessary.  If you get the following [screenshot](https://docs.nextcloud.com/server/14/admin_manual/installation/installation_wizard.html#trusted-domains) warning when trying to access nextcloud externally you'll need to manually set it up.

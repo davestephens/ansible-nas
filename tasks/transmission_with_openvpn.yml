@@ -21,8 +21,8 @@
       - "{{ transmission_watch_directory }}:/storage/watch:rw"
       - "/etc/timezone:/etc/timezone:ro"
     ports:
-      - "9091:9091"
-      - "51413:51413"
+      - "{{ transmission_openvpn_webui_port }}:9091"
+      - "{{ transmission_openvpn_external_port }}:51413"
     env:
       TRANSMISSION_HOME: "/config"
       TRANSMISSION_DOWNLOAD_DIR: "/storage/downloads/complete"
