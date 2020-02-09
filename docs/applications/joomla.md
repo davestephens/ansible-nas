@@ -6,9 +6,9 @@ Joomla! is an award-winning content management system (CMS), which enables you t
 
 ## Usage
 
-Set `joomla_enabled: true` in your `group_vars/all.yml` file.
+Set `joomla_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-If you want to access Joomla externally, set `joomla_available_externally: "true"` in your `group_vars/all.yml` file.
+If you want to access Joomla externally, set `joomla_available_externally: "true"` in your `inventories/<your_inventory>/nas.yml` file.
 
 The Joomla web interface can be found at http://ansible_nas_host_or_ip:8181.
 

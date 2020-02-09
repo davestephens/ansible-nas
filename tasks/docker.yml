@@ -6,9 +6,16 @@
   register: result
   until: result is succeeded
 
-- name: 'Install docker-py'
+- name: 'Remove docker-py python module'
   pip:
     name: docker-py
+    state: absent
+  register: result
+  until: result is succeeded
+
+- name: 'Install docker python module'
+  pip:
+    name: docker
     state: present
   register: result
   until: result is succeeded

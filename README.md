@@ -29,6 +29,7 @@ Ansible config and a bunch of Docker containers.
 * Content management with Joomla
 * A dual panel local file manager
 * Self-service media request web application
+* SEO tracking with Serposcope
 
 ### Available Applications
 
@@ -43,7 +44,8 @@ Ansible config and a bunch of Docker containers.
 * [Emby](https://emby.media/) - Media streaming and management
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
-* [Gitea](https://gitea.io/en-us/) - Self-hosted Github clone
+* [Gitea](https://gitea.io/en-us/) - Simple self-hosted Github clone
+* [Gitlab](https://about.gitlab.com/features/) - Self-hosted Github clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
@@ -67,6 +69,7 @@ Ansible config and a bunch of Docker containers.
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [Radarr](https://radarr.video/) - for organising and downloading movies
+* [Serposcope](https://serposcope.serphacker.com/en/) - tracker to monitor website ranking
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
@@ -76,6 +79,7 @@ Ansible config and a bunch of Docker containers.
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
+* [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
 * [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels

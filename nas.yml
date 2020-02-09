@@ -120,6 +120,10 @@
     when: (gitea_enabled | default(False))
     tags: gitea
 
+  - import_tasks: tasks/gitlab.yml
+    when: (gitlab_enabled | default(False))
+    tags: gitlab
+
   - import_tasks: tasks/timemachine.yml
     when: (timemachine_enabled | default(False))
     tags: timemachine
@@ -215,3 +219,11 @@
   - import_tasks: tasks/lidarr.yml
     when: (lidarr_enabled | default(False))
     tags: lidarr
+
+  - import_tasks: tasks/serposcope.yml
+    when: (serposcope_enabled | default(False))
+    tags: serposcope
+
+  - import_tasks: tasks/virtual_desktop.yml
+    when: (virtual_desktop_enabled | default(False))
+    tags: virtual_desktop

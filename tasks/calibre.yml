@@ -12,14 +12,14 @@
     pull: true
     volumes:
       - "{{ calibre_data_directory }}/config:/config"
-      - "{{ books_root }}:/books"
+      - "{{ calibre_books_root }}:/books"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ calibre_user_id }}"
       PGID: "{{ calibre_group_id }}"
       DOCKER_MODS: "{{ calibre_ebook_conversion }}"
     ports:
-      - "8084:8083"
+      - "{{ calibre_port }}:8083"
     restart_policy: unless-stopped
     labels:
       traefik.backend: "calibre"

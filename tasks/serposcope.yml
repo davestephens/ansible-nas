@@ -1,0 +1,44 @@
+- name: Create Serposcope Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ serposcope_data_directory }}/mysql"
+
+- name: Create MySQL container for Serposcope
+  docker_container:
+    name: serposcope-mysql
+    image: mysql:5.7
+    pull: true
+    volumes:
+      - "{{ serposcope_data_directory }}/mysql:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: "serposcope"
+      MYSQL_USER: "serposcope"
+      MYSQL_PASSWORD: "serposcope"
+      MYSQL_ROOT_PASSWORD: "serposcope"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Wait for MySQL to init
+  pause:
+    seconds: 30
+
+- name: Create Serposcope container
+  docker_container:
+    name: serposcope
+    image: davestephens/serposcope:2.11.0
+    pull: true
+    links:
+      - serposcope-mysql:db
+    ports:
+      - "{{ serposcope_port }}:7134"
+    env:
+      SERPOSCOPE_DB_URL: 'jdbc:mysql://db:3306/serposcope?user=serposcope\&password=serposcope\&allowMultiQueries=true'
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "serposcope"
+      traefik.frontend.rule: "Host:serposcope.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ serposcope_available_externally }}"
+      traefik.port: "7134"
