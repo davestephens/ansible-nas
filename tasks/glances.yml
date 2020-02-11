@@ -17,7 +17,4 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "glances"
-      traefik.frontend.rule: "Host:glances.{{ ansible_nas_domain }}"
       traefik.enable: "{{ glances_available_externally }}"
-      traefik.port: "61208"

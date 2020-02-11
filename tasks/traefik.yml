@@ -18,7 +18,7 @@
 
 - name: Template Traefik config.toml
   template:
-    src: traefik/traefik.toml
+    src: "traefik/traefik2.toml"
     dest: "{{ traefik_data_directory }}/traefik.toml"
 
 - name: Traefik Docker Container

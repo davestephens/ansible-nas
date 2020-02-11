@@ -68,7 +68,4 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "grafana"
-      traefik.frontend.rule: "Host:grafana.{{ ansible_nas_domain }}"
       traefik.enable: "{{ grafana_available_externally }}"
-      traefik.port: "3000"

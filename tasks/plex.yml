@@ -30,7 +30,4 @@
     devices:
       - "/dev/dri:/dev/dri"
     labels:
-      traefik.backend: "plex"
-      traefik.frontend.rule: "Host:plex.{{ ansible_nas_domain }}"
       traefik.enable: "{{ plex_available_externally }}"
-      traefik.port: "32400"

@@ -23,7 +23,4 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "nzbget"
-      traefik.frontend.rule: "Host:nzbget.{{ ansible_nas_domain }}"
       traefik.enable: "{{ nzbget_available_externally }}"
-      traefik.port: "6789"
