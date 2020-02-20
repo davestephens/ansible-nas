@@ -34,10 +34,29 @@
       INFLUXDB_LOGGING_LEVEL: "error"
     memory: 1g
 
+- name: Hddtemp
+  docker_container:
+    name: hddtemp
+    image: drewster727/hddtemp-docker
+    pull: true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/dev:/dev:ro"
+    env:
+      HDDTEMP_ARGS: "-q -d -F /dev/sd*"
+      TZ: "{{ ansible_nas_timezone }}"
+    privileged: true
+    restart_policy: unless-stopped
+    memory: 1g
+  register:
+    hddtemp_data
+
 - name: Template telegraf.conf
   template:
     src: telegraf/telegraf.conf
     dest: "{{ telegraf_data_directory }}/telegraf.conf"
+  vars:
+    hddtemp_ip: "{{ hddtemp_data.ansible_facts.docker_container.NetworkSettings.IPAddress }}"
 
 - name: Telegraf
   docker_container:
