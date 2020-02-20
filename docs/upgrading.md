@@ -1,5 +1,19 @@
 # Upgrading Ansible-NAS
 
+## Getting [user|group] already exists error
+
+Ansible-nas used to create user/group without specifying a UID or GID. This left the target system to decide the correct UID/GID. The solution to fix this `[user|group] already exist` error is to specify the UID/GID that has been created in the first time in your `inventories/<yourtargetname>/group_vars/<yourtargetname>.yml`. You can get this information by running those two commands on your target (after establishing an SSH connection).
+
+### Setting group ID (GID)
+- To get the group ID: `less /etc/group | grep ansible-nas`.
+- The group id is the first number after `:x:` in the string `ansible-nas:x:1001:`.
+- Set this number as `ansible_nas_gid` in your inventory.
+
+### Setting user ID (UID)
+- To get the user ID: `less /etc/passwd | grep ansible-nas`
+- The user ID is the first number after `:x:` in the string `ansible-nas:x:999:1001::/home/ansible-nas:/usr/sbin/nologin`.
+- Set this number as `ansible_nas_uid` in your inventory.
+
 ## Upgrading from prior to January 2020 (`all.yml.dist` config style)
 
 If you're upgrading from [this](https://github.com/davestephens/ansible-nas/commit/52c7fef3aba08e30331931747c81fb7b3bfd359a) commit or earlier, these instructions are relevant to you.
