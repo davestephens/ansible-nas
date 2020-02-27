@@ -1,0 +1,50 @@
+---
+# The gitlab uid/gid matches 'git:git' in the Gitlab Docker image.
+- name: Create Gitlab group account
+  group:
+    name: gitlab
+    gid: 998
+    state: present
+
+- name: Create Gitlab user account
+  user:
+    name: gitlab
+    uid: 998
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: gitlab
+
+- name: Create Gitlab Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: gitlab
+    group: gitlab
+  with_items:
+    - "{{ gitlab_data_directory }}/config"
+    - "{{ gitlab_data_directory }}/log"
+    - "{{ gitlab_data_directory }}/data"
+
+- name: Create Gitlab container
+  docker_container:
+    name: gitlab
+    image: gitlab/gitlab-ce:latest
+    pull: true
+    volumes:
+      - "{{ gitlab_data_directory }}/config:/etc/gitlab:rw"
+      - "{{ gitlab_data_directory }}/log:/var/log/gitlab:rw"
+      - "{{ gitlab_data_directory }}/data:/var/opt/gitlab:rw"
+    ports:
+      - "{{ gitlab_port_http }}:80"
+      - "{{ gitlab_port_https }}:443"
+      - "{{ gitlab_port_ssh }}:22"
+    hostname: "gitlab.{{ ansible_nas_domain }}"
+    restart_policy: unless-stopped
+    memory: 4g
+    labels:
+      traefik.backend: "gitlab"
+      traefik.frontend.rule: "Host:gitlab.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ gitlab_available_externally }}"
+      traefik.port: "80"

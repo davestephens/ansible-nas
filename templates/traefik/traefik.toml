@@ -189,6 +189,7 @@ onDemand = false # create certificate when container is created
           "emby.{{ ansible_nas_domain }}",
           "firefly.{{ ansible_nas_domain }}",
           "gitea.{{ ansible_nas_domain }}",
+          "gitlab.{{ ansible_nas_domain }}",
           "glances.{{ ansible_nas_domain }}",
           "grafana.{{ ansible_nas_domain }}",
           "guacamole.{{ ansible_nas_domain }}",

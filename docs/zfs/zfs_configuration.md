@@ -293,7 +293,7 @@ First, we install sanoid to the `/opt` directory. This assumes that Perl itself
 is already installed.
 
 ```
-        sudo apt install libconfig-inifiles-perl
+        sudo apt install libconfig-inifiles-perl libcapture-tiny-perl
         cd /opt
         sudo git clone https://github.com/jimsalterjrs/sanoid
 ```

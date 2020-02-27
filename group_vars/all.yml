@@ -65,6 +65,7 @@ timemachine_enabled: false
 
 # Software build and CI
 gitea_enabled: false
+gitlab_enabled: false
 
 # IRC
 znc_enabled: false
@@ -571,6 +572,15 @@ gitea_available_externally: "false"
 gitea_data_directory: "{{ docker_home }}/gitea"
 gitea_port_http: "3001"
 gitea_port_ssh: "222"
+
+###
+### Gitlab
+###
+gitlab_available_externally: "false"
+gitlab_data_directory: "{{ docker_home }}/gitlab"
+gitlab_port_http: "4080"
+gitlab_port_https: "4443"
+gitlab_port_ssh: "422"
 
 ###
 ### Glances
