@@ -31,3 +31,7 @@
       - "/dev/dri:/dev/dri"
     labels:
       traefik.enable: "{{ plex_available_externally }}"
+    healthcheck:
+      start_period: "10s"
+      interval: "60s"
+      test: "curl --connect-timeout 15 --silent --show-error --fail 'http://localhost:32400/identity' >/dev/null"

@@ -47,8 +47,13 @@
     volumes:
       - "{{ telegraf_data_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/proc:/host/proc:ro"
     restart_policy: unless-stopped
+    env:
+      HOST_PROC: "/host/proc"
     memory: 1g
+    network_mode: "host"
+    privileged: "true"
 
 - name: Template Grafana data source
   template:
