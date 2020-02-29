@@ -6,6 +6,7 @@
   with_items:
     - "{{ nextcloud_data_directory }}/nextcloud"
     - "{{ nextcloud_data_directory }}/mysql"
+    - "{{ nextcloud_users_files_directory }}"
 
 - name: Nextcloud Mysql Docker Container
   docker_container:
@@ -31,6 +32,7 @@
         - nextcloud-mysql:mysql
     volumes:
       - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
+      - "{{ nextcloud_users_files_directory }}:/var/www/html/data:rw"
     ports:
       - "{{ nextcloud_port }}:80"
     env:

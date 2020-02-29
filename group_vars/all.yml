@@ -590,6 +590,7 @@ glances_port_two: "61209"
 ###
 nextcloud_available_externally: "false"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+nextcloud_users_files_directory: "{{ docker_home }}/nextcloud/nextcloud/data"
 nextcloud_port: "8080"
 
 ###
