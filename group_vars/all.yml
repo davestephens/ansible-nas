@@ -357,12 +357,15 @@ transmission_group_id: "0"
 transmission_local_network: "192.168.1.0/24"
 transmission_webui_port: "9092"
 transmission_external_port: "51414"
-transmission_openvpn_webui_port: "9093"
+transmission_openvpn_webui_port: "9091"
 transmission_openvpn_external_port: "51415"
+transmission_openvpn_proxy_port: "3128"
+transmission_openvpn_ratio_limit_enabled: "true"
+transmission_openvpn_ratio_limit: "2"
 
 # Transmission VPN Credentials
 # If you're using Transmission with a VPN, you'll need to set these credentials.
-# See https://hub.docker.com/r/dceschmidt/openvpn-client/ for supported VPN providers.
+# See https://github.com/haugene/docker-transmission-openvpn/ for supported VPN providers.
 openvpn_username: leisure-suit-larry
 openvpn_password: secretpassword
 openvpn_provider: AWESOMEVPNPROVIDER
