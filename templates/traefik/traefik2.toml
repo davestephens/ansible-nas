@@ -1,12 +1,4 @@
 ################################################################
-#
-# Configuration sample for Traefik v2.
-#
-# For Traefik v1: https://github.com/containous/traefik/blob/v1.7/traefik.sample.toml
-#
-################################################################
-
-################################################################
 # Global configuration
 ################################################################
 [global]
@@ -17,10 +9,6 @@
 # Entrypoints configuration
 ################################################################
 
-# Entrypoints definition
-#
-# Optional
-# Default:
 [entryPoints]
   [entryPoints.web]
     address = ":{{ traefik_port_http }}"
@@ -32,19 +20,9 @@
 # Traefik logs configuration
 ################################################################
 
-# Traefik logs
-# Enabled by default and log to stdout
-#
-# Optional
-#
 [log]
 
-  # Log level
-  #
-  # Optional
-  # Default: "ERROR"
-  #
-  # level = "DEBUG"
+  level = "{{ traefik_debug }}"
 
   # Sets the filepath for the traefik log. If not specified, stdout will be used.
   # Intermediate directories are created if necessary.
@@ -94,20 +72,8 @@
 
 # Enable API and dashboard
 [api]
-
-  # Enable the API in insecure mode
-  #
-  # Optional
-  # Default: true
-  #
   insecure = true
-
-  # Enabled Dashboard
-  #
-  # Optional
-  # Default: true
-  #
-   dashboard = true
+  dashboard = true
 
 ################################################################
 # Ping configuration
@@ -116,12 +82,6 @@
 # Enable ping
 [ping]
 
-  # Name of the related entry point
-  #
-  # Optional
-  # Default: "traefik"
-  #
-  # entryPoint = "traefik"
 
 ################################################################
 # Docker configuration backend
@@ -129,24 +89,14 @@
 
 # Enable Docker configuration backend
 [providers.docker]
-
-  # Docker server endpoint. Can be a tcp or a unix socket endpoint.
-  #
-  # Required
-  # Default: "unix:///var/run/docker.sock"
-  #
-  # endpoint = "tcp://10.10.10.10:2375"
-
-  # Default host rule.
-  #
-  # Optional
-  
-  #
-   defaultRule = "Host(`{% raw -%}{{ normalize .Name }}{% endraw -%}.{{ ansible_nas_domain }}`)"
-
-  # Expose containers by default in traefik
-  #
-  # Optional
-  # Default: true
-  #
+  defaultRule = "Host(`{% raw -%}{{ normalize .Name }}{% endraw -%}.{{ ansible_nas_domain }}`)"
   exposedByDefault = false
+
+  [certificatesResolvers.bocky.acme]
+    email = "nick@bocky.com"
+    storage = "acme.json"
+    #caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+    [certificatesResolvers.bocky.acme.dnsChallenge]
+      provider = "transip"
+      delayBeforeCheck = 0
+      resolvers = ["1.1.1.1:53", "8.8.8.8:53"]

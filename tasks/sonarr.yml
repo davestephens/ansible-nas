@@ -25,3 +25,6 @@
     memory: 1g
     labels:
       traefik.enable: "{{ sonarr_available_externally }}"
+      traefik.http.routers.sonarr.tls: "true"
+      traefik.http.routers.sonarr.tls.certresolver: "bocky"
+      traefik.http.routers.sonarr.middlewares: "bocky-ip@file"

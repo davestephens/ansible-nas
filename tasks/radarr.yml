@@ -25,3 +25,6 @@
     memory: 1g
     labels:
       traefik.enable: "{{ radarr_available_externally }}"
+      traefik.http.routers.radarr.tls: "true"
+      traefik.http.routers.radarr.tls.certresolver: "bocky"
+      traefik.http.routers.radarr.middlewares: "bocky-ip@file"

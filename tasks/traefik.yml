@@ -21,7 +21,25 @@
     src: "traefik/traefik2.toml"
     dest: "{{ traefik_data_directory }}/traefik.toml"
 
-- name: Traefik Docker Container
+- name: Traefik Docker Container TransIP LetsEncrypt
+  docker_container:
+    name: traefik
+    image: "{{ traefik_docker_image }}"
+    pull: true
+    env:
+      TRANSIP_ACCOUNT_NAME: "{{ traefik_transip_account_name }}"
+      TRANSIP_PRIVATE_KEY_PATH: "/keys/transip.key"
+    network_mode: host
+    volumes:
+      - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "{{ traefik_data_directory }}/keys:/keys"
+      - "{{ traefik_data_directory }}/keys/acme.json:/acme.json:rw"
+    restart_policy: unless-stopped
+    memory: 1g
+  when: traefik_transip_account_name is defined
+
+- name: Traefik Docker Container no letsencrypt
   docker_container:
     name: traefik
     image: "{{ traefik_docker_image }}"
@@ -30,5 +48,8 @@
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "{{ traefik_data_directory }}/keys:/keys"
+      - "{{ traefik_data_directory }}/keys/acme.json:/acme.json:rw"
     restart_policy: unless-stopped
     memory: 1g
+  when: traefik_transip_account_name is undefined
