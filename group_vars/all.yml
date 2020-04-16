@@ -147,7 +147,7 @@ docker_storage_driver: overlay2
 ###
 # The location where all shares will be created by default. Can be overridden on a per-share basis.
 # This path will be mounted to backup containers, Duplicati
-samba_shares_root: /mnt/Volume3
+samba_shares_root: /mnt/md0
 
 # Where stuff downloaded will be stored
 downloads_root: "{{ samba_shares_root }}/downloads"
