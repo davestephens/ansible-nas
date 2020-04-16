@@ -157,6 +157,9 @@ samba_domain_master: true
 samba_local_master: true
 samba_preferred_master: true
 samba_wins_support: true
+#samba_workgroup: "WORKGROUP"
+#samba_realm: "COMPANY.local"
+
 
 # Where stuff downloaded will be stored
 downloads_root: "{{ samba_shares_root }}/downloads"
