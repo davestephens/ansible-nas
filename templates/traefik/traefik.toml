@@ -175,7 +175,7 @@ onDemand = false # create certificate when container is created
   [acme.tlsChallenge]
 
   [[acme.domains]]
-  main = "ansible-nas.{{ ansible_nas_domain }}"
+  main = "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
 
 
   # we request a certificate for everything, because why not.
