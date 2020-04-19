@@ -25,7 +25,7 @@
       PUID: "{{ plex_user_id }}"
       PGID: "{{ plex_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: 2g
     labels:
       traefik.backend: "plex"
       traefik.frontend.rule: "Host:plex.{{ ansible_nas_domain }}"
