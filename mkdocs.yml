@@ -15,6 +15,7 @@ theme:
     text: 'Roboto'
     code: 'Roboto Mono'
 
+
 # Repository
 repo_name: 'davestephens/ansible-nas'
 repo_url: 'https://github.com/davestephens/ansible-nas'
@@ -26,5 +27,5 @@ copyright: 'Copyright &copy; 2017 - 2020 David Stephens'
 extra:
   manifest: 'manifest.webmanifest'
   social:
-    - type: 'github'
+    - icon: 'fontawesome/brands/github-alt'
       link: 'https://github.com/davestephens'
