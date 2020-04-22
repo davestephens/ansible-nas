@@ -149,18 +149,6 @@ docker_storage_driver: overlay2
 # This path will be mounted to backup containers, Duplicati
 samba_shares_root: /mnt/Volume3
 
-# Advanced Samba options:
-# The defaults below are fine for most home network configurations.
-# Change the defaults below to false for most Windows Server business environments.
-# Reference https://www.samba.org/samba/docs/ for more detailed information.
-samba_domain_master: true
-samba_local_master: true
-samba_preferred_master: true
-samba_wins_support: true
-#samba_workgroup: "WORKGROUP"
-#samba_realm: "COMPANY.local"
-
-
 # Where stuff downloaded will be stored
 downloads_root: "{{ samba_shares_root }}/downloads"
 
@@ -272,6 +260,17 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ samba_shares_root }}/comics"
+    
+# Advanced Samba options for Windows Server environments:
+# WARNING: Most users should not modify the options below. 
+# If you are in a Windows Server environment, you MAY want to tweak the settings below. Before doing so, read the
+# Role Variables section of https://github.com/bertvv/ansible-role-samba for more detailed information.
+samba_domain_master: true
+samba_local_master: true
+samba_preferred_master: true
+samba_wins_support: true
+#samba_workgroup: "WORKGROUP"
+#samba_realm: "COMPANY.local"
 
 ###
 ### NFS
