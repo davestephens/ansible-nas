@@ -182,7 +182,7 @@ samba_server_string: Ansible NAS
 # Shares you want published over Samba.
 samba_shares:
   - name: downloads
-    comment: 'Stuff downloaded'
+    comment: 'Downloaded stuff'
     guest_ok: yes
     public: yes
     writable: yes
@@ -222,7 +222,7 @@ samba_shares:
     path: "{{ podcasts_root }}"
 
   - name: dump
-    comment: 'File dump'
+    comment: 'Dumped miscellaneous files'
     guest_ok: yes
     public: yes
     writable: yes
