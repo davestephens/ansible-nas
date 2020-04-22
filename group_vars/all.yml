@@ -179,7 +179,7 @@ photos_root: "{{ samba_shares_root }}/photos"
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
 
-# Your password for samba shares that are not public
+# Your password for Samba shares that are not public
 # See Defining users at https://github.com/bertvv/ansible-role-samba for more information.
 samba_users:
   - name: "{{ ansible_nas_user }}"
