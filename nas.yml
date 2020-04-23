@@ -231,4 +231,3 @@
   - import_tasks: tasks/gotify.yml
     when: (gotify_enabled | default(False))
     tags: gotify
-    
