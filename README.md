@@ -56,6 +56,7 @@ Ansible config and a bunch of Docker containers.
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [Joomla](https://www.joomla.org/) - Open source content management system
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
+* [Logitech Media Server](https://mysqueezebox.com/index/Home) - Listen to your personal music collection on a Squeezebox or [softsqueeze](http://softsqueeze.sourceforge.net/)
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
