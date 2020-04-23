@@ -231,4 +231,3 @@
   - import_tasks: tasks/logitechmediaserver.yml
     when: (logitechmediaserver_enabled and not portainer_port_http == "9000"| default(False))
     tags: logitechmediaserver
-    
