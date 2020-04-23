@@ -212,6 +212,10 @@
     when: (ubooquity_enabled | default(False))
     tags: ubooquity
 
+  - import_tasks: tasks/utorrent.yml
+    when: (utorrent_enabled | default(False))
+    tags: utorrent
+
   - import_tasks: tasks/ombi.yml
     when: (ombi_enabled | default(False))
     tags: ombi
