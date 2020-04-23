@@ -98,6 +98,9 @@ joomla_enabled: false
 # SEO
 serposcope_enabled: false
 
+# Gotify
+gotify_enabled: false
+
 # External Access
 # Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
 # home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
@@ -824,3 +827,13 @@ vd_users:
     password: "topsecret"
     sudo: "Y"
 vd_rdp_port: 3389
+
+###
+### Gotify
+###
+gotify_available_externally: "false"
+gotify_data_directory: "{{ docker_home }}/gotify/config"
+gotify_port_http: "8077"
+gotify_port_https: "8078"
+gotify_user_id: "0"
+gotify_group_id: "0"
