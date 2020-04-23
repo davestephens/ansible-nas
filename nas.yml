@@ -52,6 +52,10 @@
     when: (firefly_enabled | default(False))
     tags: firefly
 
+  - import_tasks: tasks/grocy.yml
+    when: (grocy_enabled | default(False))
+    tags: grocy
+
   - import_tasks: tasks/emby.yml
     when: (emby_enabled | default(False))
     tags: emby
