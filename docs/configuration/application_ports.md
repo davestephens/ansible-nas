@@ -59,4 +59,5 @@ By default, applications can be found on the ports listed below.
 | Ubooquity       | 2202   |              |
 | Ubooquity       | 2203   | Admin        |
 | Wallabag        | 7780   |              |
+| YouTubeDL-Mater | 8998   | HTTP         |
 | ZNC             | 6677   |              |
