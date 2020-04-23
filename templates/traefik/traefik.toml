@@ -192,6 +192,7 @@ onDemand = false # create certificate when container is created
           "gitlab.{{ ansible_nas_domain }}",
           "glances.{{ ansible_nas_domain }}",
           "grafana.{{ ansible_nas_domain }}",
+          "gotify.{{ ansible_nas_domain }}",
           "guacamole.{{ ansible_nas_domain }}",
           "heimdall.{{ ansible_nas_domain }}",
           "homeassistant.{{ ansible_nas_domain }}",
