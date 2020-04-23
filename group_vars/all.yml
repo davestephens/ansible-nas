@@ -57,6 +57,7 @@ watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
 virtual_desktop_enabled: false
+krusader_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
@@ -637,6 +638,15 @@ cloudcmd_browse_directory: "/"
 cloudcmd_user_id: "0"
 cloudcmd_group_id: "0"
 cloudcmd_port: "7373"
+
+###
+### Krusader
+###
+krusader_available_externally: "false"
+krusader_data_directory: "{{ docker_home }}/krusader"
+krusader_browse_directory: "/"
+krusader_port_http: "5800"
+krusader_port_vnc: "5900"
 
 ###
 ### Watchtower
