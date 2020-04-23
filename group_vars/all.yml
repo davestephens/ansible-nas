@@ -20,6 +20,7 @@ transmission_with_openvpn_enabled: false # Please see docs about how to set VPN 
 transmission_enabled: false
 nzbget_enabled: false
 pyload_enabled: false
+utorrent_enabled: false
 
 # Media Serving
 plex_enabled: false
@@ -367,6 +368,18 @@ openvpn_username: leisure-suit-larry
 openvpn_password: secretpassword
 openvpn_provider: AWESOMEVPNPROVIDER
 openvpn_config: United-Kingdom
+
+###
+### uTorrent
+###
+utorrent_available_externally: "false"
+utorrent_config_directory: "{{ docker_home }}/utorrent/config"
+utorrent_download_directory: "{{ downloads_root }}"
+utorrent_port_http: "8111"
+utorrent_port_bt_tcp: "6881"
+utorrent_port_bt_udp: "6881"
+utorrent_user_id: "999"
+utorrent_group_id: "1001"
 
 ###
 ### Joomla
