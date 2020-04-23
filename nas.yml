@@ -227,3 +227,8 @@
   - import_tasks: tasks/virtual_desktop.yml
     when: (virtual_desktop_enabled | default(False))
     tags: virtual_desktop
+
+  - import_tasks: tasks/logitechmediaserver.yml
+    when: (logitechmediaserver_enabled and not portainer_port_http == "9000"| default(False))
+    tags: logitechmediaserver
+    
