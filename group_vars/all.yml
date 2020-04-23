@@ -736,6 +736,8 @@ firefly_port: "8066"
 ###
 grocy_available_externally: "false"
 grocy_data_directory: "{{ docker_home }}/grocy"
+grocy_user_id: "1000"
+grocy_group_id: "1000"
 grocy_port_http: "9283"
 
 ###
