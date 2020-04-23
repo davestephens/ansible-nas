@@ -41,6 +41,7 @@ lidarr_enabled: false
 
 # Music
 airsonic_enabled: false
+logitechmediaserver_enabled: false
 mymediaforalexa_enabled: false
 
 # News
@@ -824,3 +825,11 @@ vd_users:
     password: "topsecret"
     sudo: "Y"
 vd_rdp_port: 3389
+
+###
+### Logitech Media Server
+###
+logitechmediaserver_available_externally: "false"
+logitechmediaserver_config_directory: "{{ docker_home }}/logitechmediaserver/config"
+logitechmediaserver_user_id: "65534"
+logitechmediaserver_group_id: "100"
