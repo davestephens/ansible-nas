@@ -208,6 +208,10 @@
     when: (cloudcmd_enabled | default(False))
     tags: cloudcmd
 
+  - import_tasks: tasks/krusader.yml
+    when: (krusader_enabled | default(False))
+    tags: krusader
+
   - import_tasks: tasks/ubooquity.yml
     when: (ubooquity_enabled | default(False))
     tags: ubooquity
