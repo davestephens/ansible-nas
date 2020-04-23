@@ -77,6 +77,9 @@ bitwarden_enabled: false
 # Finance
 firefly_enabled: false
 
+# grocy
+grocy_enabled: false
+
 # Wallabag
 wallabag_enabled: false
 
@@ -727,6 +730,13 @@ bitwarden_allow_signups: false
 firefly_available_externally: "false"
 firefly_data_directory: "{{ docker_home }}/firefly"
 firefly_port: "8066"
+
+###
+### grocy
+###
+grocy_available_externally: "false"
+grocy_data_directory: "{{ docker_home }}/grocy"
+grocy_port_http: "9283"
 
 ###
 ### Nzbget
