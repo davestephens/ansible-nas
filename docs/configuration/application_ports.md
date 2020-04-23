@@ -31,6 +31,10 @@ By default, applications can be found on the ports listed below.
 | Jellyfin        | 8896   | HTTP         |
 | Jellyfin        | 8928   | HTTPS        |
 | Lidarr          | 8686   |              |
+| Logitech Media  | 3483   | control      |
+| Logitech Media  | 3483   | UDP          |
+| Logitech Media  | 9000   |chg Portainer |
+| Logitech Media  | 9090   | telnet       |
 | MiniDLNA        | 8201   |              |
 | Miniflux        | 8070   |              |
 | Mosquitto       | 1883   | MQTT         |
