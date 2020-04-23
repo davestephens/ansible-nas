@@ -1,0 +1,29 @@
+
+---
+- name: grocy Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ grocy_data_directory }}/config"
+
+- name: grocy Docker Container
+  docker_container:
+    name: grocy
+    image: linuxserver/grocy:latest
+    pull: true
+    volumes:
+      - "{{ grocy_data_directory }}/config:/config:rw"
+    ports:
+      - "{{ grocy_port_http }}:80"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "grocy_user_id"
+      PGID: "grocy_group_id"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "grocy"
+      traefik.frontend.rule: "Host:grocy.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ grocy_available_externally }}"
+      traefik.port: "80"
+    memory: 1g
