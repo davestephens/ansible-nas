@@ -48,6 +48,7 @@ Ansible config and a bunch of Docker containers.
 * [Gitlab](https://about.gitlab.com/features/) - Self-hosted Github clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
+* [grocy](https://grocy.info/) - web-based self-hosted groceries & household management solution
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
