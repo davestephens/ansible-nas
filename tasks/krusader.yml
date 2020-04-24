@@ -19,7 +19,11 @@
       - "{{ krusader_port_http }}:5800"
       - "{{ krusader_port_vnc }}:5900"
     env:
+      USER_ID: "{{ krusader_user_id }}"
+      GROUP_ID: "{{ krusader_group_id }}"
+      SECURE_CONNECTION: "{{ krusader_secure_connection }}"
       TZ: "{{ ansible_nas_timezone }}"
+      VNC_PASSWORD: "{{ krusader_vnc_password }}"
     restart_policy: unless-stopped
     labels:
       traefik.backend: "krusader"
