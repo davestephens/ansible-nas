@@ -9,9 +9,7 @@ Gotify is a simple server for sending and receiving messages.
 
 ## Usage
 
-Set `gotify_enabled: true` in your `group_vars/all.yml` file.
-
-If you want to access Gotify externally, don't forget to set `gotify_available_externally: "true"` in your `group_vars/all.yml` file.
+Set `gotify_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 If you want to change the default port, edit gotify_port_http:.
 
