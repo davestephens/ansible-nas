@@ -11,7 +11,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/serposcope/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/couchpotato/">
       
       
         <meta name="author" content="David Stephens">
@@ -21,7 +21,7 @@
     
     
       
-        <title>Serposcope - Ansible-NAS</title>
+        <title>CouchPotato - Ansible-NAS</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#serposcope" class="md-skip">
+        <a href="#couchpotato" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Serposcope
+              CouchPotato
             
           </span>
         </div>
@@ -385,11 +385,53 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../couchpotato/" title="CouchPotato" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        CouchPotato
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="CouchPotato" class="md-nav__link md-nav__link--active">
       CouchPotato
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -649,53 +691,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Serposcope
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="Serposcope" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../serposcope/" title="Serposcope" class="md-nav__link">
       Serposcope
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1012,7 +1012,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/serposcope.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/couchpotato.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>
                   </a>
                 
@@ -1020,12 +1020,12 @@
                   
                 
                 
-                <h1 id="serposcope">Serposcope</h1>
-<p>Homepage: <a href="https://serposcope.serphacker.com/en/">https://serposcope.serphacker.com/en/</a></p>
-<p>Serposcope is a free and open-source rank tracker to monitor websites ranking in Google and improve your SEO performances</p>
+                <h1 id="couchpotato">CouchPotato</h1>
+<p>Homepage: <a href="https://couchpota.to/">https://couchpota.to/</a></p>
+<p>CouchPotato enables you to download movies automatically, easily and in the best quality as soon as they are available.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>serposcope_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
-<p>The Serposcope web interface can be found at http://ansible_nas_host_or_ip:7134.</p>
+<p>Set <code>couchpotato_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>The CouchPotato web interface can be found at http://ansible_nas_host_or_ip:5050.</p>
                 
               
               
@@ -1044,7 +1044,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../radarr/" title="Radarr" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../cloudflare_ddns/" title="Cloudflare Dynamic DNS Updater" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
             </div>
@@ -1053,19 +1053,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Radarr
+                Cloudflare Dynamic DNS Updater
               </div>
             </div>
           </a>
         
         
-          <a href="../sonarr/" title="Sonarr" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../emby/" title="Emby" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Sonarr
+                Emby
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
