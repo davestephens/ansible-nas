@@ -10,4 +10,4 @@ Do you have quite a bit of services running on your computer or server? Do you h
 
 Set `organizr_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-The grocy web interface can be found at http://ansible_nas_host_or_ip:10081.
+The Organizr web interface can be found at http://ansible_nas_host_or_ip:10081.
