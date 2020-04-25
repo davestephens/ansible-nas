@@ -8,7 +8,7 @@ Set `virtual_desktop_enabled: true` in your `inventories/<your_inventory>/nas.ym
 
 ## Specific Configuration
 
-By default `{{ ansible_nas_user }}` will be granted access with a password of `topsecret` with sudo rights. To change or add additional users override `vd_users` in your `nas.yml`:
+By default `ansible_nas_user` will be granted access with a password of `topsecret` with sudo rights. To change or add additional users override `vd_users` in your `nas.yml`:
 
 ```
 vd_users:
@@ -22,8 +22,8 @@ vd_users:
 
 ## Mounts
 
-`{{ samba_shares_root }}` is mounted to `/samba`.
-`{{ docker_home }}` is mounted to `/docker`.
+`samba_shares_root` is mounted to `/samba`.
+`docker_home` is mounted to `/docker`.
 
 ## Remote Access
 
