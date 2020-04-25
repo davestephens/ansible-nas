@@ -13,5 +13,5 @@ Set `cloudcmd_enabled: true` in your `inventories/<your_inventory>/nas.yml` file
 By default your the root of your Ansible-NAS box (`/`) is mounted into `/mnt/fs` within the container. If you'd like to 
 change this update `cloudcmd_browse_directory` in your `inventories/<your_inventory>/nas.yml` file.
 
-If you enable external access to Cloud Commander (note that this is not recommended) then ensure you configure authorisation
+If you enable external access to Cloud Commander (note that this is not recommended) then ensure you configure authorization
 within the application (F10 from the main menu).
