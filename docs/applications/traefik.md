@@ -2,7 +2,7 @@
 
 Homepage: [https://traefik.io](https://traefik.io)
 
-Traefik is used to provide external access to your Ansible-NAS box. Additionally, Traefik will automatically request and renew SSL certificates for you.
+Traefik is a reverse proxy used to provide external access to your Ansible-NAS box. Additionally, Traefik will automatically request and renew SSL certificates for you.
 
 You can configure which applications are available externally by enabling the `<application_name>_available_externally` setting
 for each application in the Advanced Settings section of your `all.yml`.
