@@ -11,7 +11,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/zfs/zfs_overview/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/duplicati/">
       
       
         <meta name="author" content="David Stephens">
@@ -21,7 +21,7 @@
     
     
       
-        <title>ZFS Overview - Ansible-NAS</title>
+        <title>Duplicati - Ansible-NAS</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#zfs-overview" class="md-skip">
+        <a href="#duplicati" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              ZFS Overview
+              Duplicati
             
           </span>
         </div>
@@ -286,10 +286,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9" checked>
     
     <label class="md-nav__link" for="nav-9">
       Applications
@@ -313,7 +315,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/airsonic/" title="Airsonic" class="md-nav__link">
+    <a href="../airsonic/" title="Airsonic" class="md-nav__link">
       Airsonic
     </a>
   </li>
@@ -325,7 +327,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/bazarr/" title="Bazarr subtitle downloader" class="md-nav__link">
+    <a href="../bazarr/" title="Bazarr subtitle downloader" class="md-nav__link">
       Bazarr subtitle downloader
     </a>
   </li>
@@ -337,7 +339,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/bitwarden/" title="Bitwarden(_rs) Password Management" class="md-nav__link">
+    <a href="../bitwarden/" title="Bitwarden(_rs) Password Management" class="md-nav__link">
       Bitwarden(_rs) Password Management
     </a>
   </li>
@@ -349,7 +351,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/calibre/" title="Calibre(-web) eBook Library" class="md-nav__link">
+    <a href="../calibre/" title="Calibre(-web) eBook Library" class="md-nav__link">
       Calibre(-web) eBook Library
     </a>
   </li>
@@ -361,7 +363,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/cloudcmd/" title="Cloud Commander file manager" class="md-nav__link">
+    <a href="../cloudcmd/" title="Cloud Commander file manager" class="md-nav__link">
       Cloud Commander file manager
     </a>
   </li>
@@ -373,7 +375,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/cloudflare_ddns/" title="Cloudflare Dynamic DNS Updater" class="md-nav__link">
+    <a href="../cloudflare_ddns/" title="Cloudflare Dynamic DNS Updater" class="md-nav__link">
       Cloudflare Dynamic DNS Updater
     </a>
   </li>
@@ -385,7 +387,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/couchpotato/" title="CouchPotato" class="md-nav__link">
+    <a href="../couchpotato/" title="CouchPotato" class="md-nav__link">
       CouchPotato
     </a>
   </li>
@@ -395,11 +397,53 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../applications/duplicati/" title="Duplicati" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Duplicati
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Duplicati" class="md-nav__link md-nav__link--active">
       Duplicati
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -409,7 +453,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/emby/" title="Emby" class="md-nav__link">
+    <a href="../emby/" title="Emby" class="md-nav__link">
       Emby
     </a>
   </li>
@@ -421,7 +465,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/firefly/" title="Firefly III" class="md-nav__link">
+    <a href="../firefly/" title="Firefly III" class="md-nav__link">
       Firefly III
     </a>
   </li>
@@ -433,7 +477,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/get_iplayer/" title="get_iplayer" class="md-nav__link">
+    <a href="../get_iplayer/" title="get_iplayer" class="md-nav__link">
       get_iplayer
     </a>
   </li>
@@ -445,7 +489,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/gitlab/" title="GitLab" class="md-nav__link">
+    <a href="../gitlab/" title="GitLab" class="md-nav__link">
       GitLab
     </a>
   </li>
@@ -457,7 +501,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/guacamole/" title="Guacamole" class="md-nav__link">
+    <a href="../guacamole/" title="Guacamole" class="md-nav__link">
       Guacamole
     </a>
   </li>
@@ -469,7 +513,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/homeassistant/" title="Home Assistant" class="md-nav__link">
+    <a href="../homeassistant/" title="Home Assistant" class="md-nav__link">
       Home Assistant
     </a>
   </li>
@@ -481,7 +525,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/homebridge/" title="Homebridge" class="md-nav__link">
+    <a href="../homebridge/" title="Homebridge" class="md-nav__link">
       Homebridge
     </a>
   </li>
@@ -493,7 +537,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/jackett/" title="Jackett" class="md-nav__link">
+    <a href="../jackett/" title="Jackett" class="md-nav__link">
       Jackett
     </a>
   </li>
@@ -505,7 +549,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/jellyfin/" title="Jellyfin" class="md-nav__link">
+    <a href="../jellyfin/" title="Jellyfin" class="md-nav__link">
       Jellyfin
     </a>
   </li>
@@ -517,7 +561,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/joomla/" title="Joomla CMS" class="md-nav__link">
+    <a href="../joomla/" title="Joomla CMS" class="md-nav__link">
       Joomla CMS
     </a>
   </li>
@@ -529,7 +573,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/lidarr/" title="Lidarr music collection manager" class="md-nav__link">
+    <a href="../lidarr/" title="Lidarr music collection manager" class="md-nav__link">
       Lidarr music collection manager
     </a>
   </li>
@@ -541,7 +585,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/minidlna/" title="MiniDLNA" class="md-nav__link">
+    <a href="../minidlna/" title="MiniDLNA" class="md-nav__link">
       MiniDLNA
     </a>
   </li>
@@ -553,7 +597,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/miniflux/" title="Miniflux" class="md-nav__link">
+    <a href="../miniflux/" title="Miniflux" class="md-nav__link">
       Miniflux
     </a>
   </li>
@@ -565,7 +609,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/mosquitto/" title="Mosquitto" class="md-nav__link">
+    <a href="../mosquitto/" title="Mosquitto" class="md-nav__link">
       Mosquitto
     </a>
   </li>
@@ -577,7 +621,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/mymediaforalexa/" title="My Media for Alexa" class="md-nav__link">
+    <a href="../mymediaforalexa/" title="My Media for Alexa" class="md-nav__link">
       My Media for Alexa
     </a>
   </li>
@@ -589,7 +633,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/nextcloud/" title="Nextcloud" class="md-nav__link">
+    <a href="../nextcloud/" title="Nextcloud" class="md-nav__link">
       Nextcloud
     </a>
   </li>
@@ -601,7 +645,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/nzbget/" title="NZBget" class="md-nav__link">
+    <a href="../nzbget/" title="NZBget" class="md-nav__link">
       NZBget
     </a>
   </li>
@@ -613,7 +657,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/ombi/" title="Ombi" class="md-nav__link">
+    <a href="../ombi/" title="Ombi" class="md-nav__link">
       Ombi
     </a>
   </li>
@@ -625,7 +669,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/openhab/" title="openHAB" class="md-nav__link">
+    <a href="../openhab/" title="openHAB" class="md-nav__link">
       openHAB
     </a>
   </li>
@@ -637,7 +681,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/pyload/" title="pyLoad" class="md-nav__link">
+    <a href="../pyload/" title="pyLoad" class="md-nav__link">
       pyLoad
     </a>
   </li>
@@ -649,7 +693,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/radarr/" title="Radarr" class="md-nav__link">
+    <a href="../radarr/" title="Radarr" class="md-nav__link">
       Radarr
     </a>
   </li>
@@ -661,7 +705,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/serposcope/" title="Serposcope" class="md-nav__link">
+    <a href="../serposcope/" title="Serposcope" class="md-nav__link">
       Serposcope
     </a>
   </li>
@@ -673,7 +717,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/sonarr/" title="Sonarr" class="md-nav__link">
+    <a href="../sonarr/" title="Sonarr" class="md-nav__link">
       Sonarr
     </a>
   </li>
@@ -685,7 +729,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/tautulli/" title="Tautulli" class="md-nav__link">
+    <a href="../tautulli/" title="Tautulli" class="md-nav__link">
       Tautulli
     </a>
   </li>
@@ -697,7 +741,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/thelounge/" title="The Lounge" class="md-nav__link">
+    <a href="../thelounge/" title="The Lounge" class="md-nav__link">
       The Lounge
     </a>
   </li>
@@ -709,7 +753,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/timemachine/" title="Time Machine" class="md-nav__link">
+    <a href="../timemachine/" title="Time Machine" class="md-nav__link">
       Time Machine
     </a>
   </li>
@@ -721,7 +765,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/traefik/" title="Traefik" class="md-nav__link">
+    <a href="../traefik/" title="Traefik" class="md-nav__link">
       Traefik
     </a>
   </li>
@@ -733,7 +777,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/transmission/" title="Transmission" class="md-nav__link">
+    <a href="../transmission/" title="Transmission" class="md-nav__link">
       Transmission
     </a>
   </li>
@@ -745,7 +789,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/ubooquity/" title="Ubooquity Comic and Book Server" class="md-nav__link">
+    <a href="../ubooquity/" title="Ubooquity Comic and Book Server" class="md-nav__link">
       Ubooquity Comic and Book Server
     </a>
   </li>
@@ -757,7 +801,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/virtual_desktop/" title="Virtual Desktop" class="md-nav__link">
+    <a href="../virtual_desktop/" title="Virtual Desktop" class="md-nav__link">
       Virtual Desktop
     </a>
   </li>
@@ -769,7 +813,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/wallabag/" title="wallabag" class="md-nav__link">
+    <a href="../wallabag/" title="wallabag" class="md-nav__link">
       wallabag
     </a>
   </li>
@@ -781,7 +825,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../applications/watchtower/" title="Watchtower" class="md-nav__link">
+    <a href="../watchtower/" title="Watchtower" class="md-nav__link">
       Watchtower
     </a>
   </li>
@@ -886,12 +930,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11" checked>
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
     
     <label class="md-nav__link" for="nav-11">
       Zfs
@@ -915,7 +957,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../zfs_configuration/" title="ZFS Configuration" class="md-nav__link">
+    <a href="../../zfs/zfs_configuration/" title="ZFS Configuration" class="md-nav__link">
       ZFS Configuration
     </a>
   </li>
@@ -925,108 +967,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        ZFS Overview
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="ZFS Overview" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../zfs/zfs_overview/" title="ZFS Overview" class="md-nav__link">
       ZFS Overview
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-zfs-and-why-would-i-want-it" class="md-nav__link">
-    What is ZFS and why would I want it?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#an-overview-and-some-actual-commands" class="md-nav__link">
-    An overview and some actual commands
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#known-issues" class="md-nav__link">
-    Known issues
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#myths-and-misunderstandings" class="md-nav__link">
-    Myths and misunderstandings
-  </a>
-  
-    <nav class="md-nav" aria-label="Myths and misunderstandings">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#no-zfs-does-not-need-at-least-8-gb-of-ram" class="md-nav__link">
-    No, ZFS does not need at least 8 GB of RAM
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#no-ecc-ram-is-not-required-for-zfs" class="md-nav__link">
-    No, ECC RAM is not required for ZFS
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#no-the-slog-is-not-really-a-write-cache" class="md-nav__link">
-    No, the SLOG is not really a write cache
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading-and-viewing" class="md-nav__link">
-    Further reading and viewing
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1061,63 +1006,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-zfs-and-why-would-i-want-it" class="md-nav__link">
-    What is ZFS and why would I want it?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#an-overview-and-some-actual-commands" class="md-nav__link">
-    An overview and some actual commands
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#known-issues" class="md-nav__link">
-    Known issues
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#myths-and-misunderstandings" class="md-nav__link">
-    Myths and misunderstandings
-  </a>
-  
-    <nav class="md-nav" aria-label="Myths and misunderstandings">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#no-zfs-does-not-need-at-least-8-gb-of-ram" class="md-nav__link">
-    No, ZFS does not need at least 8 GB of RAM
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#no-ecc-ram-is-not-required-for-zfs" class="md-nav__link">
-    No, ECC RAM is not required for ZFS
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#no-the-slog-is-not-really-a-write-cache" class="md-nav__link">
-    No, the SLOG is not really a write cache
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading-and-viewing" class="md-nav__link">
-    Further reading and viewing
+  <a href="#usage" class="md-nav__link">
+    Usage
   </a>
   
 </li>
@@ -1134,7 +1024,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/zfs/zfs_overview.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/duplicati.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>
                   </a>
                 
@@ -1142,209 +1032,12 @@
                   
                 
                 
-                <h1 id="zfs-overview">ZFS Overview</h1>
-<p>This is a general overview of the ZFS file system for people who are new to it.
-If you have some experience and are actually looking for specific information
-about how to configure ZFS for Ansible-NAS, check out the <a href="../zfs_configuration/">ZFS example
-configuration</a>.  </p>
-<h2 id="what-is-zfs-and-why-would-i-want-it">What is ZFS and why would I want it?</h2>
-<p><a href="https://en.wikipedia.org/wiki/ZFS">ZFS</a> is an advanced filesystem and volume
-manager originally created by Sun Microsystems starting in 2001. First released
-in 2005 for OpenSolaris, Oracle later bought Sun and switched to developing ZFS
-as closed source software. An open source fork took the name
-<a href="http://www.open-zfs.org/wiki/Main_Page">OpenZFS</a>, but is still called "ZFS" for
-short. It runs on Linux, FreeBSD, illumos and other platforms.</p>
-<p>ZFS aims to be the <a href="https://blogs.oracle.com/bonwick/zfs:-the-last-word-in-filesystems">"last word in
-filesystems"</a>,
-a technology so future-proof that Michael W. Lucas and Allan Jude famously
-stated that the <em>Enterprise's</em> computer on <em>Star Trek</em> probably runs it. The
-design was based on <a href="https://www.youtube.com/watch?v=MsY-BafQgj4">four
-principles</a>:</p>
-<ol>
-<li>
-<p>"Pooled" storage to eliminate the notion of volumes. You can add more storage
-   the same way you just add a RAM stick to memory.</p>
-</li>
-<li>
-<p>Make sure data is always consistent on the disks. There is no <code>fsck</code> command
-   for ZFS and none is needed.</p>
-</li>
-<li>
-<p>Detect and correct data corruption ("bitrot"). ZFS is one of the few storage
-   systems that checksums everything, including the data itself, and is
-   "self-healing".</p>
-</li>
-<li>
-<p>Make it easy to use. Try to "end the suffering" for the admins involved in
-   managing storage.</p>
-</li>
-</ol>
-<p>ZFS includes a host of other features such as snapshots, transparent compression
-and encryption. During the early years of ZFS, this all came with hardware
-requirements only enterprise users could afford. By now, however, computers have
-become so powerful that ZFS can run (with some effort) on a <a href="https://gist.github.com/mohakshah/b203d33a235307c40065bdc43e287547">Raspberry
-Pi</a>. </p>
-<p>FreeBSD and FreeNAS make extensive use of ZFS. What is holding ZFS back on Linux
-are <a href="https://en.wikipedia.org/wiki/OpenZFS#History">licensing issues</a> beyond the
-scope of this document. </p>
-<p>Ansible-NAS doesn't actually specify a filesystem - you can use EXT4, XFS or
-Btrfs as well. However, ZFS not only provides the benefits listed above, but
-also lets you use your hard drives with different operating systems. Some people
-now using Ansible-NAS came from FreeNAS, and were able to <code>export</code> their ZFS
-storage drives there and <code>import</code> them to Ubuntu. On the other hand, if you ever
-decide to switch back to FreeNAS or maybe want to use FreeBSD instead of Linux,
-you should be able to use the same ZFS pools. </p>
-<h2 id="an-overview-and-some-actual-commands">An overview and some actual commands</h2>
-<p>Storage in ZFS is organized in <strong>pools</strong>. Inside these pools, you create
-<strong>filesystems</strong> (also known as "datasets") which are like partitions on
-steroids. For instance, you can keep each user's <code>/home</code> directory in a separate
-filesystem. ZFS systems tend to use lots and lots of specialized filesystems
-with tailored parameters such as record size and compression. All filesystems
-share the available storage in their pool. </p>
-<p>Pools do not directly consist of hard disks or SSDs. Instead, drives are
-organized as <strong>virtual devices</strong> (VDEVs). This is where the physical redundancy
-in ZFS is located. Drives in a VDEV can be "mirrored" or combined as "RaidZ",
-roughly the equivalent of RAID5. These VDEVs are then combined into a pool by the
-administrator. The command might look something like this:</p>
-<pre><code>        sudo zpool create tank mirror /dev/sda /dev/sdb
-</code></pre>
-
-<p>This combines <code>/dev/sba</code> and <code>/dev/sdb</code> to a mirrored VDEV, and then defines a
-new pool named <code>tank</code> consisting of this single VDEV. (Actually, you'd want to
-use a different ID for the drives, but you get the idea.) You can now create a
-filesystem in this pool for, say, all of your <em>Mass Effect</em> fan fiction: </p>
-<pre><code>        sudo zfs create tank/mefanfic
-</code></pre>
-
-<p>You can then enable automatic compression on this filesystem with <code>sudo zfs set
-compression=lz4 tank/mefanfic</code>. To take a <strong>snapshot</strong>, use</p>
-<pre><code>        sudo zfs snapshot tank/mefanfic@21540411
-</code></pre>
-
-<p>Now, if evil people were somehow able to encrypt your precious fan fiction files
-with ransomware, you can simply laugh maniacally and revert to the old version: </p>
-<pre><code>        sudo zfs rollback tank/mefanfic@21540411
-</code></pre>
-
-<p>Of course, you would lose any texts you might have added to the filesystem
-between that snapshot and now. Usually, you'll have some form of <strong>automatic
-snapshot administration</strong> configured.</p>
-<p>To detect bitrot and other data defects, ZFS periodically runs <strong>scrubs</strong>: The
-system compares the available copies of each data record with their checksums.
-If there is a mismatch, the data is repaired.</p>
-<h2 id="known-issues">Known issues</h2>
-<blockquote>
-<p>At time of writing (April 2019), ZFS on Linux does not offer native
-encryption, TRIM support or device removal, which are all scheduled to be
-included in the upcoming <a href="https://www.phoronix.com/scan.php?page=news_item&amp;px=ZFS-On-Linux-0.8-RC1-Released">0.8
-release</a>
-any day now.</p>
-</blockquote>
-<p>ZFS' original design for enterprise systems and redundancy requirements can make
-some things difficult. You can't just add individual drives to a pool and tell
-the system to reconfigure automatically. Instead, you have to either add a new
-VDEV, or replace each of the existing drives with one of higher capacity. In an
-enterprise environment, of course, you would just <em>buy</em> a bunch of new drives
-and move the data from the old pool to the new pool. Shrinking a pool is even
-harder - put simply, ZFS is not built for this, though it is <a href="https://www.delphix.com/blog/delphix-engineering/openzfs-device-removal">being worked
-on</a>. </p>
-<p>If you absolutely must be able to add or remove single drives, ZFS might not be
-the filesystem for you. </p>
-<h2 id="myths-and-misunderstandings">Myths and misunderstandings</h2>
-<p>Information on the internet about ZFS can be outdated, conflicting or flat-out
-wrong. Partially this is because it has been in use for almost 15 years now and
-things change, partially it is the result of being used on different operating
-systems which have minor differences under the hood. Also, Google searches tend
-to first return the Oracle documentation for their closed source ZFS variant,
-which is increasingly diverging from the open source OpenZFS standard.</p>
-<p>To clear up some of the most common misunderstandings:</p>
-<h3 id="no-zfs-does-not-need-at-least-8-gb-of-ram">No, ZFS does not need at least 8 GB of RAM</h3>
-<p>This myth is especially common <a href="https://www.ixsystems.com/community/threads/does-freenas-really-need-8gb-of-ram.38685/">in FreeNAS
-circles</a>.
-Curiously, FreeBSD, the basis of FreeNAS, will run with <a href="https://wiki.freebsd.org/ZFSTuningGuide">1
-GB</a>. The <a href="https://github.com/zfsonlinux/zfs/wiki/FAQ#hardware-requirements">ZFS on Linux
-FAQ</a>, which is
-more relevant for Ansible-NAS, states under "suggested hardware":</p>
-<blockquote>
-<p>8GB+ of memory for the best performance. It's perfectly possible to run with
-2GB or less (and people do), but you'll need more if using deduplication.</p>
-</blockquote>
-<p>(Deduplication is only useful in <a href="http://open-zfs.org/wiki/Performance_tuning#Deduplication">special
-cases</a>. If you are
-reading this, you probably don't need it.)</p>
-<p>Experience shows that 8 GB of RAM is in fact a sensible minimal amount for
-continuous use. But it's not a requirement. What everybody agrees on is that ZFS
-<em>loves</em> RAM and works better the more it has, so you should have as much of it
-as you possibly can. When in doubt, add more RAM, and even more, and them some,
-until your motherboard's capacity is reached.</p>
-<h3 id="no-ecc-ram-is-not-required-for-zfs">No, ECC RAM is not required for ZFS</h3>
-<p>This is another case where a recommendation has been taken as a requirement. To
-quote the <a href="https://github.com/zfsonlinux/zfs/wiki/FAQ#do-i-have-to-use-ecc-memory-for-zfs">ZFS on Linux
-FAQ</a>
-again: </p>
-<blockquote>
-<p>Using ECC memory for OpenZFS is strongly recommended for enterprise
-environments where the strongest data integrity guarantees are required.
-Without ECC memory rare random bit flips caused by cosmic rays or by faulty
-memory can go undetected. If this were to occur OpenZFS (or any other
-filesystem) will write the damaged data to disk and be unable to automatically
-detect the corruption.</p>
-</blockquote>
-<p>ECC corrects <a href="https://en.wikipedia.org/wiki/ECC_memory">single bit errors</a> in
-memory. It is <em>always</em> better to have it on <em>any</em> computer if you can afford it,
-and ZFS is no exception. However, there is absolutely no requirement for ZFS to
-have ECC RAM. If you just don't care about the danger of random bit flips
-because, hey, you can always just download <a href="https://archive.org/details/night_of_the_living_dead">Night of the Living
-Dead</a> all over again,
-you're perfectly free to use normal RAM. If you do use ECC RAM, make sure your
-processor and motherboard support it.</p>
-<h3 id="no-the-slog-is-not-really-a-write-cache">No, the SLOG is not really a write cache</h3>
-<p>You'll read the suggestion to add a fast SSD or NVMe as a "SLOG drive"
-(mistakenly also called "ZIL") for write caching. This isn't what happens,
-because ZFS already includes <a href="https://linuxhint.com/configuring-zfs-cache/">a write
-cache</a> in RAM. Since RAM is always
-faster, adding a disk as a write cache doesn't even make sense. </p>
-<p>What the <strong>ZFS Intent Log (ZIL)</strong> does, with or without a dedicated drive, is handle
-synchronous writes. These occur when the system refuses to signal a successful
-write until the data is actually stored on a physical disk somewhere. This keeps
-the data safe, but is slower. </p>
-<p>By default, the ZIL initially shoves a copy of the data on a normal VDEV
-somewhere and then gives the thumbs up. The actual write to the pool is
-performed later from the write cache in RAM, <em>not</em> the temporary copy. The data
-there is only ever read if the power fails before the last step. The ZIL is all
-about protecting data, not making transfers faster.</p>
-<p>A <strong>Separate Intent Log (SLOG)</strong> is an additional fast drive for these temporary
-synchronous writes. It simply allows the ZIL give the thumbs up quicker. This
-means that a SLOG is never read unless the power has failed before the final
-write to the pool. </p>
-<p>Asynchronous writes just go through the normal write cache, by the way. If the
-power fails, the data is gone.</p>
-<p>In summary, the ZIL prevents data loss during synchronous writes, or at least
-ensures that the data in storage is consistent. You always have a ZIL. A SLOG
-will make the ZIL faster. You'll probably need to <a href="https://www.ixsystems.com/blog/o-slog-not-slog-best-configure-zfs-intent-log/">do some
-research</a>
-and some testing to figure out if your system would benefit from a SLOG. NFS for
-instance uses synchronous writes, SMB usually doesn't. When in doubt, add more
-RAM instead. </p>
-<h2 id="further-reading-and-viewing">Further reading and viewing</h2>
-<ul>
-<li>
-<p>In 2012, Aaron Toponce wrote a now slightly dated, but still very good
-  <a href="https://pthree.org/2012/04/17/install-zfs-on-debian-gnulinux/">introduction</a>
-  to ZFS on Linux. If you only read one part, make it the <a href="https://pthree.org/2012/12/07/zfs-administration-part-iv-the-adjustable-replacement-cache/">explanation of the
-  ARC</a>,
-  ZFS' read cache. </p>
-</li>
-<li>
-<p>One of the best books on ZFS around is <em>FreeBSD Mastery: ZFS</em> by Michael W.
-  Lucas and Allan Jude. Though it is written for FreeBSD, the general guidelines
-  apply for all variants. There is a second volume for advanced use.</p>
-</li>
-<li>
-<p>Jeff Bonwick, one of the original creators of ZFS, tells the story of how ZFS
-  came to be <a href="https://www.youtube.com/watch?v=dcV2PaMTAJ4">on YouTube</a>.</p>
-</li>
-</ul>
+                <h1 id="duplicati">Duplicati</h1>
+<p>Homepage: <a href="https://www.duplicati.com/">https://www.duplicati.com/</a></p>
+<p>Duplicati is free backup software to store encrypted backups online For Windows, macOS and Linux</p>
+<h2 id="usage">Usage</h2>
+<p>Set <code>duplicati_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>The Duplicati web interface can be found at http://ansible_nas_host_or_ip:8200.</p>
                 
               
               
@@ -1363,7 +1056,7 @@ RAM instead. </p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../zfs_configuration/" title="ZFS Configuration" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../couchpotato/" title="CouchPotato" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
             </div>
@@ -1372,11 +1065,25 @@ RAM instead. </p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                ZFS Configuration
+                CouchPotato
               </div>
             </div>
           </a>
         
+        
+          <a href="../emby/" title="Emby" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Emby
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+          </a>
         
       </nav>
     </div>
