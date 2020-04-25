@@ -48,6 +48,7 @@ miniflux_enabled: false
 
 # System Management
 heimdall_enabled: false
+organizr_enabled: false
 portainer_enabled: false
 glances_enabled: false
 stats_enabled: false
@@ -340,6 +341,16 @@ heimdall_docker_image: linuxserver/heimdall:latest
 heimdall_data_directory: "{{ docker_home }}/heimdall"
 heimdall_port_http: "10080"
 heimdall_port_https: "10443"
+
+###
+### Organizr
+###
+organizr_available_externally: "false"
+organizr_data_directory: "{{ docker_home }}/organizr"
+organizr_port_http: "10081"
+organizr_port_https: "10444"
+organizr_user_id: "1000"
+organizr_group_id: "1000"
 
 ###
 ### Transmission
