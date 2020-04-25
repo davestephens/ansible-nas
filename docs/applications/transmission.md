@@ -9,7 +9,7 @@ directly.
 
 Set `transmission_enabled: true`, or `transmission_with_openvpn_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-Transmission's web interface can be found at http://ansible_nas_host_or_ip:9091 (with VPN) or http://ansible_nas_host_or_ip:9092 (without VPN).
+Transmission's web interface can be found at http://ansible_nas_host_or_ip:9091 (with OpenVPN) or http://ansible_nas_host_or_ip:9092 (without OpenVPN).
 
 ## Specific Configuration
 
