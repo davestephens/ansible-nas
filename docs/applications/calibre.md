@@ -11,7 +11,7 @@ Set `calibre_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 ## Specific Configuration
 
-Requires Calibre ebook management program. Availbe for download [here](https://calibre-ebook.com/).
+Requires Calibre ebook management program. Availbe for download [here](https://calibre-ebook.com/download).
 
 ### Admin login
 
