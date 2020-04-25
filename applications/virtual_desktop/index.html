@@ -1043,7 +1043,7 @@
 <h2 id="usage">Usage</h2>
 <p>Set <code>virtual_desktop_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>By default <code>{{ ansible_nas_user }}</code> will be granted access with a password of <code>topsecret</code> with sudo rights. To change or add additional users override <code>vd_users</code> in your <code>nas.yml</code>:</p>
+<p>By default <code>ansible_nas_user</code> will be granted access with a password of <code>topsecret</code> with sudo rights. To change or add additional users override <code>vd_users</code> in your <code>nas.yml</code>:</p>
 <pre><code>vd_users:
   - username: &quot;{{ ansible_nas_user }}&quot;
     password: &quot;topsecret&quot;
@@ -1054,8 +1054,8 @@
 </code></pre>
 
 <h2 id="mounts">Mounts</h2>
-<p><code>{{ samba_shares_root }}</code> is mounted to <code>/samba</code>.
-<code>{{ docker_home }}</code> is mounted to <code>/docker</code>.</p>
+<p><code>samba_shares_root</code> is mounted to <code>/samba</code>.
+<code>docker_home</code> is mounted to <code>/docker</code>.</p>
 <h2 id="remote-access">Remote Access</h2>
 <p>It's possible to access your virtual desktop through a web browser! Check out <a href="../guacamole/">Guacamole</a>.</p>
                 
