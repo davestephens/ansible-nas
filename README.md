@@ -8,35 +8,37 @@ Ansible config and a bunch of Docker containers.
 
 ## What Ansible-NAS Can Set Up
 
-* An awesome dashboard to your home server (Heimdall)
-* Any number of Samba shares or NFS exports for you to store your stuff
+* A choice of two awesome dashboards for your home server (Heimdall and Organizr)
+* Any number of Samba shares and NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
-* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, Lidarr
-* Media streaming via Plex or Emby
-* Music streaming with Airsonic
+* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, and Lidarr
+* Media streaming via Plex, Emby, and Jellyfin
+* Music streaming with Airsonic, MyMediaForAlexa, and MiniDLNA
 * An RSS newsfeed reader - Miniflux
 * A Dropbox replacement via Nextcloud
-* Various ways to see stats about your NAS - Glances, dashboards in Grafana
+* A Lastpass replacement via Bitwarden
+* Various ways to see stats about your NAS - Glances, dashboards in Grafana, and Netdata
 * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
 * An IRC bouncer and web-based client
-* Source control with Gitea
+* Source control with Gitea and Gitlab
 * SSL secured external access to applications via Traefik
-* A Docker host with Portainer for image and container management
+* A Docker host with Portainer and Watchtower for image and container management
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 * A Personal finance manager
-* eBook management with calibre-web
+* eBook management with Calibre-web and Ubooquity
 * Content management with Joomla
 * A dual panel local file manager
-* Self-service media request web application
+* Self-service media request web application with Ombi
 * SEO tracking with Serposcope
+* Home automation with Home Assistant and openHAB
 
 ### Available Applications
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
-* [Calibre](https://hub.docker.com/r/linuxserver/calibre-web) - eBook Library
+* [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
@@ -64,7 +66,6 @@ Ansible config and a bunch of Docker containers.
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
-* [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
