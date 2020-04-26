@@ -25,7 +25,7 @@ Ansible config and a bunch of Docker containers.
 * A Docker host with Portainer for image and container management
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 * A Personal finance manager
-* eBook management with calibre-web
+* eBook management with Calibre-web
 * Content management with Joomla
 * A dual panel local file manager
 * Self-service media request web application
