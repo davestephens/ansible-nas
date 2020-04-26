@@ -74,7 +74,7 @@ Ansible config and a bunch of Docker containers.
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
-* [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
+* [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Metrics collection agent
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client
 * [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
