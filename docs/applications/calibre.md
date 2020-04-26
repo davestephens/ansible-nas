@@ -1,4 +1,4 @@
-# Calibre(-web) eBook Library
+# Calibre-web
 
 Homepage: [https://github.com/janeczku/calibre-web](https://github.com/linuxserver/docker-calibre-web)
 
