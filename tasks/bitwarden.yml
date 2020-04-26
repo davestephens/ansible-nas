@@ -8,7 +8,7 @@
 - name: Bitwarden Docker Container
   docker_container:
     name: bitwarden
-    image: mprasil/bitwarden:latest
+    image: bitwardenrs/server:latest
     pull: true
     ports:
       - "{{ bitwarden_port_a }}:80"
