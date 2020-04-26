@@ -127,7 +127,7 @@ ansible_nas_user: david
 # Your email and domain, used for Let's Encrypt SSL certs
 ansible_nas_email: me@example.com
 
-# Applications will have subdomain SSL certificates created if Traefik is enabled, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
+# Applications will have subdomain SSL certificates created if is enabled, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
 
 ###
@@ -329,7 +329,7 @@ samba_netbios_name: "{{ ansible_nas_hostname }}"
 ###
 ### Traefik
 ###
-traefik_docker_image: traefik:v1.7
+traefik_docker_image: traefik:v1.7.24
 traefik_data_directory: "{{ docker_home }}/traefik"
 traefik_debug: "false"
 
