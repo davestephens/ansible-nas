@@ -47,15 +47,15 @@ Ansible config and a bunch of Docker containers.
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted Github clone
 * [Gitlab](https://about.gitlab.com/features/) - Self-hosted Github clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
-* [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
+* [Grafana](https://grafana.com/) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
-* [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+* [InfluxDB](https://www.influxdata.com/) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [Joomla](https://www.joomla.org/) - Open source content management system
-* [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
+* [Lidarr](https://lidarr.audio/) - Music collection manager for Usenet and BitTorrent users
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
@@ -70,7 +70,7 @@ Ansible config and a bunch of Docker containers.
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [Radarr](https://radarr.video/) - for organising and downloading movies
-* [Serposcope](https://serposcope.serphacker.com/en/) - tracker to monitor website ranking
+* [Serposcope](https://serposcope.serphacker.com/) - tracker to monitor website ranking
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
@@ -82,8 +82,8 @@ Ansible config and a bunch of Docker containers.
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
-* [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
-* [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
+* [Watchtower](https://containrrr.github.io/watchtower/) - Monitor your Docker containers and update them if a new version is available
+* [ZNC](https://znc.in/) - IRC bouncer to stay connected to favourite IRC networks and channels
 
 ## What This Could Do
 
