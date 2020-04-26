@@ -755,7 +755,7 @@ mosquitto_port_a: "1883"
 mosquitto_port_b: "9001"
 
 ###
-### Calibre
+### Calibre-web
 ###
 calibre_available_externally: "false"
 calibre_data_directory: "{{ docker_home }}/calibre"
