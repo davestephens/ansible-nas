@@ -16,9 +16,11 @@
   with_items:
     - "{{ grafana_data_directory }}"
     - "{{ grafana_data_directory }}/data"
+    - "{{ grafana_data_directory }}/data/dashboards/ansible-nas"
     - "{{ grafana_data_directory }}/config/"
     - "{{ grafana_data_directory }}/config/provisioning"
     - "{{ grafana_data_directory }}/config/provisioning/datasources"
+    - "{{ grafana_data_directory }}/config/provisioning/dashboards"
 
 - name: InfluxDB
   docker_container:
@@ -34,6 +36,18 @@
       INFLUXDB_LOGGING_LEVEL: "error"
     memory: 1g
 
+- name: hddtemp
+  docker_container:
+    name: hddtemp
+    image: drewster727/hddtemp-docker
+    pull: true
+    privileged: true
+    restart_policy: unless-stopped
+    env:
+      HDDTEMP_ARGS: "-q -d -F /dev/sd*"
+      TZ: "{{ ansible_nas_timezone }}"
+    memory: 128m
+
 - name: Template telegraf.conf
   template:
     src: telegraf/telegraf.conf
@@ -44,13 +58,27 @@
     name: telegraf
     image: telegraf
     pull: true
+    links:
+      - hddtemp:hddtemp
+    privileged: true
+    ipc_mode: host
     volumes:
       - "{{ telegraf_data_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/proc:/host/proc:ro"
-    restart_policy: unless-stopped
+      - "/:/hostfs:ro"
+      - "/etc:/hostfs/etc:ro"
+      - "/proc:/hostfs/proc:ro"
+      - "/sys:/hostfs/sys:ro"
+      - "/var:/hostfs/var:ro"
+      - "/run:/hostfs/run:ro"
     env:
-      HOST_PROC: "/host/proc"
+      HOST_ETC: "/hostfs/etc"
+      HOST_PROC: "/hostfs/proc"
+      HOST_SYS: "/hostfs/sys"
+      HOST_VAR: "/hostfs/var"
+      HOST_RUN: "/hostfs/run"
+      HOST_MOUNT_PREFIX: "/hostfs"
+    restart_policy: unless-stopped
     memory: 1g
     network_mode: "host"
     privileged: "true"
@@ -59,6 +87,16 @@
   template:
     src: grafana/provisioning/datasources/ansible-nas.yml
     dest: "{{ grafana_data_directory }}/config/provisioning/datasources/ansible-nas.yml"
+
+- name: Copy Ansible-NAS Dashboard Provisioner
+  copy:
+    src: grafana/provisioning/dashboards/ansible-nas.yml
+    dest: "{{ grafana_data_directory }}/config/provisioning/dashboards/ansible-nas.yml"
+
+- name: Copy Ansible-NAS Dashboard
+  copy:
+    src: grafana/dashboards/ansible-nas/ansible-nas-overview.json
+    dest: "{{ grafana_data_directory }}/data/dashboards/ansible-nas/ansible-nas-overview.json"
 
 - name: Grafana
   docker_container:

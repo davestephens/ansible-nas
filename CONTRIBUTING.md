@@ -11,7 +11,11 @@ If you're adding a new application:
 
 * Ensure that the new application is disabled by default.
 * Add a documentation page to `docs/applications/` - use an existing application as an example.
+* Add to the list of Available Applications in 'README.md'
 * Add the frontend port to `docs/configuration/application_ports.md`, ensuring you've not clashed with an existing application.
+* Add to the list of certificate requests in 'templates/traefik/traefik.toml' if the program is to be used externally.
+
+A typical new application PR will include 2 new files (`docs/applications/application.md` and 'tasks/application.yml') and have 5 updated files ('README.md', 'nas.yml', `docs/configuration/application_ports.md`, 'group_vars/all.yml', 'templates/traefik/traefik.toml'
 
 ## Things to bear in mind
 

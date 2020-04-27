@@ -42,6 +42,8 @@ By default, applications can be found on the ports listed below.
 | Ombi            | 3579   |              |
 | openHAB         | 7777   | HTTP         |
 | openHAB         | 7778   | HTTPS        |
+| Organizr        | 10081  | HTTP         |
+| Organizr        | 10444  | HTTPS        |
 | Plex            | 32400  |              |
 | Portainer       | 9000   |              |
 | pyload          | 8000   |              |
@@ -49,7 +51,7 @@ By default, applications can be found on the ports listed below.
 | Serposcope      | 7134   |              |
 | Sickchill       | 8081   |              |
 | Sonarr          | 8989   |              |
-| Tautulli        | 8181   |              |
+| Tautulli        | 8185   |              |
 | The Lounge      | 9000   |              |
 | Time Machine    | 10445  | SMB          |
 | Traefik         | 8083   |              |
