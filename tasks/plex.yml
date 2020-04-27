@@ -18,6 +18,7 @@
       - "{{ plex_movies_directory }}:/movies:{{ plex_movies_permissions }}"
       - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
       - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
+      - "{{ plex_podcasts_directory }}:/podcasts:{{ plex_podcasts_permissions }}"
       - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
     network_mode: "host"
     env:
@@ -26,9 +27,9 @@
       PGID: "{{ plex_group_id }}"
       VERSION: "latest"
     restart_policy: unless-stopped
-    memory: 1g
     devices:
       - "/dev/dri:/dev/dri"
+    memory: 2g
     labels:
       traefik.enable: "{{ plex_available_externally }}"
     healthcheck:

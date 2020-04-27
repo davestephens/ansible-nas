@@ -48,6 +48,7 @@ miniflux_enabled: false
 
 # System Management
 heimdall_enabled: false
+organizr_enabled: false
 portainer_enabled: false
 glances_enabled: false
 stats_enabled: false
@@ -345,6 +346,16 @@ heimdall_port_http: "10080"
 heimdall_port_https: "10443"
 
 ###
+### Organizr
+###
+organizr_available_externally: "false"
+organizr_data_directory: "{{ docker_home }}/organizr"
+organizr_port_http: "10081"
+organizr_port_https: "10444"
+organizr_user_id: "1000"
+organizr_group_id: "1000"
+
+###
 ### Transmission
 ###
 transmission_available_externally: "false"
@@ -403,6 +414,8 @@ plex_tv_directory: "{{ tv_root }}"
 plex_tv_permissions: "rw"
 plex_photos_directory: "{{ photos_root }}"
 plex_photos_permissions: "rw"
+plex_podcasts_directory: "{{ podcasts_root }}"
+plex_podcasts_permissions: "rw"
 plex_music_directory: "{{ music_root }}"
 plex_music_permissions: "rw"
 plex_user_id: "0"
@@ -822,7 +835,7 @@ serposcope_available_externally: "false"
 ### Virtual Desktop
 ###
 vd_data_directory: "{{ docker_home }}/virtual_desktop"
-vd_docker_image: "rattydave/docker-ubuntu-xrdp-mate-custom:19.10-tools"
+vd_docker_image: "rattydave/docker-ubuntu-xrdp-mate-custom:20.04-tools"
 vd_users:
   - username: "{{ ansible_nas_user }}"
     password: "topsecret"
@@ -835,4 +848,3 @@ vd_rdp_port: 3389
 mysqlserver_data_directory: "{{ docker_home }}/mysql"
 mysqlserver_port: 3306
 mysqlserver_root_password: "CHANGEME"
-
