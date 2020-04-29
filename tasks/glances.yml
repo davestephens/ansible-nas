@@ -1,3 +1,33 @@
+- name: Create Glances Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ glances_data_directory }}/conf"
+    - templates/glances/conf"
+
+- name: Glances download glances.config
+  get_url:
+    url: https://raw.githubusercontent.com/nicolargo/glances/develop/conf/glances.conf
+    dest: templates/glances/glances.conf
+
+- name: Glances download glances-grafana.json
+  get_url:
+    url: https://raw.githubusercontent.com/nicolargo/glances/develop/conf/glances-grafana.json
+    dest: templates/glances/glances-grafana.json
+
+- name: Glances copy glances.conf
+  copy:
+    src: templates/glances/glances.conf
+    dest: "{{ glances_data_directory }}/conf/glances.conf"
+    backup: yes
+
+- name: Glances copy glances-grafana.json
+  copy:
+    src: templates/glances/glances-grafana.json
+    dest: "{{ glances_data_directory }}/conf/glances-grafana.json"
+    backup: yes
+
 - name: Glances Docker Container
   docker_container:
     name: glances
@@ -7,15 +37,15 @@
       - "{{ glances_port_one }}:61208"
       - "{{ glances_port_two }}:61209"
     volumes:
-      #- "/glances.conf:/glances/conf/glances.conf"
+      - "{{ glances_data_directory }}/conf:/glances/conf:rw"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/timezone:/etc/timezone:ro"
     pid_mode: host
     network_mode: host
     env:
-      GLANCES_OPT: "-w"
+      GLANCES_OPT: "{{ glances_options }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ glances_memory_limit }}"
     labels:
       traefik.backend: "glances"
       traefik.frontend.rule: "Host:glances.{{ ansible_nas_domain }}"
