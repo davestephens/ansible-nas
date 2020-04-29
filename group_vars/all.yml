@@ -586,6 +586,9 @@ gitlab_port_ssh: "422"
 ### Glances
 ###
 glances_available_externally: "false"
+glances_data_directory: "{{ docker_home }}/glances"
+glances_options: "-w"
+glances_memory_limit: "512m"
 glances_port_one: "61208"
 glances_port_two: "61209"
 
