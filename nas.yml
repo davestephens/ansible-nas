@@ -108,6 +108,10 @@
     when: (znc_enabled | default(False))
     tags: znc
 
+  - import_tasks: tasks/makemkv.yml
+    when: (makemkv_enabled | default(False))
+    tags: makemkv
+
   - import_tasks: tasks/miniflux.yml
     when: (miniflux_enabled | default(False))
     tags: miniflux
