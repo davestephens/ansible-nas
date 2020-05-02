@@ -1,0 +1,38 @@
+---
+- name: Create Unifi Controller Config Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ unifi_data_directory }}"
+
+- name: Unifi Controller Docker
+  docker_container:
+    name: unifi-controller
+    image: linuxserver/unifi-controller
+    pull: true
+    volumes:
+      - "{{ unifi_data_directory }}:/config:rw"
+    ports:
+#      - "{{ unifi_port_discoverable }}:1900/udp"
+      - "{{ unifi_port_stun }}:3478/udp"
+      - "{{ unifi_port_discovery }}:10001/udp"
+      - "{{ unifi_port_inform }}:8080"              # Nextcloud default port
+#      - "{{ unifi_port_b }}:8081"                  # Sickchill default port
+      - "{{ unifi_port_controller_gui_http }}:8443"
+      - "{{ unifi_port_redirect_https }}:8843"
+      - "{{ unifi_port_redirect_http }}:8880"
+      - "{{ unifi_port_throughput }}:6789"          # NZBGet default port
+      - "{{ unifi_port_database }}:27117"
+#      - "{{ unfi_port_ssh }}:22"                   # (host) SSH default port
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ unifi_user_id }}"
+      PGID: "{{ unifi_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "unifi"
+      traefik.frontend.rule: "Host:unifi{{ ansible_nas_domain }}"
+      traefik.enable: "{{ unifi_available_externally }}"
+      traefik.port: "{{ unifi_port_controller_gui_http }}"
