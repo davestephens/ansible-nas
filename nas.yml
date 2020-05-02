@@ -188,6 +188,10 @@
     when: (calibre_enabled | default(False))
     tags: calibre
 
+  - import_tasks: tasks/handbrake.yml
+    when: (handbrake_enabled | default(False))
+    tags: handbrake
+
   - import_tasks: tasks/homeassistant.yml
     when: (homeassistant_enabled | default(False))
     tags: homeassistant
