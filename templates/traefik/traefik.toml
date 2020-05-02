@@ -199,6 +199,7 @@ onDemand = false # create certificate when container is created
           "jellyfin.{{ ansible_nas_domain }}",
           "joomla.{{ ansible_nas_domain }}",
           "lidarr.{{ ansible_nas_domain }}",
+          "makemkv.{{ ansible_nas_domain }}",
           "miniflux.{{ ansible_nas_domain }}",
           "netdata.{{ ansible_nas_domain }}",
           "nextcloud.{{ ansible_nas_domain }}",
