@@ -70,6 +70,7 @@ Ansible config and a bunch of Docker containers.
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [Radarr](https://radarr.video/) - for organising and downloading movies
 * [Serposcope](https://serposcope.serphacker.com/en/) - tracker to monitor website ranking
+* [Shaarli](https://github.com/shaarli/Shaarli) - The personal, minimalist, super-fast, database free, bookmarking service
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
