@@ -76,7 +76,11 @@
     when: (thelounge_enabled | default(False))
     tags: thelounge
 
-  - import_tasks: tasks/sonarr.yml
+  - import_tasks: tasks/mylar.yml
+    when: (mylar_enabled | default(False))
+    tags: mylar
+
+- import_tasks: tasks/sonarr.yml
     when: (sonarr_enabled | default(False))
     tags: sonarr
 
