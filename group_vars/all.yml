@@ -39,6 +39,9 @@ bazarr_enabled: false
 ombi_enabled: false
 lidarr_enabled: false
 
+# Media Transcoding & Ripping
+makemkv_enabled: false
+
 # Music
 airsonic_enabled: false
 mymediaforalexa_enabled: false
@@ -375,6 +378,21 @@ joomla_data_directory: "{{ docker_home }}/joomla"
 joomla_available_externally: "false"
 joomla_database_password: top_secret
 joomla_port: "8181"
+
+###
+### MakeMKV
+###
+makemkv_available_externally: "false"
+makemkv_data_directory: "{{ docker_home }}/makemkv/config"
+# If your Ansible-NAS has an optical drive you want to use for ripping:
+# Uncomment the line below (edit the device if necessary) and uncomment the cooresponding line in tasks/makemkv.yml
+# makemkv_optical_drive: "/dev/sr0"
+makemkv_storage_directory: "{{ samba_shares_root }}"
+makemkv_storagealt_directory: "{{ samba_shares_other_root }}/dump/rip"
+makemkv_output_directory: "{{ samba_shares_other_root }}/dump/ripped"
+makemkv_port_http: "5802"
+makemkv_user_id: "999"
+makemkv_group_id: "1001"
 
 ###
 ### pyLoad
