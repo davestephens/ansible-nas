@@ -35,6 +35,7 @@ By default, applications can be found on the ports listed below.
 | Miniflux        | 8070   |              |
 | Mosquitto       | 1883   | MQTT         |
 | Mosquitto       | 9001   | Websocket    |
+| Mylar           | 8585   | HTTP         |
 | MyMediaForAlexa | 52051  |              |
 | Netdata         | 19999  |              |
 | Nextcloud       | 8080   |              |
