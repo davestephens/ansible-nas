@@ -31,7 +31,7 @@ By default, applications can be found on the ports listed below.
 | Jellyfin        | 8896   | HTTP         |
 | Jellyfin        | 8928   | HTTPS        |
 | Lidarr          | 8686   |              |
-| MakeMKV         | 8502   | HTTP         |
+| MakeMKV         | 5802   | HTTP         |
 | MiniDLNA        | 8201   |              |
 | Miniflux        | 8070   |              |
 | Mosquitto       | 1883   | MQTT         |
