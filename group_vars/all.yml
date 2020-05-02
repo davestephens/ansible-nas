@@ -391,8 +391,8 @@ makemkv_storage_directory: "{{ samba_shares_root }}"
 makemkv_storagealt_directory: "{{ samba_shares_other_root }}/dump/rip"
 makemkv_output_directory: "{{ samba_shares_other_root }}/dump/ripped"
 makemkv_port_http: "5802"
-makemkv_user_id: "999"
-makemkv_group_id: "1001"
+makemkv_user_id: "0"
+makemkv_group_id: "0"
 
 ###
 ### pyLoad
