@@ -79,6 +79,7 @@ Ansible config and a bunch of Docker containers.
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
+* [Unifi Controller](https://unifi-network.ui.com/) - The UniFi® Software-Defined Networking (SDN) platform is an end-to-end system of network devices across different locations — all controlled from a single interface.
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
