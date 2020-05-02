@@ -228,6 +228,6 @@
     when: (unifi_enabled | default(False))
     tags: unifi
 
-- import_tasks: tasks/virtual_desktop.yml
+  - import_tasks: tasks/virtual_desktop.yml
     when: (virtual_desktop_enabled | default(False))
     tags: virtual_desktop
