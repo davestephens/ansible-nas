@@ -1,0 +1,30 @@
+---
+- name: Create Mylar Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ mylar_data_directory }}"
+
+- name: Mylar
+  docker_container:
+    name: mylar
+    image: linuxserver/mylar
+    pull: true
+    volumes:
+      - "{{ mylar_comics_directory }}:/comics:rw"
+      - "{{ mylar_downloads_directory }}:/downloads:rw"
+      - "{{ mylar_data_directory }}:/config:rw"
+    ports:
+      - "{{ mylar_port_http }}:8090"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ mylar_user_id }}"
+      PGID: "{{ mylar_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "mylar"
+      traefik.frontend.rule: "Host:mylar.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ mylar_available_externally }}"
+      traefik.port: "{{ mylar_port_http }}"
