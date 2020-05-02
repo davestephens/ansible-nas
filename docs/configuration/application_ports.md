@@ -24,6 +24,7 @@ By default, applications can be found on the ports listed below.
 | Glances         | 61208  | SSH          |
 | Grafana         | 3000   |              |
 | Guacamole       | 8090   |              |
+| Handbrake       | 5801   | HTTP         |
 | Heimdall        | 10080  |              |
 | Home Assistant  | 8123   |              |
 | Homebridge      | 8087   |              |
