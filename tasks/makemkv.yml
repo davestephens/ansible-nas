@@ -1,0 +1,35 @@
+
+---
+- name: Create MakeMKV Config Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ makemkv_data_directory }}"
+    - "{{ makemkv_output_directory }}"
+    - "{{ makemkv_storagealt_directory }}"
+
+- name: makemkv
+  docker_container:
+    name: makemkv
+    image: jlesage/makemkv
+    pull: true
+    volumes:
+      - "{{ makemkv_data_directory }}:/config:rw"
+#      - "{{ makemkv_optical_drive }}: /dev/sr0:ro"
+      - "{{ makemkv_storage_directory }}:/storage:ro"
+      - "{{ makemkv_storagealt_directory }}:/storagealt:rw"
+      - "{{ makemkv_output_directory }}:/output:rw"
+    ports:
+      - "{{ makemkv_port_http }}:5800"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      USER_ID: "{{ makemkv_user_id }}"
+      GROUP_ID: "{{ makemkv_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "makemkv"
+      traefik.frontend.rule: "Host:makemkv.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ makemkv_available_externally }}"
+      traefik.port: "5800"
