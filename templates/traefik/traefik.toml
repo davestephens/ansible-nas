@@ -193,6 +193,7 @@ onDemand = false # create certificate when container is created
           "glances.{{ ansible_nas_domain }}",
           "grafana.{{ ansible_nas_domain }}",
           "guacamole.{{ ansible_nas_domain }}",
+          "handbrake.{{ ansible_nas_domain }}",
           "heimdall.{{ ansible_nas_domain }}",
           "homeassistant.{{ ansible_nas_domain }}",
           "jackett.{{ ansible_nas_domain }}",
