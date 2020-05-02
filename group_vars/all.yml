@@ -92,6 +92,9 @@ calibre_enabled: false
 # Ubooquity
 ubooquity_enabled: false
 
+# Unifi
+unifi_enabled: false
+
 # Joomla
 joomla_enabled: false
 
@@ -367,6 +370,27 @@ openvpn_username: leisure-suit-larry
 openvpn_password: secretpassword
 openvpn_provider: AWESOMEVPNPROVIDER
 openvpn_config: United-Kingdom
+
+###
+### Unifi
+###
+# REF: https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+unifi_available_externally: "false"
+unifi_data_directory: "{{ docker_home }}/unifi/config"
+unifi_user_id: "1000"
+unifi_group_id: "1000"
+# REF: https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+unifi_port_discoverable: "1900"        # UDP
+unifi_port_stun: "3478"                # UDP
+unifi_port_discovery: "10001"          # UDP
+unifi_port_inform: "8080"              # <- NextCloud default conflict, change NextCloud
+#unifi_port_b: "8081"                  # <- Sickchill default conflict, change Sickchill
+unifi_port_controller_gui_http: "8443" # <- only one you can change
+unifi_port_redirect_https: "8843"
+unifi_port_redirect_http: "8880"
+unifi_port_throughput: "6789"          # <- NZBGet default conflict, change NZBGet
+unifi_port_database: "27117"
+#unifi_port_ssh: "22"                  # <- uncomment in unifi.yml if enabled
 
 ###
 ### Joomla
