@@ -45,6 +45,7 @@ mymediaforalexa_enabled: false
 
 # News
 miniflux_enabled: false
+shaarli_enabled: false
 
 # System Management
 heimdall_enabled: false
@@ -618,6 +619,14 @@ miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
 miniflux_admin_password: supersecure
 miniflux_port: "8070"
+
+###
+### Shaarli
+###
+shaarli_available_externally: "false"
+shaarli_data_directory: "{{ docker_home }}/shaarli"
+shaarli_port_http: "5804"
+shaarli_port_https: "5443"
 
 ###
 ### Airsonic
