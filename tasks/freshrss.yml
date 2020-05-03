@@ -1,0 +1,47 @@
+
+---
+- name: FreshRSS Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ freshrss_data_directory }}/pgsql_data"
+    - "{{ freshrss_data_directory }}/data"
+    - "{{ freshrss_data_directory }}/extensions"
+
+- name: MySQL Docker Container for FreshRSS
+  docker_container:
+    name: freshrss-postgres
+    image: postgres:latest
+    pull: true
+    volumes:
+      - "{{ freshrss_data_directory }}/pgsql_data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    env:
+      POSTGRES_USER="freshrss"
+      POSTGRES_PASSWORD="freshrss"
+      POSTGRES_DB="freshrss"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: FreshRSS Docker Container
+  docker_container:
+    name: freshrss
+    image: freshrss/freshrss:latest
+    pull: true
+    volumes:
+      - "{{ freshrss_data_directory }}/data:/var/www/FreshRSS/data:rw"
+      - "{{ freshrss_data_directory }}/extensions:/var/www/FreshRSS/extensions:rw"
+    ports:
+      - "{{ freshrss_port_http }}:80"
+    env:
+      CRON_MIN: "*/20"
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "freshrss"
+      traefik.frontend.rule: "Host:freshrss.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ freshrss_available_externally }}"
+      traefik.port: "80"
+    memory: 1g
