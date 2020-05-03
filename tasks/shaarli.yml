@@ -19,6 +19,7 @@
       - "{{ shaarli_data_directory }}/data:/var/www/shaarli/data:rw"
     ports:
       - "{{ shaarli_port_http }}:80"
+      - "{{ shaarli_port_https }}: 443"
     env:
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
