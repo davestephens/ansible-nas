@@ -56,6 +56,10 @@
     when: (emby_enabled | default(False))
     tags: emby
 
+  - import_tasks: tasks/stash.yml
+    when: (stash_enabled | default(False))
+    tags: stash
+
   - import_tasks: tasks/tautulli.yml
     when: (tautulli_enabled | default(False))
     tags: tautulli
