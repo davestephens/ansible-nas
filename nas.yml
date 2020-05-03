@@ -112,6 +112,10 @@
     when: (miniflux_enabled | default(False))
     tags: miniflux
 
+  - import_tasks: tasks/netbootxyz.yml
+    when: (netbootxyz_enabled | default(False))
+    tags: netbootxyz
+
   - import_tasks: tasks/nextcloud.yml
     when: (nextcloud_enabled | default(False))
     tags: nextcloud
