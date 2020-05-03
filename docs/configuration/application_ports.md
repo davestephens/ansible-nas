@@ -47,6 +47,8 @@ By default, applications can be found on the ports listed below.
 | pyload          | 8000   |              |
 | Radarr          | 7878   |              |
 | Serposcope      | 7134   |              |
+| Shaarli         | 5804   | HTTP         |
+| Shaarli         | 5443   | HTTPS         |
 | Sickchill       | 8081   |              |
 | Sonarr          | 8989   |              |
 | Tautulli        | 8185   |              |
