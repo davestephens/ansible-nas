@@ -72,6 +72,7 @@ Ansible config and a bunch of Docker containers.
 * [Serposcope](https://serposcope.serphacker.com/en/) - tracker to monitor website ranking
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
+* [Stash](https://github.com/stashapp/stash) - An organizer for your porn, written in Go
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client
