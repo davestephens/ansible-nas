@@ -1,0 +1,33 @@
+
+---
+- name: netbootxyz Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ netbootxyz_data_directory }}/config"
+    - "{{ netbootxyz_data_directory }}/assets"
+
+- name: netbootxyz Docker Container
+  docker_container:
+    name: netbootxyz
+    image: linuxserver/netbootxyz:latest
+    pull: true
+    volumes:
+      - "{{ netbootxyz_data_directory }}/config:/config:rw"
+      - "{{ netbootxyz_data_directory }}/assets:/assets:rw"
+    ports:
+      - "{{ netbootxyz_port_http }}:3000"
+      - "{{ netbootxyz_port_http2 }}:80"
+      - "{{ netbootxyz_port_tftp }}:69/udp"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ netbootxyz_user_id }}"
+      PGID: "{{ netbootxyz_group_id }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "netbootxyz"
+      traefik.frontend.rule: "Host:netbootxyz.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ netbootxyz_available_externally }}"
+      traefik.port: "80"
+    memory: 1g
