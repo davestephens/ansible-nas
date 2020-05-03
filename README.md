@@ -15,7 +15,7 @@ Ansible config and a bunch of Docker containers.
 * Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, Lidarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
-* An RSS newsfeed reader - Miniflux
+* RSS newsfeed readers - FreshRSS and Miniflux
 * A Dropbox replacement via Nextcloud
 * Various ways to see stats about your NAS - Glances, dashboards in Grafana
 * A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
@@ -43,6 +43,7 @@ Ansible config and a bunch of Docker containers.
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
+* [FreshRSS](https://freshrss.org/) - A free, self-hostable aggregator… probably the best! 
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted Github clone
 * [Gitlab](https://about.gitlab.com/features/) - Self-hosted Github clone of the highest order
