@@ -52,6 +52,7 @@ portainer_enabled: false
 glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
+netbootxyz_enabled: false
 netdata_enabled: false
 watchtower_enabled: false
 cloudflare_ddns_enabled: false
@@ -524,6 +525,17 @@ ombi_available_externally: "false"
 ombi_config_directory: "{{ docker_home }}/ombi/config"
 ombi_user_id: "0"
 ombi_group_id: "0"
+
+###
+### netbootxyz
+###
+netbootxyz_available_externally: "false"
+netbootxyz_data_directory: "{{ docker_home }}/netbootxyz"
+netbootxyz_port_http: "3002"
+netbootxyz_port_http2: "5803"
+netbootxyz_port_tftp: "69"
+netbootxyz_user_id: "1000"
+netbootxyz_group_id: "1000"
 
 ###
 ### Netdata
