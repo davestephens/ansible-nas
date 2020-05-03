@@ -36,6 +36,9 @@ By default, applications can be found on the ports listed below.
 | Mosquitto       | 1883   | MQTT         |
 | Mosquitto       | 9001   | Websocket    |
 | MyMediaForAlexa | 52051  |              |
+| netbootxyz      | 3002   | HTTP         |
+| netbootxyz      | 5803   | HTTP         |
+| netbootxyz      | 69     | TFTP         |
 | Netdata         | 19999  |              |
 | Nextcloud       | 8080   |              |
 | NZBGet          | 6789   |              |
