@@ -30,6 +30,7 @@ Ansible config and a bunch of Docker containers.
 * A dual panel local file manager
 * Self-service media request web application
 * SEO tracking with Serposcope
+* A PXE server to boot OS images over the network
 
 ### Available Applications
 
@@ -60,6 +61,7 @@ Ansible config and a bunch of Docker containers.
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
+* [netboot.xyz](https://netboot.xyz/) - a PXE boot server
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
