@@ -44,6 +44,7 @@ airsonic_enabled: false
 mymediaforalexa_enabled: false
 
 # News
+freshrss_enabled: false
 miniflux_enabled: false
 
 # System Management
@@ -609,6 +610,13 @@ nginx_port_https: "443"
 guacamole_available_externally: "false"
 guacamole_data_directory: "{{ docker_home }}/guacamole"
 guacamole_port: "8090"
+
+###
+### FreshRSS
+###
+freshrss_available_externally: "false"
+freshrss_data_directory: "{{ docker_home }}/freshrss"
+freshrss_port_http: "5805"
 
 ###
 ### Miniflux
