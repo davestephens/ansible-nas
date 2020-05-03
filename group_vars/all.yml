@@ -23,6 +23,7 @@ pyload_enabled: false
 
 # Media Serving
 plex_enabled: false
+stash_enabled: false
 tautulli_enabled: false
 
 # Media Sourcing
@@ -553,6 +554,15 @@ znc_user_id: "0"
 znc_group_id: "0"
 znc_port: "6677"
 
+###
+### Stash
+###
+stash_available_externally: "false"
+stash_data_directory: "{{ docker_home }}/stash"
+stash_video_directory: "{{ samba_shares_root }}/porn"
+stash_user_id: "0"
+stash_group_id: "0"
+stash_http_port: "9998"
 
 ###
 ### Stats
