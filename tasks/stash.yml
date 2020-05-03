@@ -1,0 +1,48 @@
+
+---
+- name: Stash Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ stash_data_directory }}/cache"
+    - "{{ stash_data_directory }}/config"
+    - "{{ stash_data_directory }}/config/root"
+    - "{{ stash_data_directory }}/config/root/.stash"
+    - "{{ stash_data_directory }}/data"
+    - "{{ stash_data_directory }}/generated"
+    - "{{ stash_data_directory }}/metadata"
+
+- name: Stash Docker Container
+  docker_container:
+    name: stash
+    image: stashapp/stash:latest
+    pull: true
+    log_driver: "json-file"
+    log_options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - "{{ stash_data_directory }}/cache:/cache:rw"
+      - "{{ stash_data_directory }}/config:/root/.stash:rw"
+      - "{{ stash_data_directory }}/data:/data:rw"
+      - "{{ stash_data_directory }}/generated:/generated:rw"
+      - "{{ stash_data_directory }}/metadata:/metadata:rw"
+      - "{{ stash_video_directory }}:/porn:ro"
+    ports:
+      - "{{ stash_http_port }}:9999"
+    env:
+      PUID: "{{ stash_user_id }}"
+      PGID: "{{ stash_group_id }}"
+      STASH_STASH: "/data/"
+      STASH_GENERATED: "/generated/"
+      STASH_METADATA: "/metadata/"
+      STASH_CACHE: "/cache/"
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "stash"
+      traefik.frontend.rule: "Host:stash.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ stash_available_externally }}"
+      traefik.port: "9999"
+    memory: 1g
