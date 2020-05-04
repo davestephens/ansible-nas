@@ -88,6 +88,10 @@
     when: (glances_enabled | default(False))
     tags: glances
 
+  - import_tasks: tasks/monitorr.yml
+    when: (monitorr_enabled | default(False))
+    tags: monitorr
+
   - import_tasks: tasks/netdata.yml
     when: (netdata_enabled | default(False))
     tags: netdata
