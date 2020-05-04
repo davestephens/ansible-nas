@@ -57,6 +57,7 @@ watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
 virtual_desktop_enabled: false
+speedtest_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
@@ -516,6 +517,12 @@ sickchill_user_id: "0"
 sickchill_group_id: "0"
 sickchill_port: "8081"
 
+###
+### Speedtest
+###
+speedtest_available_externally: "false"
+speedtest_data_directory: "{{ docker_home }}/speedtest"
+speedtest_port_http: "8765"
 
 ###
 ### Ombi
