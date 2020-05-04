@@ -57,6 +57,7 @@ watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
 virtual_desktop_enabled: false
+monitorr_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
@@ -524,6 +525,15 @@ ombi_available_externally: "false"
 ombi_config_directory: "{{ docker_home }}/ombi/config"
 ombi_user_id: "0"
 ombi_group_id: "0"
+
+###
+### Monitorr
+###
+monitorr_available_externally: "false"
+monitorr_data_directory: "{{ docker_home }}/monitorr"
+monitorr_port_http: "5806"
+monitorr_user_id: "999"
+monitorr_group_id: "1001"
 
 ###
 ### Netdata
