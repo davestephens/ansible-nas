@@ -58,6 +58,7 @@ Ansible config and a bunch of Docker containers.
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [MiniDlna](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
+* [Monitorr](https://github.com/Monitorr/Monitorr) - a self-hosted PHP web app that monitors the status of local and remote network services, websites, and applications
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
