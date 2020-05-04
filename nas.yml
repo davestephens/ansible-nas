@@ -40,6 +40,10 @@
     when: (heimdall_enabled | default(False))
     tags: heimdall
 
+  - import_tasks: tasks/speedtest.yml
+    when: (speedtest_enabled | default(False))
+    tags: speedtest
+
   - import_tasks: tasks/watchtower.yml
     when: (watchtower_enabled | default(False))
     tags: watchtower
