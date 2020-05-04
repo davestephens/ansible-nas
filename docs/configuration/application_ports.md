@@ -33,6 +33,7 @@ By default, applications can be found on the ports listed below.
 | Lidarr          | 8686   |              |
 | MiniDLNA        | 8201   |              |
 | Miniflux        | 8070   |              |
+| Monitorr        | 5806   | HTTP         |
 | Mosquitto       | 1883   | MQTT         |
 | Mosquitto       | 9001   | Websocket    |
 | MyMediaForAlexa | 52051  |              |
