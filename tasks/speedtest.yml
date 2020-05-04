@@ -1,0 +1,28 @@
+
+---
+- name: Speedtest-Tracker Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ speedtest_data_directory }}/config"
+
+- name: Speedtest-Tracker Docker Container
+  docker_container:
+    name: speedtest
+    image: henrywhitaker3/speedtest-tracker:latest
+    pull: true
+    volumes:
+      - "{{ speedtest_data_directory }}/config:/config:rw"
+    ports:
+      - "{{ speedtest_port_http }}:80"
+    env:
+      SLACK_WEBHOOK: "webhook"
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "speedtest"
+      traefik.frontend.rule: "Host:speedtest.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ speedtest_available_externally }}"
+      traefik.port: "80"
+    memory: 1g
