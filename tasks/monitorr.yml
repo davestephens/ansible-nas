@@ -1,0 +1,29 @@
+
+---
+- name: Monitorr Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ monitorr_data_directory }}/app"
+
+- name: Monitorr Docker Container
+  docker_container:
+    name: monitorr
+    image: monitorr/monitorr:latest
+    pull: true
+    volumes:
+      - "{{ monitorr_data_directory }}/app:/app:rw"
+    ports:
+      - "{{ monitorr_port_http }}:80"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ monitorr_user_id }}"
+      PGID: "{{ monitorr_group_id }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "monitorr"
+      traefik.frontend.rule: "Host:monitorr.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ monitorr_available_externally }}"
+      traefik.port: "80"
+    memory: 1g
