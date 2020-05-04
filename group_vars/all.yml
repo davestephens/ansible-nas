@@ -494,7 +494,7 @@ lidarr_group_id: "0"
 lidarr_port: "8686"
 
 ###
-### YoutTubedlmDL-Material
+### YouTubeDL-Material
 ###
 youtubedlmaterial_available_externally: "false"
 youtubedlmaterial_data_directory: "{{ docker_home }}/youtubedlmaterial"
