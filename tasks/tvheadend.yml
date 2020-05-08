@@ -1,0 +1,30 @@
+- name: Create TVHeadend Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ tvheadend_config_directory }}"
+
+- name: TVHeadend Docker Container
+  docker_container:
+    name: tvheadend
+    image: linuxserver/tvheadend
+    pull: true
+    volumes:
+      - "{{ tvheadend_config_directory }}:/config:rw"
+      - "{{ tvheadend_recordings_directory }}:/recordings:rw"
+    network_mode: host # discovery of IPTV
+    ports:
+      - "{{ tvheadend_port_web }}:9981"
+      - "{{ tvheadend_port_htsp }}:9982"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ tvheadend_user_id }}"
+      PGID: "{{ tvheadend_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "tvheadend"
+      traefik.frontend.rule: "Host:tvheadend.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ tvheadend_available_externally }}"
+      traefik.port: "9981"

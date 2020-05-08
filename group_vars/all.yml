@@ -39,6 +39,9 @@ bazarr_enabled: false
 ombi_enabled: false
 lidarr_enabled: false
 
+# Media recording
+tvheadend_enabled: false
+
 # Music
 airsonic_enabled: false
 mymediaforalexa_enabled: false
@@ -159,6 +162,9 @@ movies_root: "{{ samba_shares_root }}/movies"
 # Where your TV episodes are stored
 tv_root: "{{ samba_shares_root }}/tv"
 
+# Where your PVR recordings are stored
+recordings_root: "{{ samba_shares_root }}/recordings"
+
 # Where torrent files are stored (picked up by Transmission for downloading)
 torrents_root: "{{ samba_shares_root }}/torrents"
 
@@ -205,6 +211,14 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ tv_root }}"
+
+  - name: recordings
+    comment: 'Recordings'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browsable: yes
+    path: "{{ recordings_root }}"
 
   - name: music
     comment: 'Music'
@@ -837,3 +851,18 @@ vd_users:
     password: "topsecret"
     sudo: "Y"
 vd_rdp_port: 3389
+
+###
+### TVHeadend
+###
+tvheadend_available_externally: "false"
+tvheadend_config_directory: "{{ docker_home }}/tvheadend/config"
+tvheadend_recordings_directory: "{{ recordings_root }}"
+tvheadend_user_id: "0"
+tvheadend_group_id: "0"
+tvheadend_port_web: "9981"
+tvheadend_port_htsp: "9982"
+# You may add the following volumes
+#   - /dev/dri:/dev/dri # hardware accelerated video processing
+#   - /dev/dvb:/dev/dvb # pass tv tuner card
+tvheadend_additional_volumes: []
