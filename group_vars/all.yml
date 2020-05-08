@@ -668,7 +668,7 @@ timemachine_log_level: error
 timemachine_port: "10445"
 
 ###
-### minidlna
+### MiniDLNA
 ###
 minidlna_media_directory1: "{{ movies_root }}"
 minidlna_media_directory2: "{{ tv_root }}"
