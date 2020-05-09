@@ -22,7 +22,7 @@
       - "{{ youtubedlmaterial_data_directory }}/appdata:/app/appdata:rw"
       - "{{ youtubedlmaterial_dl_audio_directory }}:/app/audio:rw"
       - "{{ youtubedlmaterial_dl_video_directory }}:/app/video:rw"
-      - "{{ youtubedlmaterial_dl_video_directory }}:/app/subscriptions:rw"
+      - "{{ youtubedlmaterial_dl_subscriptions_directory }}:/app/subscriptions:rw"
     ports:
       - "{{ youtubedlmaterial_port_http }}:17442"
     env:
