@@ -1,3 +1,20 @@
+# Some indirection to be able to extend the volumes list conditionally
+- name: Define basic docker volumes
+  set_fact:
+    tvheadend_docker_volumes:
+      - "{{ tvheadend_config_directory }}:/config:rw"
+      - "{{ tvheadend_recordings_directory }}:/recordings:rw"
+
+- name: Add hw acceleration
+  set_fact:
+    tvheadend_docker_volumes: "{{ tvheadend_docker_volumes + [ '/dev/dri:/dev/dri' ] }}"
+  when: tvheadend_hw_accel == "true"
+
+- name: Add dvb hw
+  set_fact:
+    tvheadend_docker_volumes: "{{ tvheadend_docker_volumes + [ '/dev/dvb:/dev/dvb' ] }}"
+  when: tvheadend_hw_dvb == "true"
+
 - name: Create TVHeadend Directories
   file:
     path: "{{ item }}"
@@ -10,10 +27,8 @@
     name: tvheadend
     image: linuxserver/tvheadend
     pull: true
-    volumes:
-      - "{{ tvheadend_config_directory }}:/config:rw"
-      - "{{ tvheadend_recordings_directory }}:/recordings:rw"
-    network_mode: host # discovery of IPTV
+    volumes: "{{ tvheadend_docker_volumes }}"
+    network_mode: host # enables discovery of IPTV
     ports:
       - "{{ tvheadend_port_web }}:9981"
       - "{{ tvheadend_port_htsp }}:9982"
