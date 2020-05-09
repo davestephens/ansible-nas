@@ -14,16 +14,19 @@
     volumes:
       - "{{ unifi_data_directory }}:/config:rw"
     ports:
-#      - "{{ unifi_port_discoverable }}:1900/udp"
-      - "{{ unifi_port_stun }}:3478/udp"
-      - "{{ unifi_port_discovery }}:10001/udp"
-      - "{{ unifi_port_inform }}:8080"              # Nextcloud default port
-#      - "{{ unifi_port_b }}:8081"                  # Sickchill default port
-      - "{{ unifi_port_redirect_https }}:8843"
-      - "{{ unifi_port_redirect_http }}:8880"
-      - "{{ unifi_port_throughput }}:6789"          # NZBGet default port
-      - "{{ unifi_port_database }}:27117"
+      - "1900:1900/udp"                        # Port used for "Make controller discoverable on L2 network"
+      - "5514:5514"                            # Port used for remote syslog capture.
+      - "3478:3478/udp"                        # Port used for STUN.
+      - "10001:10001/udp"                      # Port used for device discovery
+      - "8080:8080"                            # Port used for device and controller communication.
+      - "8081:8081"                            # unifi.shutdown.port
+      - "8443:8443"                            # Port used for controller GUI/API as seen in a web browser
+      - "{{ unifi_port_https }}:8843"          # Port used for HTTPS portal redirection.
+      - "8880:8880"                            # Port used for HTTP portal redirection.
+      - "6789:6789"                            # Port used for UniFi mobile speed test.
+      - "27117:27117"                          # Port used for local-bound database communication.
       - "{{ unifi_port_ssh }}:22"
+# UDP ports 5656-5699 for AP-EDU broadcasting not enabled
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ unifi_user_id }}"
@@ -34,4 +37,4 @@
       traefik.backend: "unifi"
       traefik.frontend.rule: "Host:unifi{{ ansible_nas_domain }}"
       traefik.enable: "{{ unifi_available_externally }}"
-      traefik.port: "{{ unifi_port_controller_gui_http }}"
+      traefik.port: "8880"
