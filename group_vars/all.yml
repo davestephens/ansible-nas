@@ -683,7 +683,7 @@ get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
 get_iplayer_port: "8182"
 
 ###
-### mymediaforalexa
+### My Media for Alexa
 ###
 mymediaforalexa_media_directory: "{{ music_root }}"
 mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
