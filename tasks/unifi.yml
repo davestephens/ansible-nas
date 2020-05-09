@@ -24,7 +24,7 @@
       - "{{ unifi_port_redirect_http }}:8880"
       - "{{ unifi_port_throughput }}:6789"          # NZBGet default port
       - "{{ unifi_port_database }}:27117"
-      - "{{ unfi_port_ssh }}:22"
+      - "{{ unifi_port_ssh }}:22"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ unifi_user_id }}"
