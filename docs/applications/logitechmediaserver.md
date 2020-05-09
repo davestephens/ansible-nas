@@ -7,6 +7,7 @@ Logitech Media Server is the server software that powers audio players from Logi
 
 ## Usage
 
-Set `logitechmediaserver_enabled: true` in your `inventories/<your_inventory>/nas.yml` file AND change the default port for Portainer. Logitech Media Server runs in host mode and port $
+Set `logitechmediaserver_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+If you are using Portainer, you must change the default port, as 9000 is a hard requirement for Logitech Media Server.
 
 The Logitech Media Server web interface can be found at http://ansible_nas_host_or_ip:9000.
