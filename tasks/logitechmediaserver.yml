@@ -1,28 +1,34 @@
+
 ---
-- name: Gotify Directory
+- name: Create Logitech Media Server Directories
   file:
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ gotify_data_directory }}/app/data"
+    - "{{ logitechmediaserver_config_directory }}"
 
-- name: Gotify Docker Container
+- name: logitechmediaserver Docker Container
   docker_container:
-    name: gotify
-    image: gotify/server:latest
+    name: logitechmediaserver
+    image: dlandon/logitechmediaserver:latest
     pull: true
     volumes:
-      - "{{ gotify_data_directory }}/data:/app/data:rw"
+      - "{{ logitechmediaserver_config_directory }}:/config:rw"
+      - "{{ music_root }}:/music:ro"
+    network_mode: bridge
     ports:
-      - "{{ gotify_port_http }}:80"
+      - "3483:3483"          # control port
+      - "3483:3483/udp"      # control and streaming for SLIMP3 players
+      - "9000:9000"          # web and streaming port
+      - "9090:9090"          # telnet ports
     env:
       TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ gotify_user_id }}"
-      PGID: "{{ gotify_group_id }}"
+      PUID: "{{ logitechmediaserver_user_id }}"
+      PGID: "{{ logitechmediaserver_group_id }}"
     restart_policy: unless-stopped
+    memory: 2g
     labels:
-      traefik.backend: "gotify"
-      traefik.frontend.rule: "Host:gotify.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ gotify_available_externally }}"
-      traefik.port: "80"
-    memory: 1g
+      traefik.backend: "logitechmediaserver"
+      traefik.frontend.rule: "Host:logitechmediaserver.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ logitechmediaserver_available_externally }}"
+      traefik.port: "9000"
