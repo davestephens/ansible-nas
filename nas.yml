@@ -231,7 +231,6 @@
     - import_tasks: tasks/logitechmediaserver.yml
     when:
       - (logitechmediaserver_enabled | default(False))
-      - logitechmediaserver_enabled
       - not portainer_port == "9000"
 #      - not sabnzbd_https_port == "9090"
     tags: logitechmediaserver
