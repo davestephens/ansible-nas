@@ -79,6 +79,7 @@ Ansible config and a bunch of Docker containers.
 * [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
+* [TVHeadend](https://tvheadend.org/) - TV streaming server and recorder
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
