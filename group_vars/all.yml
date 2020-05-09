@@ -374,22 +374,16 @@ openvpn_config: United-Kingdom
 ###
 ### Unifi
 ###
+# The Unifi Controller uses a number of ports that are uncofigurable, Unifi devices need to communicate on them.
+# The following apps must have their default ports changed:
+# NextCloud (8080), Sickchill (8081), and NZBGet (6789).
 # REF: https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
 unifi_available_externally: "false"
 unifi_data_directory: "{{ docker_home }}/unifi/config"
+unifi_port_https: "8843"
+unifi_port_ssh: "10022"
 unifi_user_id: "1000"
 unifi_group_id: "1000"
-# REF: https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
-unifi_port_discoverable: "1900"        # UDP
-unifi_port_stun: "3478"                # UDP
-unifi_port_discovery: "10001"          # UDP
-unifi_port_inform: "8080"              # <- NextCloud default conflict, change NextCloud
-#unifi_port_b: "8081"                  # <- Sickchill default conflict, change Sickchill
-unifi_port_redirect_https: "8843"      # <- you can change this
-unifi_port_redirect_http: "8880"
-unifi_port_throughput: "6789"          # <- NZBGet default conflict, change NZBGet
-unifi_port_database: "27117"
-unifi_port_ssh: "10022"                # <- you can change this
 
 ###
 ### Joomla
