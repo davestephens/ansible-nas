@@ -11,7 +11,7 @@ Set `unifi_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 If you want to access Unifi externally, don't forget to set `unifi_available_externally: "true"` in your `inventories/<your_inventory>/nas.yml` file.
 
-The Unifi web interface can be found at http://ansible_nas_host_or_ip:8443.
+The Unifi web interface can be found at https://ansible_nas_host_or_ip:8443.
 
 ## Specific Configuration
 
