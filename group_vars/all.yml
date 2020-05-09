@@ -829,6 +829,8 @@ vd_rdp_port: 3389
 ###
 ### Logitech Media Server
 ###
+# Squeezebox devices need to talk to the server on port 9000.
+# You need to change your default Portainer port to use Logtech Media Server.
 logitechmediaserver_available_externally: "false"
 logitechmediaserver_config_directory: "{{ docker_home }}/logitechmediaserver/config"
 logitechmediaserver_user_id: "65534"
