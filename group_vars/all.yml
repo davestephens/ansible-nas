@@ -385,12 +385,12 @@ unifi_port_stun: "3478"                # UDP
 unifi_port_discovery: "10001"          # UDP
 unifi_port_inform: "8080"              # <- NextCloud default conflict, change NextCloud
 #unifi_port_b: "8081"                  # <- Sickchill default conflict, change Sickchill
-unifi_port_controller_gui_http: "8443" # <- only one you can change
+unifi_port_controller_gui_http: "8443" # <- you can change this
 unifi_port_redirect_https: "8843"
 unifi_port_redirect_http: "8880"
 unifi_port_throughput: "6789"          # <- NZBGet default conflict, change NZBGet
 unifi_port_database: "27117"
-#unifi_port_ssh: "22"                  # <- uncomment in unifi.yml if enabled
+unifi_port_ssh: "10022"                # <- you can change this
 
 ###
 ### Joomla
