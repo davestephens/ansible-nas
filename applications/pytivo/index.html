@@ -11,7 +11,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/mosquitto/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/pytivo/">
       
       
         <meta name="author" content="David Stephens">
@@ -21,7 +21,7 @@
     
     
       
-        <title>Mosquitto - Ansible-NAS</title>
+        <title>PyTivo - Ansible-NAS</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mosquitto" class="md-skip">
+        <a href="#pytivo" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Mosquitto
+              PyTivo
             
           </span>
         </div>
@@ -565,53 +565,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Mosquitto
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="Mosquitto" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../mosquitto/" title="Mosquitto" class="md-nav__link">
       Mosquitto
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -703,11 +661,60 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../pytivo/" title="PyTivo" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        PyTivo
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="PyTivo" class="md-nav__link md-nav__link--active">
       PyTivo
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -1036,6 +1043,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1048,7 +1062,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/mosquitto.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/pytivo.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -1056,11 +1070,27 @@
                   
                 
                 
-                <h1 id="mosquitto">Mosquitto</h1>
-<p>Homepage: <a href="https://mosquitto.org">https://mosquitto.org</a></p>
-<p>Mosquitto is a lightweight open source MQTT message broker.</p>
+                <h1 id="pytivo">PyTivo</h1>
+<p>Project Homepage:
+<a href="https://github.com/lucasnz/pytivo">https://github.com/lucasnz/pytivo</a>
+Docker Homepage:
+<a href="https://hub.docker.com/r/pinion/docker-pytivo">https://hub.docker.com/r/pinion/docker-pytivo</a></p>
+<p>PyTivo is both an HMO and GoBack server. Similar to TiVo Desktop pyTivo
+loads many standard video compression codecs and outputs mpeg2 video to
+the TiVo. However, pyTivo is able to load MANY more file types than TiVo
+Desktop. <a href="http://pytivo.org/">http://pytivo.org/</a></p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>mosquitto_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>Set <code>pytivo_enabled: true</code> in your <code>group_vars/all.yml</code> file. The PyTivo
+web interface can be found at http://ansible_nas_host_or_ip:9032.</p>
+<h2 id="specific-configuration">Specific Configuration</h2>
+<p>PyTivo needs to be configured for use. Your ansible-nas media is
+available to share via:
+* /movies - Where your movies are stored
+* /music - Where your music is stored
+* /photos - Where your photos are stored
+* /podcasts - Where your podcasts are stored
+* /tv - Where your TV episodes are stored</p>
+<p>Configuration help for PyTivo settings can be found at <a href="https://pytivo.sourceforge.io/wiki/index.php/Configure_pyTivo">Configure_pyTivo</a>.</p>
                 
               
               
@@ -1079,7 +1109,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../miniflux/" title="Miniflux" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../pyload/" title="pyLoad" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -1088,19 +1118,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Miniflux
+                pyLoad
               </div>
             </div>
           </a>
         
         
-          <a href="../mymediaforalexa/" title="My Media for Alexa" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../radarr/" title="Radarr" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                My Media for Alexa
+                Radarr
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
