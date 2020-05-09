@@ -67,6 +67,6 @@ By default, applications can be found on the ports listed below.
 | Unifi           | 8880   |              |
 | Unifi           | 6789   |              | * Requires changing NZBGet default
 | Unifi           | 27117  |              |
-| Unifi           | 22     | SSH          | * Requires changing host SSH port (default=off)
+| Unifi           | 10022  | SSH          | 
 | Wallabag        | 7780   |              |
 | ZNC             | 6677   |              |
