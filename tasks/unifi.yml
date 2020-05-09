@@ -19,7 +19,6 @@
       - "{{ unifi_port_discovery }}:10001/udp"
       - "{{ unifi_port_inform }}:8080"              # Nextcloud default port
 #      - "{{ unifi_port_b }}:8081"                  # Sickchill default port
-      - "{{ unifi_port_controller_gui_http }}:8443"
       - "{{ unifi_port_redirect_https }}:8843"
       - "{{ unifi_port_redirect_http }}:8880"
       - "{{ unifi_port_throughput }}:6789"          # NZBGet default port
