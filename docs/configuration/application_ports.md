@@ -47,6 +47,8 @@ By default, applications can be found on the ports listed below.
 | Plex            | 32400  |              |
 | Portainer       | 9000   |              |
 | pyload          | 8000   |              |
+| PyTivo          | 9032   | HTTP         |
+| PyTivo          | 2190   | UDP          |
 | Radarr          | 7878   |              |
 | Serposcope      | 7134   |              |
 | Sickchill       | 8081   |              |
