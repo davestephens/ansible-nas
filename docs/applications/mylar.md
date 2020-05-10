@@ -2,6 +2,7 @@
 # Mylar
 
 Homepage: [https://github.com/evilhero/mylar](https://github.com/evilhero/mylar)
+Docker Container: [https://hub.docker.com/r/linuxserver/mylar](https://hub.docker.com/r/linuxserver/mylar)
 
 An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 
