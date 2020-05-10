@@ -42,6 +42,11 @@ By default, applications can be found on the ports listed below.
 | Ombi            | 3579   |              |
 | openHAB         | 7777   | HTTP         |
 | openHAB         | 7778   | HTTPS        |
+| Pi-hole         | 53     | TCP & UDP    |
+| Pi-hole         | 80     | w/o Traefik  |
+| Pi-hole         | 443    | w/o Traefik  |
+| Pi-hole         | 8182   | w/ Traefik   |
+| Pi-hole         | 8183   | w/ Traefik   |
 | Plex            | 32400  |              |
 | Portainer       | 9000   |              |
 | pyload          | 8000   |              |
