@@ -220,4 +220,5 @@ onDemand = false # create certificate when container is created
           "transmission-openvpn.{{ ansible_nas_domain }}",
           "ubooquity.{{ ansible_nas_domain }}",
           "wallabag.{{ ansible_nas_domain }}",
+          "youtubedlmaterial.{{ ansible_nas_domain }}",
           "znc.{{ ansible_nas_domain }}"]

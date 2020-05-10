@@ -224,6 +224,10 @@
     when: (lidarr_enabled | default(False))
     tags: lidarr
 
+  - import_tasks: tasks/youtubedlmaterial.yml
+    when: (youtubedlmaterial_enabled | default(False))
+    tags: youtubedlmaterial
+
   - import_tasks: tasks/serposcope.yml
     when: (serposcope_enabled | default(False))
     tags: serposcope
