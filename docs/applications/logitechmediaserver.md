@@ -2,6 +2,7 @@
 # Logitech Media Server
 
 Homepage: [https://mysqueezebox.com/download](https://mysqueezebox.com/download)
+Docker Container: [https://hub.docker.com/r/dlandon/logitechmediaserver](https://hub.docker.com/r/dlandon/logitechmediaserver)
 
 Logitech Media Server is the server software that powers audio players from Logitech (formerly known as SlimDevices), including Squeezebox 3rd Generation, Squeezebox Boom, Squeezebox R$
 
