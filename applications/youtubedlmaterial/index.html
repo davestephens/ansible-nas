@@ -11,7 +11,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/homebridge/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/youtubedlmaterial/">
       
       
         <meta name="author" content="David Stephens">
@@ -21,7 +21,7 @@
     
     
       
-        <title>Homebridge - Ansible-NAS</title>
+        <title>YouTubeDL-Material - Ansible-NAS</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#homebridge" class="md-skip">
+        <a href="#youtubedl-material" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Homebridge
+              YouTubeDL-Material
             
           </span>
         </div>
@@ -481,53 +481,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Homebridge
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="Homebridge" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../homebridge/" title="Homebridge" class="md-nav__link">
       Homebridge
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -859,11 +817,60 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../youtubedlmaterial/" title="YouTubeDL-Material" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        YouTubeDL-Material
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="YouTubeDL-Material" class="md-nav__link md-nav__link--active">
       YouTubeDL-Material
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -1048,6 +1055,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#specific-configuration" class="md-nav__link">
+    Specific Configuration
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1060,7 +1074,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/homebridge.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/youtubedlmaterial.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -1068,12 +1082,16 @@
                   
                 
                 
-                <h1 id="homebridge">Homebridge</h1>
-<p>Homepage: <a href="https://github.com/nfarina/homebridge">https://github.com/nfarina/homebridge</a></p>
-<p>Homebridge is a lightweight NodeJS server you can run on your home network that emulates the iOS HomeKit API. It supports Plugins, which are community-contributed modules that provide a basic bridge from HomeKit to various 3rd-party APIs provided by manufacturers of "smart home" devices.</p>
+                <h1 id="youtubedl-material">YouTubeDL-Material</h1>
+<p>Homepage: <a href="https://ytdl-org.github.io/youtube-dl/">https://ytdl-org.github.io/youtube-dl/</a>
+Docker Container: <a href="https://github.com/Tzahi12345/YoutubeDL-Material">https://github.com/Tzahi12345/YoutubeDL-Material</a></p>
+<p>YoutubeDL-Material is a Material Design frontend for youtube-dl. It's coded using Angular 9 for the frontend, and Node.js on the backend.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>homebridge_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
-<p>The Homebridge web interface can be found at http://ansible_nas_host_or_ip:8087. The default username and password is 'admin' - change this after your first login!</p>
+<p>Set <code>youtubedlmaterial_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>The YouTubeDL-Material web interface can be found at http://ansible_nas_host_or_ip:8998.</p>
+<h2 id="specific-configuration">Specific Configuration</h2>
+<p>A YouTube directory will be created in your configured downloads spot. YouTubeDL-Material downloads will be placed there.
+You can change the download location via <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
                 
               
               
@@ -1092,7 +1110,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../homeassistant/" title="Home Assistant" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../watchtower/" title="Watchtower" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -1101,19 +1119,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Home Assistant
+                Watchtower
               </div>
             </div>
           </a>
         
         
-          <a href="../jackett/" title="Jackett" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../configuration/application_ports/" title="Application Ports" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Jackett
+                Application Ports
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
