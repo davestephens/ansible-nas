@@ -42,6 +42,8 @@ By default, applications can be found on the ports listed below.
 | Ombi            | 3579   |              |
 | openHAB         | 7777   | HTTP         |
 | openHAB         | 7778   | HTTPS        |
+| Organizr        | 10081  | HTTP         |
+| Organizr        | 10444  | HTTPS        |
 | Pi-hole         | 53     | TCP & UDP    |
 | Pi-hole         | 80     | w/o Traefik  |
 | Pi-hole         | 443    | w/o Traefik  |
