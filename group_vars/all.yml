@@ -683,11 +683,11 @@ cloudcmd_port: "7373"
 ### Krusader
 ###
 krusader_available_externally: "false"
-krusader_data_directory: "{{ docker_home }}/krusader"
+krusader_config_directory: "{{ docker_home }}/krusader/config"
 krusader_browse_directory: "/"
 krusader_user_id: "0"
 krusader_group_id: "0"
-krusader_secure_connection: "1"
+krusader_secure_connection: "0"
 krusader_vnc_password: "topsecret"
 krusader_port_http: "5800"
 krusader_port_vnc: "5900"
