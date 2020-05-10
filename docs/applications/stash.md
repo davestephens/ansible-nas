@@ -2,6 +2,7 @@
 # Stash
 
 Homepage: [https://github.com/stashapp/stash](https://github.com/stashapp/stash)
+Docker Container: [https://hub.docker.com/r/stashapp/stash](https://hub.docker.com/r/stashapp/stash)
 
 An organizer for your porn, written in Go
 
