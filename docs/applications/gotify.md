@@ -2,7 +2,6 @@
 # Gotify
 
 Homepage: [https://gotify.net/](https://gotify.net/)
-
 Docker Container: [https://hub.docker.com/r/gotify/server](https://hub.docker.com/r/gotify/server)
 
 Gotify is a simple server for sending and receiving messages.
