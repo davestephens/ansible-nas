@@ -2,6 +2,7 @@
 # FreshRSS
 
 Homepage: [https://freshrss.org/](https://freshrss.org/)
+Docker Container: [freshrss-postgres](freshrss-postgres)
 
 A free, self-hostable aggregator probably the best!
 
