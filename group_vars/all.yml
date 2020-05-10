@@ -86,6 +86,10 @@ mosquitto_enabled: false
 homebridge_enabled: false
 openhab_enabled: false
 
+# Pi-hole
+pihole_with_traefik_enabled: false
+pihole_without_traefik_enabled: false
+
 # Books
 calibre_enabled: false
 
