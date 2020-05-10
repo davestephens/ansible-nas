@@ -1,19 +1,17 @@
-# Some indirection to be able to extend the volumes list conditionally
-- name: Define basic docker volumes
+# Some indirection to be able to extend the devices list conditionally
+- name: Define basic docker devices
   set_fact:
-    tvheadend_docker_volumes:
-      - "{{ tvheadend_config_directory }}:/config:rw"
-      - "{{ tvheadend_recordings_directory }}:/recordings:rw"
+    tvheadend_docker_devices: []
 
 - name: Add hw acceleration
   set_fact:
-    tvheadend_docker_volumes: "{{ tvheadend_docker_volumes + [ '/dev/dri:/dev/dri' ] }}"
-  when: tvheadend_hw_accel == "true"
+    tvheadend_docker_devices: "{{ tvheadend_docker_devices + [ '/dev/dri:/dev/dri' ] }}"
+  when: tvheadend_hw_accel
 
 - name: Add dvb hw
   set_fact:
-    tvheadend_docker_volumes: "{{ tvheadend_docker_volumes + [ '/dev/dvb:/dev/dvb' ] }}"
-  when: tvheadend_hw_dvb == "true"
+    tvheadend_docker_devices: "{{ tvheadend_docker_devices + [ '/dev/dvb:/dev/dvb' ] }}"
+  when: tvheadend_hw_dvb
 
 - name: Create TVHeadend Directories
   file:
@@ -27,7 +25,10 @@
     name: tvheadend
     image: linuxserver/tvheadend
     pull: true
-    volumes: "{{ tvheadend_docker_volumes }}"
+    volumes:
+      - "{{ tvheadend_config_directory }}:/config:rw"
+      - "{{ tvheadend_recordings_directory }}:/recordings:rw"
+    devices: "{{ tvheadend_docker_devices | default([]) }}"
     network_mode: host # enables discovery of IPTV
     ports:
       - "{{ tvheadend_port_web }}:9981"

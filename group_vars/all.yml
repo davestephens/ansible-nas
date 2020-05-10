@@ -861,6 +861,6 @@ tvheadend_group_id: "0"
 tvheadend_port_web: "9981"
 tvheadend_port_htsp: "9982"
 # If true, pass /dev/dri for hardware acceleration as volume to docker
-tvheadend_hw_accel: "false"
+tvheadend_hw_accel: false
 # If true, pass /dev/dvb for for dvb tuner cards to docker
-tvheadend_hw_dvb: "false"
+tvheadend_hw_dvb: false
