@@ -36,6 +36,14 @@
     when: (traefik_enabled | default(False))
     tags: traefik
 
+- import_tasks: tasks/pihole_with_traefik.yml
+    when: (pihole_with_traefik_enabled | default(False))
+    tags: pihole_with_traefik
+
+  - import_tasks: tasks/pihole_without_traefik.yml
+    when: (pihole_without_traefik_enabled | default(False))
+    tags: pihole_without_traefik
+
   - import_tasks: tasks/heimdall.yml
     when: (heimdall_enabled | default(False))
     tags: heimdall
