@@ -2,6 +2,7 @@
 # uTorrent
 
 Homepage: [https://www.utorrent.com/](https://www.utorrent.com/)
+Docker Homepage: [https://hub.docker.com/r/ekho/utorrent](https://hub.docker.com/r/ekho/utorrent)
 
 The best torrent downloading app for beginners
 
