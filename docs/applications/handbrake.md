@@ -2,6 +2,7 @@
 # Handbrake
 
 Homepage: [https://handbrake.fr/](https://handbrake.fr/)
+Docker Container: [https://hub.docker.com/r/jlesage/handbrake](https://hub.docker.com/r/jlesage/handbrake)
 
 HandBrake is a tool for converting video from nearly any format to a selection of modern, widely supported codecs.
 
