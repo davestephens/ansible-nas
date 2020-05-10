@@ -337,6 +337,14 @@ traefik_data_directory: "{{ docker_home }}/traefik"
 traefik_debug: "false"
 
 ###
+### Pi-hole
+###
+pihole_data_directory: "{{ docker_home }}/pihole"
+pihole_dns1: "1.1.1.1"
+pihole_dns2: "8.8.8.8"
+pihole_WEBPASSWORD: "byebyeads"
+
+###
 ### Heimdall
 ###
 heimdall_available_externally: "false"
