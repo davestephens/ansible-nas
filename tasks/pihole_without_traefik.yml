@@ -1,0 +1,32 @@
+
+---
+- name: Pi-hole Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ pihole_data_directory }}/etc/pihole"
+    - "{{ pihole_data_directory }}/var/log/lighttpd"
+
+- name: Pi-hole Docker Container
+  docker_container:
+    name: pihole
+    image: pihole/pihole:latest
+    pull: false
+    volumes:
+      - "{{ pihole_data_directory }}/etc/pihole:/etc/pihole:rw"
+      - "{{ pihole_data_directory }}/etc/dnsmasq.d:/etc/dnsmasq.d:rw"
+      - "{{ pihole_data_directory }}/var/log:/var/log:rw"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8182:80"
+      - "8183:443"
+    env:
+      DNS1: "{{ pihole_dns1 }}"
+      DNS2: "{{ pihole_dns2 }}"
+      ServerIP: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+      WEBPASSWORD: "{{ pihole_WEBPASSWORD }}"
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: unless-stopped
+    memory: 1g
