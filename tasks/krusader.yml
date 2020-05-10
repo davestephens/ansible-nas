@@ -1,0 +1,33 @@
+
+---
+- name: Krusader Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ krusader_data_directory }}/krusader"
+
+- name: Krusader Docker Container
+  docker_container:
+    name: krusader
+    image: djaydev/krusader:latest
+    pull: true
+    volumes:
+      - "{{ krusader_data_directory }}/config:/config:rw"
+      - "{{ krusader_browse_directory }}:/mnt/fs"
+    ports:
+      - "{{ krusader_port_http }}:5800"
+      - "{{ krusader_port_vnc }}:5900"
+    env:
+      USER_ID: "{{ krusader_user_id }}"
+      GROUP_ID: "{{ krusader_group_id }}"
+      SECURE_CONNECTION: "{{ krusader_secure_connection }}"
+      TZ: "{{ ansible_nas_timezone }}"
+      VNC_PASSWORD: "{{ krusader_vnc_password }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.backend: "krusader"
+      traefik.frontend.rule: "Host:krusader.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ krusader_available_externally }}"
+      traefik.port: "5800"
+    memory: 1g
