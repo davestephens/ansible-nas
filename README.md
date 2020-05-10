@@ -9,6 +9,7 @@ Ansible config and a bunch of Docker containers.
 ## What Ansible-NAS Can Set Up
 
 * An awesome dashboard to your home server (Heimdall)
+* Network wide ad blocking
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
@@ -65,6 +66,7 @@ Ansible config and a bunch of Docker containers.
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
+* [Pi-hole](https://pi-hole.net/) - Network-wide ad blocking
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
