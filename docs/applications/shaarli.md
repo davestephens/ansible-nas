@@ -2,6 +2,7 @@
 # Shaarli
 
 Homepage: [https://github.com/shaarli/Shaarli](https://github.com/shaarli/Shaarli)
+Docker Container: [https://hub.docker.com/r/shaarli/shaarli](https://hub.docker.com/r/shaarli/shaarli)
 
 The personal, minimalist, super-fast, database free, bookmarking service.
 
