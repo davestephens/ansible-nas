@@ -232,6 +232,10 @@
     when: (virtual_desktop_enabled | default(False))
     tags: virtual_desktop
 
+  - import_tasks: tasks/pytivo.yml
+    when: (pytivo_enabled | default(False))
+    tags: pytivo
+
   - import_tasks: tasks/tvheadend.yml
     when: (tvheadend_enabled | default(False))
     tags: tvheadend

@@ -209,6 +209,7 @@ onDemand = false # create certificate when container is created
           "plex.{{ ansible_nas_domain }}",
           "portainer.{{ ansible_nas_domain }}",
           "pyload.{{ ansible_nas_domain }}",
+          "pytivo.{{ ansible_nas_domain }}",
           "radarr.{{ ansible_nas_domain }}",
           "serposcope.{{ ansible_nas_domain }}",
           "sickchill.{{ ansible_nas_domain }}",

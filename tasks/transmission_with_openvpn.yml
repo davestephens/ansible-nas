@@ -23,6 +23,7 @@
     ports:
       - "{{ transmission_openvpn_webui_port }}:9091"
       - "{{ transmission_openvpn_external_port }}:51413"
+      - "{{ transmission_openvpn_external_port }}:51413/udp"
       - "{{ transmission_openvpn_proxy_port }}:3128"
     env:
       TRANSMISSION_HOME: "/config"

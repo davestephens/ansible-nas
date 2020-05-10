@@ -97,6 +97,9 @@ ubooquity_enabled: false
 # Joomla
 joomla_enabled: false
 
+# PyTivo
+pytivo_enabled: false
+
 # SEO
 serposcope_enabled: false
 
@@ -430,6 +433,19 @@ plex_music_permissions: "rw"
 plex_user_id: "0"
 plex_group_id: "0"
 plex_port: "32400"
+
+###
+### PyTivo
+###
+pytivo_available_externally: "false"
+pytivo_config_directory: "{{ docker_home }}/pytivo/config"
+pytivo_movies_directory: "{{ movies_root }}"
+pytivo_tv_directory: "{{ tv_root }}"
+pytivo_photos_directory: "{{ photos_root }}"
+pytivo_music_directory: "{{ music_root }}"
+pytivo_podcasts_directory: "{{ podcasts_root }}"
+pytivo_user_id: "0"
+pytivo_group_id: "0"
 
 ###
 ### Homebridge
