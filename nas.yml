@@ -220,6 +220,13 @@
     when: (lidarr_enabled | default(False))
     tags: lidarr
 
+- import_tasks: tasks/logitechmediaserver.yml
+    when:
+      - (logitechmediaserver_enabled | default(False))
+      - not portainer_port == "9000"
+#      - not sabnzbd_https_port == "9090"
+    tags: logitechmediaserver
+
   - import_tasks: tasks/serposcope.yml
     when: (serposcope_enabled | default(False))
     tags: serposcope
@@ -227,10 +234,3 @@
   - import_tasks: tasks/virtual_desktop.yml
     when: (virtual_desktop_enabled | default(False))
     tags: virtual_desktop
-
-    - import_tasks: tasks/logitechmediaserver.yml
-    when:
-      - (logitechmediaserver_enabled | default(False))
-      - not portainer_port == "9000"
-#      - not sabnzbd_https_port == "9090"
-    tags: logitechmediaserver
