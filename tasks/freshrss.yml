@@ -11,7 +11,7 @@
 
 - name: MySQL Docker Container for FreshRSS
   docker_container:
-    name: freshrss-postgres
+    name: freshrss-postgres:latest
     image: postgres:latest
     pull: true
     volumes:
