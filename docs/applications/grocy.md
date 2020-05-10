@@ -2,7 +2,7 @@
 # grocy
 
 Homepage: [https://grocy.info//](https://grocy.info/)
-Docker Homepage: [https://hub.docker.com/r/linuxserver/grocy](https://hub.docker.com/r/linuxserver/grocy)
+Docker Container: [https://hub.docker.com/r/linuxserver/grocy](https://hub.docker.com/r/linuxserver/grocy)
 
 grocy is a web-based self-hosted groceries & household management solution for your home.
 
