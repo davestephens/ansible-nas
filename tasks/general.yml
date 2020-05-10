@@ -36,6 +36,13 @@
 
 #  - name: Configure smartmontools
 
+- name: pull Pi-hole image
+  docker_image:
+    name: pihole/pihole
+    state: present
+  when:
+    - ( pihole_with_traefik_enabled  | default(False)) or ( pihole_without_traefik_enabled  | default(False))
+
 - name: "Set hostname to {{ ansible_nas_hostname }}"
   hostname:
     name: "{{ ansible_nas_hostname }}"
