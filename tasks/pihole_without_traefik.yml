@@ -1,6 +1,6 @@
 
 ---
-- name: Pi-hole Directory
+- name: Pi-hole (without Traefik) Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -8,7 +8,7 @@
     - "{{ pihole_data_directory }}/etc/pihole"
     - "{{ pihole_data_directory }}/var/log/lighttpd"
 
-- name: Pi-hole Docker Container
+- name: Pi-hole (without Traefik) Docker Container
   docker_container:
     name: pihole
     image: pihole/pihole:latest
