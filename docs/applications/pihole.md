@@ -2,7 +2,7 @@
 # Pi-hole
 
 Homepage: [https://pi-hole.net/](https://pi-hole.net/)
-Docker Homepage: [https://hub.docker.com/r/pihole/pihole](https://hub.docker.com/r/pihole/pihole)
+Docker Container: [https://hub.docker.com/r/pihole/pihole](https://hub.docker.com/r/pihole/pihole)
 
 Network-wide ad blocking, a black hole for Internet advertisements.
 
