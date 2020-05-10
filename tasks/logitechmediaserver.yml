@@ -1,13 +1,13 @@
 
 ---
-- name: Create Logitech Media Server Directories
+- name: Create Logitech Media Server Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ logitechmediaserver_config_directory }}"
 
-- name: logitechmediaserver Docker Container
+- name: Logitech Media Server Docker Container
   docker_container:
     name: logitechmediaserver
     image: dlandon/logitechmediaserver:latest
