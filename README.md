@@ -9,7 +9,7 @@ Ansible config and a bunch of Docker containers.
 ## What Ansible-NAS Can Set Up
 
 * An awesome dashboard to your home server (Heimdall)
-* Network wide ad blocking
+* Network-wide ad blocking, a black hole for Internet advertisements via Pi-hole.
 * Any number of Samba shares or NFS exports for you to store your stuff
 * A BitTorrent client
 * A Usenet downloader
