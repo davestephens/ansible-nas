@@ -832,7 +832,7 @@ vd_rdp_port: 3389
 ### Gotify
 ###
 gotify_available_externally: "false"
-gotify_data_directory: "{{ docker_home }}/gotify/config"
+gotify_data_directory: "{{ docker_home }}/gotify"
 gotify_port_http: "8077"
 gotify_port_https: "8078"
 gotify_user_id: "0"
