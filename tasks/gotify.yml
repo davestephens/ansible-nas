@@ -15,6 +15,7 @@
       - "{{ gotify_data_directory }}/app/data:/app/data:rw"
     ports:
       - "{{ gotify_port_http }}:80"
+      - "{{ gotify_port_https }}: "443"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ gotify_user_id }}"
