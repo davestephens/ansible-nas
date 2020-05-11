@@ -1,4 +1,3 @@
-
 ---
 - name: Create uTorrent Directories
   file:
@@ -25,6 +24,9 @@
       TZ: "{{ ansible_nas_timezone }}"
       UID: "{{ utorrent_user_id }}"
       GID: "{{ utorrent_group_id }}"
+      webui: "ng"
+      dir_active: "/data/.incomplete"
+      dir_completed: "/data"
     restart_policy: unless-stopped
     memory: 1g
     labels:
