@@ -12,7 +12,7 @@
     image: gotify/server:latest
     pull: true
     volumes:
-      - "{{ gotify_data_directory }}/data:/app/data:rw"
+      - "{{ gotify_data_directory }}/app/data:/app/data:rw"
     ports:
       - "{{ gotify_port_http }}:80"
     env:
