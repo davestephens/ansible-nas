@@ -64,6 +64,9 @@ By default, applications can be found on the ports listed below.
 | Transmission    | 9092   |              |
 | Ubooquity       | 2202   |              |
 | Ubooquity       | 2203   | Admin        |
+| uTorrent        | 8111   | HTTP         |
+| uTorrent        | 6881   | BT           |
+| uTorrent        | 6881   | UDP          |
 | Wallabag        | 7780   |              |
 | YouTubeDL-Mater | 8998   | HTTP         |
 | ZNC             | 6677   |              |
