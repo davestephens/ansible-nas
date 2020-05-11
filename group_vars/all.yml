@@ -38,6 +38,7 @@ emby_enabled: false
 bazarr_enabled: false
 ombi_enabled: false
 lidarr_enabled: false
+youtubedlmaterial_enabled: false
 tvheadend_enabled: false
 
 # Music
@@ -59,6 +60,7 @@ watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
 virtual_desktop_enabled: false
+krusader_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
@@ -534,6 +536,16 @@ lidarr_group_id: "0"
 lidarr_port: "8686"
 
 ###
+### YouTubeDL-Material
+###
+youtubedlmaterial_available_externally: "false"
+youtubedlmaterial_data_directory: "{{ docker_home }}/youtubedlmaterial"
+youtubedlmaterial_dl_audio_directory: "{{ downloads_root }}/youtube/audio"
+youtubedlmaterial_dl_video_directory: "{{ downloads_root }}youtube/video"
+youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subscriptions"
+youtubedlmaterial_port_http: "8998"
+
+###
 ### Couchpotato
 ###
 couchpotato_available_externally: "false"
@@ -678,6 +690,19 @@ cloudcmd_browse_directory: "/"
 cloudcmd_user_id: "0"
 cloudcmd_group_id: "0"
 cloudcmd_port: "7373"
+
+###
+### Krusader
+###
+krusader_available_externally: "false"
+krusader_config_directory: "{{ docker_home }}/krusader/config"
+krusader_browse_directory: "/"
+krusader_user_id: "0"
+krusader_group_id: "0"
+krusader_secure_connection: "0"
+krusader_vnc_password: "topsecret"
+krusader_port_http: "5800"
+krusader_port_vnc: "5900"
 
 ###
 ### Watchtower
