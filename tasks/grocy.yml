@@ -18,8 +18,8 @@
       - "{{ grocy_port_http }}:80"
     env:
       TZ: "{{ ansible_nas_timezone }}"
-      PUID: "grocy_user_id"
-      PGID: "grocy_group_id"
+      PUID: "{{ grocy_user_id }}"
+      PGID: "{{ grocy_group_id }}"
     restart_policy: unless-stopped
     labels:
       traefik.backend: "grocy"
