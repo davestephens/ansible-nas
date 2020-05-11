@@ -11,7 +11,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/miniflux/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/utorrent/">
       
       
         <meta name="author" content="David Stephens">
@@ -21,7 +21,7 @@
     
     
       
-        <title>Miniflux - Ansible-NAS</title>
+        <title>uTorrent - Ansible-NAS</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#miniflux" class="md-skip">
+        <a href="#utorrent" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Miniflux
+              uTorrent
             
           </span>
         </div>
@@ -565,60 +565,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Miniflux
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="Miniflux" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../miniflux/" title="Miniflux" class="md-nav__link">
       Miniflux
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -842,11 +793,53 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../utorrent/" title="uTorrent" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        uTorrent
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="uTorrent" class="md-nav__link md-nav__link--active">
       uTorrent
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -1079,13 +1072,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1098,7 +1084,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/miniflux.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/utorrent.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -1106,14 +1092,17 @@
                   
                 
                 
-                <h1 id="miniflux">Miniflux</h1>
-<p>Homepage: <a href="https://miniflux.app/">https://miniflux.app/</a></p>
-<p>Miniflux is a minimalist and opinionated feed reader.</p>
+                <h1 id="utorrent">uTorrent</h1>
+<p>Homepage: <a href="https://www.utorrent.com/">https://www.utorrent.com/</a>
+Docker Container: <a href="https://hub.docker.com/r/ekho/utorrent">https://hub.docker.com/r/ekho/utorrent</a></p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>miniflux_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
-<p>The Miniflux web interface can be found at http://ansible_nas_host_or_ip:8070, the default username is <code>admin</code> and password <code>supersecure</code>.</p>
-<h2 id="specific-configuration">Specific Configuration</h2>
-<p>An admin user will be created with the username and password of <code>miniflux_admin_username</code> and <code>miniflux_admin_password</code> respectively. These can be found in the Miniflux section within <code>all.yml.dist</code>.</p>
+<p>Set <code>utorrent_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>If you want to access uTorrent externally, don't forget to set <code>utorrent_available_externally: "true"</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>The uTorrent web interface can be found at http://ansible_nas_host_or_ip:8111/gui:</p>
+<ul>
+<li>Username: admin</li>
+<li>Password: <leave blank></li>
+</ul>
                 
               
               
@@ -1132,7 +1121,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../minidlna/" title="MiniDLNA" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../ubooquity/" title="Ubooquity Comic and Book Server" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -1141,19 +1130,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                MiniDLNA
+                Ubooquity Comic and Book Server
               </div>
             </div>
           </a>
         
         
-          <a href="../mosquitto/" title="Mosquitto" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../virtual_desktop/" title="Virtual Desktop" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Mosquitto
+                Virtual Desktop
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
