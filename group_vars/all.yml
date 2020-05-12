@@ -40,6 +40,7 @@ bazarr_enabled: false
 ombi_enabled: false
 lidarr_enabled: false
 youtubedlmaterial_enabled: false
+mylar_enabled: false
 
 # Music
 airsonic_enabled: false
