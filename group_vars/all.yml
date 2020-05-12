@@ -177,7 +177,7 @@ podcasts_root: "{{ samba_shares_root }}/podcasts"
 # Where your books are stored
 books_root: "{{ samba_shares_root }}/books"
 
-# Where your books are stored
+# Where your comics are stored
 comics_root: "{{ samba_shares_root }}/comics"
 
 # Where photos are stored
