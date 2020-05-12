@@ -458,8 +458,8 @@ mylar_data_directory: "{{ docker_home }}/mylar/config"
 mylar_comics_directory: "{{ comics_root }}"
 mylar_downloads_directory: "{{ downloads_root }}"
 mylar_port_http: "8585"
-mylar_user_id: "999"
-mylar_group_id: "1001"
+mylar_user_id: "0"
+mylar_group_id: "0"
 
 ###
 ### Sonarr
