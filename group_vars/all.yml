@@ -40,6 +40,7 @@ bazarr_enabled: false
 ombi_enabled: false
 lidarr_enabled: false
 youtubedlmaterial_enabled: false
+mylar_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -490,6 +491,17 @@ tautulli_port: "8185"
 duplicati_available_externally: "false"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 duplicati_port: "8200"
+
+###
+### Mylar
+###
+mylar_available_externally: "false"
+mylar_data_directory: "{{ docker_home }}/mylar"
+mylar_comics_directory: "{{ comics_root }}"
+mylar_downloads_directory: "{{ downloads_root }}"
+mylar_port_http: "8585"
+mylar_user_id: "0"
+mylar_group_id: "0"
 
 ###
 ### Sonarr
