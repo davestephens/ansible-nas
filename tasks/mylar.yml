@@ -14,7 +14,7 @@
     volumes:
       - "{{ mylar_comics_directory }}:/comics:rw"
       - "{{ mylar_downloads_directory }}:/downloads:rw"
-      - "{{ mylar_data_directory }}:/config:rw"
+      - "{{ mylar_data_directory }}/config:/config:rw"
     ports:
       - "{{ mylar_port_http }}:8090"
     env:
