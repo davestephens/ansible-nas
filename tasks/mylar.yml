@@ -25,6 +25,6 @@
     memory: 1g
     labels:
       traefik.backend: "mylar"
-      traefik.frontend.rule: "Host:mylar.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{mylar_subdomain}}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ mylar_available_externally }}"
       traefik.port: "{{ mylar_port_http }}"

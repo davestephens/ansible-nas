@@ -39,6 +39,6 @@
     memory: 1g
     labels:
       traefik.backend: "serposcope"
-      traefik.frontend.rule: "Host:serposcope.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{serposcope_subdomain}}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ serposcope_available_externally }}"
       traefik.port: "7134"

@@ -21,6 +21,6 @@
     memory: 1g
     labels:
       traefik.backend: "ombi"
-      traefik.frontend.rule: "Host:ombi.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ombi_subdomain}}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ ombi_available_externally }}"
       traefik.port: "3579"

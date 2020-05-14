@@ -24,6 +24,6 @@
     memory: 1g
     labels:
       traefik.backend: "homebridge"
-      traefik.frontend.rule: "Host:homebridge.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{homebridge_subdomain}}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ homebridge_available_externally }}"
       traefik.port: "8087"

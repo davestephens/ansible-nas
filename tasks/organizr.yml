@@ -25,6 +25,6 @@
     memory: 1g
     labels:
       traefik.backend: "organizr"
-      traefik.frontend.rule: "Host:organizr.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{organizr_subdomain}}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ organizr_available_externally }}"
       traefik.port: "80"

@@ -31,6 +31,6 @@
     memory: 1g
     labels:
       traefik.backend: "utorrent"
-      traefik.frontend.rule: "Host:utorrent.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{utorrent_subdomain}}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ utorrent_available_externally }}"
       traefik.port: "8080"

@@ -26,6 +26,6 @@
     memory: 1g
     labels:
       traefik.backend: "pyload"
-      traefik.frontend.rule: "Host:pyload.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{pyload_subdomain}}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ pyload_available_externally }}"
       traefik.port: "8000"

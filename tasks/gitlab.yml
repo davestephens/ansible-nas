@@ -45,6 +45,6 @@
     memory: 4g
     labels:
       traefik.backend: "gitlab"
-      traefik.frontend.rule: "Host:gitlab.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{gitlab_subdomain}}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ gitlab_available_externally }}"
       traefik.port: "80"
