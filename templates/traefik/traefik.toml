@@ -178,50 +178,49 @@ onDemand = false # create certificate when container is created
   main = "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
 
 
-  # we request a certificate for everything, because why not.
-  sans = ["{{airsonic_subdomain}}.{{ ansible_nas_domain }}",
-          "{{bazarr_subdomain}}.{{ ansible_nas_domain }}",
-          "{{bitwarden_subdomain}}.{{ ansible_nas_domain }}",
-          "{{calibre_subdomain}}.{{ ansible_nas_domain }}",
-          "{{cloudcmd_subdomain}}.{{ ansible_nas_domain }}",
-          "{{couchpotato_subdomain}}.{{ ansible_nas_domain }}",
-          "{{duplicati_subdomain}}.{{ ansible_nas_domain }}",
-          "{{emby_subdomain}}.{{ ansible_nas_domain }}",
-          "{{firefly_subdomain}}.{{ ansible_nas_domain }}",
-          "{{gitea_subdomain}}.{{ ansible_nas_domain }}",
-          "{{gitlab_subdomain}}.{{ ansible_nas_domain }}",
-          "{{glances_subdomain}}.{{ ansible_nas_domain }}",
-          "{{grafana_subdomain}}.{{ ansible_nas_domain }}",
-          "{{guacamole_subdomain}}.{{ ansible_nas_domain }}",
-          "{{heimdall_subdomain}}.{{ ansible_nas_domain }}",
-          "{{homeassistant_subdomain}}.{{ ansible_nas_domain }}",
-          "{{jackett_subdomain}}.{{ ansible_nas_domain }}",
-          "{{jellyfin_subdomain}}.{{ ansible_nas_domain }}",
-          "{{joomla_subdomain}}.{{ ansible_nas_domain }}",
-          "{{krusader_subdomain}}.{{ ansible_nas_domain }}",
-          "{{lidarr_subdomain}}.{{ ansible_nas_domain }}",
-          "{{mylar_subdomain}}.{{ ansible_nas_domain }}",
-          "{{miniflux_subdomain}}.{{ ansible_nas_domain }}",
-          "{{netdata_subdomain}}.{{ ansible_nas_domain }}",
-          "{{nextcloud_subdomain}}.{{ ansible_nas_domain }}",
-          "{{nzbget_subdomain}}.{{ ansible_nas_domain }}",
-          "{{ombi_subdomain}}.{{ ansible_nas_domain }}",
-          "{{openhab_subdomain}}.{{ ansible_nas_domain }}",
-          "{{organizr_subdomain}}.{{ ansible_nas_domain }}",
-          "{{plex_subdomain}}.{{ ansible_nas_domain }}",
-          "{{portainer_subdomain}}.{{ ansible_nas_domain }}",
-          "{{pyload_subdomain}}.{{ ansible_nas_domain }}",
-          "{{pytivo_subdomain}}.{{ ansible_nas_domain }}",
-          "{{radarr_subdomain}}.{{ ansible_nas_domain }}",
-          "{{serposcope_subdomain}}.{{ ansible_nas_domain }}",
-          "{{sickchill_subdomain}}.{{ ansible_nas_domain }}",
-          "{{sonarr_subdomain}}.{{ ansible_nas_domain }}",
-          "{{tautulli_subdomain}}.{{ ansible_nas_domain }}",
-          "{{thelounge_subdomain}}.{{ ansible_nas_domain }}",
-          "{{transmission_subdomain}}.{{ ansible_nas_domain }}",
-          "{{transmission_with_openvpn_subdomain}}.{{ ansible_nas_domain }}",
-          "{{ubooquity_subdomain}}.{{ ansible_nas_domain }}",
-          "{{utorrent_subdomain}}.{{ ansible_nas_domain }}",
-          "{{wallabag_subdomain}}.{{ ansible_nas_domain }}",
-          "{{youtubedlmaterial_subdomain}}.{{ ansible_nas_domain }}",
-          "{{znc_subdomain}}.{{ ansible_nas_domain }}"]
+  sans = [{% if airsonic_available_externally == "true" %}"{{airsonic_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if bazarr_available_externally == "true" %}"{{bazarr_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if bitwarden_available_externally == "true" %}"{{bitwarden_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if calibre_available_externally == "true" %}"{{calibre_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if cloudcmd_available_externally == "true" %}"{{cloudcmd_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if couchpotato_available_externally == "true" %}"{{couchpotato_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if duplicati_available_externally == "true" %}"{{duplicati_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if emby_available_externally == "true" %}"{{emby_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if firefly_available_externally == "true" %}"{{firefly_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if gitea_available_externally == "true" %}"{{gitea_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if gitlab_available_externally == "true" %}"{{gitlab_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if glances_available_externally == "true" %}"{{glances_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if grafana_available_externally == "true" %}"{{grafana_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if guacamole_available_externally == "true" %}"{{guacamole_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if heimdall_available_externally == "true" %}"{{heimdall_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if homeassistant_available_externally == "true" %}"{{homeassistant_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if jackett_available_externally == "true" %}"{{jackett_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if jellyfin_available_externally == "true" %}"{{jellyfin_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if joomla_available_externally == "true" %}"{{joomla_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if krusader_available_externally == "true" %}"{{krusader_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if lidarr_available_externally == "true" %}"{{lidarr_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if mylar_available_externally == "true" %}"{{mylar_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if miniflux_available_externally == "true" %}"{{miniflux_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if netdata_available_externally == "true" %}"{{netdata_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if nextcloud_available_externally == "true" %}"{{nextcloud_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if nzbget_available_externally == "true" %}"{{nzbget_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if ombi_available_externally == "true" %}"{{ombi_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if openhab_available_externally == "true" %}"{{openhab_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if organizr_available_externally == "true" %}"{{organizr_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if plex_available_externally == "true" %}"{{plex_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if portainer_available_externally == "true" %}"{{portainer_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if pyload_available_externally == "true" %}"{{pyload_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if pytivo_available_externally == "true" %}"{{pytivo_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if radarr_available_externally == "true" %}"{{radarr_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if serposcope_available_externally == "true" %}"{{serposcope_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if sickchill_available_externally == "true" %}"{{sickchill_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if sonarr_available_externally == "true" %}"{{sonarr_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if tautulli_available_externally == "true" %}"{{tautulli_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if thelounge_available_externally == "true" %}"{{thelounge_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if transmission_available_externally == "true" %}"{{transmission_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if transmission_with_openvpn_available_externally == "true" %}"{{transmission_with_openvpn_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if ubooquity_available_externally == "true" %}"{{ubooquity_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if utorrent_available_externally == "true" %}"{{utorrent_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if wallabag_available_externally == "true" %}"{{wallabag_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if youtubedlmaterial_available_externally == "true" %}"{{youtubedlmaterial_subdomain}}.{{ ansible_nas_domain }}",{% endif %}
+{% if znc_available_externally == "true" %}"{{znc_subdomain}}.{{ ansible_nas_domain }}",{% endif %}]
