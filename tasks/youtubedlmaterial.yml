@@ -31,7 +31,7 @@
     restart_policy: always
     labels:
       traefik.backend: "youtubedlmaterial"
-      traefik.frontend.rule: "Host:{{youtubedlmaterial_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ youtubedlmaterial_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ youtubedlmaterial_available_externally }}"
       traefik.port: "17442"
     memory: 1g

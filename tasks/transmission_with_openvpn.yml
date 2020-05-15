@@ -50,6 +50,6 @@
     memory: 1g
     labels:
       traefik.backend: "transmission-openvpn"
-      traefik.frontend.rule: "Host:{{transmission_with_openvpn_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ transmission_with_openvpn_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ transmission_with_openvpn_available_externally }}"
       traefik.port: "9091"

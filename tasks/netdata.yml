@@ -27,6 +27,6 @@
     memory: 1g
     labels:
       traefik.backend: "netdata"
-      traefik.frontend.rule: "Host:{{netdata_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ netdata_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ netdata_available_externally }}"
       traefik.port: "19999"

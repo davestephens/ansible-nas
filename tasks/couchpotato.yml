@@ -27,6 +27,6 @@
     memory: 1g
     labels:
       traefik.backend: "couchpotato"
-      traefik.frontend.rule: "Host:{{couchpotato_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ couchpotato_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ couchpotato_available_externally }}"
       traefik.port: "5050"

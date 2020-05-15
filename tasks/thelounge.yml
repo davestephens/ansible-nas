@@ -28,7 +28,7 @@
     memory: 1g
     labels:
       traefik.backend: "thelounge"
-      traefik.frontend.rule: "Host:{{thelounge_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ thelounge_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ thelounge_available_externally }}"
       traefik.port: "9000"
 

@@ -21,7 +21,7 @@
     restart_policy: unless-stopped
     labels:
       traefik.backend: "wallabag"
-      traefik.frontend.rule: "Host:{{wallabag_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ wallabag_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ wallabag_available_externally }}"
       traefik.port: "80"
       traefik.frontend.headers.SSLRedirect: "true"

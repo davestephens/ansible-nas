@@ -18,7 +18,7 @@
       TZ: "{{ ansible_nas_timezone }}"
     labels:
       traefik.backend: "homeassistant"
-      traefik.frontend.rule: "Host:{{homeassistant_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ homeassistant_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ homeassistant_available_externally }}"
       traefik.port: "8123"
       traefik.frontend.headers.SSLRedirect: "true"

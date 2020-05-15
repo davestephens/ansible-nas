@@ -23,6 +23,6 @@
     memory: 1g
     labels:
       traefik.backend: "znc"
-      traefik.frontend.rule: "Host:{{znc_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ znc_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ znc_available_externally }}"
       traefik.port: "6677"

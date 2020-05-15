@@ -27,7 +27,7 @@
     restart_policy: unless-stopped
     labels:
       traefik.backend: "krusader"
-      traefik.frontend.rule: "Host:{{krusader_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ krusader_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ krusader_available_externally }}"
       traefik.port: "5800"
     memory: 1g

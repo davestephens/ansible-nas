@@ -40,6 +40,6 @@
     memory: 1g
     labels:
       traefik.backend: "joomla"
-      traefik.frontend.rule: "Host:{{joomla_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ joomla_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ joomla_available_externally }}"
       traefik.port: "80"

@@ -27,6 +27,6 @@
     restart_policy: unless-stopped
     labels:
       traefik.backend:  "ubooquity"
-      traefik.frontend.rule: "Host:{{ubooquity_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ ubooquity_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ ubooquity_available_externally }}"
       traefik.port: "2202"

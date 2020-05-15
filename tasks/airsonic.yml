@@ -24,7 +24,7 @@
     memory: 1g
     labels:
       traefik.backend: "airsonic"
-      traefik.frontend.rule: "Host:{{airsonic_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ airsonic_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ airsonic_available_externally }}"
       traefik.port: "4040"
 

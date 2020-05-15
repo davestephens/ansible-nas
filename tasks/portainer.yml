@@ -21,6 +21,6 @@
     memory: 1g
     labels:
       traefik.backend: "portainer"
-      traefik.frontend.rule: "Host:{{portainer_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ portainer_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ portainer_available_externally }}"
       traefik.port: "9000"

@@ -23,7 +23,7 @@
     restart_policy: unless-stopped
     labels:
       traefik.backend: "calibre"
-      traefik.frontend.rule: "Host:{{calibre_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ calibre_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ calibre_available_externally }}"
       traefik.port: "8083"
     memory: 1g

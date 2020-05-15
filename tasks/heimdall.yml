@@ -42,6 +42,6 @@
     memory: 1g
     labels:
       traefik.backend: "heimdall"
-      traefik.frontend.rule: "Host:{{heimdall_subdomain}}.{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:{{ heimdall_subdomain }}.{{ ansible_nas_domain }}"
       traefik.enable: "{{ heimdall_available_externally }}"
       traefik.port: "80"
