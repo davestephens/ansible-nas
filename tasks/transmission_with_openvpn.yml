@@ -29,6 +29,7 @@
       TRANSMISSION_DOWNLOAD_DIR: "/downloads"
       TRANSMISSION_INCOMPLETE_DIR: "/downloads/.incomplete"
       TRANSMISSION_WATCH_DIR: "/watch"
+      TRANSMISSION_WEB_HOME: "{{ transmission_web_home }}"
       TRANSMISSION_RATIO_LIMIT: "{{ transmission_openvpn_ratio_limit }}"
       TRANSMISSION_RATIO_LIMIT_ENABLED: "{{ transmission_openvpn_ratio_limit_enabled }}"
       OPENVPN_PROVIDER: "{{ openvpn_provider }}"
