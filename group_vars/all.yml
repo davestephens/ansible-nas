@@ -339,6 +339,7 @@ samba_netbios_name: "{{ ansible_nas_hostname }}"
 traefik_docker_image: traefik:v1.7
 traefik_data_directory: "{{ docker_home }}/traefik"
 traefik_debug: "false"
+traefik_acme_staging: "false"
 
 ###
 ### Heimdall
