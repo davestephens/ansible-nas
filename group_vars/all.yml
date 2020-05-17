@@ -642,20 +642,35 @@ cloudcmd_port: "7373"
 ###
 ### Watchtower
 ###
-# Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
-watchtower_cron_schedule: 0 0 5 * * *
-
-# Sets the Watchtower Docker start command. Different options can be supplied based on whether you want to receive
-# notifications or not, some examples are provided below. See https://github.com/v2tec/watchtower for more info.
-
-# No notifications
-watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
-
-# Email notifications
-# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'email' --notification-email-from 'ansible@nas.com' --notification-email-to '{{ ansible_nas_email }}' --notification-email-server 'my.email.server.com' --notification-email-server-port '25' --notification-email-server-user 'email_username' --notification-email-server-password 'top-secret'"
-
-# Slack notifications
-# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"
+# REF - https://containrrr.github.io/watchtower/arguments/
+watchtower_cleanup: "true"
+watchtower_remove_volumes: "false"
+watchtower_debug: "true"
+watchtower_include_stopped: "false"
+watchtower_revive_stopped: "false"
+watchtower_monitor_only: "false"
+watchtower_no_restart: "false"
+watchtower_no_pull: "false"
+watchtower_schedule: "0 0 5 * * *"   # daily at 5am
+watchtower_timeout: "10"
+# REF https://containrrr.github.io/watchtower/notifications/
+watchtower_notifications: "" # email, gotify, slack, or msteams
+watchtower_notification_email_from: "fromaddress@domain.com"
+watchtower_notification_email_to: "{{ ansible_nas_email }}"
+watchtower_notification_email_server: "smpt.someserver.com"
+watchtower_notification_email_server_tls_skip_verify: "false"
+watchtower_notification_email_server_port: "25"
+watchtower_notification_email_server_user: "fromaddress@domain.com"
+watchtower_notification_email_server_password: "topsecretemailpassword"
+watchtower_notification_email_delay: "2"
+watchtower_notification_gotify_url: "http://gotify.{{ ansible_nas_domain }}"
+watchtower_notification_gotify_token: "insert_your_token_here"
+watchtower_notifications_msteams_hook_url: "https://outlook.office.com/webhook/xxxxxxxx@xxxxxxx/IncomingWebhook/yyyyyy$watchtower_notifications_msteams_use_log_data: "true"
+watchtower_notifications_slack_hook_url: "https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy"
+watchtower_notifications_slack_identifier: "{{ ansible_nas_hostname }}"
+watchtower_notifications_slack_channel: "#my-custom-channel"
+watchtower_notifications_slack_icon_emoji: ":whale:"
+watchtower_notifications_slack_icon_url: "http://somewhere.com/icon.png"
 
 ###
 ### Time Machine
