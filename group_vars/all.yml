@@ -651,7 +651,7 @@ watchtower_revive_stopped: "false"
 watchtower_monitor_only: "false"
 watchtower_no_restart: "false"
 watchtower_no_pull: "false"
-watchtower_schedule: "0 0 5 * * *"   # daily at 5am
+watchtower_schedule: "0 0 5 * * *"    # daily at 5am
 watchtower_timeout: "10"
 # REF https://containrrr.github.io/watchtower/notifications/
 watchtower_notifications: "" # email, gotify, slack, or msteams
