@@ -12,7 +12,7 @@
     image: coderaiser/cloudcmd
     pull: true
     volumes:
-      - "{{ cloudcmd_data_directory }}:/config:rw"
+      - "{{ cloudcmd_data_directory }}:/root:rw"
       - "{{ cloudcmd_browse_directory }}:/mnt/fs"
     ports:
       - "{{ cloudcmd_port }}:8000"
