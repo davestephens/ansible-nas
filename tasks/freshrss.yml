@@ -19,9 +19,9 @@
     ports:
       - "5432:5432"
     env:
-      POSTGRES_USER="freshrss"
-      POSTGRES_PASSWORD="freshrss"
-      POSTGRES_DB="freshrss"
+      POSTGRES_USER: "freshrss"
+      POSTGRES_PASSWORD: "freshrss"
+      POSTGRES_DB: "freshrss"
     restart_policy: unless-stopped
     memory: 1g
 
