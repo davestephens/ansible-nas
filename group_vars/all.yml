@@ -20,6 +20,7 @@ transmission_with_openvpn_enabled: false # Please see docs about how to set VPN 
 transmission_enabled: false
 nzbget_enabled: false
 pyload_enabled: false
+utorrent_enabled: false
 
 # Media Serving
 plex_enabled: false
@@ -39,6 +40,7 @@ bazarr_enabled: false
 ombi_enabled: false
 lidarr_enabled: false
 youtubedlmaterial_enabled: false
+mylar_enabled: false
 tvheadend_enabled: false
 
 # Music
@@ -180,7 +182,7 @@ podcasts_root: "{{ samba_shares_root }}/podcasts"
 # Where your books are stored
 books_root: "{{ samba_shares_root }}/books"
 
-# Where your books are stored
+# Where your comics are stored
 comics_root: "{{ samba_shares_root }}/comics"
 
 # Where photos are stored
@@ -397,6 +399,17 @@ openvpn_provider: AWESOMEVPNPROVIDER
 openvpn_config: United-Kingdom
 
 ###
+### uTorrent
+###
+utorrent_available_externally: "false"
+utorrent_config_directory: "{{ docker_home }}/utorrent/config"
+utorrent_download_directory: "{{ downloads_root }}"
+utorrent_port_http: "8111"
+utorrent_port_bt: "6881"
+utorrent_user_id: "0"
+utorrent_group_id: "0"
+
+###
 ### Joomla
 ###
 joomla_data_directory: "{{ docker_home }}/joomla"
@@ -490,6 +503,17 @@ tautulli_port: "8185"
 duplicati_available_externally: "false"
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 duplicati_port: "8200"
+
+###
+### Mylar
+###
+mylar_available_externally: "false"
+mylar_data_directory: "{{ docker_home }}/mylar"
+mylar_comics_directory: "{{ comics_root }}"
+mylar_downloads_directory: "{{ downloads_root }}"
+mylar_port_http: "8585"
+mylar_user_id: "0"
+mylar_group_id: "0"
 
 ###
 ### Sonarr

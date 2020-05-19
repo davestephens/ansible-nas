@@ -200,6 +200,7 @@ onDemand = false # create certificate when container is created
           "joomla.{{ ansible_nas_domain }}",
           "krusader.{{ ansible_nas_domain }}",
           "lidarr.{{ ansible_nas_domain }}",
+          "mylar.{{ ansible_nas_domain }}",
           "miniflux.{{ ansible_nas_domain }}",
           "netdata.{{ ansible_nas_domain }}",
           "nextcloud.{{ ansible_nas_domain }}",
@@ -221,6 +222,7 @@ onDemand = false # create certificate when container is created
           "transmission-openvpn.{{ ansible_nas_domain }}",
           "tvheadend.{{ ansible_nas_domain }}",
           "ubooquity.{{ ansible_nas_domain }}",
+          "utorrent.{{ ansible_nas_domain }}",
           "wallabag.{{ ansible_nas_domain }}",
           "youtubedlmaterial.{{ ansible_nas_domain }}",
           "znc.{{ ansible_nas_domain }}"]

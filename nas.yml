@@ -80,6 +80,10 @@
     when: (thelounge_enabled | default(False))
     tags: thelounge
 
+  - import_tasks: tasks/mylar.yml
+    when: (mylar_enabled | default(False))
+    tags: mylar
+
   - import_tasks: tasks/sonarr.yml
     when: (sonarr_enabled | default(False))
     tags: sonarr
@@ -219,6 +223,10 @@
   - import_tasks: tasks/ubooquity.yml
     when: (ubooquity_enabled | default(False))
     tags: ubooquity
+
+  - import_tasks: tasks/utorrent.yml
+    when: (utorrent_enabled | default(False))
+    tags: utorrent
 
   - import_tasks: tasks/ombi.yml
     when: (ombi_enabled | default(False))

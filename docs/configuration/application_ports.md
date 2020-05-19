@@ -37,6 +37,7 @@ By default, applications can be found on the ports listed below.
 | Miniflux        | 8070   |              |
 | Mosquitto       | 1883   | MQTT         |
 | Mosquitto       | 9001   | Websocket    |
+| Mylar           | 8585   | HTTP         |
 | MyMediaForAlexa | 52051  |              |
 | Netdata         | 19999  |              |
 | Nextcloud       | 8080   |              |
@@ -66,6 +67,9 @@ By default, applications can be found on the ports listed below.
 | TVHeadend       | 9982   | HTSP         |
 | Ubooquity       | 2202   |              |
 | Ubooquity       | 2203   | Admin        |
+| uTorrent        | 8111   | HTTP         |
+| uTorrent        | 6881   | BT           |
+| uTorrent        | 6881   | UDP          |
 | Wallabag        | 7780   |              |
 | YouTubeDL-Mater | 8998   | HTTP         |
 | ZNC             | 6677   |              |
