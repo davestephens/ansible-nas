@@ -35,6 +35,6 @@
     memory: 1g
     labels:
       traefik.backend: "unifi"
-      traefik.frontend.rule: "Host:unifi{{ ansible_nas_domain }}"
+      traefik.frontend.rule: "Host:unifi.{{ ansible_nas_domain }}"
       traefik.enable: "{{ unifi_available_externally }}"
-      traefik.port: "8880"
+      traefik.port: "8443"
