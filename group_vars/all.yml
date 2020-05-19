@@ -869,6 +869,7 @@ openhab_port_https: "7778"
 # delete your files
 jellyfin_available_externally: "false"
 jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
+jellyfin_music_directory: "{{ music_root }}"
 jellyfin_movies_directory: "{{ movies_root }}"
 jellyfin_video_directory: "{{ video_root }}"
 jellyfin_movies_permissions: "rw"

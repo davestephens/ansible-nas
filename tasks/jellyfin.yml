@@ -14,6 +14,7 @@
       - "{{ jellyfin_config_directory }}:/config:rw"
       - "{{ jellyfin_movies_directory }}:/movies:{{ jellyfin_movies_permissions }}"
       - "{{ jellyfin_video_directory }}:/video:{{ jellyfin_movies_permissions }}"
+      - "{{ jellyfin_music_directory }}:/music:{{ jellyfin_movies_permissions }}"
       - "{{ jellyfin_tv_directory }}:/tv:{{ jellyfin_tv_permissions }}"
     ports:
       - "{{ jellyfin_port_http }}:8096"
