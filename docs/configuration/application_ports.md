@@ -59,14 +59,16 @@ By default, applications can be found on the ports listed below.
 | Ubooquity       | 2202   |              |
 | Ubooquity       | 2203   | Admin        |
 | Unifi           | 1900   | UDP          |
+| Unifi           | 5514   | TCP          |
 | Unifi           | 3478   | UDP          |
 | Unifi           | 10001  | UDP          |
 | Unifi           | 8080   | inform       | * Requires changing NextCloud default
-| Unifi           | 8081   |              | * Requires changing Sickchill default
+| Unifi           | 8081   | TCP          | * Requires changing Sickchill default
+| Unifi           | 8843   | TCP          |
 | Unifi           | 8443   | web inter    |
 | Unifi           | 8880   |              |
 | Unifi           | 6789   |              | * Requires changing NZBGet default
 | Unifi           | 27117  |              |
-| Unifi           | 10022  | SSH          | 
+| Unifi           | 10022  | SSH          |
 | Wallabag        | 7780   |              |
 | ZNC             | 6677   |              |
