@@ -380,7 +380,7 @@ openvpn_config: United-Kingdom
 # REF: https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
 unifi_available_externally: "false"
 unifi_data_directory: "{{ docker_home }}/unifi/config"
-unifi_port_https: "8843"
+unifi_port_https: "8443"
 unifi_port_ssh: "10022"
 unifi_user_id: "1000"
 unifi_group_id: "1000"
