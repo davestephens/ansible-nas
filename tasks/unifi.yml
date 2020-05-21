@@ -20,8 +20,8 @@
       - "10001:10001/udp"                      # Port used for device discovery
       - "8080:8080"                            # Port used for device and controller communication.
       - "8081:8081"                            # unifi.shutdown.port
-      - "8443:8443"                            # Port used for controller GUI/API as seen in a web browser
-      - "{{ unifi_port_https }}:8843"          # Port used for HTTPS portal redirection.
+      - "8843:8843"                            # Port used for HTTPS portal redirection.
+      - "{{ unifi_port_https }}:8443"          # Port used for controller GUI/API as seen in a web browser
       - "8880:8880"                            # Port used for HTTP portal redirection.
       - "6789:6789"                            # Port used for UniFi mobile speed test.
       - "27117:27117"                          # Port used for local-bound database communication.
