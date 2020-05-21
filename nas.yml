@@ -80,6 +80,10 @@
     when: (thelounge_enabled | default(False))
     tags: thelounge
 
+  - import_tasks: tasks/mylar.yml
+    when: (mylar_enabled | default(False))
+    tags: mylar
+
   - import_tasks: tasks/sonarr.yml
     when: (sonarr_enabled | default(False))
     tags: sonarr
@@ -212,9 +216,17 @@
     when: (cloudcmd_enabled | default(False))
     tags: cloudcmd
 
+  - import_tasks: tasks/krusader.yml
+    when: (krusader_enabled | default(False))
+    tags: krusader
+
   - import_tasks: tasks/ubooquity.yml
     when: (ubooquity_enabled | default(False))
     tags: ubooquity
+
+  - import_tasks: tasks/utorrent.yml
+    when: (utorrent_enabled | default(False))
+    tags: utorrent
 
   - import_tasks: tasks/ombi.yml
     when: (ombi_enabled | default(False))
@@ -224,6 +236,10 @@
     when: (lidarr_enabled | default(False))
     tags: lidarr
 
+  - import_tasks: tasks/youtubedlmaterial.yml
+    when: (youtubedlmaterial_enabled | default(False))
+    tags: youtubedlmaterial
+
   - import_tasks: tasks/serposcope.yml
     when: (serposcope_enabled | default(False))
     tags: serposcope
@@ -231,3 +247,7 @@
   - import_tasks: tasks/virtual_desktop.yml
     when: (virtual_desktop_enabled | default(False))
     tags: virtual_desktop
+
+  - import_tasks: tasks/pytivo.yml
+    when: (pytivo_enabled | default(False))
+    tags: pytivo

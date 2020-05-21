@@ -1,0 +1,37 @@
+
+---
+- name: YouTubeDL-Material Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ youtubedlmaterial_data_directory }}/appdata"
+    - "{{ youtubedlmaterial_data_directory }}/audio"
+    - "{{ youtubedlmaterial_data_directory }}/video"
+    - "{{ youtubedlmaterial_data_directory }}/subscriptions"
+    - "{{ youtubedlmaterial_dl_audio_directory }}"
+    - "{{ youtubedlmaterial_dl_video_directory }}"
+    - "{{ youtubedlmaterial_dl_subscriptions_directory }}"
+
+- name: YouTubeDL-Material Docker Container
+  docker_container:
+    name: youtubedlmaterial
+    image: tzahi12345/youtubedl-material:latest
+    pull: true
+    volumes:
+      - "{{ youtubedlmaterial_data_directory }}/appdata:/app/appdata:rw"
+      - "{{ youtubedlmaterial_dl_audio_directory }}:/app/audio:rw"
+      - "{{ youtubedlmaterial_dl_video_directory }}:/app/video:rw"
+      - "{{ youtubedlmaterial_dl_subscriptions_directory }}:/app/subscriptions:rw"
+    ports:
+      - "{{ youtubedlmaterial_port_http }}:17442"
+    env:
+      ALLOW_CONFIG_MUTATIONS: "true"
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: always
+    labels:
+      traefik.backend: "youtubedlmaterial"
+      traefik.frontend.rule: "Host:youtubedlmaterial.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ youtubedlmaterial_available_externally }}"
+      traefik.port: "17442"
+    memory: 1g
