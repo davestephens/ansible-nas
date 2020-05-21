@@ -14,6 +14,7 @@
     pull: true
     volumes:
       - "{{ monitorr_data_directory }}/app:/app:rw"
+      - "{{ samba_shares_root }}:/shares:ro"
     ports:
       - "{{ monitorr_port_http }}:80"
     env:
