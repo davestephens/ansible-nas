@@ -287,17 +287,26 @@ nfs_exports:
 # Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to
 # set the options below.
 
-# Your domain name
+# Your domain name (in the free subscription this is always your TLD such as example.com)
 cloudflare_zone: "{{ ansible_nas_domain }}"
 
-# The hostname you want the container to update. You shouldn't need to change this.
-cloudflare_host: "*.{{ cloudflare_zone }}"
+# The hostname/subdomain you want the container to update.
+# To register a hostname use "{{ ansible_nas_hostname }}.{{ cloudflare_zone }}"
+# To register a subdomain use "*.<subdomain>.{{ cloudflare_zone }}"
+# To forward any use "*.{{ cloudflare_zone }}"
+cloudflare_subdomain: "*.{{ cloudflare_zone }}"
 
-# Email address used to register for Cloudflare
-cloudflare_email: "{{ ansible_nas_email }}"
-
-# Cloudflare 'Global API Key', can be found on the 'My Profile' page
+# Cloudflare 'Global API Key', can be found on the 'My Profile' page (see https://github.com/oznu/docker-cloudflare-ddns#creating-a-cloudflare-api-token)
 cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
+
+# Set to true to have the dns record deleted when the container is stopped.
+cloudflare_delete_on_stop: "false"
+
+# Set to true to make traffic go through the CloudFlare CDN.
+cloudflare_proxy: "false"
+
+# Set to AAAA to use set IPv6 records instead of IPv4 records.
+cloudflare_type: "A"
 
 ###
 ### General
