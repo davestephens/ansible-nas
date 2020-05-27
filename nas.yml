@@ -251,3 +251,7 @@
   - import_tasks: tasks/pytivo.yml
     when: (pytivo_enabled | default(False))
     tags: pytivo
+
+    import_tasks: tasks/pydio.yml
+    when: (pydio_enabled | default(False))
+    tags: pydio

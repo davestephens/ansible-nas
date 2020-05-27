@@ -902,3 +902,10 @@ vd_users:
     password: "topsecret"
     sudo: "Y"
 vd_rdp_port: 3389
+
+###
+### Pydio
+###
+pydio_app_directory: "{{ docker_home }}/pydio"
+pydio_data_directory: "{{ docker_home }}/pydio/cells/data"
+pydio_port: '8081'

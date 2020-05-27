@@ -1,0 +1,48 @@
+---
+- name: Create Pydio directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ pydio_app_directory }}/"
+    - "{{ pydio_app_directory }}/mysql"
+
+- name: Pydio Mysql Docker Container
+  docker_container:
+    name: pydio-mysql
+    image: mysql:5.7
+    pull: true
+    volumes:
+      - "{{ pydio_app_directory }}/mysql:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: "pydio"
+      MYSQL_USER: "pydio-user"
+      MYSQL_PASSWORD: "pydio-pass"
+      MYSQL_ROOT_PASSWORD: "pydio-secret"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Pydio Docker Container
+  docker_container:
+    name: Pidio
+    image: pydio/cells:latest
+    pull: true
+    volumes:
+      - "{{ pydio_app_directory }}/cellsdir:/var/cells:rw"
+      - "{{ pydio_data_directory }}/cellsdir:/var/cells/data:rw"
+    ports:
+      - "{{ pydio_port }}:80"
+    env:
+      MYSQL_HOST: "mysql"
+      MYSQL_DATABASE: "pydio"
+      MYSQL_USER: "pydio-user"
+      MYSQL_PASSWORD: "pydo-pass"
+      CELLS_BIND: "cloud.{{ ansible_nas_domain }}:80"
+      CELLS_EXTERNAL: "cloud.{{ ansible_nas_domain }}:80"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "nextcloud"
+      traefik.frontend.rule: "Host:cloud.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ nextcloud_available_externally }}"
+      traefik.port: "80"
