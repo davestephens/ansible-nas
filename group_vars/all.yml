@@ -530,7 +530,8 @@ ombi_group_id: "0"
 ### netbootxyz
 ###
 netbootxyz_available_externally: "false"
-netbootxyz_data_directory: "{{ docker_home }}/netbootxyz"
+netbootxyz_config_directory: "{{ docker_home }}/netbootxyz/config"
+netbootxyz_assets_directory: "{{ docker_home }}/netbootxyz/assets"
 netbootxyz_port_http: "3002"
 netbootxyz_port_http2: "5803"
 netbootxyz_port_tftp: "69"
