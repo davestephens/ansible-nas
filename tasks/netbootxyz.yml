@@ -5,8 +5,8 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ netbootxyz_data_directory }}/config"
-    - "{{ netbootxyz_data_directory }}/assets"
+    - "{{ netbootxyz_config_directory }}"
+    - "{{ netbootxyz_assets_directory }}"
 
 - name: netbootxyz Docker Container
   docker_container:
@@ -14,8 +14,8 @@
     image: linuxserver/netbootxyz:latest
     pull: true
     volumes:
-      - "{{ netbootxyz_data_directory }}/config:/config:rw"
-      - "{{ netbootxyz_data_directory }}/assets:/assets:rw"
+      - "{{ netbootxyz_config_directory }}:/config:rw"
+      - "{{ netbootxyz_assets_directory }}:/assets:rw"
     ports:
       - "{{ netbootxyz_port_http }}:3000"
       - "{{ netbootxyz_port_http2 }}:80"
