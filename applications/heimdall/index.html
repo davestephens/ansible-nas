@@ -11,7 +11,7 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/pyload/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/heimdall/">
       
       
         <meta name="author" content="David Stephens">
@@ -21,7 +21,7 @@
     
     
       
-        <title>pyLoad - Ansible-NAS</title>
+        <title>Heimdall - Ansible-NAS</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pyload" class="md-skip">
+        <a href="#heimdall" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              pyLoad
+              Heimdall
             
           </span>
         </div>
@@ -470,11 +470,53 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../heimdall/" title="Heimdall" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Heimdall
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Heimdall" class="md-nav__link md-nav__link--active">
       Heimdall
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -686,60 +728,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        pyLoad
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
-      </label>
-    
-    <a href="./" title="pyLoad" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../pyload/" title="pyLoad" class="md-nav__link">
       pyLoad
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1104,13 +1097,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1123,7 +1109,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/pyload.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/heimdall.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -1131,16 +1117,12 @@
                   
                 
                 
-                <h1 id="pyload">pyLoad</h1>
-<p>Homepage: <a href="https://pyload.net//">https://pyload.net/</a></p>
-<p>Free and Open Source download manager written in Python and designed to be extremely lightweight, easily extensible and fully manageable via web
-.</p>
+                <h1 id="heimdall">Heimdall</h1>
+<p>Homepage: <a href="https://heimdall.site/">https://heimdall.site/</a></p>
+<p>Heimdall Application Dashboard is a dashboard for all your web applications. It doesn't need to be limited to applications though, you can add links to anything you like. There are no iframes here, no apps within apps, no abstraction of APIs. if you think something should work a certain way, it probably does.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>pyload_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
-<p>pyLoad's web interface can be found at http://ansible_nas_host_or_ip:8000</p>
-<h2 id="specific-configuration">Specific Configuration</h2>
-<p>Default username is <code>pyload</code> and default password is <code>pyload</code>. </p>
-<p>In order to add or remove users, you will need to access the container from an interactive shell (can easily be done from portainer, if installed) and enter pyLoad's home directory <code>/opt/pyload</code> and using the command <code>python pyLoadCore.py -u</code> and follow the on-screen prompts. More commands to configure and customize pyLoad can be found on it's website.</p>
+<p>Set <code>heimdall_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>The Heimdall web interface can be found at http://ansible_nas_host_or_ip:10080.</p>
                 
               
               
@@ -1159,7 +1141,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../organizr/" title="Organizr" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../guacamole/" title="Guacamole" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -1168,19 +1150,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Organizr
+                Guacamole
               </div>
             </div>
           </a>
         
         
-          <a href="../pytivo/" title="PyTivo" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../homeassistant/" title="Home Assistant" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                PyTivo
+                Home Assistant
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
