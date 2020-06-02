@@ -17,7 +17,6 @@
     ports:
       - "{{ speedtest_port_http }}:80"
     env:
-      SLACK_WEBHOOK: "webhook"
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
     labels:
