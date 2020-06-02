@@ -22,6 +22,7 @@
       - "{{ utorrent_port_bt }}:6881"
       - "{{ utorrent_port_bt }}:6881/udp"
     env:
+      webui: "{{ utorrent_webui }}"
       TZ: "{{ ansible_nas_timezone }}"
       UID: "{{ utorrent_user_id }}"
       GID: "{{ utorrent_group_id }}"
