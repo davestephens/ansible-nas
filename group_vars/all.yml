@@ -377,6 +377,7 @@ utorrent_config_directory: "{{ docker_home }}/utorrent/config"
 utorrent_download_directory: "{{ downloads_root }}"
 utorrent_port_http: "8111"
 utorrent_port_bt: "6881"
+utorrent_webui: "ut"                    # ut or ng
 utorrent_user_id: "0"
 utorrent_group_id: "0"
 
