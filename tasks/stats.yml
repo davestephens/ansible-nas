@@ -80,8 +80,6 @@
       HOST_MOUNT_PREFIX: "/hostfs"
     restart_policy: unless-stopped
     memory: 1g
-    network_mode: "host"
-    privileged: "true"
 
 - name: Template Grafana data source
   template:

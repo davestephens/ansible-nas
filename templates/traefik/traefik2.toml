@@ -13,6 +13,12 @@
   [entryPoints.web]
     address = ":{{ traefik_port_http }}"
 
+    [entryPoints.web.http]
+      [entryPoints.web.http.redirections]
+        [entryPoints.web.http.redirections.entryPoint]
+          to = "websecure"
+          scheme = "https"
+
   [entryPoints.websecure]
     address = ":{{ traefik_port_https }}"
 
@@ -83,6 +89,9 @@
 [ping]
 
 
+[providers.file]
+  directory = "/etc/traefik/conf"
+
 ################################################################
 # Docker configuration backend
 ################################################################
@@ -99,4 +108,4 @@
     [certificatesResolvers.bocky.acme.dnsChallenge]
       provider = "transip"
       delayBeforeCheck = 0
-      resolvers = ["1.1.1.1:53", "8.8.8.8:53"]
+      resolvers = ["8.8.8.8:53", "8.8.8.8:53"]
