@@ -30,11 +30,14 @@ By default, applications can be found on the ports listed below.
 | Jackett         | 9117   |              |
 | Jellyfin        | 8896   | HTTP         |
 | Jellyfin        | 8928   | HTTPS        |
+| Krusader        | 5800   | HTTP         |
+| Krusader        | 5900   | VNC          |
 | Lidarr          | 8686   |              |
 | MiniDLNA        | 8201   |              |
 | Miniflux        | 8070   |              |
 | Mosquitto       | 1883   | MQTT         |
 | Mosquitto       | 9001   | Websocket    |
+| Mylar           | 8585   | HTTP         |
 | MyMediaForAlexa | 52051  |              |
 | Netdata         | 19999  |              |
 | Nextcloud       | 8080   |              |
@@ -47,6 +50,8 @@ By default, applications can be found on the ports listed below.
 | Plex            | 32400  |              |
 | Portainer       | 9000   |              |
 | pyload          | 8000   |              |
+| PyTivo          | 9032   | HTTP         |
+| PyTivo          | 2190   | UDP          |
 | Radarr          | 7878   |              |
 | Serposcope      | 7134   |              |
 | Sickchill       | 8081   |              |
@@ -60,5 +65,9 @@ By default, applications can be found on the ports listed below.
 | Transmission    | 9092   |              |
 | Ubooquity       | 2202   |              |
 | Ubooquity       | 2203   | Admin        |
+| uTorrent        | 8111   | HTTP         |
+| uTorrent        | 6881   | BT           |
+| uTorrent        | 6881   | UDP          |
 | Wallabag        | 7780   |              |
+| YouTubeDL-Mater | 8998   | HTTP         |
 | ZNC             | 6677   |              |

@@ -20,6 +20,7 @@ transmission_with_openvpn_enabled: false # Please see docs about how to set VPN 
 transmission_enabled: false
 nzbget_enabled: false
 pyload_enabled: false
+utorrent_enabled: false
 
 # Media Serving
 plex_enabled: false
@@ -38,6 +39,8 @@ emby_enabled: false
 bazarr_enabled: false
 ombi_enabled: false
 lidarr_enabled: false
+youtubedlmaterial_enabled: false
+mylar_enabled: false
 
 # Music
 airsonic_enabled: false
@@ -58,6 +61,7 @@ watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
 virtual_desktop_enabled: false
+krusader_enabled: false
 
 # Backup & Restore
 duplicati_enabled: false
@@ -95,6 +99,9 @@ ubooquity_enabled: false
 
 # Joomla
 joomla_enabled: false
+
+# PyTivo
+pytivo_enabled: false
 
 # SEO
 serposcope_enabled: false
@@ -174,7 +181,7 @@ podcasts_root: "{{ samba_shares_root }}/podcasts"
 # Where your books are stored
 books_root: "{{ samba_shares_root }}/books"
 
-# Where your books are stored
+# Where your comics are stored
 comics_root: "{{ samba_shares_root }}/comics"
 
 # Where photos are stored
@@ -383,6 +390,17 @@ openvpn_provider: AWESOMEVPNPROVIDER
 openvpn_config: United-Kingdom
 
 ###
+### uTorrent
+###
+utorrent_available_externally: "false"
+utorrent_config_directory: "{{ docker_home }}/utorrent/config"
+utorrent_download_directory: "{{ downloads_root }}"
+utorrent_port_http: "8111"
+utorrent_port_bt: "6881"
+utorrent_user_id: "0"
+utorrent_group_id: "0"
+
+###
 ### Joomla
 ###
 joomla_data_directory: "{{ docker_home }}/joomla"
@@ -421,6 +439,19 @@ plex_music_permissions: "rw"
 plex_user_id: "0"
 plex_group_id: "0"
 plex_port: "32400"
+
+###
+### PyTivo
+###
+pytivo_available_externally: "false"
+pytivo_config_directory: "{{ docker_home }}/pytivo/config"
+pytivo_movies_directory: "{{ movies_root }}"
+pytivo_tv_directory: "{{ tv_root }}"
+pytivo_photos_directory: "{{ photos_root }}"
+pytivo_music_directory: "{{ music_root }}"
+pytivo_podcasts_directory: "{{ podcasts_root }}"
+pytivo_user_id: "0"
+pytivo_group_id: "0"
 
 ###
 ### Homebridge
@@ -466,6 +497,17 @@ duplicati_port: "8200"
 duplicati_group_id: "0"
 
 ###
+### Mylar
+###
+mylar_available_externally: "false"
+mylar_data_directory: "{{ docker_home }}/mylar"
+mylar_comics_directory: "{{ comics_root }}"
+mylar_downloads_directory: "{{ downloads_root }}"
+mylar_port_http: "8585"
+mylar_user_id: "0"
+mylar_group_id: "0"
+
+###
 ### Sonarr
 ###
 sonarr_available_externally: "false"
@@ -508,6 +550,16 @@ lidarr_downloads_directory: "{{ downloads_root }}"
 lidarr_user_id: "0"
 lidarr_group_id: "0"
 lidarr_port: "8686"
+
+###
+### YouTubeDL-Material
+###
+youtubedlmaterial_available_externally: "false"
+youtubedlmaterial_data_directory: "{{ docker_home }}/youtubedlmaterial"
+youtubedlmaterial_dl_audio_directory: "{{ downloads_root }}/youtube/audio"
+youtubedlmaterial_dl_video_directory: "{{ downloads_root }}/youtube/video"
+youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subscriptions"
+youtubedlmaterial_port_http: "8998"
 
 ###
 ### Couchpotato
@@ -656,6 +708,19 @@ cloudcmd_group_id: "0"
 cloudcmd_port: "7373"
 
 ###
+### Krusader
+###
+krusader_available_externally: "false"
+krusader_config_directory: "{{ docker_home }}/krusader/config"
+krusader_browse_directory: "/"
+krusader_user_id: "0"
+krusader_group_id: "0"
+krusader_secure_connection: "0"
+krusader_vnc_password: "topsecret"
+krusader_port_http: "5800"
+krusader_port_vnc: "5900"
+
+###
 ### Watchtower
 ###
 # Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
@@ -684,7 +749,7 @@ timemachine_log_level: error
 timemachine_port: "10445"
 
 ###
-### minidlna
+### MiniDLNA
 ###
 minidlna_media_directory1: "{{ movies_root }}"
 minidlna_media_directory2: "{{ tv_root }}"
