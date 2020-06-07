@@ -13,6 +13,13 @@
     tvheadend_docker_devices: "{{ tvheadend_docker_devices + [ '/dev/dvb:/dev/dvb' ] }}"
   when: tvheadend_hw_dvb
 
+- name: Define docker ports if network mode is bridge
+  set_fact:
+    tvheadend_docker_ports:
+      - "{{ tvheadend_port_web }}:9981"
+      - "{{ tvheadend_port_htsp }}:9982"
+  when: "'bridge' in tvheadend_network_mode"
+
 - name: Create TVHeadend Directories
   file:
     path: "{{ item }}"
@@ -23,16 +30,14 @@
 - name: TVHeadend Docker Container
   docker_container:
     name: tvheadend
-    image: linuxserver/tvheadend
+    image: "linuxserver/tvheadend:{{ tvheadend_version }}"
     pull: true
     volumes:
       - "{{ tvheadend_config_directory }}:/config:rw"
       - "{{ tvheadend_recordings_directory }}:/recordings:rw"
     devices: "{{ tvheadend_docker_devices | default([]) }}"
-    network_mode: host # enables discovery of IPTV
-    ports:
-      - "{{ tvheadend_port_web }}:9981"
-      - "{{ tvheadend_port_htsp }}:9982"
+    network_mode: "{{ tvheadend_network_mode }}"
+    ports: "{{ tvheadend_docker_ports | default([]) }}"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ tvheadend_user_id }}"

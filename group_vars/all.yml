@@ -929,3 +929,7 @@ tvheadend_port_htsp: "9982"
 tvheadend_hw_accel: false
 # If true, pass /dev/dvb for for dvb tuner cards to docker
 tvheadend_hw_dvb: false
+# Set to host for discovery of iptv (e.g. AVM Fritz DVB devices and so on)
+tvheadend_network_mode: "bridge"
+# Allow to set the version (docker tag)
+tvheadend_version: "latest"

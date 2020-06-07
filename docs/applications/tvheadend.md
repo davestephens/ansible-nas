@@ -22,3 +22,9 @@ will then add the device / folder '/dev/dri' to the list of docker volumes. This
 
 If you want to pass a physical dvb tuner card, you can set `tvheadend_hw_dvb` to `true`. The play 
 will then add the device / folder '/dev/dvb' to the list of docker volumes. This is disabled by default.
+
+For discovery of local IPTV services, you may need to change the network mode of the docker container to
+ `host`, default is 'bridge'.
+
+It is possible to pin the version of the Docker images by setting `tvheadend_version` to the desired tag.
+ Note that the linuxserver.io images are used for TVHeadend.
