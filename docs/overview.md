@@ -56,7 +56,7 @@ As a to-do list, before you can even install Ansible-NAS, you'll have to:
    account it [loves RAM](zfs/zfs_overview.md) and prefers to have the hard
    drives all to itself.
 
-1. Install **Ubuntu Server**, currently 18.04 LTS, and keep it updated. You'll
+1. Install **Ubuntu Server**, currently 20.04 LTS, and keep it updated. You'll
    probably want to perform other basic setup tasks like hardening SSH and
    including email notifications. There are [various
    guides](https://devanswers.co/ubuntu-18-04-initial-server-setup/) for this,
