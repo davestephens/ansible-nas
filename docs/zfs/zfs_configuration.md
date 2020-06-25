@@ -107,7 +107,7 @@ late.
 Pools have properties that apply either to the pool itself or to filesystems
 created in the pool. You can use the command `zpool get all tank` to see the
 pool properties and `zfs get all tank` to see the filesystem properties. Most
-default values are perfecly sensible, some you'll [want to
+default values are perfectly sensible, some you'll [want to
 change](https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/). Setting
 defaults makes life easier when we create our filesystems.
 
