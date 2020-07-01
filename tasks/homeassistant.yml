@@ -17,9 +17,11 @@
     env:
       TZ: "{{ ansible_nas_timezone }}"
     labels:
-      traefik.backend: "homeassistant"
-      traefik.frontend.rule: "Host:homeassistant.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ homeassistant_available_externally }}"
-      traefik.port: "8123"
-      traefik.frontend.headers.SSLRedirect: "true"
+      traefik.enable: "{{ sonarr_available_externally }}"
+      traefik.http.routers.has.rule: "Host(`has.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.has.tls: "true"
+      traefik.http.routers.has.service: "has"
+      traefik.http.routers.has.tls.certresolver: "bocky"
+      traefik.http.routers.has.middlewares: "bocky-ip@file"
+      traefik.http.services.has.loadbalancer.server.port: "8123"
     memory: 1g
