@@ -553,7 +553,7 @@ lidarr_port: "8686"
 youtubedlmaterial_available_externally: "false"
 youtubedlmaterial_data_directory: "{{ docker_home }}/youtubedlmaterial"
 youtubedlmaterial_dl_audio_directory: "{{ downloads_root }}/youtube/audio"
-youtubedlmaterial_dl_video_directory: "{{ downloads_root }}youtube/video"
+youtubedlmaterial_dl_video_directory: "{{ downloads_root }}/youtube/video"
 youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subscriptions"
 youtubedlmaterial_port_http: "8998"
 
@@ -745,7 +745,7 @@ timemachine_log_level: error
 timemachine_port: "10445"
 
 ###
-### minidlna
+### MiniDLNA
 ###
 minidlna_media_directory1: "{{ movies_root }}"
 minidlna_media_directory2: "{{ tv_root }}"
@@ -868,6 +868,10 @@ jellyfin_available_externally: "false"
 jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
 jellyfin_movies_directory: "{{ movies_root }}"
 jellyfin_movies_permissions: "rw"
+jellyfin_music_directory: "{{ music_root }}"
+jellyfin_music_permissions: "rw"
+jellyfin_photos_directory: "{{ photos_root }}"
+jellyfin_photos_permissions: "rw"
 jellyfin_tv_directory: "{{ tv_root }}"
 jellyfin_tv_permissions: "rw"
 jellyfin_music_directory: "{{ music_root }}"

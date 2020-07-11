@@ -1,4 +1,4 @@
-- name: minidlna Docker Container
+- name: MiniDLNA Docker Container
   docker_container:
     name: minidlna
     image: vladgh/minidlna
