@@ -16,7 +16,6 @@
       - "{{ jellyfin_music_directory }}:/music:{{ jellyfin_music_permissions }}"
       - "{{ jellyfin_photos_directory }}:/photos:{{ jellyfin_photos_permissions }}"
       - "{{ jellyfin_tv_directory }}:/tv:{{ jellyfin_tv_permissions }}"
-      - "{{ jellyfin_music_directory }}:/music:{{ jellyfin_music_permissions }}"
     ports:
       - "{{ jellyfin_port_http }}:8096"
       - "{{ jellyfin_port_https }}:8920"
