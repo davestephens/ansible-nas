@@ -132,10 +132,8 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 
 ## Requirements
 
-* Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu
-  Server 18.04.3 LTS.
-* You can run Ansible-NAS on whatever you like, read the docs for more info. I
-  use an HP Microserver.
+* Ansible NAS targets Ubuntu 18.04.x LTS release. (Ubuntu 20.04 LTS support is expected in the near future.)
+* You can run Ansible-NAS on whatever hardware you like, read the docs for more info. I use an HP Microserver.
 
 ## Getting Help
 
