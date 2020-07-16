@@ -20,10 +20,13 @@
       PUID: "{{ homebridge_user_id }}"
       HOMEBRIDGE_CONFIG_UI: "1"
       HOMEBRIDGE_CONFIG_UI_PORT: "{{ homebridge_port }}"
+      HOMEBRIDGE_DEBUG: "1"
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "homebridge"
-      traefik.frontend.rule: "Host:homebridge.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ homebridge_available_externally }}"
-      traefik.port: "8087"
+      traefik.enable: "{{ sonarr_available_externally }}"
+      traefik.http.routers.homebridge.tls: "true"
+      traefik.http.routers.homebridge.tls.certresolver: "bocky"
+      traefik.http.routers.homebridge.middlewares: "bocky-ip@file"
+      traefik.http.routers.homebridge.service: "homebridge"
+      traefik.http.services.homebridge.loadbalancer.server.port: "8087"
