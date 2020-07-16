@@ -178,6 +178,9 @@ podcasts_root: "{{ samba_shares_root }}/podcasts"
 # Where your books are stored
 books_root: "{{ samba_shares_root }}/books"
 
+# Where your audiobooks are stored
+audiobooks_root: "{{ samba_shares_root }}/audiobooks"
+
 # Where your comics are stored
 comics_root: "{{ samba_shares_root }}/comics"
 
@@ -260,6 +263,14 @@ samba_shares:
     writable: yes
     browsable: yes
     path: "{{ samba_shares_root }}/books"
+
+  - name: audiobooks
+    comment: 'Audiobooks'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browsable: yes
+    path: "{{ samba_shares_root }}/audiobooks"
 
   - name: comics
     comment: 'Comics'
@@ -874,6 +885,10 @@ jellyfin_photos_directory: "{{ photos_root }}"
 jellyfin_photos_permissions: "rw"
 jellyfin_tv_directory: "{{ tv_root }}"
 jellyfin_tv_permissions: "rw"
+jellyfin_books_directory: "{{ books_root }}"
+jellyfin_books_permissions: "rw"
+jellyfin_audiobooks_directory: "{{ audiobooks_root }}"
+jellyfin_audiobooks_permissions: "rw"
 jellyfin_user_id: "0"
 jellyfin_group_id: "0"
 jellyfin_port_http: "8896"

@@ -24,6 +24,8 @@ lines in `all.yml`:
 ```
         jellyfin_movies_permissions: "rw"
         jellyfin_tv_permissions: "rw"
+        jellyfin_books_permissions: "rw"
+        jellyfin_audiobooks_permissions: "rw"
 ```
 
 so that they end in `ro` instead of `rw`. Note that jellyfin will not be able to
