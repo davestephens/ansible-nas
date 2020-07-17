@@ -17,6 +17,7 @@
     ports:
       - "{{ speedtest_port_http }}:80"
     env:
+      OOKLA_EULA_GDPR: "true"
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
     labels:
