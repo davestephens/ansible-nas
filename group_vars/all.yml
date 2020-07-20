@@ -294,10 +294,10 @@ cloudflare_zone: "{{ ansible_nas_domain }}"
 # To register a hostname use "{{ ansible_nas_hostname }}.{{ cloudflare_zone }}"
 # To register a subdomain use "*.<subdomain>.{{ cloudflare_zone }}"
 # To forward any use "*.{{ cloudflare_zone }}"
-cloudflare_subdomain: "*.{{ cloudflare_zone }}"
+cloudflare_subdomain: "{{ ansible_nas_hostname }}.{{ cloudflare_zone }}"
 
-# Cloudflare 'Global API Key', can be found on the 'My Profile' page (see https://github.com/oznu/docker-cloudflare-ddns#creating-a-cloudflare-api-token)
-cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
+# Cloudflare 'API Token', can be created on the 'My Profile'->'API Tokens' page (see https://github.com/oznu/docker-cloudflare-ddns#creating-a-cloudflare-api-token)
+cloudflare_api_token: abcdeabcdeabcdeabcde1234512345
 
 # Set to true to have the dns record deleted when the container is stopped.
 cloudflare_delete_on_stop: "false"

@@ -7,7 +7,7 @@
     env:
       ZONE: "{{ cloudflare_zone }}"
       SUBDOMAIN: "{{ cloudflare_subdomain }}"
-      API_KEY: "{{ cloudflare_api_key }}"
+      API_KEY: "{{ cloudflare_api_token }}"
       PROXIED: "{{ cloudflare_proxy }}"
       RRTYPE: "{{ cloudflare_type }}"
       DELETE_ON_STOP: "{{ cloudflare_delete_on_stop }}"
