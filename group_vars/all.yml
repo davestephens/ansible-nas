@@ -286,18 +286,17 @@ nfs_exports:
 ###
 # Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to
 # set the options below.
-
+# Data directory for config file
+cloudflare_data_directory: "{{ docker_home }}/cloudflare_ddns"
 # Your domain name
 cloudflare_zone: "{{ ansible_nas_domain }}"
 
 # The hostname you want the container to update. You shouldn't need to change this.
 cloudflare_host: "*.{{ cloudflare_zone }}"
 
-# Email address used to register for Cloudflare
-cloudflare_email: "{{ ansible_nas_email }}"
-
-# Cloudflare 'Global API Key', can be found on the 'My Profile' page
-cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
+# Cloudflare scoped token (https://joshuaavalon.github.io/docker-cloudflare/guide/cloudflare.html#authentication)
+# Make sure token permissions include #DNS:Edit and #Zone:Read
+cloudflare_token: ""
 
 ###
 ### General

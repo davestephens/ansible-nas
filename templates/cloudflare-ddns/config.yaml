@@ -1,0 +1,8 @@
+auth:
+  scopedToken: "{{ cloudflare_token }}"
+domains:
+  - name: "{{ cloudflare_host }}"
+    type: A
+    proxied: false
+    create: true
+    zoneName: "{{ cloudflare_zone }}"
