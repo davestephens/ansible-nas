@@ -24,7 +24,7 @@
     image: joshava/cloudflare-ddns:latest
     pull: true
     volumes:
-      - "{{cloudflare_data_directory}}/config.yaml:/app/config.yaml"
+      - "{{ cloudflare_data_directory }}/config.yaml:/app/config.yaml"
     restart_policy: unless-stopped
     memory: 512MB
     recreate: "{{ template_files_result is changed or template_files_result_api is changed }}"
