@@ -300,6 +300,8 @@ cloudflare_host: "*.{{ cloudflare_zone }}"
 cloudflare_token: ""
 
 # Set to true to make traffic go through the CloudFlare CDN.
+# Note that if the cloudflare host is a wildcard (the default), this must be false, as cloudflare
+# does not support http proxy of wildcard CNAMEs.
 cloudflare_proxy: false
 
 # Set to AAAA to use set IPv6 records instead of IPv4 records.
