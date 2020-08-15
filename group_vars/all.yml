@@ -288,6 +288,7 @@ nfs_exports:
 # set the options below.
 # Data directory for config file
 cloudflare_data_directory: "{{ docker_home }}/cloudflare_ddns"
+
 # Your domain name
 cloudflare_zone: "{{ ansible_nas_domain }}"
 
@@ -297,6 +298,12 @@ cloudflare_host: "*.{{ cloudflare_zone }}"
 # Cloudflare scoped token (https://joshuaavalon.github.io/docker-cloudflare/guide/cloudflare.html#authentication)
 # Make sure token permissions include #DNS:Edit and #Zone:Read
 cloudflare_token: ""
+
+# Set to true to make traffic go through the CloudFlare CDN.
+cloudflare_proxy: false
+
+# Set to AAAA to use set IPv6 records instead of IPv4 records.
+cloudflare_type: "A"
 
 ###
 ### General

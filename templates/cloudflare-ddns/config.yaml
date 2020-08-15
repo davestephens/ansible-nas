@@ -2,7 +2,7 @@ auth:
   scopedToken: "{{ cloudflare_token }}"
 domains:
   - name: "{{ cloudflare_host }}"
-    type: A
-    proxied: false
+    type: "{{ cloudflare_type }}"
+    proxied: {{ cloudflare_proxy | bool }}
     create: true
     zoneName: "{{ cloudflare_zone }}"
