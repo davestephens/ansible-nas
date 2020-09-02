@@ -1,6 +1,6 @@
 # Code of Conduct
 
-Ansible-NAS follows the Ansible [Community Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
+Ansible-NAS follows the [Ansible Community Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
 Specifically, Ansible-NAS community members are expected to be:
 
