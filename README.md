@@ -25,7 +25,7 @@ Ansible config and a bunch of Docker containers.
 * A Docker host with Portainer for image and container management
 * An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
 * A Personal finance manager
-* eBook management with calibre-web
+* eBook management with Calibre-web
 * Content management with Joomla
 * A dual panel local file manager
 * Self-service media request web application
@@ -36,7 +36,7 @@ Ansible config and a bunch of Docker containers.
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
-* [Calibre](https://hub.docker.com/r/linuxserver/calibre-web) - eBook Library
+* [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
