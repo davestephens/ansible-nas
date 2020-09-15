@@ -54,4 +54,4 @@
       traefik.backend: "firefly"
       traefik.frontend.rule: "Host:firefly.{{ ansible_nas_domain }}"
       traefik.enable: "{{ firefly_available_externally }}"
-      traefik.port: "80"
+      traefik.port: "8080"
