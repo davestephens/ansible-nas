@@ -107,7 +107,7 @@ pytivo_enabled: false
 serposcope_enabled: false
 
 # External Access
-# Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
+# Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your
 # home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
 # You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
 # settings.
@@ -567,7 +567,7 @@ couchpotato_downloads_directory: "{{ downloads_root }}"
 couchpotato_torrents_directory: "{{ torrents_root }}"
 couchpotato_user_id: "0"
 couchpotato_group_id: "0"
-couchpotato_port: "5050" 
+couchpotato_port: "5050"
 
 ###
 ### Sickchill
@@ -659,6 +659,9 @@ glances_port_two: "61209"
 nextcloud_available_externally: "false"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 nextcloud_port: "8080"
+nextcloud_sql_user: "nextcloud_sql_user"
+nextcloud_sql_pass: "nextcloud_sql_pass"
+nextcloud_sql_secret: "nextcloud_sql_secret"
 
 ###
 ### nginx
