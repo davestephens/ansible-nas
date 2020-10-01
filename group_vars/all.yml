@@ -659,9 +659,9 @@ glances_port_two: "61209"
 nextcloud_available_externally: "false"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 nextcloud_port: "8080"
-nextcloud_sql_user: "nextcloud_sql_user"
-nextcloud_sql_pass: "nextcloud_sql_pass"
-nextcloud_sql_secret: "nextcloud_sql_secret"
+nextcloud_sql_user: "nextcloud-user"
+nextcloud_sql_pass: "nextcloud-pass"
+nextcloud_sql_secret: "nextcloud-secret"
 
 ###
 ### nginx
