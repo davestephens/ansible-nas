@@ -21,3 +21,4 @@
     memory: 1g
     labels:
       traefik.enable: "{{ portainer_available_externally }}"
+      traefik.port: "9000"
