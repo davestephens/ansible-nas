@@ -541,7 +541,7 @@ bazarr_group_id: "0"
 bazarr_port: "6767"
 
 ###
-### lidarr
+### Lidarr
 ###
 lidarr_available_externally: "false"
 lidarr_data_directory: "{{ docker_home }}/lidarr/config"
@@ -836,7 +836,7 @@ mosquitto_port_a: "1883"
 mosquitto_port_b: "9001"
 
 ###
-### Calibre
+### Calibre-web
 ###
 calibre_available_externally: "false"
 calibre_data_directory: "{{ docker_home }}/calibre"

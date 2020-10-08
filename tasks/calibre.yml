@@ -1,11 +1,11 @@
-- name: Create Calibre Directories
+- name: Create Calibre-web Directories
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ calibre_data_directory }}/config"
 
-- name: Calibre Docker Container
+- name: Calibre-web Docker Container
   docker_container:
     name: calibre
     image: linuxserver/calibre-web:latest
