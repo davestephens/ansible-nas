@@ -17,8 +17,8 @@
     env:
       MYSQL_DATABASE: "nextcloud"
       MYSQL_USER: "nextcloud-user"
-      MYSQL_PASSWORD: "nextcloud-pass"
-      MYSQL_ROOT_PASSWORD: "nextcloud-secret"
+      MYSQL_PASSWORD: "{{ nextcloud_mysql_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ nextcloud_mysql_root_password }}"
     restart_policy: unless-stopped
     memory: 1g
 
@@ -37,7 +37,7 @@
       MYSQL_HOST: "mysql"
       MYSQL_DATABASE: "nextcloud"
       MYSQL_USER: "nextcloud-user"
-      MYSQL_PASSWORD: "nextcloud-pass"
+      MYSQL_PASSWORD: "{{ nextcloud_mysql_password }}"
       NEXTCLOUD_TRUSTED_DOMAINS: "nextcloud.{{ ansible_nas_domain }}"
     restart_policy: unless-stopped
     memory: 1g

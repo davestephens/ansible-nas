@@ -658,6 +658,8 @@ glances_port_two: "61209"
 ###
 nextcloud_available_externally: "false"
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+nextcloud_mysql_password: "nextcloud-pass"
+nextcloud_mysql_root_password: "nextcloud-secret"
 nextcloud_port: "8080"
 
 ###
