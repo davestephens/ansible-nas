@@ -62,4 +62,4 @@
       traefik.frontend.rule: "Host:plex.{{ ansible_nas_domain }}"
       traefik.enable: "{{ plex_available_externally }}"
       traefik.port: "32400"
-  when: plex_devices is defined 
+  when: plex_devices is defined
