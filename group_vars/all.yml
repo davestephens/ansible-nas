@@ -436,6 +436,10 @@ plex_music_permissions: "rw"
 plex_user_id: "0"
 plex_group_id: "0"
 plex_port: "32400"
+plex_version: "docker"
+# Device mappings for the docker container.
+# E.g. To enable hardware transcoding:
+# plex_devices: [ "/dev/dri:/dev/dri" ]
 
 ###
 ### PyTivo
