@@ -251,7 +251,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/photos"
+    path: "{{ photos_root }}"
 
   - name: books
     comment: 'Books'
@@ -259,7 +259,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/books"
+    path: "{{ books_root }}"
 
   - name: comics
     comment: 'Comics'
@@ -267,7 +267,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/comics"
+    path: "{{ comics_root }}"
 
 ###
 ### NFS
