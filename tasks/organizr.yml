@@ -10,7 +10,7 @@
 - name: Create Organizr container
   docker_container:
     name: organizr
-    image: organizrtools/organizr-v2:latest
+    image: organizr/organizr:latest
     pull: true
     volumes:
       - "{{ organizr_data_directory }}:/config:rw"
