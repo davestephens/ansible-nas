@@ -11,7 +11,7 @@ Older versions of Time Machine relied on AFP (netatalk) shares. Apple has deprec
 
 Set `timemachine_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-Enabling Time Machine will result in the installation of Avahi on the NAS system (if it is not already installed) and a Time Machine service configuration file for Avahi will be added to the system (at `/etc/avahi/services/timemachine.service`) to allow for Time Machine discovery by Macs on the local network. Avahi runs on the system, rather than in a container, as the same Avahi instance can be used to announce any number of services.
+Avahi used to be installed with Time Machine but it has now been moved into it own service and must be enabled by setting `avahi_enabled: true` in your `group_vars/all.yml` file.
 
 The Samba server included in the Time Machine docker container logs to `STDOUT` and is compatible with [Docker's built-in logging infrastructure.](https://docs.docker.com/config/containers/logging/)
 

@@ -1,0 +1,11 @@
+---
+- name: Install Avahi for .local resolution
+  package:
+    name: avahi-daemon
+    state: present
+
+- name: Enable Avahi at boot
+  systemd:
+    name: avahi-daemon
+    enabled: yes
+    state: started

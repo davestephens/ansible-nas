@@ -1,4 +1,9 @@
 ---
+- name: Verify avahi installation
+  fail:
+    msg: "Avahi not enabled. Set the variable avahi_enabled to true in your playbook"
+  when: "not avahi_enabled"
+
 - name: Time Machine Directories
   file:
     path: "{{ timemachine_data_directory }}"
@@ -22,13 +27,6 @@
     network_mode: bridge
     restart_policy: unless-stopped
     memory: 1g
-
-- name: Install avahi
-  apt:
-    name: "avahi-daemon"
-    state: present
-  register: result
-  until: result is succeeded
 
 - name: Setup timemachine service for avahi
   template:
