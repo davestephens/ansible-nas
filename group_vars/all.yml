@@ -25,7 +25,6 @@ utorrent_enabled: false
 # Media Serving
 plex_enabled: false
 tautulli_enabled: false
-onlyoffice_enabled: false
 
 # Media Sourcing
 sonarr_enabled: false         # tv
@@ -91,6 +90,7 @@ homeassistant_enabled: false
 mosquitto_enabled: false
 homebridge_enabled: false
 openhab_enabled: false
+n8n_enabled: false
 
 # Books
 calibre_enabled: false
