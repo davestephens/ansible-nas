@@ -62,6 +62,7 @@ Ansible config and a bunch of Docker containers.
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
+* [n8n](http://n8n.io/) - Nodemation, a node based workflow and automation service.
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader

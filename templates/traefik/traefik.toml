@@ -202,6 +202,7 @@ onDemand = false # create certificate when container is created
           "lidarr.{{ ansible_nas_domain }}",
           "mylar.{{ ansible_nas_domain }}",
           "miniflux.{{ ansible_nas_domain }}",
+	  "n8n.{{ ansible_nas_domain }}",
           "netdata.{{ ansible_nas_domain }}",
           "nextcloud.{{ ansible_nas_domain }}",
           "nzbget.{{ ansible_nas_domain }}",

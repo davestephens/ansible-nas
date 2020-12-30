@@ -35,7 +35,7 @@
     memory: 1g
     env:
       N8N_BASIC_AUTH_ACTIVE: "true"
-      N8N_BASIC_AUTH_USER: "{{ n8n_basic_auth_user}}"
+      N8N_BASIC_AUTH_USER: "{{ n8n_basic_auth_user }}"
       N8N_BASIC_AUTH_PASSWORD: "{{ n8n_basic_auth_password }}"
     labels:
       traefik.backend: "n8n"
