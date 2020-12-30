@@ -20,12 +20,12 @@
       MYSQL_PASSWORD: "nextcloud-pass"
       MYSQL_ROOT_PASSWORD: "nextcloud-secret"
     restart_policy: unless-stopped
-    memory: 2g
+    memory: 1g
 
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
-    image: nextcloud:20
+    image: nextcloud:14
     pull: true
     links:
         - nextcloud-mysql:mysql
@@ -40,7 +40,7 @@
       MYSQL_PASSWORD: "nextcloud-pass"
       NEXTCLOUD_TRUSTED_DOMAINS: "nextcloud.{{ ansible_nas_domain }}"
     restart_policy: unless-stopped
-    memory: 4g
+    memory: 1g
     labels:
       traefik.backend: "nextcloud"
       traefik.frontend.rule: "Host:nextcloud.{{ ansible_nas_domain }}"
