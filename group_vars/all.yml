@@ -25,6 +25,7 @@ utorrent_enabled: false
 # Media Serving
 plex_enabled: false
 tautulli_enabled: false
+onlyoffice_enabled: false
 
 # Media Sourcing
 sonarr_enabled: false         # tv
@@ -906,3 +907,10 @@ vd_users:
     password: "topsecret"
     sudo: "Y"
 vd_rdp_port: 3389
+
+###
+### n8n Nodemation
+###
+n8n_data_directory: "{{ docker_home }}/n8n"
+n8n_port: 5678
+n8n_available_externally: "false"

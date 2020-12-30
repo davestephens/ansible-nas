@@ -71,3 +71,4 @@ By default, applications can be found on the ports listed below.
 | Wallabag        | 7780   |              |
 | YouTubeDL-Mater | 8998   | HTTP         |
 | ZNC             | 6677   |              |
+| n8n             | 5678   | HTTP         |

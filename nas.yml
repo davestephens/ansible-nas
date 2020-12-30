@@ -251,3 +251,7 @@
   - import_tasks: tasks/pytivo.yml
     when: (pytivo_enabled | default(False))
     tags: pytivo
+
+  - import_tasks: tasks/n8n.yml
+    when: (n8n_enabled | default(False))
+    tags: n8n
