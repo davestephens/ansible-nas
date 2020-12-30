@@ -46,3 +46,4 @@
       traefik.frontend.rule: "Host:nextcloud.{{ ansible_nas_domain }}"
       traefik.enable: "{{ nextcloud_available_externally }}"
       traefik.port: "80"
+
