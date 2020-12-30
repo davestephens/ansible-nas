@@ -7,6 +7,7 @@
     - "{{ n8n_data_directory }}"
 
 - name: n8n Docker Container
+  when: not (n8n_available_externally == "true" or n8n_secured == "true")
   docker_container:
     name: n8n
     image: n8nio/n8n
@@ -18,6 +19,24 @@
       - "/etc/timezone:/etc/timezone:ro"
     restart_policy: unless-stopped
     memory: 1g
+
+- name: n8n Docker Container
+  when: n8n_available_externally == "true" or n8n_secured == "true"
+  docker_container:
+    name: n8n
+    image: n8nio/n8n
+    pull: true
+    ports:
+      - "{{ n8n_port }}:5678"
+    volumes:
+      - "{{ n8n_data_directory }}:/home/node/.n8n:rw"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart_policy: unless-stopped
+    memory: 1g
+    env:
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: "{{ n8n_basic_auth_user}}"
+      N8N_BASIC_AUTH_PASSWORD: "{{ n8n_basic_auth_password }}"
     labels:
       traefik.backend: "n8n"
       traefik.frontend.rule: "Host:n8n.{{ ansible_nas_domain }}"
