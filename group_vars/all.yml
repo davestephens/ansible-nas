@@ -392,6 +392,7 @@ openvpn_config: United-Kingdom
 utorrent_available_externally: "false"
 utorrent_config_directory: "{{ docker_home }}/utorrent/config"
 utorrent_download_directory: "{{ downloads_root }}"
+utorrent_download_directory_active: "{{ downloads_root }}/.incomplete"
 utorrent_port_http: "8111"
 utorrent_port_bt: "6881"
 utorrent_user_id: "0"
