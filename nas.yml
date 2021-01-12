@@ -21,6 +21,11 @@
         - docker
         - skip_ansible_lint
 
+    - role: plex
+      tags:
+        - plex
+      when: (plex_enabled | default(False))
+
   tasks:
   - import_tasks: tasks/general.yml
     tags: general
@@ -47,10 +52,6 @@
   - import_tasks: tasks/watchtower.yml
     when: (watchtower_enabled | default(False))
     tags: watchtower
-
-  - import_tasks: tasks/plex.yml
-    when: (plex_enabled | default(False))
-    tags: plex
 
   - import_tasks: tasks/firefly.yml
     when: (firefly_enabled | default(False))
