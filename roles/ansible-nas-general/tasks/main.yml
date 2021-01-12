@@ -1,7 +1,7 @@
 ---
 - name: Set login banner
-  template:
-    src: ansible-nas/motd.txt
+  copy:
+    src: motd.txt
     dest: /etc/motd
 
 - name: Enable Universe repository

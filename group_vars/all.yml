@@ -117,15 +117,7 @@ traefik_port_ui: "8083"
 ###
 ### General
 ###
-# Sets the hostname of your Ansible NAS
-ansible_nas_hostname: ansible-nas
 
-# Sets the timezone for your Ansible NAS
-# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-ansible_nas_timezone: Etc/UTC
-
-# Update all apt packages when playbook is run
-keep_packages_updated: false
 
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
@@ -135,19 +127,6 @@ ansible_nas_email: me@example.com
 
 # Applications will have subdomain SSL certificates created if Traefik is enabled, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
-
-###
-### Docker
-###
-# Where you want Docker to store images
-docker_image_directory: "{{ docker_home }}/data"
-
-# Where you want Docker to store its container data.
-docker_home: /mnt/Volume2/docker
-
-# Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
-# You might want to change this to ZFS, depending on your underlying filesystem.
-docker_storage_driver: overlay2
 
 ###
 ### Samba
@@ -301,15 +280,7 @@ cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 ###
 ### General
 ###
-# Extra packages to install
-ansible_nas_extra_packages:
-  - smartmontools
-  - htop
-  - zfsutils-linux
-  - bonnie++
-  - unzip
-  - lm-sensors
-  - ctop
+
 
 ansible_python_interpreter: /usr/bin/python3
 

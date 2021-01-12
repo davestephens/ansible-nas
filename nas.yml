@@ -21,6 +21,16 @@
         - docker
         - skip_ansible_lint
 
+    - role: ansible-nas-general
+      tags:
+        - ansible-nas-general
+        - ansible-nas
+
+    - role: ansible-nas-docker
+      tags:
+        - ansible-nas-docker
+        - ansible-nas
+
     - role: heimdall
       tags:
         - heimdall
@@ -32,12 +42,6 @@
       when: (plex_enabled | default(False))
 
   tasks:
-  - import_tasks: tasks/general.yml
-    tags: general
-
-  - import_tasks: tasks/docker.yml
-    tags: docker
-
   - import_tasks: tasks/portainer.yml
     when: (portainer_enabled | default(False))
     tags: portainer

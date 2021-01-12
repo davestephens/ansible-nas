@@ -1,44 +1,44 @@
 ---
-- name: install python3-pip
+- name: Install python3-pip
   apt:
     name: python3-pip
     state: present
   register: result
   until: result is succeeded
 
-- name: 'Remove docker-py python module'
+- name: Remove docker-py python module
   pip:
     name: docker-py
     state: absent
   register: result
   until: result is succeeded
 
-- name: 'Install docker python module'
+- name: Install docker python module
   pip:
     name: docker
     state: present
   register: result
   until: result is succeeded
 
-- name: create docker home
+- name: Create Docker home directory
   file:
     path: "{{ docker_home }}"
     mode: 0755
     state: directory
 
-- name: add user account to docker group
+- name: Add user account to Docker group
   user:
     name: "{{ ansible_nas_user }}"
     groups: docker
     append: yes
 
-- name: update docker home from install default
+- name: Update Docker home from install default
   template:
-    src: docker/daemon.json
+    src: daemon.json
     dest: /etc/docker/daemon.json
   register: docker_config
 
-- name: restart docker
+- name: Restart Docker
   service:
      name: docker
      state: restarted
