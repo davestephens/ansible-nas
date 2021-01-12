@@ -1,0 +1,6 @@
+netdata_enabled: false
+netdata_available_externally: "false"
+
+# network
+netdata_hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
+netdata_port: "19999"

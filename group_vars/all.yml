@@ -55,7 +55,6 @@ portainer_enabled: false
 glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
-netdata_enabled: false
 watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
@@ -530,11 +529,6 @@ ombi_config_directory: "{{ docker_home }}/ombi/config"
 ombi_user_id: "0"
 ombi_group_id: "0"
 
-###
-### Netdata
-###
-netdata_available_externally: "false"
-netdata_port: "19999"
 
 ###
 ### OpenVPN

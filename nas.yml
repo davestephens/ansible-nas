@@ -36,6 +36,11 @@
         - heimdall
       when: (heimdall_enabled | default(False))
 
+    - role: netdata
+      tags:
+        - netdata
+      when: (netdata_enabled | default(False))
+
     - role: plex
       tags:
         - plex
@@ -101,10 +106,6 @@
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))
     tags: glances
-
-  - import_tasks: tasks/netdata.yml
-    when: (netdata_enabled | default(False))
-    tags: netdata
 
   - import_tasks: tasks/duplicati.yml
     when: (duplicati_enabled | default(False))
