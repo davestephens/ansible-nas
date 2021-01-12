@@ -1,0 +1,5 @@
+---
+heimdall_enabled: true
+
+jellyfin_user_id: "0"
+jellyfin_group_id: "0"

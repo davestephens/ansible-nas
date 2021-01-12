@@ -21,6 +21,11 @@
         - docker
         - skip_ansible_lint
 
+    - role: heimdall
+      tags:
+        - heimdall
+      when: (heimdall_enabled | default(False))
+
     - role: plex
       tags:
         - plex
@@ -40,10 +45,6 @@
   - import_tasks: tasks/traefik.yml
     when: (traefik_enabled | default(False))
     tags: traefik
-
-  - import_tasks: tasks/heimdall.yml
-    when: (heimdall_enabled | default(False))
-    tags: heimdall
 
   - import_tasks: tasks/organizr.yml
     when: (organizr_enabled | default(False))
