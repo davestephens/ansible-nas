@@ -50,7 +50,6 @@ mymediaforalexa_enabled: false
 miniflux_enabled: false
 
 # System Management
-heimdall_enabled: false
 organizr_enabled: false
 portainer_enabled: false
 glances_enabled: false
@@ -340,14 +339,7 @@ traefik_docker_image: traefik:v1.7
 traefik_data_directory: "{{ docker_home }}/traefik"
 traefik_debug: "false"
 
-###
-### Heimdall
-###
-heimdall_available_externally: "false"
-heimdall_docker_image: linuxserver/heimdall:latest
-heimdall_data_directory: "{{ docker_home }}/heimdall"
-heimdall_port_http: "10080"
-heimdall_port_https: "10443"
+
 
 ###
 ### Organizr
