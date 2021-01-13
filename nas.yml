@@ -86,7 +86,7 @@
         - transmission
       when: (transmission_enabled | default(False))
 
-    - role: transmission_with_openvpn_enabled
+    - role: transmission-with-openvpn
       tags:
         - transmission_with_openvpn_enabled
       when: (transmission_with_openvpn_enabled | default(False))
@@ -108,14 +108,6 @@
   - import_tasks: tasks/tautulli.yml
     when: (tautulli_enabled | default(False))
     tags: tautulli
-
-  - import_tasks: tasks/transmission.yml
-    when: (transmission_enabled | default(False))
-    tags: transmission
-
-  - import_tasks: tasks/transmission_with_openvpn.yml
-    when: (transmission_with_openvpn_enabled | default(False))
-    tags: transmission
 
   - import_tasks: tasks/pyload.yml
     when: (pyload_enabled | default(False))
