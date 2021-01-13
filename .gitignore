@@ -1,9 +1,9 @@
 tests/test.yml
 site
 .vagrant
-roles
 *.retry
 *.log
+inventories
 
 # Vim
 [._]sw[a-p]
