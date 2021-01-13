@@ -1,4 +1,5 @@
 ---
+gitea_enabled: false
 gitea_available_externally: "false"
 
 # directories
