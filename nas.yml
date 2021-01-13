@@ -61,6 +61,11 @@
         - plex
       when: (plex_enabled | default(False))
 
+    - role: radarr
+      tags:
+        - radarr
+      when: (radarr_enabled | default(False))
+
   tasks:
   - import_tasks: tasks/portainer.yml
     when: (portainer_enabled | default(False))
@@ -109,10 +114,6 @@
   - import_tasks: tasks/sonarr.yml
     when: (sonarr_enabled | default(False))
     tags: sonarr
-
-  - import_tasks: tasks/radarr.yml
-    when: (radarr_enabled | default(False))
-    tags: radarr
 
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))

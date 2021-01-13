@@ -30,7 +30,7 @@ tautulli_enabled: false
 sonarr_enabled: false         # tv
 sickchill_enabled: false
 couchpotato_enabled: false
-radarr_enabled: false
+
 get_iplayer_enabled: false
 jackett_enabled: false
 minidlna_enabled: false
@@ -67,7 +67,6 @@ nextcloud_enabled: false
 timemachine_enabled: false
 
 # Software build and CI
-gitea_enabled: false
 gitlab_enabled: false
 
 # IRC
@@ -438,17 +437,6 @@ sonarr_download_directory: "{{ downloads_root }}"
 sonarr_user_id: "0"
 sonarr_group_id: "0"
 sonarr_port: "8989"
-
-###
-### Radarr
-###
-radarr_available_externally: "false"
-radarr_movies_directory: "{{ movies_root }}"
-radarr_download_directory: "{{ downloads_root }}"
-radarr_data_directory: "{{ docker_home }}/radarr"
-radarr_user_id: "0"
-radarr_group_id: "0"
-radarr_port: "7878"
 
 ###
 ### Bazarr
