@@ -61,6 +61,11 @@
         - organizr
       when: (organizr_enabled | default(False))
 
+    - role: portainer
+      tags:
+        - portainer
+      when: (portainer_enabled | default(False))
+
     - role: plex
       tags:
         - plex
@@ -87,17 +92,9 @@
       when: (transmission_with_openvpn_enabled | default(False))
 
   tasks:
-  - import_tasks: tasks/portainer.yml
-    when: (portainer_enabled | default(False))
-    tags: portainer
-
   - import_tasks: tasks/traefik.yml
     when: (traefik_enabled | default(False))
     tags: traefik
-
-  - import_tasks: tasks/organizr.yml
-    when: (organizr_enabled | default(False))
-    tags: organizr
 
   - import_tasks: tasks/watchtower.yml
     when: (watchtower_enabled | default(False))

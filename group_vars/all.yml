@@ -48,7 +48,6 @@ mymediaforalexa_enabled: false
 miniflux_enabled: false
 
 # System Management
-portainer_enabled: false
 glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
@@ -456,13 +455,6 @@ ombi_group_id: "0"
 ###
 openvpn_config_directory: "{{ docker_home }}/openvpn"
 
-
-###
-### Portainer
-###
-portainer_available_externally: "false"
-portainer_data_directory: "{{ docker_home }}/portainer/config"
-portainer_port: "9000"
 
 ###
 ### ZNC
