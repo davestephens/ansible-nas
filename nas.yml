@@ -36,6 +36,11 @@
         - emby
       when: (emby_enabled | default(False))
 
+    - role: gitea
+      tags:
+        - gitea
+      when: (gitea_enabled | default(False))
+
     - role: heimdall
       tags:
         - heimdall
@@ -136,10 +141,6 @@
   - import_tasks: tasks/nextcloud.yml
     when: (nextcloud_enabled | default(False))
     tags: nextcloud
-
-  - import_tasks: tasks/gitea.yml
-    when: (gitea_enabled | default(False))
-    tags: gitea
 
   - import_tasks: tasks/gitlab.yml
     when: (gitlab_enabled | default(False))

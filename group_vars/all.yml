@@ -539,13 +539,6 @@ stat_collection_interval: 15s
 grafana_influxdb_port: "8086"
 grafana_port: "3000"
 
-###
-### Gitea
-###
-gitea_available_externally: "false"
-gitea_data_directory: "{{ docker_home }}/gitea"
-gitea_port_http: "3001"
-gitea_port_ssh: "222"
 
 ###
 ### Gitlab
