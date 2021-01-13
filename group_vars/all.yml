@@ -48,7 +48,6 @@ mymediaforalexa_enabled: false
 miniflux_enabled: false
 
 # System Management
-organizr_enabled: false
 portainer_enabled: false
 glances_enabled: false
 stats_enabled: false
@@ -305,18 +304,6 @@ samba_netbios_name: "{{ ansible_nas_hostname }}"
 traefik_docker_image: traefik:v1.7
 traefik_data_directory: "{{ docker_home }}/traefik"
 traefik_debug: "false"
-
-
-
-###
-### Organizr
-###
-organizr_available_externally: "false"
-organizr_data_directory: "{{ docker_home }}/organizr"
-organizr_port_http: "10081"
-organizr_port_https: "10444"
-organizr_user_id: "1000"
-organizr_group_id: "1000"
 
 ###
 ### uTorrent
