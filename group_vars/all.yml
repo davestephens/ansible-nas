@@ -35,7 +35,7 @@ get_iplayer_enabled: false
 jackett_enabled: false
 minidlna_enabled: false
 jellyfin_enabled: false
-emby_enabled: false
+
 bazarr_enabled: false
 ombi_enabled: false
 
@@ -399,21 +399,6 @@ homebridge_user_id: "0"
 homebridge_group_id: "0"
 homebridge_port: "8087"
 
-###
-### Emby
-###
-# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
-# delete your files
-emby_available_externally: "false"
-emby_config_directory: "{{ docker_home }}/emby/config"
-emby_movies_directory: "{{ movies_root }}"
-emby_movies_permissions: "rw"
-emby_tv_directory: "{{ tv_root }}"
-emby_tv_permissions: "rw"
-emby_user_id: "0"
-emby_group_id: "0"
-emby_port_http: "8096"
-emby_port_https: "8920"
 
 ###
 ### Tautulli

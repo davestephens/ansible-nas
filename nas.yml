@@ -31,6 +31,11 @@
         - ansible-nas-docker
         - ansible-nas
 
+    - role: emby
+      tags:
+        - emby
+      when: (emby_enabled | default(False))
+
     - role: heimdall
       tags:
         - heimdall
@@ -71,10 +76,6 @@
   - import_tasks: tasks/firefly.yml
     when: (firefly_enabled | default(False))
     tags: firefly
-
-  - import_tasks: tasks/emby.yml
-    when: (emby_enabled | default(False))
-    tags: emby
 
   - import_tasks: tasks/tautulli.yml
     when: (tautulli_enabled | default(False))
