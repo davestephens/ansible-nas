@@ -91,11 +91,12 @@
         - transmission_with_openvpn_enabled
       when: (transmission_with_openvpn_enabled | default(False))
 
-  tasks:
-  - import_tasks: tasks/traefik.yml
-    when: (traefik_enabled | default(False))
-    tags: traefik
+    - role: traefik
+      tags:
+        - traefik
+      when: (traefik_enabled | default(False))
 
+  tasks:
   - import_tasks: tasks/watchtower.yml
     when: (watchtower_enabled | default(False))
     tags: watchtower

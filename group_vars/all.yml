@@ -99,15 +99,7 @@ pytivo_enabled: false
 # SEO
 serposcope_enabled: false
 
-# External Access
-# Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
-# home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
-# You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
-# settings.
-traefik_enabled: false
-traefik_port_http: "80"
-traefik_port_https: "443"
-traefik_port_ui: "8083"
+
 ###
 ### General
 ###
@@ -296,13 +288,6 @@ samba_map_to_guest: Bad Password
 
 # The NetBIOS hostname used by Samba on your network
 samba_netbios_name: "{{ ansible_nas_hostname }}"
-
-###
-### Traefik
-###
-traefik_docker_image: traefik:v1.7
-traefik_data_directory: "{{ docker_home }}/traefik"
-traefik_debug: "false"
 
 ###
 ### uTorrent

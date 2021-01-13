@@ -1,14 +1,4 @@
 ---
-- name: Ensure Nginx Docker Container is absent
-  docker_container:
-    name: nginx-proxy
-    state: absent
-
-- name: Nginx Letsencrypt Container is absent
-  docker_container:
-    name: letsencrypt-nginx-proxy-companion
-    state: absent
-
 - name: Create Traefik Directories
   file:
     path: "{{ item }}"
@@ -18,7 +8,7 @@
 
 - name: Template Traefik config.toml
   template:
-    src: traefik/traefik.toml
+    src: traefik.toml
     dest: "{{ traefik_data_directory }}/traefik.toml"
 
 - name: Traefik Docker Container
