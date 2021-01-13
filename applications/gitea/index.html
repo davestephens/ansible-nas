@@ -13,14 +13,14 @@
         <meta name="author" content="David Stephens">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/bitwarden/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/gitea/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
     
     
       
-        <title>Bitwarden(_rs) Password Management - Ansible-NAS</title>
+        <title>Gitea - Ansible-NAS</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bitwarden_rs-password-management" class="md-skip">
+        <a href="#gitea" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Bitwarden(_rs) Password Management
+              Gitea
             
           </span>
         </div>
@@ -361,56 +361,11 @@
           
 
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Bitwarden(_rs) Password Management
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-    
-    <a href="./" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../bitwarden/" class="md-nav__link">
       Bitwarden(_rs) Password Management
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -523,11 +478,49 @@
           
 
 
+  
 
-  <li class="md-nav__item">
-    <a href="../gitea/" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Gitea
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
       Gitea
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -1184,13 +1177,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1203,23 +1189,17 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/bitwarden.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/gitea.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="bitwarden_rs-password-management">Bitwarden(_rs) Password Management</h1>
-<p>Homepage: <a href="https://github.com/dani-garcia/bitwarden_rs">https://github.com/dani-garcia/bitwarden_rs</a>
-Bitwarden: <a href="https://bitwarden.com/">https://bitwarden.com/</a></p>
-<p>This is a Bitwarden server API implementation written in Rust compatible with upstream Bitwarden clients*, perfect for self-hosted deployment where running the official resource-heavy service might not be ideal.</p>
+                <h1 id="gitea">Gitea</h1>
+<p>Homepage: <a href="https://gitea.io/">https://gitea.io/</a></p>
+<p>Gitea is a painless self-hosted Git service.</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>bitwarden_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
-<h2 id="specific-configuration">Specific Configuration</h2>
-<p>Make sure you set your admin token! It is <code>bitwarden_admin_token</code> in <code>group_vars/all.yml</code> file. The string you put here will be the login to the admin section of your Bitwarden installation (https://bitwarden.ansiblenasdomain.tld/admin). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running:
-<code>openssl rand -base64 48</code>.</p>
-<p>To create a user, you need to set <code>bitwarden_allow_signups</code> to <code>true</code> in your <code>all.yml</code>, and re-run the playbook to reprovision the
-container. Once you've created your users, set <code>bitwarden_allow_signups</code> back to <code>false</code> and run again.</p>
-<p>For speed you can target just Bitwarden by appending <code>-t bitwarden</code> to your <code>ansible-playbook</code> command.</p>
+<p>Set <code>gitea_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>The Gitea web interface can be found at http://ansible_nas_host_or_ip:3001.</p>
                 
               
               
@@ -1238,7 +1218,7 @@ container. Once you've created your users, set <code>bitwarden_allow_signups</co
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../bazarr/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../get_iplayer/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -1247,19 +1227,19 @@ container. Once you've created your users, set <code>bitwarden_allow_signups</co
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Bazarr subtitle downloader
+                get_iplayer
               </div>
             </div>
           </a>
         
         
-          <a href="../calibre/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../gitlab/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Calibre-web
+                GitLab
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

@@ -1,7 +1,4 @@
 
-
-
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -12,13 +9,14 @@
         <meta name="description" content="Build a fully functional NAS with an Ubuntu box and this playbook">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/bazarr/">
-      
       
         <meta name="author" content="David Stephens">
       
+      
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/bazarr/">
+      
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.13">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
     
     
       
@@ -26,20 +24,22 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.077507d7.min.css">
-      
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ff0a5ce4.min.css">
-      
+      <link rel="stylesheet" href="../../assets/stylesheets/main.15aa0b43.min.css">
       
         
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.75751829.min.css">
         
-        <meta name="theme-color" content="#4051b5">
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
       
     
     
     
       
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
       
@@ -58,7 +58,10 @@
     
     
     
+    
+    
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+      
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -76,7 +79,9 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
     <a href="https://davestephens.uk/ansible-nas" title="Ansible-NAS" class="md-header-nav__button md-logo" aria-label="Ansible-NAS">
       
@@ -88,18 +93,20 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
     <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             Ansible-NAS
           </span>
-          <span class="md-header-nav__topic md-ellipsis">
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             
               Bazarr subtitle downloader
             
           </span>
         </div>
-      
+      </div>
     </div>
     
       <label class="md-header-nav__button md-icon" for="__search">
@@ -110,7 +117,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
@@ -151,8 +158,6 @@
     
     <div class="md-container" data-md-component="container">
       
-        
-      
       
         
       
@@ -160,10 +165,16 @@
         <div class="md-main__inner md-grid">
           
             
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="https://davestephens.uk/ansible-nas" title="Ansible-NAS" class="md-nav__button md-logo" aria-label="Ansible-NAS">
       
@@ -194,8 +205,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../.." title="Home" class="md-nav__link">
+    <a href="../.." class="md-nav__link">
       Home
     </a>
   </li>
@@ -206,8 +218,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../hardware/" title="Hardware" class="md-nav__link">
+    <a href="../../hardware/" class="md-nav__link">
       Hardware
     </a>
   </li>
@@ -218,8 +231,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../installation/" title="Installation" class="md-nav__link">
+    <a href="../../installation/" class="md-nav__link">
       Installation
     </a>
   </li>
@@ -230,8 +244,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../overview/" title="Overview" class="md-nav__link">
+    <a href="../../overview/" class="md-nav__link">
       Overview
     </a>
   </li>
@@ -242,8 +257,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../post_installation/" title="Post installation" class="md-nav__link">
+    <a href="../../post_installation/" class="md-nav__link">
       Post installation
     </a>
   </li>
@@ -254,8 +270,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../support/" title="Support" class="md-nav__link">
+    <a href="../../support/" class="md-nav__link">
       Support
     </a>
   </li>
@@ -266,8 +283,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../testing/" title="Testing" class="md-nav__link">
+    <a href="../../testing/" class="md-nav__link">
       Testing
     </a>
   </li>
@@ -278,8 +296,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../upgrading/" title="Upgrading Ansible-NAS" class="md-nav__link">
+    <a href="../../upgrading/" class="md-nav__link">
       Upgrading Ansible-NAS
     </a>
   </li>
@@ -289,10 +308,13 @@
       
       
 
+
   
 
 
+  
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
     
       <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9" checked>
     
@@ -313,8 +335,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../airsonic/" title="Airsonic" class="md-nav__link">
+    <a href="../airsonic/" class="md-nav__link">
       Airsonic
     </a>
   </li>
@@ -323,6 +346,7 @@
           
           
           
+
 
   
 
@@ -339,7 +363,7 @@
         <span class="md-nav__icon md-icon"></span>
       </label>
     
-    <a href="./" title="Bazarr subtitle downloader" class="md-nav__link md-nav__link--active">
+    <a href="./" class="md-nav__link md-nav__link--active">
       Bazarr subtitle downloader
     </a>
     
@@ -382,8 +406,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../bitwarden/" title="Bitwarden(_rs) Password Management" class="md-nav__link">
+    <a href="../bitwarden/" class="md-nav__link">
       Bitwarden(_rs) Password Management
     </a>
   </li>
@@ -394,8 +419,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../calibre/" title="Calibre-web" class="md-nav__link">
+    <a href="../calibre/" class="md-nav__link">
       Calibre-web
     </a>
   </li>
@@ -406,8 +432,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../cloudcmd/" title="Cloud Commander file manager" class="md-nav__link">
+    <a href="../cloudcmd/" class="md-nav__link">
       Cloud Commander file manager
     </a>
   </li>
@@ -418,8 +445,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../cloudflare_ddns/" title="Cloudflare Dynamic DNS Updater" class="md-nav__link">
+    <a href="../cloudflare_ddns/" class="md-nav__link">
       Cloudflare Dynamic DNS Updater
     </a>
   </li>
@@ -430,8 +458,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../couchpotato/" title="CouchPotato" class="md-nav__link">
+    <a href="../couchpotato/" class="md-nav__link">
       CouchPotato
     </a>
   </li>
@@ -442,8 +471,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../duplicati/" title="Duplicati" class="md-nav__link">
+    <a href="../duplicati/" class="md-nav__link">
       Duplicati
     </a>
   </li>
@@ -454,8 +484,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../emby/" title="Emby" class="md-nav__link">
+    <a href="../emby/" class="md-nav__link">
       Emby
     </a>
   </li>
@@ -466,8 +497,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../firefly/" title="Firefly III" class="md-nav__link">
+    <a href="../firefly/" class="md-nav__link">
       Firefly III
     </a>
   </li>
@@ -478,8 +510,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../get_iplayer/" title="get_iplayer" class="md-nav__link">
+    <a href="../get_iplayer/" class="md-nav__link">
       get_iplayer
     </a>
   </li>
@@ -490,8 +523,22 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../gitlab/" title="GitLab" class="md-nav__link">
+    <a href="../gitea/" class="md-nav__link">
+      Gitea
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../gitlab/" class="md-nav__link">
       GitLab
     </a>
   </li>
@@ -502,8 +549,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../guacamole/" title="Guacamole" class="md-nav__link">
+    <a href="../guacamole/" class="md-nav__link">
       Guacamole
     </a>
   </li>
@@ -514,8 +562,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../heimdall/" title="Heimdall" class="md-nav__link">
+    <a href="../heimdall/" class="md-nav__link">
       Heimdall
     </a>
   </li>
@@ -526,8 +575,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../homeassistant/" title="Home Assistant" class="md-nav__link">
+    <a href="../homeassistant/" class="md-nav__link">
       Home Assistant
     </a>
   </li>
@@ -538,8 +588,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../homebridge/" title="Homebridge" class="md-nav__link">
+    <a href="../homebridge/" class="md-nav__link">
       Homebridge
     </a>
   </li>
@@ -550,8 +601,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../jackett/" title="Jackett" class="md-nav__link">
+    <a href="../jackett/" class="md-nav__link">
       Jackett
     </a>
   </li>
@@ -562,8 +614,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../jellyfin/" title="Jellyfin" class="md-nav__link">
+    <a href="../jellyfin/" class="md-nav__link">
       Jellyfin
     </a>
   </li>
@@ -574,8 +627,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../joomla/" title="Joomla CMS" class="md-nav__link">
+    <a href="../joomla/" class="md-nav__link">
       Joomla CMS
     </a>
   </li>
@@ -586,8 +640,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../krusader/" title="Krusader" class="md-nav__link">
+    <a href="../krusader/" class="md-nav__link">
       Krusader
     </a>
   </li>
@@ -598,8 +653,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../lidarr/" title="Lidarr music collection manager" class="md-nav__link">
+    <a href="../lidarr/" class="md-nav__link">
       Lidarr music collection manager
     </a>
   </li>
@@ -610,8 +666,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../minidlna/" title="MiniDLNA" class="md-nav__link">
+    <a href="../minidlna/" class="md-nav__link">
       MiniDLNA
     </a>
   </li>
@@ -622,8 +679,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../miniflux/" title="Miniflux" class="md-nav__link">
+    <a href="../miniflux/" class="md-nav__link">
       Miniflux
     </a>
   </li>
@@ -634,8 +692,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../mosquitto/" title="Mosquitto" class="md-nav__link">
+    <a href="../mosquitto/" class="md-nav__link">
       Mosquitto
     </a>
   </li>
@@ -646,8 +705,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../mylar/" title="Mylar" class="md-nav__link">
+    <a href="../mylar/" class="md-nav__link">
       Mylar
     </a>
   </li>
@@ -658,8 +718,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../mymediaforalexa/" title="My Media for Alexa" class="md-nav__link">
+    <a href="../mymediaforalexa/" class="md-nav__link">
       My Media for Alexa
     </a>
   </li>
@@ -670,8 +731,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../nextcloud/" title="Nextcloud" class="md-nav__link">
+    <a href="../nextcloud/" class="md-nav__link">
       Nextcloud
     </a>
   </li>
@@ -682,8 +744,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../nzbget/" title="NZBget" class="md-nav__link">
+    <a href="../nzbget/" class="md-nav__link">
       NZBget
     </a>
   </li>
@@ -694,8 +757,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../ombi/" title="Ombi" class="md-nav__link">
+    <a href="../ombi/" class="md-nav__link">
       Ombi
     </a>
   </li>
@@ -706,8 +770,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../openhab/" title="openHAB" class="md-nav__link">
+    <a href="../openhab/" class="md-nav__link">
       openHAB
     </a>
   </li>
@@ -718,8 +783,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../organizr/" title="Organizr" class="md-nav__link">
+    <a href="../organizr/" class="md-nav__link">
       Organizr
     </a>
   </li>
@@ -730,8 +796,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../pyload/" title="pyLoad" class="md-nav__link">
+    <a href="../pyload/" class="md-nav__link">
       pyLoad
     </a>
   </li>
@@ -742,8 +809,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../pytivo/" title="PyTivo" class="md-nav__link">
+    <a href="../pytivo/" class="md-nav__link">
       PyTivo
     </a>
   </li>
@@ -754,8 +822,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../radarr/" title="Radarr" class="md-nav__link">
+    <a href="../radarr/" class="md-nav__link">
       Radarr
     </a>
   </li>
@@ -766,8 +835,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../serposcope/" title="Serposcope" class="md-nav__link">
+    <a href="../serposcope/" class="md-nav__link">
       Serposcope
     </a>
   </li>
@@ -778,8 +848,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../sonarr/" title="Sonarr" class="md-nav__link">
+    <a href="../sonarr/" class="md-nav__link">
       Sonarr
     </a>
   </li>
@@ -790,8 +861,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../tautulli/" title="Tautulli" class="md-nav__link">
+    <a href="../tautulli/" class="md-nav__link">
       Tautulli
     </a>
   </li>
@@ -802,8 +874,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../thelounge/" title="The Lounge" class="md-nav__link">
+    <a href="../thelounge/" class="md-nav__link">
       The Lounge
     </a>
   </li>
@@ -814,8 +887,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../timemachine/" title="Time Machine" class="md-nav__link">
+    <a href="../timemachine/" class="md-nav__link">
       Time Machine
     </a>
   </li>
@@ -826,8 +900,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../traefik/" title="Traefik" class="md-nav__link">
+    <a href="../traefik/" class="md-nav__link">
       Traefik
     </a>
   </li>
@@ -838,8 +913,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../transmission/" title="Transmission" class="md-nav__link">
+    <a href="../transmission/" class="md-nav__link">
       Transmission
     </a>
   </li>
@@ -850,8 +926,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../ubooquity/" title="Ubooquity Comic and Book Server" class="md-nav__link">
+    <a href="../ubooquity/" class="md-nav__link">
       Ubooquity Comic and Book Server
     </a>
   </li>
@@ -862,8 +939,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../utorrent/" title="uTorrent" class="md-nav__link">
+    <a href="../utorrent/" class="md-nav__link">
       uTorrent
     </a>
   </li>
@@ -874,8 +952,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../virtual_desktop/" title="Virtual Desktop" class="md-nav__link">
+    <a href="../virtual_desktop/" class="md-nav__link">
       Virtual Desktop
     </a>
   </li>
@@ -886,8 +965,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../wallabag/" title="wallabag" class="md-nav__link">
+    <a href="../wallabag/" class="md-nav__link">
       wallabag
     </a>
   </li>
@@ -898,8 +978,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../watchtower/" title="Watchtower" class="md-nav__link">
+    <a href="../watchtower/" class="md-nav__link">
       Watchtower
     </a>
   </li>
@@ -910,8 +991,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../youtubedlmaterial/" title="YouTubeDL-Material" class="md-nav__link">
+    <a href="../youtubedlmaterial/" class="md-nav__link">
       YouTubeDL-Material
     </a>
   </li>
@@ -927,9 +1009,12 @@
       
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10" >
     
     <label class="md-nav__link" for="nav-10">
       Configuration
@@ -948,8 +1033,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../configuration/application_ports/" title="Application Ports" class="md-nav__link">
+    <a href="../../configuration/application_ports/" class="md-nav__link">
       Application Ports
     </a>
   </li>
@@ -960,8 +1046,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../configuration/custom_applications/" title="Custom Applications" class="md-nav__link">
+    <a href="../../configuration/custom_applications/" class="md-nav__link">
       Custom Applications
     </a>
   </li>
@@ -972,8 +1059,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../configuration/external_access/" title="External Access" class="md-nav__link">
+    <a href="../../configuration/external_access/" class="md-nav__link">
       External Access
     </a>
   </li>
@@ -984,8 +1072,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../configuration/nfs_exports/" title="NFS Exports" class="md-nav__link">
+    <a href="../../configuration/nfs_exports/" class="md-nav__link">
       NFS Exports
     </a>
   </li>
@@ -996,8 +1085,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../configuration/samba_shares/" title="Samba Shares" class="md-nav__link">
+    <a href="../../configuration/samba_shares/" class="md-nav__link">
       Samba Shares
     </a>
   </li>
@@ -1013,9 +1103,12 @@
       
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11" >
     
     <label class="md-nav__link" for="nav-11">
       Zfs
@@ -1034,8 +1127,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../zfs/zfs_configuration/" title="ZFS Configuration" class="md-nav__link">
+    <a href="../../zfs/zfs_configuration/" class="md-nav__link">
       ZFS Configuration
     </a>
   </li>
@@ -1046,8 +1140,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../zfs/zfs_overview/" title="ZFS Overview" class="md-nav__link">
+    <a href="../../zfs/zfs_overview/" class="md-nav__link">
       ZFS Overview
     </a>
   </li>
@@ -1065,7 +1160,8 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1112,9 +1208,6 @@
                   </a>
                 
                 
-                  
-                
-                
                 <h1 id="bazarr-subtitle-downloader">Bazarr subtitle downloader</h1>
 <p>Homepage: <a href="https://github.com/morpheus65535/bazarr">https://github.com/morpheus65535/bazarr</a></p>
 <p>Bazarr is a companion application to Sonarr and Radarr. It manages and downloads subtitles based on your requirements. You define your preferences by TV show or movie and Bazarr takes care of everything for you.</p>
@@ -1140,7 +1233,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../airsonic/" title="Airsonic" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../airsonic/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -1155,7 +1248,7 @@
           </a>
         
         
-          <a href="../bitwarden/" title="Bitwarden(_rs) Password Management" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../bitwarden/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
@@ -1205,15 +1298,15 @@
       
     </div>
     
-      <script src="../../assets/javascripts/vendor.2d1db4bd.min.js"></script>
-      <script src="../../assets/javascripts/bundle.6627ddf3.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../../assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="../../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
           base: "../..",
           features: [],
           search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
+            worker: "../../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
