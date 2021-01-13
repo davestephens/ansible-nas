@@ -38,7 +38,7 @@ jellyfin_enabled: false
 emby_enabled: false
 bazarr_enabled: false
 ombi_enabled: false
-lidarr_enabled: false
+
 youtubedlmaterial_enabled: false
 mylar_enabled: false
 
@@ -476,16 +476,6 @@ bazarr_user_id: "0"
 bazarr_group_id: "0"
 bazarr_port: "6767"
 
-###
-### Lidarr
-###
-lidarr_available_externally: "false"
-lidarr_data_directory: "{{ docker_home }}/lidarr/config"
-lidarr_music_directory: "{{ music_root }}"
-lidarr_downloads_directory: "{{ downloads_root }}"
-lidarr_user_id: "0"
-lidarr_group_id: "0"
-lidarr_port: "8686"
 
 ###
 ### YouTubeDL-Material

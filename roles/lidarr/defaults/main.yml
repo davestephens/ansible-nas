@@ -1,0 +1,15 @@
+---
+lidarr_enabled: false
+lidarr_available_externally: "false"
+
+# directories
+lidarr_data_directory: "{{ docker_home }}/lidarr/config"
+lidarr_music_directory: "{{ music_root }}"
+lidarr_downloads_directory: "{{ downloads_root }}"
+
+# uid/gid
+lidarr_user_id: "0"
+lidarr_group_id: "0"
+
+# network
+lidarr_port: "8686"

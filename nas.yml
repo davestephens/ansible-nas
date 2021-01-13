@@ -36,6 +36,11 @@
         - heimdall
       when: (heimdall_enabled | default(False))
 
+    - role: lidarr
+      tags:
+        - lidarr
+      when: (lidarr_enabled | default(False))
+
     - role: netdata
       tags:
         - netdata
@@ -238,10 +243,6 @@
   - import_tasks: tasks/ombi.yml
     when: (ombi_enabled | default(False))
     tags: ombi
-
-  - import_tasks: tasks/lidarr.yml
-    when: (lidarr_enabled | default(False))
-    tags: lidarr
 
   - import_tasks: tasks/youtubedlmaterial.yml
     when: (youtubedlmaterial_enabled | default(False))
