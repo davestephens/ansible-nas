@@ -38,9 +38,9 @@
       OPENVPN_CONFIG: "{{ openvpn_config }}"
       WEBPROXY_ENABLED: "true"
       WEBPROXY_PORT: "3128"
-      PUID: "{{ transmission_user_id }}"
-      PGID: "{{ transmission_group_id }}"
-      LOCAL_NETWORK: "{{ transmission_local_network }}"
+      PUID: "{{ transmission_openvpn_user_id }}"
+      PGID: "{{ transmission_openvpn_group_id }}"
+      LOCAL_NETWORK: "{{ transmission_openvpn_local_network }}"
       ENABLE_UFW: "false"
     devices:
       - /dev/net/tun

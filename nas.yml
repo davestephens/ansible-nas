@@ -66,6 +66,21 @@
         - radarr
       when: (radarr_enabled | default(False))
 
+    - role: radarr
+      tags:
+        - radarr
+      when: (radarr_enabled | default(False))
+
+    - role: transmission
+      tags:
+        - transmission
+      when: (transmission_enabled | default(False))
+
+    - role: transmission_with_openvpn_enabled
+      tags:
+        - transmission_with_openvpn_enabled
+      when: (transmission_with_openvpn_enabled | default(False))
+
   tasks:
   - import_tasks: tasks/portainer.yml
     when: (portainer_enabled | default(False))
