@@ -83,6 +83,11 @@
         - portainer
       when: (portainer_enabled | default(False))
 
+    - role: ombi
+      tags:
+        - ombi
+      when: (ombi_enabled | default(False))
+
     - role: plex
       tags:
         - plex
@@ -266,10 +271,6 @@
   - import_tasks: tasks/utorrent.yml
     when: (utorrent_enabled | default(False))
     tags: utorrent
-
-  - import_tasks: tasks/ombi.yml
-    when: (ombi_enabled | default(False))
-    tags: ombi
 
   - import_tasks: tasks/youtubedlmaterial.yml
     when: (youtubedlmaterial_enabled | default(False))

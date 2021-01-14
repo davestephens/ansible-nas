@@ -35,7 +35,7 @@ minidlna_enabled: false
 jellyfin_enabled: false
 
 bazarr_enabled: false
-ombi_enabled: false
+
 
 youtubedlmaterial_enabled: false
 mylar_enabled: false
@@ -419,16 +419,6 @@ sickchill_downloads_directory: "{{ downloads_root }}/completed"
 sickchill_user_id: "0"
 sickchill_group_id: "0"
 sickchill_port: "8081"
-
-
-###
-### Ombi
-###
-ombi_available_externally: "false"
-ombi_config_directory: "{{ docker_home }}/ombi/config"
-ombi_user_id: "0"
-ombi_group_id: "0"
-
 
 ###
 ### OpenVPN
