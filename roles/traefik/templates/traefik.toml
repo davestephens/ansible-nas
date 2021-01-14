@@ -213,7 +213,6 @@ onDemand = false # create certificate when container is created
           "pyload.{{ ansible_nas_domain }}",
           "pytivo.{{ ansible_nas_domain }}",
           "radarr.{{ ansible_nas_domain }}",
-          "serposcope.{{ ansible_nas_domain }}",
           "sickchill.{{ ansible_nas_domain }}",
           "sonarr.{{ ansible_nas_domain }}",
           "tautulli.{{ ansible_nas_domain }}",
