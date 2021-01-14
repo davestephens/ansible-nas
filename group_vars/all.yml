@@ -51,7 +51,6 @@ miniflux_enabled: false
 glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
-watchtower_enabled: false
 cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
 virtual_desktop_enabled: false
@@ -541,24 +540,6 @@ krusader_secure_connection: "0"
 krusader_vnc_password: "topsecret"
 krusader_port_http: "5800"
 krusader_port_vnc: "5900"
-
-###
-### Watchtower
-###
-# Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
-watchtower_cron_schedule: 0 0 5 * * *
-
-# Sets the Watchtower Docker start command. Different options can be supplied based on whether you want to receive
-# notifications or not, some examples are provided below. See https://github.com/v2tec/watchtower for more info.
-
-# No notifications
-watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
-
-# Email notifications
-# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'email' --notification-email-from 'ansible@nas.com' --notification-email-to '{{ ansible_nas_email }}' --notification-email-server 'my.email.server.com' --notification-email-server-port '25' --notification-email-server-user 'email_username' --notification-email-server-password 'top-secret'"
-
-# Slack notifications
-# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"
 
 ###
 ### Time Machine

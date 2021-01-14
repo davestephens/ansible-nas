@@ -6,6 +6,10 @@
       tags: users
 
   roles:
+
+    ###
+    ### Requirements
+    ###
     - role: bertvv.samba
       tags:
         - samba
@@ -21,6 +25,10 @@
         - docker
         - skip_ansible_lint
 
+
+    ###
+    ### Ansible-NAS Roles
+    ###
     - role: ansible-nas-general
       tags:
         - ansible-nas-general
@@ -31,6 +39,10 @@
         - ansible-nas-docker
         - ansible-nas
 
+
+    ###
+    ### Applications
+    ###
     - role: emby
       tags:
         - emby
@@ -96,11 +108,12 @@
         - traefik
       when: (traefik_enabled | default(False))
 
-  tasks:
-  - import_tasks: tasks/watchtower.yml
-    when: (watchtower_enabled | default(False))
-    tags: watchtower
+    - role: watchtower
+      tags:
+        - watchtower
+      when: (watchtower_enabled | default(False))
 
+  tasks:
   - import_tasks: tasks/firefly.yml
     when: (firefly_enabled | default(False))
     tags: firefly
