@@ -43,6 +43,11 @@
     ###
     ### Applications
     ###
+    - role: airsonic
+      tags:
+        - airsonic
+      when: (airsonic_enabled | default(False))
+
     - role: emby
       tags:
         - emby
@@ -181,10 +186,6 @@
   - import_tasks: tasks/guacamole.yml
     when: (guacamole_enabled | default(False))
     tags: guacamole
-
-  - import_tasks: tasks/airsonic.yml
-    when: (airsonic_enabled | default(False))
-    tags: airsonic
 
   - import_tasks: tasks/cloudflare_ddns.yml
     when: (cloudflare_ddns_enabled | default(False))

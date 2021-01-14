@@ -41,7 +41,6 @@ youtubedlmaterial_enabled: false
 mylar_enabled: false
 
 # Music
-airsonic_enabled: false
 mymediaforalexa_enabled: false
 
 # News
@@ -504,16 +503,6 @@ miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
 miniflux_admin_password: supersecure
 miniflux_port: "8070"
-
-###
-### Airsonic
-###
-airsonic_available_externally: "false"
-airsonic_data_directory: "{{ docker_home }}/airsonic"
-airsonic_music_directory: "{{ music_root }}"
-airsonic_podcasts_directory: "{{ podcasts_root }}"
-airsonic_port: "4040"
-
 
 ###
 ### CloudCmd
