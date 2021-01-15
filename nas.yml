@@ -108,6 +108,11 @@
         - radarr
       when: (radarr_enabled | default(False))
 
+    - role: sickchill
+      tags:
+        - sickchill
+      when: (sickchill_enabled | default(False))
+
     - role: transmission
       tags:
         - transmission
@@ -164,10 +169,6 @@
   - import_tasks: tasks/couchpotato.yml
     when: (couchpotato_enabled | default(False))
     tags: couchpotato
-
-  - import_tasks: tasks/sickchill.yml
-    when: (sickchill_enabled | default(False))
-    tags: sickchill
 
   - import_tasks: tasks/znc.yml
     when: (znc_enabled | default(False))

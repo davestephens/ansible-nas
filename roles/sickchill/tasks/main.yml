@@ -1,10 +1,4 @@
 ---
-- name: Remove Old Sickrage Docker Container
-  docker_container:
-    name: sickrage
-    state: absent
-    keep_volumes: true
-
 - name: Create Sickchill Directories
   file:
     path: "{{ item }}"

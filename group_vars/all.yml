@@ -26,7 +26,6 @@ tautulli_enabled: false
 
 # Media Sourcing
 sonarr_enabled: false         # tv
-sickchill_enabled: false
 couchpotato_enabled: false
 
 get_iplayer_enabled: false
@@ -394,17 +393,6 @@ couchpotato_torrents_directory: "{{ torrents_root }}"
 couchpotato_user_id: "0"
 couchpotato_group_id: "0"
 couchpotato_port: "5050" 
-
-###
-### Sickchill
-###
-sickchill_available_externally: "false"
-sickchill_config_directory: "{{ docker_home }}/sickchill/config"
-sickchill_tv_directory: "{{ tv_root }}"
-sickchill_downloads_directory: "{{ downloads_root }}/completed"
-sickchill_user_id: "0"
-sickchill_group_id: "0"
-sickchill_port: "8081"
 
 ###
 ### OpenVPN
