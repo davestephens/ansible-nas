@@ -34,8 +34,6 @@ jackett_enabled: false
 minidlna_enabled: false
 jellyfin_enabled: false
 
-bazarr_enabled: false
-
 
 youtubedlmaterial_enabled: false
 mylar_enabled: false
@@ -374,18 +372,6 @@ sonarr_download_directory: "{{ downloads_root }}"
 sonarr_user_id: "0"
 sonarr_group_id: "0"
 sonarr_port: "8989"
-
-###
-### Bazarr
-###
-bazarr_available_externally: "false"
-bazarr_data_directory: "{{ docker_home }}/bazarr/config"
-bazarr_tv_directory: "{{ tv_root }}"
-bazarr_movies_directory: "{{ movies_root }}"
-bazarr_user_id: "0"
-bazarr_group_id: "0"
-bazarr_port: "6767"
-
 
 ###
 ### YouTubeDL-Material
