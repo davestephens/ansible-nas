@@ -36,9 +36,9 @@ Ansible-NAS storage. These two drives will be **mirrored** to provide
 redundancy. The actual Ubuntu system will be on a different drive and is not our
 concern.
 
-> [Root on ZFS](https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.04-Root-on-ZFS)
-> is still a hassle for Ubuntu. If that changes, this document might be updated
-> accordingly. Until then, don't ask us about it.
+> [Root on ZFS](https://openzfs.github.io/openzfs-docs/Getting%20Started/Ubuntu/Ubuntu%2020.04%20Root%20on%20ZFS.html)
+is possible, but not something that has been tested with Ansible-NAS.
+
 
 The Ubuntu kernel is already ready for ZFS. We only need the utility package
 which we install with `sudo apt install zfsutils`.
