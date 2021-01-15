@@ -150,7 +150,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ downloads_root }}"
 
   - name: movies
@@ -158,7 +158,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ movies_root }}"
 
   - name: tv
@@ -166,7 +166,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ tv_root }}"
 
   - name: music
@@ -174,7 +174,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ music_root }}"
 
   - name: podcasts
@@ -182,7 +182,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ podcasts_root }}"
 
   - name: dump
@@ -190,7 +190,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ samba_shares_root }}/dump"
 
   - name: games
@@ -198,7 +198,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ samba_shares_root }}/games"
 
   - name: photos
@@ -206,7 +206,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ samba_shares_root }}/photos"
 
   - name: books
@@ -214,7 +214,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ samba_shares_root }}/books"
 
   - name: comics
@@ -222,7 +222,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ samba_shares_root }}/comics"
 
 ###
