@@ -1,0 +1,97 @@
+default_language_version:
+  python: python3
+  node: "14.14.0"
+repos:
+  # General
+  - repo: local
+    hooks:
+      - id: forbidden-files
+        name: forbidden files
+        entry: found forbidden files; remove them
+        language: fail
+        files: "\\.rej$"
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.2.1
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - prettier@2.1.2
+          - "@prettier/plugin-xml@0.12.0"
+        args:
+          - --plugin=@prettier/plugin-xml
+  - repo: https://github.com/myint/autoflake
+    rev: v1.4
+    hooks:
+      - id: autoflake
+        args:
+          - --in-place
+          - --expand-star-imports
+          - --ignore-init-module-imports
+          - --remove-all-unused-imports
+          - --remove-duplicate-keys
+          - --remove-unused-variables
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.7.4
+    hooks:
+      - id: pyupgrade
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+      - id: black
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.7.0
+    hooks:
+      - id: isort
+        args:
+          - --settings=.
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.4
+    hooks:
+      - &flake8
+        id: flake8
+        name: flake8 except __init__.py
+        exclude: /__init__\.py$
+        additional_dependencies:
+          - flake8-bugbear==20.1.4
+      - <<: *flake8
+        name: flake8 for __init__.py
+        args:
+          # ignore unused imports in __init__.py
+          - --extend-ignore=F401
+        files: /__init__\.py$
+  - repo: https://github.com/IamTheFij/ansible-pre-commit
+    rev: v0.1.2
+    hooks:
+      - id: encryption-check
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v4.3.7
+    hooks:
+      - id: ansible-lint
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-added-large-files
+        args:
+          - --maxkb=1000
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-xml
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args:
+          - --fix=lf
+      - id: trailing-whitespace
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: fix-encoding-pragma
+        args:
+          - --remove
+      - id: requirements-txt-fixer
