@@ -2,6 +2,7 @@
   file:
     path: "{{ item }}"
     state: directory
+    mode: 0755
   with_items:
     - "{{ homeassistant_data_directory }}/config"
 

@@ -3,13 +3,15 @@
   file:
     path: "{{ item }}"
     state: directory
+    mode: 0755
   with_items:
     - "{{ traefik_data_directory }}"
 
 - name: Template Traefik config.toml
   template:
-    src: traefik.toml
+    src: traefik.toml.jinja
     dest: "{{ traefik_data_directory }}/traefik.toml"
+    mode: 0744
 
 - name: Traefik Docker Container
   docker_container:

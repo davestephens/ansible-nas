@@ -36,6 +36,7 @@
   template:
     src: daemon.json
     dest: /etc/docker/daemon.json
+    mode: 0644
   register: docker_config
 
 - name: Restart Docker

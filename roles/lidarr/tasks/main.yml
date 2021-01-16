@@ -3,6 +3,7 @@
   file:
     path: "{{ lidarr_data_directory }}"
     state: directory
+    mode: 0755
 
 - name: Lidarr Docker Container
   docker_container:

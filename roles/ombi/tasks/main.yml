@@ -3,6 +3,7 @@
   file:
     path: "{{ ombi_config_directory }}"
     state: directory
+    mode: 0755
 
 - name: Ombi Docker Container
   docker_container:

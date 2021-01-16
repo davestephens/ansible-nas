@@ -21,6 +21,7 @@
     state: directory
     owner: heimdall
     group: heimdall
+    mode: 0755
   with_items:
     - "{{ heimdall_data_directory }}"
 

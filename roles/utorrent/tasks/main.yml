@@ -3,6 +3,7 @@
   file:
     path: "{{ item }}"
     state: directory
+    mode: 0755
   with_items:
     - "{{ utorrent_config_directory }}"
     - "{{ utorrent_download_directory }}"

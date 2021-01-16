@@ -3,6 +3,7 @@
   copy:
     src: motd.txt
     dest: /etc/motd
+    mode: 0644
 
 - name: Enable Universe repository
   raw: apt-add-repository universe

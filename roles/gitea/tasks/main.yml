@@ -22,6 +22,7 @@
     owner: git
     group: git
     recurse: yes
+    mode: 0755
   with_items:
     - "{{ gitea_data_directory }}/gitea"
     - "{{ gitea_data_directory }}/mysql"

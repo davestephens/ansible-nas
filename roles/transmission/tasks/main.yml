@@ -3,7 +3,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    # mode: 0755
+    mode: 0755
   with_items:
     - "{{ transmission_config_directory }}"
     - "{{ transmission_download_directory }}"

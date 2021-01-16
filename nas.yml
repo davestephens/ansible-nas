@@ -27,12 +27,12 @@
     ###
     ### Ansible-NAS Roles
     ###
-    - role: ansible-nas-general
+    - role: ansible_nas_general
       tags:
         - ansible-nas-general
         - ansible-nas
 
-    - role: ansible-nas-docker
+    - role: ansible_nas_docker
       tags:
         - ansible-nas-docker
         - ansible-nas
@@ -135,7 +135,7 @@
         - transmission
       when: (transmission_enabled | default(False))
 
-    - role: transmission-with-openvpn
+    - role: transmission_with_openvpn
       tags:
         - transmission_with_openvpn_enabled
       when: (transmission_with_openvpn_enabled | default(False))
