@@ -12,4 +12,4 @@ Set `bazarr_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 ## Specific Configuration
 
-Follow the [Wiki](https://github.com/morpheus65535/bazarr/wiki) for conecting to Sonarr and Radarr.
+Follow the [Wiki](https://github.com/morpheus65535/bazarr/wiki) for connecting to Sonarr and Radarr.
