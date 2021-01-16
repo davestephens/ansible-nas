@@ -556,13 +556,6 @@ calibre_port: "8084"
 calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 
 ###
-### Home Assistant
-###
-homeassistant_available_externally: "false"
-homeassistant_data_directory: "{{ docker_home }}/homeassistant"
-homeassistant_port: "8123"
-
-###
 ### openHAB
 ###
 openhab_available_externally: "false"

@@ -78,6 +78,11 @@
         - heimdall
       when: (heimdall_enabled | default(False))
 
+    - role: homeassistant
+      tags:
+        - homeassistant
+      when: (homeassistant_enabled | default(False))
+
     - role: lidarr
       tags:
         - lidarr
@@ -253,10 +258,6 @@
   - import_tasks: tasks/calibre.yml
     when: (calibre_enabled | default(False))
     tags: calibre
-
-  - import_tasks: tasks/homeassistant.yml
-    when: (homeassistant_enabled | default(False))
-    tags: homeassistant
 
   - import_tasks: tasks/openhab.yml
     when: (openhab_enabled | default(False))

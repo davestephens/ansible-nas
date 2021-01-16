@@ -1,0 +1,4 @@
+---
+homeassistant_available_externally: "false"
+homeassistant_data_directory: "{{ docker_home }}/homeassistant"
+homeassistant_port: "8123"
