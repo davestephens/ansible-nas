@@ -123,6 +123,11 @@
         - transmission_with_openvpn_enabled
       when: (transmission_with_openvpn_enabled | default(False))
 
+    - role: utorrent
+      tags:
+        - utorrent
+      when: (utorrent_enabled | default(False))
+
     - role: traefik
       tags:
         - traefik
@@ -269,10 +274,6 @@
   - import_tasks: tasks/ubooquity.yml
     when: (ubooquity_enabled | default(False))
     tags: ubooquity
-
-  - import_tasks: tasks/utorrent.yml
-    when: (utorrent_enabled | default(False))
-    tags: utorrent
 
   - import_tasks: tasks/youtubedlmaterial.yml
     when: (youtubedlmaterial_enabled | default(False))
