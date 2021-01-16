@@ -43,8 +43,8 @@ Ansible config and a bunch of Docker containers.
 * [Emby](https://emby.media/) - Media streaming and management
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
-* [Gitea](https://gitea.io/en-us/) - Simple self-hosted Github clone
-* [Gitlab](https://about.gitlab.com/features/) - Self-hosted Github clone of the highest order
+* [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
+* [GitLab](https://about.gitlab.com/features/) - Self-hosted GitHub clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
