@@ -90,15 +90,11 @@
           "dsType": "influxdb",
           "groupBy": [
             {
-              "params": [
-                "$interval"
-              ],
+              "params": ["$interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -110,9 +106,7 @@
           "select": [
             [
               {
-                "params": [
-                  "uptime"
-                ],
+                "params": ["uptime"],
                 "type": "field"
               },
               {
@@ -213,15 +207,11 @@
           "expr": "",
           "groupBy": [
             {
-              "params": [
-                "$interval"
-              ],
+              "params": ["$interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -234,9 +224,7 @@
           "select": [
             [
               {
-                "params": [
-                  "n_cpus"
-                ],
+                "params": ["n_cpus"],
                 "type": "field"
               },
               {
@@ -281,9 +269,7 @@
       "links": [],
       "options": {
         "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "defaults": {
             "mappings": [
               {
@@ -329,15 +315,11 @@
         {
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -351,9 +333,7 @@
           "select": [
             [
               {
-                "params": [
-                  "usage_idle"
-                ],
+                "params": ["usage_idle"],
                 "type": "field"
               },
               {
@@ -450,15 +430,11 @@
           "expr": "",
           "groupBy": [
             {
-              "params": [
-                "$interval"
-              ],
+              "params": ["$interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -471,9 +447,7 @@
           "select": [
             [
               {
-                "params": [
-                  "total"
-                ],
+                "params": ["total"],
                 "type": "field"
               },
               {
@@ -518,9 +492,7 @@
       "links": [],
       "options": {
         "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "defaults": {
             "mappings": [
               {
@@ -566,15 +538,11 @@
         {
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -586,9 +554,7 @@
           "select": [
             [
               {
-                "params": [
-                  "used_percent"
-                ],
+                "params": ["used_percent"],
                 "type": "field"
               },
               {
@@ -622,9 +588,7 @@
       "links": [],
       "options": {
         "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "defaults": {
             "decimals": 0,
             "mappings": [
@@ -672,15 +636,11 @@
           "dsType": "influxdb",
           "groupBy": [
             {
-              "params": [
-                "$interval"
-              ],
+              "params": ["$interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -692,9 +652,7 @@
           "select": [
             [
               {
-                "params": [
-                  "used_percent"
-                ],
+                "params": ["used_percent"],
                 "type": "field"
               },
               {
@@ -734,9 +692,7 @@
       "links": [],
       "options": {
         "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "defaults": {
             "mappings": [
               {
@@ -782,15 +738,11 @@
         {
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -803,9 +755,7 @@
           "select": [
             [
               {
-                "params": [
-                  "value"
-                ],
+                "params": ["value"],
                 "type": "field"
               },
               {
@@ -889,15 +839,11 @@
           "expr": "",
           "groupBy": [
             {
-              "params": [
-                "$interval"
-              ],
+              "params": ["$interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -910,9 +856,7 @@
           "select": [
             [
               {
-                "params": [
-                  "n_containers_running"
-                ],
+                "params": ["n_containers_running"],
                 "type": "field"
               },
               {
@@ -1002,15 +946,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -1022,9 +962,7 @@
           "select": [
             [
               {
-                "params": [
-                  "usage_user"
-                ],
+                "params": ["usage_user"],
                 "type": "field"
               },
               {
@@ -1032,17 +970,13 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "user"
-                ],
+                "params": ["user"],
                 "type": "alias"
               }
             ],
             [
               {
-                "params": [
-                  "usage_system"
-                ],
+                "params": ["usage_system"],
                 "type": "field"
               },
               {
@@ -1050,17 +984,13 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "system"
-                ],
+                "params": ["system"],
                 "type": "alias"
               }
             ],
             [
               {
-                "params": [
-                  "usage_iowait"
-                ],
+                "params": ["usage_iowait"],
                 "type": "field"
               },
               {
@@ -1068,9 +998,7 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "iowait"
-                ],
+                "params": ["iowait"],
                 "type": "alias"
               }
             ]
@@ -1177,15 +1105,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -1197,9 +1121,7 @@
           "select": [
             [
               {
-                "params": [
-                  "load1"
-                ],
+                "params": ["load1"],
                 "type": "field"
               },
               {
@@ -1207,17 +1129,13 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "load1"
-                ],
+                "params": ["load1"],
                 "type": "alias"
               }
             ],
             [
               {
-                "params": [
-                  "load5"
-                ],
+                "params": ["load5"],
                 "type": "field"
               },
               {
@@ -1225,17 +1143,13 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "load5"
-                ],
+                "params": ["load5"],
                 "type": "alias"
               }
             ],
             [
               {
-                "params": [
-                  "load15"
-                ],
+                "params": ["load15"],
                 "type": "field"
               },
               {
@@ -1243,9 +1157,7 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "load15"
-                ],
+                "params": ["load15"],
                 "type": "alias"
               }
             ]
@@ -1346,15 +1258,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -1366,9 +1274,7 @@
           "select": [
             [
               {
-                "params": [
-                  "used"
-                ],
+                "params": ["used"],
                 "type": "field"
               },
               {
@@ -1376,17 +1282,13 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "used"
-                ],
+                "params": ["used"],
                 "type": "alias"
               }
             ],
             [
               {
-                "params": [
-                  "cached"
-                ],
+                "params": ["cached"],
                 "type": "field"
               },
               {
@@ -1394,17 +1296,13 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "cached"
-                ],
+                "params": ["cached"],
                 "type": "alias"
               }
             ],
             [
               {
-                "params": [
-                  "buffered"
-                ],
+                "params": ["buffered"],
                 "type": "field"
               },
               {
@@ -1412,9 +1310,7 @@
                 "type": "mean"
               },
               {
-                "params": [
-                  "buffered"
-                ],
+                "params": ["buffered"],
                 "type": "alias"
               }
             ]
@@ -1538,21 +1434,15 @@
           "expr": "",
           "groupBy": [
             {
-              "params": [
-                "$interval"
-              ],
+              "params": ["$interval"],
               "type": "time"
             },
             {
-              "params": [
-                "container_name"
-              ],
+              "params": ["container_name"],
               "type": "tag"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -1565,9 +1455,7 @@
           "select": [
             [
               {
-                "params": [
-                  "usage_percent"
-                ],
+                "params": ["usage_percent"],
                 "type": "field"
               },
               {
@@ -1682,21 +1570,15 @@
           "expr": "",
           "groupBy": [
             {
-              "params": [
-                "$interval"
-              ],
+              "params": ["$interval"],
               "type": "time"
             },
             {
-              "params": [
-                "container_name"
-              ],
+              "params": ["container_name"],
               "type": "tag"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -1709,9 +1591,7 @@
           "select": [
             [
               {
-                "params": [
-                  "usage"
-                ],
+                "params": ["usage"],
                 "type": "field"
               },
               {
@@ -1832,27 +1712,19 @@
           "alias": "$tag_chip - $tag_feature",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "chip"
-              ],
+              "params": ["chip"],
               "type": "tag"
             },
             {
-              "params": [
-                "feature"
-              ],
+              "params": ["feature"],
               "type": "tag"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -1864,9 +1736,7 @@
           "select": [
             [
               {
-                "params": [
-                  "temp_input"
-                ],
+                "params": ["temp_input"],
                 "type": "field"
               },
               {
@@ -1973,27 +1843,19 @@
           "alias": "$tag_device - $tag_model",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "device"
-              ],
+              "params": ["device"],
               "type": "tag"
             },
             {
-              "params": [
-                "model"
-              ],
+              "params": ["model"],
               "type": "tag"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2005,9 +1867,7 @@
           "select": [
             [
               {
-                "params": [
-                  "temperature"
-                ],
+                "params": ["temperature"],
                 "type": "field"
               },
               {
@@ -2148,15 +2008,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2170,9 +2026,7 @@
           "select": [
             [
               {
-                "params": [
-                  "nread"
-                ],
+                "params": ["nread"],
                 "type": "field"
               },
               {
@@ -2184,9 +2038,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Data Read"
-                ],
+                "params": ["Data Read"],
                 "type": "alias"
               }
             ]
@@ -2203,15 +2055,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2225,9 +2073,7 @@
           "select": [
             [
               {
-                "params": [
-                  "nwritten"
-                ],
+                "params": ["nwritten"],
                 "type": "field"
               },
               {
@@ -2239,9 +2085,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Data Written"
-                ],
+                "params": ["Data Written"],
                 "type": "alias"
               }
             ]
@@ -2358,15 +2202,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2380,9 +2220,7 @@
           "select": [
             [
               {
-                "params": [
-                  "reads"
-                ],
+                "params": ["reads"],
                 "type": "field"
               },
               {
@@ -2394,9 +2232,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Data Read"
-                ],
+                "params": ["Data Read"],
                 "type": "alias"
               }
             ]
@@ -2413,15 +2249,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2435,9 +2267,7 @@
           "select": [
             [
               {
-                "params": [
-                  "writes"
-                ],
+                "params": ["writes"],
                 "type": "field"
               },
               {
@@ -2449,9 +2279,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Data Written"
-                ],
+                "params": ["Data Written"],
                 "type": "alias"
               }
             ]
@@ -2570,15 +2398,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2592,9 +2416,7 @@
           "select": [
             [
               {
-                "params": [
-                  "nread"
-                ],
+                "params": ["nread"],
                 "type": "field"
               },
               {
@@ -2606,9 +2428,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Data Read"
-                ],
+                "params": ["Data Read"],
                 "type": "alias"
               }
             ]
@@ -2625,15 +2445,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2647,9 +2463,7 @@
           "select": [
             [
               {
-                "params": [
-                  "nwritten"
-                ],
+                "params": ["nwritten"],
                 "type": "field"
               },
               {
@@ -2661,9 +2475,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Data Written"
-                ],
+                "params": ["Data Written"],
                 "type": "alias"
               }
             ]
@@ -2782,15 +2594,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2804,9 +2612,7 @@
           "select": [
             [
               {
-                "params": [
-                  "reads"
-                ],
+                "params": ["reads"],
                 "type": "field"
               },
               {
@@ -2818,9 +2624,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Data Read"
-                ],
+                "params": ["Data Read"],
                 "type": "alias"
               }
             ]
@@ -2837,15 +2641,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -2859,9 +2659,7 @@
           "select": [
             [
               {
-                "params": [
-                  "writes"
-                ],
+                "params": ["writes"],
                 "type": "field"
               },
               {
@@ -2873,9 +2671,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Data Written"
-                ],
+                "params": ["Data Written"],
                 "type": "alias"
               }
             ]
@@ -3006,15 +2802,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3026,9 +2818,7 @@
           "select": [
             [
               {
-                "params": [
-                  "read_bytes"
-                ],
+                "params": ["read_bytes"],
                 "type": "field"
               },
               {
@@ -3040,9 +2830,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -3065,15 +2853,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3085,9 +2869,7 @@
           "select": [
             [
               {
-                "params": [
-                  "write_bytes"
-                ],
+                "params": ["write_bytes"],
                 "type": "field"
               },
               {
@@ -3099,9 +2881,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -3224,15 +3004,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3244,9 +3020,7 @@
           "select": [
             [
               {
-                "params": [
-                  "reads"
-                ],
+                "params": ["reads"],
                 "type": "field"
               },
               {
@@ -3258,9 +3032,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -3283,15 +3055,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3303,9 +3071,7 @@
           "select": [
             [
               {
-                "params": [
-                  "writes"
-                ],
+                "params": ["writes"],
                 "type": "field"
               },
               {
@@ -3317,9 +3083,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -3444,15 +3208,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3464,9 +3224,7 @@
           "select": [
             [
               {
-                "params": [
-                  "read_bytes"
-                ],
+                "params": ["read_bytes"],
                 "type": "field"
               },
               {
@@ -3478,9 +3236,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -3503,15 +3259,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3523,9 +3275,7 @@
           "select": [
             [
               {
-                "params": [
-                  "write_bytes"
-                ],
+                "params": ["write_bytes"],
                 "type": "field"
               },
               {
@@ -3537,9 +3287,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -3664,15 +3412,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3684,9 +3428,7 @@
           "select": [
             [
               {
-                "params": [
-                  "reads"
-                ],
+                "params": ["reads"],
                 "type": "field"
               },
               {
@@ -3698,9 +3440,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -3723,15 +3463,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3743,9 +3479,7 @@
           "select": [
             [
               {
-                "params": [
-                  "writes"
-                ],
+                "params": ["writes"],
                 "type": "field"
               },
               {
@@ -3757,9 +3491,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -3884,15 +3616,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3904,9 +3632,7 @@
           "select": [
             [
               {
-                "params": [
-                  "read_bytes"
-                ],
+                "params": ["read_bytes"],
                 "type": "field"
               },
               {
@@ -3918,9 +3644,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -3943,15 +3667,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -3963,9 +3683,7 @@
           "select": [
             [
               {
-                "params": [
-                  "write_bytes"
-                ],
+                "params": ["write_bytes"],
                 "type": "field"
               },
               {
@@ -3977,9 +3695,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -4104,15 +3820,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -4124,9 +3836,7 @@
           "select": [
             [
               {
-                "params": [
-                  "reads"
-                ],
+                "params": ["reads"],
                 "type": "field"
               },
               {
@@ -4138,9 +3848,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -4163,15 +3871,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -4183,9 +3887,7 @@
           "select": [
             [
               {
-                "params": [
-                  "writes"
-                ],
+                "params": ["writes"],
                 "type": "field"
               },
               {
@@ -4197,9 +3899,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -4324,15 +4024,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -4344,9 +4040,7 @@
           "select": [
             [
               {
-                "params": [
-                  "read_bytes"
-                ],
+                "params": ["read_bytes"],
                 "type": "field"
               },
               {
@@ -4358,9 +4052,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -4383,15 +4075,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -4403,9 +4091,7 @@
           "select": [
             [
               {
-                "params": [
-                  "write_bytes"
-                ],
+                "params": ["write_bytes"],
                 "type": "field"
               },
               {
@@ -4417,9 +4103,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -4544,15 +4228,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -4564,9 +4244,7 @@
           "select": [
             [
               {
-                "params": [
-                  "reads"
-                ],
+                "params": ["reads"],
                 "type": "field"
               },
               {
@@ -4578,9 +4256,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -4603,15 +4279,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -4623,9 +4295,7 @@
           "select": [
             [
               {
-                "params": [
-                  "writes"
-                ],
+                "params": ["writes"],
                 "type": "field"
               },
               {
@@ -4637,9 +4307,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -4764,15 +4432,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -4784,9 +4448,7 @@
           "select": [
             [
               {
-                "params": [
-                  "read_bytes"
-                ],
+                "params": ["read_bytes"],
                 "type": "field"
               },
               {
@@ -4798,9 +4460,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -4823,15 +4483,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -4843,9 +4499,7 @@
           "select": [
             [
               {
-                "params": [
-                  "write_bytes"
-                ],
+                "params": ["write_bytes"],
                 "type": "field"
               },
               {
@@ -4857,9 +4511,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]
@@ -4984,15 +4636,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -5004,9 +4652,7 @@
           "select": [
             [
               {
-                "params": [
-                  "reads"
-                ],
+                "params": ["reads"],
                 "type": "field"
               },
               {
@@ -5018,9 +4664,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Read"
-                ],
+                "params": ["Read"],
                 "type": "alias"
               }
             ]
@@ -5043,15 +4687,11 @@
           "alias": "$col",
           "groupBy": [
             {
-              "params": [
-                "$__interval"
-              ],
+              "params": ["$__interval"],
               "type": "time"
             },
             {
-              "params": [
-                "null"
-              ],
+              "params": ["null"],
               "type": "fill"
             }
           ],
@@ -5063,9 +4703,7 @@
           "select": [
             [
               {
-                "params": [
-                  "writes"
-                ],
+                "params": ["writes"],
                 "type": "field"
               },
               {
@@ -5077,9 +4715,7 @@
                 "type": "difference"
               },
               {
-                "params": [
-                  "Write"
-                ],
+                "params": ["Write"],
                 "type": "alias"
               }
             ]

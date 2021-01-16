@@ -17,4 +17,3 @@
     network_mode: host
     restart_policy: unless-stopped
     memory: 1g
-

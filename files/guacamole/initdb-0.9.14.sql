@@ -55,7 +55,7 @@ CREATE TABLE `guacamole_connection` (
   `connection_name`     varchar(128) NOT NULL,
   `parent_id`           int(11),
   `protocol`            varchar(32)  NOT NULL,
-  
+
   -- Guacamole proxy (guacd) overrides
   `proxy_port`              integer,
   `proxy_hostname`          varchar(512),
@@ -64,7 +64,7 @@ CREATE TABLE `guacamole_connection` (
   -- Concurrency limits
   `max_connections`          int(11),
   `max_connections_per_user` int(11),
-  
+
   -- Load-balancing behavior
   `connection_weight`        int(11),
   `failover_only`            boolean NOT NULL DEFAULT 0,
@@ -447,4 +447,3 @@ FROM (
 ) permissions
 JOIN guacamole_user          ON permissions.username = guacamole_user.username
 JOIN guacamole_user affected ON permissions.affected_username = affected.username;
-

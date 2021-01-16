@@ -1,31 +1,30 @@
 # Project information
-site_name: 'Ansible-NAS'
-site_description: 'Build a fully functional NAS with an Ubuntu box and this playbook'
-site_author: 'David Stephens'
-site_url: 'https://davestephens.uk/ansible-nas'
+site_name: "Ansible-NAS"
+site_description: "Build a fully functional NAS with an Ubuntu box and this playbook"
+site_author: "David Stephens"
+site_url: "https://davestephens.uk/ansible-nas"
 
 # Configuration
 theme:
-  name: 'material'
-  language: 'en'
+  name: "material"
+  language: "en"
   palette:
-    primary: 'indigo'
-    accent: 'indigo'
+    primary: "indigo"
+    accent: "indigo"
   font:
-    text: 'Roboto'
-    code: 'Roboto Mono'
-
+    text: "Roboto"
+    code: "Roboto Mono"
 
 # Repository
-repo_name: 'davestephens/ansible-nas'
-repo_url: 'https://github.com/davestephens/ansible-nas'
+repo_name: "davestephens/ansible-nas"
+repo_url: "https://github.com/davestephens/ansible-nas"
 
 # Copyright
-copyright: 'Copyright &copy; 2017 - 2020 David Stephens'
+copyright: "Copyright &copy; 2017 - 2020 David Stephens"
 
 # Customization
 extra:
-  manifest: 'manifest.webmanifest'
+  manifest: "manifest.webmanifest"
   social:
-    - icon: 'fontawesome/brands/github-alt'
-      link: 'https://github.com/davestephens'
+    - icon: "fontawesome/brands/github-alt"
+      link: "https://github.com/davestephens"

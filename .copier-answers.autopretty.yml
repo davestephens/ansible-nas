@@ -6,6 +6,6 @@ biggest_kbs: 1000
 github: true
 js: false
 main_branches:
-- master
-- upstream
+  - master
+  - upstream
 python: true

@@ -24,7 +24,7 @@
     image: miniflux/miniflux:latest
     pull: true
     links:
-        - miniflux-postgres:db
+      - miniflux-postgres:db
     ports:
       - "{{ miniflux_port }}:8080"
     env:

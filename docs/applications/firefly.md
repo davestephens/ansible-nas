@@ -2,7 +2,10 @@
 
 Homepage: [https://firefly-iii.org/](https://firefly-iii.org/)
 
-Firefly III is a self-hosted financial manager. It can help you keep track of expenses, income, budgets and everything in between. It supports credit cards, shared household accounts and savings accounts. It’s pretty fancy. You should use it to save and organise money.
+Firefly III is a self-hosted financial manager. It can help you keep track of expenses,
+income, budgets and everything in between. It supports credit cards, shared household
+accounts and savings accounts. It’s pretty fancy. You should use it to save and organise
+money.
 
 ## Usage
 

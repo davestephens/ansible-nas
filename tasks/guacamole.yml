@@ -27,7 +27,6 @@
 
 # docker run -v /home/david/.guac:/config:rw  -p 8080:8080   oznu/guacamole
 
-
 - name: Guacamole Container
   docker_container:
     name: guacamole

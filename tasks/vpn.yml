@@ -16,7 +16,9 @@
     remote_src: True
 
 - name: Replace NordVPN configs with credential file
-  shell: 'sed -i "s/auth-user-pass/auth-user-pass \/config\/openvpn-credentials.txt/" {{ openvpn_config_directory }}/nordvpn/*.ovpn'
+  shell:
+    'sed -i "s/auth-user-pass/auth-user-pass \/config\/openvpn-credentials.txt/" {{
+    openvpn_config_directory }}/nordvpn/*.ovpn'
 
 - name: VPN Container
   docker_container:
@@ -28,8 +30,7 @@
       OPENVPN_USERNAME: "{{ openvpn_username }}"
       OPENVPN_PASSWORD: "{{ openvpn_password }}"
       OPENVPN_CONFIG: "{{ openvpn_config }}"
-    volumes:
-      "{{ openvpn_config_directory }}/nordvpn:/etc/openvpn/conf/nordvpn:rw"
+    volumes: "{{ openvpn_config_directory }}/nordvpn:/etc/openvpn/conf/nordvpn:rw"
     devices:
       - /dev/net/tun
     capabilities:

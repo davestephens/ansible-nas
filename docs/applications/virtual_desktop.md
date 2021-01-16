@@ -1,6 +1,7 @@
 # Virtual Desktop
 
-It's possible to run a cut down desktop within a Docker container. We use [RattyDAVE's custom Ubuntu Mate image](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom).
+It's possible to run a cut down desktop within a Docker container. We use
+[RattyDAVE's custom Ubuntu Mate image](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom).
 
 ## Usage
 
@@ -8,7 +9,8 @@ Set `virtual_desktop_enabled: true` in your `inventories/<your_inventory>/nas.ym
 
 ## Specific Configuration
 
-By default `ansible_nas_user` will be granted access with a password of `topsecret` with sudo rights. To change or add additional users override `vd_users` in your `nas.yml`:
+By default `ansible_nas_user` will be granted access with a password of `topsecret` with
+sudo rights. To change or add additional users override `vd_users` in your `nas.yml`:
 
 ```
 vd_users:
@@ -22,9 +24,9 @@ vd_users:
 
 ## Mounts
 
-`samba_shares_root` is mounted to `/samba`.
-`docker_home` is mounted to `/docker`.
+`samba_shares_root` is mounted to `/samba`. `docker_home` is mounted to `/docker`.
 
 ## Remote Access
 
-It's possible to access your virtual desktop through a web browser! Check out [Guacamole](guacamole.md).
+It's possible to access your virtual desktop through a web browser! Check out
+[Guacamole](guacamole.md).

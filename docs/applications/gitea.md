@@ -1,4 +1,3 @@
-
 # Gitea
 
 Homepage: [https://gitea.io/](https://gitea.io/)

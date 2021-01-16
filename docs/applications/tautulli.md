@@ -1,4 +1,3 @@
-
 # Tautulli
 
 Homepage: [https://tautulli.com/](https://tautulli.com/)

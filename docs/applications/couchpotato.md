@@ -1,9 +1,9 @@
-
 # CouchPotato
 
 Homepage: [https://couchpota.to/](https://couchpota.to/)
 
-CouchPotato enables you to download movies automatically, easily and in the best quality as soon as they are available.
+CouchPotato enables you to download movies automatically, easily and in the best quality
+as soon as they are available.
 
 ## Usage
 

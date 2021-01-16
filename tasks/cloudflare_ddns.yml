@@ -11,4 +11,3 @@
       PROXY: "false"
     restart_policy: unless-stopped
     memory: 512MB
-

@@ -9,7 +9,6 @@ watchtower_cron_schedule: 0 0 5 * * *
 
 # No notifications
 watchtower_command: "--schedule '{{ watchtower_cron_schedule }}'"
-
 # Email notifications
 # watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'email' --notification-email-from 'ansible@nas.com' --notification-email-to '{{ ansible_nas_email }}' --notification-email-server 'my.email.server.com' --notification-email-server-port '25' --notification-email-server-user 'email_username' --notification-email-server-password 'top-secret'"
 

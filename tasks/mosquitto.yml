@@ -19,7 +19,8 @@
     image: eclipse-mosquitto:latest
     pull: true
     volumes:
-      - "{{ mosquitto_data_directory }}/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw"
+      - "{{ mosquitto_data_directory
+        }}/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:rw"
       - "{{ mosquitto_data_directory }}/data:/mosquitto/data:rw"
       - "{{ mosquitto_data_directory }}/log:/mosquitto/log:rw"
     ports:

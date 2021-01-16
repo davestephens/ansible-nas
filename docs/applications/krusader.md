@@ -1,8 +1,7 @@
-
 # Krusader
 
-Homepage: [https://krusader.org/](https://krusader.org/)
-Docker Container: [Krusader](https://hub.docker.com/r/djaydev/krusader)
+Homepage: [https://krusader.org/](https://krusader.org/) Docker Container:
+[Krusader](https://hub.docker.com/r/djaydev/krusader)
 
 Krusader provides twin panel file management for your ansible-nas via browser and VNC.
 

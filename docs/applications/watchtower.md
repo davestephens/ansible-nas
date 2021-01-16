@@ -2,7 +2,8 @@
 
 Homepage: [https://github.com/v2tec/watchtower](https://github.com/v2tec/watchtower)
 
-A process for watching your Docker containers and automatically updating and restarting them whenever their base image is refreshed.
+A process for watching your Docker containers and automatically updating and restarting
+them whenever their base image is refreshed.
 
 ## Usage
 
@@ -12,4 +13,7 @@ Set `watchtower_enabled: true` in your `inventories/<your_inventory>/nas.yml` fi
 
 By default Watchtower is configured to check daily at 5am for updates.
 
-Various notification options are available, and can be configured by updating `watchtower_command` in your `inventories/<your_inventory>/nas.yml` file. A few examples are provided. The full set of options can be found at the [Watchtower GitHub project page](https://github.com/v2tec/watchtower).
+Various notification options are available, and can be configured by updating
+`watchtower_command` in your `inventories/<your_inventory>/nas.yml` file. A few examples
+are provided. The full set of options can be found at the
+[Watchtower GitHub project page](https://github.com/v2tec/watchtower).

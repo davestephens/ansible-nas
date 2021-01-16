@@ -94,7 +94,9 @@
 - name: Copy Ansible-NAS Dashboard
   copy:
     src: grafana/dashboards/ansible-nas/ansible-nas-overview.json
-    dest: "{{ grafana_data_directory }}/data/dashboards/ansible-nas/ansible-nas-overview.json"
+    dest:
+      "{{ grafana_data_directory
+      }}/data/dashboards/ansible-nas/ansible-nas-overview.json"
 
 - name: Grafana
   docker_container:

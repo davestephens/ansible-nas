@@ -1,7 +1,7 @@
 {
-    "recommendations": [
-        "haaaad.ansible",
-        "ybaumes.highlight-trailing-white-spaces",
-        "bungcip.better-toml"
-    ]
+  "recommendations": [
+    "haaaad.ansible",
+    "ybaumes.highlight-trailing-white-spaces",
+    "bungcip.better-toml"
+  ]
 }

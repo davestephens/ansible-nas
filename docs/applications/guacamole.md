@@ -2,7 +2,8 @@
 
 Homepage: [hhttps://guacamole.apache.org/](https://guacamole.apache.org/)
 
-Apache Guacamole is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH.
+Apache Guacamole is a clientless remote desktop gateway. It supports standard protocols
+like VNC, RDP, and SSH.
 
 ## Usage
 
@@ -14,4 +15,5 @@ The default username and password is `guacadmin`. Change it!
 
 ## What to connect to?
 
-You can run a virtual desktop from your Ansible-NAS box, check out the [Virtual Desktop docs](virtual_desktop.md). 
+You can run a virtual desktop from your Ansible-NAS box, check out the
+[Virtual Desktop docs](virtual_desktop.md).

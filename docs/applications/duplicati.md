@@ -1,9 +1,9 @@
-
 # Duplicati
 
 Homepage: [https://www.duplicati.com/](https://www.duplicati.com/)
 
-Duplicati is free backup software to store encrypted backups online For Windows, macOS and Linux
+Duplicati is free backup software to store encrypted backups online For Windows, macOS
+and Linux
 
 ## Usage
 
