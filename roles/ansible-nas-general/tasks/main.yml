@@ -21,7 +21,7 @@
 
 - name: Upgrade all packages
   apt:
-    upgrade: true
+    upgrade: yes
     state: latest
   when: keep_packages_updated
   tags:
