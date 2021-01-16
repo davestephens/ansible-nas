@@ -1,0 +1,4 @@
+---
+nextcloud_available_externally: "false"
+nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+nextcloud_port: "8080"

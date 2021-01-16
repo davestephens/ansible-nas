@@ -427,13 +427,6 @@ glances_port_one: "61208"
 glances_port_two: "61209"
 
 ###
-### Nextcloud
-###
-nextcloud_available_externally: "false"
-nextcloud_data_directory: "{{ docker_home }}/nextcloud"
-nextcloud_port: "8080"
-
-###
 ### nginx
 ###
 nginx_data_directory: "{{ docker_home }}/nginx"

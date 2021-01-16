@@ -83,6 +83,11 @@
         - netdata
       when: (netdata_enabled | default(False))
 
+    - role: nextcloud
+      tags:
+        - nextcloud
+      when: (nextcloud_enabled | default(False))
+
     - role: organizr
       tags:
         - organizr
@@ -187,10 +192,6 @@
   - import_tasks: tasks/miniflux.yml
     when: (miniflux_enabled | default(False))
     tags: miniflux
-
-  - import_tasks: tasks/nextcloud.yml
-    when: (nextcloud_enabled | default(False))
-    tags: nextcloud
 
   - import_tasks: tasks/gitlab.yml
     when: (gitlab_enabled | default(False))
