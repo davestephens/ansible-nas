@@ -1,0 +1,4 @@
+---
+duplicati_available_externally: "false"
+duplicati_data_directory: "{{ docker_home }}/duplicati/config"
+duplicati_port: "8200"

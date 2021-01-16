@@ -58,6 +58,11 @@
         - bitwarden
       when: (bitwarden_enabled | default(False))
 
+    - role: duplicati
+      tags:
+        - duplicati
+      when: (duplicati_enabled | default(False))
+
     - role: emby
       tags:
         - emby
@@ -176,10 +181,6 @@
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))
     tags: glances
-
-  - import_tasks: tasks/duplicati.yml
-    when: (duplicati_enabled | default(False))
-    tags: duplicati
 
   - import_tasks: tasks/couchpotato.yml
     when: (couchpotato_enabled | default(False))
