@@ -53,6 +53,11 @@
         - bazarr
       when: (bazarr_enabled | default(False))
 
+    - role: bitwarden
+      tags:
+        - bitwarden
+      when: (bitwarden_enabled | default(False))
+
     - role: emby
       tags:
         - emby
@@ -226,10 +231,6 @@
   - import_tasks: tasks/joomla.yml
     when: (joomla_enabled | default(False))
     tags: joomla
-
-  - import_tasks: tasks/bitwarden.yml
-    when: (bitwarden_enabled | default(False))
-    tags: bitwarden
 
   - import_tasks: tasks/nzbget.yml
     when: (nzbget_enabled | default(False))
