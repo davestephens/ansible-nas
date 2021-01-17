@@ -20,7 +20,6 @@ nzbget_enabled: false
 pyload_enabled: false
 
 # Media Serving
-plex_enabled: false
 tautulli_enabled: false
 
 # Media Sourcing
@@ -52,8 +51,6 @@ virtual_desktop_enabled: false
 krusader_enabled: false
 
 # Backup & Restore
-duplicati_enabled: false
-nextcloud_enabled: false
 timemachine_enabled: false
 
 # Software build and CI
@@ -63,9 +60,6 @@ gitlab_enabled: false
 znc_enabled: false
 thelounge_enabled: false
 
-# Password Management
-bitwarden_enabled: false
-
 # Finance
 firefly_enabled: false
 
@@ -73,7 +67,6 @@ firefly_enabled: false
 wallabag_enabled: false
 
 # Home Automation
-homeassistant_enabled: false
 mosquitto_enabled: false
 homebridge_enabled: false
 openhab_enabled: false
@@ -330,14 +323,6 @@ tautulli_user_id: "0"
 tautulli_group_id: "0"
 tautulli_port: "8185"
 
-
-###
-### Duplicati
-###
-duplicati_available_externally: "false"
-duplicati_data_directory: "{{ docker_home }}/duplicati/config"
-duplicati_port: "8200"
-
 ###
 ### Mylar
 ###
@@ -380,7 +365,7 @@ couchpotato_downloads_directory: "{{ downloads_root }}"
 couchpotato_torrents_directory: "{{ torrents_root }}"
 couchpotato_user_id: "0"
 couchpotato_group_id: "0"
-couchpotato_port: "5050" 
+couchpotato_port: "5050"
 
 ###
 ### OpenVPN
@@ -425,13 +410,6 @@ gitlab_port_ssh: "422"
 glances_available_externally: "false"
 glances_port_one: "61208"
 glances_port_two: "61209"
-
-###
-### Nextcloud
-###
-nextcloud_available_externally: "false"
-nextcloud_data_directory: "{{ docker_home }}/nextcloud"
-nextcloud_port: "8080"
 
 ###
 ### nginx
@@ -527,24 +505,6 @@ thelounge_port_one: "113"
 thelounge_port_two: "9002"
 
 ###
-### Bitwarden
-###
-bitwarden_available_externally: "false"
-bitwarden_data_directory: "{{ docker_home }}/bitwarden"
-bitwarden_port_a: "19080"
-bitwarden_port_b: "3012"
-
-# Keep this token secret, this is password to access admin area of your server!
-# This token can be anything, but it's recommended to use a long, randomly generated string of characters,
-# for example running openssl rand -base64 48
-bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
-
-# To create a user set this to "true", and reprovision the container by re-running the ansible-nas playbook.
-# Once you have created your user, set to "false" and run one more time.
-# Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
-bitwarden_allow_signups: false
-
-###
 ### Firefly
 ###
 firefly_available_externally: "false"
@@ -587,13 +547,6 @@ calibre_books_root: "{{ books_root }}"
 calibre_port: "8084"
 # To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
 calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
-
-###
-### Home Assistant
-###
-homeassistant_available_externally: "false"
-homeassistant_data_directory: "{{ docker_home }}/homeassistant"
-homeassistant_port: "8123"
 
 ###
 ### openHAB

@@ -53,6 +53,16 @@
         - bazarr
       when: (bazarr_enabled | default(False))
 
+    - role: bitwarden
+      tags:
+        - bitwarden
+      when: (bitwarden_enabled | default(False))
+
+    - role: duplicati
+      tags:
+        - duplicati
+      when: (duplicati_enabled | default(False))
+
     - role: emby
       tags:
         - emby
@@ -68,6 +78,11 @@
         - heimdall
       when: (heimdall_enabled | default(False))
 
+    - role: homeassistant
+      tags:
+        - homeassistant
+      when: (homeassistant_enabled | default(False))
+
     - role: lidarr
       tags:
         - lidarr
@@ -77,6 +92,11 @@
       tags:
         - netdata
       when: (netdata_enabled | default(False))
+
+    - role: nextcloud
+      tags:
+        - nextcloud
+      when: (nextcloud_enabled | default(False))
 
     - role: organizr
       tags:
@@ -167,10 +187,6 @@
     when: (glances_enabled | default(False))
     tags: glances
 
-  - import_tasks: tasks/duplicati.yml
-    when: (duplicati_enabled | default(False))
-    tags: duplicati
-
   - import_tasks: tasks/couchpotato.yml
     when: (couchpotato_enabled | default(False))
     tags: couchpotato
@@ -182,10 +198,6 @@
   - import_tasks: tasks/miniflux.yml
     when: (miniflux_enabled | default(False))
     tags: miniflux
-
-  - import_tasks: tasks/nextcloud.yml
-    when: (nextcloud_enabled | default(False))
-    tags: nextcloud
 
   - import_tasks: tasks/gitlab.yml
     when: (gitlab_enabled | default(False))
@@ -227,10 +239,6 @@
     when: (joomla_enabled | default(False))
     tags: joomla
 
-  - import_tasks: tasks/bitwarden.yml
-    when: (bitwarden_enabled | default(False))
-    tags: bitwarden
-
   - import_tasks: tasks/nzbget.yml
     when: (nzbget_enabled | default(False))
     tags: nzbget
@@ -250,10 +258,6 @@
   - import_tasks: tasks/calibre.yml
     when: (calibre_enabled | default(False))
     tags: calibre
-
-  - import_tasks: tasks/homeassistant.yml
-    when: (homeassistant_enabled | default(False))
-    tags: homeassistant
 
   - import_tasks: tasks/openhab.yml
     when: (openhab_enabled | default(False))
