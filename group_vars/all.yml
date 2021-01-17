@@ -20,7 +20,6 @@ nzbget_enabled: false
 pyload_enabled: false
 
 # Media Serving
-plex_enabled: false
 tautulli_enabled: false
 
 # Media Sourcing
@@ -52,8 +51,6 @@ virtual_desktop_enabled: false
 krusader_enabled: false
 
 # Backup & Restore
-duplicati_enabled: false
-nextcloud_enabled: false
 timemachine_enabled: false
 
 # Software build and CI
@@ -63,9 +60,6 @@ gitlab_enabled: false
 znc_enabled: false
 thelounge_enabled: false
 
-# Password Management
-bitwarden_enabled: false
-
 # Finance
 firefly_enabled: false
 
@@ -73,7 +67,6 @@ firefly_enabled: false
 wallabag_enabled: false
 
 # Home Automation
-homeassistant_enabled: false
 mosquitto_enabled: false
 homebridge_enabled: false
 openhab_enabled: false
