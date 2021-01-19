@@ -229,23 +229,6 @@ nfs_shares_root: /mnt/Volume3
 nfs_exports:
   - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"
 
-###
-### Cloudflare
-###
-# Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to
-# set the options below.
-
-# Your domain name
-cloudflare_zone: "{{ ansible_nas_domain }}"
-
-# The hostname you want the container to update. You shouldn't need to change this.
-cloudflare_host: "*.{{ cloudflare_zone }}"
-
-# Email address used to register for Cloudflare
-cloudflare_email: "{{ ansible_nas_email }}"
-
-# Cloudflare 'Global API Key', can be found on the 'My Profile' page
-cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 
 ###
 ### General

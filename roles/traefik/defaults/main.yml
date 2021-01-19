@@ -14,5 +14,12 @@ traefik_port_http: "80"
 traefik_port_https: "443"
 traefik_port_ui: "8083"
 
-traefik_docker_image: traefik:v1.7
-traefik_debug: "false"
+traefik_docker_image: traefik:v2.3
+traefik_log_level: "DEBUG"
+
+# find the relevant environment variables for your DNS provider at https://go-acme.github.io/lego/dns/
+traefik_environment_variables:
+  CF_API_EMAIL: "{{ ansible_nas_email }}"
+  CF_API_KEY: "abcdeabcdeabcdeabcde1234512345"
+# traefik_acme_server: "https://acme-staging-v02.api.letsencrypt.org/directory" # staging
+traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory" # production
