@@ -36,7 +36,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "miniflux"
-      traefik.frontend.rule: "Host:miniflux.{{ ansible_nas_domain }}"
       traefik.enable: "{{ miniflux_available_externally }}"
-      traefik.port: "8080"
+      traefik.http.routers.miniflux.rule: "Host(`miniflux.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.miniflux.tls.certresolver: "letsencrypt"
+      traefik.http.routers.miniflux.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.miniflux.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.miniflux.loadbalancer.server.port: "8080"

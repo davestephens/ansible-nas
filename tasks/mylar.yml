@@ -24,7 +24,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "mylar"
-      traefik.frontend.rule: "Host:mylar.{{ ansible_nas_domain }}"
       traefik.enable: "{{ mylar_available_externally }}"
-      traefik.port: "{{ mylar_port_http }}"
+      traefik.http.routers.mylar.rule: "Host(`mylar.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.mylar.tls.certresolver: "letsencrypt"
+      traefik.http.routers.mylar.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.mylar.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.mylar.loadbalancer.server.port: "8090"

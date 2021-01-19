@@ -26,7 +26,9 @@
       - "{{ ubooquity_port_admin }}:2203"
     restart_policy: unless-stopped
     labels:
-      traefik.backend:  "ubooquity"
-      traefik.frontend.rule: "Host:ubooquity.{{ ansible_nas_domain }}"
       traefik.enable: "{{ ubooquity_available_externally }}"
-      traefik.port: "2202"
+      traefik.http.routers.ubooquity.rule: "Host(`ubooquity.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.ubooquity.tls.certresolver: "letsencrypt"
+      traefik.http.routers.ubooquity.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.ubooquity.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.ubooquity.loadbalancer.server.port: "2202"

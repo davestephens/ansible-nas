@@ -23,7 +23,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "cloudcmd"
-      traefik.frontend.rule: "Host:cloudcmd.{{ ansible_nas_domain }}"
       traefik.enable: "{{ cloudcmd_available_externally }}"
-      traefik.port: "8000"
+      traefik.http.routers.cloudcmd.rule: "Host(`cloudcmd.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.cloudcmd.tls.certresolver: "letsencrypt"
+      traefik.http.routers.cloudcmd.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.cloudcmd.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.cloudcmd.loadbalancer.server.port: "8000"
