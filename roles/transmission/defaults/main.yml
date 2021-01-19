@@ -14,5 +14,6 @@ transmission_group_id: "0"
 # network
 transmission_webui_port: "9092"
 transmission_external_port: "51414"
+transmission_hostname: "transmission"
 
 transmission_timezone: "{{ ansible_nas_timezone }}"

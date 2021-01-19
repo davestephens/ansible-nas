@@ -13,3 +13,4 @@ lidarr_group_id: "0"
 
 # network
 lidarr_port: "8686"
+lidarr_hostname: "lidarr"

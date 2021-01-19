@@ -11,6 +11,7 @@ utorrent_download_directory_active: "{{ downloads_root }}/.incomplete"
 utorrent_user_id: "0"
 utorrent_group_id: "0"
 
-# ports
+# network
 utorrent_port_http: "8111"
 utorrent_port_bt: "6881"
+utorrent_hostname: "utorrent"

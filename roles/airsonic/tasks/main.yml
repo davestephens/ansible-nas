@@ -23,8 +23,10 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "airsonic"
-      traefik.frontend.rule: "Host:airsonic.{{ ansible_nas_domain }}"
       traefik.enable: "{{ airsonic_available_externally }}"
-      traefik.port: "4040"
+      traefik.http.routers.airsonic.rule: "Host(`{{ airsonic_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.airsonic.tls.certresolver: "letsencrypt"
+      traefik.http.routers.airsonic.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.airsonic.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.airsonic.loadbalancer.server.port: "4040"
 

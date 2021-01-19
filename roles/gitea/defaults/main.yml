@@ -6,6 +6,6 @@ gitea_available_externally: "false"
 gitea_data_directory: "{{ docker_home }}/gitea"
 
 # network
-gitea_hostname: "{{ ansible_nas_hostname }}"
+gitea_hostname: "gitea"
 gitea_port_http: "3001"
 gitea_port_ssh: "222"

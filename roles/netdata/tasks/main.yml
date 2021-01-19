@@ -7,7 +7,7 @@
 - name: Netdata Docker Container
   docker_container:
     name: netdata
-    hostname: "{{ netdata_hostname }}"
+    hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
     image: netdata/netdata
     state: started
     pull: true
@@ -26,7 +26,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "netdata"
-      traefik.frontend.rule: "Host:netdata.{{ ansible_nas_domain }}"
       traefik.enable: "{{ netdata_available_externally }}"
-      traefik.port: "19999"
+      traefik.http.routers.netdata.rule: "Host(`{{ netdata_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.netdata.tls.certresolver: "letsencrypt"
+      traefik.http.routers.netdata.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.netdata.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.netdata.loadbalancer.server.port: "19999"

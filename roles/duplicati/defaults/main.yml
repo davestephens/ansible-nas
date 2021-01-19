@@ -1,5 +1,10 @@
 ---
 duplicati_enabled: false
 duplicati_available_externally: "false"
+
+# directories
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
+
+# network
 duplicati_port: "8200"
+duplicati_hostname: "duplicati"

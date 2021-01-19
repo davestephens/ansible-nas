@@ -17,9 +17,10 @@
     env:
       TZ: "{{ ansible_nas_timezone }}"
     labels:
-      traefik.backend: "homeassistant"
-      traefik.frontend.rule: "Host:homeassistant.{{ ansible_nas_domain }}"
       traefik.enable: "{{ homeassistant_available_externally }}"
-      traefik.port: "8123"
-      traefik.frontend.headers.SSLRedirect: "true"
+      traefik.http.routers.homeassistant.rule: "Host(`{{ homeassistant_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.homeassistant.tls.certresolver: "letsencrypt"
+      traefik.http.routers.homeassistant.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.homeassistant.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.homeassistant.loadbalancer.server.port: "8123"
     memory: 1g

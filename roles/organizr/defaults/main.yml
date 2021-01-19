@@ -8,6 +8,7 @@ organizr_data_directory: "{{ docker_home }}/organizr"
 # network
 organizr_port_http: "10081"
 organizr_port_https: "10444"
+organizr_hostname: "organizr"
 
 # uid / gid
 organizr_user_id: "1000"

@@ -9,3 +9,4 @@ airsonic_podcasts_directory: "{{ podcasts_root }}"
 
 # network
 airsonic_port: "4040"
+airsonic_hostname: "airsonic"

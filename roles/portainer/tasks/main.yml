@@ -20,7 +20,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "portainer"
-      traefik.frontend.rule: "Host:portainer.{{ ansible_nas_domain }}"
       traefik.enable: "{{ portainer_available_externally }}"
-      traefik.port: "9000"
+      traefik.http.routers.portainer.rule: "Host(`{{ portainer_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.portainer.tls.certresolver: "letsencrypt"
+      traefik.http.routers.portainer.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.portainer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.portainer.loadbalancer.server.port: "9000"

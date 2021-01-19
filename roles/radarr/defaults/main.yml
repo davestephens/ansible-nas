@@ -13,3 +13,4 @@ radarr_group_id: "0"
 
 # network
 radarr_port: "7878"
+radarr_hostname: "radarr"

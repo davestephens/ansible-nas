@@ -20,6 +20,7 @@ transmission_openvpn_local_network: "192.168.1.0/24"
 transmission_openvpn_webui_port: "9091"
 transmission_openvpn_external_port: "51415"
 transmission_openvpn_proxy_port: "3128"
+transmission_openvpn_hostname: "transmission_openvpn"
 
 # Transmission VPN Credentials
 # If you're using Transmission with a VPN, you'll need to set these credentials.

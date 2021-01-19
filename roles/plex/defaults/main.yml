@@ -22,3 +22,9 @@ plex_tv_permissions: "rw"
 plex_photos_permissions: "rw"
 plex_podcasts_permissions: "rw"
 plex_music_permissions: "rw"
+
+# network
+plex_hostname: "plex"
+
+# specs
+plex_memory: "2g"

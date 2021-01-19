@@ -7,6 +7,7 @@ ombi_config_directory: "{{ docker_home }}/ombi/config"
 
 # network
 ombi_port: "3579"
+ombi_hostname: "ombi"
 
 # uid / gid
 ombi_user_id: "0"

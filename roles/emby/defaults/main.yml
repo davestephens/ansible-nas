@@ -20,3 +20,4 @@ emby_group_id: "0"
 # network
 emby_port_http: "8096"
 emby_port_https: "8920"
+emby_hostname: "emby"

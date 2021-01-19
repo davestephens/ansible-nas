@@ -24,7 +24,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "radarr"
-      traefik.frontend.rule: "Host:radarr.{{ ansible_nas_domain }}"
       traefik.enable: "{{ radarr_available_externally }}"
-      traefik.port: "7878"
+      traefik.http.routers.radarr.rule: "Host(`{{ radarr_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.radarr.tls.certresolver: "letsencrypt"
+      traefik.http.routers.radarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.radarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.radarr.loadbalancer.server.port: "7878"
