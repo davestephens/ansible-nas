@@ -45,7 +45,6 @@ miniflux_enabled: false
 glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
-cloudflare_ddns_enabled: false
 cloudcmd_enabled: false
 virtual_desktop_enabled: false
 krusader_enabled: false
