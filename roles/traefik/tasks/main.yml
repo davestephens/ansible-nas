@@ -11,6 +11,7 @@
   template:
     src: traefik.toml
     dest: "{{ traefik_data_directory }}/traefik.toml"
+  register: template_config
 
 - name: Traefik Docker Container
   docker_container:
@@ -25,3 +26,4 @@
     env: "{{ traefik_environment_variables }}"
     restart_policy: unless-stopped
     memory: 1g
+    recreate: "{{ template_config is changed }}"
