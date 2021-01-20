@@ -1,14 +1,30 @@
+- name: Cloudflare Dynamic DNS  Directories
+  file:
+    path: "{{ cloudflare_data_directory }}"
+    state: directory
+  when: cloudflare_api_key is not defined
+
+- name: Template Cloudflare Dynamic DNS config.yaml with scoped token
+  template:
+    src: cloudflare-ddns/config.yaml
+    dest: "{{ cloudflare_data_directory }}/config.yaml"
+  register: template_files_result
+  when: cloudflare_api_key is not defined
+
+- name: Template Cloudflare Dynamic DNS  config.yaml with api_key (DEPRECATED)
+  template:
+    src: cloudflare-ddns/config-api.yaml
+    dest: "{{ cloudflare_data_directory }}/config.yaml"
+  register: template_files_result_api
+  when: cloudflare_api_key is defined
+
 - name: Cloudflare Dynamic DNS Container
   docker_container:
     name: cloudflare-ddns
     image: joshava/cloudflare-ddns:latest
     pull: true
-    env:
-      ZONE: "{{ cloudflare_zone }}"
-      HOST: "{{ cloudflare_host }}"
-      EMAIL: "{{ cloudflare_email }}"
-      API: "{{ cloudflare_api_key }}"
-      PROXY: "false"
+    volumes:
+      - "{{ cloudflare_data_directory }}/config.yaml:/app/config.yaml"
     restart_policy: unless-stopped
     memory: 512MB
-
+    recreate: "{{ template_files_result is changed or template_files_result_api is changed }}"

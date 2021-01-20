@@ -1,0 +1,9 @@
+auth:
+  globalToken: "{{ cloudflare_api_key }}"
+  email: "{{ cloudflare_email }}"
+domains:
+  - name: "{{ cloudflare_host }}"
+    type: "{{ cloudflare_type }}"
+    proxied: {{ cloudflare_proxy | bool }}
+    create: true
+    zoneName: "{{ cloudflare_zone }}"
