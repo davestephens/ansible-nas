@@ -197,10 +197,6 @@
     when: (glances_enabled | default(False))
     tags: glances
 
-  - import_tasks: tasks/couchpotato.yml
-    when: (couchpotato_enabled | default(False))
-    tags: couchpotato
-
   - import_tasks: tasks/znc.yml
     when: (znc_enabled | default(False))
     tags: znc
