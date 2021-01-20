@@ -63,6 +63,11 @@
         - cloudflare_ddns
       when: (cloudflare_ddns_enabled | default(False))
 
+    - role: couchpotato
+      tags:
+        - couchpotato
+      when: (couchpotato_enabled | default(False))
+
     - role: duplicati
       tags:
         - duplicati

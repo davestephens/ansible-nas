@@ -24,7 +24,6 @@ tautulli_enabled: false
 
 # Media Sourcing
 sonarr_enabled: false         # tv
-couchpotato_enabled: false
 
 get_iplayer_enabled: false
 jackett_enabled: false
@@ -337,17 +336,6 @@ youtubedlmaterial_dl_video_directory: "{{ downloads_root }}/youtube/video"
 youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subscriptions"
 youtubedlmaterial_port_http: "8998"
 
-###
-### Couchpotato
-###
-couchpotato_available_externally: "false"
-couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
-couchpotato_movies_directory: "{{ movies_root }}"
-couchpotato_downloads_directory: "{{ downloads_root }}"
-couchpotato_torrents_directory: "{{ torrents_root }}"
-couchpotato_user_id: "0"
-couchpotato_group_id: "0"
-couchpotato_port: "5050"
 
 ###
 ### OpenVPN
