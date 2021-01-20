@@ -1182,7 +1182,8 @@ host A record to point to your static IP, or enable this container to automatica
 <h2 id="usage">Usage</h2>
 <p>Set <code>cloudflare_ddns_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
 <h2 id="specific-configuration">Specific Configuration</h2>
-<p>Make sure you set your Cloudflare login, domain and API key details within your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>Make sure you set your domain (if different than the ansible-nas default) and access token details within your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file. If you need to create an API token, see https://joshuaavalon.github.io/docker-cloudflare/guide/cloudflare.html#authentication for instructions.</p>
+<p>Cloudflare has deprecated global API key authentication. If you have an older ansible-nas configuration using a global API key, you can upgrade to the API token-based authentication by removing the <code>cloudflare_api_key</code> variable from your local <code>nas.yml</code> configuration file and setting the <code>cloudflare_token</code> variable appropriately.</p>
                 
               
               
