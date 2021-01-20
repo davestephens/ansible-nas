@@ -17,7 +17,8 @@ traefik_port_ui: "8083"
 traefik_docker_image: traefik:v2.3
 traefik_log_level: "INFO"
 
-# find the relevant environment variables for your DNS provider at https://go-acme.github.io/lego/dns/
+# find the relevant name and environment variables for your DNS provider at https://go-acme.github.io/lego/dns/
+traefik_dns_provider: cloudflare
 traefik_environment_variables:
   CF_API_EMAIL: "{{ ansible_nas_email }}"
   CF_API_KEY: "abcdeabcdeabcdeabcde1234512345"
