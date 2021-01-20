@@ -39,8 +39,8 @@
   [certificatesResolvers.letsencrypt]
     [certificatesResolvers.letsencrypt.acme]
       email = "{{ ansible_nas_email }}"
-      storage = "acme.json"
-      caserver = "https://acme-staging-v02.api.letsencrypt.org/directory"
+      storage = "/letsencrypt/acme.json"
+      caserver = "{{ traefik_acme_server }}"
 
       [certificatesResolvers.letsencrypt.acme.dnsChallenge]
-        provider = "cloudflare"
+        provider = "{{ traefik_dns_provider }}"
