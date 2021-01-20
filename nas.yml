@@ -58,6 +58,11 @@
         - bitwarden
       when: (bitwarden_enabled | default(False))
 
+    - role: cloudflare_ddns
+      tags:
+        - cloudflare_ddns
+      when: (cloudflare_ddns_enabled | default(False))
+
     - role: duplicati
       tags:
         - duplicati
@@ -214,10 +219,6 @@
   - import_tasks: tasks/guacamole.yml
     when: (guacamole_enabled | default(False))
     tags: guacamole
-
-  - import_tasks: tasks/cloudflare_ddns.yml
-    when: (cloudflare_ddns_enabled | default(False))
-    tags: cloudflare_ddns
 
   - import_tasks: tasks/minidlna.yml
     when: (minidlna_enabled | default(False))
