@@ -1209,15 +1209,18 @@
 similar functionality.</p>
 <h2 id="usage">Usage</h2>
 <p>Set <code>jellyfin_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file. There are further
-parameters you can edit such as <code>movies_root</code> and <code>tv_root</code> lower down. </p>
+parameters you can edit such as <code>movies_root</code>, <code>tv_root</code> or <code>music_root</code> lower down. </p>
 <h2 id="specific-configuration">Specific Configuration</h2>
 <p>The jellyfin web interface can be found at port 8896 (http) or 8928 (https, if
 configured) of your NAS.</p>
 <p>By default, Ansible-NAS gives jellyfin read/write access to the folders where your
-movies and TV shows are stored. To change this to read-only, edit the following
+movies, TV shows and music are stored. To change this to read-only, edit the following
 lines in <code>all.yml</code>:</p>
 <pre><code>        jellyfin_movies_permissions: &quot;rw&quot;
         jellyfin_tv_permissions: &quot;rw&quot;
+        jellyfin_books_permissions: &quot;rw&quot;
+        jellyfin_audiobooks_permissions: &quot;rw&quot;
+        jellyfin_music_permissions: &quot;rw&quot;
 </code></pre>
 <p>so that they end in <code>ro</code> instead of <code>rw</code>. Note that jellyfin will not be able to
 delete files then, which might be exactly what you want. However, you will not
