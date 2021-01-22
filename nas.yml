@@ -148,6 +148,11 @@
         - sonarr
       when: (sonarr_enabled | default(False))
 
+    - role: syncthing
+      tags:
+        - syncthing
+      when: (syncthing_enabled | default(False))
+
     - role: transmission
       tags:
         - transmission
