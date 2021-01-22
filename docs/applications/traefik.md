@@ -7,7 +7,7 @@ Traefik is a reverse proxy used to provide external access to your Ansible-NAS b
 You can configure which applications are available externally by enabling the `<application_name>_available_externally` setting
 for each application in the Advanced Settings section of your `all.yml`.
 
-See [External Access](configuration/external_access) for more info.
+See [External Access](../configuration/external_access.md) for more info.
 
 ## Usage
 

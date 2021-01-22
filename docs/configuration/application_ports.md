@@ -8,7 +8,7 @@ By default, applications can be found on the ports listed below.
 | Bazarr          | 6767   |              |
 | Bitwarden "hub" | 3012   | Web Not.     |
 | Bitwarden       | 19080  | HTTP         |
-| Calibre         | 8084   | HTTP         |
+| Calibre-web     | 8084   | HTTP         |
 | Cloud Commander | 7373   |              |
 | Couchpotato     | 5050   |              |
 | Duplicati       | 8200   |              |
@@ -18,9 +18,9 @@ By default, applications can be found on the ports listed below.
 | get_iplayer     | 8182   |              |
 | Gitea           | 3001   | Web          |
 | Gitea           | 222    | SSH          |
-| Gitlab          | 4080   | HTTP         |
-| Gitlab          | 4443   | HTTPS        |
-| Gitlab          | 422    | SSH          |
+| GitLab          | 4080   | HTTP         |
+| GitLab          | 4443   | HTTPS        |
+| GitLab          | 422    | SSH          |
 | Glances         | 61208  | SSH          |
 | Grafana         | 3000   |              |
 | Guacamole       | 8090   |              |
@@ -53,7 +53,6 @@ By default, applications can be found on the ports listed below.
 | PyTivo          | 9032   | HTTP         |
 | PyTivo          | 2190   | UDP          |
 | Radarr          | 7878   |              |
-| Serposcope      | 7134   |              |
 | Sickchill       | 8081   |              |
 | Sonarr          | 8989   |              |
 | Tautulli        | 8185   |              |

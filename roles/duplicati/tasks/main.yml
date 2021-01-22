@@ -1,0 +1,29 @@
+---
+- name: Create Duplicati Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ duplicati_data_directory }}"
+
+- name: Dupicati Docker Container
+  docker_container:
+    name: duplicati
+    image: linuxserver/duplicati
+    pull: true
+    ports:
+      - "{{ duplicati_port }}:8200"
+    volumes:
+      - "{{ duplicati_data_directory }}:/config:rw"
+      - "{{ samba_shares_root }}:/source/shares:ro"
+      - "{{ docker_home }}:/source/docker:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.enable: "{{ duplicati_available_externally }}"
+      traefik.http.routers.duplicati.rule: "Host(`{{ duplicati_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.duplicati.tls.certresolver: "letsencrypt"
+      traefik.http.routers.duplicati.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.duplicati.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.duplicati.loadbalancer.server.port: "8200"

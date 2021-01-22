@@ -1,11 +1,11 @@
-- name: Create Calibre Directories
+- name: Create Calibre-web Directories
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ calibre_data_directory }}/config"
 
-- name: Calibre Docker Container
+- name: Calibre-web Docker Container
   docker_container:
     name: calibre
     image: linuxserver/calibre-web:latest
@@ -21,9 +21,11 @@
     ports:
       - "{{ calibre_port }}:8083"
     restart_policy: unless-stopped
-    labels:
-      traefik.backend: "calibre"
-      traefik.frontend.rule: "Host:calibre.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ calibre_available_externally }}"
-      traefik.port: "8083"
     memory: 1g
+    labels:
+      traefik.enable: "{{ calibre_available_externally }}"
+      traefik.http.routers.calibre.rule: "Host(`calibre.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.calibre.tls.certresolver: "letsencrypt"
+      traefik.http.routers.calibre.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.calibre.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.calibre.loadbalancer.server.port: "8083"

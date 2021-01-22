@@ -11,13 +11,14 @@
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/timezone:/etc/timezone:ro"
     pid_mode: host
-    network_mode: host
     env:
       GLANCES_OPT: "-w"
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "glances"
-      traefik.frontend.rule: "Host:glances.{{ ansible_nas_domain }}"
       traefik.enable: "{{ glances_available_externally }}"
-      traefik.port: "61208"
+      traefik.http.routers.glances.rule: "Host(`glances.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.glances.tls.certresolver: "letsencrypt"
+      traefik.http.routers.glances.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.glances.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.glances.loadbalancer.server.port: "61208"

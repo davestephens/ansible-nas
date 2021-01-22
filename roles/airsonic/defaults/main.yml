@@ -1,0 +1,12 @@
+---
+airsonic_enabled: false
+airsonic_available_externally: "false"
+
+# directories
+airsonic_data_directory: "{{ docker_home }}/airsonic"
+airsonic_music_directory: "{{ music_root }}"
+airsonic_podcasts_directory: "{{ podcasts_root }}"
+
+# network
+airsonic_port: "4040"
+airsonic_hostname: "airsonic"

@@ -1,0 +1,51 @@
+---
+- name: Create Nextcloud directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ nextcloud_data_directory }}/nextcloud"
+    - "{{ nextcloud_data_directory }}/mysql"
+
+- name: Nextcloud Mysql Docker Container
+  docker_container:
+    name: nextcloud-mysql
+    image: mysql:5.7
+    pull: true
+    volumes:
+      - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: "nextcloud"
+      MYSQL_USER: "{{ nextcloud_sql_user }}"
+      MYSQL_PASSWORD: "{{ nextcloud_sql_pass }}"
+      MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_secret }}"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: Nextcloud Docker Container
+  docker_container:
+    name: nextcloud
+    image: nextcloud:14
+    pull: true
+    links:
+        - nextcloud-mysql:mysql
+    volumes:
+      - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
+    ports:
+      - "{{ nextcloud_port }}:80"
+    env:
+      MYSQL_HOST: "mysql"
+      MYSQL_DATABASE: "nextcloud"
+      MYSQL_USER: "{{ nextcloud_sql_user }}"
+      MYSQL_PASSWORD: "{{ nextcloud_sql_pass }}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ ansible_nas_domain }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.enable: "{{ nextcloud_available_externally }}"
+      traefik.http.routers.nextcloud.rule: "Host(`{{ nextcloud_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.nextcloud.tls.certresolver: "letsencrypt"
+      traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+
