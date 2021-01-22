@@ -16,9 +16,9 @@
       - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
       MYSQL_DATABASE: "nextcloud"
-      MYSQL_USER: "nextcloud-user"
-      MYSQL_PASSWORD: "nextcloud-pass"
-      MYSQL_ROOT_PASSWORD: "nextcloud-secret"
+      MYSQL_USER: "{{ nextcloud_sql_user }}"
+      MYSQL_PASSWORD: "{{ nextcloud_sql_pass }}"
+      MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_secret }}"
     restart_policy: unless-stopped
     memory: 1g
 
@@ -36,9 +36,9 @@
     env:
       MYSQL_HOST: "mysql"
       MYSQL_DATABASE: "nextcloud"
-      MYSQL_USER: "nextcloud-user"
-      MYSQL_PASSWORD: "nextcloud-pass"
-      NEXTCLOUD_TRUSTED_DOMAINS: "nextcloud.{{ ansible_nas_domain }}"
+      MYSQL_USER: "{{ nextcloud_sql_user }}"
+      MYSQL_PASSWORD: "{{ nextcloud_sql_pass }}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ ansible_nas_domain }}"
     restart_policy: unless-stopped
     memory: 1g
     labels:
@@ -48,3 +48,4 @@
       traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+

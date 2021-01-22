@@ -84,7 +84,6 @@ pytivo_enabled: false
 ### General
 ###
 
-
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
 
