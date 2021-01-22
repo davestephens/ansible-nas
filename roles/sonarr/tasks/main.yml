@@ -25,7 +25,7 @@
     memory: 1g
     labels:
       traefik.enable: "{{ sonarr_available_externally }}"
-      traefik.http.routers.sonarr.rule: "Host(`sonarr.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.sonarr.rule: "Host(`{{ sonarr_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.sonarr.tls.certresolver: "letsencrypt"
       traefik.http.routers.sonarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.sonarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

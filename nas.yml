@@ -143,6 +143,11 @@
         - sickchill
       when: (sickchill_enabled | default(False))
 
+    - role: sonarr
+      tags:
+        - sonarr
+      when: (sonarr_enabled | default(False))
+
     - role: transmission
       tags:
         - transmission
@@ -188,10 +193,6 @@
   - import_tasks: tasks/mylar.yml
     when: (mylar_enabled | default(False))
     tags: mylar
-
-  - import_tasks: tasks/sonarr.yml
-    when: (sonarr_enabled | default(False))
-    tags: sonarr
 
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))
