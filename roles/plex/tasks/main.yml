@@ -22,10 +22,12 @@
       - "{{ plex_podcasts_directory }}:/podcasts:{{ plex_podcasts_permissions }}"
       - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
     network_mode: "host"
+    devices: "{{ plex_devices | default(omit) }}"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ plex_user_id }}"
       PGID: "{{ plex_group_id }}"
+      VERSION: "{{ plex_version }}"
     restart_policy: unless-stopped
     memory: "{{ plex_memory }}"
     labels:
