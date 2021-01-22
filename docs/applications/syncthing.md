@@ -1,7 +1,7 @@
 # Syncthing: Open Source Continuous File Synchronisation
 
-Homepage: [https://syncthing.net/](https://syncthing.net/)  
-Github: [https://github.com/syncthing/syncthing](https://github.com/syncthing/syncthing)  
+Homepage: [https://syncthing.net/](https://syncthing.net/)
+Github: [https://github.com/syncthing/syncthing](https://github.com/syncthing/syncthing)
 Docker: [https://hub.docker.com/r/syncthing/syncthing](https://hub.docker.com/r/syncthing/syncthing)
 
 Syncthing is a continuous file synchronization program. It synchronizes files
@@ -18,18 +18,8 @@ Syncthing should be:
 
 ## Usage
 
-Set `syncthing_enabled: true` in your `group_vars/all.yml` file.
+Set `syncthing_enabled: true` in your `\inventories\[my inventory]\group_vars\nas.yml` file.
 
 ## Specific Configuration
 
 Open the web interface at :8384 to configure.
-
-The tasks/syncthing.yml sets
-```yaml
-    env:
-      STGUIADDRESS: ""
-```
-which disables admin GUI access from anywhere except localhost. You can either
-remove this (at which point it is visible to your whole network), or use
-Traefik. In either case you should consider setting an admin password in the
-syncthing GUI.
