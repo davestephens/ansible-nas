@@ -29,7 +29,7 @@ By default, applications can be found on the ports listed below.
 | Heimdall        |	10443	| Bridge  | HTTPS
 | Home Assistant  |	8123	| Host	  | HTTP
 | Homebridge      |	8087	| Host	  | HTTP
-| InfluxDB        |8086	    | Bridge  | HTTP
+| InfluxDB        | 8086    | Bridge  | HTTP
 | Jackett         |	9117	| Bridge  | HTTP
 | Jellyfin        |	8896	| Bridge  | HTTP
 | Jellyfin        |	8928	| Bridge  | HTTPS
