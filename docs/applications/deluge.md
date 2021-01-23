@@ -13,13 +13,28 @@
 
 ## Usage
 
-Set `deluge_enabled: true` in your `roles/deluge/main.yml` file.
+Set `deluge_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-Deluge's web interface can be found at http://ansible_nas_host_or_ip:32030
+Deluge's web interface can be found at http://ansible_nas_host_or_ip:8112
 
-Upon first viewing you will be prompted for a password. The default is `deluge` It is recommended that you change this password in the prefernces menu.
+Upon first viewing you will be prompted for a password. The default is `deluge` It is recommended that you change this password in the preferences menu.
 
 **Please note that having multiple downloaders watching the same watchfolder, problems may occur.**
+
+## Specific Configuration
+
+The admin interface is available at `http://SERVER-IP:32030` with a default user/password of admin/deluge.
+
+To change the password (recommended) log in to the web interface and go to Preferences->Interface->Password.
+
+Change the downloads location in the webui in Preferences->Downloads and use /downloads for completed downloads.
+
+
+**This information was compiled from `https://dev.deluge-torrent.org/` & `https://github.com/linuxserver/docker-deluge/blob/master/README.md`
+
+
+## Advanced
+**The Parameters are informational for advanced users only.**
 
 ## Parameters
 
@@ -47,14 +62,3 @@ In this instance `PUID=1000` and `PGID=1000`, to find yours use `id user` as bel
   $ id username
     uid=1000(dockeruser) gid=1000(dockergroup) groups=1000(dockergroup)
 ```
-
-## Specific Configuration
-
-The admin interface is available at `http://SERVER-IP:32030` with a default user/password of admin/deluge.
-
-To change the password (recommended) log in to the web interface and go to Preferences->Interface->Password.
-
-Change the downloads location in the webui in Preferences->Downloads and use /downloads for completed downloads.
-
-
-**This information was compiled from `https://dev.deluge-torrent.org/` & `https://github.com/linuxserver/docker-deluge/blob/master/README.md`
