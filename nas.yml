@@ -1,9 +1,5 @@
 ---
 - hosts: all
-  remote_user: servermaster
-  become: yes
-  become_method: sudo
-  ignore_errors: yes
 
   pre_tasks:
     - import_tasks: tasks/users.yml
@@ -196,21 +192,6 @@
     when: (tautulli_enabled | default(False))
     tags: tautulli
 
-<<<<<<< HEAD
-=======
-  - import_tasks: tasks/transmission.yml
-    when: (transmission_enabled | default(False))
-    tags: transmission
-
-  - import_tasks: tasks/transmission_with_openvpn.yml
-    when: (transmission_with_openvpn_enabled | default(False))
-    tags: transmission
-
-  - import_tasks: tasks/deluge.yml
-    when: (deluge_enabled | default(False))
-    tags: deluge
-
->>>>>>> 1a9ff54f99b99b633143e0f95321c9b1d830309a
   - import_tasks: tasks/pyload.yml
     when: (pyload_enabled | default(False))
     tags: pyload
