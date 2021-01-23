@@ -22,6 +22,15 @@
     restart_policy: unless-stopped
     memory: 1g
 
+- name: Read in Nextcloud version
+  shell: "grep -oP \"OC_VersionString = '\\d{2}.\\d{1,}.\\d{1,}';\" {{ nextcloud_data_directory }}/nextcloud/version.php | grep -oP \"'\\d{2}\" | grep -oP \"\\d{2}\""
+  register: nextcloud_version
+
+
+- name: Print version
+  ansible.builtin.debug:
+          msg: "Nextcloud version: {{ nextcloud_version['stdout'] }}"
+
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
