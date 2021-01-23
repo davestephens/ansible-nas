@@ -68,6 +68,11 @@
         - couchpotato
       when: (couchpotato_enabled | default(False))
 
+    - role: deluge
+      tags:
+        - deluge
+      when: (deluge_enabled | default(False))
+
     - role: duplicati
       tags:
         - duplicati
@@ -162,11 +167,6 @@
       tags:
         - transmission_with_openvpn_enabled
       when: (transmission_with_openvpn_enabled | default(False))
-
-    - role: deluge
-      tags:
-        - deluge
-      when: (deluge_enabled | default(False))
 
     - role: utorrent
       tags:

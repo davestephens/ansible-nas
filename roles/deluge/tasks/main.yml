@@ -15,7 +15,7 @@
     pull: true
     volumes:
       - "{{ deluge_config_directory }}:/config:rw"
-      - "{{ deluge_download_directory }}:root/Downloads:rw"
+      - "{{ deluge_download_directory }}:/root/Downloads:rw"
     ports:
       - "{{ deluge_port }}:8112"
     env:

@@ -15,7 +15,7 @@ deluge_group_id: "0"
 deluge_log_level: "error"
 
 # network
-deluge_port: "32030"
+deluge_port: "8112"
 deluge_hostname: "deluge"
 
 deluge_timezone: "{{ ansible_nas_timezone }}"
