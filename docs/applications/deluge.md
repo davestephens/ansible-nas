@@ -40,14 +40,14 @@ Change the downloads location in the webui in Preferences->Downloads and use /do
 
 | Parameter | Function |
 | :----: | --- |
-| `--net=bridge` | Shares host networking with container, **required**. |
-| `-e PUID=1000` | for UserID - see below for explanation |
-| `-e PGID=1000` | for GroupID - see below for explanation |
-| `-e TZ=America/Anchorage` | Specify a timezone to use |
-| `-e UMASK_SET=022` | for umask setting of deluge, default if left unset is 022 |
-| `-e DELUGE_LOGLEVEL=error` | set the loglevel output when running Deluge, default is info for deluged and warning for delgued-web |
-| `-v /config` | deluge configs |
-| `-v /downloads` | torrent download directory |
+| `network: bridge` | Shares host networking with container, **required**. |
+| `PUID: "{{ deluge_user_id }}"` | for UserID - see below for explanation |
+| `PGID: "{{ deluge_group_id }}"` | for GroupID - see below for explanation |
+| `TZ: "{{ deluge_timezone }}"` | Specify a timezone to use |
+| `UMASK_SET: 022` | for umask setting of deluge, default if left unset is 022 *not used by ansible-nas by default* |
+| `DELUGE_LOGLEVEL: error` | set the loglevel output when running Deluge, default is info for deluged and warning for delgued-web *not used by ansible-nas by default* |
+| `volumes: "{{ deluge_config_directory }}:/config:rw"` | deluge configs |
+| `volumes: "{{ deluge_download_directory }}:/root/Downloads:rw"` | torrent download directory |
 
 
 ## User / Group Identifiers
