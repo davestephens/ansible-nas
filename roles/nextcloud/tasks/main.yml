@@ -29,12 +29,12 @@
 
 - name: Print version
   ansible.builtin.debug:
-          msg: "Nextcloud version: {{ nextcloud_version['stdout'] }}"
+          msg: "Nextcloud version: nextcloud:{{ nextcloud_version['stdout'] }}"
 
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
-    image: nextcloud:14
+    image: "nextcloud:{{nextcloud_version['stdout']}}"
     pull: true
     links:
         - nextcloud-mysql:mysql
