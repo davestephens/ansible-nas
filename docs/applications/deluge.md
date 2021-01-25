@@ -17,6 +17,6 @@ Upon first viewing you will be prompted for a password. The default is `deluge` 
 
 ## Specific Configuration
 
-The admin interface is available at `http://SERVER-IP:32030` with a default user/password of admin/deluge.
+The admin interface is available at `http://SERVER-IP:8112` with a default user/password of admin/deluge.
 
 **This information was compiled from [https://dev.deluge-torrent.org/] & [https://github.com/linuxserver/docker-deluge/blob/master/README.md]
