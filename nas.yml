@@ -113,6 +113,11 @@
         - nextcloud
       when: (nextcloud_enabled | default(False))
 
+    - role: openvpn-client
+      tags:
+        - openvpn_client
+      when: (openvpn_client_enabled | default(False))
+
     - role: organizr
       tags:
         - organizr

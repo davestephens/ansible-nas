@@ -1,0 +1,38 @@
+# .travis.yml Execution script for role tests on Travis-CI
+---
+sudo: required
+
+env:
+  matrix:
+    - DISTRIBUTION: centos
+      VERSION: 7
+    - DISTRIBUTION: ubuntu
+      VERSION: 18.04
+    - DISTRIBUTION: debian
+      VERSION: 9
+    - DISTRIBUTION: fedora
+      VERSION: 28
+
+services:
+  - docker
+
+before_install:
+  # Install latest Git
+  - sudo apt-get update
+  - sudo apt-get install --only-upgrade git
+  - sudo apt-get install smbclient
+  # Allow fetching other branches than master
+  - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+  # Fetch the branch with test code
+  - git fetch origin docker-tests
+  - git worktree add docker-tests origin/docker-tests
+
+script:
+  # Create container and apply test playbook
+  - ./docker-tests/docker-tests.sh
+
+  # Run functional tests on the container
+  - SUT_IP=172.17.0.2 ./docker-tests/functional-tests.sh
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

@@ -1,6 +1,6 @@
 ---
-portainer_enabled: false
-portainer_available_externally: "false"
+portainer_enabled: true
+portainer_available_externally: "true"
 
 # directories
 portainer_data_directory: "{{ docker_home }}/portainer/config"

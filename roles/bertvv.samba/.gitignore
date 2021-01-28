@@ -1,0 +1,16 @@
+# .gitignore
+
+# Hidden Vagrant-directory
+.vagrant
+
+# Backup files (e.g. Vim, Gedit, etc.)
+*~
+
+# Vagrant base boxes (you never know when someone puts one in the repository)
+*.box
+
+# Compiled Python
+*.pyc
+
+# Test directories. These are Git worktrees to separate test branches
+*-tests/

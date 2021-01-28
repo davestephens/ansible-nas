@@ -1,0 +1,25 @@
+
+---
+- name: Create Openvpn-Client Directories
+  file:
+    path: "{{ openvpn_client_config_directory }}"
+    state: directory
+
+- name: Openvpn-Client Docker Container
+  docker_container:
+    name: openvpn-client
+    image: dperson/openvpn-client
+    pull: true
+    volumes:
+      - "{{ openvpn_client_config_directory }}:/config:rw"
+    ports:
+      - "{{ openvpn_client_port }}:3579"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      DNS: "8.8.8.8"
+    restart_policy: unless-stopped
+    memory: 1g
+    device: /dev/net/tun
+    privileged: true
+    cap_add:
+      - NET_ADMIN

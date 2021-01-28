@@ -1,0 +1,146 @@
+# Samba configuration -- Managed by Ansible, please don't edit manually
+# vim: ft=samba
+#
+# {{ ansible_managed }}
+
+[global]
+  # Server information
+  netbios name = {% if samba_netbios_name is defined %}{{ samba_netbios_name }}{% else %}{{ ansible_hostname }}{% endif %}
+
+  workgroup = {{ samba_workgroup }}
+{% if samba_realm is defined %}
+  realm = {{ samba_realm }}
+{% endif %}
+  server string = {{ samba_server_string }}
+
+{% if samba_apple_extensions is defined %}
+  fruit:aapl = yes
+{% endif %}
+
+  # Logging
+{% if samba_log is defined %}
+  log file = {{ samba_log }}
+  max log size = {{ samba_log_size }}
+  log level = {{ samba_log_level }}
+{% else %}
+  logging = syslog
+{% endif %}
+
+  # Authentication
+  security = {{ samba_security }}
+  passdb backend = {{ samba_passdb_backend }}
+  map to guest = {{ samba_map_to_guest }}
+{% if samba_guest_account  is defined %}
+  guest account = {{ samba_guest_account }}
+{% endif %}
+{% if samba_username_map is defined %}
+  username map = {{ samba_username_map_file }}
+{% endif %}
+
+{% if samba_server_min_protocol is defined %}
+  # Minimum protocol version offered by the server
+  server min protocol = {{ samba_server_min_protocol }}
+
+{% endif %}
+{% if samba_server_max_protocol is defined %}
+  # Maximum protocol version offered by the server
+  server max protocol = {{ samba_server_max_protocol }}
+
+{% endif %}
+{% if samba_interfaces|length > 0 %}
+  interfaces = {{ samba_interfaces }}
+
+{% endif %}
+  # Name resolution: make sure \\NETBIOS_NAME\ works
+  wins support = {{ samba_wins_support | ternary('yes', 'no') }}
+  local master = {{ samba_local_master | ternary('yes', 'no') }}
+  domain master = {{ samba_domain_master | ternary('yes', 'no') }}
+  preferred master = {{ samba_preferred_master | ternary('yes', 'no') }}
+
+{% if not samba_load_printers %}
+  # Don't load printers
+  load printers = no
+  printing = bsd
+  printcap name = /dev/null
+  disable spoolss = yes
+{% else %}
+  load printers = yes
+  printing = {{ samba_printer_type }}
+  printcap name = {{ samba_printer_type }}
+  {% if samba_printer_type == 'cups' %}
+    cups server = {{ samba_cups_server }}
+  {% endif %}
+{% endif %}
+
+{% if samba_mitigate_cve_2017_7494 and samba_version.stdout >= "3.5.0" and samba_version.stdout < "4.6.4" %}
+  # Fix for CVE-2017-7494 in Samba versions from 3.5.0 and before 4.6.4
+  # https://access.redhat.com/security/cve/cve-2017-7494
+  nt pipe support = no
+{% endif %}
+
+{% if samba_global_include is defined %}
+  include = {{ samba_configuration_dir }}/{{ samba_global_include }}
+{% endif %}
+
+{% if samba_load_homes %}
+## Make home directories accessible
+[homes]
+  comment = Home Directories
+  browseable = no
+  writable = yes
+{% endif %}
+
+{% if samba_homes_include is defined %}
+  include = {{ samba_configuration_dir }}/{{ samba_homes_include }}
+{% endif %}
+
+{% if samba_shares|length > 0 %}
+## Shared directories
+{% for share in samba_shares %}
+[{{ share.name }}]
+{% if share.comment is defined %}
+  comment = {{ share.comment }}
+{% endif %}
+{% if share.vfs_objects is defined and share.vfs_objects|length > 0 %}
+  vfs objects = {% for obj in share.vfs_objects %}{{obj.name}} {% endfor %}
+
+{% for obj in share.vfs_objects %}
+{% if obj.options is defined %}
+{% if obj.options|length > 0 %}
+{% for opt in obj.options %}
+  {{ obj.name }}:{{ opt.name }} = {{ opt.value }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}{% endif %}
+  path = {{ share.path|default([samba_shares_root,share.name]|join('/')) }}
+  public = {{ share.public|default('no') }}
+{% if share.valid_users is defined %}
+  valid users= {{ share.valid_users }}
+{% endif %}
+{% if share.write_list is defined %}
+  write list = {{ share.write_list }}
+{% endif %}
+{% if share.group is defined %}
+  force group = {{ share.group }}
+{% endif %}
+{% if share.guest_ok is defined %}
+  guest ok = {{ share.guest_ok }}
+{% endif %}
+{% if share.browseable is defined %}
+  browseable = {{ share.browseable }}
+{% endif %}
+{% if share.writable is defined %}
+  writable = {{ share.writable }}
+{% endif %}
+  create mode = {{ share.create_mode|default('0664') }}
+  force create mode = {{ share.force_create_mode|default('0664') }}
+  directory mode = {{ share.directory_mode|default('0775') }}
+  force directory mode = {{ share.force_directory_mode|default('0775') }}
+{% if share.include_file is defined %}
+  include = {{ samba_configuration_dir }}/{{ share.include_file }}
+{% endif %}
+
+{% endfor %}
+{% endif%}
+

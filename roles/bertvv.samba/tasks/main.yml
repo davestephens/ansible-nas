@@ -1,0 +1,154 @@
+# File: roles/samba/tasks/main.yml
+---
+
+- name: Include OS specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "os_{{ ansible_distribution }}.yml"
+    - "os_{{ ansible_os_family }}.yml"
+  tags: samba
+
+- name: Install Samba packages
+  package:
+    name: "{{ samba_packages }}"
+    state: present
+  tags: samba
+
+- name: Install Samba VFS extensions packages
+  package:
+    name: "{{ samba_vfs_packages }}"
+    state: present
+  when: samba_vfs_packages is defined
+  tags: samba
+
+- name: Register Samba version
+  shell: "smbd --version | sed 's/Version //'"
+  register: samba_version
+  changed_when: false
+  tags: samba
+
+# - name: "Installed Samba version:"
+#   debug:
+#     msg: "{{ samba_version }}"
+#   tags: samba
+
+- name: Install SELinux package
+  package:
+    name: "{{ samba_selinux_packages }}"
+    state: present
+  when: ansible_selinux is defined and ansible_selinux.status == 'enabled'
+  tags: samba
+
+- name: Make sure SELinux boolean settings are correct
+  seboolean:
+    name: "{{ item }}"
+    state: true
+    persistent: true
+  with_items: "{{ samba_selinux_booleans }}"
+  when: ansible_selinux is defined and ansible_selinux.status == 'enabled'
+  tags: samba
+
+- name: Create Samba shares root directory
+  file:
+    state: directory
+    path: "{{ samba_shares_root }}"
+    owner: root
+    group: root
+    mode: '0755'
+  when: samba_shares|length > 0
+  tags: samba
+
+- name: Create share directories
+  with_items: "{{ samba_shares }}"
+  file:
+    state: directory
+    path: "{{ item.path|default([samba_shares_root,item.name]|join('/')) }}"
+    owner: "{{ item.owner|default('root') }}"
+    group: "{{ item.group|default('users') }}"
+    mode: "{{ item.directory_mode|default('0775') }}"
+    setype: "{{ item.setype|default('samba_share_t') }}"
+  tags: samba
+
+- name: Ensure webserver document root exists
+  file:
+    name: "{{ samba_www_documentroot }}"
+    state: directory
+  when: samba_create_varwww_symlinks|bool
+  tags: samba
+
+- name: Create link to shares in webserver document root
+  file:
+    state: link
+    path: "{{ samba_www_documentroot }}/{{ item.name }}"
+    src: "{{ item.path|default([samba_shares_root,item.name]|join('/')) }}"
+  with_items: "{{ samba_shares }}"
+  when: samba_create_varwww_symlinks|bool
+  tags: samba
+
+- name: Samba configuration
+  template:
+    dest: "{{ samba_configuration }}"
+    src: smb.conf.j2
+    validate: 'testparm -s %s'
+  notify:
+    - Restart Samba services
+  tags: samba
+
+- name: Install global include file
+  template:
+    src: "{{ samba_global_include }}"
+    dest: "{{ samba_configuration_dir }}"
+    validate: 'testparm -s %s'
+  when: samba_global_include is defined
+  notify:
+    - Restart Samba services
+  tags: samba
+
+- name: Install home include file
+  template:
+    src: "{{ samba_homes_include }}"
+    dest: "{{ samba_configuration_dir }}"
+    validate: 'testparm -s %s'
+  when: samba_homes_include is defined
+  notify:
+    - Restart Samba services
+  tags: samba
+
+- name: Install share specific include files
+  template:
+    src: "{{ item.include_file }}"
+    dest: "{{ samba_configuration_dir }}"
+    validate: 'testparm -s %s'
+  when: item.include_file is defined
+  notify:
+    - Restart Samba services
+  with_items: "{{ samba_shares }}"
+  tags: samba
+
+- name: Create username map file if needed
+  template:
+    dest: "{{ samba_username_map_file }}"
+    src: smbusers.j2
+  notify:
+    - Restart Samba services
+  when: samba_username_map is defined
+  tags: samba
+
+- name: Start Samba service(s)
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items: "{{ samba_services }}"
+  tags: samba
+
+- name: Create Samba users if they don't exist yet
+  shell: >
+    (pdbedit --user={{ item.name }} 2>&1 > /dev/null) \
+    || (echo {{ item.password }}; echo {{ item.password }}) \
+    | smbpasswd -s -a {{ item.name }}
+  with_items: "{{ samba_users }}"
+  no_log: true
+  register: create_user_output
+  changed_when: "'Added user' in create_user_output.stdout"
+  tags: samba

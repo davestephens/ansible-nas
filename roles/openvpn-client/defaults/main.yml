@@ -1,0 +1,5 @@
+openvpn_client_enabled: true
+
+openvpn_client_port: 32666
+
+openvpn_client_config_directory: "{{ docker_home }}/openvpn_client"

@@ -4,7 +4,7 @@
 # home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
 # You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
 # settings.
-traefik_enabled: false
+traefik_enabled: true
 
 # directories
 traefik_data_directory: "{{ docker_home }}/traefik"

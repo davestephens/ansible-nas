@@ -1,0 +1,7 @@
+# File: roles/samba/handlers/main.yml
+---
+- name: Restart Samba services
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items: "{{ samba_services }}"
