@@ -13,14 +13,14 @@
         <meta name="author" content="David Stephens">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/youtubedlmaterial/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/n8n/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.6">
     
     
       
-        <title>YouTubeDL-Material - Ansible-NAS</title>
+        <title>Nodemation (n8n) - Ansible-NAS</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#youtubedl-material" class="md-skip">
+        <a href="#nodemation-n8n" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              YouTubeDL-Material
+              Nodemation (n8n)
             
           </span>
         </div>
@@ -674,11 +674,49 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../n8n/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Nodemation (n8n)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Nodemation (n8n)
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -926,56 +964,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          YouTubeDL-Material
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../youtubedlmaterial/" class="md-nav__link">
         YouTubeDL-Material
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1163,13 +1156,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1182,21 +1168,19 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/youtubedlmaterial.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/n8n.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="youtubedl-material">YouTubeDL-Material</h1>
-<p>Homepage: <a href="https://github.com/Tzahi12345/YoutubeDL-Material">https://github.com/Tzahi12345/YoutubeDL-Material</a>
-Docker Container: <a href="https://hub.docker.com/r/tzahi12345/youtubedl-material">https://hub.docker.com/r/tzahi12345/youtubedl-material</a></p>
-<p>YoutubeDL-Material is a Material Design frontend for youtube-dl. It's coded using Angular 9 for the frontend, and Node.js on the backend.</p>
+                <h1 id="nodemation-n8n">Nodemation (n8n)</h1>
+<p>Homepage: <a href="https://n8n.io">ihttps://n8n.io</a></p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>youtubedlmaterial_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
-<p>The YouTubeDL-Material web interface can be found at http://ansible_nas_host_or_ip:8998.</p>
-<h2 id="specific-configuration">Specific Configuration</h2>
-<p>A YouTube directory will be created in your configured downloads spot. YouTubeDL-Material downloads will be placed there.
-You can change the download location via <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>Set <code>n8n_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>n8n is secured by default, he user and password can be set with:
+* n8n_basic_auth_user: "<user name>"
+* n8n_basic_auth_password: "<user password>"</p>
+<p>The default for these is "n8n_user" and "n8n_change_me" respectively, it is recommended to change these.</p>
                 
               
               
@@ -1215,7 +1199,7 @@ You can change the download location via <code>inventories/&lt;your_inventory&gt
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../watchtower/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../mymediaforalexa/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -1224,19 +1208,19 @@ You can change the download location via <code>inventories/&lt;your_inventory&gt
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Watchtower
+                My Media for Alexa
               </div>
             </div>
           </a>
         
         
-          <a href="../../configuration/application_ports/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../nextcloud/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Application Ports
+                Nextcloud
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
