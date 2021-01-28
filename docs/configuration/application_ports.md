@@ -12,6 +12,7 @@ By default, applications can be found on the ports listed below.
 | Cloud Commander | 7373   |              |
 | Couchpotato     | 5050   |              |
 | Duplicati       | 8200   |              |
+| Deluge          | 8112   | HTTP         |
 | Emby            | 8096   | HTTP         |
 | Emby            | 8920   | HTTPS        |
 | Firefly III     | 8066   |              |
