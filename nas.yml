@@ -103,6 +103,11 @@
         - lidarr
       when: (lidarr_enabled | default(False))
 
+    - role: n8n
+      tags:
+        - n8n_enabled
+      when: (n8n_enabled | default(False))
+
     - role: netdata
       tags:
         - netdata
