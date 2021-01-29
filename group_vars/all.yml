@@ -16,7 +16,6 @@
 ###
 
 # Media Sourcing
-jackett_enabled: false
 minidlna_enabled: false
 jellyfin_enabled: false
 
@@ -420,14 +419,6 @@ minidlna_port: "8201"
 ###
 mymediaforalexa_media_directory: "{{ music_root }}"
 mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
-
-###
-### Jackett
-###
-jackett_available_externally: "false"
-jackett_data_directory: "{{ docker_home }}/jackett"
-jackett_torrents_root: "{{ torrents_root }}"
-jackett_port: "9117"
 
 ###
 ### The Lounge

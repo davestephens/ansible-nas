@@ -98,6 +98,11 @@
         - homeassistant
       when: (homeassistant_enabled | default(False))
 
+    - role: jackett
+      tags:
+        - jackett
+      when: (jackett_enabled | default(False))
+
     - role: lidarr
       tags:
         - lidarr
@@ -251,10 +256,6 @@
   - import_tasks: tasks/mymediaforalexa.yml
     when: (mymediaforalexa_enabled | default(False))
     tags: mymediaforalexa
-
-  - import_tasks: tasks/jackett.yml
-    when: (jackett_enabled | default(False))
-    tags: jackett
 
   - import_tasks: tasks/joomla.yml
     when: (joomla_enabled | default(False))
