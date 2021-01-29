@@ -15,15 +15,7 @@
 ### Ansible-NAS Applications
 ###
 
-# Downloading
-nzbget_enabled: false
-pyload_enabled: false
-
-# Media Serving
-tautulli_enabled: false
-
 # Media Sourcing
-get_iplayer_enabled: false
 jackett_enabled: false
 minidlna_enabled: false
 jellyfin_enabled: false
@@ -271,16 +263,6 @@ joomla_database_password: top_secret
 joomla_port: "8181"
 
 ###
-### pyLoad
-###
-pyload_available_externally: "false"
-pyload_config_directory: "{{ docker_home }}/pyload"
-pyload_download_directory: "{{ downloads_root }}"
-pyload_user_id: "0"
-pyload_group_id: "0"
-pyload_port: "8000"
-
-###
 ### PyTivo
 ###
 pytivo_available_externally: "false"
@@ -301,16 +283,6 @@ homebridge_config_directory: "{{ docker_home }}/homebridge/config"
 homebridge_user_id: "0"
 homebridge_group_id: "0"
 homebridge_port: "8087"
-
-
-###
-### Tautulli
-###
-tautulli_available_externally: "false"
-tautulli_config_directory: "{{ docker_home }}/tautulli/config"
-tautulli_user_id: "0"
-tautulli_group_id: "0"
-tautulli_port: "8185"
 
 ###
 ### Mylar
@@ -444,13 +416,6 @@ minidlna_friendly_name: "{{ ansible_nas_hostname }}"
 minidlna_port: "8201"
 
 ###
-### get_iplayer
-###
-get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
-get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
-get_iplayer_port: "8182"
-
-###
 ### mymediaforalexa
 ###
 mymediaforalexa_media_directory: "{{ music_root }}"
@@ -478,16 +443,6 @@ thelounge_port_two: "9002"
 firefly_available_externally: "false"
 firefly_data_directory: "{{ docker_home }}/firefly"
 firefly_port: "8066"
-
-###
-### Nzbget
-###
-nzbget_available_externally: "false"
-nzbget_data_directory: "{{ docker_home }}/nzbget"
-nzbget_download_directory: "{{ downloads_root }}"
-nzbget_user_id: "0"
-nzbget_group_id: "0"
-nzbget_port: "6789"
 
 ###
 ### Wallabag

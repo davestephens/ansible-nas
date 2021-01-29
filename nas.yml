@@ -118,6 +118,11 @@
         - nextcloud
       when: (nextcloud_enabled | default(False))
 
+    - role: nzbget
+      tags:
+        - nzbget
+      when: (nzbget_enabled | default(False))
+
     - role: organizr
       tags:
         - organizr
@@ -127,6 +132,11 @@
       tags:
         - portainer
       when: (portainer_enabled | default(False))
+
+    - role: pyload
+      tags:
+        - pyload
+      when: (pyload_enabled | default(False))
 
     - role: ombi
       tags:
@@ -163,6 +173,11 @@
         - syncthing
       when: (syncthing_enabled | default(False))
 
+    - role: tautulli
+      tags:
+        - tautulli
+      when: (tautulli_enabled | default(False))
+
     - role: transmission
       tags:
         - transmission
@@ -192,14 +207,6 @@
   - import_tasks: tasks/firefly.yml
     when: (firefly_enabled | default(False))
     tags: firefly
-
-  - import_tasks: tasks/tautulli.yml
-    when: (tautulli_enabled | default(False))
-    tags: tautulli
-
-  - import_tasks: tasks/pyload.yml
-    when: (pyload_enabled | default(False))
-    tags: pyload
 
   - import_tasks: tasks/thelounge.yml
     when: (thelounge_enabled | default(False))
@@ -241,10 +248,6 @@
     when: (minidlna_enabled | default(False))
     tags: minidlna
 
-  - import_tasks: tasks/get_iplayer.yml
-    when: (get_iplayer_enabled | default(False))
-    tags: get_iplayer
-
   - import_tasks: tasks/mymediaforalexa.yml
     when: (mymediaforalexa_enabled | default(False))
     tags: mymediaforalexa
@@ -256,10 +259,6 @@
   - import_tasks: tasks/joomla.yml
     when: (joomla_enabled | default(False))
     tags: joomla
-
-  - import_tasks: tasks/nzbget.yml
-    when: (nzbget_enabled | default(False))
-    tags: nzbget
 
   - import_tasks: tasks/wallabag.yml
     when: (wallabag_enabled | default(False))
