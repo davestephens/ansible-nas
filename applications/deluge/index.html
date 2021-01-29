@@ -13,14 +13,14 @@
         <meta name="author" content="David Stephens">
       
       
-        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/airsonic/">
+        <link rel="canonical" href="https://davestephens.uk/ansible-nas/applications/deluge/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.6">
     
     
       
-        <title>Airsonic - Ansible-NAS</title>
+        <title>Deluge - Ansible-NAS</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#airsonic" class="md-skip">
+        <a href="#deluge" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Airsonic
+              Deluge
             
           </span>
         </div>
@@ -350,56 +350,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Airsonic
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../airsonic/" class="md-nav__link">
         Airsonic
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -479,11 +434,49 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../deluge/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Deluge
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Deluge
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1175,13 +1168,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#specific-configuration" class="md-nav__link">
-    Specific Configuration
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1194,19 +1180,23 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/airsonic.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/davestephens/ansible-nas/edit/master/docs/applications/deluge.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="airsonic">Airsonic</h1>
-<p>Homepage: <a href="https://airsonic.github.io/">https://airsonic.github.io/</a></p>
-<p>Airsonic is a free, web-based media streamer, providing ubiquitous access to your music. Use it to share your music with friends, or to listen to your own music while at work. You can stream to multiple players simultaneously, for instance to one player in your kitchen and another in your living room</p>
+                <h1 id="deluge">Deluge</h1>
+<p><a href="http://deluge-torrent.org/">Deluge</a> is a lightweight, Free Software, cross-platform BitTorrent client.
+<img align="right" width="200" height="200" src="https://avatars2.githubusercontent.com/u/6733935?v=3&s=200">
+* Full Encryption
+* WebUI
+* Plugin System
+* Much more...</p>
 <h2 id="usage">Usage</h2>
-<p>Set <code>airsonic_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
-<p>The Airsonic web interface can be found at http://ansible_nas_host_or_ip:4040.</p>
-<h2 id="specific-configuration">Specific Configuration</h2>
-<p>The default username and password is <code>admin</code> - you'll need to change this immediately after logging in.</p>
+<p>Set <code>deluge_enabled: true</code> in your <code>inventories/&lt;your_inventory&gt;/nas.yml</code> file.</p>
+<p>Deluge's web interface can be found at http://ansible_nas_host_or_ip:8112</p>
+<p>Upon first viewing you will be prompted for a password. The default is <code>deluge</code> It is recommended that you change this password in the preferences menu.</p>
+<p>**For more info visit: [https://dev.deluge-torrent.org/] &amp; [https://github.com/linuxserver/docker-deluge/blob/master/README.md]</p>
                 
               
               
@@ -1225,7 +1215,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../../upgrading/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../couchpotato/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -1234,19 +1224,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Upgrading Ansible-NAS
+                CouchPotato
               </div>
             </div>
           </a>
         
         
-          <a href="../bazarr/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../duplicati/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Bazarr subtitle downloader
+                Duplicati
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
