@@ -142,7 +142,8 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 Getting help is easy! You can:
 
 * Read the [docs](https://davestephens.github.io/ansible-nas)
-* Raise an [issue](https://github.com/davestephens/ansible-nas/issues)
+* Start a [discussion](https://github.com/davestephens/ansible-nas/discussions)
+* Raise an [issue](https://github.com/davestephens/ansible-nas/issues) if you think you've found a bug
 * Chat on [Gitter](https://gitter.im/Ansible-NAS/Chat)
 
 ## Contributing
