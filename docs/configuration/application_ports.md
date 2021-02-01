@@ -12,6 +12,7 @@ By default, applications can be found on the ports listed below.
 | Cloud Commander | 7373   |              |
 | Couchpotato     | 5050   |              |
 | Duplicati       | 8200   |              |
+| Deluge          | 8112   | HTTP         |
 | Emby            | 8096   | HTTP         |
 | Emby            | 8920   | HTTPS        |
 | Firefly III     | 8066   |              |
@@ -39,6 +40,7 @@ By default, applications can be found on the ports listed below.
 | Mosquitto       | 9001   | Websocket    |
 | Mylar           | 8585   | HTTP         |
 | MyMediaForAlexa | 52051  |              |
+| n8n             | 5678   | HTTP         |
 | Netdata         | 19999  |              |
 | Nextcloud       | 8080   |              |
 | NZBGet          | 6789   |              |

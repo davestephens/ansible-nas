@@ -68,6 +68,11 @@
         - couchpotato
       when: (couchpotato_enabled | default(False))
 
+    - role: deluge
+      tags:
+        - deluge
+      when: (deluge_enabled | default(False))
+
     - role: duplicati
       tags:
         - duplicati
@@ -97,6 +102,11 @@
       tags:
         - lidarr
       when: (lidarr_enabled | default(False))
+
+    - role: n8n
+      tags:
+        - n8n_enabled
+      when: (n8n_enabled | default(False))
 
     - role: netdata
       tags:
