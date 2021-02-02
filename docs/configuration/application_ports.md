@@ -21,7 +21,7 @@ By default, applications can be found on the ports listed below.
 | Gitea           | 222     | Bridge  | SSH            |
 | GitLab          | 4080    | Bridge  | HTTP           |
 | GitLab          | 4443    | Bridge  | HTTPS          |
-| GitLab          | 422	    | Bridge  | SSH            |
+| GitLab          | 422     | Bridge  | SSH            |
 | Glances         | 61208   | Bridge  | HTTP           |
 | Grafana         | 3000    | Bridge  | HTTP           |
 | Guacamole       | 8090    | Bridge  | HTTP           |
