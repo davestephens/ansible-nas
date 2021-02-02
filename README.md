@@ -39,6 +39,7 @@ Ansible config and a bunch of Docker containers.
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
+* [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
@@ -142,7 +143,8 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 Getting help is easy! You can:
 
 * Read the [docs](https://davestephens.github.io/ansible-nas)
-* Raise an [issue](https://github.com/davestephens/ansible-nas/issues)
+* Start a [discussion](https://github.com/davestephens/ansible-nas/discussions)
+* Raise an [issue](https://github.com/davestephens/ansible-nas/issues) if you think you've found a bug
 * Chat on [Gitter](https://gitter.im/Ansible-NAS/Chat)
 
 ## Contributing
