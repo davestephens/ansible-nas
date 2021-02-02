@@ -24,8 +24,10 @@
 
 - name: Get Nextcloud version
   block:
-    - name: Read form file if it exists 
-      shell: "grep -oP \"OC_VersionString = '\\d{2}.\\d{1,}.\\d{1,}';\" {{ nextcloud_data_directory }}/nextcloud/version.php | grep -oP \"'\\d{2}\" | grep -oP \"\\d{2}\""
+    - name: Read Nextcloud version form file if the file exists. Otherwise use latest
+      shell: >
+              grep -oP "OC_VersionString = '\\d{2}.\\d{1,}.\\d{1,}';" 
+              {{ nextcloud_data_directory }}/nextcloud/version.php | grep -oP "'\\d{2}" | grep -oP "\\d{2}"
       register: nextcloud_version
   rescue:
     - name: Attempting default instead
