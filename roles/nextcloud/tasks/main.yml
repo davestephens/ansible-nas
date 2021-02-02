@@ -35,7 +35,7 @@
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
-    image: "nextcloud:{{nextcloud_version['stdout']}}"
+    image: "nextcloud:{{ nextcloud_version['stdout'] }}"
     pull: true
     links:
         - nextcloud-mysql:mysql
