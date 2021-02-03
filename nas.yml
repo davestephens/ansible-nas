@@ -98,6 +98,11 @@
         - homeassistant
       when: (homeassistant_enabled | default(False))
 
+    - role: jellyfin
+      tags:
+        - jellyfin
+      when: (jellyfin_enabled | default(False))
+
     - role: lidarr
       tags:
         - lidarr
@@ -280,10 +285,6 @@
   - import_tasks: tasks/openhab.yml
     when: (openhab_enabled | default(False))
     tags: openhab
-
-  - import_tasks: tasks/jellyfin.yml
-    when: (jellyfin_enabled | default(False))
-    tags: jellyfin
 
   - import_tasks: tasks/cloudcmd.yml
     when: (cloudcmd_enabled | default(False))
