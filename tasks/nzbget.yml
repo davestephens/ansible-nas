@@ -11,6 +11,9 @@
     name: nzbget
     image: linuxserver/nzbget
     pull: true
+    networks:
+      - name: "bockynet"
+    purge_networks: yes
     volumes:
       - "{{ nzbget_download_directory }}:/downloads:rw"
       - "{{ nzbget_data_directory }}:/config:rw"
@@ -26,4 +29,4 @@
       traefik.enable: "{{ nzbget_available_externally }}"
       traefik.http.routers.nzbget.tls: "true"
       traefik.http.routers.nzbget.tls.certresolver: "bocky"
-      traefik.http.routers.nzbget.middlewares: "bocky-ip@file"
+      traefik.http.routers.nzbget.middlewares: "secured-chain@file"

@@ -106,6 +106,9 @@
     storage = "acme.json"
     #caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
     [certificatesResolvers.bocky.acme.dnsChallenge]
-      provider = "transip"
-      delayBeforeCheck = 0
-      resolvers = ["8.8.8.8:53", "8.8.8.8:53"]
+       provider = "cloudflare"
+       delayBeforeCheck = 0
+       resolvers = ["8.8.8.8:53", "8.8.8.8:53"]
+
+[pilot]
+    token = ""

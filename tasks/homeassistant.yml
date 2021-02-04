@@ -22,6 +22,8 @@
       traefik.http.routers.has.tls: "true"
       traefik.http.routers.has.service: "has"
       traefik.http.routers.has.tls.certresolver: "bocky"
-      traefik.http.routers.has.middlewares: "bocky-ip@file"
+      #traefik.http.routers.has.middlewares: "bocky-ip@file"
+      traefik.http.routers.has.middlewares: "secured-chain@file"
       traefik.http.services.has.loadbalancer.server.port: "8123"
+      traefik.http.services.has.loadbalancer.server.url: "http://192.168.2.55"
     memory: 1g

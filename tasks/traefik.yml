@@ -31,7 +31,11 @@
     env:
       TRANSIP_ACCOUNT_NAME: "{{ traefik_transip_account_name }}"
       TRANSIP_PRIVATE_KEY_PATH: "/keys/transip.key"
-    network_mode: host
+    network_mode: bockynet
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"

@@ -9,8 +9,12 @@
 - name: Radarr
   docker_container:
     name: radarr
+    hostname: radarr
     image: linuxserver/radarr
     pull: true
+    networks:
+      - name: "bockynet"
+    purge_networks: yes
     volumes:
       - "{{ radarr_movies_directory }}:/movies:rw"
       - "{{ radarr_download_directory }}:/downloads:rw"
@@ -27,4 +31,4 @@
       traefik.enable: "{{ radarr_available_externally }}"
       traefik.http.routers.radarr.tls: "true"
       traefik.http.routers.radarr.tls.certresolver: "bocky"
-      traefik.http.routers.radarr.middlewares: "bocky-ip@file"
+      traefik.http.routers.radarr.middlewares: "authelia-chain@file"

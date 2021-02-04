@@ -9,7 +9,11 @@
 - name: Sonarr
   docker_container:
     name: sonarr
+    hostname: sonarr
     image: linuxserver/sonarr
+    networks:
+      - name: "bockynet"
+    purge_networks: yes
     pull: true
     volumes:
       - "{{ sonarr_tv_directory }}:/tv:rw"
@@ -27,4 +31,4 @@
       traefik.enable: "{{ sonarr_available_externally }}"
       traefik.http.routers.sonarr.tls: "true"
       traefik.http.routers.sonarr.tls.certresolver: "bocky"
-      traefik.http.routers.sonarr.middlewares: "bocky-ip@file"
+      traefik.http.routers.sonarr.middlewares: "authelia-chain@file"

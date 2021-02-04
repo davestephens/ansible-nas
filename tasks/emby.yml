@@ -10,6 +10,7 @@
     name: emby
     image: emby/embyserver
     pull: true
+    runtime: "nvidia"
     volumes:
       - "{{ emby_config_directory }}:/config:rw"
       - "{{ emby_movies_directory }}:/movies:{{ emby_movies_permissions }}"
@@ -22,6 +23,8 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ emby_user_id }}"
       PGID: "{{ emby_group_id }}"
+      NVIDIA_VISIBLE_DEVICES: "all"
+      NVIDIA_DRIVER_CAPABILITIES: "compute,utility,video"
     restart_policy: unless-stopped
     memory: 1g
     labels:
