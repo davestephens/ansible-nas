@@ -30,7 +30,6 @@ jellyfin_enabled: false
 
 
 youtubedlmaterial_enabled: false
-mylar_enabled: false
 
 # Music
 mymediaforalexa_enabled: false
@@ -311,18 +310,6 @@ tautulli_config_directory: "{{ docker_home }}/tautulli/config"
 tautulli_user_id: "0"
 tautulli_group_id: "0"
 tautulli_port: "8185"
-
-###
-### Mylar
-###
-mylar_available_externally: "false"
-mylar_data_directory: "{{ docker_home }}/mylar"
-mylar_comics_directory: "{{ comics_root }}"
-mylar_downloads_directory: "{{ downloads_root }}"
-mylar_port_http: "8585"
-mylar_user_id: "0"
-mylar_group_id: "0"
-
 
 ###
 ### YouTubeDL-Material
