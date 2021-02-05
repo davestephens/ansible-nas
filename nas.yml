@@ -148,6 +148,11 @@
         - plex
       when: (plex_enabled | default(False))
 
+    - role: pytivo
+      tags:
+        - pytivo
+      when: (pytivo_enabled | default(False))
+
     - role: radarr
       tags:
         - radarr
@@ -306,7 +311,3 @@
   - import_tasks: tasks/virtual_desktop.yml
     when: (virtual_desktop_enabled | default(False))
     tags: virtual_desktop
-
-  - import_tasks: tasks/pytivo.yml
-    when: (pytivo_enabled | default(False))
-    tags: pytivo
