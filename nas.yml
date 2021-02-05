@@ -103,7 +103,7 @@
         - lidarr
       when: (lidarr_enabled | default(False))
 
-   - role: minidlna
+    - role: minidlna
       tags:
         - minidlna
       when: (minidlna_enabled | default(False))
