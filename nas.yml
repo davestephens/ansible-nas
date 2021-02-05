@@ -103,10 +103,15 @@
         - lidarr
       when: (lidarr_enabled | default(False))
 
-    - role: minidlna
+   - role: minidlna
       tags:
         - minidlna
       when: (minidlna_enabled | default(False))
+
+    - role: mylar
+      tags:
+        - mylar
+      when: (mylar_enabled | default(False))
 
     - role: n8n
       tags:
@@ -209,10 +214,6 @@
   - import_tasks: tasks/thelounge.yml
     when: (thelounge_enabled | default(False))
     tags: thelounge
-
-  - import_tasks: tasks/mylar.yml
-    when: (mylar_enabled | default(False))
-    tags: mylar
 
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))
