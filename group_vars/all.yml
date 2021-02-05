@@ -25,7 +25,6 @@ tautulli_enabled: false
 # Media Sourcing
 get_iplayer_enabled: false
 jackett_enabled: false
-minidlna_enabled: false
 jellyfin_enabled: false
 
 
@@ -421,14 +420,6 @@ timemachine_password: timemachine
 timemachine_share_name: Data
 timemachine_log_level: error
 timemachine_port: "10445"
-
-###
-### MiniDLNA
-###
-minidlna_media_directory1: "{{ movies_root }}"
-minidlna_media_directory2: "{{ tv_root }}"
-minidlna_friendly_name: "{{ ansible_nas_hostname }}"
-minidlna_port: "8201"
 
 ###
 ### get_iplayer

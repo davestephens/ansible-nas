@@ -1,0 +1,15 @@
+---
+# enable or disable the application
+minidlna_enabled: false
+minidlna_available_externally: "false"
+
+# directories
+minidlna_media_directory1: "{{ movies_root }}"
+minidlna_media_directory2: "{{ tv_root }}"
+
+# network
+minidlna_friendly_name: "{{ ansible_nas_hostname }}"
+minidlna_port: "8201"
+
+# specs
+minidlna_memory: "1g"
