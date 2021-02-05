@@ -25,11 +25,10 @@ tautulli_enabled: false
 # Media Sourcing
 get_iplayer_enabled: false
 jackett_enabled: false
-minidlna_enabled: false
+
 
 
 youtubedlmaterial_enabled: false
-mylar_enabled: false
 
 # Music
 mymediaforalexa_enabled: false
@@ -155,7 +154,9 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browseable: yes
+    browseable: yes> and do *all* customizations have to go in the single nas.yml file? can they not be split up somehow in the inventory/nas/group_vars folder?
+
+ansi
     path: "{{ tv_root }}"
 
   - name: music
@@ -312,18 +313,6 @@ tautulli_group_id: "0"
 tautulli_port: "8185"
 
 ###
-### Mylar
-###
-mylar_available_externally: "false"
-mylar_data_directory: "{{ docker_home }}/mylar"
-mylar_comics_directory: "{{ comics_root }}"
-mylar_downloads_directory: "{{ downloads_root }}"
-mylar_port_http: "8585"
-mylar_user_id: "0"
-mylar_group_id: "0"
-
-
-###
 ### YouTubeDL-Material
 ###
 youtubedlmaterial_available_externally: "false"
@@ -433,14 +422,6 @@ timemachine_password: timemachine
 timemachine_share_name: Data
 timemachine_log_level: error
 timemachine_port: "10445"
-
-###
-### MiniDLNA
-###
-minidlna_media_directory1: "{{ movies_root }}"
-minidlna_media_directory2: "{{ tv_root }}"
-minidlna_friendly_name: "{{ ansible_nas_hostname }}"
-minidlna_port: "8201"
 
 ###
 ### get_iplayer
