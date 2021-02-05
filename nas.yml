@@ -103,6 +103,11 @@
         - lidarr
       when: (lidarr_enabled | default(False))
 
+    - role: minidlna
+      tags:
+        - minidlna
+      when: (minidlna_enabled | default(False))
+
     - role: n8n
       tags:
         - n8n_enabled
@@ -236,10 +241,6 @@
   - import_tasks: tasks/guacamole.yml
     when: (guacamole_enabled | default(False))
     tags: guacamole
-
-  - import_tasks: tasks/minidlna.yml
-    when: (minidlna_enabled | default(False))
-    tags: minidlna
 
   - import_tasks: tasks/get_iplayer.yml
     when: (get_iplayer_enabled | default(False))
