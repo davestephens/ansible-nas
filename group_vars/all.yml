@@ -25,10 +25,7 @@ tautulli_enabled: false
 # Media Sourcing
 get_iplayer_enabled: false
 jackett_enabled: false
-minidlna_enabled: false
 jellyfin_enabled: false
-
-mylar_enabled: false
 
 # Music
 mymediaforalexa_enabled: false
@@ -310,17 +307,6 @@ tautulli_user_id: "0"
 tautulli_group_id: "0"
 tautulli_port: "8185"
 
-###
-### Mylar
-###
-mylar_available_externally: "false"
-mylar_data_directory: "{{ docker_home }}/mylar"
-mylar_comics_directory: "{{ comics_root }}"
-mylar_downloads_directory: "{{ downloads_root }}"
-mylar_port_http: "8585"
-mylar_user_id: "0"
-mylar_group_id: "0"
-
 
 ###
 ### OpenVPN
@@ -421,14 +407,6 @@ timemachine_password: timemachine
 timemachine_share_name: Data
 timemachine_log_level: error
 timemachine_port: "10445"
-
-###
-### MiniDLNA
-###
-minidlna_media_directory1: "{{ movies_root }}"
-minidlna_media_directory2: "{{ tv_root }}"
-minidlna_friendly_name: "{{ ansible_nas_hostname }}"
-minidlna_port: "8201"
 
 ###
 ### get_iplayer

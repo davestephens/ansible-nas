@@ -103,6 +103,16 @@
         - lidarr
       when: (lidarr_enabled | default(False))
 
+   - role: minidlna
+      tags:
+        - minidlna
+      when: (minidlna_enabled | default(False))
+
+    - role: mylar
+      tags:
+        - mylar
+      when: (mylar_enabled | default(False))
+
     - role: n8n
       tags:
         - n8n_enabled
@@ -210,10 +220,6 @@
     when: (thelounge_enabled | default(False))
     tags: thelounge
 
-  - import_tasks: tasks/mylar.yml
-    when: (mylar_enabled | default(False))
-    tags: mylar
-
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))
     tags: glances
@@ -241,10 +247,6 @@
   - import_tasks: tasks/guacamole.yml
     when: (guacamole_enabled | default(False))
     tags: guacamole
-
-  - import_tasks: tasks/minidlna.yml
-    when: (minidlna_enabled | default(False))
-    tags: minidlna
 
   - import_tasks: tasks/get_iplayer.yml
     when: (get_iplayer_enabled | default(False))
