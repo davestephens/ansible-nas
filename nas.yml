@@ -58,6 +58,11 @@
         - bitwarden
       when: (bitwarden_enabled | default(False))
 
+    - role: calibre
+      tags:
+        - calibre
+      when: (calibre_enabled | default(False))
+
     - role: cloudflare_ddns
       tags:
         - cloudflare_ddns
@@ -274,10 +279,6 @@
   - import_tasks: tasks/homebridge.yml
     when: (homebridge_enabled | default(False))
     tags: homebridge
-
-  - import_tasks: tasks/calibre.yml
-    when: (calibre_enabled | default(False))
-    tags: calibre
 
   - import_tasks: tasks/openhab.yml
     when: (openhab_enabled | default(False))

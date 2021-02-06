@@ -65,9 +65,6 @@ mosquitto_enabled: false
 homebridge_enabled: false
 openhab_enabled: false
 
-# Books
-calibre_enabled: false
-
 # Ubooquity
 ubooquity_enabled: false
 
@@ -481,18 +478,6 @@ mosquitto_available_externally: "false"
 mosquitto_data_directory: "{{ docker_home }}/mosquitto"
 mosquitto_port_a: "1883"
 mosquitto_port_b: "9001"
-
-###
-### Calibre-web
-###
-calibre_available_externally: "false"
-calibre_data_directory: "{{ docker_home }}/calibre"
-calibre_user_id: "0"
-calibre_group_id: "0"
-calibre_books_root: "{{ books_root }}"
-calibre_port: "8084"
-# To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
-calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 
 ###
 ### openHAB
