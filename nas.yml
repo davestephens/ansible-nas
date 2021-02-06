@@ -100,13 +100,23 @@
 
     - role: jackett
       tags:
-        - jackett
+        - jackettfalse
       when: (jackett_enabled | default(False))
 
     - role: lidarr
       tags:
         - lidarr
       when: (lidarr_enabled | default(False))
+
+   - role: minidlna
+      tags:
+        - minidlna
+      when: (minidlna_enabled | default(False))
+
+    - role: mylar
+      tags:
+        - mylar
+      when: (mylar_enabled | default(False))
 
     - role: n8n
       tags:
@@ -217,10 +227,6 @@
     when: (thelounge_enabled | default(False))
     tags: thelounge
 
-  - import_tasks: tasks/mylar.yml
-    when: (mylar_enabled | default(False))
-    tags: mylar
-
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))
     tags: glances
@@ -248,10 +254,6 @@
   - import_tasks: tasks/guacamole.yml
     when: (guacamole_enabled | default(False))
     tags: guacamole
-
-  - import_tasks: tasks/minidlna.yml
-    when: (minidlna_enabled | default(False))
-    tags: minidlna
 
   - import_tasks: tasks/mymediaforalexa.yml
     when: (mymediaforalexa_enabled | default(False))
