@@ -1,7 +1,9 @@
+---
 - name: Create Miniflux Directories
   file:
     path: "{{ item }}"
     state: directory
+    # mode: 0755
   with_items:
     - "{{ miniflux_data_directory }}/postgres"
 
@@ -18,13 +20,18 @@
     restart_policy: unless-stopped
     memory: 1g
 
-- name: Create Miniflux container
+- name: Create Miniflux Docker Container
   docker_container:
     name: miniflux
     image: miniflux/miniflux:latest
     pull: true
     links:
         - miniflux-postgres:db
+    volumes:
+      - "{{ miniflux_config_directory }}:/config:rw"
+      - "{{ miniflux_logs }}:/logs:rw"
+      - "{{ miniflux_data_directory }}:/data:rw"
+    network_mode: "bridge"
     ports:
       - "{{ miniflux_port }}:8080"
     env:
@@ -34,10 +41,10 @@
       ADMIN_USERNAME: "{{ miniflux_admin_username }}"
       ADMIN_PASSWORD: "{{ miniflux_admin_password }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ miniflux_memory }}"
     labels:
       traefik.enable: "{{ miniflux_available_externally }}"
-      traefik.http.routers.miniflux.rule: "Host(`miniflux.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.miniflux.rule: "Host(`{{ miniflux_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.miniflux.tls.certresolver: "letsencrypt"
       traefik.http.routers.miniflux.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.miniflux.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
