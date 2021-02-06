@@ -1,0 +1,34 @@
+---
+- name: Create Calibre-Web Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ calibre_web_data_directory }}/config"
+
+- name: Create Calibre-Web Docker Container
+  docker_container:
+    name: calibre_web
+    image: linuxserver/calibre-web:latest
+    pull: true
+    volumes:
+      - "{{ calibre_web_data_directory }}/config:/config"
+      - "{{ calibre_web_books_root }}:/books"
+    network_mode: "bridge"
+    ports:
+      - "{{ calibre_web_port }}:8083"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ calibre_web_user_id }}"
+      PGID: "{{ calibre_web_group_id }}"
+      DOCKER_MODS: "{{ calibre_web_ebook_conversion }}"
+    restart_policy: unless-stopped
+    memory: "{{ calibre_web_memory }}"
+    labels:
+      traefik.enable: "{{ calibre_web_available_externally }}"
+      traefik.http.routers.calibre_web.rule: "Host(`{{ calibre_web_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.calibre_web.tls.certresolver: "letsencrypt"
+      traefik.http.routers.calibre_web.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.calibre_web.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.calibre_web.loadbalancer.server.port: "8083"

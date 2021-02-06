@@ -58,10 +58,10 @@
         - bitwarden
       when: (bitwarden_enabled | default(False))
 
-    - role: calibre
+    - role: calibre_web
       tags:
-        - calibre
-      when: (calibre_enabled | default(False))
+        - calibre_web
+      when: (calibre_web_enabled | default(False))
 
     - role: cloudflare_ddns
       tags:

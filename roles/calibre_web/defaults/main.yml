@@ -1,0 +1,22 @@
+---
+# enable or disable the application
+calibre_web_enabled: false
+calibre_web_available_externally: "false"
+
+# directories
+calibre_web_data_directory: "{{ docker_home }}/calibre_web"
+calibre_web_books_root: "{{ books_root }}"
+
+# uid / gid
+calibre_web_user_id: "0"
+calibre_web_group_id: "0"
+
+# network
+calibre_web_hostname: "calibre_web"
+calibre_web_port: "8084"
+
+# specs
+calibre_web_memory: "1g"
+
+# To disable ebook conversion set calibre_web_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
+calibre_web_ebook_conversion: "linuxserver/calibre-web:calibre_web"
