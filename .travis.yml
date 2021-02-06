@@ -5,7 +5,7 @@ services: docker
 
 env:
   - playbook: nas.yml
-    distro: ubuntu1804
+    distro: ubuntu2004
     test_syntax: true
     test_playbook: false
     test_idempotence: false
