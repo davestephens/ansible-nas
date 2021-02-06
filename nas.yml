@@ -83,6 +83,11 @@
         - emby
       when: (emby_enabled | default(False))
 
+    - role: firefly
+      tags:
+        - firefly
+      when: (firefly_enabled | default(False))
+
     - role: gitea
       tags:
         - gitea
@@ -197,11 +202,6 @@
       tags:
         - watchtower
       when: (watchtower_enabled | default(False))
-
-  tasks:
-  - import_tasks: tasks/firefly.yml
-    when: (firefly_enabled | default(False))
-    tags: firefly
 
   - import_tasks: tasks/tautulli.yml
     when: (tautulli_enabled | default(False))
