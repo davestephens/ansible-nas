@@ -40,7 +40,6 @@ miniflux_enabled: false
 glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
-cloudcmd_enabled: false
 virtual_desktop_enabled: false
 krusader_enabled: false
 
@@ -387,16 +386,6 @@ miniflux_data_directory: "{{ docker_home }}/miniflux"
 miniflux_admin_username: admin
 miniflux_admin_password: supersecure
 miniflux_port: "8070"
-
-###
-### CloudCmd
-###
-cloudcmd_available_externally: "false"
-cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
-cloudcmd_browse_directory: "/"
-cloudcmd_user_id: "0"
-cloudcmd_group_id: "0"
-cloudcmd_port: "7373"
 
 ###
 ### Krusader

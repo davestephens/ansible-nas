@@ -1,12 +1,13 @@
 ---
-- name: Create CloudCmd Directories
+- name: Create Cloudcmd Directories
   file:
     path: "{{ item }}"
     state: directory
+    # mode: 0755
   with_items:
     - "{{ cloudcmd_data_directory }}"
 
-- name: CloudCmd
+- name: Create Cloudcmd Docker Container
   docker_container:
     name: cloudcmd
     image: coderaiser/cloudcmd
@@ -14,6 +15,7 @@
     volumes:
       - "{{ cloudcmd_data_directory }}:/config:rw"
       - "{{ cloudcmd_browse_directory }}:/mnt/fs"
+    network_mode: "bridge"
     ports:
       - "{{ cloudcmd_port }}:8000"
     env:
@@ -21,10 +23,10 @@
       PUID: "{{ cloudcmd_user_id }}"
       PGID: "{{ cloudcmd_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ cloudcmd_memory }}"
     labels:
       traefik.enable: "{{ cloudcmd_available_externally }}"
-      traefik.http.routers.cloudcmd.rule: "Host(`cloudcmd.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.cloudcmd.rule: "Host(`{{ cloudcmd_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.cloudcmd.tls.certresolver: "letsencrypt"
       traefik.http.routers.cloudcmd.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.cloudcmd.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
