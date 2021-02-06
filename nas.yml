@@ -88,6 +88,11 @@
         - gitea
       when: (gitea_enabled | default(False))
 
+    - role: get_iplayer
+      tags:
+        - get_iplayer
+      when: (get_iplayer_enabled | default(False))
+
     - role: heimdall
       tags:
         - heimdall
