@@ -1,9 +1,9 @@
 ---
 - name: geerlingguy.docker
-  version: 2.8.2
+  version: 3.0.0
 
 - name: bertvv.samba
   version: v2.7.1
 
 - name: geerlingguy.nfs
-  version: 1.6.0
+  version: 2.0.0

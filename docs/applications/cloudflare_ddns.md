@@ -12,4 +12,6 @@ Set `cloudflare_ddns_enabled: true` in your `inventories/<your_inventory>/nas.ym
 
 ## Specific Configuration
 
-Make sure you set your Cloudflare login, domain and API key details within your `inventories/<your_inventory>/nas.yml` file.
+Make sure you set your domain (if different than the ansible-nas default) and access token details within your `inventories/<your_inventory>/nas.yml` file. If you need to create an API token, see https://joshuaavalon.github.io/docker-cloudflare/guide/cloudflare.html#authentication for instructions.
+
+Cloudflare has deprecated global API key authentication. If you have an older ansible-nas configuration using a global API key, you can upgrade to the API token-based authentication by removing the `cloudflare_api_key` variable from your local `nas.yml` configuration file and setting the `cloudflare_token` variable appropriately.

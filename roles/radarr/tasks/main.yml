@@ -1,0 +1,36 @@
+---
+- name: Create Radarr Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ radarr_data_directory }}"
+
+- name: Radarr
+  docker_container:
+    name: radarr
+    hostname: radarr
+    image: linuxserver/radarr
+    pull: true
+    networks:
+      - name: "bockynet"
+    purge_networks: yes
+    volumes:
+      - "{{ radarr_movies_directory }}:/movies:rw"
+      - "{{ radarr_download_directory }}:/downloads:rw"
+      - "{{ radarr_data_directory }}:/config:rw"
+    ports:
+      - "{{ radarr_port }}:7878"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ radarr_user_id }}"
+      PGID: "{{ radarr_group_id }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.enable: "{{ radarr_available_externally }}"
+      traefik.http.routers.radarr.rule: "Host(`{{ radarr_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.radarr.tls.certresolver: "letsencrypt"
+      traefik.http.routers.radarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.radarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.radarr.loadbalancer.server.port: "7878"

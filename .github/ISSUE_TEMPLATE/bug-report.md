@@ -15,7 +15,7 @@ A clear and concise description of what the bug is.
 **Environment**
 - Ansible-NAS revision (`git rev-parse --short HEAD`):
 - Ansible version (paste the entire output of `ansible --version` on the machine you run the playbook from):
-- Ansible-NAS operating system (`cat /etc/lsb-release` on the Ansible-NAS box) - _If this is anything other than Ubuntu 18.04 help will be limited_:
+- Ansible-NAS operating system (`cat /etc/lsb-release` on the Ansible-NAS box) - _Support won't be provided for non-LTS releases of Ubuntu_:
 - Ansible-NAS kernel (`uname -a` on the Ansible-NAS box):
 - Ansible-NAS Python version (`python --version` on the Ansible-NAS box):
 - Ansible-NAS Docker version (`docker --version` on the Ansible-NAS box):

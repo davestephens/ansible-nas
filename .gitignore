@@ -1,10 +1,10 @@
 tests/test.yml
 site
 .vagrant
-roles
 *.retry
 *.log
 inventories/hoarder/
+inventories
 
 # Vim
 [._]sw[a-p]

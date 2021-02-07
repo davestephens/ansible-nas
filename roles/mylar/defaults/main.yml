@@ -1,0 +1,21 @@
+---
+# enable or disable the application
+mylar_enabled: false
+mylar_available_externally: "false"
+
+# directories
+mylar_data_directory: "{{ docker_home }}/mylar"
+mylar_comics_directory: "{{ comics_root }}"
+mylar_downloads_directory: "{{ downloads_root }}"
+
+
+# uid / gid
+mylar_user_id: "0"
+mylar_group_id: "0"
+
+# network
+mylar_hostname: "mylar"
+mylar_port_http: "8585"
+
+# specs
+mylar_memory: "1g"

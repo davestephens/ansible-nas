@@ -51,7 +51,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "firefly"
-      traefik.frontend.rule: "Host:firefly.{{ ansible_nas_domain }}"
       traefik.enable: "{{ firefly_available_externally }}"
-      traefik.port: "8080"
+      traefik.http.routers.firefly.rule: "Host(`firefly.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.firefly.tls.certresolver: "letsencrypt"
+      traefik.http.routers.firefly.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.firefly.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.firefly.loadbalancer.server.port: "8080"

@@ -29,7 +29,6 @@ Ansible config and a bunch of Docker containers.
 * Content management with Joomla
 * A dual panel local file manager
 * Self-service media request web application
-* SEO tracking with Serposcope
 
 ### Available Applications
 
@@ -40,12 +39,13 @@ Ansible config and a bunch of Docker containers.
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
+* [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
-* [Gitea](https://gitea.io/en-us/) - Simple self-hosted Github clone
-* [Gitlab](https://about.gitlab.com/features/) - Self-hosted Github clone of the highest order
+* [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
+* [GitLab](https://about.gitlab.com/features/) - Self-hosted GitHub clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
@@ -62,6 +62,7 @@ Ansible config and a bunch of Docker containers.
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
+* [n8n](https://n8n.io") - Nodemation, a node based workflow and automation service like IFTTT.
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
@@ -73,9 +74,9 @@ Ansible config and a bunch of Docker containers.
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [PyTivo](http://pytivo.org) - An HMO and GoBack server for TiVos.
 * [Radarr](https://radarr.video/) - for organising and downloading movies
-* [Serposcope](https://serposcope.serphacker.com/en/) - tracker to monitor website ranking
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
+* [Syncthing](https://syncthing.net/) - sync directories with another device
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client
@@ -133,7 +134,7 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 ## Requirements
 
 * Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu
-  Server 18.04.3 LTS.
+  Server 20.04 LTS.
 * You can run Ansible-NAS on whatever you like, read the docs for more info. I
   use an HP Microserver.
 
@@ -142,7 +143,8 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 Getting help is easy! You can:
 
 * Read the [docs](https://davestephens.github.io/ansible-nas)
-* Raise an [issue](https://github.com/davestephens/ansible-nas/issues)
+* Start a [discussion](https://github.com/davestephens/ansible-nas/discussions)
+* Raise an [issue](https://github.com/davestephens/ansible-nas/issues) if you think you've found a bug
 * Chat on [Gitter](https://gitter.im/Ansible-NAS/Chat)
 
 ## Contributing
