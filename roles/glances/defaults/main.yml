@@ -1,0 +1,9 @@
+---
+# enable or disable the application
+glances_enabled: false
+glances_available_externally: "false"
+
+# network
+glances_hostname: "glances"
+glances_port_one: "61208"
+glances_port_two: "61209"
