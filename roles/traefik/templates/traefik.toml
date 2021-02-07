@@ -1,0 +1,46 @@
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+
+  [entryPoints.web.http.redirections.entryPoint]
+    to = "websecure"
+
+  [entryPoints.websecure]
+    address = ":{{ traefik_port_https }}"
+
+      [entryPoints.websecure.http.tls]
+        certResolver = "letsencrypt"
+
+        [entryPoints.websecure.http.tls.domains]
+          main = "{{ ansible_nas_domain }}"
+          sans = [
+            "*.{{ ansible_nas_domain }}"
+          ]
+
+  [entryPoints.traefik]
+    address = ":{{ traefik_port_ui }}"
+
+[providers]
+  providersThrottleDuration = "2s"
+  [providers.docker]
+    exposedbydefault = false
+
+[api]
+  insecure = true
+  dashboard = true
+
+[log]
+  level = "{{ traefik_log_level }}"
+
+[ping]
+  terminatingStatusCode = 0
+
+[certificatesResolvers]
+  [certificatesResolvers.letsencrypt]
+    [certificatesResolvers.letsencrypt.acme]
+      email = "{{ ansible_nas_email }}"
+      storage = "/letsencrypt/acme.json"
+      caserver = "{{ traefik_acme_server }}"
+
+      [certificatesResolvers.letsencrypt.acme.dnsChallenge]
+        provider = "{{ traefik_dns_provider }}"

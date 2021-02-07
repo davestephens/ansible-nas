@@ -1,0 +1,17 @@
+---
+syncthing_enabled: false
+syncthing_available_externally: "false"
+
+# directories
+syncthing_data_directory: "{{ samba_shares_root }}/syncthing"
+
+# these are the directories that you want to mount from the local ansible-nas filesystem into
+# the syncthing container.
+# format is:
+#   - "/ansible/nas/filesystem/directory_name:/var/syncthing/directory_name"
+syncthing_volumes:
+  - "{{ syncthing_data_directory }}:/var/syncthing/"
+
+# network
+syncthing_port: 8384
+syncthing_hostname: syncthing

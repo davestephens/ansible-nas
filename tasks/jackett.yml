@@ -20,7 +20,9 @@
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
     labels:
-      traefik.backend: "jackett"
-      traefik.frontend.rule: "Host:jackett.{{ ansible_nas_domain }}"
       traefik.enable: "{{ jackett_available_externally }}"
-      traefik.port: "9117"
+      traefik.http.routers.jackett.rule: "Host(`jackett.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.jackett.tls.certresolver: "letsencrypt"
+      traefik.http.routers.jackett.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.jackett.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.jackett.loadbalancer.server.port: "9117"

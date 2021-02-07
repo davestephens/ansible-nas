@@ -24,7 +24,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "tautulli"
-      traefik.frontend.rule: "Host:tautulli.{{ ansible_nas_domain }}"
       traefik.enable: "{{ tautulli_available_externally }}"
-      traefik.port: "8181"
+      traefik.http.routers.tautulli.rule: "Host(`tautulli.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.tautulli.tls.certresolver: "letsencrypt"
+      traefik.http.routers.tautulli.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.tautulli.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.tautulli.loadbalancer.server.port: "8181"

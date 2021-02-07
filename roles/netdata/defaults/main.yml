@@ -1,0 +1,6 @@
+netdata_enabled: false
+netdata_available_externally: "false"
+
+# network
+netdata_hostname: "netdata"
+netdata_port: "19999"

@@ -1,0 +1,39 @@
+---
+plex_enabled: false
+plex_available_externally: "false"
+
+# directories
+plex_config_directory: "{{ docker_home }}/plex/config"
+plex_logs: "{{ docker_home }}/plex/logs"
+plex_movies_directory: "{{ movies_root }}"
+plex_tv_directory: "{{ tv_root }}"
+plex_photos_directory: "{{ photos_root }}"
+plex_podcasts_directory: "{{ podcasts_root }}"
+plex_music_directory: "{{ music_root }}"
+
+# uid / gid
+plex_user_id: "0"
+plex_group_id: "0"
+
+# If you're paranoid, set permissions to "ro" so Plex won't ever be able to
+# delete your files
+plex_movies_permissions: "rw"
+plex_tv_permissions: "rw"
+plex_photos_permissions: "rw"
+plex_podcasts_permissions: "rw"
+plex_music_permissions: "rw"
+
+# network
+plex_hostname: "plex"
+
+# specs
+plex_memory: "2g"
+
+# Device mappings for the docker container. E.g. To enable hardware transcoding:
+# plex_devices:
+#  - "/dev/dri:/dev/dri"
+
+
+# see https://hub.docker.com/r/linuxserver/plex for details on this setting
+plex_version: "docker"
+

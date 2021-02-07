@@ -24,9 +24,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.enable: "{{ sonarr_available_externally }}"
-      traefik.http.routers.homebridge.tls: "true"
-      traefik.http.routers.homebridge.tls.certresolver: "bocky"
-      traefik.http.routers.homebridge.middlewares: "bocky-ip@file"
-      traefik.http.routers.homebridge.service: "homebridge"
+      traefik.enable: "{{ homebridge_available_externally }}"
+      traefik.http.routers.homebridge.rule: "Host(`homebridge.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.homebridge.tls.certresolver: "letsencrypt"
+      traefik.http.routers.homebridge.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.homebridge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.homebridge.loadbalancer.server.port: "8087"

@@ -1,0 +1,16 @@
+---
+couchpotato_enabled: false
+couchpotato_available_externally: "false"
+
+# directories
+couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
+couchpotato_movies_directory: "{{ movies_root }}"
+couchpotato_downloads_directory: "{{ downloads_root }}"
+couchpotato_torrents_directory: "{{ torrents_root }}"
+
+# uid / gid
+couchpotato_user_id: "0"
+couchpotato_group_id: "0"
+
+# network
+couchpotato_port: "5050"

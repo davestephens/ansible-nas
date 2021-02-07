@@ -1,0 +1,16 @@
+---
+sickchill_enabled: false
+sickchill_available_externally: "false"
+
+# directories
+sickchill_config_directory: "{{ docker_home }}/sickchill/config"
+sickchill_tv_directory: "{{ tv_root }}"
+sickchill_downloads_directory: "{{ downloads_root }}/completed"
+
+# uid / gid
+sickchill_user_id: "0"
+sickchill_group_id: "0"
+
+# network
+sickchill_port: "8081"
+sickchill_hostname: "sickchill"

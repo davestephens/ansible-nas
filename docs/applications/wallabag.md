@@ -10,7 +10,7 @@ Set `wallabag_enabled: true` in your `inventories/<your_inventory>/nas.yml` file
 
 If you want to access wallabag externally, don't forget to set `wallabag_available_externally: "true"` in your `inventories/<your_inventory>/nas.yml` file.
 
-I reccomend using the mobile app, which will sync with this installation so you have access to your saved articles even if you don't have signal or wifi access.
+I recommend using the mobile app, which will sync with this installation so you have access to your saved articles even if you don't have signal or wifi access.
 
 The default credentials are wallabag:wallabag
 
