@@ -1,0 +1,14 @@
+---
+# enable or disable the application
+wallabag_enabled: false
+wallabag_available_externally: "false"
+
+# directories
+wallabag_data_directory: "{{ docker_home }}/wallabag"
+
+# network
+wallabag_hostname: "wallabag"
+wallabag_port: "7780"
+
+# specs
+wallabag_memory: "1g"

@@ -57,9 +57,6 @@ thelounge_enabled: false
 # Finance
 firefly_enabled: false
 
-# Wallabag
-wallabag_enabled: false
-
 # Home Automation
 mosquitto_enabled: false
 homebridge_enabled: false
@@ -466,13 +463,6 @@ nzbget_download_directory: "{{ downloads_root }}"
 nzbget_user_id: "0"
 nzbget_group_id: "0"
 nzbget_port: "6789"
-
-###
-### Wallabag
-###
-wallabag_available_externally: "false"
-wallabag_data_directory: "{{ docker_home }}/wallabag"
-wallabag_port: "7780"
 
 ###
 ### Mosquitto
