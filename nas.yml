@@ -93,15 +93,20 @@
         - firefly
       when: (firefly_enabled | default(False))
 
+    - role: get_iplayer
+      tags:
+        - get_iplayer
+      when: (get_iplayer_enabled | default(False))
+
     - role: gitea
       tags:
         - gitea
       when: (gitea_enabled | default(False))
 
-    - role: get_iplayer
+    - role: gitlab
       tags:
-        - get_iplayer
-      when: (get_iplayer_enabled | default(False))
+        - gitlab
+      when: (gitlab_enabled | default(False))
 
     - role: glances
       tags:
@@ -130,7 +135,7 @@
 
     - role: jackett
       tags:
-        - jackettfalse
+        - jackett
       when: (jackett_enabled | default(False))
 
     - role: lidarr
@@ -187,11 +192,6 @@
       tags:
         - organizr
       when: (organizr_enabled | default(False))
-
-    - role: piwigo
-      tags:
-        - piwigo
-      when: (piwigo_enabled | default(False))
 
     - role: portainer
       tags:
@@ -250,7 +250,7 @@
 
     - role: transmission-with-openvpn
       tags:
-        - transmission_with_openvpn_enabled
+        - transmission_with_openvpn
       when: (transmission_with_openvpn_enabled | default(False))
 
     - role: utorrent
@@ -282,10 +282,6 @@
     - import_tasks: tasks/thelounge.yml
       when: (thelounge_enabled | default(False))
       tags: thelounge
-
-    - import_tasks: tasks/gitlab.yml
-      when: (gitlab_enabled | default(False))
-      tags: gitlab
 
     - import_tasks: tasks/timemachine.yml
       when: (timemachine_enabled | default(False))
