@@ -47,9 +47,6 @@ krusader_enabled: false
 # Backup & Restore
 timemachine_enabled: false
 
-# Software build and CI
-gitlab_enabled: false
-
 # IRC
 znc_enabled: false
 thelounge_enabled: false
@@ -347,16 +344,6 @@ grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
 grafana_influxdb_port: "8086"
 grafana_port: "3000"
-
-
-###
-### Gitlab
-###
-gitlab_available_externally: "false"
-gitlab_data_directory: "{{ docker_home }}/gitlab"
-gitlab_port_http: "4080"
-gitlab_port_https: "4443"
-gitlab_port_ssh: "422"
 
 ###
 ### Glances

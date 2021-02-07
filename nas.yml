@@ -88,6 +88,11 @@
         - gitea
       when: (gitea_enabled | default(False))
 
+    - role: gitlab
+      tags:
+        - gitlab
+      when: (gitlab_enabled | default(False))
+
     - role: heimdall
       tags:
         - heimdall
