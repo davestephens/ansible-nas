@@ -3,10 +3,11 @@
   file:
     path: "{{ item }}"
     state: directory
+    # mode: 0755
   with_items:
     - "{{ znc_data_directory }}"
 
-- name: ZNC
+- name: Create ZNC Docker Container
   docker_container:
     name: znc
     image: znc
@@ -14,16 +15,17 @@
     volumes:
       - "{{ znc_data_directory }}:/znc-data:rw"
       - "/etc/timezone:/etc/timezone:ro"
+    network_mode: "bridge"
     ports:
       - "{{ znc_port }}:6677"
     env:
       PUID: "{{ znc_user_id }}"
       PGID: "{{ znc_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ znc_memory }}"
     labels:
       traefik.enable: "{{ znc_available_externally }}"
-      traefik.http.routers.znc.rule: "Host(`znc.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.znc.rule: "Host(`{{ znc_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.znc.tls.certresolver: "letsencrypt"
       traefik.http.routers.znc.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.znc.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

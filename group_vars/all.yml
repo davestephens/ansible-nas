@@ -51,7 +51,6 @@ timemachine_enabled: false
 gitlab_enabled: false
 
 # IRC
-znc_enabled: false
 thelounge_enabled: false
 
 # Finance
@@ -325,17 +324,6 @@ youtubedlmaterial_port_http: "8998"
 ### OpenVPN
 ###
 openvpn_config_directory: "{{ docker_home }}/openvpn"
-
-
-###
-### ZNC
-###
-znc_available_externally: "false"
-znc_data_directory: "{{ docker_home }}/znc"
-znc_user_id: "0"
-znc_group_id: "0"
-znc_port: "6677"
-
 
 ###
 ### Stats
