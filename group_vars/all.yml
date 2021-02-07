@@ -62,7 +62,6 @@ wallabag_enabled: false
 
 # Home Automation
 mosquitto_enabled: false
-homebridge_enabled: false
 openhab_enabled: false
 
 # Books
@@ -290,16 +289,6 @@ pytivo_music_directory: "{{ music_root }}"
 pytivo_podcasts_directory: "{{ podcasts_root }}"
 pytivo_user_id: "0"
 pytivo_group_id: "0"
-
-###
-### Homebridge
-###
-homebridge_available_externally: "false"
-homebridge_config_directory: "{{ docker_home }}/homebridge/config"
-homebridge_user_id: "0"
-homebridge_group_id: "0"
-homebridge_port: "8087"
-
 
 ###
 ### Tautulli

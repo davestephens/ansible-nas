@@ -98,6 +98,11 @@
         - homeassistant
       when: (homeassistant_enabled | default(False))
 
+    - role: homebridge
+      tags:
+        - homebridge
+      when: (homebridge_enabled | default(False))
+
     - role: lidarr
       tags:
         - lidarr
@@ -270,10 +275,6 @@
   - import_tasks: tasks/mosquitto.yml
     when: (mosquitto_enabled | default(False))
     tags: mosquitto
-
-  - import_tasks: tasks/homebridge.yml
-    when: (homebridge_enabled | default(False))
-    tags: homebridge
 
   - import_tasks: tasks/calibre.yml
     when: (calibre_enabled | default(False))
