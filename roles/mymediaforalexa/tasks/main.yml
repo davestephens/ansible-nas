@@ -3,7 +3,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    # mode: 0755
   with_items:
     - "{{ mymediaforalexa_media_directory }}"
     - "{{ mymediaforalexa_data_directory }}"
@@ -16,6 +15,6 @@
     volumes:
       - "{{ mymediaforalexa_media_directory }}:/medialibrary:rw"
       - "{{ mymediaforalexa_data_directory }}:/datadir:rw"
-    network_mode: "host"
+    network_mode: host
     restart_policy: unless-stopped
     memory: "{{ mymediaforalexa_memory }}"
