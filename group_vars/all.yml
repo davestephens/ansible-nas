@@ -49,9 +49,6 @@ gitlab_enabled: false
 # IRC
 thelounge_enabled: false
 
-# Finance
-firefly_enabled: false
-
 # Wallabag
 wallabag_enabled: false
 
@@ -406,13 +403,6 @@ thelounge_available_externally: "false"
 thelounge_data_directory: "{{ docker_home }}/thelounge"
 thelounge_port_one: "113"
 thelounge_port_two: "9002"
-
-###
-### Firefly
-###
-firefly_available_externally: "false"
-firefly_data_directory: "{{ docker_home }}/firefly"
-firefly_port: "8066"
 
 ###
 ### Nzbget
