@@ -1,0 +1,18 @@
+---
+# enable or disable the application
+homebridge_enabled: false
+homebridge_available_externally: "false"
+
+# directories
+homebridge_config_directory: "{{ docker_home }}/homebridge/config"
+
+# uid / gid
+homebridge_user_id: "0"
+homebridge_group_id: "0"
+
+# network
+homebridge_hostname: "homebridge"
+homebridge_port: "8087"
+
+# specs
+homebridge_memory: "1g"

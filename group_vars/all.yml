@@ -30,9 +30,6 @@ jellyfin_enabled: false
 
 youtubedlmaterial_enabled: false
 
-# Music
-mymediaforalexa_enabled: false
-
 # News
 miniflux_enabled: false
 
@@ -40,7 +37,6 @@ miniflux_enabled: false
 glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
-cloudcmd_enabled: false
 virtual_desktop_enabled: false
 krusader_enabled: false
 
@@ -51,7 +47,6 @@ timemachine_enabled: false
 gitlab_enabled: false
 
 # IRC
-znc_enabled: false
 thelounge_enabled: false
 
 # Wallabag
@@ -59,7 +54,6 @@ wallabag_enabled: false
 
 # Home Automation
 mosquitto_enabled: false
-homebridge_enabled: false
 openhab_enabled: false
 
 # Books
@@ -289,16 +283,6 @@ pytivo_user_id: "0"
 pytivo_group_id: "0"
 
 ###
-### Homebridge
-###
-homebridge_available_externally: "false"
-homebridge_config_directory: "{{ docker_home }}/homebridge/config"
-homebridge_user_id: "0"
-homebridge_group_id: "0"
-homebridge_port: "8087"
-
-
-###
 ### Tautulli
 ###
 tautulli_available_externally: "false"
@@ -322,17 +306,6 @@ youtubedlmaterial_port_http: "8998"
 ### OpenVPN
 ###
 openvpn_config_directory: "{{ docker_home }}/openvpn"
-
-
-###
-### ZNC
-###
-znc_available_externally: "false"
-znc_data_directory: "{{ docker_home }}/znc"
-znc_user_id: "0"
-znc_group_id: "0"
-znc_port: "6677"
-
 
 ###
 ### Stats
@@ -386,16 +359,6 @@ miniflux_admin_password: supersecure
 miniflux_port: "8070"
 
 ###
-### CloudCmd
-###
-cloudcmd_available_externally: "false"
-cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
-cloudcmd_browse_directory: "/"
-cloudcmd_user_id: "0"
-cloudcmd_group_id: "0"
-cloudcmd_port: "7373"
-
-###
 ### Krusader
 ###
 krusader_available_externally: "false"
@@ -424,12 +387,6 @@ timemachine_port: "10445"
 get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
 get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
 get_iplayer_port: "8182"
-
-###
-### mymediaforalexa
-###
-mymediaforalexa_media_directory: "{{ music_root }}"
-mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
 
 ###
 ### Jackett
