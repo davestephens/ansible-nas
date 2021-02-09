@@ -15,7 +15,6 @@
     volumes:
       - "{{ znc_data_directory }}:/znc-data:rw"
       - "/etc/timezone:/etc/timezone:ro"
-    network_mode: "bridge"
     ports:
       - "{{ znc_port }}:6677"
     env:
