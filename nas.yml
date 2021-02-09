@@ -58,6 +58,11 @@
         - bitwarden
       when: (bitwarden_enabled | default(False))
 
+    - role: cloudcmd
+      tags:
+        - cloudcmd
+      when: (cloudcmd_enabled | default(False))
+
     - role: cloudflare_ddns
       tags:
         - cloudflare_ddns
@@ -289,10 +294,6 @@
   - import_tasks: tasks/jellyfin.yml
     when: (jellyfin_enabled | default(False))
     tags: jellyfin
-
-  - import_tasks: tasks/cloudcmd.yml
-    when: (cloudcmd_enabled | default(False))
-    tags: cloudcmd
 
   - import_tasks: tasks/krusader.yml
     when: (krusader_enabled | default(False))
