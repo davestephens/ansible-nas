@@ -3,7 +3,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    # mode: 0755
   with_items:
     - "{{ firefly_data_directory }}/postgresql"
     - "{{ firefly_data_directory }}/mysql"
@@ -39,7 +38,6 @@
       - "{{ firefly_data_directory }}/upload:/var/www/firefly-iii/storage/upload:rw"
     links:
       - firefly-mysql:db
-    network_mode: "bridge"
     ports:
       - "{{ firefly_port }}:8080"
     env:
