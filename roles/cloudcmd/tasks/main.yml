@@ -3,7 +3,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    # mode: 0755
   with_items:
     - "{{ cloudcmd_data_directory }}"
 
@@ -15,7 +14,6 @@
     volumes:
       - "{{ cloudcmd_data_directory }}:/config:rw"
       - "{{ cloudcmd_browse_directory }}:/mnt/fs"
-    network_mode: "bridge"
     ports:
       - "{{ cloudcmd_port }}:8000"
     env:
