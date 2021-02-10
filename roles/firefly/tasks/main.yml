@@ -1,3 +1,4 @@
+---
 - name: Create Firefly III Directories
   file:
     path: "{{ item }}"
@@ -49,10 +50,10 @@
       DB_PASSWORD: "firefly"
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ firefly_memory }}"
     labels:
       traefik.enable: "{{ firefly_available_externally }}"
-      traefik.http.routers.firefly.rule: "Host(`firefly.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.firefly.rule: "Host(`{{ firefly_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.firefly.tls.certresolver: "letsencrypt"
       traefik.http.routers.firefly.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.firefly.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

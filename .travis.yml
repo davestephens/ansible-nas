@@ -1,16 +1,21 @@
 ---
+dist: focal
 language: python
 
 services: docker
 
 env:
   - playbook: nas.yml
-    distro: ubuntu1804
+    distro: ubuntu2004
     test_syntax: true
     test_playbook: false
     test_idempotence: false
 
+before_install:
+  - sudo apt-get -y install ansible
+
 install:
+  - sudo apt install ansible
   - pip install ansible-lint
   - pip install mkdocs
   - pip install mkdocs-material

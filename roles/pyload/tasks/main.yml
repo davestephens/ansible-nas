@@ -23,10 +23,10 @@
       UID: "{{ pyload_user_id }}"
       GID: "{{ pyload_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ pyload_memory }}"
     labels:
       traefik.enable: "{{ pyload_available_externally }}"
-      traefik.http.routers.pyload.rule: "Host(`pyload.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.pyload.rule: "Host(`{{ pyload_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.pyload.tls.certresolver: "letsencrypt"
       traefik.http.routers.pyload.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.pyload.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
