@@ -21,8 +21,6 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
-        with:
-          path: 'geerlingguy.samba'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
@@ -35,4 +33,4 @@ jobs:
       - name: Lint code.
         run: |
           yamllint .
-          ansible-lint
+          ansible-lint ./nas.yml -x 106,208
