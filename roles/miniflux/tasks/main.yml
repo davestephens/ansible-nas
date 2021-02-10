@@ -26,10 +26,6 @@
     pull: true
     links:
         - miniflux-postgres:db
-    volumes:
-      - "{{ miniflux_config_directory }}:/config:rw"
-      - "{{ miniflux_logs }}:/logs:rw"
-      - "{{ miniflux_data_directory }}:/data:rw"
     ports:
       - "{{ miniflux_port }}:8080"
     env:
