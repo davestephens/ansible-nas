@@ -24,7 +24,7 @@
     memory: 1g
     labels:
       traefik.enable: "{{ nzbget_available_externally }}"
-      traefik.http.routers.nzbget.rule: "Host(`nzbget.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.nzbget.rule: "Host(`{{ nzbget_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.nzbget.tls.certresolver: "letsencrypt"
       traefik.http.routers.nzbget.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.nzbget.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
