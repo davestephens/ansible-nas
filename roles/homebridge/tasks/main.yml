@@ -3,17 +3,18 @@
   file:
     path: "{{ item }}"
     state: directory
+    # mode: 0755
   with_items:
     - "{{ homebridge_config_directory }}"
 
-- name: Homebridge Docker Container
+- name: Create Homebridge Docker Container
   docker_container:
     name: homebridge
     image: oznu/homebridge
     pull: true
     volumes:
       - "{{ homebridge_config_directory }}:/homebridge"
-    network_mode: host
+    network_mode: "host"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PGID: "{{ homebridge_group_id }}"
@@ -21,10 +22,10 @@
       HOMEBRIDGE_CONFIG_UI: "1"
       HOMEBRIDGE_CONFIG_UI_PORT: "{{ homebridge_port }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ homebridge_memory }}"
     labels:
       traefik.enable: "{{ homebridge_available_externally }}"
-      traefik.http.routers.homebridge.rule: "Host(`homebridge.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.homebridge.rule: "Host(`{{ homebridge_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.homebridge.tls.certresolver: "letsencrypt"
       traefik.http.routers.homebridge.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.homebridge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

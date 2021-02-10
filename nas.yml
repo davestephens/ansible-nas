@@ -58,11 +58,6 @@
         - bitwarden
       when: (bitwarden_enabled | default(False))
 
-    - role: calibre_web
-      tags:
-        - calibre_web
-      when: (calibre_web_enabled | default(False))
-
     - role: cloudflare_ddns
       tags:
         - cloudflare_ddns
@@ -88,6 +83,11 @@
         - emby
       when: (emby_enabled | default(False))
 
+    - role: firefly
+      tags:
+        - firefly
+      when: (firefly_enabled | default(False))
+
     - role: gitea
       tags:
         - gitea
@@ -103,12 +103,17 @@
         - homeassistant
       when: (homeassistant_enabled | default(False))
 
+    - role: homebridge
+      tags:
+        - homebridge
+      when: (homebridge_enabled | default(False))
+
     - role: lidarr
       tags:
         - lidarr
       when: (lidarr_enabled | default(False))
 
-   - role: minidlna
+    - role: minidlna
       tags:
         - minidlna
       when: (minidlna_enabled | default(False))
@@ -117,6 +122,11 @@
       tags:
         - mylar
       when: (mylar_enabled | default(False))
+
+    - role: mymediaforalexa
+      tags:
+        - mymediaforalexa
+      when: (mymediaforalexa_enabled | default(False))
 
     - role: n8n
       tags:
@@ -203,11 +213,12 @@
         - watchtower
       when: (watchtower_enabled | default(False))
 
-  tasks:
-  - import_tasks: tasks/firefly.yml
-    when: (firefly_enabled | default(False))
-    tags: firefly
+    - role: znc
+      tags:
+        - znc
+      when: (znc_enabled | default(False))
 
+  tasks:
   - import_tasks: tasks/tautulli.yml
     when: (tautulli_enabled | default(False))
     tags: tautulli
@@ -223,10 +234,6 @@
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))
     tags: glances
-
-  - import_tasks: tasks/znc.yml
-    when: (znc_enabled | default(False))
-    tags: znc
 
   - import_tasks: tasks/miniflux.yml
     when: (miniflux_enabled | default(False))
@@ -252,10 +259,6 @@
     when: (get_iplayer_enabled | default(False))
     tags: get_iplayer
 
-  - import_tasks: tasks/mymediaforalexa.yml
-    when: (mymediaforalexa_enabled | default(False))
-    tags: mymediaforalexa
-
   - import_tasks: tasks/jackett.yml
     when: (jackett_enabled | default(False))
     tags: jackett
@@ -276,10 +279,6 @@
     when: (mosquitto_enabled | default(False))
     tags: mosquitto
 
-  - import_tasks: tasks/homebridge.yml
-    when: (homebridge_enabled | default(False))
-    tags: homebridge
-
   - import_tasks: tasks/openhab.yml
     when: (openhab_enabled | default(False))
     tags: openhab
@@ -287,10 +286,6 @@
   - import_tasks: tasks/jellyfin.yml
     when: (jellyfin_enabled | default(False))
     tags: jellyfin
-
-  - import_tasks: tasks/cloudcmd.yml
-    when: (cloudcmd_enabled | default(False))
-    tags: cloudcmd
 
   - import_tasks: tasks/krusader.yml
     when: (krusader_enabled | default(False))
