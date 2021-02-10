@@ -19,16 +19,16 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the codebase.
+      - name: Check out the codebase
         uses: actions/checkout@v2
 
-      - name: Set up Python 3.
+      - name: Set up Python 3
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
-      - name: Install test dependencies.
-        run: pip3 install yamllint ansible-lint
+      - name: Install test dependencies
+        run: pip3 install yamllint ansible-lint==4.3.7
 
-      - name: Ansible lint.
+      - name: Ansible lint
         run: ansible-lint ./nas.yml -x 106,208
