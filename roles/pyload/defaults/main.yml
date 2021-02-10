@@ -1,0 +1,19 @@
+---
+pyload_enabled: false
+pyload_available_externally: "false"
+
+# directories
+pyload_config_directory: "{{ docker_home }}/pyload"
+pyload_download_directory: "{{ downloads_root }}"
+
+
+# uid / gid
+pyload_user_id: "0"
+pyload_group_id: "0"
+
+# network
+pyload_hostname: "pyload"
+pyload_port: "8000"
+
+# specs
+pyload_memory: "1g"

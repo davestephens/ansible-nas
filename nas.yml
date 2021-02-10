@@ -98,6 +98,11 @@
         - gitea
       when: (gitea_enabled | default(False))
 
+    - role: get_iplayer
+      tags:
+        - get_iplayer
+      when: (get_iplayer_enabled | default(False))
+
     - role: heimdall
       tags:
         - heimdall
@@ -112,6 +117,11 @@
       tags:
         - homebridge
       when: (homebridge_enabled | default(False))
+
+    - role: jackett
+      tags:
+        - jackettfalse
+      when: (jackett_enabled | default(False))
 
     - role: lidarr
       tags:
@@ -148,6 +158,11 @@
         - nextcloud
       when: (nextcloud_enabled | default(False))
 
+    - role: nzbget
+      tags:
+        - nzbget
+      when: (nzbget_enabled | default(False))
+
     - role: organizr
       tags:
         - organizr
@@ -157,6 +172,11 @@
       tags:
         - portainer
       when: (portainer_enabled | default(False))
+
+    - role: pyload
+      tags:
+        - pyload
+      when: (pyload_enabled | default(False))
 
     - role: ombi
       tags:
@@ -193,6 +213,11 @@
         - syncthing
       when: (syncthing_enabled | default(False))
 
+    - role: tautulli
+      tags:
+        - tautulli
+      when: (tautulli_enabled | default(False))
+
     - role: transmission
       tags:
         - transmission
@@ -224,14 +249,6 @@
       when: (znc_enabled | default(False))
 
   tasks:
-  - import_tasks: tasks/tautulli.yml
-    when: (tautulli_enabled | default(False))
-    tags: tautulli
-
-  - import_tasks: tasks/pyload.yml
-    when: (pyload_enabled | default(False))
-    tags: pyload
-
   - import_tasks: tasks/thelounge.yml
     when: (thelounge_enabled | default(False))
     tags: thelounge
@@ -260,21 +277,13 @@
     when: (guacamole_enabled | default(False))
     tags: guacamole
 
-  - import_tasks: tasks/get_iplayer.yml
-    when: (get_iplayer_enabled | default(False))
-    tags: get_iplayer
-
-  - import_tasks: tasks/jackett.yml
-    when: (jackett_enabled | default(False))
-    tags: jackett
+  - import_tasks: tasks/mymediaforalexa.yml
+    when: (mymediaforalexa_enabled | default(False))
+    tags: mymediaforalexa
 
   - import_tasks: tasks/joomla.yml
     when: (joomla_enabled | default(False))
     tags: joomla
-
-  - import_tasks: tasks/nzbget.yml
-    when: (nzbget_enabled | default(False))
-    tags: nzbget
 
   - import_tasks: tasks/wallabag.yml
     when: (wallabag_enabled | default(False))

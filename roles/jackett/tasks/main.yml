@@ -21,7 +21,7 @@
     restart_policy: unless-stopped
     labels:
       traefik.enable: "{{ jackett_available_externally }}"
-      traefik.http.routers.jackett.rule: "Host(`jackett.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.jackett.rule: "Host(`{{ jackett_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.jackett.tls.certresolver: "letsencrypt"
       traefik.http.routers.jackett.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.jackett.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

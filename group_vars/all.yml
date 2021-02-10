@@ -15,19 +15,8 @@
 ### Ansible-NAS Applications
 ###
 
-# Downloading
-nzbget_enabled: false
-pyload_enabled: false
-
-# Media Serving
-tautulli_enabled: false
-
 # Media Sourcing
-get_iplayer_enabled: false
-jackett_enabled: false
 jellyfin_enabled: false
-
-
 youtubedlmaterial_enabled: false
 
 # News
@@ -260,16 +249,6 @@ joomla_database_password: top_secret
 joomla_port: "8181"
 
 ###
-### pyLoad
-###
-pyload_available_externally: "false"
-pyload_config_directory: "{{ docker_home }}/pyload"
-pyload_download_directory: "{{ downloads_root }}"
-pyload_user_id: "0"
-pyload_group_id: "0"
-pyload_port: "8000"
-
-###
 ### PyTivo
 ###
 pytivo_available_externally: "false"
@@ -282,14 +261,6 @@ pytivo_podcasts_directory: "{{ podcasts_root }}"
 pytivo_user_id: "0"
 pytivo_group_id: "0"
 
-###
-### Tautulli
-###
-tautulli_available_externally: "false"
-tautulli_config_directory: "{{ docker_home }}/tautulli/config"
-tautulli_user_id: "0"
-tautulli_group_id: "0"
-tautulli_port: "8185"
 
 ###
 ### YouTubeDL-Material
@@ -335,12 +306,6 @@ glances_available_externally: "false"
 glances_port_one: "61208"
 glances_port_two: "61209"
 
-###
-### nginx
-###
-nginx_data_directory: "{{ docker_home }}/nginx"
-nginx_port_http: "80"
-nginx_port_https: "443"
 
 ###
 ### Guacamole
@@ -382,37 +347,12 @@ timemachine_log_level: error
 timemachine_port: "10445"
 
 ###
-### get_iplayer
-###
-get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
-get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
-get_iplayer_port: "8182"
-
-###
-### Jackett
-###
-jackett_available_externally: "false"
-jackett_data_directory: "{{ docker_home }}/jackett"
-jackett_torrents_root: "{{ torrents_root }}"
-jackett_port: "9117"
-
-###
 ### The Lounge
 ###
 thelounge_available_externally: "false"
 thelounge_data_directory: "{{ docker_home }}/thelounge"
 thelounge_port_one: "113"
 thelounge_port_two: "9002"
-
-###
-### Nzbget
-###
-nzbget_available_externally: "false"
-nzbget_data_directory: "{{ docker_home }}/nzbget"
-nzbget_download_directory: "{{ downloads_root }}"
-nzbget_user_id: "0"
-nzbget_group_id: "0"
-nzbget_port: "6789"
 
 ###
 ### Wallabag
