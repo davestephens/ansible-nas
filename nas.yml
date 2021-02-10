@@ -277,10 +277,6 @@
     when: (guacamole_enabled | default(False))
     tags: guacamole
 
-  - import_tasks: tasks/mymediaforalexa.yml
-    when: (mymediaforalexa_enabled | default(False))
-    tags: mymediaforalexa
-
   - import_tasks: tasks/joomla.yml
     when: (joomla_enabled | default(False))
     tags: joomla
