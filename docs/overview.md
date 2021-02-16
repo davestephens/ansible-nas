@@ -78,7 +78,12 @@ Ansible-NAS.
 ## How to experiment
 
 The easiest way to take Ansible-NAS for a spin is in a virtual machine, for
-instance in [VirtualBox](https://www.virtualbox.org/). You'll want to create
-three virtual hard drives for testing: One of the actual NAS, and the two others
-to create a mirrored ZFS pool. This will let you experiment with installing,
-configuring, and running a complete system.
+instance in [VirtualBox](https://www.virtualbox.org/) or
+[libvirt](https://libvirt.org). You'll want to create three virtual hard drives
+for testing: one of the actual NAS, and the two others to create a mirrored ZFS
+pool. This will let you experiment with installing, configuring, and running a
+complete system.
+
+A [Vagrant](https://vagrantup.com) _Vagrantfile_ and launch script are also
+available (`tests/test-vagrant.sh`), see the [testing](testing.md) page for more
+details.
