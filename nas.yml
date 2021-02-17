@@ -133,6 +133,11 @@
         - minidlna
       when: (minidlna_enabled | default(False))
 
+   - role: miniflux
+      tags:
+        - miniflux
+      when: (miniflux_enabled | default(False))
+
     - role: mylar
       tags:
         - mylar
@@ -256,10 +261,6 @@
   - import_tasks: tasks/glances.yml
     when: (glances_enabled | default(False))
     tags: glances
-
-  - import_tasks: tasks/miniflux.yml
-    when: (miniflux_enabled | default(False))
-    tags: miniflux
 
   - import_tasks: tasks/gitlab.yml
     when: (gitlab_enabled | default(False))
