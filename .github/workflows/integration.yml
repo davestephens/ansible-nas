@@ -24,5 +24,8 @@ jobs:
       - name: Install Ansible
         run: pip3 install ansible
 
+      - name: Install roles
+        run: ansible-galaxy install -r requirements.yml
+
       - name: Run playbook
         run: ansible-playbook -i inventories/sample/inventory nas.yml
