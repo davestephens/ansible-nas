@@ -133,7 +133,7 @@
         - minidlna
       when: (minidlna_enabled | default(False))
 
-   - role: miniflux
+    - role: miniflux
       tags:
         - miniflux
       when: (miniflux_enabled | default(False))
