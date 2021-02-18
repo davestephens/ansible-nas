@@ -1,0 +1,15 @@
+##                       ._____.   .__
+##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
+##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
+##   / __ \|   |  \\___ \|  || \_\ \  |_\  ___/  /_____/ |   |  \/ __ \_\___ \
+##  (____  /___|  /____  >__||___  /____/\___  >         |___|  (____  /____  >
+##       \/     \/     \/        \/          \/               \/     \/     \/
+##     a n s i b l e - n a s      https://github.com/davestephens/ansible-nas
+
+# Add your all.yml config overrides to this file. See group_vars/all.yml for all possible settings.
+
+# Example options
+ansible_nas_hostname: ansible-nas-test
+ansible_nas_timezone: Europe/London
+
+

@@ -28,4 +28,4 @@ jobs:
         run: ansible-galaxy install -r requirements.yml
 
       - name: Run playbook
-        run: ansible-playbook -i inventories/sample/inventory nas.yml
+        run: ansible-playbook -i tests/inventories/integration_testing/inventory nas.yml
