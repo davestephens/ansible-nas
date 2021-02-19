@@ -1,0 +1,13 @@
+---
+nzbhydra2_enabled: false
+nzbhydra2_available_externally: "false"
+
+# directories
+nzbhydra2_data_directory: "{{ docker_home }}/nzbhydra2/config"
+
+# uid / gid
+nzbhydra2_user_id: "0"
+nzbhydra2_group_id: "0"
+
+nzbhydra2_port: "5076"
+nzbhydra2_hostname: "nzbhydra2"

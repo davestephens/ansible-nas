@@ -66,6 +66,7 @@ Ansible config and a bunch of Docker containers.
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
+* [NZBHydra 2](https://github.com/theotherp/nzbhydra2) - Meta search for multiple newznab indexers or torznab trackers.
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
 * [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home

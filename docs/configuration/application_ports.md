@@ -45,6 +45,7 @@ By default, applications can be found on the ports listed below.
 | n8n             | 5678    | Bridge  | HTTP           |
 | Netdata         | 19999   | Bridge  | HTTP           |
 | Nextcloud       | 8080    | Bridge  | HTTP           |
+| NZBHydra2       | 5076    | Bridge  | HTTP           |
 | NZBGet          | 6789    | Bridge  | HTTP           |
 | Ombi            | 3579    | Bridge  | HTTP           |
 | openHAB         | 7777    | Host    | HTTP           |

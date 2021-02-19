@@ -198,10 +198,10 @@
         - radarr
       when: (radarr_enabled | default(False))
 
-    - role: radarr
+    - role: nzbhydra2
       tags:
-        - radarr
-      when: (radarr_enabled | default(False))
+        - nzbhydra2
+      when: (nzbhydra2_enabled | default(False))
 
     - role: sickchill
       tags:
