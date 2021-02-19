@@ -27,3 +27,23 @@ traefik_environment_variables:
 # the "{{ docker_home }}/traefik" after changing this setting.
 # traefik_acme_server: "https://acme-staging-v02.api.letsencrypt.org/directory" # staging
 traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory" # production
+
+# forwardauth using Google OAuth requries a client id and secret
+traefik_forwardauth_hostname: "auth"
+traefik_google_client_id: "28923428222-3jra876g8a7fg3h9ajf83jaf376hafa.apps.googleusercontent.com"
+traefik_google_client_secret: "f3a3-hH3JDe-ganlIUNAnffoe"
+
+# secret must be random: "openssl rand -hex 16"
+traefik_forwardauth_secret: "oh9dga4s8b653d86n854nusid6bnkljs"
+
+# Whitelist of account names to allow
+traefik_forwardauth_whitelist: ""
+
+traefik_forwardauth_environment_variables:
+  PROVIDERS_GOOGLE_CLIENT_ID: "{{ traefik_google_client_id }}"
+  PROVIDERS_GOOGLE_CLIENT_SECRET: "{{ traefik_google_client_secret }}"
+  SECRET: "{{ traefik_forwardauth_secret }}"
+  INSECURE_COOKIE: "true"
+  AUTH_HOST: "{{ traefik_forwardauth_hostname }}.{{ ansible_nas_domain }}"
+  COOKIE_DOMAIN: "{{ ansible_nas_domain }}"
+  WHITELIST: "{{ traefik_forwardauth_whitelist }}"

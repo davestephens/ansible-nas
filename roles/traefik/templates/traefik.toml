@@ -24,6 +24,8 @@
   providersThrottleDuration = "2s"
   [providers.docker]
     exposedbydefault = false
+  [providers.file]
+    directory = "/etc/traefik/config"
 
 [api]
   insecure = true
@@ -44,3 +46,4 @@
 
       [certificatesResolvers.letsencrypt.acme.dnsChallenge]
         provider = "{{ traefik_dns_provider }}"
+
