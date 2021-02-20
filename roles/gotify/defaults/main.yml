@@ -1,0 +1,10 @@
+---
+gotify_enabled: false
+gotify_available_externally: "false"
+
+# docker image to use
+gotify_docker_image: gotify/server:latest
+
+# network
+gotify_port: "2346"
+gotify_hostname: "gotify"
