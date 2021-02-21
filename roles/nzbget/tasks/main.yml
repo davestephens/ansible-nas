@@ -6,6 +6,8 @@
   with_items:
     - "{{ nzbget_data_directory }}"
     - "{{ fasttemp_root }}/nzbget"
+    - "{{ fasttemp_root }}/nzbget/tmp"
+    - "{{ fasttemp_root }}/nzbget/intermediate"
 
 - name: NZBGet
   docker_container:
