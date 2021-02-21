@@ -25,4 +25,6 @@
       traefik.http.routers.portainer.tls.certresolver: "letsencrypt"
       traefik.http.routers.portainer.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.portainer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.routers.portainer.middlewares: "portainerwhitelist"
       traefik.http.services.portainer.loadbalancer.server.port: "9000"
+      traefik.http.middlewares.portainerwhitelist.ipwhitelist.sourcerange: "{{ private_whitelist }}"
