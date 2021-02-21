@@ -31,4 +31,6 @@
       traefik.http.routers.netdata.tls.certresolver: "letsencrypt"
       traefik.http.routers.netdata.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.netdata.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.routers.netdata.middlewares: "netdatawhitelist"
       traefik.http.services.netdata.loadbalancer.server.port: "19999"
+      traefik.http.middlewares.netdatawhitelist.ipwhitelist.sourcerange: "{{ private_whitelist }}"
