@@ -27,6 +27,7 @@
     ports:
       - "{{ netdata_port }}:19999"
     volumes:
+      - "{{ netdata_data_directory }}/netdata.conf:/etc/netdata/netdata.conf:ro"
       - "/proc:/host/proc:ro"
       - "/sys:/host/sys:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
