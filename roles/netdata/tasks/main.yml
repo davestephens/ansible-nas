@@ -4,6 +4,19 @@
     name: docker
   register: docker_group
 
+- name: Create Netdata Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ netdata_data_directory }}"
+
+- name: Template Netdata netdata.conf
+  template:
+    src: netdata.conf
+    dest: "{{ netdata_data_directory }}/netdata.conf"
+  register: template_config
+
 - name: Netdata Docker Container
   docker_container:
     name: netdata
@@ -17,6 +30,7 @@
       - "/proc:/host/proc:ro"
       - "/sys:/host/sys:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "{{ netdata_data_directory }}/netdata.conf:/etc/netdata/netdata.conf:ro"
     env:
       PGID: "{{ docker_group.gid }}"
     capabilities:
