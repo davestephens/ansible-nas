@@ -19,20 +19,6 @@
 
   [entryPoints.traefik]
     address = ":{{ traefik_port_ui }}"
-    
-  [entryPoints.ssh]
-    address = ":8909"
-
-[tcp]
-  [tcp.routers]
-    [tcp.routers.to-ssh]
-      entryPoints = ["ssh"]
-      rule = "HostSNI(`*`)"
-      service = "ssh"
-  [tcp.services]
-    [tcp.services.ssh.loadBalancer]
-      [[tcp.services.ssh.loadBalancer.servers]]
-        address = "192.168.122.79:8909"
 
 [providers]
   providersThrottleDuration = "2s"
