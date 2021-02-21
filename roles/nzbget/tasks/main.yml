@@ -5,7 +5,7 @@
     state: directory
   with_items:
     - "{{ nzbget_data_directory }}"
-    - "{{ cache_root }}/nzbget"
+    - "{{ fasttemp_root }}/nzbget"
 
 - name: NZBGet
   docker_container:
@@ -15,7 +15,7 @@
     volumes:
       - "{{ nzbget_download_directory }}:/downloads:rw"
       - "{{ nzbget_data_directory }}:/config:rw"
-      - "{{ cache_root }}/nzbget:/tmp:rw"
+      - "{{ fasttemp_root }}/nzbget:/fasttemp:rw"
     ports:
       - "{{ nzbget_port }}:6789"
     env:
