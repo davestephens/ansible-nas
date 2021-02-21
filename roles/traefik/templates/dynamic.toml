@@ -1,0 +1,9 @@
+[tcp.routers]
+  [tcp.routers.ssh]
+    entryPoints = ["ssh"]
+    rule = "HostSNI(`*`)"
+    service = "ssh"
+[tcp.services]
+  [tcp.services.ssh.loadBalancer]
+    [[tcp.services.ssh.loadBalancer.servers]]
+      address = "192.168.122.79:8909"
