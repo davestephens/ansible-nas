@@ -21,4 +21,6 @@
       traefik.http.routers.glances.tls.certresolver: "letsencrypt"
       traefik.http.routers.glances.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.glances.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.routers.glances.middlewares: "glanceswhitelist"
       traefik.http.services.glances.loadbalancer.server.port: "61208"
+      traefik.http.middlewares.glanceswhitelist.ipwhitelist.sourcerange: "{{ private_whitelist }}"
