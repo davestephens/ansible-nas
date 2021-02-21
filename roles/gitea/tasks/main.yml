@@ -47,7 +47,7 @@
     image: gitea/gitea:1.6
     pull: true
     links:
-        - gitea-mysql:db
+      - gitea-mysql:db
     volumes:
       - "{{ gitea_data_directory }}/gitea:/data:rw"
     ports:

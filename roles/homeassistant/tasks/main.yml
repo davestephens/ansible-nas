@@ -1,3 +1,4 @@
+---
 - name: Create Home Assistant Directories
   file:
     path: "{{ item }}"

@@ -1,3 +1,4 @@
+---
 - name: Create Bitwarden Directories
   file:
     path: "{{ item }}"
@@ -28,7 +29,6 @@
       traefik.hub.port: "bitwarden_port_b"
       traefik.hub.protocol: "ws"
     restart_policy: unless-stopped
-    #memory: 1g
 
 - name: Bitwarden Backup Container
   docker_container:

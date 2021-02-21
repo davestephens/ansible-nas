@@ -1,14 +1,12 @@
-# This is a basic workflow to help you get started with Actions
-
+---
 name: Integration
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-
   test:
     name: Test
     runs-on: ubuntu-20.04

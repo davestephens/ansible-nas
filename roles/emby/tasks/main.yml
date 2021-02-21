@@ -1,3 +1,4 @@
+---
 - name: Create Emby Directories
   file:
     path: "{{ item }}"

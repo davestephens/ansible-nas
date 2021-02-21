@@ -33,4 +33,3 @@
       traefik.http.routers.thelounge.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.thelounge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.thelounge.loadbalancer.server.port: "9000"
-

@@ -28,7 +28,7 @@
     image: nextcloud:14
     pull: true
     links:
-        - nextcloud-mysql:mysql
+      - nextcloud-mysql:mysql
     volumes:
       - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
     ports:
@@ -48,4 +48,3 @@
       traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.nextcloud.loadbalancer.server.port: "80"
-
