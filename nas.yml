@@ -103,6 +103,11 @@
         - get_iplayer
       when: (get_iplayer_enabled | default(False))
 
+    - role: gotify
+      tags:
+        - gotify
+      when: (gotify_enabled | default(False))
+
     - role: heimdall
       tags:
         - heimdall

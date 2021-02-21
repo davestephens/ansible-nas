@@ -11,3 +11,6 @@ inventories
 
 # Session
 Session.vim
+
+# IntelliJ
+/.idea/
