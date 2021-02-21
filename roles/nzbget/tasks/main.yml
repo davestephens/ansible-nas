@@ -28,4 +28,6 @@
       traefik.http.routers.nzbget.tls.certresolver: "letsencrypt"
       traefik.http.routers.nzbget.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.nzbget.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.routers.nzbget.middlewares: "nzbgetwhitelist"
       traefik.http.services.nzbget.loadbalancer.server.port: "6789"
+      traefik.http.middlewares.nzbgetwhitelist.ipwhitelist.sourcerange: "{{ private_whitelist }}"
