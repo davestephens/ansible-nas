@@ -1,4 +1,11 @@
 ---
+- name: Create Gotify Data Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ gotify_data_directory }}"
+
 - name: Gotify Docker Container
   docker_container:
     name: gotify
@@ -8,6 +15,11 @@
       - "{{ gotify_port }}:80"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "{{ gotify_data_directory }}:/app/data:rw"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ gotify_user_id }}"
+      PGID: "{{ gotify_group_id }}"
     restart_policy: unless-stopped
     memory: 200m
     labels:
