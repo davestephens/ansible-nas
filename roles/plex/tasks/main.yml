@@ -36,6 +36,6 @@
       traefik.http.routers.plex.tls.certresolver: "letsencrypt"
       traefik.http.routers.plex.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.plex.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.routers.plex.middlewares=plexwhitelist
+      traefik.http.routers.plex.middlewares: "plexwhitelist"
       traefik.http.services.plex.loadbalancer.server.port: "32400"
       traefik.http.middlewares.plexwhitelist.ipwhitelist.sourcerange: "{{ private_whitelist }}"
