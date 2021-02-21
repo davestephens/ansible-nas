@@ -7,3 +7,15 @@
   [tcp.services.ssh.loadBalancer]
     [[tcp.services.ssh.loadBalancer.servers]]
       address = "192.168.122.79:8909"
+
+[http.services.stanleyweb.loadBalancer]
+  [[http.services.stanleyweb.loadBalancer.servers]]
+    url = "http://192.168.122.79/"
+
+# router with PathPrefix /, so everything will be matched
+[http.routers.stanleyweb]
+  entryPoints = [ "websecure" ]
+  rule = "PathPrefix(`/`)"
+  service = "stanleyweb"
+  # lowest possible priority so that the match can be overwritten by anyone
+  priority = 1
