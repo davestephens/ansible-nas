@@ -9,5 +9,9 @@ nzbhydra2_data_directory: "{{ docker_home }}/nzbhydra2/config"
 nzbhydra2_user_id: "0"
 nzbhydra2_group_id: "0"
 
+#network
 nzbhydra2_port: "5076"
 nzbhydra2_hostname: "nzbhydra2"
+
+#specs
+nzbhydra2_memory: "1g"

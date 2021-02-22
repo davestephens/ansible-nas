@@ -14,13 +14,13 @@
     volumes:
       - "{{ nzbhydra2_data_directory }}:/config:rw"
     ports:
-      - "5076:5076"
+      - "{{ nzbhydra2_port }}:5076"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ nzbhydra2_user_id }}"
       PGID: "{{ nzbhydra2_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: {{ nzbhydra2_memory }}
     labels:
       traefik.enable: "{{ nzbhydra2_available_externally }}"
       traefik.http.routers.nzbhydra2.rule: "Host(`{{ nzbhydra2_hostname }}.{{ ansible_nas_domain }}`)"
@@ -28,4 +28,3 @@
       traefik.http.routers.nzbhydra2.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.nzbhydra2.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.nzbhydra2.loadbalancer.server.port: "5076"
-      traefik.port: "5076"
