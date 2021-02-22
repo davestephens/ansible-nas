@@ -73,6 +73,11 @@
         - couchpotato
       when: (couchpotato_enabled | default(False))
 
+    - role: ddns_updater
+      tags:
+        - ddns_updater
+      when: (ddns_updater_enabled | default(False))
+
     - role: deluge
       tags:
         - deluge

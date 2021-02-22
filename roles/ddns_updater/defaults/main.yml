@@ -1,0 +1,42 @@
+---
+# enable the role
+ddns_updater_enabled: false
+
+# Data directory for config file
+ddns_updater_data_directory: "{{ docker_home }}/ddns_updater"
+
+# enable in order to make web ui reachable from external
+ddns_updater_available_externally: "false"
+
+# Port for the web ui
+ddns_updater_port: 8202
+ddns_updater_hostname: "ddns"
+
+# User to run the container with
+ddns_updater_user_id: "0"
+
+# Token to be used to send messages via gotify
+# ddns_updater_gotify_token: "ABCDEFGHIJKLMOP"
+
+# url of gotify server
+gotify_url: "gotify.{{ ansible_nas_domain }}"
+
+# dict to pass in additional environment variables
+# available in the docker images (https://github.com/qdm12/ddns-updater#environment-variables)
+ddns_update_extra_env: {}
+
+# ddns_updater_config describes the content of the config.json
+# used to configure the updater
+# see https://github.com/qdm12/ddns-updater#configuration
+#
+# using cloudflare should work with a config like this:
+#
+#ddns_updater_config:
+#  settings:
+#    - provider: "cloudflare"
+#      zone_identifier: "{{ cloudflare_zone }}",
+#      domain: "{{ cloudflare_host }}"
+#      host: "@"
+#      ttl: 1
+#      token: "{{ cloudflare_token }}"
+#      proxied: { { cloudflare_proxy | bool } }

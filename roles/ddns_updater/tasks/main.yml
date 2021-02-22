@@ -1,0 +1,46 @@
+---
+- name: Create DDNS Updater Directories
+  file:
+    path: "{{ ddns_updater_data_directory }}"
+    state: directory
+
+- name: Check config is defined
+  fail: msg="No 'ddns_updater_config' defined."
+  when: ddns_updater_config is not defined
+
+- name: Generate config.json
+  copy:
+    content: "{{ ddns_updater_config | to_nice_json }}"
+    dest: "{{ ddns_updater_data_directory }}/config.json"
+
+- name: Generate dns docker environment
+  set_fact:
+    ddns_update_env: |
+      TZ: "{{ ansible_nas_timezone }}"
+      {% if ddns_updater_gotify_token is defined %}
+      GOTIFY_TOKEN: {{ ddns_updater_gotify_token }}
+      GOTIFY_URL: {{ gotify_url }}
+      {% endif %}
+      {% for env in ddns_update_extra_env|dict2items %}
+      {{ env.key }}: {{ env.value }}
+      {% endfor %}
+
+- name: Dynamic DNS Container
+  docker_container:
+    name: ddns-updater
+    image: qmcgaw/ddns-updater:latest
+    pull: true
+    ports:
+      - "{{ ddns_updater_port }}:8000"
+    volumes:
+      - "{{ ddns_updater_data_directory }}:/updater/data:rw"
+    env: "{{ ddns_update_env | from_yaml }}"
+    restart_policy: unless-stopped
+    user: "{{ ddns_updater_user_id }}"
+    labels:
+      traefik.enable: "{{ ddns_updater_available_externally }}"
+      traefik.http.routers.airsonic.rule: "Host(`{{ ddns_updater_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.airsonic.tls.certresolver: "letsencrypt"
+      traefik.http.routers.airsonic.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.airsonic.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.airsonic.loadbalancer.server.port: "8000"
