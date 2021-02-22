@@ -21,7 +21,7 @@
       GOTIFY_TOKEN: {{ ddns_updater_gotify_token }}
       GOTIFY_URL: {{ gotify_url }}
       {% endif %}
-      {% for env in ddns_update_extra_env|dict2items %}
+      {% for env in ddns_updater_extra_env|dict2items %}
       {{ env.key }}: {{ env.value }}
       {% endfor %}
 
