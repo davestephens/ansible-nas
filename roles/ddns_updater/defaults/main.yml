@@ -2,6 +2,9 @@
 # enable the role
 ddns_updater_enabled: false
 
+# docker image used
+ddns_updater_docker_image:  qmcgaw/ddns-updater:latest
+
 # Data directory for config file
 ddns_updater_data_directory: "{{ docker_home }}/ddns_updater"
 

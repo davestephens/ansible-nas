@@ -28,7 +28,7 @@
 - name: Dynamic DNS Container
   docker_container:
     name: ddns-updater
-    image: qmcgaw/ddns-updater:latest
+    image: "{{ ddns_updater_docker_image }}"
     pull: true
     ports:
       - "{{ ddns_updater_port }}:8000"
