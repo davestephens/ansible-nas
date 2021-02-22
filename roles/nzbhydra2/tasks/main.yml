@@ -20,7 +20,7 @@
       PUID: "{{ nzbhydra2_user_id }}"
       PGID: "{{ nzbhydra2_group_id }}"
     restart_policy: unless-stopped
-    memory: {{ nzbhydra2_memory }}
+    memory: "{{ nzbhydra2_memory }}"
     labels:
       traefik.enable: "{{ nzbhydra2_available_externally }}"
       traefik.http.routers.nzbhydra2.rule: "Host(`{{ nzbhydra2_hostname }}.{{ ansible_nas_domain }}`)"
