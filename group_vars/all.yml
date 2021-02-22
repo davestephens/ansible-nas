@@ -21,7 +21,6 @@ jellyfin_enabled: false
 youtubedlmaterial_enabled: false
 
 # System Management
-glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
 virtual_desktop_enabled: false
@@ -296,14 +295,6 @@ gitlab_data_directory: "{{ docker_home }}/gitlab"
 gitlab_port_http: "4080"
 gitlab_port_https: "4443"
 gitlab_port_ssh: "422"
-
-###
-### Glances
-###
-glances_available_externally: "false"
-glances_port_one: "61208"
-glances_port_two: "61209"
-
 
 ###
 ### Guacamole
