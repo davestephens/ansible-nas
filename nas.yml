@@ -103,6 +103,11 @@
         - get_iplayer
       when: (get_iplayer_enabled | default(False))
 
+    - role: glances
+      tags:
+        - glances
+      when: (glances_enabled | default(False))
+
     - role: gotify
       tags:
         - gotify
@@ -262,10 +267,6 @@
     - import_tasks: tasks/thelounge.yml
       when: (thelounge_enabled | default(False))
       tags: thelounge
-
-    - import_tasks: tasks/glances.yml
-      when: (glances_enabled | default(False))
-      tags: glances
 
     - import_tasks: tasks/gitlab.yml
       when: (gitlab_enabled | default(False))
