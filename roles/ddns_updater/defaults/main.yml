@@ -1,32 +1,39 @@
 ---
-# enable the role
+# Enable the role
 ddns_updater_enabled: false
 
-# docker image used
+# Docker image used
 ddns_updater_docker_image:  qmcgaw/ddns-updater:latest
 
 # Data directory for config file
 ddns_updater_data_directory: "{{ docker_home }}/ddns_updater"
 
-# enable in order to make web ui reachable from external
+# Enable in order to make web ui reachable from external
 ddns_updater_available_externally: "false"
 
 # Port for the web ui
 ddns_updater_port: 8202
+
+# Hostname for subdomain
 ddns_updater_hostname: "ddns"
 
 # User to run the container with
 ddns_updater_user_id: "0"
 
 # Token to be used to send messages via gotify
-# ddns_updater_gotify_token: "ABCDEFGHIJKLMOP"
+ddns_updater_gotify_token: "token"
 
-# url of gotify server
-gotify_url: "gotify.{{ ansible_nas_domain }}"
+# Url of gotify server
+gotify_url: "https://gotify.{{ ansible_nas_domain }}"
 
-# dict to pass in additional environment variables
-# available in the docker images (https://github.com/qdm12/ddns-updater#environment-variables)
-ddns_updater_extra_env: {}
+# Period of IP address check
+ddns_updater_period: 5m
+
+# Duration to cooldown between updates for each record. This is useful to avoid being rate limited or banned.
+ddns_updater_cooldown_period: 5m
+
+# Timeout for all HTTP requests
+ddns_updater_http_timeout: 10s
 
 # ddns_updater_config describes the content of the config.json
 # used to configure the updater
@@ -34,12 +41,17 @@ ddns_updater_extra_env: {}
 #
 # using cloudflare should work with a config like this:
 #
-#ddns_updater_config:
-#  settings:
-#    - provider: "cloudflare"
-#      zone_identifier: "{{ cloudflare_zone }}",
-#      domain: "{{ cloudflare_host }}"
-#      host: "@"
-#      ttl: 1
-#      token: "{{ cloudflare_token }}"
-#      proxied: { { cloudflare_proxy | bool } }
+# ddns_updater_config: >
+#   {
+#     "settings": [
+#       {
+#         "provider": "cloudflare",
+#         "zone_identifier": "some id",
+#         "domain": "domain.com",
+#         "host": "@",
+#         "ttl": 600,
+#         "token": "yourtoken",
+#         "ip_version": "ipv4"
+#       }
+#     ]
+#   }

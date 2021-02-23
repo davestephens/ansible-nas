@@ -39,8 +39,7 @@ Set `ddns_updater_enabled: true` in your `inventories/<your_inventory>/nas.yml` 
 
 You have to define `ddns_updater_config` with the configuration of your provider(s).
 See https://github.com/qdm12/ddns-updater#configuration for configuration options.
-For an example on how to convert the configuration in json Format to the yaml/dict in  `ddns_updater_config`  see the
-role defaults.
+For an example on how to write the configuration in `ddns_updater_config` see the role defaults.
 
 Optionally, `ddns_updater_gotify_token` can be set to a gotify token in order to be notified about changes made to your
 dns.
