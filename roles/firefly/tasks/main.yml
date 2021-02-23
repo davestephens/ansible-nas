@@ -22,7 +22,7 @@
       MYSQL_PASSWORD: "firefly"
       MYSQL_ROOT_PASSWORD: "firefly"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ firefly_mysql_memory }}"
 
 - name: Wait for MySQL to init
   pause:

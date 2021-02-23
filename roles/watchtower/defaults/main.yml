@@ -15,3 +15,6 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}'"
 
 # Slack notifications
 # watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"
+
+# specs
+memory: "{{ watchtower_memory }}"

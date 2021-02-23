@@ -21,7 +21,7 @@
     ports:
       - "{{ airsonic_port }}:4040"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ airsonic_memory }}"
     labels:
       traefik.enable: "{{ airsonic_available_externally }}"
       traefik.http.routers.airsonic.rule: "Host(`{{ airsonic_hostname }}.{{ ansible_nas_domain }}`)"

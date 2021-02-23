@@ -21,7 +21,7 @@
       PUID: "{{ gotify_user_id }}"
       PGID: "{{ gotify_group_id }}"
     restart_policy: unless-stopped
-    memory: 200m
+    memory: "{{ gotify_memory }}"
     labels:
       traefik.enable: "{{ gotify_available_externally }}"
       traefik.http.routers.gotify.rule: "Host(`{{ gotify_hostname }}.{{ ansible_nas_domain }}`)"

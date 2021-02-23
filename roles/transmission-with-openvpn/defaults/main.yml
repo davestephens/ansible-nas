@@ -29,3 +29,6 @@ openvpn_username: leisure-suit-larry
 openvpn_password: secretpassword
 openvpn_provider: AWESOMEVPNPROVIDER
 openvpn_config: United-Kingdom
+
+# specs
+transmission_openvpn_memory: 1g

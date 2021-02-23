@@ -17,3 +17,4 @@ miniflux_port: "8070"
 
 # specs
 miniflux_memory: "1g"
+miniflux_postgres_memory: "1g"

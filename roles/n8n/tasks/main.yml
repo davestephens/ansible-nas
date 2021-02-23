@@ -17,7 +17,7 @@
       - "{{ n8n_data_directory }}:/home/node/.n8n:rw"
       - "/etc/timezone:/etc/timezone:ro"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ n8n_memory }}"
     env:
       N8N_BASIC_AUTH_ACTIVE: "true"
       N8N_BASIC_AUTH_USER: "{{ n8n_basic_auth_user }}"

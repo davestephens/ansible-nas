@@ -14,6 +14,7 @@
     env:
       GLANCES_OPT: "-w"
     restart_policy: unless-stopped
+    memory: "{{ glances_memory }}"
     labels:
       traefik.enable: "{{ glances_available_externally }}"
       traefik.http.routers.glances.rule: "Host(`{{ glances_hostname }}.{{ ansible_nas_domain }}`)"

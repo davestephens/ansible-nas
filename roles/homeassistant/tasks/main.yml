@@ -24,4 +24,4 @@
       traefik.http.routers.homeassistant.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.homeassistant.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.homeassistant.loadbalancer.server.port: "8123"
-    memory: 1g
+    memory: "{{ homeassistant_memory }}"

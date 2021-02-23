@@ -14,6 +14,7 @@
     network_mode: host
     volumes: "{{ syncthing_volumes }}"
     restart_policy: unless-stopped
+    memory: "{{ syncthing_memory }}"
     labels:
       traefik.enable: "{{ syncthing_available_externally }}"
       traefik.http.routers.syncthing.rule: "Host(`{{ syncthing_hostname }}.{{ ansible_nas_domain }}`)"

@@ -13,3 +13,6 @@ organizr_hostname: "organizr"
 # uid / gid
 organizr_user_id: "1000"
 organizr_group_id: "1000"
+
+# specs
+organizr_memory: 1g

@@ -28,6 +28,7 @@
       traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
       traefik.hub.port: "bitwarden_port_b"
       traefik.hub.protocol: "ws"
+    memory: "{{ bitwarden_memory }}"
     restart_policy: unless-stopped
 
 - name: Bitwarden Backup Container
@@ -37,4 +38,4 @@
     pull: true
     restart_policy: unless-stopped
     volumes_from: bitwarden
-    memory: 1g
+    memory: "{{ bitwarden_backup_memory }}"

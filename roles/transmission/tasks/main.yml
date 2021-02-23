@@ -27,7 +27,7 @@
       PUID: "{{ transmission_user_id }}"
       PGID: "{{ transmission_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ transmission_memory }}"
     labels:
       traefik.enable: "{{ transmission_available_externally }}"
       traefik.http.routers.transmission.rule: "Host(`{{ transmission_hostname }}.{{ ansible_nas_domain }}`)"
