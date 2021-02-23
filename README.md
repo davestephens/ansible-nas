@@ -29,6 +29,7 @@ Ansible config and a bunch of Docker containers.
 * Content management with Joomla
 * A dual panel local file manager
 * Self-service media request web application
+* A PXE server to boot OS images over the network
 
 ### Available Applications
 
@@ -47,7 +48,7 @@ Ansible config and a bunch of Docker containers.
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
 * [GitLab](https://about.gitlab.com/features/) - Self-hosted GitHub clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
-* [Gotify](https://gotify.net/) Self-hosted server for sending push notifications  
+* [Gotify](https://gotify.net/) Self-hosted server for sending push notifications
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
@@ -64,6 +65,7 @@ Ansible config and a bunch of Docker containers.
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
 * [n8n](https://n8n.io") - Nodemation, a node based workflow and automation service like IFTTT.
+* [netboot.xyz](https://netboot.xyz/) - a PXE boot server
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader

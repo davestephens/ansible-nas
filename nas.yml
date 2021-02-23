@@ -163,6 +163,11 @@
         - n8n_enabled
       when: (n8n_enabled | default(False))
 
+    - role: netbootxyz
+      tags:
+        - netbootxyz
+      when: (netbootxyz_enabled | default(False))
+
     - role: netdata
       tags:
         - netdata
