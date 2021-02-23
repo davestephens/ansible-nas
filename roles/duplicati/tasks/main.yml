@@ -15,9 +15,13 @@
       - "{{ duplicati_port }}:8200"
     volumes:
       - "{{ duplicati_data_directory }}:/config:rw"
-      - "{{ samba_shares_root }}:/source/shares:ro"
+      - "{{ samba_shares_root }}:/source/shares:{{ duplicati_data_permissions }}"
       - "{{ docker_home }}:/source/docker:ro"
       - "/etc/timezone:/etc/timezone:ro"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ duplicati_user_id }}"
+      PGID: "{{ duplicati_group_id }}"
     restart_policy: unless-stopped
     memory: 1g
     labels:
