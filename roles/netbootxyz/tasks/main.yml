@@ -1,4 +1,3 @@
-
 ---
 - name: netbootxyz Directory
   file:
@@ -20,14 +19,16 @@
       - "{{ netbootxyz_port_http }}:3000"
       - "{{ netbootxyz_port_http2 }}:80"
       - "{{ netbootxyz_port_tftp }}:69/udp"
+    memory: "{{ netbootxyz_memory }}"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ netbootxyz_user_id }}"
       PGID: "{{ netbootxyz_group_id }}"
     restart_policy: unless-stopped
     labels:
-      traefik.backend: "netbootxyz"
-      traefik.frontend.rule: "Host:netbootxyz.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ netbootxyz_available_externally }}"
-      traefik.port: "80"
-    memory: 1g
+      traefik.enable: "{{ netbootxyz_externally }}"
+      traefik.http.routers.netdata.rule: "Host(`{{ netbootxyz_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.netdata.tls.certresolver: "letsencrypt"
+      traefik.http.routers.netdata.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.netdata.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.netdata.loadbalancer.server.port: "80"
