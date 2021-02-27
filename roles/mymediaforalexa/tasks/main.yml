@@ -1,0 +1,20 @@
+---
+- name: Create Mymediaforalexa Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ mymediaforalexa_media_directory }}"
+    - "{{ mymediaforalexa_data_directory }}"
+
+- name: mymediaforalexa Docker Container
+  docker_container:
+    name: mymediaforalexa
+    image: bizmodeller/mymediaforalexa
+    pull: true
+    volumes:
+      - "{{ mymediaforalexa_media_directory }}:/medialibrary:rw"
+      - "{{ mymediaforalexa_data_directory }}:/datadir:rw"
+    network_mode: host
+    restart_policy: unless-stopped
+    memory: "{{ mymediaforalexa_memory }}"

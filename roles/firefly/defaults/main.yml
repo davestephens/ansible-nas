@@ -1,0 +1,15 @@
+---
+# enable or disable the application
+firefly_enabled: false
+firefly_available_externally: "false"
+
+# directories
+firefly_data_directory: "{{ docker_home }}/firefly"
+
+# network
+firefly_hostname: "firefly"
+firefly_port: "8066"
+
+# specs
+firefly_memory: "1g"
+firefly_mysql_memory: "1g"

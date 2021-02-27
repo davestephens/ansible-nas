@@ -1,0 +1,15 @@
+---
+# enable or disable the application
+jackett_enabled: false
+jackett_available_externally: "false"
+
+# directories
+jackett_data_directory: "{{ docker_home }}/jackett"
+jackett_torrents_root: "{{ torrents_root }}"
+
+# network
+jackett_hostname: "jackett"
+jackett_port: "9117"
+
+# specs
+jackett_memory: "1g"

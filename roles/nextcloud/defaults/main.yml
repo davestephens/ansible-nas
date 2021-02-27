@@ -1,0 +1,19 @@
+---
+nextcloud_enabled: false
+nextcloud_available_externally: "false"
+
+# directories
+nextcloud_data_directory: "{{ docker_home }}/nextcloud"
+
+# network
+nextcloud_port: "8080"
+nextcloud_hostname: "nextcloud"
+
+# username / passwords
+nextcloud_sql_user: "nextcloud-user"
+nextcloud_sql_password: "nextcloud-pass"
+nextcloud_sql_root_password: "nextcloud-secret"
+
+# specs
+nextcloud_memory: 1g
+nextcloud_mysql_memory: 1g

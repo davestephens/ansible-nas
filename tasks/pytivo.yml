@@ -31,7 +31,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "pytivo"
-      traefik.frontend.rule: "Host:pytivo.{{ ansible_nas_domain }}"
       traefik.enable: "{{ pytivo_available_externally }}"
-      traefik.port: "9032"
+      traefik.http.routers.pytivo.rule: "Host(`pytivo.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.pytivo.tls.certresolver: "letsencrypt"
+      traefik.http.routers.pytivo.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.pytivo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.pytivo.loadbalancer.server.port: "9032"

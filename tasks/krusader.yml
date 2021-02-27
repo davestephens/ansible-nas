@@ -1,4 +1,3 @@
-
 ---
 - name: Krusader Directory
   file:
@@ -25,9 +24,11 @@
       TZ: "{{ ansible_nas_timezone }}"
       VNC_PASSWORD: "{{ krusader_vnc_password }}"
     restart_policy: unless-stopped
-    labels:
-      traefik.backend: "krusader"
-      traefik.frontend.rule: "Host:krusader.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ krusader_available_externally }}"
-      traefik.port: "5800"
     memory: 1g
+    labels:
+      traefik.enable: "{{ krusader_available_externally }}"
+      traefik.http.routers.krusader.rule: "Host(`krusader.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.krusader.tls.certresolver: "letsencrypt"
+      traefik.http.routers.krusader.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.krusader.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.krusader.loadbalancer.server.port: "5800"

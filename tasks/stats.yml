@@ -109,7 +109,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "grafana"
-      traefik.frontend.rule: "Host:grafana.{{ ansible_nas_domain }}"
       traefik.enable: "{{ grafana_available_externally }}"
-      traefik.port: "3000"
+      traefik.http.routers.grafana.rule: "Host(`grafana.{{ ansible_nas_domain }}`) "
+      traefik.http.routers.grafana.tls.certresolver: "letsencrypt"
+      traefik.http.routers.grafana.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.grafana.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.grafana.netdata.loadbalancer.server.port: "3000"

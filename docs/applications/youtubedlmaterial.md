@@ -1,8 +1,8 @@
 
 # YouTubeDL-Material
 
-Homepage: [https://ytdl-org.github.io/youtube-dl/](https://ytdl-org.github.io/youtube-dl/)
-Docker Container: [https://github.com/Tzahi12345/YoutubeDL-Material](https://github.com/Tzahi12345/YoutubeDL-Material)
+Homepage: [https://github.com/Tzahi12345/YoutubeDL-Material](https://github.com/Tzahi12345/YoutubeDL-Material)
+Docker Container: [https://hub.docker.com/r/tzahi12345/youtubedl-material](https://hub.docker.com/r/tzahi12345/youtubedl-material)
 
 YoutubeDL-Material is a Material Design frontend for youtube-dl. It's coded using Angular 9 for the frontend, and Node.js on the backend.
 

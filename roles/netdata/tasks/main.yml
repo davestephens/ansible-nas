@@ -1,0 +1,34 @@
+---
+- name: Get docker group id
+  group:
+    name: docker
+  register: docker_group
+
+- name: Netdata Docker Container
+  docker_container:
+    name: netdata
+    hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
+    image: netdata/netdata
+    state: started
+    pull: true
+    ports:
+      - "{{ netdata_port }}:19999"
+    volumes:
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    env:
+      PGID: "{{ docker_group.gid }}"
+    capabilities:
+      - SYS_PTRACE
+    security_opts:
+      - apparmor:unconfined
+    restart_policy: unless-stopped
+    memory: "{{ netdata_memory }}"
+    labels:
+      traefik.enable: "{{ netdata_available_externally }}"
+      traefik.http.routers.netdata.rule: "Host(`{{ netdata_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.netdata.tls.certresolver: "letsencrypt"
+      traefik.http.routers.netdata.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.netdata.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.netdata.loadbalancer.server.port: "19999"

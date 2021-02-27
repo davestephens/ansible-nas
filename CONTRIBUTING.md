@@ -21,6 +21,8 @@ A typical new application PR will include 2 new files (`docs/applications/applic
 
 * If you break the build with your PR, please fix it :)
 * Pull requests that unintentionally touch files, or that show files as removed then re-added will be rejected.
+* Squash your commits before creating a PR.
+* Don't mess with line endings, or tabs vs. spaces. 
 * Please know that your efforts are appreciated, thanks! :+1:
 
 # Development Environment

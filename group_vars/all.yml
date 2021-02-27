@@ -1,3 +1,4 @@
+---
 ##                       ._____.   .__
 ##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
 ##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
@@ -15,80 +16,30 @@
 ### Ansible-NAS Applications
 ###
 
-# Downloading
-transmission_with_openvpn_enabled: false # Please see docs about how to set VPN credentials
-transmission_enabled: false
-nzbget_enabled: false
-pyload_enabled: false
-utorrent_enabled: false
-
-# Media Serving
-plex_enabled: false
-tautulli_enabled: false
-
 # Media Sourcing
-sonarr_enabled: false         # tv
-sickchill_enabled: false
-couchpotato_enabled: false
-radarr_enabled: false
-get_iplayer_enabled: false
-jackett_enabled: false
-minidlna_enabled: false
 jellyfin_enabled: false
-emby_enabled: false
-bazarr_enabled: false
-ombi_enabled: false
-lidarr_enabled: false
 youtubedlmaterial_enabled: false
-mylar_enabled: false
-
-# Music
-airsonic_enabled: false
-mymediaforalexa_enabled: false
-
-# News
-miniflux_enabled: false
 
 # System Management
-heimdall_enabled: false
-organizr_enabled: false
-portainer_enabled: false
-glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
-netdata_enabled: false
-watchtower_enabled: false
-cloudflare_ddns_enabled: false
-cloudcmd_enabled: false
 virtual_desktop_enabled: false
 krusader_enabled: false
 
 # Backup & Restore
-duplicati_enabled: false
-nextcloud_enabled: false
 timemachine_enabled: false
 
 # Software build and CI
-gitea_enabled: false
 gitlab_enabled: false
 
 # IRC
-znc_enabled: false
 thelounge_enabled: false
-
-# Password Management
-bitwarden_enabled: false
-
-# Finance
-firefly_enabled: false
 
 # Wallabag
 wallabag_enabled: false
 
 # Home Automation
-homeassistant_enabled: false
 mosquitto_enabled: false
-homebridge_enabled: false
 openhab_enabled: false
 
 # Books
@@ -103,30 +54,10 @@ joomla_enabled: false
 # PyTivo
 pytivo_enabled: false
 
-# SEO
-serposcope_enabled: false
 
-# External Access
-# Traefik will allow access to certain applications externally. To enable this you'll either; a domain name that points to your 
-# home static IP address, the cloudflare with the cloudflare_ddns dynamic DNS container enabled, or use a dynamic DNS provider like no-ip.
-# You'll also need to map ports 80 and 443 from your router to your ansible-nas server, then enable the per-app "available_externally"
-# settings.
-traefik_enabled: false
-traefik_port_http: "80"
-traefik_port_https: "443"
-traefik_port_ui: "8083"
 ###
 ### General
 ###
-# Sets the hostname of your Ansible NAS
-ansible_nas_hostname: ansible-nas
-
-# Sets the timezone for your Ansible NAS
-# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-ansible_nas_timezone: Etc/UTC
-
-# Update all apt packages when playbook is run
-keep_packages_updated: false
 
 # Will be added to the docker group to give user command line access to docker
 ansible_nas_user: david
@@ -136,19 +67,6 @@ ansible_nas_email: me@example.com
 
 # Applications will have subdomain SSL certificates created if Traefik is enabled, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
-
-###
-### Docker
-###
-# Where you want Docker to store images
-docker_image_directory: "{{ docker_home }}/data"
-
-# Where you want Docker to store its container data.
-docker_home: /mnt/Volume2/docker
-
-# Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
-# You might want to change this to ZFS, depending on your underlying filesystem.
-docker_storage_driver: overlay2
 
 ###
 ### Samba
@@ -178,6 +96,9 @@ podcasts_root: "{{ samba_shares_root }}/podcasts"
 # Where your books are stored
 books_root: "{{ samba_shares_root }}/books"
 
+# Where your audiobooks are stored
+audiobooks_root: "{{ samba_shares_root }}/audiobooks"
+
 # Where your comics are stored
 comics_root: "{{ samba_shares_root }}/comics"
 
@@ -194,7 +115,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ downloads_root }}"
 
   - name: movies
@@ -202,7 +123,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ movies_root }}"
 
   - name: tv
@@ -210,7 +131,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ tv_root }}"
 
   - name: music
@@ -218,7 +139,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ music_root }}"
 
   - name: podcasts
@@ -226,7 +147,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ podcasts_root }}"
 
   - name: dump
@@ -234,7 +155,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ samba_shares_root }}/dump"
 
   - name: games
@@ -242,7 +163,7 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
+    browseable: yes
     path: "{{ samba_shares_root }}/games"
 
   - name: photos
@@ -250,24 +171,32 @@ samba_shares:
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
-    path: "{{ samba_shares_root }}/photos"
+    browseable: yes
+    path: "{{ photos_root }}"
 
   - name: books
     comment: 'Books'
     guest_ok: yes
     public: yes
     writable: yes
+    browseable: yes
+    path: "{{ books_root }}"
+
+  - name: audiobooks
+    comment: 'Audiobooks'
+    guest_ok: yes
+    public: yes
+    writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/books"
+    path: "{{ samba_shares_root }}/audiobooks"
 
   - name: comics
     comment: 'Comics'
     guest_ok: yes
     public: yes
     writable: yes
-    browsable: yes
-    path: "{{ samba_shares_root }}/comics"
+    browseable: yes
+    path: "{{ comics_root }}"
 
 ###
 ### NFS
@@ -281,36 +210,11 @@ nfs_shares_root: /mnt/Volume3
 nfs_exports:
   - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"
 
-###
-### Cloudflare
-###
-# Cloudflare is a great free DNS option for domains. If you use the cloudflare_ddns container then you'll need to
-# set the options below.
-
-# Your domain name
-cloudflare_zone: "{{ ansible_nas_domain }}"
-
-# The hostname you want the container to update. You shouldn't need to change this.
-cloudflare_host: "*.{{ cloudflare_zone }}"
-
-# Email address used to register for Cloudflare
-cloudflare_email: "{{ ansible_nas_email }}"
-
-# Cloudflare 'Global API Key', can be found on the 'My Profile' page
-cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
 
 ###
 ### General
 ###
-# Extra packages to install
-ansible_nas_extra_packages:
-  - smartmontools
-  - htop
-  - zfsutils-linux
-  - bonnie++
-  - unzip
-  - lm-sensors
-  - ctop
+
 
 ansible_python_interpreter: /usr/bin/python3
 
@@ -334,108 +238,12 @@ samba_map_to_guest: Bad Password
 samba_netbios_name: "{{ ansible_nas_hostname }}"
 
 ###
-### Traefik
-###
-traefik_docker_image: traefik:v1.7
-traefik_data_directory: "{{ docker_home }}/traefik"
-traefik_debug: "false"
-
-###
-### Heimdall
-###
-heimdall_available_externally: "false"
-heimdall_docker_image: linuxserver/heimdall:latest
-heimdall_data_directory: "{{ docker_home }}/heimdall"
-heimdall_port_http: "10080"
-heimdall_port_https: "10443"
-
-###
-### Organizr
-###
-organizr_available_externally: "false"
-organizr_data_directory: "{{ docker_home }}/organizr"
-organizr_port_http: "10081"
-organizr_port_https: "10444"
-organizr_user_id: "1000"
-organizr_group_id: "1000"
-
-###
-### Transmission
-###
-transmission_available_externally: "false"
-transmission_with_openvpn_available_externally: "false"
-transmission_config_directory: "{{ docker_home }}/transmission/config"
-transmission_download_directory: "{{ downloads_root }}"
-transmission_watch_directory: "{{ torrents_root }}"
-transmission_user_id: "0"
-transmission_group_id: "0"
-transmission_local_network: "192.168.1.0/24"
-transmission_webui_port: "9092"
-transmission_external_port: "51414"
-transmission_openvpn_webui_port: "9091"
-transmission_openvpn_external_port: "51415"
-transmission_openvpn_proxy_port: "3128"
-transmission_openvpn_ratio_limit_enabled: "true"
-transmission_openvpn_ratio_limit: "2"
-
-# Transmission VPN Credentials
-# If you're using Transmission with a VPN, you'll need to set these credentials.
-# See https://github.com/haugene/docker-transmission-openvpn/ for supported VPN providers.
-openvpn_username: leisure-suit-larry
-openvpn_password: secretpassword
-openvpn_provider: AWESOMEVPNPROVIDER
-openvpn_config: United-Kingdom
-
-###
-### uTorrent
-###
-utorrent_available_externally: "false"
-utorrent_config_directory: "{{ docker_home }}/utorrent/config"
-utorrent_download_directory: "{{ downloads_root }}"
-utorrent_port_http: "8111"
-utorrent_port_bt: "6881"
-utorrent_user_id: "0"
-utorrent_group_id: "0"
-
-###
 ### Joomla
 ###
 joomla_data_directory: "{{ docker_home }}/joomla"
 joomla_available_externally: "false"
 joomla_database_password: top_secret
 joomla_port: "8181"
-
-###
-### pyLoad
-###
-pyload_available_externally: "false"
-pyload_config_directory: "{{ docker_home }}/pyload"
-pyload_download_directory: "{{ downloads_root }}"
-pyload_user_id: "0"
-pyload_group_id: "0"
-pyload_port: "8000"
-
-###
-### Plex
-###
-# If you're paranoid, set permissions to "ro" so Plex won't ever be able to
-# delete your files
-plex_available_externally: "false"
-plex_config_directory: "{{ docker_home }}/plex/config"
-plex_logs: "{{ docker_home }}/plex/logs"
-plex_movies_directory: "{{ movies_root }}"
-plex_movies_permissions: "rw"
-plex_tv_directory: "{{ tv_root }}"
-plex_tv_permissions: "rw"
-plex_photos_directory: "{{ photos_root }}"
-plex_photos_permissions: "rw"
-plex_podcasts_directory: "{{ podcasts_root }}"
-plex_podcasts_permissions: "rw"
-plex_music_directory: "{{ music_root }}"
-plex_music_permissions: "rw"
-plex_user_id: "0"
-plex_group_id: "0"
-plex_port: "32400"
 
 ###
 ### PyTivo
@@ -450,102 +258,6 @@ pytivo_podcasts_directory: "{{ podcasts_root }}"
 pytivo_user_id: "0"
 pytivo_group_id: "0"
 
-###
-### Homebridge
-###
-homebridge_available_externally: "false"
-homebridge_config_directory: "{{ docker_home }}/homebridge/config"
-homebridge_user_id: "0"
-homebridge_group_id: "0"
-homebridge_port: "8087"
-
-###
-### Emby
-###
-# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
-# delete your files
-emby_available_externally: "false"
-emby_config_directory: "{{ docker_home }}/emby/config"
-emby_movies_directory: "{{ movies_root }}"
-emby_movies_permissions: "rw"
-emby_tv_directory: "{{ tv_root }}"
-emby_tv_permissions: "rw"
-emby_user_id: "0"
-emby_group_id: "0"
-emby_port_http: "8096"
-emby_port_https: "8920"
-
-###
-### Tautulli
-###
-tautulli_available_externally: "false"
-tautulli_config_directory: "{{ docker_home }}/tautulli/config"
-tautulli_user_id: "0"
-tautulli_group_id: "0"
-tautulli_port: "8185"
-
-
-###
-### Duplicati
-###
-duplicati_available_externally: "false"
-duplicati_data_directory: "{{ docker_home }}/duplicati/config"
-duplicati_port: "8200"
-
-###
-### Mylar
-###
-mylar_available_externally: "false"
-mylar_data_directory: "{{ docker_home }}/mylar"
-mylar_comics_directory: "{{ comics_root }}"
-mylar_downloads_directory: "{{ downloads_root }}"
-mylar_port_http: "8585"
-mylar_user_id: "0"
-mylar_group_id: "0"
-
-###
-### Sonarr
-###
-sonarr_available_externally: "false"
-sonarr_data_directory: "{{ docker_home }}/sonarr/config"
-sonarr_tv_directory: "{{ tv_root }}"
-sonarr_download_directory: "{{ downloads_root }}"
-sonarr_user_id: "0"
-sonarr_group_id: "0"
-sonarr_port: "8989"
-
-###
-### Radarr
-###
-radarr_available_externally: "false"
-radarr_movies_directory: "{{ movies_root }}"
-radarr_download_directory: "{{ downloads_root }}"
-radarr_data_directory: "{{ docker_home }}/radarr"
-radarr_user_id: "0"
-radarr_group_id: "0"
-radarr_port: "7878"
-
-###
-### Bazarr
-###
-bazarr_available_externally: "false"
-bazarr_data_directory: "{{ docker_home }}/bazarr/config"
-bazarr_tv_directory: "{{ tv_root }}"
-bazarr_movies_directory: "{{ movies_root }}"
-bazarr_user_id: "0"
-bazarr_group_id: "0"
-bazarr_port: "6767"
-
-###
-### Lidarr
-###
-lidarr_available_externally: "false"
-lidarr_data_directory: "{{ docker_home }}/lidarr/config"
-lidarr_music_directory: "{{ music_root }}"
-lidarr_downloads_directory: "{{ downloads_root }}"
-lidarr_user_id: "0"
-lidarr_group_id: "0"
-lidarr_port: "8686"
 
 ###
 ### YouTubeDL-Material
@@ -557,66 +269,11 @@ youtubedlmaterial_dl_video_directory: "{{ downloads_root }}/youtube/video"
 youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subscriptions"
 youtubedlmaterial_port_http: "8998"
 
-###
-### Couchpotato
-###
-couchpotato_available_externally: "false"
-couchpotato_config_directory: "{{ docker_home }}/couchpotato/config"
-couchpotato_movies_directory: "{{ movies_root }}"
-couchpotato_downloads_directory: "{{ downloads_root }}"
-couchpotato_torrents_directory: "{{ torrents_root }}"
-couchpotato_user_id: "0"
-couchpotato_group_id: "0"
-couchpotato_port: "5050" 
-
-###
-### Sickchill
-###
-sickchill_available_externally: "false"
-sickchill_config_directory: "{{ docker_home }}/sickchill/config"
-sickchill_tv_directory: "{{ tv_root }}"
-sickchill_downloads_directory: "{{ downloads_root }}/completed"
-sickchill_user_id: "0"
-sickchill_group_id: "0"
-sickchill_port: "8081"
-
-
-###
-### Ombi
-###
-ombi_available_externally: "false"
-ombi_config_directory: "{{ docker_home }}/ombi/config"
-ombi_user_id: "0"
-ombi_group_id: "0"
-
-###
-### Netdata
-###
-netdata_available_externally: "false"
-netdata_port: "19999"
 
 ###
 ### OpenVPN
 ###
 openvpn_config_directory: "{{ docker_home }}/openvpn"
-
-
-###
-### Portainer
-###
-portainer_available_externally: "false"
-portainer_data_directory: "{{ docker_home }}/portainer/config"
-portainer_port: "9000"
-
-###
-### ZNC
-###
-znc_available_externally: "false"
-znc_data_directory: "{{ docker_home }}/znc"
-znc_user_id: "0"
-znc_group_id: "0"
-znc_port: "6677"
-
 
 ###
 ### Stats
@@ -629,13 +286,6 @@ stat_collection_interval: 15s
 grafana_influxdb_port: "8086"
 grafana_port: "3000"
 
-###
-### Gitea
-###
-gitea_available_externally: "false"
-gitea_data_directory: "{{ docker_home }}/gitea"
-gitea_port_http: "3001"
-gitea_port_ssh: "222"
 
 ###
 ### Gitlab
@@ -647,61 +297,11 @@ gitlab_port_https: "4443"
 gitlab_port_ssh: "422"
 
 ###
-### Glances
-###
-glances_available_externally: "false"
-glances_port_one: "61208"
-glances_port_two: "61209"
-
-###
-### Nextcloud
-###
-nextcloud_available_externally: "false"
-nextcloud_data_directory: "{{ docker_home }}/nextcloud"
-nextcloud_port: "8080"
-
-###
-### nginx
-###
-nginx_data_directory: "{{ docker_home }}/nginx"
-nginx_port_http: "80"
-nginx_port_https: "443"
-
-###
 ### Guacamole
 ###
 guacamole_available_externally: "false"
 guacamole_data_directory: "{{ docker_home }}/guacamole"
 guacamole_port: "8090"
-
-###
-### Miniflux
-###
-miniflux_available_externally: "false"
-miniflux_data_directory: "{{ docker_home }}/miniflux"
-miniflux_admin_username: admin
-miniflux_admin_password: supersecure
-miniflux_port: "8070"
-
-###
-### Airsonic
-###
-airsonic_available_externally: "false"
-airsonic_data_directory: "{{ docker_home }}/airsonic"
-airsonic_music_directory: "{{ music_root }}"
-airsonic_podcasts_directory: "{{ podcasts_root }}"
-airsonic_port: "4040"
-
-
-###
-### CloudCmd
-###
-cloudcmd_available_externally: "false"
-cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
-cloudcmd_browse_directory: "/"
-cloudcmd_user_id: "0"
-cloudcmd_group_id: "0"
-cloudcmd_port: "7373"
 
 ###
 ### Krusader
@@ -717,24 +317,6 @@ krusader_port_http: "5800"
 krusader_port_vnc: "5900"
 
 ###
-### Watchtower
-###
-# Sets the 6 field cron schedule to use for checks and updates. This will check at 5am daily.
-watchtower_cron_schedule: 0 0 5 * * *
-
-# Sets the Watchtower Docker start command. Different options can be supplied based on whether you want to receive
-# notifications or not, some examples are provided below. See https://github.com/v2tec/watchtower for more info.
-
-# No notifications
-watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --debug"
-
-# Email notifications
-# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'email' --notification-email-from 'ansible@nas.com' --notification-email-to '{{ ansible_nas_email }}' --notification-email-server 'my.email.server.com' --notification-email-server-port '25' --notification-email-server-user 'email_username' --notification-email-server-password 'top-secret'"
-
-# Slack notifications
-# watchtower_command: "--schedule '{{ watchtower_cron_schedule }}' --notifications 'slack' --notification-slack-hook-url 'https://hooks.slack.com/services/xxx/yyyyyyyyyyyyyyy' --notification-slack-identifier 'ansible-nas'"
-
-###
 ### Time Machine
 ###
 timemachine_data_directory: "{{ docker_home }}/timemachine"
@@ -745,76 +327,12 @@ timemachine_log_level: error
 timemachine_port: "10445"
 
 ###
-### MiniDLNA
-###
-minidlna_media_directory1: "{{ movies_root }}"
-minidlna_media_directory2: "{{ tv_root }}"
-minidlna_friendly_name: "{{ ansible_nas_hostname }}"
-minidlna_port: "8201"
-
-###
-### get_iplayer
-###
-get_iplayer_config_directory: "{{ docker_home }}/get_iplayer"
-get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
-get_iplayer_port: "8182"
-
-###
-### mymediaforalexa
-###
-mymediaforalexa_media_directory: "{{ music_root }}"
-mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
-
-###
-### Jackett
-###
-jackett_available_externally: "false"
-jackett_data_directory: "{{ docker_home }}/jackett"
-jackett_torrents_root: "{{ torrents_root }}"
-jackett_port: "9117"
-
-###
 ### The Lounge
 ###
 thelounge_available_externally: "false"
 thelounge_data_directory: "{{ docker_home }}/thelounge"
 thelounge_port_one: "113"
 thelounge_port_two: "9002"
-
-###
-### Bitwarden
-###
-bitwarden_available_externally: "false"
-bitwarden_data_directory: "{{ docker_home }}/bitwarden"
-bitwarden_port_a: "19080"
-bitwarden_port_b: "3012"
-
-# Keep this token secret, this is password to access admin area of your server!
-# This token can be anything, but it's recommended to use a long, randomly generated string of characters,
-# for example running openssl rand -base64 48
-bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
-
-# To create a user set this to "true", and reprovision the container by re-running the ansible-nas playbook.
-# Once you have created your user, set to "false" and run one more time.
-# Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
-bitwarden_allow_signups: false
-
-###
-### Firefly
-###
-firefly_available_externally: "false"
-firefly_data_directory: "{{ docker_home }}/firefly"
-firefly_port: "8066"
-
-###
-### Nzbget
-###
-nzbget_available_externally: "false"
-nzbget_data_directory: "{{ docker_home }}/nzbget"
-nzbget_download_directory: "{{ downloads_root }}"
-nzbget_user_id: "0"
-nzbget_group_id: "0"
-nzbget_port: "6789"
 
 ###
 ### Wallabag
@@ -844,13 +362,6 @@ calibre_port: "8084"
 calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
 
 ###
-### Home Assistant
-###
-homeassistant_available_externally: "false"
-homeassistant_data_directory: "{{ docker_home }}/homeassistant"
-homeassistant_port: "8123"
-
-###
 ### openHAB
 ###
 openhab_available_externally: "false"
@@ -874,6 +385,10 @@ jellyfin_photos_directory: "{{ photos_root }}"
 jellyfin_photos_permissions: "rw"
 jellyfin_tv_directory: "{{ tv_root }}"
 jellyfin_tv_permissions: "rw"
+jellyfin_books_directory: "{{ books_root }}"
+jellyfin_books_permissions: "rw"
+jellyfin_audiobooks_directory: "{{ audiobooks_root }}"
+jellyfin_audiobooks_permissions: "rw"
 jellyfin_user_id: "0"
 jellyfin_group_id: "0"
 jellyfin_port_http: "8896"
@@ -888,13 +403,6 @@ ubooquity_user_id: "0"
 ubooquity_group_id: "0"
 ubooquity_port_webui: "2202"
 ubooquity_port_admin: "2203"
-
-###
-### Serposcope
-###
-serposcope_data_directory: "{{ docker_home }}/serposcope"
-serposcope_port: 7134
-serposcope_available_externally: "false"
 
 ###
 ### Virtual Desktop

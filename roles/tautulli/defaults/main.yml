@@ -1,0 +1,17 @@
+---
+tautulli_enabled: false
+tautulli_available_externally: "false"
+
+# directories
+tautulli_config_directory: "{{ docker_home }}/tautulli/config"
+
+# uid / gid
+tautulli_user_id: "0"
+tautulli_group_id: "0"
+
+# network
+tautulli_hostname: "tautulli"
+tautulli_port: "8185"
+
+# specs
+tautulli_memory: "1g"

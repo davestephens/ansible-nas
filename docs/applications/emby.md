@@ -35,7 +35,7 @@ configuration directory read/write.
 
 ## File system considerations
 
-Movie and TV show files are almost alway very large and pre-compressed. If you
+Movie and TV show files are almost always very large and pre-compressed. If you
 are using a specialized filesystem such as ZFS for bulk storage, you'll want to
 set the parameters accordingly. The [ZFS configuration
 documentation](../zfs/zfs_configuration.md) has an example of this.

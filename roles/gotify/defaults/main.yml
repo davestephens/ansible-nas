@@ -1,0 +1,20 @@
+---
+gotify_enabled: false
+gotify_available_externally: "false"
+
+# data directory
+gotify_data_directory: "{{ docker_home }}/gotify"
+
+# docker image to use
+gotify_docker_image: gotify/server:latest
+
+# network
+gotify_port: "2346"
+gotify_hostname: "gotify"
+
+# user to run container with
+gotify_user_id: "0"
+gotify_group_id: "0"
+
+# specs
+gotify_memory: 200m

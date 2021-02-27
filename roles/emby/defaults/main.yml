@@ -1,0 +1,26 @@
+---
+emby_enabled: false
+emby_available_externally: "false"
+
+# directories
+emby_config_directory: "{{ docker_home }}/emby/config"
+emby_movies_directory: "{{ movies_root }}"
+emby_tv_directory: "{{ tv_root }}"
+
+
+# If you're paranoid, set permissions to "ro" so Emby won't ever be able to
+# delete your files
+emby_movies_permissions: "rw"
+emby_tv_permissions: "rw"
+
+# uid / gid
+emby_user_id: "0"
+emby_group_id: "0"
+
+# network
+emby_port_http: "8096"
+emby_port_https: "8920"
+emby_hostname: "emby"
+
+# specs
+emby_memory: 1g

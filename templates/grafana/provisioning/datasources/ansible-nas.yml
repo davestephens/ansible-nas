@@ -1,43 +1,25 @@
-# config file version
+---
 apiVersion: 1
 
-# list of datasources to insert/update depending
-# whats available in the database
 datasources:
-  # <string, required> name of the datasource. Required
-- name: InfluxDB
-  # <string, required> datasource type. Required
-  type: influxdb
-  # <string, required> access mode. direct or proxy. Required
-  access: direct
-  # <int> org id. will default to orgId 1 if not specified
-  orgId: 1
-  # <string> url
-  url: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8086
-  # <string> database password, if used
-  password:
-  # <string> database user, if used
-  user:
-  # <string> database name, if used
-  database: telegraf
-  # <bool> enable/disable basic auth
-  basicAuth:
-  # <string> basic auth username
-  basicAuthUser:
-  # <string> basic auth password
-  basicAuthPassword:
-  # <bool> enable/disable with credentials headers
-  withCredentials:
-  # <bool> mark as default datasource. Max one per org
-  isDefault: true
-  # <map> fields that will be converted to json and stored in json_data
-  jsonData:
-     timeInterval: "15s"
-  # <string> json object of data that will be encrypted.
-  secureJsonData:
-    tlsCACert: "..."
-    tlsClientCert: "..."
-    tlsClientKey: "..."
-  version: 1
-  # <bool> allow users to edit datasources from the UI.
-  editable: false
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    orgId: 1
+    url: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8086
+    password:
+    user:
+    database: telegraf
+    basicAuth:
+    basicAuthUser:
+    basicAuthPassword:
+    withCredentials:
+    isDefault: true
+    jsonData:
+      timeInterval: "15s"
+    secureJsonData:
+      tlsCACert: "..."
+      tlsClientCert: "..."
+      tlsClientKey: "..."
+    version: 1
+    editable: false

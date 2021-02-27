@@ -1,0 +1,18 @@
+---
+# enable or disable the application
+znc_enabled: false
+znc_available_externally: "false"
+
+# directories
+znc_data_directory: "{{ docker_home }}/znc"
+
+# uid / gid
+znc_user_id: "0"
+znc_group_id: "0"
+
+# network
+znc_hostname: "znc"
+znc_port: "6677"
+
+# specs
+znc_memory: "1g"

@@ -1,0 +1,39 @@
+---
+- name: Create uTorrent Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ utorrent_config_directory }}"
+    - "{{ utorrent_download_directory }}"
+    - "{{ utorrent_download_directory_active }}"
+
+- name: uTorrent Docker Container
+  docker_container:
+    name: utorrent
+    image: ekho/utorrent:latest
+    pull: true
+    volumes:
+      - "{{ utorrent_download_directory }}:/data:rw"
+      - "{{ utorrent_config_directory }}:/utorrent/settings:rw"
+      - "{{ torrents_root }}:/utorrent/torrents:rw"
+    ports:
+      - "{{ utorrent_port_http }}:8080"
+      - "{{ utorrent_port_bt }}:6881"
+      - "{{ utorrent_port_bt }}:6881/udp"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      UID: "{{ utorrent_user_id }}"
+      GID: "{{ utorrent_group_id }}"
+      webui: "ng"
+      dir_active: "/data/.incomplete"
+      dir_completed: "/data"
+    restart_policy: unless-stopped
+    memory: "{{ utorrent_memory }}"
+    labels:
+      traefik.enable: "{{ utorrent_available_externally }}"
+      traefik.http.routers.utorrent.rule: "Host(`{{ utorrent_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.utorrent.tls.certresolver: "letsencrypt"
+      traefik.http.routers.utorrent.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.utorrent.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.utorrent.loadbalancer.server.port: "8080"

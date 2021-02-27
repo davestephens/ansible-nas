@@ -1,0 +1,18 @@
+---
+organizr_enabled: false
+organizr_available_externally: "false"
+
+# directories
+organizr_data_directory: "{{ docker_home }}/organizr"
+
+# network
+organizr_port_http: "10081"
+organizr_port_https: "10444"
+organizr_hostname: "organizr"
+
+# uid / gid
+organizr_user_id: "1000"
+organizr_group_id: "1000"
+
+# specs
+organizr_memory: 1g

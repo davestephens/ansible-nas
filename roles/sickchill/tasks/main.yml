@@ -1,0 +1,33 @@
+---
+- name: Create Sickchill Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ sickchill_config_directory }}"
+
+- name: Sickchill Docker Container
+  docker_container:
+    name: sickchill
+    image: linuxserver/sickchill
+    pull: true
+    volumes:
+      - "{{ sickchill_config_directory }}:/config:rw"
+      - "{{ sickchill_downloads_directory }}:/downloads:rw"
+      - "{{ sickchill_tv_directory }}:/tv:rw"
+    ports:
+      - "{{ sickchill_port }}:8081"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ sickchill_user_id }}"
+      PGID: "{{ sickchill_group_id }}"
+    restart_policy: unless-stopped
+    memory: "{{ sickchill_memory }}"
+    labels:
+      traefik.enable: "{{ sickchill_available_externally }}"
+      traefik.http.routers.sickchill.rule: "Host(`{{ sickchill_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.sickchill.tls.certresolver: "letsencrypt"
+      traefik.http.routers.sickchill.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.sickchill.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.sickchill.loadbalancer.server.port: "8081"

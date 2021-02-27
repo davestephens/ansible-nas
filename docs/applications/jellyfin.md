@@ -10,7 +10,7 @@ similar functionality.
 ## Usage
 
 Set `jellyfin_enabled: true` in your `inventories/<your_inventory>/nas.yml` file. There are further
-parameters you can edit such as `movies_root` and `tv_root` lower down. 
+parameters you can edit such as `movies_root`, `tv_root` or `music_root` lower down. 
 
 ## Specific Configuration
 
@@ -18,12 +18,15 @@ The jellyfin web interface can be found at port 8896 (http) or 8928 (https, if
 configured) of your NAS.
 
 By default, Ansible-NAS gives jellyfin read/write access to the folders where your
-movies and TV shows are stored. To change this to read-only, edit the following
+movies, TV shows and music are stored. To change this to read-only, edit the following
 lines in `all.yml`:
 
 ```
         jellyfin_movies_permissions: "rw"
         jellyfin_tv_permissions: "rw"
+        jellyfin_books_permissions: "rw"
+        jellyfin_audiobooks_permissions: "rw"
+        jellyfin_music_permissions: "rw"
 ```
 
 so that they end in `ro` instead of `rw`. Note that jellyfin will not be able to
@@ -33,7 +36,7 @@ configuration directory read/write.
 
 ## File system considerations
 
-Movie and TV show files are almost alway very large and pre-compressed. If you
+Movie and TV show files are almost always very large and pre-compressed. If you
 are using a specialized filesystem such as ZFS for bulk storage, you'll want to
 set the parameters accordingly. The [ZFS configuration
 documentation](../zfs/zfs_configuration.md) has an example of this.

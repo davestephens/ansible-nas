@@ -27,8 +27,9 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.backend: "thelounge"
-      traefik.frontend.rule: "Host:thelounge.{{ ansible_nas_domain }}"
       traefik.enable: "{{ thelounge_available_externally }}"
-      traefik.port: "9000"
-
+      traefik.http.routers.thelounge.rule: "Host(`thelounge.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.thelounge.tls.certresolver: "letsencrypt"
+      traefik.http.routers.thelounge.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.thelounge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.thelounge.loadbalancer.server.port: "9000"
