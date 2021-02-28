@@ -268,6 +268,11 @@
         - znc
       when: (znc_enabled | default(False))
 
+    - role: dokuwiki
+      tags:
+        - dokuwiki
+      when: (dokuwiki_enabled | default(False))
+
   tasks:
     - import_tasks: tasks/thelounge.yml
       when: (thelounge_enabled | default(False))
@@ -332,7 +337,3 @@
     - import_tasks: tasks/pytivo.yml
       when: (pytivo_enabled | default(False))
       tags: pytivo
-
-    - import_tasks: tasks/dokuwiki.yml
-      when: (dokuwiki_enabled | default(False))
-      tags: dokuwiki
