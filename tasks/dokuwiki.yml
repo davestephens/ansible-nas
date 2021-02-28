@@ -1,0 +1,19 @@
+---
+- name: Create DokuWiki Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ dokuwiki_data_directory }}/data"
+
+- name: DokuWiki Docker Container
+  docker_container:
+    name: dokuwiki
+    image: linuxserver/dokuwiki:latest
+    pull: true
+    volumes:
+      - "{{ dokuwiki_data_directory }}:/config/dokuwiki/data:rw"
+    ports:
+      - "{{ dokuwiki_port }}:80"
+    restart_policy: unless-stopped
+    memory: 1g
