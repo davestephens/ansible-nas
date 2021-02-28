@@ -310,6 +310,7 @@ guacamole_port: "8090"
 ### DokuWiki
 ###
 dokuwiki_available_externally: "false"
+dokuwiki_hostname: "dokuwiki"
 dokuwiki_data_directory: "{{ docker_home }}/dokuwiki"
 dokuwiki_port: "8085"
 
