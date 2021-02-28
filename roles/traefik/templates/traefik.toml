@@ -22,6 +22,9 @@
 
   [entryPoints.ssh]
     address = ":8909"
+    
+  [entryPoints.rtmp]
+    address = ":1935"
 
 [providers]
   providersThrottleDuration = "2s"

@@ -3,10 +3,17 @@
     entryPoints = ["ssh"]
     rule = "HostSNI(`*`)"
     service = "ssh"
+  [tcp.routers.rtmp]
+    entryPoints = ["rtmp"]
+    rule = "HostSNI(`*`)"
+    service = "rtmp"
 [tcp.services]
   [tcp.services.ssh.loadBalancer]
     [[tcp.services.ssh.loadBalancer.servers]]
       address = "192.168.122.79:8909"
+  [tcp.services.rtmp.loadBalancer]
+    [[tcp.services.rtmp.loadBalancer.servers]]
+      address = "192.168.122.1:1935"
 
 [http.services.stanleyweb.loadBalancer]
   [[http.services.stanleyweb.loadBalancer.servers]]
