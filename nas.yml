@@ -332,3 +332,7 @@
     - import_tasks: tasks/pytivo.yml
       when: (pytivo_enabled | default(False))
       tags: pytivo
+
+    - import_tasks: tasks/dokuwiki.yml
+      when: (dokuwiki_enabled | default(False))
+      tags: dokuwiki
