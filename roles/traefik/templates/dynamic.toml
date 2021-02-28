@@ -13,7 +13,7 @@
       address = "192.168.122.79:8909"
   [tcp.services.rtmp.loadBalancer]
     [[tcp.services.rtmp.loadBalancer.servers]]
-      address = "192.168.122.1:1935"
+      address = "192.168.122.1:19350"
 
 [http.services.stanleyweb.loadBalancer]
   [[http.services.stanleyweb.loadBalancer.servers]]
