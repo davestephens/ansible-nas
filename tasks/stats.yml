@@ -114,4 +114,4 @@
       traefik.http.routers.grafana.tls.certresolver: "letsencrypt"
       traefik.http.routers.grafana.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.grafana.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.grafana.netdata.loadbalancer.server.port: "3000"
+      traefik.http.services.grafana.loadbalancer.server.port: "3000"
