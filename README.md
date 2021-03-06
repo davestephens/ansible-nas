@@ -65,7 +65,7 @@ Ansible config and a bunch of Docker containers.
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
-* [n8n](https://n8n.io") - Nodemation, a node based workflow and automation service like IFTTT.
+* [n8n](https://n8n.io/) - Nodemation, a node based workflow and automation service like IFTTT.
 * [netboot.xyz](https://netboot.xyz/) - a PXE boot server
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
