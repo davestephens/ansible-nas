@@ -283,10 +283,6 @@
       when: (thelounge_enabled | default(False))
       tags: thelounge
 
-    - import_tasks: tasks/gitlab.yml
-      when: (gitlab_enabled | default(False))
-      tags: gitlab
-
     - import_tasks: tasks/timemachine.yml
       when: (timemachine_enabled | default(False))
       tags: timemachine
