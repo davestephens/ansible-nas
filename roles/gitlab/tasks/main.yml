@@ -16,6 +16,16 @@
     create_home: no
     group: gitlab
 
+- name: Create Gitlab user account
+  user:
+    name: gitlab
+    uid: 998
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: gitlab
+
 - name: Create Gitlab Directories
   file:
     path: "{{ item }}"
@@ -27,7 +37,7 @@
     - "{{ gitlab_data_directory }}/log"
     - "{{ gitlab_data_directory }}/data"
 
-- name: Create Gitlab container
+- name: Create Gitlab Docker Container
   docker_container:
     name: gitlab
     image: gitlab/gitlab-ce:latest
@@ -36,16 +46,21 @@
       - "{{ gitlab_data_directory }}/config:/etc/gitlab:rw"
       - "{{ gitlab_data_directory }}/log:/var/log/gitlab:rw"
       - "{{ gitlab_data_directory }}/data:/var/opt/gitlab:rw"
+    network_mode: "bridge"
     ports:
       - "{{ gitlab_port_http }}:80"
       - "{{ gitlab_port_https }}:443"
       - "{{ gitlab_port_ssh }}:22"
-    hostname: "gitlab.{{ ansible_nas_domain }}"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ gitlab_user_id }}"
+      PGID: "{{ gitlab_group_id }}"
     restart_policy: unless-stopped
-    memory: 4g
+    hostname: "{{ gitlab_hostname }}.{{ ansible_nas_domain }}"
+    memory: "{{ gitlab_memory }}"
     labels:
       traefik.enable: "{{ gitlab_available_externally }}"
-      traefik.http.routers.gitlab.rule: "Host(`gitlab.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.gitlab.rule: "Host(`{{ gitlab_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.gitlab.tls.certresolver: "letsencrypt"
       traefik.http.routers.gitlab.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.gitlab.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
