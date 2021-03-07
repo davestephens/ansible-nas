@@ -65,6 +65,9 @@ ansible_nas_email: me@example.com
 # Applications will have subdomain SSL certificates created if Traefik is enabled, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
 
+# What version of python ansible should use on target system (path to spesific binary)
+ansible_python_interpreter: /usr/bin/python3
+
 ###
 ### Samba
 ###
@@ -206,14 +209,6 @@ nfs_shares_root: /mnt/Volume3
 
 nfs_exports:
   - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"
-
-
-###
-### General
-###
-
-
-ansible_python_interpreter: /usr/bin/python3
 
 ###
 ### Samba
