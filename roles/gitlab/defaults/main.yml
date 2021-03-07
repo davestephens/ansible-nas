@@ -6,6 +6,10 @@ gitlab_available_externally: "false"
 # directories
 gitlab_data_directory: "{{ docker_home }}/gitlab"
 
+# uid/gid
+gitlab_user_id: "998"
+gitlab_group_id: "{{ gitlab_user_id }}"
+
 # network
 gitlab_hostname: "gitlab"
 gitlab_port_http: "4080"

@@ -3,23 +3,13 @@
 - name: Create Gitlab group account
   group:
     name: gitlab
-    gid: 998
+    gid: "{{ gitlab_user_id }}"
     state: present
 
 - name: Create Gitlab user account
   user:
     name: gitlab
-    uid: 998
-    state: present
-    system: yes
-    update_password: on_create
-    create_home: no
-    group: gitlab
-
-- name: Create Gitlab user account
-  user:
-    name: gitlab
-    uid: 998
+    uid: "{{ gitlab_user_id }}"
     state: present
     system: yes
     update_password: on_create
