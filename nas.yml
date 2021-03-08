@@ -135,7 +135,7 @@
 
     - role: jackett
       tags:
-        - jackettfalse
+        - jackett
       when: (jackett_enabled | default(False))
 
     - role: lidarr
