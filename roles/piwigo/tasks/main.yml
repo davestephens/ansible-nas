@@ -29,7 +29,7 @@
       - "{{ piwigo_data_directory }}/config:/config:rw"
       - "{{ piwigo_data_directory }}/pictures:/pictures"
     ports:
-      - "{{ piwigo_port }}:80"
+      - "{{ piwigo_port }}:8033"
     restart_policy: unless-stopped
     labels:
       traefik.enable: "{{ piwigo_available_externally }}"
@@ -37,4 +37,4 @@
       traefik.http.routers.piwigo.tls.certresolver: "letsencrypt"
       traefik.http.routers.piwigo.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.piwigo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.piwigo.loadbalancer.server.port: "80"
+      traefik.http.services.piwigo.loadbalancer.server.port: "8033"
