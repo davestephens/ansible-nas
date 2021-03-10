@@ -56,6 +56,7 @@ By default, applications can be found on the ports listed below.
 | openHAB         | 7778    | Host    | HTTPS          |
 | Organizr        | 10081   | Bridge  | HTTP           |
 | Organizr        | 10444   | Bridge  | HTTPS          |
+| Piwigo          | 8033    | Bridge  | HTTP           |
 | Plex            | 32400   | Bridge  | HTTP           |
 | Portainer       | 9000    | Bridge  | HTTP           |
 | pyload          | 8000    | Bridge  | HTTP           |
