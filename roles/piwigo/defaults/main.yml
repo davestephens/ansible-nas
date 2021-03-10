@@ -1,0 +1,19 @@
+---
+piwigo_enabled: false
+piwigo_available_externally: "false"
+
+# directories
+piwigo_data_directory: "{{ docker_home }}/piwigo"
+
+# uid / gid
+piwigo_user_id: "1000"
+piwigo_group_id: "1000"
+
+# network
+piwigo_port: "8033"
+piwigo_hostname: "piwigo"
+
+# username / passwords
+piwigo_sql_user: "piwigo-user"
+piwigo_sql_password: "piwigo-pass"
+piwigo_sql_root_password: "piwigo-secret"

@@ -188,6 +188,11 @@
         - organizr
       when: (organizr_enabled | default(False))
 
+    - role: piwigo
+      tags:
+        - piwigo
+      when: (piwigo_enabled | default(False))
+
     - role: portainer
       tags:
         - portainer
