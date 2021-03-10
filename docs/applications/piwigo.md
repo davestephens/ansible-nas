@@ -1,4 +1,4 @@
-# pyLoad
+# Piwigo
 
 Homepage: [https://www.piwigo.org/](https://www.piwigo.org/)
 
