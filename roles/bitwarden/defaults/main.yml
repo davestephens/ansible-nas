@@ -15,6 +15,20 @@ bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
 # Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
 bitwarden_allow_signups: false
 
+## Domain settings
+## The domain must match the address from where you access the server
+## It's recommended to configure this value, otherwise certain functionality might not work,
+## like attachment downloads, email links and U2F.
+## For U2F to work, the server must use HTTPS, you can use Let's Encrypt for free certs
+bitwarden_domain: https://{{ bitwarden_hostname }}.{{ ansible_nas_domain }}
+
 # specs
 bitwarden_memory: 1g
 bitwarden_backup_memory: 1g
+
+# uid / gid
+bitwarden_user_id: "0"
+bitwarden_group_id: "0"
+
+# Set to true to append timestamp to the BACKUP_FILE
+bitwarden_backup_timestamp: "false"

@@ -19,6 +19,7 @@
     env:
       SIGNUPS_ALLOWED: "{{ bitwarden_allow_signups }}"
       ADMIN_TOKEN: "{{ bitwarden_admin_token }}"
+      DOMAIN: "{{ bitwarden_domain }}"
       LOG_FILE: "/data/bitwarden.log"
       WEBSOCKET_ENABLED: "true"
     labels:
@@ -38,4 +39,11 @@
     pull: true
     restart_policy: unless-stopped
     volumes_from: bitwarden
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env:
+      TIMESTAMP: "{{ bitwarden_backup_timestamp }}"
+      UID: "{{ bitwarden_user_id }}"
+      GID: "{{ bitwarden_group_id }}"
     memory: "{{ bitwarden_backup_memory }}"
