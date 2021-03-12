@@ -11,15 +11,19 @@
 - name: Airsonic Docker Container
   docker_container:
     name: airsonic
-    image: airsonic/airsonic:latest
+    image: "{{ airsonic_docker_image }}"
     pull: true
     volumes:
-      - "{{ airsonic_data_directory }}/data:/airsonic/data:rw"
-      - "{{ airsonic_data_directory }}/playlists:/airsonic/playlists:rw"
-      - "{{ airsonic_music_directory }}:/airsonic/music:rw"
-      - "{{ airsonic_podcasts_directory }}:/airsonic/podcasts:rw"
+      - "{{ airsonic_data_directory }}/data:/config:rw"
+      - "{{ airsonic_data_directory }}/playlists:/playlists:rw"
+      - "{{ airsonic_music_directory }}:/music:rw"
+      - "{{ airsonic_podcasts_directory }}:/podcasts:rw"
     ports:
       - "{{ airsonic_port }}:4040"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ airsonic_user_id }}"
+      PGID: "{{ airsonic_group_id }}"
     restart_policy: unless-stopped
     memory: "{{ airsonic_memory }}"
     labels:

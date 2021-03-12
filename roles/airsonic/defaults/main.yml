@@ -7,6 +7,13 @@ airsonic_data_directory: "{{ docker_home }}/airsonic"
 airsonic_music_directory: "{{ music_root }}"
 airsonic_podcasts_directory: "{{ podcasts_root }}"
 
+# docker image
+airsonic_docker_image: linuxserver/airsonic
+
+# uid / gid
+airsonic_user_id: "0"
+airsonic_group_id: "0"
+
 # network
 airsonic_port: "4040"
 airsonic_hostname: "airsonic"
