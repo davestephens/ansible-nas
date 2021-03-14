@@ -33,4 +33,4 @@ You can run Ansible-NAS from the computer you plan to use for your NAS, or from 
 
 7. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles).
 
-8. Run the playbook - something like `ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K` should do you nicely.
+8. Run the playbook - something like `ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K` should do you nicely. Ensure you are in the `~\ansible-nas\` directory, not `inventories/my-ansible-nas/group_vars/`, as there are two nas.yml files.
