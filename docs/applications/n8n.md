@@ -1,6 +1,8 @@
 # Nodemation (n8n)
 
-Homepage: [ihttps://n8n.io](https://n8n.io)
+Extendable workflow automation tool that enables you to connect anything to everything. More pragrmatically, it helps you interconnect API with each other to build your own information / work flows.
+
+Homepage: [https://n8n.io](https://n8n.io)
 
 
 ## Usage
