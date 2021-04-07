@@ -4,6 +4,7 @@ bitwarden_available_externally: "false"
 bitwarden_data_directory: "{{ docker_home }}/bitwarden"
 bitwarden_port_a: "19080"
 bitwarden_port_b: "3012"
+bitwarden_hostname: "bitwarden"
 
 # Keep this token secret, this is password to access admin area of your server!
 # This token can be anything, but it's recommended to use a long, randomly generated string of characters,

@@ -11,11 +11,11 @@
       [entryPoints.websecure.http.tls]
         certResolver = "letsencrypt"
 
-        [entryPoints.websecure.http.tls.domains]
-          main = "{{ ansible_nas_domain }}"
-          sans = [
-            "*.{{ ansible_nas_domain }}"
-          ]
+        # [entryPoints.websecure.http.tls.domains]
+        #   main = "{{ ansible_nas_domain }}"
+        #   sans = [
+        #     "*.{{ ansible_nas_domain }}"
+        #   ]
 
   [entryPoints.traefik]
     address = ":{{ traefik_port_ui }}"

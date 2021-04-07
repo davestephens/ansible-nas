@@ -22,12 +22,15 @@
       LOG_FILE: "/data/bitwarden.log"
       WEBSOCKET_ENABLED: "true"
     labels:
-      traefik.web.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }}"
       traefik.enable: "{{ bitwarden_available_externally }}"
-      traefik.web.port: "80"
-      traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
-      traefik.hub.port: "bitwarden_port_b"
-      traefik.hub.protocol: "ws"
+      traefik.http.routers.bitwarden-web.rule: "Host(`{{ bitwarden_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.bitwarden-web.tls.certresolver: "letsencrypt"
+      traefik.http.routers.bitwarden-web.service: "bitwarden-web"
+      traefik.http.services.bitwarden-web.loadbalancer.server.port: "80"
+      traefik.http.routers.bitwarden-hub.rule: "Host(`{{ bitwarden_hostname }}.{{ ansible_nas_domain }}`) && Path(`/notifications/hub`)"
+      traefik.http.routers.bitwarden-hub.tls.certresolver: "letsencrypt"
+      traefik.http.routers.bitwarden-hub.service: "bitwarden-hub"
+      traefik.http.services.bitwarden-hub.loadbalancer.server.port: "{{ bitwarden_port_b }}"
     memory: "{{ bitwarden_memory }}"
     restart_policy: unless-stopped
 
