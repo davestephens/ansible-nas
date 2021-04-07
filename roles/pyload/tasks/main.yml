@@ -8,20 +8,33 @@
     - "{{ pyload_config_directory }}"
     - "{{ pyload_download_directory }}"
 
+- name: Create apprise config for gotify notifications
+  copy:
+    content: "gotifys://{{ gotify_hostname }}.{{ ansible_nas_domain }}/{{ pyload_gotify_token }}"
+    dest: "{{ pyload_config_directory }}/apprise.conf"
+  when: pyload_gotify_token != ""
+
+- name: Enable apprise mod for docker image
+  set_fact:
+    pyload_docker_mods: "{{ 'linuxserver/mods:universal-apprise' if (pyload_gotify_token != '') else '' }}"
+
 - name: pyLoad Docker Container
   docker_container:
     name: pyload
-    image: writl/pyload
+    image: linuxserver/pyload
     pull: true
     volumes:
-      - "{{ pyload_config_directory }}:/opt/pyload/pyload-config:rw"
-      - "{{ pyload_download_directory }}:/opt/pyload/Downloads:rw"
+      - "{{ pyload_config_directory }}:/config:rw"
+      - "{{ pyload_download_directory }}:/downloads:rw"
     ports:
       - "{{ pyload_port }}:8000"
+      - "{{ pyload_thrift_backend_port }}:7227"
+      - "{{ pyload_clicknload_port }}:9666"
     env:
+      DOCKER_MODS: "{{ pyload_docker_mods }}"
       TZ: "{{ ansible_nas_timezone }}"
-      UID: "{{ pyload_user_id }}"
-      GID: "{{ pyload_group_id }}"
+      PUID: "{{ pyload_user_id }}"
+      PGID: "{{ pyload_group_id }}"
     restart_policy: unless-stopped
     memory: "{{ pyload_memory }}"
     labels:
