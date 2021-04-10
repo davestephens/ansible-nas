@@ -12,11 +12,11 @@
   copy:
     content: "gotifys://{{ gotify_hostname }}.{{ ansible_nas_domain }}/{{ pyload_gotify_token }}"
     dest: "{{ pyload_config_directory }}/apprise.conf"
-  when: pyload_gotify_token != ""
+  when: pyload_gotify_token|length > 0
 
 - name: Enable apprise mod for docker image
   set_fact:
-    pyload_docker_mods: "{{ 'linuxserver/mods:universal-apprise' if (pyload_gotify_token != '') else '' }}"
+    pyload_docker_mods: "{{ 'linuxserver/mods:universal-apprise' if (pyload_gotify_token|length > 0) else '' }}"
 
 - name: pyLoad Docker Container
   docker_container:
