@@ -21,7 +21,7 @@
     restart_policy: unless-stopped
     memory: "{{ opennms_postgres_memory }}"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 30s
       retries: 3
@@ -53,7 +53,7 @@
     restart_policy: unless-stopped
     memory: "{{ opennms_memory }}"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp" ]
+      test: ["CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp"]
       interval: 1m
       timeout: 5s
       retries: 3
