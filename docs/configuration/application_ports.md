@@ -54,6 +54,9 @@ By default, applications can be found on the ports listed below.
 | Ombi            | 3579    | Bridge  | HTTP           |
 | openHAB         | 7777    | Host    | HTTP           |
 | openHAB         | 7778    | Host    | HTTPS          |
+| OpenNMS         | 8980    | Bridge  | HTTP           |
+| OpenNMS         | 8101    | Bridge  | HTTP           |
+| OpenNMS         | 61616   | Bridge  | HTTP           |
 | Organizr        | 10081   | Bridge  | HTTP           |
 | Organizr        | 10444   | Bridge  | HTTPS          |
 | Plex            | 32400   | Bridge  | HTTP           |

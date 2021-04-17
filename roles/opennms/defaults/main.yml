@@ -1,0 +1,27 @@
+---
+opennms_enabled: false
+opennms_available_externally: "false"
+
+# directories
+opennms_data_directory: "{{ docker_home }}/opennms"
+
+# uid / gid
+opennms_user_id: "1000"
+opennms_group_id: "1000"
+
+# network
+opennms_port: "8980"
+opennms_port_karaf: "8101"
+opennms_port_activemq: "61616"
+opennms_hostname: "opennms"
+
+# username / passwords
+opennms_sql_user: "opennms-user"
+opennms_sql_password: "opennms-pass"
+opennms_db_name: "opennms"
+opennms_db_user: "opennms"
+opennms_db_pass: "opennms"
+
+# specs
+opennms_memory: 1g
+opennms_postgres_memory: 1g

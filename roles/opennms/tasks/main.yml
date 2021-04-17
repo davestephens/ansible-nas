@@ -1,0 +1,66 @@
+---
+- name: Create OpenNMS directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ opennms_data_directory }}/opennms"
+    - "{{ opennms_data_directory }}/postgres"
+
+- name: OpenNMS PostgreSQL Docker Container
+  docker_container:
+    name: opennms-database
+    image: postgres:12
+    pull: true
+    volumes:
+      - "{{ opennms_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      POSTGRES_USER: "{{ opennms_sql_user }}"
+      POSTGRES_PASSWORD: "{{ opennms_sql_password }}"
+    restart_policy: unless-stopped
+    memory: "{{ opennms_postgres_memory }}"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 30s
+      retries: 3
+
+- name: OpenNMS Docker Container
+  docker_container:
+    name: opennms
+    image: opennms/horizon:release-27.x
+    pull: true
+    volumes:
+      - "{{ opennms_data_directory }}/opennms:/opt/opennms/share/rrd:rw"
+      - ./overlay:/opt/opennms-overlay
+    command: ["-s"]
+    links:
+      - opennms-database:database
+    ports:
+      - "{{ opennms_port }}:8980"
+      - "{{ opennms_port_karaf }}:8101"
+      - "{{ opennms_port_activemq }}:61616"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ opennms_user_id }}"
+      PGID: "{{ opennms_group_id }}"
+      POSTGRES_USER: "{{ opennms_sql_user }}"
+      POSTGRES_PASSWORD: "{{ opennms_sql_password }}"
+      OPENNMS_DBNAME: "{{ opennms_db_name }}"
+      OPENNMS_DBUSER: "{{ opennms_db_user }}"
+      OPENNMS_DBPASS: "{{ opennms_db_pass }}"
+    restart_policy: unless-stopped
+    memory: "{{ opennms_memory }}"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp" ]
+      interval: 1m
+      timeout: 5s
+      retries: 3
+    labels:
+      traefik.enable: "{{ opennms_available_externally }}"
+      traefik.http.routers.opennms.rule: "Host(`{{ opennms_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.opennms.tls.certresolver: "letsencrypt"
+      traefik.http.routers.opennms.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.opennms.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.opennms.loadbalancer.server.port: "{{ opennms_port }}"

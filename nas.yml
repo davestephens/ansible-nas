@@ -208,6 +208,11 @@
         - ombi
       when: (ombi_enabled | default(False))
 
+    - role: opennms
+      tags:
+        - opennms
+      when: (opennms_enabled | default(False))
+
     - role: plex
       tags:
         - plex
