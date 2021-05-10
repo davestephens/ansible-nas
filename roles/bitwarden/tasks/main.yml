@@ -9,7 +9,7 @@
 - name: Bitwarden Docker Container
   docker_container:
     name: bitwarden
-    image: bitwardenrs/server:latest
+    image: vaultwarden/server:latest
     pull: true
     ports:
       - "{{ bitwarden_port_a }}:80"
@@ -22,12 +22,17 @@
       LOG_FILE: "/data/bitwarden.log"
       WEBSOCKET_ENABLED: "true"
     labels:
-      traefik.web.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }}"
       traefik.enable: "{{ bitwarden_available_externally }}"
-      traefik.web.port: "80"
-      traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
-      traefik.hub.port: "bitwarden_port_b"
-      traefik.hub.protocol: "ws"
+      traefik.http.routers.bitwarden-ui.service: bitwarden-ui
+      traefik.http.routers.bitwarden-ui.rule: "Host(`bitwarden.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.bitwarden-ui.tls.certresolver: "letsencrypt"
+      traefik.http.routers.bitwarden-ui.tls: "true"
+      traefik.http.routers.bitwarden-ui.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.bitwarden-ui.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.bitwarden-ui.loadbalancer.server.port: "80"
+      traefik.http.routers.bitwarden-websocket.service: bitwarden-websocket
+      traefik.http.routers.bitwarden-websocket.rule: "Host(`bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub`)"
+      traefik.http.services.bitwarden-websocket.loadbalancer.server.port: "{{ bitwarden_port_b }}"
     memory: "{{ bitwarden_memory }}"
     restart_policy: unless-stopped
 
