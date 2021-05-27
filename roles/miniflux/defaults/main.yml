@@ -1,0 +1,20 @@
+---
+# enable or disable the application
+miniflux_enabled: false
+miniflux_available_externally: "false"
+
+# directories
+miniflux_data_directory: "{{ docker_home }}/miniflux"
+
+
+# env
+miniflux_admin_username: admin
+miniflux_admin_password: supersecure
+
+# network
+miniflux_hostname: "miniflux"
+miniflux_port: "8070"
+
+# specs
+miniflux_memory: "1g"
+miniflux_postgres_memory: "1g"

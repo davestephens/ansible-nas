@@ -1,0 +1,10 @@
+---
+# enable or disable the application
+mymediaforalexa_enabled: false
+
+# directories
+mymediaforalexa_media_directory: "{{ music_root }}"
+mymediaforalexa_data_directory: "{{ docker_home }}/mymediaforalexa"
+
+# specs
+mymediaforalexa_memory: "1g"

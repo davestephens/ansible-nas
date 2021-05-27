@@ -1,3 +1,4 @@
+---
 - name: Create Emby Directories
   file:
     path: "{{ item }}"
@@ -25,7 +26,7 @@
       NVIDIA_VISIBLE_DEVICES: "all"
       NVIDIA_DRIVER_CAPABILITIES: "compute,utility,video"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ emby_memory }}"
     labels:
       traefik.enable: "{{ emby_available_externally }}"
       traefik.http.routers.emby.rule: "Host(`{{ emby_hostname }}.{{ ansible_nas_domain }}`)"

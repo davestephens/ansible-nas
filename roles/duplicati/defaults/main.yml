@@ -5,6 +5,15 @@ duplicati_available_externally: "false"
 # directories
 duplicati_data_directory: "{{ docker_home }}/duplicati/config"
 
+# permissions
+duplicati_data_permissions: "ro" # set this to rw to enable the ability to restore data
+
+# uid / gid
+duplicati_user_id: "0"
+duplicati_group_id: "0"
+
 # network
 duplicati_port: "8200"
 duplicati_hostname: "duplicati"
+
+duplicati_memory: 1g

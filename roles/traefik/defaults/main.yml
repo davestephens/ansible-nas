@@ -27,3 +27,6 @@ traefik_environment_variables:
 # the "{{ docker_home }}/traefik" after changing this setting.
 # traefik_acme_server: "https://acme-staging-v02.api.letsencrypt.org/directory" # staging
 traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory" # production
+
+# specs
+traefik_memory: 1g
