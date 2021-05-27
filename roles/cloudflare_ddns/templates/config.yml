@@ -1,3 +1,4 @@
+---
 auth:
   scopedToken: "{{ cloudflare_token }}"
 domains:

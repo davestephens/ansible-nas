@@ -19,3 +19,6 @@ deluge_port: "8112"
 deluge_hostname: "deluge"
 
 deluge_timezone: "{{ ansible_nas_timezone }}"
+
+# specs
+deluge_memory: 1g

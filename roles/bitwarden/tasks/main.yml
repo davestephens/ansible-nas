@@ -1,3 +1,4 @@
+---
 - name: Create Bitwarden Directories
   file:
     path: "{{ item }}"
@@ -27,8 +28,8 @@
       traefik.hub.frontend.rule: "Host:bitwarden.{{ ansible_nas_domain }};Path:/notifications/hub"
       traefik.hub.port: "bitwarden_port_b"
       traefik.hub.protocol: "ws"
+    memory: "{{ bitwarden_memory }}"
     restart_policy: unless-stopped
-    #memory: 1g
 
 - name: Bitwarden Backup Container
   docker_container:
@@ -37,4 +38,4 @@
     pull: true
     restart_policy: unless-stopped
     volumes_from: bitwarden
-    memory: 1g
+    memory: "{{ bitwarden_backup_memory }}"

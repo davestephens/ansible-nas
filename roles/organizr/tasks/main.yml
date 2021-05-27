@@ -21,7 +21,7 @@
       - "{{ organizr_port_http }}:80"
       - "{{ organizr_port_https }}:443"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ organizr_memory }}"
     labels:
       traefik.enable: "{{ organizr_available_externally }}"
       traefik.http.routers.organizr.rule: "Host(`{{ organizr_hostname }}.{{ ansible_nas_domain }}`)"

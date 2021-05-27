@@ -1,3 +1,4 @@
+---
 - name: Create Wallabag Directories
   file:
     path: "{{ item }}"

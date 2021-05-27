@@ -11,6 +11,7 @@ By default, applications can be found on the ports listed below.
 | Calibre-web     | 8084    | Bridge  | HTTP           |
 | Cloud Commander | 7373    | Bridge  | HTTP           |
 | Couchpotato     | 5050    | Bridge  | HTTP           |
+| DokuWiki        | 8085    | Bridge  | HTTP           |
 | Duplicati       | 8200    | Bridge  | HTTP           |
 | Emby            | 8096    | Bridge  | HTTP           |
 | Emby            | 8096    | Bridge  | HTTP           |
@@ -23,6 +24,7 @@ By default, applications can be found on the ports listed below.
 | GitLab          | 4443    | Bridge  | HTTPS          |
 | GitLab          | 422     | Bridge  | SSH            |
 | Glances         | 61208   | Bridge  | HTTP           |
+| Gotify          | 2346    | Bridge  | HTTP           |
 | Grafana         | 3000    | Bridge  | HTTP           |
 | Guacamole       | 8090    | Bridge  | HTTP           |
 | Heimdall        | 10080   | Bridge  | HTTP           |
@@ -45,6 +47,9 @@ By default, applications can be found on the ports listed below.
 | n8n             | 5678    | Bridge  | HTTP           |
 | Netdata         | 19999   | Bridge  | HTTP           |
 | Nextcloud       | 8080    | Bridge  | HTTP           |
+| netbootxyz      | 3002    | Bridge  | HTTP           |
+| netbootxyz      | 5803    | Bridge  | HTTP           |
+| netbootxyz      | 69      | Bridge  | TFTP           |
 | NZBGet          | 6789    | Bridge  | HTTP           |
 | Ombi            | 3579    | Bridge  | HTTP           |
 | openHAB         | 7777    | Host    | HTTP           |

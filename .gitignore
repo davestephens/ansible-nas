@@ -5,9 +5,13 @@ site
 *.log
 inventories/hoarder/
 inventories
+.cache
 
 # Vim
 [._]sw[a-p]
 
 # Session
 Session.vim
+
+# IntelliJ
+/.idea/

@@ -9,3 +9,7 @@ gitea_data_directory: "{{ docker_home }}/gitea"
 gitea_hostname: "gitea"
 gitea_port_http: "3001"
 gitea_port_ssh: "222"
+
+# specs
+gitea_memory: 1g
+gitea_mysql_memory: 1g

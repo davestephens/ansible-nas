@@ -40,8 +40,8 @@
 
 - name: Restart Docker
   service:
-     name: docker
-     state: restarted
+    name: docker
+    state: restarted
   when: docker_config.changed
   tags:
     - skip_ansible_lint

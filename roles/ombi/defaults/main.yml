@@ -12,3 +12,6 @@ ombi_hostname: "ombi"
 # uid / gid
 ombi_user_id: "0"
 ombi_group_id: "0"
+
+# specs
+ombi_memory: 1g

@@ -1,4 +1,3 @@
-
 ---
 - name: Krusader Directory
   file:

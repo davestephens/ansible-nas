@@ -1,0 +1,17 @@
+---
+dokuwiki_enabled: false
+dokuwiki_available_externally: "false"
+
+# directories
+dokuwiki_data_directory: "{{ docker_home }}/dokuwiki"
+
+# uid / gid
+dokuwiki_user_id: "1000"
+dokuwiki_group_id: "1000"
+
+# network
+dokuwiki_hostname: "dokuwiki"
+dokuwiki_port: "8085"
+
+# specs
+dokuwiki_memory: 1g

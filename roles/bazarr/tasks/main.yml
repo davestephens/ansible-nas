@@ -22,7 +22,7 @@
       PUID: "{{ bazarr_user_id }}"
       PGID: "{{ bazarr_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ bazarr_memory }}"
     labels:
       traefik.enable: "{{ bazarr_available_externally }}"
       traefik.http.routers.bazarr.rule: "Host(`{{ bazarr_hostname }}.{{ ansible_nas_domain }}`)"

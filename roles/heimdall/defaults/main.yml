@@ -14,3 +14,6 @@ heimdall_hostname: heimdall
 # uid / gid
 heimdall_user_id: "1310"
 heimdall_group_id: "1310"
+
+# specs
+heimdall_memory: 1g

@@ -23,7 +23,7 @@
       PUID: "{{ deluge_user_id }}"
       PGID: "{{ deluge_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ deluge_memory }}"
     labels:
       traefik.enable: "{{ deluge_available_externally }}"
       traefik.http.routers.deluge.rule: "Host(`{{ deluge_hostname }}.{{ ansible_nas_domain }}`)"

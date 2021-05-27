@@ -1,0 +1,34 @@
+---
+- name: Create NZBget Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ nzbget_data_directory }}"
+
+- name: NZBGet
+  docker_container:
+    name: nzbget
+    image: linuxserver/nzbget
+    pull: true
+    networks:
+      - name: "bockynet"
+    purge_networks: yes
+    volumes:
+      - "{{ nzbget_download_directory }}:/downloads:rw"
+      - "{{ nzbget_data_directory }}:/config:rw"
+    ports:
+      - "{{ nzbget_port }}:6789"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ nzbget_user_id }}"
+      PGID: "{{ nzbget_group_id }}"
+    restart_policy: unless-stopped
+    memory: "{{ nzbget_memory }}"
+    labels:
+      traefik.enable: "{{ nzbget_available_externally }}"
+      traefik.http.routers.nzbget.rule: "Host(`{{ nzbget_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.nzbget.tls.certresolver: "letsencrypt"
+      traefik.http.routers.nzbget.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.nzbget.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.nzbget.loadbalancer.server.port: "6789"

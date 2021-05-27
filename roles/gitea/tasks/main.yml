@@ -39,7 +39,7 @@
       MYSQL_PASSWORD: "gitea"
       MYSQL_ROOT_PASSWORD: "gitea"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ gitea_mysql_memory }}"
 
 - name: Create Gitea container
   docker_container:
@@ -47,7 +47,7 @@
     image: gitea/gitea:1.6
     pull: true
     links:
-        - gitea-mysql:db
+      - gitea-mysql:db
     volumes:
       - "{{ gitea_data_directory }}/gitea:/data:rw"
     ports:
@@ -66,7 +66,7 @@
       USER_UID: "1309"
       USER_GID: "1309"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ gitea_memory }}"
     labels:
       traefik.enable: "{{ gitea_available_externally }}"
       traefik.http.routers.gitea.rule: "Host(`{{ gitea_hostname }}.{{ ansible_nas_domain }}`)"

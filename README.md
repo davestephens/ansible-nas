@@ -1,6 +1,6 @@
 # Ansible NAS
 
-[![Build Status](https://img.shields.io/travis/com/davestephens/ansible-nas/master?logo=travis&style=flat-square)](https://travis-ci.com/davestephens/ansible-nas) [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat) [![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/davestephens/ansible-nas/blob/master/LICENSE) [![Ko-fi](https://img.shields.io/static/v1.svg?label=ko-fi&message=Buy%20Me%20A%20Coffee&color=orange&style=flat-square&logo=buy-me-a-coffee)](https://ko-fi.com/davestephens)
+[![CI](https://github.com/davestephens/ansible-nas/workflows/CI/badge.svg)](https://github.com/davestephens/ansible-nas/actions?query=workflow%3ACI) [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat) [![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/davestephens/ansible-nas/blob/master/LICENSE) [![Ko-fi](https://img.shields.io/static/v1.svg?label=ko-fi&message=Buy%20Me%20A%20Coffee&color=orange&style=flat-square&logo=buy-me-a-coffee)](https://ko-fi.com/davestephens)
 
 After getting burned by broken FreeNAS updates one too many times, I figured I
 could do a much better job myself using just a stock Ubuntu install, some clever
@@ -29,6 +29,7 @@ Ansible config and a bunch of Docker containers.
 * Content management with Joomla
 * A dual panel local file manager
 * Self-service media request web application
+* A PXE server to boot OS images over the network
 
 ### Available Applications
 
@@ -40,6 +41,7 @@ Ansible config and a bunch of Docker containers.
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
+* [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
@@ -47,6 +49,7 @@ Ansible config and a bunch of Docker containers.
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
 * [GitLab](https://about.gitlab.com/features/) - Self-hosted GitHub clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
+* [Gotify](https://gotify.net/) Self-hosted server for sending push notifications
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Heimdall](https://heimdall.site/) - Home server dashboard
@@ -62,7 +65,8 @@ Ansible config and a bunch of Docker containers.
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
-* [n8n](https://n8n.io") - Nodemation, a node based workflow and automation service like IFTTT.
+* [n8n](https://n8n.io/) - Nodemation, a node based workflow and automation service like IFTTT.
+* [netboot.xyz](https://netboot.xyz/) - a PXE boot server
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
