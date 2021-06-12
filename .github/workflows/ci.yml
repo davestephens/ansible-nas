@@ -1,5 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
+---
 name: CI
 
 # Controls when the action will run. 
@@ -30,5 +29,7 @@ jobs:
       - name: Install test dependencies
         run: pip3 install yamllint ansible-lint==4.3.7
 
-      - name: Ansible lint
-        run: ansible-lint ./nas.yml -x 106,208
+      - name: Linting
+        run: |
+          ansible-lint ./nas.yml -x 106,208
+          yamllint .

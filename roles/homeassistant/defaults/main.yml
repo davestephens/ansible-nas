@@ -8,3 +8,6 @@ homeassistant_data_directory: "{{ docker_home }}/homeassistant"
 # network
 homeassistant_port: "8123"
 homeassistant_hostname: "homeassistant"
+
+# specs
+homeassistant_memory: 1g

@@ -24,7 +24,7 @@
       PUID: "{{ couchpotato_user_id }}"
       PGID: "{{ couchpotato_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ couchpotato_memory }}"
     labels:
       traefik.enable: "{{ couchpotato_available_externally }}"
       traefik.http.routers.couchpotato.rule: "Host(`couchpotato.{{ ansible_nas_domain }}`)"

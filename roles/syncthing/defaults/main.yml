@@ -15,3 +15,6 @@ syncthing_volumes:
 # network
 syncthing_port: 8384
 syncthing_hostname: syncthing
+
+# specs
+syncthing_memory: 1g

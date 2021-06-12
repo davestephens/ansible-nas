@@ -93,15 +93,30 @@
         - firefly
       when: (firefly_enabled | default(False))
 
+    - role: get_iplayer
+      tags:
+        - get_iplayer
+      when: (get_iplayer_enabled | default(False))
+
     - role: gitea
       tags:
         - gitea
       when: (gitea_enabled | default(False))
 
-    - role: get_iplayer
+    - role: gitlab
       tags:
-        - get_iplayer
-      when: (get_iplayer_enabled | default(False))
+        - gitlab
+      when: (gitlab_enabled | default(False))
+
+    - role: glances
+      tags:
+        - glances
+      when: (glances_enabled | default(False))
+
+    - role: gotify
+      tags:
+        - gotify
+      when: (gotify_enabled | default(False))
 
     - role: heimdall
       tags:
@@ -120,7 +135,7 @@
 
     - role: jackett
       tags:
-        - jackettfalse
+        - jackett
       when: (jackett_enabled | default(False))
 
     - role: lidarr
@@ -152,6 +167,11 @@
       tags:
         - n8n_enabled
       when: (n8n_enabled | default(False))
+
+    - role: netbootxyz
+      tags:
+        - netbootxyz
+      when: (netbootxyz_enabled | default(False))
 
     - role: netdata
       tags:
@@ -230,7 +250,7 @@
 
     - role: transmission-with-openvpn
       tags:
-        - transmission_with_openvpn_enabled
+        - transmission_with_openvpn
       when: (transmission_with_openvpn_enabled | default(False))
 
     - role: utorrent
@@ -253,71 +273,68 @@
         - znc
       when: (znc_enabled | default(False))
 
+    - role: dokuwiki
+      tags:
+        - dokuwiki
+      when: (dokuwiki_enabled | default(False))
+
   tasks:
-  - import_tasks: tasks/thelounge.yml
-    when: (thelounge_enabled | default(False))
-    tags: thelounge
+    - import_tasks: tasks/thelounge.yml
+      when: (thelounge_enabled | default(False))
+      tags: thelounge
 
-  - import_tasks: tasks/glances.yml
-    when: (glances_enabled | default(False))
-    tags: glances
+    - import_tasks: tasks/timemachine.yml
+      when: (timemachine_enabled | default(False))
+      tags: timemachine
 
-  - import_tasks: tasks/gitlab.yml
-    when: (gitlab_enabled | default(False))
-    tags: gitlab
+    - import_tasks: tasks/stats.yml
+      when: (stats_enabled | default(False))
+      tags: stats
 
-  - import_tasks: tasks/timemachine.yml
-    when: (timemachine_enabled | default(False))
-    tags: timemachine
+    - import_tasks: tasks/guacamole.yml
+      when: (guacamole_enabled | default(False))
+      tags: guacamole
 
-  - import_tasks: tasks/stats.yml
-    when: (stats_enabled | default(False))
-    tags: stats
+    - import_tasks: tasks/joomla.yml
+      when: (joomla_enabled | default(False))
+      tags: joomla
 
-  - import_tasks: tasks/guacamole.yml
-    when: (guacamole_enabled | default(False))
-    tags: guacamole
+    - import_tasks: tasks/wallabag.yml
+      when: (wallabag_enabled | default(False))
+      tags: wallabag
 
-  - import_tasks: tasks/joomla.yml
-    when: (joomla_enabled | default(False))
-    tags: joomla
+    - import_tasks: tasks/mosquitto.yml
+      when: (mosquitto_enabled | default(False))
+      tags: mosquitto
 
-  - import_tasks: tasks/wallabag.yml
-    when: (wallabag_enabled | default(False))
-    tags: wallabag
+    - import_tasks: tasks/calibre.yml
+      when: (calibre_enabled | default(False))
+      tags: calibre
 
-  - import_tasks: tasks/mosquitto.yml
-    when: (mosquitto_enabled | default(False))
-    tags: mosquitto
+    - import_tasks: tasks/openhab.yml
+      when: (openhab_enabled | default(False))
+      tags: openhab
 
-  - import_tasks: tasks/calibre.yml
-    when: (calibre_enabled | default(False))
-    tags: calibre
+    - import_tasks: tasks/jellyfin.yml
+      when: (jellyfin_enabled | default(False))
+      tags: jellyfin
 
-  - import_tasks: tasks/openhab.yml
-    when: (openhab_enabled | default(False))
-    tags: openhab
+    - import_tasks: tasks/krusader.yml
+      when: (krusader_enabled | default(False))
+      tags: krusader
 
-  - import_tasks: tasks/jellyfin.yml
-    when: (jellyfin_enabled | default(False))
-    tags: jellyfin
+    - import_tasks: tasks/ubooquity.yml
+      when: (ubooquity_enabled | default(False))
+      tags: ubooquity
 
-  - import_tasks: tasks/krusader.yml
-    when: (krusader_enabled | default(False))
-    tags: krusader
+    - import_tasks: tasks/youtubedlmaterial.yml
+      when: (youtubedlmaterial_enabled | default(False))
+      tags: youtubedlmaterial
 
-  - import_tasks: tasks/ubooquity.yml
-    when: (ubooquity_enabled | default(False))
-    tags: ubooquity
+    - import_tasks: tasks/virtual_desktop.yml
+      when: (virtual_desktop_enabled | default(False))
+      tags: virtual_desktop
 
-  - import_tasks: tasks/youtubedlmaterial.yml
-    when: (youtubedlmaterial_enabled | default(False))
-    tags: youtubedlmaterial
-
-  - import_tasks: tasks/virtual_desktop.yml
-    when: (virtual_desktop_enabled | default(False))
-    tags: virtual_desktop
-
-  - import_tasks: tasks/pytivo.yml
-    when: (pytivo_enabled | default(False))
-    tags: pytivo
+    - import_tasks: tasks/pytivo.yml
+      when: (pytivo_enabled | default(False))
+      tags: pytivo

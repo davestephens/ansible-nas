@@ -14,3 +14,6 @@ couchpotato_group_id: "0"
 
 # network
 couchpotato_port: "5050"
+
+# specs
+couchpotato_memory: 1g

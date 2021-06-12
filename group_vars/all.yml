@@ -1,3 +1,4 @@
+---
 ##                       ._____.   .__
 ##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
 ##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
@@ -20,7 +21,6 @@ jellyfin_enabled: false
 youtubedlmaterial_enabled: false
 
 # System Management
-glances_enabled: false
 stats_enabled: false
 guacamole_enabled: false
 virtual_desktop_enabled: false
@@ -28,9 +28,6 @@ krusader_enabled: false
 
 # Backup & Restore
 timemachine_enabled: false
-
-# Software build and CI
-gitlab_enabled: false
 
 # IRC
 thelounge_enabled: false
@@ -285,24 +282,6 @@ grafana_data_directory: "{{ docker_home }}/grafana"
 stat_collection_interval: 15s
 grafana_influxdb_port: "8086"
 grafana_port: "3000"
-
-
-###
-### Gitlab
-###
-gitlab_available_externally: "false"
-gitlab_data_directory: "{{ docker_home }}/gitlab"
-gitlab_port_http: "4080"
-gitlab_port_https: "4443"
-gitlab_port_ssh: "422"
-
-###
-### Glances
-###
-glances_available_externally: "false"
-glances_port_one: "61208"
-glances_port_two: "61209"
-
 
 ###
 ### Guacamole

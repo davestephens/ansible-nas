@@ -15,4 +15,4 @@ nzbget_port: "6789"
 nzbget_hostname: "nzbget"
 
 # specs
-nzbget_app_memory: "1g"
+nzbget_memory: "1g"

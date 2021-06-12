@@ -23,7 +23,7 @@ neutral='\033[0m'
 timestamp=$(date +%s)
 
 # Allow environment variables to override defaults.
-distro=${distro:-"ubuntu1804"}
+distro=${distro:-"ubuntu2004"}
 docker_owner=${docker_owner:-"geerlingguy"}
 playbook=${playbook:-"nas.yml"}
 cleanup=${cleanup:-"true"}

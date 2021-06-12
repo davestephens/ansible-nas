@@ -47,7 +47,7 @@
     capabilities:
       - NET_ADMIN
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ transmission_openvpn_memory }}"
     labels:
       traefik.enable: "{{ transmission_openvpn_available_externally }}"
       traefik.http.routers.transmission_openvpn.rule: "Host(`{{ transmission_openvpn_hostname }}.{{ ansible_nas_domain }}`)"

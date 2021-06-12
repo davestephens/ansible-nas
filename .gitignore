@@ -4,9 +4,13 @@ site
 *.retry
 *.log
 inventories
+.cache
 
 # Vim
 [._]sw[a-p]
 
 # Session
 Session.vim
+
+# IntelliJ
+/.idea/

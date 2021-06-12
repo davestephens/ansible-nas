@@ -12,3 +12,4 @@ firefly_port: "8066"
 
 # specs
 firefly_memory: "1g"
+firefly_mysql_memory: "1g"
