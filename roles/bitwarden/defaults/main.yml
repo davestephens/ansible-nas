@@ -14,3 +14,7 @@ bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
 # Once you have created your user, set to "false" and run one more time.
 # Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
 bitwarden_allow_signups: false
+
+# specs
+bitwarden_memory: 1g
+bitwarden_backup_memory: 1g

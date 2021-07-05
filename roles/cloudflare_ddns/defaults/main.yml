@@ -21,3 +21,6 @@ cloudflare_proxy: false
 
 # Set to AAAA to use set IPv6 records instead of IPv4 records.
 cloudflare_type: "A"
+
+# specs
+cloudflare_memory: 512MB

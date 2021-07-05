@@ -17,3 +17,6 @@ transmission_external_port: "51414"
 transmission_hostname: "transmission"
 
 transmission_timezone: "{{ ansible_nas_timezone }}"
+
+# specs
+transmission_memory: 1g

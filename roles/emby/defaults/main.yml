@@ -21,3 +21,6 @@ emby_group_id: "0"
 emby_port_http: "8096"
 emby_port_https: "8920"
 emby_hostname: "emby"
+
+# specs
+emby_memory: 1g

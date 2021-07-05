@@ -1,3 +1,4 @@
+---
 ##                       ._____.   .__
 ##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
 ##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
@@ -11,5 +12,3 @@
 # Example options
 ansible_nas_hostname: ansible-nas-test
 ansible_nas_timezone: Europe/London
-
-
