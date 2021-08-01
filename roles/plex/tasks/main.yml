@@ -21,6 +21,7 @@
       - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
       - "{{ plex_podcasts_directory }}:/podcasts:{{ plex_podcasts_permissions }}"
       - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
+      - "{{ plex_video_directory }}:/video:{{ plex_video_permissions }}"
     network_mode: "host"
     devices: "{{ plex_devices | default(omit) }}"
     env:
