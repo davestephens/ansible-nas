@@ -1,0 +1,5 @@
+---
+###
+### OpenVPN
+###
+openvpn_config_directory: "{{ docker_home }}/openvpn"

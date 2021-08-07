@@ -1,0 +1,24 @@
+---
+###
+### Jellyfin
+###
+# If you're paranoid, set permissions to "ro" so jellyfin won't ever be able to
+# delete your files
+jellyfin_available_externally: "false"
+jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
+jellyfin_movies_directory: "{{ movies_root }}"
+jellyfin_movies_permissions: "rw"
+jellyfin_music_directory: "{{ music_root }}"
+jellyfin_music_permissions: "rw"
+jellyfin_photos_directory: "{{ photos_root }}"
+jellyfin_photos_permissions: "rw"
+jellyfin_tv_directory: "{{ tv_root }}"
+jellyfin_tv_permissions: "rw"
+jellyfin_books_directory: "{{ books_root }}"
+jellyfin_books_permissions: "rw"
+jellyfin_audiobooks_directory: "{{ audiobooks_root }}"
+jellyfin_audiobooks_permissions: "rw"
+jellyfin_user_id: "0"
+jellyfin_group_id: "0"
+jellyfin_port_http: "8896"
+jellyfin_port_https: "8928"

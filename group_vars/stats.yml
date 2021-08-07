@@ -1,0 +1,11 @@
+---
+###
+### Stats
+###
+grafana_available_externally: "false"
+telegraf_data_directory: "{{ docker_home }}/telegraf"
+influxdb_data_directory: "{{ docker_home }}/influxdb"
+grafana_data_directory: "{{ docker_home }}/grafana"
+stat_collection_interval: 15s
+grafana_influxdb_port: "8086"
+grafana_port: "3000"

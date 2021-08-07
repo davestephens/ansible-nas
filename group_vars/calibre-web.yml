@@ -1,0 +1,11 @@
+---
+###
+### Calibre-web
+###
+calibre_available_externally: 'false'
+calibre_data_directory: '{{ docker_home }}/calibre'
+calibre_user_id: '0'
+calibre_group_id: '0'
+calibre_books_root: '{{ books_root }}'
+calibre_port: '8084'
+calibre_ebook_conversion: linuxserver/calibre-web:calibre

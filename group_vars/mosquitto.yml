@@ -1,0 +1,8 @@
+---
+###
+### Mosquitto
+###
+mosquitto_available_externally: "false"
+mosquitto_data_directory: "{{ docker_home }}/mosquitto"
+mosquitto_port_a: "1883"
+mosquitto_port_b: "9001"

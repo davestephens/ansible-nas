@@ -1,0 +1,7 @@
+---
+###
+### Wallabag
+###
+wallabag_available_externally: "false"
+wallabag_data_directory: "{{ docker_home }}/wallabag"
+wallabag_port: "7780"

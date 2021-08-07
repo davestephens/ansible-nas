@@ -14,3 +14,6 @@ Session.vim
 
 # IntelliJ
 /.idea/
+
+# Python Virtualenv
+_venv

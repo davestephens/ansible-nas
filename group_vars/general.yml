@@ -1,0 +1,9 @@
+---
+###
+### General
+###
+# Will be added to the docker group to give user command line access to docker
+ansible_nas_user: david
+ansible_nas_email: me@example.com
+ansible_nas_domain: example.com
+ansible_python_interpreter: /usr/bin/python3

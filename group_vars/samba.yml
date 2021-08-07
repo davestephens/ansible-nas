@@ -1,0 +1,119 @@
+---
+###
+### Samba
+###
+# Seems to break browsing of the \\server-name shares root when enabled
+samba_mitigate_cve_2017_7494: false
+# Enable apple exentensions for compatibility with apple clients
+samba_apple_extensions: true
+# The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
+# mess with Samba user permissions.
+samba_guest_account: ansible-nas
+# How Samba behaves when an unknown user connects, see Samba docs for more info
+samba_map_to_guest: Bad Password
+# The NetBIOS hostname used by Samba on your network
+samba_netbios_name: "{{ ansible_nas_hostname }}"
+# The location where all shares will be created by default. Can be overridden on a per-share basis.
+# This path will be mounted to backup containers, Duplicati
+samba_shares_root: /mnt/Volume3
+# Where stuff downloaded will be stored
+downloads_root: "{{ samba_shares_root }}/downloads"
+# Where your movies are stored
+movies_root: "{{ samba_shares_root }}/movies"
+# Where your TV episodes are stored
+tv_root: "{{ samba_shares_root }}/tv"
+# Where torrent files are stored (picked up by Transmission for downloading)
+torrents_root: "{{ samba_shares_root }}/torrents"
+# Where music is stored
+music_root: "{{ samba_shares_root }}/music"
+# Where podcasts are stored
+podcasts_root: "{{ samba_shares_root }}/podcasts"
+# Where your books are stored
+books_root: "{{ samba_shares_root }}/books"
+# Where your audiobooks are stored
+audiobooks_root: "{{ samba_shares_root }}/audiobooks"
+# Where your comics are stored
+comics_root: "{{ samba_shares_root }}/comics"
+# Where photos are stored
+photos_root: "{{ samba_shares_root }}/photos"
+# The description that'll appear next to your Ansible-NAS box when browsing your network
+samba_server_string: Ansible NAS
+# Shares you want published over Samba.
+samba_shares:
+  - name: downloads
+    comment: 'Stuff downloaded'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ downloads_root }}"
+  - name: movies
+    comment: 'Movies'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ movies_root }}"
+  - name: tv
+    comment: 'TV Episodes'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ tv_root }}"
+  - name: music
+    comment: 'Music'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ music_root }}"
+  - name: podcasts
+    comment: 'Podcasts'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ podcasts_root }}"
+  - name: dump
+    comment: 'File dump'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ samba_shares_root }}/dump"
+  - name: games
+    comment: 'Games'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ samba_shares_root }}/games"
+  - name: photos
+    comment: 'Pictures'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ photos_root }}"
+  - name: books
+    comment: 'Books'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ books_root }}"
+  - name: audiobooks
+    comment: 'Audiobooks'
+    guest_ok: true
+    public: true
+    writable: true
+    browsable: true
+    path: "{{ samba_shares_root }}/audiobooks"
+  - name: comics
+    comment: 'Comics'
+    guest_ok: true
+    public: true
+    writable: true
+    browseable: true
+    path: "{{ comics_root }}"

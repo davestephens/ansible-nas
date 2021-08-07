@@ -1,0 +1,11 @@
+---
+
+###
+### Ubooquity
+###
+ubooquity_available_externally: "false"
+ubooquity_data_directory: "{{ docker_home }}/ubooquity"
+ubooquity_user_id: "0"
+ubooquity_group_id: "0"
+ubooquity_port_webui: "2202"
+ubooquity_port_admin: "2203"

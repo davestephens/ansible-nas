@@ -17,3 +17,7 @@ nextcloud_sql_root_password: "nextcloud-secret"
 # specs
 nextcloud_memory: 1g
 nextcloud_mysql_memory: 1g
+
+# Versions
+nextcloud_nextcloud_image: nextcloud:21.0.4
+nextcloud_mysql_image: mariadb:10.5

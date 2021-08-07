@@ -1,0 +1,12 @@
+---
+###
+### NFS
+###
+# Data you want published over NFS. More info on the NFS config format can be found at
+# https://help.ubuntu.com/community/SettingUpNFSHowTo#Shares
+# WARNING:
+# Weird things might happen if you share the same data over Samba and NFS
+# and allow writes on both!
+nfs_shares_root: /mnt/Volume3
+nfs_exports:
+  - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"

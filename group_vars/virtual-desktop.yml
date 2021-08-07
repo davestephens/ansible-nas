@@ -1,0 +1,12 @@
+---
+
+###
+### Virtual Desktop
+###
+vd_data_directory: "{{ docker_home }}/virtual_desktop"
+vd_docker_image: "rattydave/docker-ubuntu-xrdp-mate-custom:20.04-tools"
+vd_users:
+  - username: "{{ ansible_nas_user }}"
+    password: "topsecret"
+    sudo: "Y"
+vd_rdp_port: 3389
