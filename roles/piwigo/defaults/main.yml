@@ -6,6 +6,10 @@ piwigo_available_externally: "false"
 piwigo_config_directory: "{{ docker_home }}/piwigo/config"
 piwigo_photos: "{{ photos_root }}"
 
+# uid / gid
+piwigo_user_id: "1000"
+piwigo_group_id: "1000"
+
 piwigo_photos_permission: "rw"
 
 # network

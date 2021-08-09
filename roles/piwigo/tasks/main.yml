@@ -5,7 +5,6 @@
     state: directory
   with_items:
     - "{{ piwigo_config_directory }}"
-    - "{{ piwigo_logs }}"
 
 - name: Piwigo Docker Container
   docker_container:
@@ -16,12 +15,17 @@
       - "{{ piwigo_config_directory }}:/config:rw"
       - "{{ piwigo_photos }}:/gallery:rw"
     network_mode: "host"
-    restart_policy: unless_stopped
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ piwigo_user_id }}"
+      PGID: "{{ piwigo_group_id }}"
+      VERSION: "{{ piwigo_version }}"
+    restart_policy: unless-stopped
     memory: "{{ piwigo_memory }}"
-    lables:
+    labels:
       traefik.enable: "{{ piwigo_available_externally }}"
       traefik.http.routers.piwigo.rule: "Host(`{{ piwigo_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.piwigo.tls.certresolver: "letsencrypt"
       traefik.http.routers.piwigo.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.piwigo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.piwigo.loadbalancer.server.port: 80
+      traefik.http.services.piwigo.loadbalancer.server.port: "16923"

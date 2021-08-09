@@ -278,6 +278,11 @@
         - dokuwiki
       when: (dokuwiki_enabled | default(False))
 
+    - role: piwigo
+      tags:
+        - piwigo
+      when: (piwigo_enabled | default(False))
+
   tasks:
     - import_tasks: tasks/thelounge.yml
       when: (thelounge_enabled | default(False))
