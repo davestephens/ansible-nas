@@ -1,0 +1,17 @@
+---
+piwigo_enabled: false
+piwigo_available_externally: "false"
+
+# directories
+piwigo_config_directory: "{{ docker_home }}/piwigo/config"
+piwigo_photos: "{{ photos_root }}"
+
+piwigo_photos_permission: "rw"
+
+# network
+piwigo_hostname: "piwigo"
+
+# specs
+piwigo_memory: "1g"
+
+piwigo_version: "docker"
