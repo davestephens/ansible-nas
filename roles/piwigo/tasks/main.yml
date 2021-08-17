@@ -5,6 +5,22 @@
     state: directory
   with_items:
     - "{{ piwigo_config_directory }}"
+    - "{{ piwigo_data_directory }}"
+
+- name: create MySQL container for Piwigo
+  docker_container:
+    name: piwigo-mysql
+    image: mysql:5.7
+    pull: true
+    volumes:
+      - "{{ piwigo_data_directory }}/mysql:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: "piwigo"
+      MYSQL_USER: "piwigo"
+      MYSQL_PASSWORD: "piwigo"
+      MYSQL_ROOT_PASSWORD: "piwigo"
+    restart_policy: unless-stopped
+    memory: "{{ piwigo_mysql_memory }}"
 
 - name: Piwigo Docker Container
   docker_container:
@@ -14,6 +30,8 @@
     volumes:
       - "{{ piwigo_config_directory }}:/config:rw"
       - "{{ piwigo_photos }}:/gallery:rw"
+    links:
+      - piwigo-mysql:db
     ports:
       - "{{ piwigo_port }}:80"
     env:

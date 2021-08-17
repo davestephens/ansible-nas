@@ -4,6 +4,7 @@ piwigo_available_externally: "false"
 
 # directories
 piwigo_config_directory: "{{ docker_home }}/piwigo/config"
+piwigo_data_directory: "{{ docker_home }}/piwigo/data"
 piwigo_photos: "{{ photos_root }}"
 
 # uid / gid
@@ -18,5 +19,6 @@ piwigo_port: "16923"
 
 # specs
 piwigo_memory: "1g"
+piwigo_mysql_memory: "1g"
 
 piwigo_version: "docker"
