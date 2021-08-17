@@ -6,6 +6,7 @@
   with_items:
     - "{{ piwigo_config_directory }}"
     - "{{ piwigo_data_directory }}"
+    - "{{ piwigo_photos }}"
 
 - name: create MySQL container for Piwigo
   docker_container:
@@ -16,9 +17,9 @@
       - "{{ piwigo_data_directory }}/mysql:/var/lib/mysql:rw"
     env:
       MYSQL_DATABASE: "piwigo"
-      MYSQL_USER: "piwigo"
-      MYSQL_PASSWORD: "piwigo"
-      MYSQL_ROOT_PASSWORD: "piwigo"
+      MYSQL_USER: "{{ piwigo_mysql_user }}"
+      MYSQL_PASSWORD: "{{ piwigo_mysql_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ piwigo_mysql_root_password }}"
     restart_policy: unless-stopped
     memory: "{{ piwigo_mysql_memory }}"
 
