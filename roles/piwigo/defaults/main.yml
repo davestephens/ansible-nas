@@ -14,6 +14,7 @@ piwigo_photos_permission: "rw"
 
 # network
 piwigo_hostname: "piwigo"
+piwigo_port: "16923"
 
 # specs
 piwigo_memory: "1g"
