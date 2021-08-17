@@ -14,10 +14,6 @@ The Piwigo web interface can be found at http://ansible_nas_host_or_ip:16923.
 
 ## Specific Configuration
 
-piwigo_mysql_user: "piwigo"
-piwigo_mysql_password: "piwigo"
-piwigo_mysql_root_password: "piwigo"
-nventories/alfheim/group_vars/nas.yml
 Optional configurations:
 
   - Set `piwigo_mysql_user` in `inventories/<your_inventory>/group_vars/nas.yml` before installing Piwigo, this defaults to "piwigo".
