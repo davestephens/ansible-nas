@@ -58,6 +58,7 @@ By default, applications can be found on the ports listed below.
 | Organizr        | 10444   | Bridge  | HTTPS          |
 | Plex            | 32400   | Bridge  | HTTP           |
 | Portainer       | 9000    | Bridge  | HTTP           |
+| Prowlarr        | 9696    | Bridge  | HTTP           |
 | pyload          | 8000    | Bridge  | HTTP           |
 | PyTivo          | 9032    | Bridge  | HTTP           |
 | PyTivo          | 2190    | Bridge  | UDP            |

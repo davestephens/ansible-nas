@@ -1,0 +1,17 @@
+---
+prowlarr_enabled: false
+prowlarr_available_externally: "false"
+
+# directories
+prowlarr_data_directory: "{{ docker_home }}/prowlarr/config"
+
+# uid / gid
+prowlarr_user_id: "0"
+prowlarr_group_id: "0"
+
+# network
+prowlarr_port: "9696"
+prowlarr_hostname: "prowlarr"
+
+# specs
+prowlarr_memory: 1g
