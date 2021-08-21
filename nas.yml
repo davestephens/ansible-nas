@@ -218,11 +218,6 @@
         - radarr
       when: (radarr_enabled | default(False))
 
-    - role: radarr
-      tags:
-        - radarr
-      when: (radarr_enabled | default(False))
-
     - role: sickchill
       tags:
         - sickchill
