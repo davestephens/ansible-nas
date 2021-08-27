@@ -198,6 +198,11 @@
         - portainer
       when: (portainer_enabled | default(False))
 
+    - role: prowlarr
+      tags:
+        - prowlarr
+      when: (prowlarr_enabled | default(False))
+
     - role: pyload
       tags:
         - pyload
