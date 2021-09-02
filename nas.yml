@@ -78,6 +78,11 @@
         - deluge
       when: (deluge_enabled | default(False))
 
+    - role: duplicacy
+      tags:
+        - duplicacy
+      when: (duplicacy_enabled | default(False))
+
     - role: duplicati
       tags:
         - duplicati

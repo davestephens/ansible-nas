@@ -42,6 +42,7 @@ Ansible config and a bunch of Docker containers.
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
 * [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
+* [Duplicacy](https://duplicacy.com/) - A web UI for the Duplicacy cloud backup program, which provides lock-free deduplication backups to multiple providers
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager

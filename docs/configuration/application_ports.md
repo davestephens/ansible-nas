@@ -12,6 +12,7 @@ By default, applications can be found on the ports listed below.
 | Cloud Commander | 7373    | Bridge  | HTTP           |
 | Couchpotato     | 5050    | Bridge  | HTTP           |
 | DokuWiki        | 8085    | Bridge  | HTTP           |
+| Duplicacy       | 3875    | Bridge  | HTTP           |
 | Duplicati       | 8200    | Bridge  | HTTP           |
 | Emby            | 8096    | Bridge  | HTTP           |
 | Emby            | 8096    | Bridge  | HTTP           |
