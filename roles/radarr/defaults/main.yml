@@ -16,4 +16,4 @@ radarr_port: "7878"
 radarr_hostname: "radarr"
 
 # specs
-pyload_memory: 1g
+radarr_memory: 1g

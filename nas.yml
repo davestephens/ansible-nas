@@ -198,6 +198,11 @@
         - portainer
       when: (portainer_enabled | default(False))
 
+    - role: prowlarr
+      tags:
+        - prowlarr
+      when: (prowlarr_enabled | default(False))
+
     - role: pyload
       tags:
         - pyload
@@ -212,11 +217,6 @@
       tags:
         - plex
       when: (plex_enabled | default(False))
-
-    - role: radarr
-      tags:
-        - radarr
-      when: (radarr_enabled | default(False))
 
     - role: radarr
       tags:

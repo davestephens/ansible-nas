@@ -13,7 +13,7 @@
     pull: true
     volumes:
       - "{{ sonarr_tv_directory }}:/tv:rw"
-      - "{{ sonarr_download_directory }}/complete:/downloads:rw"
+      - "{{ sonarr_download_directory }}:/downloads:rw"
       - "{{ sonarr_data_directory }}:/config:rw"
     ports:
       - "{{ sonarr_port }}:8989"
