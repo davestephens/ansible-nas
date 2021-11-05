@@ -1,29 +1,41 @@
 ---
 - name: Create Traefik Directories
   file:
-    path: "{{ item }}"
-    state: directory
+    mode: "{{ item.mode | default('0750') }}"
+    path: "{{ item.path }}"
+    state: "directory"
+  tags:
+    - traefik
+    - traefik:dir
   with_items:
-    - "{{ traefik_data_directory }}"
-    - "{{ traefik_data_directory }}/letsencrypt"
+    - path: "{{ traefik_data_directory }}"
+      mode: "0755"
+    - path: "{{ traefik_data_directory }}/letsencrypt"
+      mode: "0700"
 
-- name: Template Traefik config.toml
-  template:
-    src: traefik.toml
-    dest: "{{ traefik_data_directory }}/traefik.toml"
+- name: Template Traefik Files
   register: template_config
+  tags:
+    - traefik
+    - traefik:template
+  template:
+    dest: "{{ item.dest }}"
+    force: "{{ item.force | default('No') }}"
+    mode: "{{ item.mode | default('0600') }}"
+    src: "{{ item.src }}"
+  with_items: "{{ traefik_template_files + traefik_template_files_custom | sort }}"
 
 - name: Traefik Docker Container
   docker_container:
-    name: traefik
-    image: "{{ traefik_docker_image }}"
-    pull: true
-    network_mode: host
-    volumes:
-      - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
-      - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
     env: "{{ traefik_environment_variables }}"
-    restart_policy: unless-stopped
+    image: "{{ traefik_image }}"
     memory: "{{ traefik_memory }}"
+    name: traefik
+    network_mode: host
+    pull: true
     recreate: "{{ template_config is changed }}"
+    restart_policy: unless-stopped
+    volumes: "{{ traefik_volumes + traefik_volumes_custom | sort }}"
+  tags:
+    - traefik
+    - traefik:docker

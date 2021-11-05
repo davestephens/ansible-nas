@@ -9,18 +9,35 @@ traefik_enabled: false
 # directories
 traefik_data_directory: "{{ docker_home }}/traefik"
 
+# files
+traefik_template_files:
+  - src: traefik.toml.j2
+    dest: "{{ traefik_data_directory }}/traefik.toml"
+    force: "Yes"
+traefik_template_files_custom: []
+
 # network
 traefik_port_http: "80"
 traefik_port_https: "443"
 traefik_port_ui: "8083"
 
-traefik_docker_image: traefik:v2.4
+traefik_image: traefik:v2.5
+traefik_volumes:
+  - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
+  - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+  - "/var/run/docker.sock:/var/run/docker.sock:ro"
+traefik_volumes_custom: []
 traefik_log_level: "INFO"
 
 # find the relevant name and environment variables for your DNS provider at https://go-acme.github.io/lego/dns/
 traefik_dns_provider: cloudflare
 traefik_environment_variables:
   CF_DNS_API_TOKEN: "abcdabcd123412341234"
+traefik_letsencrypt_tls: no
+
+traefik_domain_san:
+- "*.{{ ansible_nas_domain_root }}"
+traefik_domain_san_custom: []
 
 # Ansible-NAS requests a wildcard certificate for your domain, so there should be no reason to have to use the staging
 # letsencrypt acme server. If you do want to flip between staging/production, you might need to stop Traefik and clear
