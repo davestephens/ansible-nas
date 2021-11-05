@@ -5,15 +5,70 @@ nextcloud_available_externally: "false"
 # directories
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 
-# network
-nextcloud_port: "8080"
-nextcloud_hostname: "nextcloud"
+# data subdirectories
+nextcloud_data_subdirectories:
+  - "{{ nextcloud_data_directory }}/nextcloud"
+  - "{{ nextcloud_data_directory }}/mysql"
+nextcloud_data_subdirectories_custom: []
 
-# username / passwords
+nextcloud_utils_enabled: false
+nextcloud_utils_templates: []
+nextcloud_utils_logrotate_path: "/etc/logrotate.d/nextcloud"
+nextcloud_utils_log_path: "nextcloud/data/nextcloud.log"
+
+# SQL
+nextcloud_sql_image: "mysql:8.0"
+nextcloud_sql_memory: 1g
 nextcloud_sql_user: "nextcloud-user"
 nextcloud_sql_password: "nextcloud-pass"
 nextcloud_sql_root_password: "nextcloud-secret"
+nextcloud_sql_volumes:
+  - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
+nextcloud_sql_volumes_custom: []
 
-# specs
+# Nextcloud
+nextcloud_image: nextcloud:22.2.0
+nextcloud_image_fpm: nextcloud:22.2.0-fpm
 nextcloud_memory: 1g
-nextcloud_mysql_memory: 1g
+nextcloud_port: "8080"
+nextcloud_hostname: "nextcloud"
+nextcloud_volumes:
+  - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
+nextcloud_volumes_custom: []
+nextcloud_labels:
+  traefik.enable: "{{ nextcloud_available_externally }}"
+  traefik.http.routers.nextcloud.rule: "Host(`{{ nextcloud_domain }}`)"
+  traefik.http.routers.nextcloud.tls.certresolver: "letsencrypt"
+  traefik.http.routers.nextcloud.tls.domains[0].main: "{{ nextcloud_domain }}"
+  traefik.http.routers.nextcloud.middlewares: "nc-dav@docker,nc-wellknown@docker,nc-header@docker"
+  traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+  traefik.http.services.nextcloud.loadbalancer.passhostheader: "true"
+  traefik.http.middlewares.nc-dav.replacepathregex.regex: "^/.well-known/ca(l|rd)dav"
+  traefik.http.middlewares.nc-dav.replacepathregex.replacement: "/remote.php/dav/"
+  traefik.http.middlewares.nc-wellknown.replacepathregex.regex: "^(/.well-known/.*)"
+  traefik.http.middlewares.nc-wellknown.replacepathregex.replacement: "/index.php$${1}"
+  traefik.http.middlewares.nc-header.headers.referrerPolicy: "no-referrer"
+  traefik.http.middlewares.nc-header.headers.stsSeconds: "15552000"
+  traefik.http.middlewares.nc-header.headers.forceSTSHeader: "true"
+  traefik.http.middlewares.nc-header.headers.stsPreload: "true"
+  traefik.http.middlewares.nc-header.headers.stsIncludeSubdomains: "true"
+  traefik.http.middlewares.nc-header.headers.browserXssFilter: "true"
+  traefik.http.middlewares.nc-header.headers.customFrameOptionsValue: "SAMEORIGIN"
+  traefik.http.middlewares.nc-header.headers.contentSecurityPolicy: "default-src 'self';\
+    frame-ancestors 'self';\
+    style-src 'self' 'unsafe-inline';\
+    script-src 'self' 'unsafe-inline' 'unsafe-eval';\
+    img-src 'self' data:;\
+    font-src 'self' data:;"
+  # traefik.http.middlewares.nc-header.headers.customRequestHeaders: "X-Forwarded-Proto=https"
+  # traefik.frontend.rule: "Host:{{ nextcloud_domain | default('{{ nextcloud_hostname }}.{{ ansible_nas_domain }}') }}"
+
+nextcloud_labels_httpd: "{{ {} if nextcloud_nginx_enabled else nextcloud_labels }}"
+
+# Nginx
+nextcloud_nginx_enabled: false
+nextcloud_nginx_image: nginx
+nextcloud_nginx_memory: 128m
+nextcloud_nginx_volumes:
+  - "{{ nextcloud_data_directory }}/nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
+nextcloud_nginx_volumes_custom: []
