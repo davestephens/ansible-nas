@@ -1,0 +1,40 @@
+---
+
+- name: Template files
+  tags:
+    - nextcloud:utils
+    - nextcloud:utils:template
+  template:
+    dest: "{{ item.dest }}"
+    mode: '0644'
+    src: "{{ item.src }}"
+  with_items: "{{ nextcloud_utils_templates + nextcloud_utils_templates_custom }}"
+
+- name: Cronjob "php -f cron.php"
+  cron:
+    job: "docker exec --user www-data nextcloud php -f cron.php > /dev/null 2>&1"
+    minute: "*/5"
+    name: "nextcloud cronjob"
+  tags:
+    - nextcloud:utils
+    - nextcloud:utils:cronjob
+  when: nextcloud_utils_cronjob
+
+- name: Logrotate setup
+  blockinfile:
+    block: |
+      {{ nextcloud_data_directory }}/{{ nextcloud_utils_log_path }} {
+        weekly
+        rotate 8
+        size 10M
+        compress
+        delaycompress
+        su www-data www-data
+      }
+    create: true
+    mode: '0644'
+    path: "{{ nextcloud_utils_logrotate_path }}"
+  tags:
+    - nextcloud:utils
+    - nextcloud:utils:logrotate
+  when: nextcloud_utils_logrotate
