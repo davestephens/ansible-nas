@@ -34,9 +34,13 @@
 
 - name: Update Docker home from install default
   template:
-    src: daemon.json
+    src: daemon.json.j2
     dest: /etc/docker/daemon.json
   register: docker_config
+  vars:
+    items: "{{ docker_daemon_json }}"
+  tags:
+    - ansible-nas-docker:daemon_json
 
 - name: Restart Docker
   service:
