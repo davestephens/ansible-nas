@@ -79,6 +79,13 @@ By default, applications can be found on the ports listed below.
 | Transmission    | 9092    | Bridge  | HTTP Internal  |
 | Ubooquity       | 2202    | Bridge  | HTTP Internal  |
 | Ubooquity       | 2203    | Bridge  | HTTP Admin     |
+| UniFi           | 3478    | Custom  | STUN           |
+| UniFi           | 6789    | Custom  | Speedtest      |
+| UniFi           | 8080    | Custom  | Device comm    |
+| UniFi           | 8443    | Custom  | HTTPS GUI      |
+| UniFi           | 8880    | Custom  | HTTP Portal    |
+| UniFi           | 8843    | Custom  | HTTPS Portal   |
+| UniFi           | 10001   | Custom  | AP discovery   |
 | uTorrent        | 8111    | Bridge  | HTTP           |
 | uTorrent        | 6881    | Bridge  | BT             |
 | uTorrent        | 6881    | Bridge  | UDP            |

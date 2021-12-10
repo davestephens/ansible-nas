@@ -396,3 +396,14 @@ vd_users:
     password: "topsecret"
     sudo: "Y"
 vd_rdp_port: 3389
+
+###
+### UniFi Network Application
+###
+unifi_data_directory: "{{ docker_home }}/unifi"
+unifi_network_name: "unifi"
+unifi_user: "systemd-coredump"
+unifi_group: "systemd-coredump"
+unifi_memory: 1g
+unifi_mongodb_memory: 1g
+unifi_timezone: "{{ ansible_nas_timezone }}"

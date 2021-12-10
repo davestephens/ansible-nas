@@ -1,0 +1,93 @@
+---
+- name: Create UniFi Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ unifi_user }}"
+    group: "{{ unifi_group }}"
+    recurse: yes
+  with_items:
+    - "{{ unifi_data_directory }}/data"
+    - "{{ unifi_data_directory }}/log"
+    - "{{ unifi_data_directory }}/cert"
+    - "{{ unifi_data_directory }}/init"
+    - "{{ unifi_data_directory }}/run"
+    - "{{ unifi_data_directory }}/backup"
+    - "{{ unifi_data_directory }}/mongodb"
+    - "{{ unifi_data_directory }}/mongodbcfg"
+
+- name: Create Docker network for UniFi
+  docker_network:
+    name: "{{ unifi_network_name }}"
+
+- name: Create MongoDB container for UniFi
+  docker_container:
+    name: unifi-mongo
+    image: mongo:3.6
+    pull: true
+    network_mode: "{{ unifi_network_name }}"
+    networks:
+      - name: "{{ unifi_network_name }}"
+    volumes:
+      - "{{ unifi_data_directory }}/mongodb:/data/db:rw"
+      - "{{ unifi_data_directory }}/mongodbcfg:/data/configdb:rw"
+    restart_policy: unless-stopped
+    container_default_behavior: no_defaults
+    memory: "{{ unifi_mongodb_memory }}"
+
+- name: Create UniFi container
+  docker_container:
+    name: unifi-controller
+    image: jacobalberty/unifi:latest
+    pull: true
+    user: unifi
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: 0
+    network_mode: "{{ unifi_network_name }}"
+    networks:
+      - name: "{{ unifi_network_name }}"
+        links:
+          - unifi-mongo:mongo
+    volumes:
+      - "{{ unifi_data_directory }}/backup:/unifi/data/backup:rw"
+      - "{{ unifi_data_directory }}/data:/unifi/data:rw"
+      - "{{ unifi_data_directory }}/log:/unifi/log:rw"
+      - "{{ unifi_data_directory }}/cert:/unifi/cert:rw"
+      - "{{ unifi_data_directory }}/init:/unifi/init.d:rw"
+      - "{{ unifi_data_directory }}/run:/var/run/unifi:rw"
+      - "{{ unifi_data_directory }}:/unifi:rw"
+    ports:
+      - "3478:3478/udp" # STUN
+      - "6789:6789/tcp" # Speed test
+      - "8080:8080/tcp" # Device/controller communication
+      - "8443:8443/tcp" # Controller GUI/API as seen in a web browser
+      - "8880:8880/tcp" # HTTP portal redirection
+      - "8843:8843/tcp" # HTTPS portal redirection
+      - "10001:10001/udp" # AP discovery
+    env:
+      DB_URI: mongodb://mongo/unifi
+      STATDB_URI: mongodb://mongo/unifi_stat
+      DB_NAME: unifi
+      TZ: "{{ unifi_timezone }}"
+      UNIFI_GID: "999"
+      UNIFI_UID: "999"
+      RUNAS_UID0: "false"
+    restart_policy: unless-stopped
+    container_default_behavior: no_defaults
+    memory: "{{ unifi_memory }}"
+
+- name: Create log watch container for UniFi
+  docker_container:
+    name: unifi-logs
+    image: bash
+    pull: true
+    network_mode: "{{ unifi_network_name }}"
+    networks:
+      - name: "{{ unifi_network_name }}"
+        links:
+          - unifi-controller:controller
+    volumes:
+      - "{{ unifi_data_directory }}/log:/unifi/log:ro"
+    restart_policy: unless-stopped
+    container_default_behavior: no_defaults
+    command: "bash -c 'tail -F /unifi/log/*.log'"
