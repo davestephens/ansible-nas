@@ -1,0 +1,51 @@
+---
+- name: Create Piwigo Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ piwigo_config_directory }}"
+    - "{{ piwigo_data_directory }}"
+    - "{{ piwigo_photos }}"
+
+- name: create MySQL container for Piwigo
+  docker_container:
+    name: piwigo-mysql
+    image: mysql:5.7
+    pull: true
+    volumes:
+      - "{{ piwigo_data_directory }}/mysql:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: "piwigo"
+      MYSQL_USER: "{{ piwigo_mysql_user }}"
+      MYSQL_PASSWORD: "{{ piwigo_mysql_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ piwigo_mysql_root_password }}"
+    restart_policy: unless-stopped
+    memory: "{{ piwigo_mysql_memory }}"
+
+- name: Piwigo Docker Container
+  docker_container:
+    name: piwigo
+    image: linuxserver/piwigo
+    pull: true
+    volumes:
+      - "{{ piwigo_config_directory }}:/config:rw"
+      - "{{ piwigo_photos }}:/gallery:rw"
+    links:
+      - piwigo-mysql:db
+    ports:
+      - "{{ piwigo_port }}:80"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ piwigo_user_id }}"
+      PGID: "{{ piwigo_group_id }}"
+      VERSION: "{{ piwigo_version }}"
+    restart_policy: unless-stopped
+    memory: "{{ piwigo_memory }}"
+    labels:
+      traefik.enable: "{{ piwigo_available_externally }}"
+      traefik.http.routers.piwigo.rule: "Host(`{{ piwigo_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.piwigo.tls.certresolver: "letsencrypt"
+      traefik.http.routers.piwigo.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.piwigo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.piwigo.loadbalancer.server.port: "80"
