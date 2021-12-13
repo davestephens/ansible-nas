@@ -15,6 +15,7 @@ Ansible config and a bunch of Docker containers.
 * Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, Lidarr
 * Media streaming via Plex or Emby
 * Music streaming with Airsonic
+* Audiobook streaming with Booksonic
 * An RSS newsfeed reader - Miniflux
 * A Dropbox replacement via Nextcloud
 * Various ways to see stats about your NAS - Glances, dashboards in Grafana
@@ -36,6 +37,7 @@ Ansible config and a bunch of Docker containers.
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
+* [Booksonic](https://booksonic.org/) - The selfhosted audiobook server
 * [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address

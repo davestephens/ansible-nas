@@ -8,6 +8,7 @@ By default, applications can be found on the ports listed below.
 | Bazarr          | 6767    | Bridge  | HTTP           |
 | Bitwarden "hub" | 3012    | Bridge  | Web Not.       |
 | Bitwarden       | 19080   | Bridge  | HTTP           |
+| Booksonic       | 4041    | Bridge  | HTTP           |
 | Calibre-web     | 8084    | Bridge  | HTTP           |
 | Cloud Commander | 7373    | Bridge  | HTTP           |
 | Couchpotato     | 5050    | Bridge  | HTTP           |
