@@ -11,6 +11,7 @@
   until: add_repo_result.rc == 0
   retries: 3
   delay: 1
+  when: not ansible_check_mode
 
 - name: Update apt-cache
   apt:
@@ -48,8 +49,8 @@
   file:
     path: "{{ item.path }}"
     state: directory
-    owner: ansible-nas
-    group: ansible-nas
+    owner: "{{ item.owner | default('ansible-nas') }}"
+    group: "{{ item.group | default('ansible-nas') }}"
     mode: "u=rwX,g=rwX,o=rX"
     recurse: false
   loop: "{{ samba_shares }}"
