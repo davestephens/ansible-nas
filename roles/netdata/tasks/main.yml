@@ -4,19 +4,53 @@
     name: docker
   register: docker_group
 
+- name: Create netdata group
+  group:
+    name: netdata
+    gid: "201"
+    state: present
+  register: netdata_group
+
+- name: Create netdata user
+  user:
+    name: netdata
+    state: present
+    system: yes
+    create_home: no
+    group: netdata
+    uid: "201"
+    shell: /usr/sbin/nologin
+  register: netdata_user
+
+- name: Create Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0750"
+    owner: "netdata"
+    group: "netdata"
+  with_items: "{{ netdata_directories + netdata_directories_custom | sort }}"
+  when: netdata_user.state == "present" and netdata_group.state == "present"
+
+- name: Template Files
+  register: template_config
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    force: "{{ item.force | default(false) }}"
+    mode: "{{ item.mode | default('0600') }}"
+  with_items: "{{ netdata_template_files + netdata_template_files_custom | sort }}"
+
 - name: Netdata Docker Container
   docker_container:
     name: netdata
-    hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
+    hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain_root }}"
     image: netdata/netdata
     state: started
     pull: true
     ports:
       - "{{ netdata_port }}:19999"
-    volumes:
-      - "/proc:/host/proc:ro"
-      - "/sys:/host/sys:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    volumes: "{{ netdata_volumes + netdata_volumes_custom | sort }}"
     env:
       PGID: "{{ docker_group.gid }}"
     capabilities:
@@ -25,6 +59,7 @@
       - apparmor:unconfined
     restart_policy: unless-stopped
     memory: "{{ netdata_memory }}"
+    recreate: "{{ template_config is changed }}"
     labels:
       traefik.enable: "{{ netdata_available_externally }}"
       traefik.http.routers.netdata.rule: "Host(`{{ netdata_hostname }}.{{ ansible_nas_domain }}`)"

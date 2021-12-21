@@ -1,0 +1,4 @@
+{% for key,value in netdata_config.items() %}
+[{{ key }}]
+  {{ value | join("\n") | indent(2) }}
+{% endfor %}
