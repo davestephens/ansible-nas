@@ -1,0 +1,50 @@
+---
+- name: Create qBittorrent Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ qbittorrent_data_directory }}"
+    - "{{ qbittorrent_data_directory }}/config"
+    - "{{ qbittorrent_data_directory }}/openvpn"
+    - "{{ qbittorrent_download_directory }}"
+    - "{{ qbittorrent_watch_directory }}"
+
+- name: qbittorrent with VPN
+  docker_container:
+    name: qbittorrent-openvpn
+    image: guillaumedsde/alpine-qbittorrent-openvpn:python
+    pull: true
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ qbittorrent_data_directory }}/config:/config:rw"
+      - "{{ qbittorrent_data_directory }}/openvpn:/etc/openvpn/custom:rw"
+      - "{{ qbittorrent_download_directory }}:/downloads:rw"
+    ports:
+      - "{{ qbittorrent_openvpn_webui_port }}:8080"
+    env:
+      OPENVPN_PROVIDER: "{{ openvpn_provider }}"
+      OPENVPN_USERNAME: "{{ openvpn_username }}"
+      OPENVPN_PASSWORD: "{{ openvpn_password }}"
+      OPENVPN_CONFIG: "{{ openvpn_config }}"
+      PUID: "{{ qbittorrent_openvpn_user_id }}"
+      PGID: "{{ qbittorrent_openvpn_group_id }}"
+      LAN: "{{ qbittorrent_openvpn_local_network }}"
+    devices:
+      - /dev/net/tun
+    capabilities:
+      - NET_ADMIN
+    restart_policy: unless-stopped
+    memory: "{{ qbittorrent_openvpn_memory }}"
+    labels:
+      traefik.enable: "{{ qbittorrent_with_openvpn_available_externally }}"
+      traefik.http.routers.qbittorrent_openvpn.rule: "Host(`{{ qbittorrent_openvpn_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.qbittorrent_openvpn.tls.certresolver: "letsencrypt"
+      traefik.http.routers.qbittorrent_openvpn.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.qbittorrent_openvpn.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.qbittorrent_openvpn.loadbalancer.server.port: "8080"
+      traefik.http.routers.qbittorrent_openvpn.middlewares: "qbittorrent-ipwhitelist@docker"
+      traefik.http.middlewares.qbittorrent-ipwhitelist.sourcerange: "{{ qbittorrent_openvpn_ipwhitelist }}"
+      traefik.http.middlewares.qbittorrent-ipwhitelist.ipwhitelist.ipstrategy.depth: "0"
