@@ -11,7 +11,13 @@
     name: syncthing
     image: syncthing/syncthing:latest
     pull: true
-    network_mode: host
+    ports:
+      - "8384:8384"
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+    env:
+      PUID: "{{ syncthing_user_id }}"
+      PGID: "{{ syncthing_group_id }}"
     volumes: "{{ syncthing_volumes }}"
     restart_policy: unless-stopped
     memory: "{{ syncthing_memory }}"
