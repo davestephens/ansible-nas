@@ -1,0 +1,19 @@
+---
+# enable or disable the application
+komga_enabled: false
+komga_available_externally: "false"
+
+# directories
+komga_data_directory: "{{ docker_home }}/komga"
+komga_comics_directory: "{{ comics_root }}"
+
+# uid / gid
+komga_user_id: "1000"
+komga_group_id: "1000"
+
+# network
+komga_hostname: "komga"
+komga_port_http: "8088"
+
+# specs
+komga_memory: "1g"
