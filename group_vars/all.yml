@@ -249,6 +249,14 @@ joomla_database_password: top_secret
 joomla_port: "8181"
 
 ###
+### PhotoPrism
+###
+photoprism_config_directory: "{{ docker_home }}/photoprism"
+photoprism_photos_directory: "{{ photos_root }}"
+photoprism_port: "2342"
+photoprism_available_externally: false
+
+###
 ### PyTivo
 ###
 pytivo_available_externally: "false"
