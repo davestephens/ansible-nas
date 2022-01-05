@@ -1,0 +1,18 @@
+---
+deconz_enabled: false
+deconz_available_externally: "false"
+
+# directories
+deconz_data_directory: "{{ docker_home }}/deconz"
+
+# network
+deconz_hostname: "deconz"
+deconz_port_web: "8093"
+deconz_port_vnc: "5905"
+deconz_port_novnc: "6080"
+deconz_port_ws: "4043"
+
+deconz_timezone: "{{ ansible_nas_timezone }}"
+
+# specs
+deconz_memory: 1g

@@ -24,6 +24,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
 * [Dashy](https://dashy.to/) - A self-hosted startpage for your server. Easy to use visual editor, status checking, widgets, themes and tons more!
+* [deCONZ](https://phoscon.de/en/conbee2/software) - easy to use control software, with which you can set up and control Zigbee networks of any size.
 * [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
 * [Duplicacy](https://duplicacy.com/) - A web UI for the Duplicacy cloud backup program, which provides lock-free deduplication backups to multiple providers
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff

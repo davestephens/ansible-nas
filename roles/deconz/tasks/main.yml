@@ -1,0 +1,49 @@
+---
+- name: Check if the ZigBee device exists
+  find:
+    paths:
+      - "/dev"
+    patterns:
+      - "ttyACM*"
+    file_type:
+      any
+  register: zigbee_dev
+
+- name: DeCONZ Docker Container
+  docker_container:
+    name: deconz
+    image: "deconzcommunity/deconz:stable"
+    pull: yes
+    state: 'started'
+    ports:
+      - "{{ deconz_port_ws }}:4043"
+      - "{{ deconz_port_web }}:8085"
+      - "{{ deconz_port_vnc }}:5900"
+      - "{{ deconz_port_novnc }}:6080"
+    volumes:
+      - "{{ deconz_data_directory }}:/opt/deCONZ:rw"
+    network_mode: "host"
+    devices:
+      - "{{ zigbee_dev.files[0].path }}"
+    env:
+      "TZ": "{{ deconz_timezone }}"
+      "DECONZ_WEB_PORT": "{{ deconz_port_web }}"
+      "DECONZ_VNC_PORT": "{{ deconz_port_vnc }}"
+      "DECONZ_NOVNC_PORT": "{{ deconz_port_novnc }}"
+      "DECONZ_VNC_MODE": "1"
+      "DECONZ_WS_PORT": "{{ deconz_port_ws }}"
+      "DEBUG_INFO": "1"
+      "DEBUG_APS": "0"
+      "DEBUG_ZCL": "0"
+      "DEBUG_ZDP": "0"
+      "DEBUG_OTAU": "0"
+    restart_policy: unless-stopped
+    memory: "{{ deconz_memory }}"
+    labels:
+      traefik.enable: "{{ deconz_available_externally }}"
+      traefik.http.routers.deconz.rule: "Host(`{{ deconz_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.deconz.tls.certresolver: "letsencrypt"
+      traefik.http.routers.deconz.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.deconz.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.deconz.loadbalancer.server.port: "{{ deconz_port_web }}"
+  when: zigbee_dev.files | length > 0
