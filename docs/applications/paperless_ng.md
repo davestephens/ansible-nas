@@ -17,7 +17,7 @@ The paperless-ng web interface can be found at http://ansible_nas_host_or_ip:169
 To be able to login, you will need a super user. To create it, execute the following command:
 
 ```bash
-docker-compose run --rm ng_paperless_uiserver createsuperuser
+docker exec -it ng_paperless_uiserver python manage.py createsuperuser
 ```
 
 This will prompt you to set a username, an optional e-mail address and finally a password (at least 8 characters).
