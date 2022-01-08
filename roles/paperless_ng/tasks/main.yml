@@ -23,6 +23,7 @@
     image: redis:6.0
     pull: true
     restart_policy: unless-stopped
+    memory: "{{ paperless_ng_redis_memory }}"
     networks:
       - name: "{{ paperless_ng_container_network_name }}"
 
@@ -38,6 +39,7 @@
       POSTGRES_USER: "{{ paperless_ng_postgres_user }}"
       POSTGRES_PASSWORD: "{{ paperless_ng_postgres_password }}"
     restart_policy: unless-stopped
+    memory: "{{ paperless_ng_postgres_memory }}"
     networks:
       - name: "{{ paperless_ng_container_network_name }}"
 
@@ -60,5 +62,6 @@
       USERMAP_GID: "{{ paperless_ng_group_id }}"
       PAPERLESS_OCR_LANGUAGES: "{{ paperless_ng_languages }}"
     restart_policy: unless-stopped
+    memory: "{{ paperless_ng_ui_memory }}"
     networks:
       - name: "{{ paperless_ng_container_network_name }}"

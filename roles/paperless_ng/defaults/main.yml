@@ -32,3 +32,8 @@ paperless_ng_group_id: "1000"
 
 # settings
 paperless_ng_languages: "deu eng"
+
+# specs
+paperless_ng_ui_memory: 1g
+paperless_ng_postgres_memory: 1g
+paperless_ng_redis_memory: 1g
