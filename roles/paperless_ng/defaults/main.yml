@@ -1,0 +1,28 @@
+---
+paperless_ng_enabled: false
+
+# directories
+paperless_data_directory: "{{ docker_home }}/ng_paperless"
+paperless_consume_directory: "{{ consume_root }}"
+
+# network
+paperless_port: "16922"
+paperless_hostname: "ng_paperless"
+
+# postgres
+paperless_postgres_db: "paperless"
+paperless_postgres_user: "paperless"
+paperless_postgres_password: "paperless"
+
+#container names
+paperless_container_network_name: "ng_paperless_network"
+paperless_container_name_redis: "ng_paperless_redis"
+paperless_container_name_postgres: "ng_paperless_postgres"
+paperless_container_name_uiserver: "ng_paperless_uiserver"
+
+# uid/guid
+paperless_user_id: "1000"
+paperless_group_id: "1000"
+
+# settings
+paperless_languages: "deu eng"
