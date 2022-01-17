@@ -15,6 +15,7 @@
     pull: true
     volumes:
       - "{{ komga_comics_directory }}:/comics:ro"
+      - "{{ komga_books_directory }}:/books:ro"
       - "{{ komga_data_directory }}:/data:rw"
       - "{{ komga_data_directory }}/config:/config:rw"
     network_mode: "bridge"
