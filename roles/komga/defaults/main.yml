@@ -5,7 +5,7 @@ komga_available_externally: "false"
 
 # directories
 komga_data_directory: "{{ docker_home }}/komga"
-komga_bookss_directory: "{{ books_root }}"
+komga_books_directory: "{{ books_root }}"
 komga_comics_directory: "{{ comics_root }}"
 
 # uid / gid
