@@ -16,20 +16,18 @@
     regexp: '^%{{ sudo_group }}'
     line: '%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
+
+- name: Update apt-cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  register: result
+  until: result is succeeded
+
 - name: Updates
   apt:
     name: "*"
     state: latest
-
-- name: basics stuff
-  package:
-    name:
-    - nano
-    - htop
-    - speedtest-cli
-    - iperf3
-    - net-tools
-
 
 - name: Install python3-pip
   apt:

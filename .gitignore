@@ -3,7 +3,7 @@ site
 .vagrant
 *.retry
 *.log
-inventories
+#inventories
 .cache
 
 # Vim
@@ -19,6 +19,6 @@ Session.vim
 \#*#
 
 .\#*
-roles/basics/files/keys
 .secrets
 vault_pass
+**/inventory

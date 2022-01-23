@@ -1,0 +1,26 @@
+---
+name: Deploy playbook
+on:
+# Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  playbook:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Run Ansible playbook
+      uses: dawidd6/action-ansible-playbook@v2.5.0
+      with:
+        playbook: nas.yml
+        directory: ./
+        key: ${{secrets.SSH_PRIVATE_KEY}}
+        inventory: ${{secrets.INVENTORY}}
+        known_hosts: ${{secrets.KNOWN_HOSTS}}
+        vault_password: ${{secrets.VAULT_PASSWORD}}
+        requirements: requirements.yml
+        options: |
+          -e @secrets.enc
+          -e @inventories/meeks/group_vars/nas.yml
+          -e ansible_become_pass=${{secrets.BECOME_PASSWORD}}

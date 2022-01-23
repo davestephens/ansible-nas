@@ -1,0 +1,113 @@
+---
+##                       ._____.   .__
+##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
+##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
+##   / __ \|   |  \\___ \|  || \_\ \  |_\  ___/  /_____/ |   |  \/ __ \_\___ \
+##  (____  /___|  /____  >__||___  /____/\___  >         |___|  (____  /____  >
+##       \/     \/     \/        \/          \/               \/     \/     \/
+##     a n s i b l e - n a s      https://github.com/davestephens/ansible-nas
+
+# Add your all.yml config overrides to this file. See group_vars/all.yml for all possible settings.
+
+# Example options
+ansible_nas_hostname: meeks
+ansible_nas_timezone: Etc/UTC
+timezone: "{{ ansible_nas_timezone }}"
+
+## Enable some applications
+heimdall_enabled: true
+portainer_enabled: true
+glances_enabled: true
+
+guid: "1000"
+
+
+### config params
+main_storage: /media/bulk
+backup_storage: /media/backup
+fast_storage: /media/fast
+throwaway_storage: /media/throwaway
+
+docker_home: "{{ fast_storage }}/docker"
+docker_dir: "{{ docker_home }}"
+
+ansible_nas_domain:  "{{ external_domain }}"
+
+default_user: ngmstr
+
+ansible_nas_user: ngmstr
+
+samba_shares:
+  - name: main
+    comment: 'Main SSD storage'
+    guest_ok: no
+    public: no
+    writable: yes
+    browseable: yes
+    path: "{{ main_storage }}"
+    owner: ansible-nas
+    group: ansible-nas
+
+  - name: fast
+    comment: 'Fast NVMe storage'
+    guest_ok: yes
+    public: no
+    writable: yes
+    browseable: yes
+    path: "{{ fast_storage }}"
+    owner: ansible-nas
+    group: ansible-nas
+
+  - name: backup
+    comment: 'Storage for backups'
+    guest_ok: no
+    public: yes
+    writable: yes
+    browseable: yes
+    path: "{{ backup_storage }}"
+    owner: ansible-nas
+    group: ansible-nas
+
+  - name: throwaway
+    comment: 'Unreliable storage for ???'
+    guest_ok: no
+    public: yes
+    writable: yes
+    browseable: yes
+    path: "{{ throwaway_storage }}"
+    owner: ansible-nas
+    group: ansible-nas
+
+
+ansible_nas_extra_packages:
+    - nano
+    - htop
+    - speedtest-cli
+    - iperf3
+    - net-tools
+
+
+### apps:
+
+syncthing_enabled: true
+syncthing_available_externally: "true"
+
+traefik_enabled: true
+traefik_environment_variables:
+  CF_DNS_API_TOKEN: "{{ cloudflare_token }}"
+
+cloudflare_ddns_enabled: true
+
+heimdall_available_externally: "true"
+
+piwigo_enabled: true
+piwigo_available_externally: "true"
+piwigo_user_id: "1000"
+piwigo_group_id: "1000"
+photoprism_hostname: "photoprism.{{ external_domain }}"
+
+photoprism_available_externally: "true"
+mysql_db: "photoprism"
+mysql_user: "ansible-nas"
+
+vpn_host: "vpn.{{ external_domain }}"
