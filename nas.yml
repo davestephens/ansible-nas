@@ -1,12 +1,12 @@
 ---
 - hosts: all
-
+  become: true
   pre_tasks:
     - import_tasks: tasks/users.yml
       tags: users
 
   roles:
-
+    - role: basics
     ###
     ### Requirements
     ###
