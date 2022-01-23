@@ -28,6 +28,8 @@ backup_storage: /media/backup
 fast_storage: /media/fast
 throwaway_storage: /media/throwaway
 
+samba_shares_root: "{{ main_storage }}"
+
 docker_home: "{{ fast_storage }}/docker"
 docker_dir: "{{ docker_home }}"
 
@@ -91,7 +93,8 @@ ansible_nas_extra_packages:
 
 syncthing_enabled: true
 syncthing_available_externally: "true"
-
+syncthing_volumes:
+  - 
 traefik_enabled: true
 traefik_environment_variables:
   CF_DNS_API_TOKEN: "{{ cloudflare_token }}"
