@@ -1,0 +1,7 @@
+container_name: photoprism
+
+dashboard_url: "http://photoprism.{{ host_local }}"
+
+homer_category: services
+
+dashboard_name: "PhotoPrism"

@@ -43,6 +43,8 @@
     ###
     ### Applications
     ###
+    - role: photoprism
+    
     - role: airsonic
       tags:
         - airsonic

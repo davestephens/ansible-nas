@@ -1,0 +1,83 @@
+---
+- name: Make sure the PhotoPrism MariaDB container is created and running
+  docker_container:
+    name: "photoprism-mariadb"
+    image: "mariadb:latest"
+    pull: yes
+    command: "mysqld --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120"
+    state: 'started'
+    env:
+      "TZ": "{{ timezone }}"
+      "MYSQL_ROOT_PASSWORD": "{{ mysql_root_password }}"
+      "MYSQL_DATABASE": "{{ mysql_db }}"
+      "MYSQL_USER": "{{ mysql_user }}"
+      "MYSQL_PASSWORD": "{{ mysql_password }}"
+    volumes:
+      - "{{ docker_dir }}/{{ container_name }}/mariadb/mysql:/var/lib/mysql"
+    restart_policy: unless-stopped
+    
+
+- name: Make sure the Photoprism container is created and running
+  docker_container:
+    name: "{{ container_name }}"
+    image: photoprism/photoprism:latest
+    pull: yes
+    expose: 
+      - "2342"
+    security_opts:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    state: 'started'
+    shm_size: 2G
+    env:
+      "PUID": "{{ guid }}"
+      "PGID": "{{ guid }}"
+      "PHOTOPRISM_GID": "{{ guid }}"
+      "PHOTOPRISM_UID": "{{ guid }}"
+      "TZ": "{{ timezone }}"
+      "PHOTOPRISM_ADMIN_PASSWORD": "{{ photoprism_password }}"
+      "PHOTOPRISM_SITE_URL": "http://{{ ansible_default_ipv4.address }}:2342/"
+      "PHOTOPRISM_EXPERIMENTAL": "false"
+      "PHOTOPRISM_HTTP_HOST": "0.0.0.0"
+      "PHOTOPRISM_HTTP_PORT": "2342"
+      "PHOTOPRISM_HTTP_COMPRESSION": "gzip"
+      "PHOTOPRISM_DATABASE_DRIVER": "mysql"
+      "PHOTOPRISM_DATABASE_SERVER": "photoprism-mariadb:3306"
+      "PHOTOPRISM_DATABASE_NAME": "{{ mysql_db }}"
+      "PHOTOPRISM_DATABASE_USER": "{{ mysql_user }}"
+      "PHOTOPRISM_DATABASE_PASSWORD": "{{ mysql_password }}"
+      "PHOTOPRISM_DISABLE_CHOWN": "false"              
+      "PHOTOPRISM_DISABLE_BACKUPS": "true"            
+      "PHOTOPRISM_DISABLE_WEBDAV": "true"             
+      "PHOTOPRISM_DETECT_NSFW": "true"
+      "PHOTOPRISM_UPLOAD_NSFW": "false"
+      "PHOTOPRISM_THUMB_FILTER": "lanczos"
+      "PHOTOPRISM_THUMB_UNCACHED": "true"
+      "PHOTOPRISM_THUMB_SIZE": "2048"
+      "PHOTOPRISM_THUMB_SIZE_UNCACHED": "7680"           
+      "PHOTOPRISM_JPEG_SIZE": "7680" 
+      "PHOTOPRISM_JPEG_QUALITY": "92"
+      "TF_CPP_MIN_LOG_LEVEL": "0" 
+      "PHOTOPRISM_FFMPEG_ENCODER": "h264_qsv"        
+      "PHOTOPRISM_INIT": "intel-graphics tensorflow-amd64-avx2" 
+    devices:
+      - "/dev/dri/renderD128:/dev/dri/renderD128" # Intel GPU
+    working_dir: "/photoprism"
+    volumes:
+      - "{{ main_storage }}/photos:/photoprism/originals"
+      - "{{ docker_dir }}/{{ container_name }}/storage:/photoprism/storage"
+    restart_policy: unless-stopped
+    labels:
+      traefik.enable: "{{ photoprism_available_externally }}"
+      traefik.http.routers.piwigo.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.piwigo.tls.certresolver: "letsencrypt"
+      traefik.http.routers.piwigo.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.piwigo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.piwigo.loadbalancer.server.port: "80"
+
+- name: Schedule a library scan at 5 AM every day
+  cron:
+    name: Scan the PhotoPrism library
+    hour: "5"
+    job: "/usr/bin/docker exec photoprism /photoprism/bin/photoprism index"
+
