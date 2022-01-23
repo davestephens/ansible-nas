@@ -14,3 +14,11 @@ Session.vim
 
 # IntelliJ
 /.idea/
+
+
+\#*#
+
+.\#*
+roles/basics/files/keys
+.secrets
+vault_pass
