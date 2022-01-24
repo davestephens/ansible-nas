@@ -26,7 +26,7 @@
     exposedbydefault = false
 
 [api]
-  insecure = false
+  insecure = true
   dashboard = true
 
 [log]
