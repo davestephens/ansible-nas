@@ -114,3 +114,26 @@ mysql_db: "photoprism"
 mysql_user: "ansible-nas"
 
 vpn_host: "vpn.{{ external_domain }}"
+jellyfin_enabled: true
+
+jellyfin_available_externally: "false"
+jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
+jellyfin_movies_directory: "{{ main_storage }}"
+jellyfin_movies_permissions: "rw"
+jellyfin_music_directory: "{{ main_storage }}"
+jellyfin_music_permissions: "rw"
+jellyfin_photos_directory: "{{ main_storage }}"
+jellyfin_photos_permissions: "rw"
+jellyfin_tv_directory: "{{ main_storage }}"
+jellyfin_tv_permissions: "rw"
+jellyfin_books_directory: "{{ main_storage }}"
+jellyfin_books_permissions: "rw"
+jellyfin_audiobooks_directory: "{{ main_storage }}"
+jellyfin_audiobooks_permissions: "rw"
+jellyfin_user_id: "0"
+jellyfin_group_id: "0"
+jellyfin_port_http: "8896"
+jellyfin_port_https: "8928"
+
+
+
