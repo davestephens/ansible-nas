@@ -59,9 +59,7 @@
       "PHOTOPRISM_JPEG_QUALITY": "92"
       "TF_CPP_MIN_LOG_LEVEL": "0" 
       "PHOTOPRISM_FFMPEG_ENCODER": "h264_qsv"        
-      "PHOTOPRISM_INIT": "intel-graphics tensorflow-amd64-avx2" 
-    devices:
-      - "/dev/dri/renderD128:/dev/dri/renderD128" # Intel GPU
+      "PHOTOPRISM_INIT": "" 
     working_dir: "/photoprism"
     volumes:
       - "{{ main_storage }}/photos:/photoprism/originals"
