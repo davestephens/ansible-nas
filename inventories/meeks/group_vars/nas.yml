@@ -146,5 +146,4 @@ nextcloud_data_directory: "{{ main_storage }}"
 nextcloud_port: "8080"
 nextcloud_hostname: "nextcloud"
 
-# username / passwords
-
+torrents_root: "{{ main_storage }}/torrents"
