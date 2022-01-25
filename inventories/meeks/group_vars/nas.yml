@@ -136,4 +136,15 @@ jellyfin_port_http: "8896"
 jellyfin_port_https: "8928"
 
 
+nextcloud_enabled: true
+nextcloud_available_externally: "true"
+
+# directories
+nextcloud_data_directory: "{{ main_storage }}"
+
+# network
+nextcloud_port: "8080"
+nextcloud_hostname: "nextcloud"
+
+# username / passwords
 
