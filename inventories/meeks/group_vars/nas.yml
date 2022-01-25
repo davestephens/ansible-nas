@@ -116,7 +116,7 @@ mysql_user: "ansible-nas"
 vpn_host: "vpn.{{ external_domain }}"
 jellyfin_enabled: true
 
-jellyfin_available_externally: "false"
+jellyfin_available_externally: "true"
 jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
 jellyfin_movies_directory: "{{ main_storage }}"
 jellyfin_movies_permissions: "rw"
