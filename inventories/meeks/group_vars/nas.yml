@@ -19,7 +19,7 @@ heimdall_enabled: true
 portainer_enabled: true
 glances_enabled: true
 
-guid: "1000"
+guid: "3939"
 
 
 ### config params
