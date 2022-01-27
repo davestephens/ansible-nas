@@ -22,13 +22,15 @@
     name: "{{ container_name }}"
     image: photoprism/photoprism:latest
     pull: yes
-    expose: 
-      - "2342"
+    ports: 
+      - "2342:80"
     security_opts:
       - seccomp:unconfined
       - apparmor:unconfined
     state: 'started'
     shm_size: 2G
+    links:
+      - photoprism-mariadb:photoprism-mariadb
     env:
       "PUID": "{{ guid }}"
       "PGID": "{{ guid }}"
@@ -39,7 +41,7 @@
       "PHOTOPRISM_SITE_URL": "http://{{ ansible_default_ipv4.address }}:2342/"
       "PHOTOPRISM_EXPERIMENTAL": "false"
       "PHOTOPRISM_HTTP_HOST": "0.0.0.0"
-      "PHOTOPRISM_HTTP_PORT": "2342"
+      "PHOTOPRISM_HTTP_PORT": "80"
       "PHOTOPRISM_HTTP_COMPRESSION": "gzip"
       "PHOTOPRISM_DATABASE_DRIVER": "mysql"
       "PHOTOPRISM_DATABASE_SERVER": "photoprism-mariadb:3306"
@@ -60,6 +62,7 @@
       "TF_CPP_MIN_LOG_LEVEL": "0" 
       "PHOTOPRISM_FFMPEG_ENCODER": "h264_qsv"        
       "PHOTOPRISM_INIT": "" 
+      "PHOTOPRISM_LOG_LEVEL": "debug"
     working_dir: "/photoprism"
     volumes:
       - "{{ main_storage }}/photos:/photoprism/originals"
