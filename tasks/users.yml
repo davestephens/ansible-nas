@@ -3,6 +3,7 @@
   group:
     name: ansible-nas
     state: present
+    gid: 999
 
 - name: Create ansible-nas user
   user:
@@ -13,3 +14,4 @@
     create_home: no
     group: ansible-nas
     shell: /usr/sbin/nologin
+    uid: 999
