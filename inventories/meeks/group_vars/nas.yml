@@ -94,7 +94,8 @@ ansible_nas_extra_packages:
 syncthing_enabled: true
 syncthing_available_externally: "true"
 syncthing_volumes:
-  - 
+  - "{{ docker_home }}/syncthing:/var/syncthing"
+  - "{{ main_storage }}:/storage"
 traefik_enabled: true
 traefik_environment_variables:
   CF_DNS_API_TOKEN: "{{ cloudflare_token }}"
