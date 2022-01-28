@@ -16,9 +16,9 @@ paperless_ng_port: "16922"
 paperless_ng_hostname: "paperless_ng"
 
 # postgres
-paperless_ng_postgres_db: "paperless_ng"
-paperless_ng_postgres_user: "paperless_ng"
-paperless_ng_postgres_password: "paperless_ng"
+paperless_ng_postgres_db: "paperless"
+paperless_ng_postgres_user: "paperless"
+paperless_ng_postgres_password: "paperless"
 
 #container names
 paperless_ng_container_network_name: "paperless_ng_network"
