@@ -21,7 +21,7 @@
       MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_root_password }}"
     restart_policy: unless-stopped
     memory: "{{ nextcloud_mysql_memory }}"
-
+    user: "{{ guid }}:{{ guid }}"
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
@@ -48,3 +48,4 @@
       traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+    user: "{{ guid }}:{{ guid }}"
