@@ -1,0 +1,8 @@
+users:
+  {{ ansible_nas_user }}:
+    displayname: "{{ ansible_nas_user }}"
+    password: "{{ authelia_password | password_hash('sha512') }}"
+    email: {{ ansible_nas_email }}
+    groups:
+      - admins
+      - dev

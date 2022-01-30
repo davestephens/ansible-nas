@@ -27,7 +27,7 @@
       PUID: "{{ jellyfin_user_id }}"
       PGID: "{{ jellyfin_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: 4g
     labels:
       traefik.enable: "{{ jellyfin_available_externally }}"
       traefik.http.routers.jellyfin.rule: "Host(`jellyfin.{{ ansible_nas_domain }}`)"

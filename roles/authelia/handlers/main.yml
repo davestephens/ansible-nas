@@ -1,0 +1,4 @@
+- name: Restart the docker container
+  docker_container:
+    name: "{{ container_name }}"
+    restart: yes

@@ -1,0 +1,5 @@
+---
+container_name: authelia
+
+dashboard_url: "http://authelia.{{ ansible_nas_domain }}"
+username: "{{ ansible_nas_user }}"

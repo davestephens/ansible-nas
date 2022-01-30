@@ -9,9 +9,13 @@
 
 - name: Template Traefik config.toml
   template:
-    src: traefik.toml
-    dest: "{{ traefik_data_directory }}/traefik.toml"
+    src: "{{ item }}"
+    dest: "{{ traefik_data_directory }}/{{ item }}"
   register: template_config
+  with_items:
+    - traefik.toml
+    - middlewares.toml
+
 
 - name: Traefik Docker Container
   docker_container:
@@ -21,9 +25,11 @@
     network_mode: host
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+      - "{{ traefik_data_directory }}/middlewares.toml:/etc/traefik/middlewares.toml:ro"
       - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     env: "{{ traefik_environment_variables }}"
     restart_policy: unless-stopped
     memory: "{{ traefik_memory }}"
     recreate: "{{ template_config is changed }}"
+    labels:

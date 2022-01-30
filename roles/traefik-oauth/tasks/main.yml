@@ -1,0 +1,20 @@
+---
+- name: Traefik-forward-auth Docker Container
+  docker_container:
+    name: traefik-forward-auth
+    image: "thomseddon/traefik-forward-auth:2"
+    pull: true
+    env:
+      PROVIDERS_GOOGLE_CLIENT_ID: "{{ google_oauth_client_id }}"
+      PROVIDERS_GOOGLE_CLIENT_SECRET: "{{ google_oauth_client_secret }}"
+      SECRET: "{{ oauth_secret }}"
+      LOG_LEVEL: "debug"
+    restart_policy: unless-stopped
+    memory: 1G
+    ports:
+        4181:4181
+    labels:
+      traefik.http.middlewares.traefik-forward-auth.forwardauth.address: "http://traefik-forward-auth:4181"
+      traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders: "X-Forwarded-User"
+      traefik.http.services.traefik-forward-auth.loadbalancer.server.port: "4181"
+      

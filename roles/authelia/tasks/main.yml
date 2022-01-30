@@ -1,0 +1,52 @@
+---
+
+- name: Make sure the {{ container_name }} container is created and running
+  docker_container:
+    name: "{{ container_name }}"
+    image: "authelia/authelia:latest"
+    pull: true
+    state: 'started'
+    env:
+      TZ: "{{ timezone }}"
+    volumes:
+      - "{{ docker_dir }}/{{ container_name }}:/config"
+    restart_policy: unless-stopped
+    ports: 9091:9091
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.authelia-https.rule: "Host(`login.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.authelia-https.tls.certresolver: "letsencrypt"
+      traefik.http.routers.authelia-https.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.authelia-https.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.routers.authelia-https.entrypoints: "websecure"
+      traefik.http.routers.authelia-https.tls: "true"
+      traefik.http.routers.authelia-https.service: "authelia"
+      traefik.http.services.authelia.loadbalancer.server.port: "9091"
+
+
+- name: Create the configuration directory
+  file:
+    path: "{{ docker_dir }}/{{ container_name }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
+- name: Install the configuration template
+  template:
+    src: configuration.yml.j2
+    dest: "{{ docker_dir }}/{{ container_name }}/configuration.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
+  notify:
+    - Restart the docker container
+
+- name: Install the users template
+  template:
+    src: users_database.yml.j2
+    dest: "{{ docker_dir }}/{{ container_name }}/users_database.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
+  register: users

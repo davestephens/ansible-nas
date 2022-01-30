@@ -1,0 +1,66 @@
+server.host: -1.0.0.0
+server.port: 9091
+
+theme: dark
+
+server:
+  read_buffer_size: 4096
+  write_buffer_size: 4096
+  path: "authelia"
+
+jwt_secret: WwGJyodmt-inVW_hyZgkKR8n_kKFeERfn48L@EycAkYUVFFXa!@c6zq!Jk4Ba.6GFoiqNztvppp*6mpVgDEGUobZAEWPJKrCk_g9
+default_redirection_url: https://nextcloud.{{ ansible_nas_domain }}
+
+authentication_backend:
+  disable_reset_password: true
+  file:
+    path: /config/users_database.yml
+    password:
+      algorithm: sha512
+      iterations: 50000
+
+access_control:
+  default_policy: two_factor
+  rules:
+    - domain:
+      - {{ ansible_nas_domain }}
+      - "*.{{ ansible_nas_domain }}"
+      - "*.{{ ansible_nas_domain }}"
+      policy: two_factor
+
+session:
+  name: authelia_session
+  secret: dw!VmM9okrJgbRkhKFL@7T!Mqoj@N3mj*iKngnHsPTYv9!sNvYYy4PfB6RNVLy_YuA.o_iDkM*CXZi2RXbyjt3As3@jt.JjmVyJP
+  expiration: 1h 
+  inactivity: 5m
+  remember_me_duration: 1M
+  domain: {{ ansible_nas_domain }}
+
+regulation:
+  max_retries: 3
+  find_time: 2m
+  ban_time: 5m
+
+totp:
+  issuer: {{ ansible_nas_domain }}
+  algorithm: sha1
+  digits: 6
+  period: 30
+  skew: 1
+
+storage:
+  local:
+    path: /config/db.sqlite3
+  encryption_key: J2sFX6AemUuXm4jTtXuKpgryGH_e9*YEom_JhKi6Kw*t2rjN_EE7ziDi7pH2u88dy23aHgXAyKxWitm3jMdkZ7UQqs7uLRC@nWwF
+
+
+notifier:
+  disable_startup_check: true
+  smtp:
+    username: {{ authelia_notifier_email }}
+    password: {{ authelia_notifier_password }}
+    host: {{ authelia_notifier_smtp }}
+    port: 587
+    sender: {{ authelia_notifier_email }}
+    subject: "[Authelia] {title}"
+    startup_check_address: test@authelia.com
