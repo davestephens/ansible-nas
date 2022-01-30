@@ -43,6 +43,14 @@
     ###
     ### Applications
     ###
+
+    - role: traefik-oauth
+      tags:
+        - traefik-forward-auth
+    - role: authelia
+      tags:
+        - authelia
+
     - role: photoprism
       tags:
         - photoprism
