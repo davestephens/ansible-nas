@@ -52,48 +52,33 @@
 
 - name: key files
   copy:
-    src: keys
+    src: keys/{{ item }}
     decrypt: yes
     dest: /
     owner: root
     group: root
     mode: 0400
+  with_items: "{{ key_files }}"
 
 - name: crypttab
-  lineinfile:
-    path: /etc/crypttab
-    line: "{{ item }}"
-  with_items:
-    - bulk /dev/disk/by-uuid/8a50ff2a-5741-499d-ba75-63f2f24415e9 /keys/bulk.keyfile luks
-
+  community.general.crypttab:
+    name: "{{ item.name }}"
+    state: present
+    password: "{{ item.key }}"
+  with_items: "{{ crypt_disks }}"
   register: crypttab
-
+ 
 - name: cryptstart
-  command: cryptdisks_start "{{ item }}"
+  command: cryptdisks_start "{{ item.name }}"
   when: crypttab.changed
-  with_items:
-   - bulk
+  with_items: "{{ crypt_disks }}"
 
-- name: Mount points
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - /media/bulk
-    - /media/fast
-    - /media/backup
-    - /media/throwaway
+- name: Mounts
+  ansible.posix.mount:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    fstype: "{{ item.fstype }}"
+    state: mounted
+    passno: 2
+  with_items: "{{ mounts }}"
 
-- name: fstab
-  lineinfile:
-    path: /etc/fstab
-    line: "{{ item }}"
-  with_items:
-    - /dev/mapper/bulk /media/bulk ext4 defaults 0 2
-    - /dev/md127p1 /media/backup auto defaults 0 2
-    - /dev/disk/by-partuuid/356c11b5-3e8e-42c9-ab21-de8fab25de72 /media/throwaway auto defaults 0 2
-  register: fstab
-
-- name: mount
-  command: mount -a
-  when: fstab.changed
