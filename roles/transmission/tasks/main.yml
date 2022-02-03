@@ -38,8 +38,8 @@
 
       traefik.http.services.transmission.loadbalancer.server.port: "9091"
       traefik.http.routers.transmission.middlewares: "traefik-forward-auth"
+
       traefik.http.middlewares.authelia.forwardauth.address: "https://login.{{ ansible_nas_domain }}/api/verify/?rd=https://transmission.{{ ansible_nas_domain }}"
       traefik.http.middlewares.authelia.forwardauth.trustforwardheader: "true"
       traefik.http.middlewares.authelia.forwardauth.authresponseheaders: "Remote-User, Remote-Groups"
-      traefik.http.middlewares.traefik-forward-auth.forwardauth.address: "http://traefik-forward-auth:4181"
-      traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders: "X-Forwarded-User"
+

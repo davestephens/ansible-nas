@@ -4,9 +4,34 @@
   pre_tasks:
     - import_tasks: tasks/users.yml
       tags: users
-
   roles:
     - role: basics
+    - role: geerlingguy.docker
+      tags:
+        - docker
+        - skip_ansible_lint
+
+- hosts: server
+  become: true
+  roles:
+    - role: traefik
+      tags:
+        - traefik
+    - role: portainer
+      tags:
+        - portainer
+      when: (portainer_enabled | default(True))
+
+
+- hosts: hassbox
+  become: true
+  roles:
+    - role: hassvm
+
+
+- hosts: nas
+  become: true
+  roles:
     ###
     ### Requirements
     ###
@@ -19,12 +44,6 @@
       tags:
         - nfs
         - skip_ansible_lint
-
-    - role: geerlingguy.docker
-      tags:
-        - docker
-        - skip_ansible_lint
-
 
     ###
     ### Ansible-NAS Roles
@@ -215,11 +234,6 @@
         - organizr
       when: (organizr_enabled | default(False))
 
-    - role: portainer
-      tags:
-        - portainer
-      when: (portainer_enabled | default(False))
-
     - role: prowlarr
       tags:
         - prowlarr
@@ -280,10 +294,6 @@
         - utorrent
       when: (utorrent_enabled | default(False))
 
-    - role: traefik
-      tags:
-        - traefik
-      when: (traefik_enabled | default(False))
 
     - role: watchtower
       tags:
@@ -365,3 +375,4 @@
     - import_tasks: tasks/pytivo.yml
       when: (pytivo_enabled | default(False))
       tags: pytivo
+

@@ -6,7 +6,6 @@
   with_items:
     - "{{ traefik_data_directory }}"
     - "{{ traefik_data_directory }}/letsencrypt"
-
 - name: Template Traefik config.toml
   template:
     src: "{{ item }}"
@@ -22,7 +21,6 @@
     name: traefik
     image: "{{ traefik_docker_image }}"
     pull: true
-    network_mode: host
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "{{ traefik_data_directory }}/middlewares.toml:/etc/traefik/middlewares.toml:ro"
@@ -33,3 +31,7 @@
     memory: "{{ traefik_memory }}"
     recreate: "{{ template_config is changed }}"
     labels:
+    ports:
+      - 80:80
+      - 443:443
+      - 8083:8083
