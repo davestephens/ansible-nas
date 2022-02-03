@@ -1,4 +1,3 @@
----
 ##                       ._____.   .__
 ##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
 ##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
@@ -33,11 +32,24 @@ samba_shares_root: "{{ main_storage }}"
 docker_home: "{{ fast_storage }}/docker"
 docker_dir: "{{ docker_home }}"
 
-ansible_nas_domain:  "{{ external_domain }}"
+ansible_nas_domain: "{{ external_domain }}"
 
 default_user: ngmstr
 
 ansible_nas_user: ngmstr
+
+key_files:
+  - bulk.keyfile
+
+crypt_disks:
+  - { name: bulk, key: /bulk.keyfile }
+
+mounts:
+  - {path: "{{ main_storage }}", fstype: ext4, src: /dev/mapper/bulk}
+  - {path: "{{ backup_storage }}", src: /dev/md127p1, fstype: ext4}
+  - {path: "{{ throwaway_storage }}", src: /dev/disk/by-partuuid/356c11b5-3e8e-42c9-ab21-de8fab25de72, fstype: ext4}
+
+
 
 samba_shares:
   - name: main
@@ -87,6 +99,8 @@ ansible_nas_extra_packages:
     - speedtest-cli
     - iperf3
     - net-tools
+    - lm-sensors
+    - smartmontools
 
 
 ### apps:
