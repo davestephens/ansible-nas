@@ -58,6 +58,11 @@
         - bitwarden
       when: (bitwarden_enabled | default(False))
 
+    - role: booksonic
+      tags:
+        - booksonic
+      when: (booksonic_enabled | default(False))
+
     - role: cloudcmd
       tags:
         - cloudcmd
@@ -77,6 +82,11 @@
       tags:
         - deluge
       when: (deluge_enabled | default(False))
+
+    - role: duplicacy
+      tags:
+        - duplicacy
+      when: (duplicacy_enabled | default(False))
 
     - role: duplicati
       tags:
@@ -277,6 +287,11 @@
       tags:
         - dokuwiki
       when: (dokuwiki_enabled | default(False))
+
+    - role: piwigo
+      tags:
+        - piwigo
+      when: (piwigo_enabled | default(False))
 
   tasks:
     - import_tasks: tasks/thelounge.yml

@@ -11,6 +11,7 @@ plex_photos_directory: "{{ photos_root }}"
 plex_podcasts_directory: "{{ podcasts_root }}"
 plex_music_directory: "{{ music_root }}"
 plex_video_directory: "{{ video_root }}"
+plex_audiobooks_directory: "{{ audiobooks_root }}"
 
 # uid / gid
 plex_user_id: "0"
@@ -24,6 +25,7 @@ plex_photos_permissions: "rw"
 plex_podcasts_permissions: "rw"
 plex_music_permissions: "rw"
 plex_video_permissions: "ro"
+plex_audiobooks_permissions: "rw"
 
 # network
 plex_hostname: "plex"
