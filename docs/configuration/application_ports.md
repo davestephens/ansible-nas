@@ -8,10 +8,12 @@ By default, applications can be found on the ports listed below.
 | Bazarr          | 6767    | Bridge  | HTTP           |
 | Bitwarden "hub" | 3012    | Bridge  | Web Not.       |
 | Bitwarden       | 19080   | Bridge  | HTTP           |
+| Booksonic       | 4041    | Bridge  | HTTP           |
 | Calibre-web     | 8084    | Bridge  | HTTP           |
 | Cloud Commander | 7373    | Bridge  | HTTP           |
 | Couchpotato     | 5050    | Bridge  | HTTP           |
 | DokuWiki        | 8085    | Bridge  | HTTP           |
+| Duplicacy       | 3875    | Bridge  | HTTP           |
 | Duplicati       | 8200    | Bridge  | HTTP           |
 | Emby            | 8096    | Bridge  | HTTP           |
 | Emby            | 8096    | Bridge  | HTTP           |
@@ -56,6 +58,7 @@ By default, applications can be found on the ports listed below.
 | openHAB         | 7778    | Host    | HTTPS          |
 | Organizr        | 10081   | Bridge  | HTTP           |
 | Organizr        | 10444   | Bridge  | HTTPS          |
+| Piwigo          | 16923   | Bridge  | HTTP           |
 | Plex            | 32400   | Bridge  | HTTP           |
 | Portainer       | 9000    | Bridge  | HTTP           |
 | Prowlarr        | 9696    | Bridge  | HTTP           |

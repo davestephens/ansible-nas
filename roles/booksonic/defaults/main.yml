@@ -1,0 +1,19 @@
+---
+booksonic_enabled: false
+booksonic_available_externally: "false"
+
+# uid / gid
+booksonic_user_id: "1000"
+booksonic_group_id: "1000"
+
+# directories
+booksonic_data_directory: "{{ docker_home }}/booksonic"
+booksonic_audiobooks_directory: "{{ audiobooks_root }}"
+booksonic_podcasts_directory: "{{ podcasts_root }}"
+
+# network
+booksonic_port: "4041"
+booksonic_hostname: "booksonic"
+
+# specs
+booksonic_memory: 1g

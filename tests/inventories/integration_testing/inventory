@@ -8,7 +8,7 @@
 
 
 [all]
-ansible-nas ansible_connection=local ansible_host=localhost
+ansible-nas-test ansible_connection=local ansible_host=localhost
 
 [nas]
-ansible-nas
+ansible-nas-test
