@@ -27,9 +27,9 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies
-        run: pip3 install yamllint ansible-lint
+        run: pip3 install ansible yamllint ansible-lint
 
       - name: Linting
         run: |
-          ansible-lint ./nas.yml -x 106,208
+          ansible-lint nas.yml
           yamllint .
