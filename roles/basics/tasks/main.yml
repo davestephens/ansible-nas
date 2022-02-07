@@ -17,6 +17,32 @@
     line: '%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
 
+- name: Add backup group
+  group:
+    name: backup
+    state: present
+    gid: 6969
+- name: Add backup user
+  user:
+    name: backup
+    state: present
+    uid: 6969
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: backup
+    shell: /usr/sbin/nologin
+
+- name: Add others to backup group
+  user:
+    name: "{{ item }}"
+    groups: [backup]
+    append: yes
+  with_items:
+    - "{{ default_user }}"
+    - "{{ ansible_nas_user}}"
+
+
 - name: Update apt-cache
   apt:
     update_cache: yes

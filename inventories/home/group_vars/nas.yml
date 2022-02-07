@@ -36,7 +36,7 @@ ansible_nas_domain: "{{ external_domain }}"
 
 default_user: ngmstr
 
-ansible_nas_user: ngmstr
+ansible_nas_user: ansible-nas
 
 key_files:
   - bulk.keyfile
@@ -80,7 +80,7 @@ samba_shares:
     browseable: yes
     path: "{{ backup_storage }}"
     owner: ansible-nas
-    group: ansible-nas
+    group: backup
 
   - name: throwaway
     comment: 'Unreliable storage for ???'

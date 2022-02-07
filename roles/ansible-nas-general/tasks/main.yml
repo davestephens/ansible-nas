@@ -48,8 +48,8 @@
   file:
     path: "{{ item.path }}"
     state: directory
-    owner: ansible-nas
-    group: ansible-nas
-    mode: "u=rwX,g=rwX,o=rX"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "0770"
     recurse: false
   loop: "{{ samba_shares }}"
