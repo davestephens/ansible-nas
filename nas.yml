@@ -1,19 +1,22 @@
 ---
 - hosts: all
+
+- hosts: arch
+  
+
+- hosts: ubuntu
   become: true
-  pre_tasks:
-    - import_tasks: tasks/users.yml
-      tags: users
   roles:
-    - role: basics
     - role: geerlingguy.docker
       tags:
         - docker
         - skip_ansible_lint
 
+
 - hosts: server
   become: true
   roles:
+    - role: server-basics
     - role: traefik
       tags:
         - traefik
@@ -26,15 +29,20 @@
 - hosts: hassbox
   become: true
   roles:
+    - role: libvirt
     - role: hassvm
 
 
 - hosts: nas
   become: true
+  pre_tasks:
+    - import_tasks: tasks/users.yml
+      tags: users
   roles:
     ###
     ### Requirements
     ###
+
     - role: bertvv.samba
       tags:
         - samba
@@ -48,6 +56,7 @@
     ###
     ### Ansible-NAS Roles
     ###
+  
     - role: ansible-nas-general
       tags:
         - ansible-nas-general

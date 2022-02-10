@@ -1,0 +1,109 @@
+- name: Set login banner
+  copy:
+    src: motd.txt
+    dest: /etc/motd
+
+- name: Set the name of a sudo group
+  set_fact:
+    sudo_group: sudo
+
+- name: Allow 'sudo' group to have passwordless sudo
+  become: yes
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%{{ sudo_group }}'
+    line: '%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Add backup group
+  group:
+    name: backup
+    state: present
+    gid: 6969
+- name: Add backup user
+  user:
+    name: backup
+    state: present
+    uid: 6969
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: backup
+    shell: /usr/sbin/nologin
+
+- name: Add others to backup group
+  user:
+    name: "{{ item }}"
+    groups: [backup]
+    append: yes
+  with_items:
+    - "{{ default_user }}"
+    - "{{ ansible_nas_user}}"
+
+
+- name: Update apt-cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  register: result
+  until: result is succeeded
+
+- name: Updates
+  apt:
+    name: "*"
+    state: latest
+
+- name: Install python3-pip
+  apt:
+    name: python3-pip
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Remove docker-py python module
+  pip:
+    name: docker-py
+    state: absent
+  register: result
+  until: result is succeeded
+
+- name: Install docker python module
+  pip:
+    name: docker
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: key files
+  copy:
+    src: keys/{{ item }}
+    decrypt: yes
+    dest: /
+    owner: root
+    group: root
+    mode: 0400
+  with_items: "{{ key_files }}"
+
+- name: crypttab
+  community.general.crypttab:
+    name: "{{ item.name }}"
+    state: present
+    password: "{{ item.key }}"
+  with_items: "{{ crypt_disks }}"
+  register: crypttab
+ 
+- name: cryptstart
+  command: cryptdisks_start "{{ item.name }}"
+  when: crypttab.changed
+  with_items: "{{ crypt_disks }}"
+
+- name: Mounts
+  ansible.posix.mount:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    fstype: "{{ item.fstype }}"
+    state: mounted
+    passno: 2
+  with_items: "{{ mounts }}"
+
