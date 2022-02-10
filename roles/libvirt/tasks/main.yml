@@ -1,0 +1,29 @@
+---
+- name: Bridge Interface config
+  template: 
+    src: 39-bridge.yaml.j2
+    dest: /etc/netplan/39-bridge.yaml
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Install packages
+  apt:
+    pkg:
+      - qemu-kvm
+      - qemu
+      - libvirt-daemon-system
+      - libvirt-daemon-system-systemd
+      - bridge-utils
+      - libvirt-clients
+      - libvirt-dev
+- name: Install libvirt-python
+  pip:
+    name: libvirt-python
+    state: present
+      
+- name: Ensure daemon is running
+  systemd:
+    name: libvirtd
+    state: started
+    enabled: yes

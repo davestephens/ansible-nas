@@ -1,0 +1,8 @@
+---
+network:
+  version: 2
+  bridges:
+    br0:
+        dhcp4: yes
+        interfaces:
+            - {{ libvirt_bridge_interface }}
