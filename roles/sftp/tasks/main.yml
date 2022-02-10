@@ -1,0 +1,42 @@
+---
+
+- name: Create SFTP host key dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "/sftp_hostkeys"
+
+- name: Copy SFTP container host keys
+  copy:
+    src: "hostkeys/{{ item }}"
+    dest: "/sftp_hostkeys/{{ item }}"
+    owner: root
+    group: root
+    mode: "400"
+  loop:
+    - ssh_host_rsa_key 
+    - ssh_host_ed25519_key
+
+- name: Copy SFTP user keys
+  copy:
+    src: userkeys/
+    dest: /sftp_userkeys/
+    owner: root
+    group: root
+    mode: "400"
+
+- name: SFTP Container
+  docker_container:
+    name: sftp
+    image: atmoz/sftp:latest
+    pull: true
+    volumes:
+      - "{{backup_storage}}:/home/itoh/backup"
+      - "/sftp_hostkeys/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key:ro"
+      - "/sftp_hostkeys/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key:ro"
+      - "/sftp_userkeys/:/home/itoh/.ssh/keys/:ro"
+    ports:
+      - "6922:22"
+    command: "itoh::6969"
