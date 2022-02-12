@@ -203,6 +203,11 @@
         - organizr
       when: (organizr_enabled | default(False))
 
+    - role: paperless_ng
+      tags:
+        - paperless_ng
+      when: (paperless_ng_enabled | default(False))
+
     - role: portainer
       tags:
         - portainer
