@@ -20,7 +20,7 @@ paperless_ng_postgres_db: "paperless"
 paperless_ng_postgres_user: "paperless"
 paperless_ng_postgres_password: "paperless"
 
-#container names
+# container names
 paperless_ng_container_network_name: "paperless_ng_network"
 paperless_ng_container_name_redis: "paperless_ng_redis"
 paperless_ng_container_name_postgres: "paperless_ng_postgres"
