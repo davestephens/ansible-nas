@@ -60,6 +60,7 @@ By default, applications can be found on the ports listed below.
 | Organizr        | 10081   | Bridge  | HTTP           |
 | Organizr        | 10444   | Bridge  | HTTPS          |
 | Paperless_ng    | 16922   | Bridge  | HTTP           |
+| PhotoPrism      | 2342    | Bridge  | HTTP           |
 | Piwigo          | 16923   | Bridge  | HTTP           |
 | Plex            | 32400   | Bridge  | HTTP           |
 | Portainer       | 9000    | Bridge  | HTTP           |

@@ -9,7 +9,7 @@
 
 - name: PhotoPrism - install Docker container
   docker_container:
-    name: PhotoPrism
+    name: photoprism
     image: photoprism/photoprism
     pull: true
     ports:
@@ -21,7 +21,7 @@
     network_mode: "host"
     env:
       PHOTOPRISM_SITE_URL: "https://photoprism.{{ ansible_nas_domain }}"
-      # PHOTOPRISM_ADMIN_PASSWORD: "insecure" # docker exec -ti photoprism photoprism passwd
+      PHOTOPRISM_ADMIN_PASSWORD: "insecure" # docker exec -ti photoprism photoprism passwd
     restart_policy: unless-stopped
     memory: 4g
     labels:
