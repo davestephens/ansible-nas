@@ -1,0 +1,33 @@
+---
+- name: PhotoPrism - create config directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  with_items:
+    - "{{ photoprism_config_directory }}"
+
+- name: PhotoPrism - install Docker container
+  docker_container:
+    name: PhotoPrism
+    image: photoprism/photoprism
+    pull: true
+    ports:
+      - "{{ photoprism_port }}:2342"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ photoprism_config_directory }}:/config:rw"
+      - "{{ photoprism_photos_directory }}/Pics/:/photoprism/originals:ro"
+    network_mode: "host"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ photoprism_user_id }}"
+      PGID: "{{ photoprism_group_id }}"
+      # PHOTOPRISM_ADMIN_PASSWORD: "insecure" docker exec -ti photoprism photoprism passwd
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.backend: "PhotoPrism"
+      traefik.frontend.rule: "Host:photoprism.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ photoprism_available_externally }}"
+      traefik.port: "{{ photoprism_port }}"
