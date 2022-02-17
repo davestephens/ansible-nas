@@ -270,17 +270,6 @@ pytivo_user_id: "0"
 pytivo_group_id: "0"
 
 ###
-### PhotoPrism
-###
-photoprism_config_directory: "{{ docker_home }}/photoprism"
-photoprism_photos_directory: "{{ photos_root }}"
-photoprism_user_id: "0"
-photoprism_group_id: "0"
-photoprism_port: "2342"
-photoprism_available_externally: false
-
-
-###
 ### YouTubeDL-Material
 ###
 youtubedlmaterial_available_externally: "false"

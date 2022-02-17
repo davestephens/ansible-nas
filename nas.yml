@@ -360,6 +360,10 @@
       when: (virtual_desktop_enabled | default(False))
       tags: virtual_desktop
 
+    - import_tasks: tasks/photoprism.yml
+      when: (photoprism_enabled | default(False))
+      tags: photoprism
+
     - import_tasks: tasks/pytivo.yml
       when: (pytivo_enabled | default(False))
       tags: pytivo

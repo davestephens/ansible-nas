@@ -17,8 +17,8 @@
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "{{ photoprism_config_directory }}/storage:/photoprism/storage:rw"
-      - "{{ photoprism_photos_directory }}/Pics/:/photoprism/originals:rw"
-    network_mode: "host"
+      - "{{ photoprism_photos_directory }}:/photoprism/originals:rw"
+    network_mode: "bridge"
     env:
       PHOTOPRISM_SITE_URL: "https://photoprism.{{ ansible_nas_domain }}"
       PHOTOPRISM_ADMIN_PASSWORD: "insecure" # docker exec -ti photoprism photoprism passwd
