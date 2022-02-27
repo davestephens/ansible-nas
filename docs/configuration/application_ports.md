@@ -41,6 +41,7 @@ By default, applications can be found on the ports listed below.
 | Krusader        | 5800    | Bridge  | HTTP           |
 | Krusader        | 5900    | Bridge  | VNC            |
 | Lidarr          | 8686    | Bridge  | HTTP           |
+| Mealie          | 9925    | Host    | HTTP           |
 | MiniDLNA        | 8201    | Host    | HTTP           |
 | Miniflux        | 8070    | Bridge  | HTTP           |
 | Mosquitto       | 1883    | Bridge  | Websocket      |

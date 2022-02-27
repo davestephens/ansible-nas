@@ -64,6 +64,7 @@ Ansible config and a bunch of Docker containers.
 * [Komga](https://komga.org/) - a media server for your comics, mangas, BDs and magazines
 * [Krusader](https://krusader.org/) - Twin panel file management for your desktop
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
+* [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
