@@ -83,6 +83,11 @@
         - deluge
       when: (deluge_enabled | default(False))
 
+    - role: dokuwiki
+      tags:
+        - dokuwiki
+      when: (dokuwiki_enabled | default(False))
+
     - role: duplicacy
       tags:
         - duplicacy
@@ -213,6 +218,11 @@
         - paperless_ng
       when: (paperless_ng_enabled | default(False))
 
+    - role: piwigo
+      tags:
+        - piwigo
+      when: (piwigo_enabled | default(False))
+
     - role: portainer
       tags:
         - portainer
@@ -292,16 +302,6 @@
       tags:
         - znc
       when: (znc_enabled | default(False))
-
-    - role: dokuwiki
-      tags:
-        - dokuwiki
-      when: (dokuwiki_enabled | default(False))
-
-    - role: piwigo
-      tags:
-        - piwigo
-      when: (piwigo_enabled | default(False))
 
   tasks:
     - import_tasks: tasks/thelounge.yml
