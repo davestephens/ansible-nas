@@ -12,7 +12,8 @@
     image: esphome/esphome:latest
     pull: true
     volumes:
-      - "{{ esphome_data_directory }}:/config/esphome/data:rw"
+      - "{{ esphome_data_directory }}:/config:rw"
+      - "/etc/localtime:/etc/localtime:ro"
     ports:
       - "{{ esphome_port }}:6052"
     env:
