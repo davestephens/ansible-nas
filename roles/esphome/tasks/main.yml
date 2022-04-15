@@ -14,7 +14,7 @@
     volumes:
       - "{{ esphome_data_directory }}:/config/esphome/data:rw"
     ports:
-      - "{{ esphome_port }}:80"
+      - "{{ esphome_port }}:6052"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ esphome_user_id }}"

@@ -8,4 +8,6 @@ ESPHome is a system to control your ESP8266/ESP32 by simple yet powerful configu
 
 Set `esphome_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
+You can make esphome externally available, but the program has no security so this is strongly not advised. 
+
 The EspHome web interface can be found at http://ansible_nas_host_or_ip:6052.
