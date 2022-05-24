@@ -71,6 +71,7 @@ By default, applications can be found on the ports listed below.
 | PyTivo          | 9032    | Bridge  | HTTP           |
 | PyTivo          | 2190    | Bridge  | UDP            |
 | Radarr          | 7878    | Bridge  | HTTP           |
+| RSS-Bridge      | 8091    | Bridge  | HTTP           |
 | Sickchill       | 8081    | Bridge  | HTTP           |
 | Sonarr          | 8989    | Bridge  | HTTP           |
 | Syncthing admin | 8384    | Host    | HTTP           |
