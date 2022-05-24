@@ -78,6 +78,11 @@
         - couchpotato
       when: (couchpotato_enabled | default(False))
 
+    - role: dashy
+      tags:
+        - dashy
+      when: (dashy_enabled | default(False))
+
     - role: deluge
       tags:
         - deluge
