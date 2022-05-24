@@ -198,6 +198,11 @@
         - n8n_enabled
       when: (n8n_enabled | default(False))
 
+    - role: navidrome
+      tags:
+        - navidrome
+      when: (navidrome_enabled | default(False))
+
     - role: netbootxyz
       tags:
         - netbootxyz
