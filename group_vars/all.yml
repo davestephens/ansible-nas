@@ -191,7 +191,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/audiobooks"
+    path: "{{ audiobooks_root }}"
 
   - name: comics
     comment: 'Comics'
