@@ -5,7 +5,7 @@ duplicacy_available_externally: "false"
 # directories
 duplicacy_config_directory: "{{ docker_home }}/duplicacy/config"
 duplicacy_logs_directory: "{{ docker_home }}/duplicacy/logs"
-duplicacy_cache_directory: "{{ docker_home}}/duplicacy/cache"
+duplicacy_cache_directory: "{{ docker_home }}/duplicacy/cache"
 
 # permissions
 duplicacy_data_permissions: "ro"    # Change to 'rw' to allow the UI to restore data
