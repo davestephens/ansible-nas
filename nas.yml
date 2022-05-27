@@ -332,10 +332,6 @@
       when: (timemachine_enabled | default(False))
       tags: timemachine
 
-    - import_tasks: tasks/stats.yml
-      when: (stats_enabled | default(False))
-      tags: stats
-
     - import_tasks: tasks/guacamole.yml
       when: (guacamole_enabled | default(False))
       tags: guacamole
