@@ -50,6 +50,7 @@ By default, applications can be found on the ports listed below.
 | Mylar           | 8585    | Bridge  | HTTP           |
 | MyMediaForAlexa | 52051   | Host    | HTTP           |
 | n8n             | 5678    | Bridge  | HTTP           |
+| navidrome       | 4533    | Bridge  | HTTP           |
 | Netdata         | 19999   | Bridge  | HTTP           |
 | Nextcloud       | 8080    | Bridge  | HTTP           |
 | netbootxyz      | 3002    | Bridge  | HTTP           |
