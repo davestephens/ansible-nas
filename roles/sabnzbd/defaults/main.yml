@@ -1,0 +1,19 @@
+---
+sabnzbd_enabled: false
+sabnzbd_available_externally: "false"
+
+# directories
+sabnzbd_data_directory: "{{ docker_home }}/sabnzbd"
+sabnzbd_downloads_directory: "{{ downloads_root }}"
+sabnzbd_incomplete_directory: "{{ downloads_root }}/sabnzbd-incomplete"
+
+# network
+sabnzbd_port: "18080"
+sabnzbd_hostname: "sabnzbd"
+
+# specs
+sabnzbd_memory: 1g
+
+# uid / gid
+sabnzbd_user_id: "0"
+sabnzbd_group_id: "0"

@@ -3,10 +3,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ sabnzbd_user_id }}"
-    group: "{{ sabnzbd_group_id }}"
-    mode: "u=rwX,g=rwX,o=rX"
-    recurse: true
   with_items:
     - "{{ sabnzbd_data_directory }}"
 
@@ -17,9 +13,10 @@
     pull: true
     volumes:
       - "{{ sabnzbd_data_directory }}:/config:rw"
+      - "{{ sabnzbd_downloads_directory }}:/downloads"
+      - "{{ sabnzbd_incomplete_directory }}:/incomplete-downloads"
     ports:
-      - "{{ sabnzbd_http_port }}:8080"
-      - "{{ sabnzbd_https_port }}:9090"
+      - "{{ sabnzbd_port }}:8080"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ sabnzbd_user_id }}"

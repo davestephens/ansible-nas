@@ -268,6 +268,11 @@
         - radarr
       when: (radarr_enabled | default(False))
 
+    - role: sabnzbd
+      tags:
+        - sabnzbd
+      when: (sabnzbd_enabled | default(False))
+
     - role: sickchill
       tags:
         - sickchill
@@ -378,7 +383,3 @@
     - import_tasks: tasks/pytivo.yml
       when: (pytivo_enabled | default(False))
       tags: pytivo
-
-    - import_tasks: tasks/sabnzbd.yml
-      when: (sabnzbd_enabled | default(False))
-      tags: sabnzbd
