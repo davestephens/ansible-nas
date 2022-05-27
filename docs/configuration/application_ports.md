@@ -71,6 +71,8 @@ By default, applications can be found on the ports listed below.
 | PyTivo          | 9032    | Bridge  | HTTP           |
 | PyTivo          | 2190    | Bridge  | UDP            |
 | Radarr          | 7878    | Bridge  | HTTP           |
+| Sabnzbd         | 18080   | Bridge  | HTTP           |
+| Sabnzbd         | 19090   | Bridge  | HTTPS          |
 | Sickchill       | 8081    | Bridge  | HTTP           |
 | Sonarr          | 8989    | Bridge  | HTTP           |
 | Syncthing admin | 8384    | Host    | HTTP           |
@@ -90,3 +92,4 @@ By default, applications can be found on the ports listed below.
 | Wallabag        | 7780    | Bridge  | HTTP           |
 | YouTubeDL-Mater | 8998    | Bridge  | HTTP           |
 | ZNC             | 6677    | Bridge  |                |
+
