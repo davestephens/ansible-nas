@@ -1,0 +1,18 @@
+---
+# enable or disable the application
+youtubedlmaterial_enabled: false
+youtubedlmaterial_available_externally: "false"
+
+# directories
+youtubedlmaterial_data_directory: "{{ docker_home }}/youtubedlmaterial"
+youtubedlmaterial_dl_audio_directory: "{{ downloads_root }}/youtube/audio"
+youtubedlmaterial_dl_video_directory: "{{ downloads_root }}/youtube/video"
+youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subscriptions"
+
+
+# network
+youtubedlmaterial_hostname: "youtubedlmaterial"
+youtubedlmaterial_port_http: "8998"
+
+# specs
+youtubedlmaterial_memory: "1g"
