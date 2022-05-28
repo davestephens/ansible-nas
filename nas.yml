@@ -273,6 +273,11 @@
         - sabnzbd
       when: (sabnzbd_enabled | default(False))
 
+    - role: rssbridge
+      tags:
+        - rssbridge
+      when: (rssbridge_enabled | default(False))
+
     - role: sickchill
       tags:
         - sickchill
