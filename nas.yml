@@ -113,6 +113,11 @@
         - firefly
       when: (firefly_enabled | default(False))
 
+    - role: freshrss
+      tags:
+        - freshrss
+      when: (freshrss_enabled | default(False))
+
     - role: get_iplayer
       tags:
         - get_iplayer
