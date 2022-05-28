@@ -1,0 +1,14 @@
+---
+rssbridge_enabled: false
+rssbridge_available_externally: "false"
+
+# directories
+rssbridge_data_directory: "{{ docker_home }}/rssbridge"
+
+
+# network
+rssbridge_port: "8091"
+rssbridge_hostname: "rssbridge"
+
+# specs
+rssbridge_memory: 1g
