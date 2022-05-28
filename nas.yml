@@ -318,6 +318,11 @@
         - traefik
       when: (traefik_enabled | default(False))
 
+    - role: youtubedlmaterial
+      tags:
+        - youtubedlmaterial
+      when: (youtubedlmaterial_enabled | default(False))
+
     - role: watchtower
       tags:
         - watchtower
@@ -368,10 +373,6 @@
     - import_tasks: tasks/ubooquity.yml
       when: (ubooquity_enabled | default(False))
       tags: ubooquity
-
-    - import_tasks: tasks/youtubedlmaterial.yml
-      when: (youtubedlmaterial_enabled | default(False))
-      tags: youtubedlmaterial
 
     - import_tasks: tasks/virtual_desktop.yml
       when: (virtual_desktop_enabled | default(False))

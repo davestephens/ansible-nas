@@ -1,8 +1,9 @@
 ---
-- name: YouTubeDL-Material Directory
+- name: Create Youtubedlmaterial Directories
   file:
     path: "{{ item }}"
     state: directory
+    # mode: 0755
   with_items:
     - "{{ youtubedlmaterial_data_directory }}/appdata"
     - "{{ youtubedlmaterial_data_directory }}/audio"
@@ -12,7 +13,7 @@
     - "{{ youtubedlmaterial_dl_video_directory }}"
     - "{{ youtubedlmaterial_dl_subscriptions_directory }}"
 
-- name: YouTubeDL-Material Docker Container
+- name: youtubedlmaterial Docker Container
   docker_container:
     name: youtubedlmaterial
     image: tzahi12345/youtubedl-material:latest
@@ -22,16 +23,17 @@
       - "{{ youtubedlmaterial_dl_audio_directory }}:/app/audio:rw"
       - "{{ youtubedlmaterial_dl_video_directory }}:/app/video:rw"
       - "{{ youtubedlmaterial_dl_subscriptions_directory }}:/app/subscriptions:rw"
+    network_mode: "bridge"
     ports:
       - "{{ youtubedlmaterial_port_http }}:17442"
     env:
       ALLOW_CONFIG_MUTATIONS: "true"
       TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: always
-    memory: 1g
+    restart_policy: unless-stopped
+    memory: "{{ youtubedlmaterial_memory }}"
     labels:
       traefik.enable: "{{ youtubedlmaterial_available_externally }}"
-      traefik.http.routers.youtubedlmaterial.rule: "Host(`youtubedlmaterial.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.youtubedlmaterial.rule: "Host(`{{ youtubedlmaterial_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.youtubedlmaterial.tls.certresolver: "letsencrypt"
       traefik.http.routers.youtubedlmaterial.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.youtubedlmaterial.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
