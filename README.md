@@ -6,31 +6,11 @@ After getting burned by broken FreeNAS updates one too many times, I figured I
 could do a much better job myself using just a stock Ubuntu install, some clever
 Ansible config and a bunch of Docker containers.
 
-## What Ansible-NAS Can Set Up
+## What Ansible-NAS Does
 
-* An awesome dashboard to your home server (Heimdall)
-* Any number of Samba shares or NFS exports for you to store your stuff
-* A BitTorrent client
-* A Usenet downloader
-* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, Lidarr
-* Media streaming via Plex or Emby
-* Music streaming with Airsonic
-* Audiobook streaming with Booksonic
-* An RSS newsfeed reader - Miniflux
-* A Dropbox replacement via Nextcloud
-* Various ways to see stats about your NAS - Glances, dashboards in Grafana
-* A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
-* An IRC bouncer and web-based client
-* Source control with Gitea
-* SSL secured external access to applications via Traefik
-* A Docker host with Portainer for image and container management
-* An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
-* A Personal finance manager
-* eBook management with Calibre-web
-* Content management with Joomla
-* A dual panel local file manager
-* Self-service media request web application
-* A PXE server to boot OS images over the network
+You can configure Ansible-NAS to set up any (or all!) of the applications listed below on your home server.
+
+If you have a spare domain name you can configure applications to be accessible externally to your home LAN too; they'll be configured with a sensible hostname and DNS gets updated accordingly if your home IP address changes.
 
 ### Available Applications
 
@@ -175,4 +155,6 @@ If you've enjoyed Ansible-NAS as much as I do working on it, please consider [bu
 
 ## Thanks
 
-Thanks to the awesome dudes at [JetBrains](https://www.jetbrains.com/?from=Ansible-NAS) for supplying core contributors with JetBrains Open Source licenses!
+The awesome dudes at [JetBrains](https://www.jetbrains.com/?from=Ansible-NAS) for supplying core contributors with JetBrains Open Source licenses!
+
+All of the awesome contributors to Ansible-NAS: ![All of the awesome contributors to Ansible-NAS](https://contrib.rocks/image?repo=davestephens/ansible-nas)
