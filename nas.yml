@@ -148,20 +148,10 @@
         - homeassistant
       when: (homeassistant_enabled | default(False))
 
-    - role: homebridge
+    - role: jellyfin
       tags:
-        - homebridge
-      when: (homebridge_enabled | default(False))
-
-    - role: jackett
-      tags:
-        - jackett
-      when: (jackett_enabled | default(False))
-
-    - role: komga
-      tags:
-        - komga
-      when: (komga_enabled | default(False))
+        - jellyfin
+      when: (jellyfin_enabled | default(False))
 
     - role: lidarr
       tags:
@@ -365,10 +355,6 @@
     - import_tasks: tasks/openhab.yml
       when: (openhab_enabled | default(False))
       tags: openhab
-
-    - import_tasks: tasks/jellyfin.yml
-      when: (jellyfin_enabled | default(False))
-      tags: jellyfin
 
     - import_tasks: tasks/krusader.yml
       when: (krusader_enabled | default(False))
