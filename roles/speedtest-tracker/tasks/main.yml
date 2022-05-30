@@ -1,4 +1,3 @@
-
 ---
 - name: Speedtest-Tracker Directory
   file:
@@ -15,14 +14,16 @@
     volumes:
       - "{{ speedtest_data_directory }}/config:/config:rw"
     ports:
-      - "{{ speedtest_port_http }}:80"
+      - "{{ speedtest_tracker_port }}:80"
     env:
       OOKLA_EULA_GDPR: "true"
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
+    memory: "1g"
     labels:
-      traefik.backend: "speedtest"
-      traefik.frontend.rule: "Host:speedtest.{{ ansible_nas_domain }}"
-      traefik.enable: "{{ speedtest_available_externally }}"
-      traefik.port: "80"
-    memory: 1g
+      traefik.enable: "{{ speedtest_tracker_available_externally }}"
+      traefik.http.routers.speedtest_tracker.rule: "Host(`{{ speedtest_tracker_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.speedtest_tracker.tls.certresolver: "letsencrypt"
+      traefik.http.routers.speedtest_tracker.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.speedtest_tracker.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.speedtest_tracker.loadbalancer.server.port: "80"
