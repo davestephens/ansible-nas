@@ -2,6 +2,10 @@
 
 By default, applications can be found on the ports listed below.
 
+# Application Ports
+
+By default, applications can be found on the ports listed below.
+
 | Application     | Port    | Mode    | Notes          |
 |-----------------|---------|---------|----------------|
 | Airsonic        | 4040    | Bridge  | HTTP           |
@@ -76,6 +80,7 @@ By default, applications can be found on the ports listed below.
 | Sabnzbd         | 18080   | Bridge  | HTTP           |
 | Sickchill       | 8081    | Bridge  | HTTP           |
 | Sonarr          | 8989    | Bridge  | HTTP           |
+| Speedtest-Trk   | 8765    | HTTP    |                |
 | Syncthing admin | 8384    | Host    | HTTP           |
 | Syncthing P2P   | 22000   | Host    |                |
 | Tautulli        | 8185    | Bridge  | HTTP           |
