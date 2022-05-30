@@ -241,7 +241,6 @@ joomla_database_password: top_secret
 joomla_port: "8181"
 
 ###
-###
 ### OpenVPN
 ###
 openvpn_config_directory: "{{ docker_home }}/openvpn"

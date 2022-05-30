@@ -74,6 +74,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Serposcope](https://serposcope.serphacker.com/en/) - tracker to monitor website ranking
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
+* [Speedtest-Tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) - Continuously track your internet speed
 * [Syncthing](https://syncthing.net/) - sync directories with another device
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
