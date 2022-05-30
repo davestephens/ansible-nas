@@ -291,7 +291,7 @@
     - role: speedtest-tracker
       tags:
         - speedtest-tracker
-      when: (speedtest-tracker_enabled | default(False))
+      when: (speedtest_tracker_enabled | default(False))
 
     - role: syncthing
       tags:
