@@ -1,0 +1,20 @@
+---
+- name: Create Minecraft Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ minecraft_data_directory }}"
+
+- name: Minecraft Docker Container
+  docker_container:
+    name: minecraft
+    image: itzg/minecraft-server:latest
+    pull: true
+    volumes:
+      - "{{ minecraft_data_directory }}:/data:rw"
+    ports:
+      - "{{ minecraft_port }}:25565"
+    env:
+      EULA: "TRUE"
+    restart_policy: unless-stopped

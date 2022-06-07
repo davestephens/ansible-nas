@@ -168,6 +168,11 @@
         - mealie
       when: (mealie_enabled | default(False))
 
+    - role: minecraft
+      tags:
+        - minecraft
+      when: (minecraft_enabled | default(False))
+
     - role: minidlna
       tags:
         - minidlna
