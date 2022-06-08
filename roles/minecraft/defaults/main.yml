@@ -1,9 +1,0 @@
----
-minecraft_enabled: false
-
-# directories
-minecraft_data_directory: "{{ docker_home }}/minecraft"
-
-# network
-minecraft_port: "25565"
-

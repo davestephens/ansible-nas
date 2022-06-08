@@ -1,12 +1,12 @@
 # Minecraft Server
 
-Homepage: [https://www.minecraft.net](https://www.minecraft.net)
+Homepage: [https://www.minecraft.net/](https://www.minecraft.net/)
 
 The server version of the game Minecraft, running in a container. "Prepare for an adventure of limitless possibilities as you build, mine, battle mobs, and explore the ever-changing Minecraft landscape."
 
 ## Usage
 
-Set `minecraft_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `minecraft_server_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 The Ansible NAS host or ip address should then be usable as a server within the Minecraft multiplayer game menu.
 
