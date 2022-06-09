@@ -1,0 +1,35 @@
+---
+- name: Create Snapcast User
+  user:
+    name: snapcast
+    group: ansible-nas
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    shell: /usr/sbin/nologin
+    uid: 666
+
+- name: SnapCast Docker
+  docker_container:
+    name: snapcast
+    image: strm/snapcast
+    pull: true
+    volumes:
+      - "{{ snapcast_output_dir }}:/output"
+    restart_policy: unless-stopped
+    ports:
+      - "1704:1704"
+    memory: "{{ snapcast_memory }}"
+
+- name: Mopidy Docker
+  docker_container:
+    name: mopidy
+    image: strm/mopidy
+    pull: true
+    volumes:
+     - "{{mopidy_music_dir}}:/music"
+     - "{{snapcast_output_dir}}:/output"
+    ports:
+     - "6600:6600"
+     - "6680:6680"

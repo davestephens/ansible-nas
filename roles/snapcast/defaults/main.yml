@@ -1,0 +1,4 @@
+---
+snapcast_output_dir: "/tmp/audio-output"
+mopidy_music_dir: "{{main_storage}}/music"
+snapcast_memory: "1g"
