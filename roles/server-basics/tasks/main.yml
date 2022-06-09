@@ -99,6 +99,17 @@
   when: crypttab.changed
   with_items: "{{ crypt_disks }}"
 
+- name: Mount Points
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ ansible_nas_user }}"
+    group: "{{ ansible_nas_user }}"
+    mode: "0770"
+    recurse: false
+  with_items: "{{ mounts }}"
+
+
 - name: Mounts
   ansible.posix.mount:
     path: "{{ item.path }}"
