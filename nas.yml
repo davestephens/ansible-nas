@@ -29,8 +29,6 @@
 - hosts: hassbox
   become: true
   roles:
-    - role: libvirt
-    - role: hassvm
 
 
 - hosts: nas
