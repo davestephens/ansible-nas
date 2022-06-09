@@ -1,0 +1,16 @@
+key_files:
+  - bulk.keyfile
+
+crypt_disks:
+  - { name: bulk, key: /bulk.keyfile, backing_device: "UUID=8a50ff2a-5741-499d-ba75-63f2f24415e9" }
+  - { name: nvme0, key: /bulk.keyfile, backing_device: "UUID=a5d79673-cdd4-4174-b231-0be19774c3f7" }
+  - { name: nvme1, key: /bulk.keyfile, backing_device: "UUID=0d2831e6-70b6-4a93-ab5a-5b04d84f6f91" }
+
+mounts:
+  - {path: "/mnt/pool0/sata0", src: /dev/mapper/bulk, fstype: ext4}
+  - {path: "/mnt/pool0/nvme0", src: /dev/mapper/nvme0, fstype: ext4}
+  - {path: "/mnt/pool0/nvme1", src: /dev/mapper/nvme1, fstype: ext4}
+
+
+mergerfs_pools:
+  - { src: "/mnt/pool0/*", name: "/media/pool0", opts: "category.create=mspmfs,direct_io,defaults,allow_other,moveonenospc=1,minfreespace=50G,fsname=mergerfs,uid={{ guid }},gid={{ guid }}" }
