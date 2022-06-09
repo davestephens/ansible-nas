@@ -16,16 +16,15 @@ timezone: "{{ ansible_nas_timezone }}"
 ## Enable some applications
 heimdall_enabled: true
 portainer_enabled: true
+portainer_available_externally: "true"
 glances_enabled: true
 
 guid: "3939"
 
-
 ### config params
-main_storage: /media/bulk
-backup_storage: /media/backup
-fast_storage: /media/fast
-throwaway_storage: /media/throwaway
+main_storage: /media/pool0
+backup_storage: /media/pool0/backup
+fast_storage: /mnt/pool0/nvme0/fast
 
 samba_shares_root: "{{ main_storage }}"
 
@@ -38,19 +37,6 @@ default_user: ngmstr
 
 ansible_nas_user: ansible-nas
 
-key_files:
-  - bulk.keyfile
-
-crypt_disks:
-  - { name: bulk, key: /bulk.keyfile }
-
-mounts:
-  - {path: "{{ main_storage }}", fstype: ext4, src: /dev/mapper/bulk}
-  - {path: "{{ backup_storage }}", src: /dev/md127p1, fstype: ext4}
-  - {path: "{{ throwaway_storage }}", src: /dev/disk/by-partuuid/356c11b5-3e8e-42c9-ab21-de8fab25de72, fstype: ext4}
-
-
-
 samba_shares:
   - name: main
     comment: 'Main SSD storage'
@@ -59,36 +45,6 @@ samba_shares:
     writable: yes
     browseable: yes
     path: "{{ main_storage }}"
-    owner: ansible-nas
-    group: ansible-nas
-
-  - name: fast
-    comment: 'Fast NVMe storage'
-    guest_ok: yes
-    public: no
-    writable: yes
-    browseable: yes
-    path: "{{ fast_storage }}"
-    owner: ansible-nas
-    group: ansible-nas
-
-  - name: backup
-    comment: 'Storage for backups'
-    guest_ok: no
-    public: yes
-    writable: yes
-    browseable: yes
-    path: "{{ backup_storage }}"
-    owner: ansible-nas
-    group: backup
-
-  - name: throwaway
-    comment: 'Unreliable storage for ???'
-    guest_ok: no
-    public: yes
-    writable: yes
-    browseable: yes
-    path: "{{ throwaway_storage }}"
     owner: ansible-nas
     group: ansible-nas
 
@@ -101,6 +57,7 @@ ansible_nas_extra_packages:
     - net-tools
     - lm-sensors
     - smartmontools
+    - cron
 
 
 ### apps:
@@ -122,7 +79,9 @@ piwigo_enabled: true
 piwigo_available_externally: "true"
 piwigo_user_id: "3939"
 piwigo_group_id: "3939"
+photoprism_enabled: true
 photoprism_hostname: "photoprism.{{ external_domain }}"
+photoprism_password: photoprism
 
 photoprism_available_externally: "true"
 mysql_db: "photoprism"

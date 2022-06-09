@@ -11,8 +11,8 @@
       - apparmor:unconfined
     state: 'started'
     shm_size: 2G
-    links:
-      - photoprism-mariadb:photoprism-mariadb
+#    links:
+#      - photoprism-mariadb:photoprism-mariadb
     env:
       "PUID": "{{ guid }}"
       "PGID": "{{ guid }}"

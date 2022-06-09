@@ -5,7 +5,7 @@
     dest: /etc/motd
 
 - name: Enable Universe repository
-  raw: apt-add-repository universe
+  raw: apt-add-repository universe -y
   register: add_repo_result
   changed_when: "'distribution component enabled for all sources' in add_repo_result.stdout"
   until: add_repo_result.rc == 0

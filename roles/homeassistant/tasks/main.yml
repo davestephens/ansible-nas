@@ -13,6 +13,8 @@
     pull: true
     volumes:
       - "{{ homeassistant_data_directory }}/config:/config:rw"
+    devices:
+      - /dev/ttyACM0
     network_mode: host
     restart_policy: unless-stopped
     env:
@@ -25,3 +27,18 @@
       traefik.http.routers.homeassistant.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.homeassistant.loadbalancer.server.port: "8123"
     memory: "{{ homeassistant_memory }}"
+
+- name: ESPHome Docker Container
+  docker_container:
+    name: esphome
+    image: esphome/esphome
+    pull: true
+    volumes:
+      - "{{ homeassistant_data_directory }}/esphome:/config:rw"
+      - "/dev/serial:/dev/serial"
+    network_mode: host
+    restart_policy: unless-stopped
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+    memory: "{{ homeassistant_memory }}"
+

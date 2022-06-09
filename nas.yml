@@ -43,10 +43,10 @@
     ### Requirements
     ###
 
-    - role: bertvv.samba
-      tags:
-        - samba
-        - skip_ansible_lint
+#    - role: bertvv.samba
+#     tags:
+#        - samba
+#        - skip_ansible_lint
 
     - role: geerlingguy.nfs
       tags:
@@ -71,13 +71,19 @@
     ###
     ### Applications
     ###
+    - role: sftp
+      tags:  
+        - sftp 
 
+    - role: snapcast
+      tags:
+        - snapcast
     - role: traefik-oauth
       tags:
         - traefik-forward-auth
-    - role: authelia
-      tags:
-        - authelia
+#    - role: authelia
+#      tags:
+#        - authelia
 
     - role: photoprism
       tags:

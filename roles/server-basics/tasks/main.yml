@@ -90,6 +90,7 @@
     name: "{{ item.name }}"
     state: present
     password: "{{ item.key }}"
+    backing_device: "{{ item.backing_device }}"
   with_items: "{{ crypt_disks }}"
   register: crypttab
  
@@ -107,3 +108,18 @@
     passno: 2
   with_items: "{{ mounts }}"
 
+- name: Install mergerfs
+  apt:
+    name: mergerfs
+    state: present
+    update_cache: yes
+
+- name: mergerfs
+  ansible.posix.mount:
+    name: "{{ item.name }}"
+    src: "{{ item.src }}"
+    opts: "{{ item.opts }}"
+    fstype: fuse.mergerfs
+    state: mounted
+  when: mergerfs_pools[0] is defined
+  with_items: "{{ mergerfs_pools }}"
