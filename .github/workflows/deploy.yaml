@@ -22,5 +22,5 @@ jobs:
         requirements: requirements.yml
         options: |
           -e @secrets.enc
-          -e @inventories/meeks/group_vars/nas.yml
+          -e @inventories/home/group_vars/nas.yml
           -e ansible_become_pass=${{secrets.BECOME_PASSWORD}}
