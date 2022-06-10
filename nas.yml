@@ -69,6 +69,10 @@
     ###
     ### Applications
     ###
+
+    - role: network/wireguard
+      tags:
+        - wireguard
     - role: sftp
       tags:  
         - sftp 
