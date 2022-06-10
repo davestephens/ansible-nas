@@ -122,3 +122,15 @@ nextcloud_port: "8080"
 nextcloud_hostname: "nextcloud"
 
 torrents_root: "{{ main_storage }}/torrents"
+
+
+cloudcmd_enabled: true
+cloudcmd_available_externally: "true"
+
+# directories
+cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
+cloudcmd_browse_directory: "{{ main_storage }}"
+
+# uid / gid
+cloudcmd_user_id: "3939"
+cloudcmd_group_id: "3939"

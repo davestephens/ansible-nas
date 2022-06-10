@@ -29,3 +29,4 @@
       traefik.http.routers.cloudcmd.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.cloudcmd.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.cloudcmd.loadbalancer.server.port: "8000"
+      traefik.http.routers.cloudcmd.middlewares: "traefik-forward-auth"
