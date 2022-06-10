@@ -26,3 +26,4 @@
       traefik.http.routers.portainer.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.portainer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.portainer.loadbalancer.server.port: "9000"
+      traefik.http.routers.portainer.middlewares: "traefik-forward-auth"
