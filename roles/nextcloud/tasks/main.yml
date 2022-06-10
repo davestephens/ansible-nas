@@ -31,6 +31,7 @@
       - nextcloud-mysql:mysql
     volumes:
       - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
+      - "{{ main_storage }}:/host
     ports:
       - "{{ nextcloud_port }}:80"
     env:
