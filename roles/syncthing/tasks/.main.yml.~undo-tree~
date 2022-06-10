@@ -1,0 +1,32 @@
+(undo-tree-save-format-version . 1)
+"33dfe81475015bf686682735eb4d024e61041004"
+[nil nil nil nil (25250 21606 437503 379000) 0 nil]
+([nil nil ((298 . 303) (t 25074 61312 825964 310000)) nil (25250 21606 437497 281000) 0 nil])
+([nil nil ((303 . 392)) nil (25250 21606 437490 487000) 0 nil])
+([nil nil ((298 . 303)) nil (25250 21606 437486 91000) 0 nil])
+([nil nil ((303 . 309)) nil (25250 21606 437480 598000) 0 nil])
+([nil nil ((" " . -315) (undo-tree-id2 . -1) (" " . -316) (undo-tree-id3 . -1) (" " . -317) (undo-tree-id4 . -1) (" " . -318) (undo-tree-id5 . -1) (" " . -319) (undo-tree-id6 . -1) 320) nil (25250 21606 437470 419000) 0 nil])
+([nil nil ((315 . 316)) nil (25250 21606 437450 33000) 0 nil])
+([nil nil (("network_mode: host" . 280) (undo-tree-id1 . -18)) nil (25250 21606 437442 306000) 0 nil])
+([nil nil (("    
+" . 276) (undo-tree-id0 . -5)) nil (25250 21763 474170 991000) 0 nil])
+([nil nil ((728 . 735) (t 25250 21606 456036 780000)) nil (25250 21773 541552 472000) 0 nil] [nil nil (("      traefik.http.routers.syncthing.rule: \"Host(`{{ syncthing_hostname }}.{{ ansible_nas_domain }}`)\"
+" . 626) (undo-tree-id7 . -103) (undo-tree-id8 . -103) (undo-tree-id9 . -103) 729 (t 25250 21606 456036 780000)) ((626 . 729)) (25250 21763 473873 104000) 0 nil])
+([nil nil ((735 . 838)) nil (25250 21773 541546 989000) 0 nil])
+nil
+([nil nil (("
+" . -837) (undo-tree-id18 . -1) 838) nil (25250 21773 541540 944000) 0 nil])
+([nil nil ((" " . -735) (undo-tree-id12 . -1) (" " . -736) (undo-tree-id13 . -1) (" " . -737) (undo-tree-id14 . -1) (" " . -738) (undo-tree-id15 . -1) (" " . -739) (undo-tree-id16 . -1) (" " . -740) (undo-tree-id17 . -1) 741) nil (25250 21773 541529 719000) 0 nil])
+([nil nil (("rule" . -766) (undo-tree-id11 . -4) 770) nil (25250 21773 541509 844000) 0 nil])
+([nil nil ((766 . 773)) nil (25250 21773 541502 105000) 0 nil])
+([nil nil (("\"Host(`{{ syncthing_hostname }}.{{ ansible_nas_domain }}`)\"" . 775) (undo-tree-id10 . -59)) nil (25250 21773 541496 54000) 0 nil])
+([nil nil ((775 . 783)) nil (25250 21773 541479 224000) 0 nil])
+([nil nil ((783 . 784)) nil (25250 21773 541469 368000) 0 nil])
+([nil nil ((728 . 735) (t 25250 21773 556209 171000)) nil (25250 21800 968503 87000) 0 nil])
+([nil nil ((735 . 780)) nil (25250 21800 968495 751000) 0 nil])
+([nil nil ((780 . 790)) nil (25250 21800 968489 932000) 0 nil])
+([nil nil (("x" . -788) (undo-tree-id19 . -1) ("-" . -789) (undo-tree-id20 . -1) 790) nil (25250 21800 968481 360000) 0 nil])
+([nil nil ((788 . 802)) nil (25250 21800 968456 629000) 0 nil])
+([nil nil (("transmission" . -756) (undo-tree-id21 . -12) 768 (t 25250 21800 982904 174000)) nil (25250 21928 4111 566000) 0 nil])
+([nil current ((756 . 765)) nil (25250 21928 4088 28000) 0 nil])
+nil
