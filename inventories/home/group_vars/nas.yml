@@ -75,10 +75,11 @@ cloudflare_ddns_enabled: true
 
 heimdall_available_externally: "true"
 
-piwigo_enabled: false
+piwigo_enabled: true
 piwigo_available_externally: "true"
 piwigo_user_id: "3939"
 piwigo_group_id: "3939"
+piwigo_photos: "{{ main_storage }}/piwigo"
 photoprism_enabled: true
 photoprism_hostname: "photoprism"
 photoprism_password: photoprism

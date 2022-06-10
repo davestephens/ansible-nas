@@ -1,0 +1,116 @@
+(undo-tree-save-format-version . 1)
+"3a938bd1e7a7b22320e88fe68b2d5067d7f7383f"
+[nil nil nil nil (25250 11487 443285 570000) 0 nil]
+([nil nil (("- name: fast
+    comment: 'Fast NVMe storage'
+    guest_ok: yes
+    public: no
+    writable: yes
+    browseable: yes
+    path: \"{{ fast_storage }}\"
+    owner: ansible-nas
+    group: ansible-nas
+
+  - name: backup
+    comment: 'Storage for backups'
+    guest_ok: no
+    public: yes
+    writable: yes
+    browseable: yes
+    path: \"{{ backup_storage }}\"
+    owner: ansible-nas
+    group: backup
+
+  - name: throwaway
+    comment: 'Unreliable storage for ???'
+    guest_ok: no
+    public: yes
+    writable: yes
+    browseable: yes
+    path: \"{{ throwaway_storage }}\"
+    owner: ansible-nas
+    group: ansible-nas
+" . -1448) (undo-tree-id27 . -608) (undo-tree-id28 . -608) 2056 (t 25249 53308 549278 480000)) nil (25250 11530 374502 248000) 0 nil] [nil nil (("backups" . -1686) (undo-tree-id4 . -7) 1693 (t 25249 53308 549278 480000)) ((1686 . 1693)) (25250 11487 250920 206000) 0 nil])
+([nil nil (("
+" . -1445) (undo-tree-id18 . -1) (undo-tree-id19 . -1) (undo-tree-id20 . -1) (" " . -1446) (undo-tree-id21 . -1) (undo-tree-id22 . -1) (undo-tree-id23 . -1) (" " . -1447) (undo-tree-id24 . -1) (undo-tree-id25 . -1) (undo-tree-id26 . -1) 1448) nil (25250 11530 374488 725000) 0 nil])
+([nil nil (("for " . -1682) (undo-tree-id3 . -4) 1686) ((1682 . 1686)) (25250 11486 585850 226000) 0 nil])
+([nil nil (("b" . -925) (undo-tree-id14 . -1) ("u" . -926) (undo-tree-id15 . -1) ("l" . -927) (undo-tree-id16 . -1) ("k" . -928) (undo-tree-id17 . -1) 929) nil (25250 11530 374461 329000) 0 nil])
+([nil nil (("Storage " . -1674) (undo-tree-id2 . -8) 1682) ((1674 . 1682)) (25250 11486 381495 124000) 0 nil])
+([nil nil ((925 . 930)) nil (25250 11530 374444 573000) 0 nil])
+([nil nil ((1674 . 1676)) (("=A" . 1674) (undo-tree-id5 . -2)) (25250 11485 968296 948000) 0 nil])
+([nil nil (("backup" . -954) (undo-tree-id13 . -6) 960) nil (25250 11530 374438 528000) 0 nil])
+([nil nil (("=" . -1674) (undo-tree-id0 . -1) ("A" . -1675) (undo-tree-id1 . -1) 1676) ((1674 . 1676)) (25250 11485 738279 521000) 0 nil])
+([nil nil ((954 . 965)) nil (25250 11530 374430 476000) 0 nil])
+([nil nil ((1674 . 1686)) (("SATA storage" . 1674)) (25250 11485 738161 837000) 0 nil])
+([nil nil ((965 . 967)) nil (25250 11530 374424 908000) 0 nil])
+nil
+([nil nil (("s" . -966) (undo-tree-id12 . -1) 967) nil (25250 11530 374419 738000) 0 nil])
+([nil nil (("fast" . -988) (undo-tree-id11 . -4) 992) nil (25250 11530 374411 976000) 0 nil])
+([nil nil ((988 . 991)) nil (25250 11530 374403 405000) 0 nil])
+([nil nil (("/" . -988) (undo-tree-id8 . -1) ("p" . -989) (undo-tree-id9 . -1) ("o" . -990) (undo-tree-id10 . -1) 991) nil (25250 11530 374396 469000) 0 nil])
+([nil nil ((988 . 998)) nil (25250 11530 374383 870000) 0 nil])
+([nil nil (("throwaway_storage: /media/throwaway
+" . 999) (undo-tree-id7 . -36)) nil (25250 11530 374377 508000) 0 nil])
+([nil nil (("
+" . 999) (undo-tree-id6 . -1)) nil (25250 11530 374368 213000) 0 nil])
+([nil nil ((999 . 1000)) nil (25250 11530 374348 50000) 0 nil])
+([nil nil (("m" . -982) (undo-tree-id29 . -1) ("e" . -983) (undo-tree-id30 . -1) ("d" . -984) (undo-tree-id31 . -1) ("i" . -985) (undo-tree-id32 . -1) ("a" . -986) (undo-tree-id33 . -1) 987 (t 25250 11530 389723 591000)) nil (25250 13869 920236 586000) 0 nil])
+([nil nil ((982 . 985)) nil (25250 13869 920208 421000) 0 nil])
+([nil nil ((991 . 997)) nil (25250 13869 920197 417000) 0 nil])
+([nil nil ((1216 . 1217) (t 25250 13869 931696 794000)) nil (25250 14266 694087 580000) 0 nil])
+([nil nil ((1217 . 1272)) nil (25250 14283 880367 849000) 0 nil] [nil nil ((1217 . 1224)) (("storage" . 1217) (undo-tree-id34 . -7)) (25250 14266 694001 905000) 0 nil])
+([nil nil (("devicemapper" . -1259) (undo-tree-id37 . -12) 1271) nil (25250 14283 880361 743000) 0 nil])
+nil
+([nil nil ((1259 . 1263)) nil (25250 14283 880354 400000) 0 nil])
+([nil nil (("l" . -1261) (undo-tree-id35 . -1) ("e" . -1262) (undo-tree-id36 . -1) 1263) nil (25250 14283 880346 579000) 0 nil])
+([nil nil ((1261 . 1273)) nil (25250 14283 880320 587000) 0 nil])
+([nil nil (("overlayfs" . -1264) (undo-tree-id39 . -9) 1273 (t 25250 14283 896171 933000)) nil (25250 14834 567919 235000) 0 nil])
+([nil nil (("fuse-" . -1259) (undo-tree-id38 . -5) 1264) nil (25250 14834 567908 335000) 0 nil])
+([nil nil ((1259 . 1262)) nil (25250 14834 567886 37000) 0 nil])
+([nil nil (("vfs" . -1259) (undo-tree-id41 . -3) 1262 (t 25250 14834 583035 695000)) nil (25250 15241 460678 913000) 0 nil])
+([nil nil ((1259 . 1261)) nil (25250 15245 968455 321000) 0 nil] [nil nil ((1259 . 1267)) (("overlay4" . 1259) (undo-tree-id44 . -7) (undo-tree-id45 . -7) (undo-tree-id46 . -8)) (25250 15241 159635 22000) 0 nil])
+([nil nil (("e" . -1259) (undo-tree-id47 . -1) ("v" . -1260) (undo-tree-id48 . -1) 1261) nil (25250 15245 968445 612000) 0 nil])
+([nil nil (("4" . -1266) (undo-tree-id40 . -1) 1267) ((1266 . 1267)) (25250 15240 691993 292000) 0 nil])
+([nil nil ((1259 . 1267)) nil (25250 15245 968423 222000) 0 nil])
+([nil nil ((1266 . 1267)) (("2" . 1266) (undo-tree-id42 . -1) (undo-tree-id43 . -1)) (25250 15240 691881 281000) 0 nil])
+([nil nil (("docker_daemon_options:
+" . 1217) (undo-tree-id53 . -23) (t 25250 15245 982834 148000)) nil (25250 16158 266436 325000) 0 nil])
+nil
+([nil nil (("  storage-driver: \"overlay2\"
+" . 1217) (undo-tree-id50 . -19) (undo-tree-id51 . -19) (undo-tree-id52 . -29)) nil (25250 16158 266425 593000) 0 nil])
+([nil nil (("
+" . 1217) (undo-tree-id49 . -1)) nil (25250 16158 266408 692000) 0 nil])
+([nil nil ((884 . 901) (t 25250 16158 277767 5000)) nil (25250 16572 477401 822000) 0 nil])
+([nil nil (("!" . -899) (undo-tree-id59 . -1) ("/" . -900) (undo-tree-id60 . -1) 901) nil (25250 16572 477394 473000) 0 nil])
+([nil nil ((900 . 904) (899 . 901) ("\"" . -899) (899 . 900)) nil (25250 16572 477383 275000) 0 nil])
+([nil nil ((904 . 905)) nil (25250 16572 477375 999000) 0 nil])
+([nil nil (("medi" . -901) (undo-tree-id58 . -4) 905) nil (25250 16572 477369 860000) 0 nil])
+([nil nil (("/" . -900) (undo-tree-id57 . -1) 901) nil (25250 16572 477361 224000) 0 nil])
+([nil nil ((901 . 903) (900 . 902)) nil (25250 16572 477352 736000) 0 nil])
+([nil nil (("piwigo_photos: \"{{}}\"
+" . 884) (undo-tree-id55 . -22) (undo-tree-id56 . -22)) nil (25250 16572 477345 580000) 0 nil])
+([nil nil ((1002 . 1024)) nil (25250 16572 477336 221000) 0 nil])
+([nil nil ((1020 . 1033)) nil (25250 16572 477331 54000) 0 nil])
+([nil nil ((1033 . 1034)) nil (25250 16572 477325 803000) 0 nil])
+([nil nil ((1036 . 1037)) nil (25250 16572 477319 906000) 0 nil])
+([nil nil (("." . -1036) (undo-tree-id54 . -1) 1037) nil (25250 16572 477312 897000) 0 nil])
+([nil nil ((1036 . 1041)) nil (25250 16572 477294 633000) 0 nil])
+([nil nil ((1041 . 1043)) nil (25250 16572 477283 991000) 0 nil])
+([nil nil ((1043 . 1044) (t 25250 16572 490274 184000)) nil (25250 16941 978574 219000) 0 nil])
+([nil nil (("piwigo_photos: \"{{ main_storage }}/photos/\"
+" . 1002) (undo-tree-id61 . -44)) nil (25250 16941 978559 828000) 0 nil])
+([nil nil ((2023 . 2024) (t 25250 16941 996365 435000)) nil (25250 17265 914607 152000) 0 nil])
+([nil nil ((2024 . 2045)) nil (25250 17265 914598 647000) 0 nil])
+([nil nil ((2045 . 2048)) nil (25250 17265 914587 237000) 0 nil])
+([nil nil ((2105 . 2106) (t 25250 17265 929667 93000)) nil (25250 17576 195273 686000) 0 nil])
+([nil nil ((2105 . 2107)) nil (25250 17576 195265 726000) 0 nil])
+([nil nil (("u" . -2105) (undo-tree-id62 . -1) (undo-tree-id63 . -1) (undo-tree-id64 . -1) (undo-tree-id65 . -1) (undo-tree-id66 . -1) (undo-tree-id67 . -1) ("o" . -2106) (undo-tree-id68 . -1) (undo-tree-id69 . -1) (undo-tree-id70 . -1) (undo-tree-id71 . -1) (undo-tree-id72 . -1) (undo-tree-id73 . -1) 2107) nil (25250 17576 195251 777000) 0 nil])
+([nil nil ((2105 . 2126)) nil (25250 17576 195205 960000) 0 nil])
+([nil nil ((2126 . 2136)) nil (25250 17576 195191 865000) 0 nil])
+([nil nil (("true" . -1936) (undo-tree-id74 . -4) 1940 (t 25250 17576 213184 34000)) nil (25250 18541 119909 622000) 0 nil])
+([nil nil ((1936 . 1941)) nil (25250 18541 119885 418000) 0 nil])
+([nil nil (("domain }}" . -2095) (undo-tree-id77 . -9) (undo-tree-id78 . 1) (undo-tree-id79 . -9) 2104 (t 25250 18541 133781 924000)) nil (25250 18634 164316 518000) 0 nil])
+([nil nil (("external_" . -2086) (undo-tree-id76 . -9) 2095) nil (25250 18634 164300 175000) 0 nil])
+([nil nil (("photoprism.{{ " . -2072) (undo-tree-id75 . -14) 2086) nil (25250 18634 164286 639000) 0 nil])
+([nil current ((2072 . 2082)) nil (25250 18634 164260 449000) 0 nil])
+nil
