@@ -70,9 +70,9 @@
     ### Applications
     ###
 
-    - role: wireguard
-      tags:
-        - wireguard
+#    - role:/wireguard
+#      tags:
+#        - wireguard
     - role: sftp
       tags:  
         - sftp 
