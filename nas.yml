@@ -77,9 +77,9 @@
       tags:  
         - sftp 
 
-    - role: snapcast
-      tags:
-        - snapcast
+#    - role: snapcast
+#      tags:
+#        - snapcast
     - role: traefik-oauth
       tags:
         - traefik-forward-auth
