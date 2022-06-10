@@ -25,7 +25,7 @@
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
-    image: nextcloud:14
+    image: nextcloud:24.0.1
     pull: true
     links:
       - nextcloud-mysql:mysql
