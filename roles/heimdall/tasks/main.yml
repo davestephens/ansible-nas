@@ -47,4 +47,4 @@
       traefik.http.routers.heimdall.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.heimdall.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.heimdall.loadbalancer.server.port: "80"
-      traefik.http.routers.heimdall.middlewares 	traefik-forward-auth
+      traefik.http.routers.heimdall.middlewares: "traefik-forward-auth"
