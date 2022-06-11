@@ -24,12 +24,13 @@
       "PHOTOPRISM_EXPERIMENTAL": "false"
       "PHOTOPRISM_HTTP_HOST": "0.0.0.0"
       "PHOTOPRISM_HTTP_PORT": "80"
+      "PHOTOPRISM_PUBLIC":"true"
       "PHOTOPRISM_HTTP_COMPRESSION": "gzip"
       "PHOTOPRISM_DISABLE_CHOWN": "false"              
       "PHOTOPRISM_DISABLE_BACKUPS": "true"            
       "PHOTOPRISM_DISABLE_WEBDAV": "true"             
       "PHOTOPRISM_DETECT_NSFW": "true"
-      "PHOTOPRISM_UPLOAD_NSFW": "false"
+      "PHOTOPRISM_UPLOAD_NSFW": "true"
       "PHOTOPRISM_THUMB_FILTER": "lanczos"
       "PHOTOPRISM_THUMB_UNCACHED": "true"
       "PHOTOPRISM_THUMB_SIZE": "2048"
@@ -52,7 +53,10 @@
       traefik.http.routers.photoprism.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.photoprism.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.photoprism.loadbalancer.server.port: "80"
-
+      traefik.http.routers.photoprism.middlewares: "traefik-forward-auth"
+      traefik.http.routers.photoprism.priority: 1
+      traefik.http.routers.photoprism_share.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`) && PathPrefix(ˋ/sˋ)"
+      traefik.http.routers.photoprism_share.priority: 2
 - name: Schedule a library scan at 5 AM every day
   cron:
     name: Scan the PhotoPrism library
