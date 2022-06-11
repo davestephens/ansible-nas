@@ -24,7 +24,7 @@
       "PHOTOPRISM_EXPERIMENTAL": "false"
       "PHOTOPRISM_HTTP_HOST": "0.0.0.0"
       "PHOTOPRISM_HTTP_PORT": "80"
-      "PHOTOPRISM_PUBLIC":"true"
+      "PHOTOPRISM_PUBLIC": "true"
       "PHOTOPRISM_HTTP_COMPRESSION": "gzip"
       "PHOTOPRISM_DISABLE_CHOWN": "false"              
       "PHOTOPRISM_DISABLE_BACKUPS": "true"            
