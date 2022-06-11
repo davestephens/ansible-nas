@@ -54,7 +54,7 @@
       traefik.http.services.photoprism.loadbalancer.server.port: "80"
       traefik.http.routers.photoprism.middlewares: "traefik-forward-auth"
       traefik.http.routers.photoprism.priority: "1"
-      traefik.http.routers.photoprism_share.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`) && PathPrefix(ˋ/sˋ)"
+      traefik.http.routers.photoprism_share.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`) && PathPrefix(`/s/*`)"
       traefik.http.routers.photoprism_share.priority: "2"
 
 - name: Schedule a library scan at 5 AM every day
