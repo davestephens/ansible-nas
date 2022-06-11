@@ -2,7 +2,7 @@
 - name: Make sure the Photoprism container is created and running
   docker_container:
     name: "{{ container_name }}"
-    image: photoprism/photoprism:latest
+    image: photoprism/photoprism:bullseye
     pull: yes
     ports: 
       - "2342:80"
