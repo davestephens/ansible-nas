@@ -20,7 +20,7 @@
       "PHOTOPRISM_UID": "{{ guid }}"
       "TZ": "{{ timezone }}"
       "PHOTOPRISM_ADMIN_PASSWORD": "{{ photoprism_password }}"
-      "PHOTOPRISM_SITE_URL": "http://{{ ansible_default_ipv4.address }}:2342/"
+      "PHOTOPRISM_SITE_URL": "https://{{ photoprism_hostname }}.{{ ansible_nas_domain }}"
       "PHOTOPRISM_EXPERIMENTAL": "false"
       "PHOTOPRISM_HTTP_HOST": "0.0.0.0"
       "PHOTOPRISM_HTTP_PORT": "80"
