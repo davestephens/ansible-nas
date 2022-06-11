@@ -54,7 +54,7 @@
       traefik.http.services.photoprism.loadbalancer.server.port: "80"
       traefik.http.routers.photoprism.middlewares: "traefik-forward-auth"
       traefik.http.routers.photoprism.priority: "1"
-      traefik.http.routers.photoprism_share.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`) && (PathPrefix(`/s/`) ||  PathPrefix(`/static/`))"
+      traefik.http.routers.photoprism_share.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`) && (PathPrefix(`/s/`) ||  PathPrefix(`/static/`) || PathPrefix(`/api/v1/`))"
       traefik.http.routers.photoprism_share.priority: "2"
       traefik.http.routers.photoprism_share.service: "photoprism"
       traefik.http.routers.photoprism_share.middlewares: ""
