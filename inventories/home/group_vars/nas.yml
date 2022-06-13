@@ -115,7 +115,7 @@ nextcloud_enabled: true
 nextcloud_available_externally: "true"
 
 # directories
-nextcloud_data_directory: "{{ main_storage }}"
+nextcloud_data_directory: "/mnt/pool0/nvme0"
 
 # network
 nextcloud_port: "8080"
