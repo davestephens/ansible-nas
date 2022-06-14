@@ -58,7 +58,7 @@ ansible_nas_extra_packages:
     - lm-sensors
     - smartmontools
     - cron
-
+    - tmux
 
 ### apps:
 
