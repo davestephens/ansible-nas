@@ -20,6 +20,7 @@
     restart_policy: unless-stopped
     memory: "{{ syncthing_memory }}"
     env:
+       "HOME": "{{ syncthing_home }}"
        "PGID": "{{ guid }}"
        "PUID": "{{ guid }}"
     labels:
