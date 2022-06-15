@@ -28,6 +28,8 @@ fast_storage: /mnt/pool0/nvme0/fast
 
 samba_shares_root: "{{ main_storage }}"
 
+syncthing_home: "{{ main_storage }}/sync"
+
 docker_home: "{{ fast_storage }}/docker"
 docker_dir: "{{ docker_home }}"
 
