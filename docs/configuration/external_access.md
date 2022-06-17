@@ -34,4 +34,4 @@ How to do this is entirely dependent on your router (and out of scope of these d
 
 ## Enable Specific Applications
 
-Every application has a `<application_name>_available_externally` setting in the Advanced Settings section of `all.yml`. Setting this to `true` will configure Traefik to route `<application>.yourdomain.com` to the application, making it available externally.
+Every application has a `<application_name>_available_externally` setting in its `defaults/main.yml`. Setting this to `true` (by overriding it in your nas.yml) will configure Traefik to route `<application>.yourdomain.com` to the application, making it available externally.
