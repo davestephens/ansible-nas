@@ -23,6 +23,7 @@ By default, applications can be found on the ports listed below.
 | Emby            | 8096    | Bridge  | HTTP           |
 | Emby            | 8096    | Bridge  | HTTP           |
 | Emby            | 8920    | Bridge  | HTTPS          |
+| EspHome         | 6052    | Bridge  | HTTP           |
 | Firefly III     | 8066    | Bridge  | HTTP           |
 | Fresh RSS       | 8089    | Bridge  | HTTP           |
 | get_iplayer     | 8182    | Bridge  | HTTP           |

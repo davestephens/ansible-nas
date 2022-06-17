@@ -108,6 +108,11 @@
         - emby
       when: (emby_enabled | default(False))
 
+    - role: esphome
+      tags:
+        - esphome
+      when: (esphome_enabled | default(False))
+
     - role: firefly
       tags:
         - firefly
