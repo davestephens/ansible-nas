@@ -23,7 +23,7 @@ Simply set `traefik_enabled: true` in your `all.yml`. By default it listens on p
 
 Set `ansible_nas_domain` to the domain name you want to use for your Ansible-NAS. You'll need somewhere to host the DNS for that domain - Cloudflare is a good free solution. Once you have an account and Cloudflare is hosting the DNS for your domain, create a wildcard DNS entry (`*.myawesomedomain.com`) and set it to your current IP address.
 
-You then need to enable the Cloudflare Dynamic DNS container (`cloudflare_ddns_enabled: true`) so the wildcard DNS entry for your
+You then need to enable and configure the Cloudflare Dynamic DNS container (`cloudflare_ddns_enabled: true`) so the wildcard DNS entry for your
 domain name is updated if/when your ISP issues you a new IP address.
 
 ## Router Configuration
