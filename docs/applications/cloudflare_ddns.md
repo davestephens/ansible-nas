@@ -10,6 +10,8 @@ host A record to point to your static IP, or enable this container to automatica
 
 Set `cloudflare_ddns_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
+Set `cloudflare_token` to the one you grab from the Cloudflare UI (more below).
+
 ## Specific Configuration
 
 Make sure you set your domain (if different than the ansible-nas default) and access token details within your `inventories/<your_inventory>/nas.yml` file. If you need to create an API token, see https://joshuaavalon.github.io/docker-cloudflare/guide/cloudflare.html#authentication for instructions.
