@@ -86,6 +86,7 @@ By default, applications can be found on the ports listed below.
 | Syncthing P2P   | 22000   | Host    |                |
 | Tautulli        | 8185    | Bridge  | HTTP           |
 | The Lounge      | 9000    | Bridge  | HTTP           |
+| TiddlyWiki      | 8092    | Bridge  | HTTP           |
 | Time Machine    | 10445   | Bridge  | SMB            |
 | Traefik         | 8083    | Host    | HTTP Admin     |
 | Transmission    | 9091    | Bridge  | HTTP w/VPN     |
