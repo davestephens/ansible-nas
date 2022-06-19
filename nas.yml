@@ -283,6 +283,11 @@
         - sabnzbd
       when: (sabnzbd_enabled | default(False))
 
+    - role: route53_ddns
+      tags:
+        - route53_ddns
+      when: (route53_ddns_enabled | default(False))
+
     - role: rssbridge
       tags:
         - rssbridge
