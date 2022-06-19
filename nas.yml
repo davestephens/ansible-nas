@@ -313,6 +313,11 @@
         - tautulli
       when: (tautulli_enabled | default(False))
 
+    - role: tiddlywiki
+      tags:
+        - tiddlywiki
+      when: (tiddlywiki_enabled | default(False))
+
     - role: transmission
       tags:
         - transmission
