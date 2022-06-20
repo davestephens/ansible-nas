@@ -108,6 +108,11 @@
         - emby
       when: (emby_enabled | default(False))
 
+    - role: esphome
+      tags:
+        - esphome
+      when: (esphome_enabled | default(False))
+
     - role: firefly
       tags:
         - firefly
@@ -182,6 +187,11 @@
       tags:
         - miniflux
       when: (miniflux_enabled | default(False))
+
+    - role: mosquitto
+      tags:
+        - mosquitto
+      when: (mosquitto_enabled | default(False))
 
     - role: mylar
       tags:
@@ -278,6 +288,11 @@
         - sabnzbd
       when: (sabnzbd_enabled | default(False))
 
+    - role: route53_ddns
+      tags:
+        - route53_ddns
+      when: (route53_ddns_enabled | default(False))
+
     - role: rssbridge
       tags:
         - rssbridge
@@ -307,6 +322,11 @@
       tags:
         - tautulli
       when: (tautulli_enabled | default(False))
+
+    - role: tiddlywiki
+      tags:
+        - tiddlywiki
+      when: (tiddlywiki_enabled | default(False))
 
     - role: transmission
       tags:
@@ -363,10 +383,6 @@
     - import_tasks: tasks/wallabag.yml
       when: (wallabag_enabled | default(False))
       tags: wallabag
-
-    - import_tasks: tasks/mosquitto.yml
-      when: (mosquitto_enabled | default(False))
-      tags: mosquitto
 
     - import_tasks: tasks/calibre.yml
       when: (calibre_enabled | default(False))

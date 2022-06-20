@@ -8,7 +8,7 @@ Paperless-ng is a fork of the original project, adding a new interface and many 
 
 ## Usage
 
-Set `paperless_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `paperless_ng_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 The paperless-ng web interface can be found at http://ansible_nas_host_or_ip:16922.
 

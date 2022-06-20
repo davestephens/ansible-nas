@@ -18,8 +18,8 @@
       - "{{ books_root }}:/books"
     env:
       TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ ubooquity_user_id|quote }}"
-      PGID: "{{ ubooquity_group_id|quote }}"
+      PUID: "{{ ubooquity_user_id }}"
+      PGID: "{{ ubooquity_group_id }}"
       MAXMEM: "1024"
     ports:
       - "{{ ubooquity_port_webui }}:2202"
