@@ -32,10 +32,10 @@
     groups: docker
     append: yes
 
-- name: Update Docker home from install default
-  template:
-    src: daemon.json
+- name: Generate Docker daemon.json
+  copy:
     dest: /etc/docker/daemon.json
+    content: "{{ docker_daemon_json | to_nice_json }}"
   register: docker_config
 
 - name: Restart Docker

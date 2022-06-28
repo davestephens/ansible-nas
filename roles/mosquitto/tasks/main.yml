@@ -3,7 +3,6 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: 0777
   with_items:
     - "{{ mosquitto_data_directory }}/config"
     - "{{ mosquitto_data_directory }}/data"
@@ -11,8 +10,9 @@
 
 - name: Template mosquitto.conf
   copy:
-    src: mosquitto/mosquitto.conf
+    src: mosquitto.conf
     dest: "{{ mosquitto_data_directory }}/config/mosquitto.conf"
+  register: mosquitto_conf
 
 - name: Create Mosquitto container
   docker_container:
@@ -27,4 +27,5 @@
       - "{{ mosquitto_port_a }}:1883"
       - "{{ mosquitto_port_b }}:9001"
     restart_policy: unless-stopped
+    restart: "{{ mosquitto_conf is changed }}"
     memory: 1g

@@ -1,0 +1,10 @@
+---
+skip_list:
+ - risky-file-permissions
+ - role-name
+ - fqcn-builtins
+
+exclude_paths:
+ - roles/bertvv.samba
+ - roles/geerlingguy.docker
+ - roles/geerlingguy.nfs

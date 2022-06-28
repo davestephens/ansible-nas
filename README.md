@@ -6,31 +6,11 @@ After getting burned by broken FreeNAS updates one too many times, I figured I
 could do a much better job myself using just a stock Ubuntu install, some clever
 Ansible config and a bunch of Docker containers.
 
-## What Ansible-NAS Can Set Up
+## What Ansible-NAS Does
 
-* An awesome dashboard to your home server (Heimdall)
-* Any number of Samba shares or NFS exports for you to store your stuff
-* A BitTorrent client
-* A Usenet downloader
-* Various media management tools - Sonarr, Sickchill, CouchPotato, Radarr, Bazarr, Lidarr
-* Media streaming via Plex or Emby
-* Music streaming with Airsonic
-* Audiobook streaming with Booksonic
-* An RSS newsfeed reader - Miniflux
-* A Dropbox replacement via Nextcloud
-* Various ways to see stats about your NAS - Glances, dashboards in Grafana
-* A backup tool - allows scheduled backups to Amazon S3, OneDrive, Dropbox etc
-* An IRC bouncer and web-based client
-* Source control with Gitea
-* SSL secured external access to applications via Traefik
-* A Docker host with Portainer for image and container management
-* An automatic dynamic DNS updater if you use Cloudflare to host your domain DNS
-* A Personal finance manager
-* eBook management with Calibre-web
-* Content management with Joomla
-* A dual panel local file manager
-* Self-service media request web application
-* A PXE server to boot OS images over the network
+You can configure Ansible-NAS to set up any (or all!) of the applications listed below on your home server.
+
+If you have a spare domain name you can configure applications to be accessible externally to your home LAN too; they'll be configured with a sensible hostname and DNS gets updated accordingly if your home IP address changes.
 
 ### Available Applications
 
@@ -43,11 +23,14 @@ Ansible config and a bunch of Docker containers.
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
+* [Dashy](https://dashy.to/) - A self-hosted startpage for your server. Easy to use visual editor, status checking, widgets, themes and tons more!
 * [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
 * [Duplicacy](https://duplicacy.com/) - A web UI for the Duplicacy cloud backup program, which provides lock-free deduplication backups to multiple providers
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
+* [ESPHome](https://esphome.io/) - ESP8266/ESP32 programming and management for home automation
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
+* [Fresh RSS](https://freshrss.org/) - Self-hosted RSS feed aggregator like Leed or Kriss Feed
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
 * [GitLab](https://about.gitlab.com/features/) - Self-hosted GitHub clone of the highest order
@@ -61,14 +44,17 @@ Ansible config and a bunch of Docker containers.
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [Joomla](https://www.joomla.org/) - Open source content management system
+* [Komga](https://komga.org/) - a media server for your comics, mangas, BDs and magazines
 * [Krusader](https://krusader.org/) - Twin panel file management for your desktop
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
+* [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
 * [n8n](https://n8n.io/) - Nodemation, a node based workflow and automation service like IFTTT.
+* [navidrome](https://www.navidrome.org/) - Modern Music Server and Streamer compatible with Subsonic/Airsonic
 * [netboot.xyz](https://netboot.xyz/) - a PXE boot server
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
@@ -76,6 +62,8 @@ Ansible config and a bunch of Docker containers.
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
 * [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
+* [overseerr](https://docs.overseerr.dev) - open source software application for managing requests for your media library
+* [Paperless_ng](https://github.com/jonaswinkler/paperless-ng) - Scan, index and archive all your physical documents
 * [Piwigo](https://piwigo.org/) - Photo Gallery Software
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
@@ -83,12 +71,17 @@ Ansible config and a bunch of Docker containers.
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [PyTivo](http://pytivo.org) - An HMO and GoBack server for TiVos.
 * [Radarr](https://radarr.video/) - for organising and downloading movies
+* [Route53 DDNS](https://crazymax.dev/ddns-route53/) - Automatically update AWS Route53 with your IP address
+* [RSS-Bridge](https://rss-bridge.github.io/rss-bridge/) - The RSS feed for websites missing it
+* [Sabnzbd](https://sabnzbd.org/) - A powerful usenet downloader that FreeNAS provides
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
+* [Speedtest-Tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) - Continuously track your internet speed
 * [Syncthing](https://syncthing.net/) - sync directories with another device
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [Telegraf](https://github.com/influxdata/telegraf) - Metrics collection agent
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client
+* [TiddlyWiki](https://tiddlywiki.com) - A unique non-linear notebook/wiki for capturing, organizing, and sharing complex information
 * [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
@@ -166,4 +159,6 @@ If you've enjoyed Ansible-NAS as much as I do working on it, please consider [bu
 
 ## Thanks
 
-Thanks to the awesome dudes at [JetBrains](https://www.jetbrains.com/?from=Ansible-NAS) for supplying core contributors with JetBrains Open Source licenses!
+The awesome dudes at [JetBrains](https://www.jetbrains.com/?from=Ansible-NAS) for supplying core contributors with JetBrains Open Source licenses!
+
+All of the awesome contributors to Ansible-NAS: ![All of the awesome contributors to Ansible-NAS](https://contrib.rocks/image?repo=davestephens/ansible-nas)
