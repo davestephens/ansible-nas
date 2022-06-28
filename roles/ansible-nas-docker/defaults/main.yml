@@ -10,3 +10,7 @@ docker_image_directory: "{{ docker_home }}/data"
 # Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
 # You might want to change this to ZFS, depending on your underlying filesystem.
 docker_storage_driver: overlay2
+
+docker_daemon_json:
+  data-root: "{{ docker_image_directory }}"
+  storage-driver: "{{ docker_storage_driver }}"

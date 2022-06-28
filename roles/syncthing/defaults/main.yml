@@ -12,6 +12,10 @@ syncthing_data_directory: "{{ samba_shares_root }}/syncthing"
 syncthing_volumes:
   - "{{ syncthing_data_directory }}:/var/syncthing/"
 
+syncthing_user_id: "0"
+syncthing_group_id: "0"
+
+
 # network
 syncthing_port: 8384
 syncthing_hostname: syncthing

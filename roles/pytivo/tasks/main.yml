@@ -1,5 +1,5 @@
 ---
-- name: PyTivo - create config directory
+- name: Create Pytivo Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -7,14 +7,11 @@
   with_items:
     - "{{ pytivo_config_directory }}"
 
-- name: PyTivo - install Docker container
+- name: Pytivo
   docker_container:
     name: pytivo
     image: pinion/docker-pytivo
     pull: true
-    ports:
-      - "9032:9032"
-      - "2190:2190/udp"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "{{ pytivo_config_directory }}:/config:rw"
@@ -23,7 +20,9 @@
       - "{{ pytivo_photos_directory }}:/photos:ro"
       - "{{ pytivo_music_directory }}:/music:ro"
       - "{{ pytivo_podcasts_directory }}:/podcasts:ro"
-    network_mode: "host"
+    ports:
+      - "9032:9032"
+      - "2190:2190/udp"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ pytivo_user_id }}"
@@ -32,7 +31,7 @@
     memory: 1g
     labels:
       traefik.enable: "{{ pytivo_available_externally }}"
-      traefik.http.routers.pytivo.rule: "Host(`pytivo.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.pytivo.rule: "Host(`{{ pytivo_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.pytivo.tls.certresolver: "letsencrypt"
       traefik.http.routers.pytivo.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.pytivo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

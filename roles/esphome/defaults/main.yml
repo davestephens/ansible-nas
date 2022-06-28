@@ -1,0 +1,17 @@
+---
+esphome_enabled: false
+esphome_available_externally: "false"
+
+# directories
+esphome_data_directory: "{{ docker_home }}/esphome"
+
+# uid / gid
+esphome_user_id: "1000"
+esphome_group_id: "1000"
+
+# network
+esphome_hostname: "esphome"
+esphome_port: "6052"
+
+# specs
+esphome_memory: 1g

@@ -1,0 +1,27 @@
+---
+- name: Create RSSBridge Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ rssbridge_data_directory }}/data"
+
+- name: RSSBridge Docker Container
+  docker_container:
+    name: rssbridge
+    image: rssbridge/rss-bridge
+    pull: true
+    volumes:
+      - "{{ rssbridge_data_directory }}/data:/config:rw"
+    ports:
+      - "{{ rssbridge_port }}:80"
+    restart_policy: unless-stopped
+    memory: "{{ rssbridge_memory }}"
+    labels:
+      traefik.enable: "{{ rssbridge_available_externally }}"
+      traefik.http.routers.rssbridge.rule: "Host(`{{ rssbridge_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.rssbridge.tls.certresolver: "letsencrypt"
+      traefik.http.routers.rssbridge.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.rssbridge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.rssbridge.loadbalancer.server.port: "80"

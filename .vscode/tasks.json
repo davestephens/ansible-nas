@@ -24,7 +24,7 @@
         {
             "label": "Run ansible-lint",
             "type": "shell",
-            "command": "ansible-lint nas.yml",
+            "command": "docker run --rm -it -v $(pwd):/code pipelinecomponents/ansible-lint:latest nas.yml",
             "group": "test"
         },
         {
