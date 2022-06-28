@@ -23,8 +23,7 @@ Simply set `traefik_enabled: true` in your `all.yml`. By default it listens on p
 
 Set `ansible_nas_domain` to the domain name you want to use for your Ansible-NAS. You'll need somewhere to host the DNS for that domain - Cloudflare is a good free solution. Once you have an account and Cloudflare is hosting the DNS for your domain, create a wildcard DNS entry (`*.myawesomedomain.com`) and set it to your current IP address.
 
-You then need to enable the Cloudflare Dynamic DNS container (`cloudflare_ddns_enabled: true`) so the wildcard DNS entry for your
-domain name is updated if/when your ISP issues you a new IP address.
+You then need to enable and configure the Cloudflare Dynamic DNS container (`cloudflare_ddns_enabled: true`) so the wildcard DNS entry for your domain name is updated if/when your ISP issues you a new IP address.
 
 ## Router Configuration
 
@@ -34,4 +33,4 @@ How to do this is entirely dependent on your router (and out of scope of these d
 
 ## Enable Specific Applications
 
-Every application has a `<application_name>_available_externally` setting in the Advanced Settings section of `all.yml`. Setting this to `true` will configure Traefik to route `<application>.yourdomain.com` to the application, making it available externally.
+Every application has a `<application_name>_available_externally` setting in its `defaults/main.yml`. Setting this to `true` (by overriding it in your nas.yml) will configure Traefik to route `<application>.yourdomain.com` to the application, making it available externally.

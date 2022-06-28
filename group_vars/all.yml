@@ -16,10 +16,6 @@
 ### Ansible-NAS Applications
 ###
 
-# Media Sourcing
-jellyfin_enabled: false
-youtubedlmaterial_enabled: false
-
 # System Management
 stats_enabled: false
 guacamole_enabled: false
@@ -48,10 +44,6 @@ ubooquity_enabled: false
 # Joomla
 joomla_enabled: false
 
-# PyTivo
-pytivo_enabled: false
-
-
 ###
 ### General
 ###
@@ -64,6 +56,9 @@ ansible_nas_email: me@example.com
 
 # Applications will have subdomain SSL certificates created if Traefik is enabled, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
 ansible_nas_domain: example.com
+
+# What version of python ansible should use on target system (path to spesific binary)
+ansible_python_interpreter: /usr/bin/python3
 
 ###
 ### Samba
@@ -101,6 +96,9 @@ comics_root: "{{ samba_shares_root }}/comics"
 
 # Where photos are stored
 photos_root: "{{ samba_shares_root }}/photos"
+
+# Where paperless_ng consumes documents
+documents_root: "{{ samba_shares_root }}/documents"
 
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
@@ -185,7 +183,7 @@ samba_shares:
     public: yes
     writable: yes
     browsable: yes
-    path: "{{ samba_shares_root }}/audiobooks"
+    path: "{{ audiobooks_root }}"
 
   - name: comics
     comment: 'Comics'
@@ -194,6 +192,14 @@ samba_shares:
     writable: yes
     browseable: yes
     path: "{{ comics_root }}"
+
+  - name: documents
+    comment: 'Documents'
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browseable: yes
+    path: "{{ documents_root }}"
 
 ###
 ### NFS
@@ -206,14 +212,6 @@ nfs_shares_root: /mnt/Volume3
 
 nfs_exports:
   - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"
-
-
-###
-### General
-###
-
-
-ansible_python_interpreter: /usr/bin/python3
 
 ###
 ### Samba
@@ -243,45 +241,9 @@ joomla_database_password: top_secret
 joomla_port: "8181"
 
 ###
-### PyTivo
-###
-pytivo_available_externally: "false"
-pytivo_config_directory: "{{ docker_home }}/pytivo/config"
-pytivo_movies_directory: "{{ movies_root }}"
-pytivo_tv_directory: "{{ tv_root }}"
-pytivo_photos_directory: "{{ photos_root }}"
-pytivo_music_directory: "{{ music_root }}"
-pytivo_podcasts_directory: "{{ podcasts_root }}"
-pytivo_user_id: "0"
-pytivo_group_id: "0"
-
-
-###
-### YouTubeDL-Material
-###
-youtubedlmaterial_available_externally: "false"
-youtubedlmaterial_data_directory: "{{ docker_home }}/youtubedlmaterial"
-youtubedlmaterial_dl_audio_directory: "{{ downloads_root }}/youtube/audio"
-youtubedlmaterial_dl_video_directory: "{{ downloads_root }}/youtube/video"
-youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subscriptions"
-youtubedlmaterial_port_http: "8998"
-
-
-###
 ### OpenVPN
 ###
 openvpn_config_directory: "{{ docker_home }}/openvpn"
-
-###
-### Stats
-###
-grafana_available_externally: "false"
-telegraf_data_directory: "{{ docker_home }}/telegraf"
-influxdb_data_directory: "{{ docker_home }}/influxdb"
-grafana_data_directory: "{{ docker_home }}/grafana"
-stat_collection_interval: 15s
-grafana_influxdb_port: "8086"
-grafana_port: "3000"
 
 ###
 ### Guacamole
@@ -329,14 +291,6 @@ wallabag_data_directory: "{{ docker_home }}/wallabag"
 wallabag_port: "7780"
 
 ###
-### Mosquitto
-###
-mosquitto_available_externally: "false"
-mosquitto_data_directory: "{{ docker_home }}/mosquitto"
-mosquitto_port_a: "1883"
-mosquitto_port_b: "9001"
-
-###
 ### Calibre-web
 ###
 calibre_available_externally: "false"
@@ -356,30 +310,6 @@ openhab_docker_image: openhab/openhab:latest
 openhab_data_directory: "{{ docker_home }}/openhab"
 openhab_port_http: "7777"
 openhab_port_https: "7778"
-
-###
-### Jellyfin
-###
-# If you're paranoid, set permissions to "ro" so jellyfin won't ever be able to
-# delete your files
-jellyfin_available_externally: "false"
-jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"
-jellyfin_movies_directory: "{{ movies_root }}"
-jellyfin_movies_permissions: "rw"
-jellyfin_music_directory: "{{ music_root }}"
-jellyfin_music_permissions: "rw"
-jellyfin_photos_directory: "{{ photos_root }}"
-jellyfin_photos_permissions: "rw"
-jellyfin_tv_directory: "{{ tv_root }}"
-jellyfin_tv_permissions: "rw"
-jellyfin_books_directory: "{{ books_root }}"
-jellyfin_books_permissions: "rw"
-jellyfin_audiobooks_directory: "{{ audiobooks_root }}"
-jellyfin_audiobooks_permissions: "rw"
-jellyfin_user_id: "0"
-jellyfin_group_id: "0"
-jellyfin_port_http: "8896"
-jellyfin_port_https: "8928"
 
 ###
 ### Ubooquity

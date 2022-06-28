@@ -58,6 +58,11 @@
         - bitwarden
       when: (bitwarden_enabled | default(False))
 
+    - role: booksonic
+      tags:
+        - booksonic
+      when: (booksonic_enabled | default(False))
+
     - role: cloudcmd
       tags:
         - cloudcmd
@@ -73,10 +78,25 @@
         - couchpotato
       when: (couchpotato_enabled | default(False))
 
+    - role: dashy
+      tags:
+        - dashy
+      when: (dashy_enabled | default(False))
+
     - role: deluge
       tags:
         - deluge
       when: (deluge_enabled | default(False))
+
+    - role: dokuwiki
+      tags:
+        - dokuwiki
+      when: (dokuwiki_enabled | default(False))
+
+    - role: duplicacy
+      tags:
+        - duplicacy
+      when: (duplicacy_enabled | default(False))
 
     - role: duplicati
       tags:
@@ -88,10 +108,20 @@
         - emby
       when: (emby_enabled | default(False))
 
+    - role: esphome
+      tags:
+        - esphome
+      when: (esphome_enabled | default(False))
+
     - role: firefly
       tags:
         - firefly
       when: (firefly_enabled | default(False))
+
+    - role: freshrss
+      tags:
+        - freshrss
+      when: (freshrss_enabled | default(False))
 
     - role: get_iplayer
       tags:
@@ -128,20 +158,20 @@
         - homeassistant
       when: (homeassistant_enabled | default(False))
 
-    - role: homebridge
+    - role: jellyfin
       tags:
-        - homebridge
-      when: (homebridge_enabled | default(False))
-
-    - role: jackett
-      tags:
-        - jackett
-      when: (jackett_enabled | default(False))
+        - jellyfin
+      when: (jellyfin_enabled | default(False))
 
     - role: lidarr
       tags:
         - lidarr
       when: (lidarr_enabled | default(False))
+
+    - role: mealie
+      tags:
+        - mealie
+      when: (mealie_enabled | default(False))
 
     - role: minidlna
       tags:
@@ -152,6 +182,11 @@
       tags:
         - miniflux
       when: (miniflux_enabled | default(False))
+
+    - role: mosquitto
+      tags:
+        - mosquitto
+      when: (mosquitto_enabled | default(False))
 
     - role: mylar
       tags:
@@ -167,6 +202,11 @@
       tags:
         - n8n_enabled
       when: (n8n_enabled | default(False))
+
+    - role: navidrome
+      tags:
+        - navidrome
+      when: (navidrome_enabled | default(False))
 
     - role: netbootxyz
       tags:
@@ -193,6 +233,21 @@
         - organizr
       when: (organizr_enabled | default(False))
 
+    - role: overseerr
+      tags:
+        - overseerr
+      when: (overseerr_enabled | default(False))
+
+    - role: paperless_ng
+      tags:
+        - paperless_ng
+      when: (paperless_ng_enabled | default(False))
+
+    - role: piwigo
+      tags:
+        - piwigo
+      when: (piwigo_enabled | default(False))
+
     - role: portainer
       tags:
         - portainer
@@ -218,10 +273,30 @@
         - plex
       when: (plex_enabled | default(False))
 
+    - role: pytivo
+      tags:
+        - pytivo
+      when: (pytivo_enabled | default(False))
+
     - role: radarr
       tags:
         - radarr
       when: (radarr_enabled | default(False))
+
+    - role: sabnzbd
+      tags:
+        - sabnzbd
+      when: (sabnzbd_enabled | default(False))
+
+    - role: route53_ddns
+      tags:
+        - route53_ddns
+      when: (route53_ddns_enabled | default(False))
+
+    - role: rssbridge
+      tags:
+        - rssbridge
+      when: (rssbridge_enabled | default(False))
 
     - role: sickchill
       tags:
@@ -233,6 +308,11 @@
         - sonarr
       when: (sonarr_enabled | default(False))
 
+    - role: speedtest-tracker
+      tags:
+        - speedtest-tracker
+      when: (speedtest_tracker_enabled | default(False))
+
     - role: syncthing
       tags:
         - syncthing
@@ -242,6 +322,11 @@
       tags:
         - tautulli
       when: (tautulli_enabled | default(False))
+
+    - role: tiddlywiki
+      tags:
+        - tiddlywiki
+      when: (tiddlywiki_enabled | default(False))
 
     - role: transmission
       tags:
@@ -263,6 +348,11 @@
         - traefik
       when: (traefik_enabled | default(False))
 
+    - role: youtubedlmaterial
+      tags:
+        - youtubedlmaterial
+      when: (youtubedlmaterial_enabled | default(False))
+
     - role: watchtower
       tags:
         - watchtower
@@ -273,11 +363,6 @@
         - znc
       when: (znc_enabled | default(False))
 
-    - role: dokuwiki
-      tags:
-        - dokuwiki
-      when: (dokuwiki_enabled | default(False))
-
   tasks:
     - import_tasks: tasks/thelounge.yml
       when: (thelounge_enabled | default(False))
@@ -286,10 +371,6 @@
     - import_tasks: tasks/timemachine.yml
       when: (timemachine_enabled | default(False))
       tags: timemachine
-
-    - import_tasks: tasks/stats.yml
-      when: (stats_enabled | default(False))
-      tags: stats
 
     - import_tasks: tasks/guacamole.yml
       when: (guacamole_enabled | default(False))
@@ -303,10 +384,6 @@
       when: (wallabag_enabled | default(False))
       tags: wallabag
 
-    - import_tasks: tasks/mosquitto.yml
-      when: (mosquitto_enabled | default(False))
-      tags: mosquitto
-
     - import_tasks: tasks/calibre.yml
       when: (calibre_enabled | default(False))
       tags: calibre
@@ -314,10 +391,6 @@
     - import_tasks: tasks/openhab.yml
       when: (openhab_enabled | default(False))
       tags: openhab
-
-    - import_tasks: tasks/jellyfin.yml
-      when: (jellyfin_enabled | default(False))
-      tags: jellyfin
 
     - import_tasks: tasks/krusader.yml
       when: (krusader_enabled | default(False))
@@ -327,14 +400,6 @@
       when: (ubooquity_enabled | default(False))
       tags: ubooquity
 
-    - import_tasks: tasks/youtubedlmaterial.yml
-      when: (youtubedlmaterial_enabled | default(False))
-      tags: youtubedlmaterial
-
     - import_tasks: tasks/virtual_desktop.yml
       when: (virtual_desktop_enabled | default(False))
       tags: virtual_desktop
-
-    - import_tasks: tasks/pytivo.yml
-      when: (pytivo_enabled | default(False))
-      tags: pytivo

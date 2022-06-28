@@ -27,10 +27,10 @@
       PUID: "{{ jellyfin_user_id }}"
       PGID: "{{ jellyfin_group_id }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ jellyfin_memory }}"
     labels:
       traefik.enable: "{{ jellyfin_available_externally }}"
-      traefik.http.routers.jellyfin.rule: "Host(`jellyfin.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.jellyfin.rule: "Host(`{{ jellyfin_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.jellyfin.tls.certresolver: "letsencrypt"
       traefik.http.routers.jellyfin.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.jellyfin.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

@@ -1,0 +1,17 @@
+---
+mealie_enabled: false
+mealie_available_externally: "false"
+
+# directories
+mealie_data_directory: "{{ docker_home }}/mealie"
+
+# uid / gid
+mealie_user_id: "1000"
+mealie_group_id: "1000"
+
+# network
+mealie_hostname: "mealie"
+mealie_port: "9925"
+
+# specs
+mealie_memory: 1g

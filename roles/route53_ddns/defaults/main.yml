@@ -1,0 +1,22 @@
+---
+
+route53_ddns_enabled: false
+
+# Data directory for config file
+route53_data_directory: "{{ docker_home }}/route53_ddns"
+
+# AWS access credentials
+route53_key_id: "{{ mandatory }}"
+route53_secret_key: "{{ mandatory }}"
+
+# Managed DNS zone ID
+route53_hosted_zone_id: "{{ mandatory }}"
+
+# The hostname to update
+route53_host: "*.{{ ansible_nas_domain }}"
+
+# The Time-To-Live for the DNS entry
+route53_ttl: 600
+
+# Container
+route53_memory: 512MB
