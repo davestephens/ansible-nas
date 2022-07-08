@@ -1,0 +1,1 @@
+{{ foundryvtt_aws_options | default({}) | combine(required, recursive=True) | to_nice_json }}
