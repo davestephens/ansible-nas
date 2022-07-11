@@ -1,0 +1,19 @@
+---
+unifi_enabled: false
+
+# directories
+unifi_data_directory: "{{ docker_home }}/unifi"
+
+# network
+unifi_network_name: "unifi"
+
+# user / group name
+unifi_user: "systemd-coredump"
+unifi_group: "systemd-coredump"
+
+# specs
+unifi_memory: 1g
+unifi_mongodb_memory: 1g
+
+# timezone
+unifi_timezone: "{{ ansible_nas_timezone }}"

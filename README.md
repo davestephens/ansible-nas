@@ -86,6 +86,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
+* [UniFi Network Application](https://help.ui.com/hc/en-us/articles/360012282453) - Self-host UniFi Network Application to manage UniFi devices
 * [uTorrent](https://www.utorrent.com/) - The best torrent downloading app for beginners
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
