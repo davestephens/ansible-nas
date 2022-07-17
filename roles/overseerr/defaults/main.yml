@@ -1,0 +1,17 @@
+---
+overseerr_enabled: false
+overseerr_available_externally: "false"
+
+# directories
+overseerr_data_directory: "{{ docker_home }}/overseerr"
+
+# uid / gid
+overseerr_user_id: "1000"
+overseerr_group_id: "1000"
+
+# network config
+overseerr_webui_port: "5055"
+overseerr_hostname: "overseerr"
+
+# specs
+overseerr_memory: 1g

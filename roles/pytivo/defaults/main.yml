@@ -1,0 +1,18 @@
+---
+pytivo_enabled: false
+pytivo_available_externally: "false"
+
+# directories
+pytivo_config_directory: "{{ docker_home }}/pytivo/config"
+pytivo_movies_directory: "{{ movies_root }}"
+pytivo_tv_directory: "{{ tv_root }}"
+pytivo_photos_directory: "{{ photos_root }}"
+pytivo_music_directory: "{{ music_root }}"
+pytivo_podcasts_directory: "{{ podcasts_root }}"
+
+# uid / gid
+pytivo_user_id: "0"
+pytivo_group_id: "0"
+
+# network
+pytivo_hostname: "pytivo"

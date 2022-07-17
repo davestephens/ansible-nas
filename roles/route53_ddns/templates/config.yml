@@ -1,0 +1,12 @@
+---
+
+credentials:
+  accessKeyId: "{{ route53_key_id }}"
+  secretAccessKey: "{{ route53_secret_key }}"
+
+route53:
+  hostedZoneID: "{{ route53_hosted_zone_id }}"
+  recordsSet:
+    - name: "{{ route53_host }}."
+      type: "A"
+      ttl: "{{ route53_ttl }}"
