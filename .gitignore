@@ -5,6 +5,9 @@ site
 *.log
 inventories
 .cache
+roles/bertvv.samba
+roles/geerlingguy.docker
+roles/geerlingguy.nfs
 
 # Vim
 [._]sw[a-p]
