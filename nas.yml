@@ -173,6 +173,11 @@
         - mealie
       when: (mealie_enabled | default(False))
 
+    - role: minecraft-server
+      tags:
+        - minecraft-server
+      when: (minecraft_server_enabled | default(False))
+
     - role: minidlna
       tags:
         - minidlna

@@ -48,6 +48,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Krusader](https://krusader.org/) - Twin panel file management for your desktop
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
+* [Minecraft Server](https://www.minecraft.net/) - Server edition of the popular building and exploring game
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
