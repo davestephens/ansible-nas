@@ -6,7 +6,6 @@
       tags: users
 
   roles:
-
     ###
     ### Requirements
     ###
@@ -25,7 +24,6 @@
         - docker
         - skip_ansible_lint
 
-
     ###
     ### Ansible-NAS Roles
     ###
@@ -38,7 +36,6 @@
       tags:
         - ansible-nas-docker
         - ansible-nas
-
 
     ###
     ### Applications
@@ -147,6 +144,11 @@
       tags:
         - gotify
       when: (gotify_enabled | default(False))
+
+    - role: healthchecks.io
+      tags:
+        - healthchecks.io
+      when: (healthchecks_enabled | default(False))
 
     - role: heimdall
       tags:
