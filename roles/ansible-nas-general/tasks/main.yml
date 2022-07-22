@@ -11,6 +11,7 @@
   until: add_repo_result.rc == 0
   retries: 3
   delay: 1
+  when: (x86_architecture | default(True))
 
 - name: Update apt-cache
   apt:
