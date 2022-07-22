@@ -6,7 +6,6 @@
       tags: users
 
   roles:
-
     ###
     ### Requirements
     ###
@@ -25,7 +24,6 @@
         - docker
         - skip_ansible_lint
 
-
     ###
     ### Ansible-NAS Roles
     ###
@@ -38,7 +36,6 @@
       tags:
         - ansible-nas-docker
         - ansible-nas
-
 
     ###
     ### Applications
@@ -67,6 +64,11 @@
       tags:
         - cloudcmd
       when: (cloudcmd_enabled | default(False))
+
+    - role: cloudflared
+      tags:
+        - cloudflared
+      when: (cloudflared_enabled | default(False))
 
     - role: cloudflare_ddns
       tags:

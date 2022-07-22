@@ -1,0 +1,12 @@
+---
+- name: Cloudflared Docker Container
+  docker_container:
+    name: cloudflared
+    image: cloudflare/cloudflared
+    pull: true
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: unless-stopped
+    command: "tunnel --no-autoupdate run --token {{ cloudflared_token }}"
+    network_mode: "host"
+    recreate: true
