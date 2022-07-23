@@ -23,13 +23,13 @@
       tags:
         - docker
         - skip_ansible_lint
-      when: (x86_architecture | default(True))
+      when: ansible_architecture == "x86_64"
 
     - role: geerlingguy.docker_arm
       tags:
         - docker_arm
         - skip_ansible_lint
-      when: (not x86_architecture | default(False))
+      when: ansible_architecture == "aarch64"
 
     ###
     ### Ansible-NAS Roles

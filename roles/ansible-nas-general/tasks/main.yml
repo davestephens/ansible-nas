@@ -11,7 +11,7 @@
   until: add_repo_result.rc == 0
   retries: 3
   delay: 1
-  when: (x86_architecture | default(True))
+  when: ansible_architecture == "x86_64"
 
 - name: Update apt-cache
   apt:

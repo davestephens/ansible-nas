@@ -40,6 +40,6 @@ You can run Ansible-NAS from the computer you plan to use for your NAS, or from 
 
 6. Update `inventories/my-ansible-nas/inventory`.
 
-7. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles). If you are planning to run this project against a Raspberry Pi, make sure to have the `x86_architecture` flag set to `true` in your `nas.yml` inventory!
+7. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles).
 
 8. Run the playbook - something like `ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K` should do you nicely.
