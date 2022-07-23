@@ -26,7 +26,7 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.enable: "{{ krusader_available_externally | string}}"
+      traefik.enable: "{{ krusader_available_externally | string }}"
       traefik.http.routers.krusader.rule: "Host(`krusader.{{ ansible_nas_domain }}`)"
       traefik.http.routers.krusader.tls.certresolver: "letsencrypt"
       traefik.http.routers.krusader.tls.domains[0].main: "{{ ansible_nas_domain }}"

@@ -26,7 +26,7 @@
     restart_policy: unless-stopped
     memory: "{{ mylar_memory }}"
     labels:
-      traefik.enable: "{{ mylar_available_externally | string}}"
+      traefik.enable: "{{ mylar_available_externally | string }}"
       traefik.http.routers.mylar.rule: "Host(`{{ mylar_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.mylar.tls.certresolver: "letsencrypt"
       traefik.http.routers.mylar.tls.domains[0].main: "{{ ansible_nas_domain }}"

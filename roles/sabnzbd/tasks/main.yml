@@ -23,7 +23,7 @@
       PGID: "{{ sabnzbd_group_id }}"
     restart_policy: unless-stopped
     labels:
-      traefik.enable: "{{ sabnzbd_available_externally | string}}"
+      traefik.enable: "{{ sabnzbd_available_externally | string }}"
       traefik.http.routers.sabnzbd.rule: "Host(`{{ sabnzbd_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.sabnzbd.tls.certresolver: "letsencrypt"
       traefik.http.routers.sabnzbd.tls.domains[0].main: "{{ ansible_nas_domain }}"

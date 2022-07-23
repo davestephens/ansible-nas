@@ -22,7 +22,7 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.enable: "{{ wallabag_available_externally | string}}"
+      traefik.enable: "{{ wallabag_available_externally | string }}"
       traefik.http.routers.wallabag.rule: "Host(`wallabag.{{ ansible_nas_domain }}`)"
       traefik.http.routers.wallabag.tls.certresolver: "letsencrypt"
       traefik.http.routers.wallabag.tls.domains[0].main: "{{ ansible_nas_domain }}"

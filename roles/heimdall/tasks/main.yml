@@ -41,7 +41,7 @@
     restart_policy: unless-stopped
     memory: "{{ heimdall_memory }}"
     labels:
-      traefik.enable: "{{ heimdall_available_externally | string}}"
+      traefik.enable: "{{ heimdall_available_externally | string }}"
       traefik.http.routers.heimdall.rule: "Host(`{{ heimdall_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.heimdall.tls.certresolver: "letsencrypt"
       traefik.http.routers.heimdall.tls.domains[0].main: "{{ ansible_nas_domain }}"

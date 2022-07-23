@@ -29,7 +29,7 @@
     restart_policy: unless-stopped
     memory: "{{ mealie_memory }}"
     labels:
-      traefik.enable: "{{ mealie_available_externally | string}}"
+      traefik.enable: "{{ mealie_available_externally | string }}"
       traefik.http.routers.mealie.rule: "Host(`{{ mealie_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.mealie.tls.certresolver: "letsencrypt"
       traefik.http.routers.mealie.tls.domains[0].main: "{{ ansible_nas_domain }}"

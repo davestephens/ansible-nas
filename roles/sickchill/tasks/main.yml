@@ -25,7 +25,7 @@
     restart_policy: unless-stopped
     memory: "{{ sickchill_memory }}"
     labels:
-      traefik.enable: "{{ sickchill_available_externally | string}}"
+      traefik.enable: "{{ sickchill_available_externally | string }}"
       traefik.http.routers.sickchill.rule: "Host(`{{ sickchill_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.sickchill.tls.certresolver: "letsencrypt"
       traefik.http.routers.sickchill.tls.domains[0].main: "{{ ansible_nas_domain }}"
