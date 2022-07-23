@@ -1,0 +1,19 @@
+---
+octoprint_enabled: false
+octoprint_available_externally: false
+
+# directories
+octoprint_data_directory: "{{ docker_home }}/octoprint"
+
+# network
+octoprint_port: "8095"
+octoprint_hostname: "octoprint"
+
+# devices
+octoprint_printer_mountpoint: "/dev/ttyUSB0"
+
+octoprint_enable_webcam: false
+octoprint_webcam_mountpoint: "/dev/video0"
+
+# specs
+octoprint_memory: 1g
