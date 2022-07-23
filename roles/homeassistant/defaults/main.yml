@@ -1,6 +1,6 @@
 ---
 homeassistant_enabled: false
-homeassistant_available_externally: "false"
+homeassistant_available_externally: false
 
 # directories
 homeassistant_data_directory: "{{ docker_home }}/homeassistant"

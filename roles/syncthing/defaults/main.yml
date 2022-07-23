@@ -1,6 +1,6 @@
 ---
 syncthing_enabled: false
-syncthing_available_externally: "false"
+syncthing_available_externally: false
 
 # directories
 syncthing_data_directory: "{{ samba_shares_root }}/syncthing"
@@ -14,7 +14,6 @@ syncthing_volumes:
 
 syncthing_user_id: "0"
 syncthing_group_id: "0"
-
 
 # network
 syncthing_port: 8384

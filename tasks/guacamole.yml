@@ -40,7 +40,7 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.enable: "{{ guacamole_available_externally }}"
+      traefik.enable: "{{ guacamole_available_externally | string}}"
       traefik.http.routers.guacamole.rule: "Host(`guacamole.{{ ansible_nas_domain }}`)"
       traefik.http.routers.guacamole.tls.certresolver: "letsencrypt"
       traefik.http.routers.guacamole.tls.domains[0].main: "{{ ansible_nas_domain }}"

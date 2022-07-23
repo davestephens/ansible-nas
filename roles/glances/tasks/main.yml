@@ -17,7 +17,7 @@
     security_opts: "{{ glances_security_options }}"
     memory: "{{ glances_memory }}"
     labels:
-      traefik.enable: "{{ glances_available_externally }}"
+      traefik.enable: "{{ glances_available_externally | string}}"
       traefik.http.routers.glances.rule: "Host(`{{ glances_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.glances.tls.certresolver: "letsencrypt"
       traefik.http.routers.glances.tls.domains[0].main: "{{ ansible_nas_domain }}"

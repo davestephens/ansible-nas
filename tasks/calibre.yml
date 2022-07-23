@@ -24,7 +24,7 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.enable: "{{ calibre_available_externally }}"
+      traefik.enable: "{{ calibre_available_externally | string}}"
       traefik.http.routers.calibre.rule: "Host(`calibre.{{ ansible_nas_domain }}`)"
       traefik.http.routers.calibre.tls.certresolver: "letsencrypt"
       traefik.http.routers.calibre.tls.domains[0].main: "{{ ansible_nas_domain }}"

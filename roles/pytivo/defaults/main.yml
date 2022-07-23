@@ -1,6 +1,6 @@
 ---
 pytivo_enabled: false
-pytivo_available_externally: "false"
+pytivo_available_externally: false
 
 # directories
 pytivo_config_directory: "{{ docker_home }}/pytivo/config"

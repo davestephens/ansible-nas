@@ -39,7 +39,7 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.enable: "{{ joomla_available_externally }}"
+      traefik.enable: "{{ joomla_available_externally | string}}"
       traefik.http.routers.joomla.rule: "Host(`joomla.{{ ansible_nas_domain }}`)"
       traefik.http.routers.joomla.tls.certresolver: "letsencrypt"
       traefik.http.routers.joomla.tls.domains[0].main: "{{ ansible_nas_domain }}"

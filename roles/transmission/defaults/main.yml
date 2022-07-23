@@ -1,6 +1,6 @@
 ---
 transmission_enabled: false
-transmission_available_externally: "false"
+transmission_available_externally: false
 
 # directories
 transmission_config_directory: "{{ docker_home }}/transmission/config"

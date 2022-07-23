@@ -3,7 +3,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   with_items:
     - "{{ bitwarden_data_directory }}"
 
@@ -23,7 +23,7 @@
       LOG_FILE: "/data/bitwarden.log"
       WEBSOCKET_ENABLED: "true"
     labels:
-      traefik.enable: "{{ bitwarden_available_externally }}"
+      traefik.enable: "{{ bitwarden_available_externally | string}}"
       traefik.http.routers.bitwarden.rule: "Host(`{{ bitwarden_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.bitwarden.tls.certresolver: "letsencrypt"
       traefik.http.routers.bitwarden.tls.domains[0].main: "{{ ansible_nas_domain }}"

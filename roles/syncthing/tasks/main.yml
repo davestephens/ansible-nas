@@ -22,7 +22,7 @@
     restart_policy: unless-stopped
     memory: "{{ syncthing_memory }}"
     labels:
-      traefik.enable: "{{ syncthing_available_externally }}"
+      traefik.enable: "{{ syncthing_available_externally | string}}"
       traefik.http.routers.syncthing.rule: "Host(`{{ syncthing_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.syncthing.tls.certresolver: "letsencrypt"
       traefik.http.routers.syncthing.tls.domains[0].main: "{{ ansible_nas_domain }}"

@@ -1,6 +1,6 @@
 ---
 radarr_enabled: false
-radarr_available_externally: "false"
+radarr_available_externally: false
 
 # directories
 radarr_movies_directory: "{{ movies_root }}"

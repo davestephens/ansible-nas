@@ -1,7 +1,7 @@
 ---
 # enable or disable the application
 minidlna_enabled: false
-minidlna_available_externally: "false"
+minidlna_available_externally: false
 
 # directories
 minidlna_media_directory1: "{{ movies_root }}"

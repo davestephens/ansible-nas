@@ -45,7 +45,7 @@
     restart_policy: unless-stopped
     memory: 1g
     labels:
-      traefik.enable: "{{ openhab_available_externally }}"
+      traefik.enable: "{{ openhab_available_externally | string}}"
       traefik.http.routers.openhab.rule: "Host(`openhab.{{ ansible_nas_domain }}`)"
       traefik.http.routers.openhab.tls.certresolver: "letsencrypt"
       traefik.http.routers.openhab.tls.domains[0].main: "{{ ansible_nas_domain }}"

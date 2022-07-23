@@ -59,7 +59,7 @@
     hostname: "{{ gitlab_hostname }}.{{ ansible_nas_domain }}"
     memory: "{{ gitlab_memory }}"
     labels:
-      traefik.enable: "{{ gitlab_available_externally }}"
+      traefik.enable: "{{ gitlab_available_externally | string}}"
       traefik.http.routers.gitlab.rule: "Host(`{{ gitlab_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.gitlab.tls.certresolver: "letsencrypt"
       traefik.http.routers.gitlab.tls.domains[0].main: "{{ ansible_nas_domain }}"

@@ -26,7 +26,7 @@
     restart_policy: unless-stopped
     memory: "{{ couchpotato_memory }}"
     labels:
-      traefik.enable: "{{ couchpotato_available_externally }}"
+      traefik.enable: "{{ couchpotato_available_externally | string}}"
       traefik.http.routers.couchpotato.rule: "Host(`couchpotato.{{ ansible_nas_domain }}`)"
       traefik.http.routers.couchpotato.tls.certresolver: "letsencrypt"
       traefik.http.routers.couchpotato.tls.domains[0].main: "{{ ansible_nas_domain }}"
