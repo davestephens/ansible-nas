@@ -114,7 +114,7 @@ gained by automating it. Check out the [docs](https://davestephens.github.io/ans
 
 See [Installation](https://davestephens.github.io/ansible-nas/installation/).
 
-Now Ansible NAS can be deployed on a Raspberry Pi (pi 4b model tested)! Make sure to read the installation docs on how to enable ARM architecture support
+Now Ansible NAS can be deployed on arm64 architectures!
 
 ## Upgrading
 

@@ -43,3 +43,9 @@ You can run Ansible-NAS from the computer you plan to use for your NAS, or from 
 7. Install the dependent roles: `ansible-galaxy install -r requirements.yml` (you might need `sudo` to install Ansible roles).
 
 8. Run the playbook - something like `ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K` should do you nicely.
+
+## Note about targeting arm64 architectures
+
+The Ansible NAS project was initially created assuming that it would be deployed on machines with an x86_64 architecture, for which all applications work correctly.
+
+Recent changes made possible to deploy this project on arm64 architectures (tested on a Raspberry Pi 4b), and all the tested applications ran without issues. With this in mind, each docker application needs to explicitly support both architectures in order to run correctly, and we cannot ensure this on a per-application basis. [Here](https://docs.docker.com/desktop/multi-arch/) you can find more information on the subject.
