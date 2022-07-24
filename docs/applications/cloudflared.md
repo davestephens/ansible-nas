@@ -1,4 +1,4 @@
-# Cloudflared (Argo tunnel)
+# Cloudflared (Cloudflare tunnel)
 
 Homepage: [https://github.com/cloudflare/cloudflared](https://github.com/cloudflare/cloudflared)
 
@@ -6,7 +6,7 @@ Cloudflare Argo tunnel: [https://blog.cloudflare.com/argo-tunnel/](https://blog.
 
 Cloudflare: [https://www.cloudflare.com](https://www.cloudflare.com)
 
-This service is very useful when your NAS doesn't have a static IP and it's situated a [Carrier Grade NAT](https://en.wikipedia.org/wiki/Carrier-grade_NAT). With this approach your NAS is connected directly to the Cloudflare servers, which allow public access to your externally available applications.
+This application creates a private and secure link from your NAS to the Cloudflare network, without needing a public IP address. Traffic routed through Cloudflare can reach your applications, which is also useful when your NAS is situated behind a [Carrier Grade NAT](https://en.wikipedia.org/wiki/Carrier-grade_NAT).
 
 ## Usage
 
@@ -22,6 +22,6 @@ On your cloudflare account page, navigate to the Zero Trust dashboard, and creat
 
 After choosing a name for your tunnel, in the environment section choose Docker, and take note of the token in the code section below (the long string after the `--token` command): this will be your `cloudflared_token`.
 
-In the next page (public hostname) you will need to set some values, which we will delete later: set your domain as your cloudflare hostname, Service as `HTTPS` and `localhost`, then save the changes. Edit the Catch-all-rule to be `https://localhost:443`, then delete the entry you made one step before. Your Cloudflare tunnel will now redirect all incoming requests to your Traefik service runnin on port 443, which will route them accordingly.
+In the next page (public hostname) you will need to set some values, which we will delete later: set your domain as your cloudflare hostname, Service as `HTTPS` and `localhost`, then save the changes. Edit the Catch-all-rule to be `https://localhost:443`, then delete the entry you made one step before. Your Cloudflare tunnel will now redirect all incoming requests to your Traefik service running on port 443, which will route them accordingly.
 
 Now your chosen services are exposed to the internet (the ones that have the `*_available_externally` variable set to `true`).

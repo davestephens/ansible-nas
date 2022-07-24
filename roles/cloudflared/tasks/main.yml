@@ -9,4 +9,3 @@
     restart_policy: unless-stopped
     command: "tunnel --no-autoupdate run --token {{ cloudflared_token }}"
     network_mode: "host"
-    recreate: true
