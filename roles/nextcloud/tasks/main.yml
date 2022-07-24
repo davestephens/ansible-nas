@@ -1,50 +1,66 @@
 ---
-- name: Create Nextcloud directories
+- name: Create directories
   file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     state: directory
-  with_items:
-    - "{{ nextcloud_data_directory }}/nextcloud"
-    - "{{ nextcloud_data_directory }}/mysql"
+    mode: "{{ item.mode | default('0755') }}"
+  with_items: "{{ nextcloud_data_subdirectories + nextcloud_data_subdirectories_custom }}"
+  tags:
+    - nextcloud
+    - nextcloud:dir
 
-- name: Nextcloud Mysql Docker Container
+- name: Utils
+  import_tasks: utils.yml
+  tags:
+    - nextcloud
+    - nextcloud:utils
+  when: nextcloud_utils_enabled or nextcloud_nginx_enabled
+
+- name: Mysql Container
   docker_container:
-    name: nextcloud-mysql
-    image: mysql:5.7
-    pull: true
-    volumes:
-      - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
+    capabilities:
+      - sys_nice
+    container_default_behavior: compatibility
     env:
       MYSQL_DATABASE: "nextcloud"
       MYSQL_USER: "{{ nextcloud_sql_user }}"
       MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
       MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_root_password }}"
-    restart_policy: unless-stopped
-    memory: "{{ nextcloud_mysql_memory }}"
-
-- name: Nextcloud Docker Container
-  docker_container:
-    name: nextcloud
-    image: nextcloud:14
+    image: "{{ nextcloud_sql_image }}"
+    memory: "{{ nextcloud_sql_memory }}"
+    name: nextcloud-mysql
     pull: true
-    links:
-      - nextcloud-mysql:mysql
-    volumes:
-      - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
-    ports:
-      - "{{ nextcloud_port }}:80"
+    restart_policy: unless-stopped
+    volumes: "{{ nextcloud_sql_volumes + nextcloud_sql_volumes_custom | sort }}"
+  tags:
+    - nextcloud
+    - nextcloud:sql
+
+- name: Nextcloud Container
+  docker_container:
+    container_default_behavior: compatibility
     env:
       MYSQL_HOST: "mysql"
       MYSQL_DATABASE: "nextcloud"
       MYSQL_USER: "{{ nextcloud_sql_user }}"
       MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
-      NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ ansible_nas_domain }}"
+      NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_trusted_domains | default([nextcloud_hostname,ansible_nas_domain] | join('.')) }}"
+    image: "{{ nextcloud_image_fpm if nextcloud_nginx_enabled else nextcloud_image }}"
+    labels: "{{ {} if nextcloud_nginx_enabled else nextcloud_labels }}"
+    links:
+      - nextcloud-mysql:mysql
+    memory: "{{ nextcloud_sql_memory }}"
+    name: nextcloud
+    pull: true
     restart_policy: unless-stopped
-    memory: "{{ nextcloud_memory }}"
-    labels:
-      traefik.enable: "{{ nextcloud_available_externally }}"
-      traefik.http.routers.nextcloud.rule: "Host(`{{ nextcloud_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.nextcloud.tls.certresolver: "letsencrypt"
-      traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+    volumes: "{{ nextcloud_volumes + nextcloud_volumes_custom }}"
+  tags:
+    - nextcloud
+    - nextcloud:php
+
+- name: Nginx
+  import_tasks: nginx.yml
+  tags:
+    - nextcloud
+    - nextcloud:nginx
+  when: nextcloud_nginx_enabled

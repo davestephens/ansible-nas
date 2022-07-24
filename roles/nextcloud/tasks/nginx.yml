@@ -1,0 +1,20 @@
+---
+
+- name: Nginx Docker Container
+  docker_container:
+    container_default_behavior: compatibility
+    image: "{{ nextcloud_nginx_image }}"
+    labels: "{{ nextcloud_labels }}"
+    links:
+      - nextcloud
+    memory: "{{ nextcloud_nginx_memory }}"
+    name: nextcloud-nginx
+    ports:
+      - "{{ nextcloud_port }}:80"
+    restart_policy: unless-stopped
+    volumes: "{{ nextcloud_nginx_volumes + nextcloud_nginx_volumes_custom }}"
+    volumes_from:
+      - nextcloud
+  tags:
+    - nextcloud
+    - nextcloud:nginx
