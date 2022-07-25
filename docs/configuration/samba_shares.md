@@ -4,8 +4,7 @@ Ansible-NAS uses the awesome [bertvv.samba](https://github.com/bertvv/ansible-ro
 
 ## Share Examples
 
-Ansible-NAS shares are defined in the `samba_shares` section within `group_vars/all.yml`. The examples provided are
-"public" shares that anyone on your LAN can read and write to.
+Ansible-NAS shares are defined in the `samba_shares` section within `group_vars/all.yml`. The examples provided are "public" shares that anyone on your LAN can read and write to.
 
 ## File Permissions
 

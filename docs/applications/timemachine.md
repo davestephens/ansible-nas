@@ -1,7 +1,8 @@
 # Time Machine
 
-Apple docs: [https://support.apple.com/en-us/HT201250](https://support.apple.com/en-us/HT201250)
-Docker image: [https://github.com/awlx/samba-timemachine](https://github.com/awlx/samba-timemachine)
+Apple docs: <https://support.apple.com/en-us/HT201250>
+
+Docker image: <https://github.com/awlx/samba-timemachine>
 
 Time Machine is an application that allows you to backup files from your Mac.
 

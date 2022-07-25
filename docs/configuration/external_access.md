@@ -7,7 +7,7 @@ There are a number of steps required to enable external access to the applicatio
 - Router configuration
 - Enable specific applications for external access
 
-## :skull: :skull: :skull: Warning! :skull: :skull: :skull:
+## 💀💀💀 Warning! 💀💀💀
 
 Enabling access to applications externally **does not** automatically secure them. If you can access an application from within your own network without a username and password, this will also be the case externally.
 

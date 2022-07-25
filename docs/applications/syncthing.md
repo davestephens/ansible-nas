@@ -1,8 +1,10 @@
 # Syncthing: Open Source Continuous File Synchronisation
 
-Homepage: [https://syncthing.net/](https://syncthing.net/)
-Github: [https://github.com/syncthing/syncthing](https://github.com/syncthing/syncthing)
-Docker: [https://hub.docker.com/r/syncthing/syncthing](https://hub.docker.com/r/syncthing/syncthing)
+Homepage: <https://syncthing.net/>
+
+Github: <https://github.com/syncthing/syncthing>
+
+Docker: <https://hub.docker.com/r/syncthing/syncthing>
 
 Syncthing is a continuous file synchronization program. It synchronizes files
 between two or more computers. It strives to fulfill the goals below in summary.

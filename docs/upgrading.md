@@ -11,9 +11,7 @@ This will make updates from `master` much simpler, as there will be no requireme
 Instructions to upgrade from prior to January 2020 ([this]([this](https://github.com/davestephens/ansible-nas/commit/52c7fef3aba08e30331931747c81fb7b3bfd359a)) commit or earlier):
 
 - Move your `group_vars/all.yml` somewhere safe.
-
 - Pull from master. There shouldn't be any merge conflicts unless you've been hacking on the project.
-
 - Create your own inventory and config files by copying `inventories/sample` to your own directory:
 
     `cp -rfp inventories/sample inventories/my-ansible-nas`
@@ -22,7 +20,5 @@ Instructions to upgrade from prior to January 2020 ([this]([this](https://github
 
 - Then:
 
-    - **Quick and Dirty:** Copy the contents of your `all.yml` into `inventories/my-ansible-nas/group_vars/nas.yml`.
-
-    - **Nice and Tidy:** Copy only the differences between your own `all.yml` and the distribution `group_vars/all.yml` into `inventories/my-ansible-nas/group_vars/nas.yml`. This is likely to be things like `ansible_nas_hostname`, `samba_shares`, `ansible_nas_timezone`, enabled applications, any application tweaks you've made in config etc.
-
+  - **Quick and Dirty:** Copy the contents of your `all.yml` into `inventories/my-ansible-nas/group_vars/nas.yml`.
+  - **Nice and Tidy:** Copy only the differences between your own `all.yml` and the distribution `group_vars/all.yml` into `inventories/my-ansible-nas/group_vars/nas.yml`. This is likely to be things like `ansible_nas_hostname`, `samba_shares`, `ansible_nas_timezone`, enabled applications, any application tweaks you've made in config etc.
