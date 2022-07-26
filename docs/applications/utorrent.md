@@ -13,4 +13,4 @@ If you want to access uTorrent externally, don't forget to set `utorrent_availab
 The uTorrent web interface can be found at <http://ansible_nas_host_or_ip:8111/gui>:
 
 - Username: admin
-- Password: <leave blank>
+- Password: *leave blank*

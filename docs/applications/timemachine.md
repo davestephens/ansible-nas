@@ -18,16 +18,10 @@ The Samba server included in the Time Machine docker container logs to `STDOUT` 
 
 ## Specific Configuration
 
-<dl>
-  <dt><strong>timemachine_data_directory</strong></dt>
-  <dd>The absolute path on Ansible NAS where the backup files will be stored</dd>
-  <dt><strong>timemachine_volume_size_limit</strong></dt>
-  <dd>The maximum amount of space Time Machine can use for the backups in units of MiB.  Set it to 0 for no limit.</dd>
-  <dt><strong>timemachine_share_name</strong></dt>
-  <dd>The name of the share as it will appear in the Time Machine application. Default is 'Data'</dd>
-  <dt><strong>timemachine_password</strong></dt>
-  <dd>The password used to access the share.  Default is 'timemachine'</dd>
-<dl>
+- `timemachine_data_directory`: The absolute path on Ansible NAS where the backup files will be stored
+- `timemachine_volume_size_limit`: The maximum amount of space Time Machine can use for the backups in units of MiB.  Set it to 0 for no limit.
+- `timemachine_share_name`: The name of the share as it will appear in the Time Machine application. Default is 'Data'
+- `timemachine_password`: The password used to access the share.  Default is 'timemachine'
 
 ## Upgrading from AFP to SMB-based Time Machine
 
