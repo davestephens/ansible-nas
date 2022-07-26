@@ -28,12 +28,12 @@ jobs:
       - name: Install test dependencies
         run: pip3 install ansible yamllint ansible-lint
 
-      - name: Linting yaml files
+      - name: Lint yaml files
         run: |
           ansible-lint nas.yml
           yamllint .
 
-      - name: markdown-lint
+      - name: Lint docs
         uses: articulate/actions-markdownlint@v1
         with:
           config: markdownlint-config.json
