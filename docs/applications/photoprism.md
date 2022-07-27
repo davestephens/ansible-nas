@@ -13,5 +13,5 @@ docker exec -ti photoprism photoprism passwd
 ```
 
 More commands can be found [here](https://docs.photoprism.app/getting-started/docker/#examples)
-PhotoPrism creates a database in `photoprism_config_directory`.
+PhotoPrism creates a database in `photoprism_data_directory`.
 

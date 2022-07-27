@@ -273,6 +273,11 @@
         - plex
       when: (plex_enabled | default(False))
 
+    - role: photoprism
+      tags: 
+        - photoprism
+      when: (photoprism_enabled | default(False))
+
     - role: pytivo
       tags:
         - pytivo
@@ -403,7 +408,3 @@
     - import_tasks: tasks/virtual_desktop.yml
       when: (virtual_desktop_enabled | default(False))
       tags: virtual_desktop
-
-    - import_tasks: tasks/photoprism.yml
-      when: (photoprism_enabled | default(False))
-      tags: photoprism
