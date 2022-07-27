@@ -25,9 +25,6 @@
   with_items:
     - "{{ guacamole_data_directory }}/mysql"
 
-# docker run -v /home/david/.guac:/config:rw  -p 8080:8080   oznu/guacamole
-
-
 - name: Guacamole Container
   docker_container:
     name: guacamole
@@ -38,10 +35,10 @@
     ports:
       - "{{ guacamole_port }}:8080"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ guacamole_memory }}"
     labels:
-      traefik.enable: "{{ guacamole_available_externally }}"
-      traefik.http.routers.guacamole.rule: "Host(`guacamole.{{ ansible_nas_domain }}`)"
+      traefik.enable: "{{ guacamole_available_externally | string }}"
+      traefik.http.routers.guacamole.rule: "Host(`{{ guacamole_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.guacamole.tls.certresolver: "letsencrypt"
       traefik.http.routers.guacamole.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.guacamole.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

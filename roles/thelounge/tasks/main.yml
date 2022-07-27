@@ -25,10 +25,10 @@
       - "{{ thelounge_data_directory }}:/var/opt/thelounge"
       - "/var/run/dbus:/var/run/dbus"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ thelounge_memory }}"
     labels:
-      traefik.enable: "{{ thelounge_available_externally }}"
-      traefik.http.routers.thelounge.rule: "Host(`thelounge.{{ ansible_nas_domain }}`)"
+      traefik.enable: "{{ thelounge_available_externally | string }}"
+      traefik.http.routers.thelounge.rule: "Host(`{{ thelounge_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.thelounge.tls.certresolver: "letsencrypt"
       traefik.http.routers.thelounge.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.thelounge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
