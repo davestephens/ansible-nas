@@ -40,7 +40,7 @@
     memory: "{{ joomla_memory }}"
     labels:
       traefik.enable: "{{ joomla_available_externally | string }}"
-      traefik.http.routers.joomla.rule: "Host(`{{ joomla_hostname}}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.joomla.rule: "Host(`{{ joomla_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.joomla.tls.certresolver: "letsencrypt"
       traefik.http.routers.joomla.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.joomla.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
