@@ -115,6 +115,11 @@
         - firefly
       when: (firefly_enabled | default(False))
 
+    - role: flaresolverr
+      tags:
+        - flaresolverr
+      when: (flaresolverr_enabled | default(False))
+
     - role: freshrss
       tags:
         - freshrss

@@ -1,0 +1,14 @@
+- name: Flaresolverr Docker Container
+  docker_container:
+    name: flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr
+    pull: true
+    env:
+      LOG_LEVEL: "info"
+      LOG_HTML: "false"
+      CAPTCHA_SOLVER: "none"
+      TZ: "{{ ansible_nas_timezone }}"
+    ports:
+      - "{{ flaresolverr_port }}:8191"
+    restart_policy: unless-stopped
+    memory: "{{ flaresolverr_memory }}"

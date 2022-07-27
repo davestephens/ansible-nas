@@ -1,0 +1,8 @@
+---
+flaresolverr_enabled: false
+
+# network
+flaresolverr_port: "8191"
+
+# specs
+flaresolverr_memory: 1g
