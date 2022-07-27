@@ -1,7 +1,7 @@
 
 # FreshRSS
 
-Homepage: [https://freshrss.org/](https://freshrss.org/)
+Homepage: <https://freshrss.org/>
 
 FreshRSS is a self-hosted RSS feed aggregator like Leed or Kriss Feed.
 
@@ -19,4 +19,4 @@ Finally, it supports extensions for further tuning.
 
 Set `freshrss_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-The FreshRSS web interface can be found at http://ansible_nas_host_or_ip:8089.
+The FreshRSS web interface can be found at <http://ansible_nas_host_or_ip:8089>.

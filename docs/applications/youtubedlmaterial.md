@@ -1,8 +1,8 @@
 
 # YouTubeDL-Material
 
-Homepage: [https://github.com/Tzahi12345/YoutubeDL-Material](https://github.com/Tzahi12345/YoutubeDL-Material)
-Docker Container: [https://hub.docker.com/r/tzahi12345/youtubedl-material](https://hub.docker.com/r/tzahi12345/youtubedl-material)
+Homepage: <https://github.com/Tzahi12345/YoutubeDL-Material>
+Docker Container: <https://hub.docker.com/r/tzahi12345/youtubedl-material>
 
 YoutubeDL-Material is a Material Design frontend for youtube-dl. It's coded using Angular 9 for the frontend, and Node.js on the backend.
 
@@ -10,7 +10,7 @@ YoutubeDL-Material is a Material Design frontend for youtube-dl. It's coded usin
 
 Set `youtubedlmaterial_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-The YouTubeDL-Material web interface can be found at http://ansible_nas_host_or_ip:8998.
+The YouTubeDL-Material web interface can be found at <http://ansible_nas_host_or_ip:8998>.
 
 ## Specific Configuration
 

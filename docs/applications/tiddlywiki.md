@@ -1,6 +1,6 @@
 # TiddlyWiki
 
-Homepage: [https://www.tiddlywiki.com/](https://www.tiddlywiki.com/)
+Homepage: <https://www.tiddlywiki.com/>
 
 TiddlyWiki is a unique non-linear notebook for capturing, organizing, and sharing complex information. Use it to keep your to-do list, to plan an essay or novel, or to organise your wedding. Record every thought that crosses your brain, or build a flexible and responsive website. Unlike conventional online services, TiddlyWiki lets you choose where to keep your data, guaranteeing that in the decades to come you will still be able to use the notes you take today.
 
@@ -10,7 +10,7 @@ Set `tiddlywiki_enabled: true` in your `inventories/<your_inventory>/nas.yml` fi
 
 If you want to access TiddlyWiki externally, set `tiddlywiki_available_externally: "true"` in your `inventories/<your_inventory>/nas.yml` file.
 
-The TiddlyWiki web interface can be found at http://ansible_nas_host_or_ip:8092.
+The TiddlyWiki web interface can be found at <http://ansible_nas_host_or_ip:8092>.
 
 ## Specific Configuration
 

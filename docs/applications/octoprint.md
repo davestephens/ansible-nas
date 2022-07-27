@@ -1,6 +1,6 @@
 # Octoprint
 
-Homepage: [https://octoprint.org/](https://octoprint.org/)
+Homepage: <https://octoprint.org/>
 
 Octoprint is a control and monitoring application for your 3D printer. You can start and stop print jobs, view your webcam feed, move the print head and extruder manually and check your gcode files, all from a single web interface. Octoprint doesn't require modifications on the printer firmware, just make sure your NAS is phisically connected to it with a usb cable.
 
