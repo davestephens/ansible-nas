@@ -1,6 +1,6 @@
 ---
 ombi_enabled: false
-ombi_available_externally: "false"
+ombi_available_externally: false
 
 # directories
 ombi_config_directory: "{{ docker_home }}/ombi/config"

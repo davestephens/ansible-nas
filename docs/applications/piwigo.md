@@ -8,7 +8,7 @@ Piwigo is open source photo gallery software for the web. Designed for organisat
 
 Set `piwigo_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-If you want to access Piwigo externally, set `piwigo_available_externally: "true"` in your `inventories/<your_inventory>/nas.yml` file.
+If you want to access Piwigo externally, set `piwigo_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 The Piwigo web interface can be found at <http://ansible_nas_host_or_ip:16923>.
 

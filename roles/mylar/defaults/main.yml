@@ -1,13 +1,12 @@
 ---
 # enable or disable the application
 mylar_enabled: false
-mylar_available_externally: "false"
+mylar_available_externally: false
 
 # directories
 mylar_data_directory: "{{ docker_home }}/mylar"
 mylar_comics_directory: "{{ comics_root }}"
 mylar_downloads_directory: "{{ downloads_root }}"
-
 
 # uid / gid
 mylar_user_id: "0"

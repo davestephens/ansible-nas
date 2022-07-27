@@ -1,6 +1,6 @@
 ---
 nextcloud_enabled: false
-nextcloud_available_externally: "false"
+nextcloud_available_externally: false
 
 # directories
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"

@@ -28,7 +28,7 @@
     restart_policy: unless-stopped
     memory: "{{ komga_memory }}"
     labels:
-      traefik.enable: "{{ komga_available_externally }}"
+      traefik.enable: "{{ komga_available_externally | string }}"
       traefik.http.routers.komga.rule: "Host(`{{ komga_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.komga.tls.certresolver: "letsencrypt"
       traefik.http.routers.komga.tls.domains[0].main: "{{ ansible_nas_domain }}"

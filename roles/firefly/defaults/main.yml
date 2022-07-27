@@ -1,7 +1,7 @@
 ---
 # enable or disable the application
 firefly_enabled: false
-firefly_available_externally: "false"
+firefly_available_externally: false
 
 # directories
 firefly_data_directory: "{{ docker_home }}/firefly"

@@ -1,6 +1,6 @@
 ---
 netbootxyz_enabled: false
-netbootxyz_available_externally: "false"
+netbootxyz_available_externally: false
 
 # directories
 netbootxyz_config_directory: "{{ docker_home }}/netbootxyz/config"

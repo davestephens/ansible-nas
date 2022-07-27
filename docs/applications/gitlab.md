@@ -8,6 +8,6 @@ If Gitea isn't powerful enough for you then consider GitLab. It's a much more po
 
 Set `gitlab_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-To make GitLab available externally via Traefik set `gitlab_available_externally: "true"` in your `inventories/<your_inventory>/nas.yml` file.
+To make GitLab available externally via Traefik set `gitlab_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 The first time you run GitLab you'll be prompted for an account's password. The password is for GitLab's `root` administrator account. From there you can log in to create additional users and further configure the application.

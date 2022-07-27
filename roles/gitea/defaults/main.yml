@@ -1,6 +1,6 @@
 ---
 gitea_enabled: false
-gitea_available_externally: "false"
+gitea_available_externally: false
 
 # directories
 gitea_data_directory: "{{ docker_home }}/gitea"
