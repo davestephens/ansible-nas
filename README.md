@@ -38,6 +38,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Gotify](https://gotify.net/) Self-hosted server for sending push notifications
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
+* [healthchecks.io](https://healthchecks.io/) - Ensure your NAS is online and get notified otherwise
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [InfluxDB](https://github.com/influxdata/influxdb) - Time series database used for stats collection
@@ -48,6 +49,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Krusader](https://krusader.org/) - Twin panel file management for your desktop
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
+* [Minecraft Server](https://www.minecraft.net/) - Server edition of the popular building and exploring game
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
@@ -59,6 +61,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
+* [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
 * [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home

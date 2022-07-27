@@ -6,7 +6,6 @@
       tags: users
 
   roles:
-
     ###
     ### Requirements
     ###
@@ -25,7 +24,6 @@
         - docker
         - skip_ansible_lint
 
-
     ###
     ### Ansible-NAS Roles
     ###
@@ -38,7 +36,6 @@
       tags:
         - ansible-nas-docker
         - ansible-nas
-
 
     ###
     ### Applications
@@ -148,6 +145,11 @@
         - gotify
       when: (gotify_enabled | default(False))
 
+    - role: healthchecks.io
+      tags:
+        - healthchecks.io
+      when: (healthchecks_enabled | default(False))
+
     - role: heimdall
       tags:
         - heimdall
@@ -172,6 +174,11 @@
       tags:
         - mealie
       when: (mealie_enabled | default(False))
+
+    - role: minecraft-server
+      tags:
+        - minecraft-server
+      when: (minecraft_server_enabled | default(False))
 
     - role: minidlna
       tags:
@@ -227,6 +234,11 @@
       tags:
         - nzbget
       when: (nzbget_enabled | default(False))
+
+    - role: octoprint
+      tags:
+        - octoprint
+      when: (octoprint_enabled | default(False))
 
     - role: organizr
       tags:
