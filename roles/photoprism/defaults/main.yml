@@ -1,5 +1,5 @@
+---
 photoprism_data_directory: "{{ docker_home }}/photoprism"
 photoprism_photos_directory: "{{ photos_root }}"
 photoprism_port: "2342"
 photoprism_available_externally: false
-

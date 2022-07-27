@@ -4,11 +4,6 @@ Contributing to Ansible-NAS is easy! Add your functionality, then raise a pull r
 
 * Restrict pull requests to one piece of functionality or bugfix at a time.
 * Test your new functionality or bugfix using the included `tests/test-vagrant.sh` script to spin up a test VM.
-  1. Install Vagrant [here](https://www.vagrantup.com/downloads) (package managers usually have out-of-date versions)
-  2. Install a virtual machine runner like [VirtualBox](https://www.virtualbox.org/) (installation via package manager is fine)
-  3. Create `./tests/test.yml` with your desired ansible variables from `group_vars/all.yml` set (See [configuration](./docs/installation.md).
-  4. From the repo base directory run `./test/test-vagrant.sh` to start Vagrant, then `./test/test-vagrant.sh -p` to provision it.
-  5. Run it twice to ensure idempotence
 * Run `ansible-lint` against the playbook before committing. (There is a VSCode task set up to run the right command for you)
 * Ensure that your PR only changes files required for your functionality or bugfix.
 

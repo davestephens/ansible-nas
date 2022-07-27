@@ -274,7 +274,7 @@
       when: (plex_enabled | default(False))
 
     - role: photoprism
-      tags: 
+      tags:
         - photoprism
       when: (photoprism_enabled | default(False))
 
