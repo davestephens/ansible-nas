@@ -1,3 +1,4 @@
+---
 - name: Flaresolverr Docker Container
   docker_container:
     name: flaresolverr
