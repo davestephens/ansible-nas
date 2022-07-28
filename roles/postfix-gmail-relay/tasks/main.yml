@@ -27,6 +27,7 @@
 
 - name: Process password file
   command: postmap /etc/postfix/sasl_passwd
+  changed_when: false
 
 - name: Enable and start postfix service
   service:
