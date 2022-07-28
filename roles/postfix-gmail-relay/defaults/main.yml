@@ -1,0 +1,5 @@
+---
+postfix_gmail_relay_enabled: false
+
+postfix_gmail_relay_email: "{{ ansible_nas_email }}"
+postfix_gmail_relay_app_password: ""

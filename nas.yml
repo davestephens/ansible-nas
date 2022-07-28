@@ -265,6 +265,11 @@
         - portainer
       when: (portainer_enabled | default(False))
 
+    - role: postfix
+      tags:
+        - postfix
+      when: (postfix_enabled | default(False))
+
     - role: prowlarr
       tags:
         - prowlarr
