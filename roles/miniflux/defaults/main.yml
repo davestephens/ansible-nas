@@ -1,11 +1,10 @@
 ---
 # enable or disable the application
 miniflux_enabled: false
-miniflux_available_externally: "false"
+miniflux_available_externally: false
 
 # directories
 miniflux_data_directory: "{{ docker_home }}/miniflux"
-
 
 # env
 miniflux_admin_username: admin

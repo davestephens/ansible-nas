@@ -1,11 +1,10 @@
 ---
 pyload_enabled: false
-pyload_available_externally: "false"
+pyload_available_externally: false
 
 # directories
 pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
-
 
 # uid / gid
 pyload_user_id: "0"

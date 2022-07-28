@@ -1,6 +1,6 @@
 ---
 utorrent_enabled: false
-utorrent_available_externally: "false"
+utorrent_available_externally: false
 
 # directories
 utorrent_config_directory: "{{ docker_home }}/utorrent/config"

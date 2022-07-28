@@ -1,6 +1,6 @@
 # Booksonic
 
-Homepage: [https://booksonic.org/](https://booksonic.org/)
+Homepage: <https://booksonic.org/>
 
 Stream your audiobooks to any pc or android phone. Most of the functionality is also available on other platforms that have apps for subsonic.
 
@@ -12,7 +12,7 @@ Get the Android app on [Google Play](https://play.google.com/store/apps/details?
 
 Set `booksonic_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-The Booksonic web interface can be found at http://ansible_nas_host_or_ip:4041.
+The Booksonic web interface can be found at <http://ansible_nas_host_or_ip:4041>.
 
 ## Specific Configuration
 

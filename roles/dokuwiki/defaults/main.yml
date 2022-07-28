@@ -1,6 +1,6 @@
 ---
 dokuwiki_enabled: false
-dokuwiki_available_externally: "false"
+dokuwiki_available_externally: false
 
 # directories
 dokuwiki_data_directory: "{{ docker_home }}/dokuwiki"

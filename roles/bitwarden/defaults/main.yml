@@ -1,6 +1,6 @@
 ---
 bitwarden_enabled: false
-bitwarden_available_externally: "false"
+bitwarden_available_externally: false
 bitwarden_data_directory: "{{ docker_home }}/bitwarden"
 bitwarden_port_a: "19080"
 bitwarden_port_b: "3012"

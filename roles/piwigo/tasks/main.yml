@@ -43,7 +43,7 @@
     restart_policy: unless-stopped
     memory: "{{ piwigo_memory }}"
     labels:
-      traefik.enable: "{{ piwigo_available_externally }}"
+      traefik.enable: "{{ piwigo_available_externally | string }}"
       traefik.http.routers.piwigo.rule: "Host(`{{ piwigo_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.piwigo.tls.certresolver: "letsencrypt"
       traefik.http.routers.piwigo.tls.domains[0].main: "{{ ansible_nas_domain }}"

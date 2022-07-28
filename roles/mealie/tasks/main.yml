@@ -19,17 +19,17 @@
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ mealie_user_id }}"
       PGID: "{{ mealie_group_id }}"
-      RECIPE_PUBLIC: 'true'
-      RECIPE_SHOW_NUTRITION: 'true'
-      RECIPE_SHOW_ASSETS: 'true'
-      RECIPE_LANDSCAPE_VIEW: 'true'
-      RECIPE_DISABLE_COMMENTS: 'false'
-      RECIPE_DISABLE_AMOUNT: 'false'
+      RECIPE_PUBLIC: "true"
+      RECIPE_SHOW_NUTRITION: "true"
+      RECIPE_SHOW_ASSETS: "true"
+      RECIPE_LANDSCAPE_VIEW: "true"
+      RECIPE_DISABLE_COMMENTS: "false"
+      RECIPE_DISABLE_AMOUNT: "false"
       BASE_URL: "{{ ansible_nas_domain }}:{{ mealie_port }}"
     restart_policy: unless-stopped
     memory: "{{ mealie_memory }}"
     labels:
-      traefik.enable: "{{ mealie_available_externally }}"
+      traefik.enable: "{{ mealie_available_externally | string }}"
       traefik.http.routers.mealie.rule: "Host(`{{ mealie_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.mealie.tls.certresolver: "letsencrypt"
       traefik.http.routers.mealie.tls.domains[0].main: "{{ ansible_nas_domain }}"

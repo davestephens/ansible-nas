@@ -1,7 +1,7 @@
 ---
 # enable or disable the application
 gitlab_enabled: false
-gitlab_available_externally: "false"
+gitlab_available_externally: false
 
 # directories
 gitlab_data_directory: "{{ docker_home }}/gitlab"

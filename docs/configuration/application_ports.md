@@ -2,7 +2,7 @@
 
 By default, applications can be found on the ports listed below.
 
-# Application Ports
+## Default application ports
 
 By default, applications can be found on the ports listed below.
 

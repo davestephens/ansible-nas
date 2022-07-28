@@ -1,6 +1,6 @@
 ---
 organizr_enabled: false
-organizr_available_externally: "false"
+organizr_available_externally: false
 
 # directories
 organizr_data_directory: "{{ docker_home }}/organizr"
