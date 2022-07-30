@@ -1,0 +1,43 @@
+---
+- name: Create Scrutiny Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ scrutiny_data_directory }}"
+    - "{{ scrutiny_data_directory }}/data"
+    - "{{ scrutiny_data_directory }}/config"
+
+- name: Template Scrutiny config
+  template:
+    src: scrutiny/scrutiny.yml
+    dest: "{{ scrutiny_data_directory }}/config/scrutiny.yaml"
+
+- name: Template Scrutiny collector config
+  template:
+    src: scrutiny/collector.yml
+    dest: "{{ scrutiny_data_directory }}/config/collector.yaml"
+
+- name: Scrutiny
+  docker_container:
+    name: scrutiny
+    image: ghcr.io/analogj/scrutiny
+    pull: true
+    volumes:
+      - "/run/udev:/run/udev:ro"
+      - "{{ scrutiny_data_directory }}/data:/scrutiny/data:rw"
+      - "{{ scrutiny_data_directory }}/config:/scrutiny/config:ro"
+    ports:
+      - "{{ scrutiny_port }}:8080"
+    capabilities:
+      - SYS_RAWIO
+    devices: "{{ scrutiny_devices }}"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.enable: "{{ scrutiny_available_externally | string }}"
+      traefik.http.routers.scrutiny.rule: "Host(`{{ scrutiny_hostname }}.{{ ansible_nas_domain }}`) "
+      traefik.http.routers.scrutiny.tls.certresolver: "letsencrypt"
+      traefik.http.routers.scrutiny.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.scrutiny.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.scrutiny.loadbalancer.server.port: "8080"

@@ -1,0 +1,19 @@
+---
+scrutiny_enabled: false
+scrutiny_available_externally: false
+
+# directories
+scrutiny_data_directory: "{{ docker_home }}/scrutiny"
+
+# network
+scrutiny_port: "8093"
+scrutiny_hostname: "scrutiny"
+
+# Controls the logging level of the scrutiny.log file
+scrutiny_log_level: "INFO"
+
+# List of devices like "/dev/sda" for Scrutiny to monitor with smartd
+scrutiny_devices: []
+
+# List of shoutrrr URLs to notify from Scrutiny
+scrutiny_notify_urls: []
