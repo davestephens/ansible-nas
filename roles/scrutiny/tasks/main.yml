@@ -33,7 +33,7 @@
       - SYS_RAWIO
     devices: "{{ scrutiny_devices }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ scrutiny_memory }}"
     labels:
       traefik.enable: "{{ scrutiny_available_externally | string }}"
       traefik.http.routers.scrutiny.rule: "Host(`{{ scrutiny_hostname }}.{{ ansible_nas_domain }}`) "

@@ -17,3 +17,6 @@ scrutiny_devices: []
 
 # List of shoutrrr URLs to notify from Scrutiny
 scrutiny_notify_urls: []
+
+# specs
+scrutiny_memory: 1g
