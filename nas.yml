@@ -164,7 +164,12 @@
       tags:
         - jellyfin
       when: (jellyfin_enabled | default(False))
-
+      
+    - role: komga
+      tags:
+        - komga
+      when: (komga_enabled | default(False))
+      
     - role: lidarr
       tags:
         - lidarr
