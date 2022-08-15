@@ -9,7 +9,7 @@
     - "{{ freshrss_data_directory }}/data"
     - "{{ freshrss_extensions_directory }}/extensions"
 
-- name: FreshRSS MySQL Docker Container
+- name: FreshRSS PostgreSQL Docker Container
   docker_container:
     name: freshrss-postgres
     image: postgres:12-alpine
