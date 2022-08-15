@@ -65,7 +65,7 @@ By default, applications can be found on the ports listed below.
 | netbootxyz       | 69      | Bridge  | TFTP           |
 | NZBGet           | 6789    | Bridge  | HTTP           |
 | Ombi             | 3579    | Bridge  | HTTP           |
-| ONLYOFFICE       | 8090    | Bridge  | HTTP           |
+| ONLYOFFICE DS    | 8090    | Bridge  | HTTP           |
 | openHAB          | 7777    | Host    | HTTP           |
 | openHAB          | 7778    | Host    | HTTPS          |
 | Organizr         | 10081   | Bridge  | HTTP           |
