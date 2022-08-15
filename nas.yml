@@ -340,6 +340,11 @@
         - tautulli
       when: (tautulli_enabled | default(False))
 
+    - role: tdarr
+      tags:
+        - tdarr
+      when: (tdarr_enabled | default(False))
+
     - role: tiddlywiki
       tags:
         - tiddlywiki
