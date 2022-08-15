@@ -10,7 +10,7 @@
 - name: Nextcloud Mysql Docker Container
   docker_container:
     name: nextcloud-mysql
-    image: mysql:5.7
+    image: "{{ nextcloud_mysql_image }}"
     pull: true
     volumes:
       - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
@@ -25,7 +25,7 @@
 - name: Nextcloud Docker Container
   docker_container:
     name: nextcloud
-    image: nextcloud:14
+    image: "{{ nextcloud_image }}"
     pull: true
     links:
       - nextcloud-mysql:mysql
