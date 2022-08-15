@@ -1,0 +1,22 @@
+---
+- name: Create Doku Docker Container
+  docker_container:
+    name: doku
+    image: amerkurev/doku:latest
+    pull: true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/:/hostroot:ro"
+    ports:
+      - "{{ doku_port }}:9090"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: unless-stopped
+    memory: "{{ doku_memory }}"
+    labels:
+      traefik.enable: "{{ doku_available_externally | string }}"
+      traefik.http.routers.doku.rule: "Host(`{{ doku_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.doku.tls.certresolver: "letsencrypt"
+      traefik.http.routers.doku.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.doku.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.doku.loadbalancer.server.port: "9090"
