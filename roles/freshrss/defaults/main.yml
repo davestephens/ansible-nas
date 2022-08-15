@@ -14,3 +14,6 @@ freshrss_db_port: "5432"
 # specs
 freshrss_memory: 1g
 freshrss_db_memory: 1g
+
+# accounts
+freshrss_db_password: "freshrss"
