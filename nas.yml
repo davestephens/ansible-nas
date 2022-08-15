@@ -75,6 +75,11 @@
         - couchpotato
       when: (couchpotato_enabled | default(False))
 
+    - role: dailytxt
+      tags:
+        - dailytxt
+      when: (dailytxt_enabled | default(False))
+
     - role: dashy
       tags:
         - dashy
