@@ -13,3 +13,5 @@ The DailyTxt web interface can be found at <http://ansible_nas_host_or_ip:8766>.
 ## Specific Configuration
 
 You may want to set `dailytxt_allow_registration: "false"` in your `inventories/<your_inventory>/nas.yml` file to prevent new registrations if you expose DailyTxt to the Internet; do this after you've created your account.
+
+You may want to set 'dailytxt_hostname:' to '"dairy"' or '"journal"' in your `inventories/<your_inventory>/nas.yml` for a more intuitive hostname.
