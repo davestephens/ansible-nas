@@ -1,4 +1,4 @@
-# ONLYOFFICE
+# ONLYOFFICE Document Server
 
 Homepage: <https://www.onlyoffice.com/>
 
