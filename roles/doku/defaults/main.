@@ -1,0 +1,11 @@
+---
+# enable or disable the application
+doku_enabled: false
+doku_available_externally: false
+
+# network
+doku_hostname: "doku"
+doku_port: "9090"
+
+# specs
+doku_memory: "256M"
