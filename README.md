@@ -64,7 +64,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
-* [ONLYOFFICE](https://www.onlyoffice.com/) - ONLYOFFICE document server integration for Nextcloud
+* [ONLYOFFICE Document Server](https://www.onlyoffice.com/) - ONLYOFFICE document server integration for Nextcloud
 * [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [overseerr](https://docs.overseerr.dev) - open source software application for managing requests for your media library
