@@ -16,7 +16,7 @@
     volumes:
       - "{{ duplicati_data_directory }}:/config:rw"
       - "{{ samba_shares_root }}:/source/shares:{{ duplicati_data_permissions }}"
-      - "{{ docker_home }}:/source/docker:ro"
+      - "{{ docker_home }}:/source/docker:{{ duplicati_data_permissions }}"
       - "/etc/timezone:/etc/timezone:ro"
     env:
       TZ: "{{ ansible_nas_timezone }}"
