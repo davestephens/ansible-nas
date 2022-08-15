@@ -16,7 +16,6 @@
     pull: true
     volumes:
       - "{{ freshrss_data_directory }}/pgsql_data:/var/lib/postgresql/data"
-    dns_servers: "{{ ansible_nas_dns }}"
     hostname: "freshrss-postgres"
     ports:
       - "{{ freshrss_db_port }}:5432"
