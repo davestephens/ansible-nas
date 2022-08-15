@@ -5,7 +5,7 @@
     state: directory
     # mode: 0755
   with_items:
-      - "{{ freshrss_data_directory }}/pgsql_data"
+    - "{{ freshrss_data_directory }}/pgsql_data"
     - "{{ freshrss_data_directory }}/data"
     - "{{ freshrss_extensions_directory }}/extensions"
 
@@ -19,13 +19,13 @@
     dns_servers: "{{ ansible_nas_dns }}"
     hostname: "freshrss-postgres"
     ports:
-      - "5432:5432"
+      - "{{ freshrss_db_port }}:5432"
     env:
       POSTGRES_USER: "freshrss"
       POSTGRES_PASSWORD: "freshrss"
       POSTGRES_DB: "freshrss"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ freshrss_db_memory }}"
 
 - name: FreshRSS Docker Container
   docker_container:
