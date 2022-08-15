@@ -1,0 +1,19 @@
+---
+# enable or disable the application
+dailytxt_enabled: false
+dailytxt_available_externally: false
+
+# directories
+dailytxt_data_directory: "{{ docker_home }}/dailytxt"
+
+# network
+dailytxt_hostname: "dailytxt"
+dailytxt_port_http: "8766"
+
+# specs
+dailytxt_memory: "1g"
+
+# configuration
+dailytxt_secret_key: "N2HnBPOjMbouxti1lx2iR5Uz40WyjBDVk1w2GLHM2aA="
+dailytxt_allow_registration: "true"
+dailytxt_jwt_exp_days: "30"
