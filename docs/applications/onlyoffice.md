@@ -12,4 +12,4 @@ The ONLYOFFICE's web interface is used by NextCloud at <http://ansible_nas_host_
 
 ## Specific Configuration
 
-Configure in NextCloud after installing the [ONLYOFFICE app](https://apps.nextcloud.com/apps/onlyoffice)
+Add the [ONLYOFFICE app](https://apps.nextcloud.com/apps/onlyoffice) in NextCloud via + Apps then configure it in Settings/Administration/ONLYOFFICE.
