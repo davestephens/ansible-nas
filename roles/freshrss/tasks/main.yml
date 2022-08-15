@@ -16,12 +16,11 @@
     pull: true
     volumes:
       - "{{ freshrss_data_directory }}/pgsql_data:/var/lib/postgresql/data"
-    hostname: "freshrss-postgres"
     ports:
       - "{{ freshrss_db_port }}:5432"
     env:
       POSTGRES_USER: "freshrss"
-      POSTGRES_PASSWORD: "freshrss"
+      POSTGRES_PASSWORD: "{{ freshrss_db_password }}"
       POSTGRES_DB: "freshrss"
     restart_policy: unless-stopped
     memory: "{{ freshrss_db_memory }}"
