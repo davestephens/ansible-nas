@@ -245,6 +245,11 @@
         - octoprint
       when: (octoprint_enabled | default(False))
 
+    - role: onlyoffice
+      tags:
+        - onlyoffice
+      when: (onlyoffice_enabled | default(False))
+
     - role: organizr
       tags:
         - organizr
