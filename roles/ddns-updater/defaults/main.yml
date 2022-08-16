@@ -1,0 +1,14 @@
+---
+# enable or disable the application
+ddns_updater_enabled: false
+ddns_updater_available_externally: false
+
+# directories
+ddns_updater_data_directory: "{{ docker_home }}/ddns-updater"
+
+# network
+ddns_updater_hostname: "ddnsupdater"
+ddns_updater_port: "8001"
+
+# specs
+ddns_updater_memory: "256m"
