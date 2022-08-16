@@ -2,7 +2,7 @@
 
 Homepage: <https://tdarr.io/>
 
-Tdarr does Audio/Video library transcoding automation.
+Tdarr does Audio/Video Library Analytics & Transcode/Remux Automation
 
 ## Usage
 
