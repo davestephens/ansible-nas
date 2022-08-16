@@ -2,7 +2,7 @@
 
 Homepage: <https://github.com/qdm12/ddns-updater>
 
-DDNS Updater is a lightweight universal DDNS Updater with Docker and web UI. Check the homepage for the list of 30+ providers it supports.
+DDNS Updater is a container to update DNS records periodically with WebUI for many DNS providers. Check the homepage for the list of 30+ providers it supports.
 
 ## Usage
 
