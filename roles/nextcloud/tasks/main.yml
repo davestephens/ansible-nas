@@ -48,3 +48,6 @@
       traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+
+- name: Nextcloud Run CLI command
+  shell: "{{ nextcloud_cli_command }}"
