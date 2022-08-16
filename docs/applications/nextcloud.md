@@ -26,6 +26,8 @@ The above commands are documented in the administration guide for Nextcloud:
 
 ## Advanced Configuration
 
-You can set the `nextcloud_cli_command` override in your `inventories/<your_inventory>/nas.yml` file to execute shell commands for persistent setup inside your Nextcloud container. Examples:
+You can set the `nextcloud_cli_command` override in your `inventories/<your_inventory>/nas.yml` file to execute shell commands for persistent setup inside your Nextcloud container. 
+
+Examples:
 - `nextcloud_cli_command: "docker exec nextcloud php occ config:system:set trusted_domains INDEX_FOR_NEW_ENTRY_SEE_DOCS_LINK_BELOW --value={{ nextcloud_hostname }}.{{ ansible_nas_domain }} --update-only"` to automatically configure your FQDN per example above.
 - `nextcloud_cli_command: "docker exec nextcloud apt update && docker exec nextcloud apt install smbclient -y"` to automatically install smbclient
