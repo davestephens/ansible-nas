@@ -5,6 +5,7 @@
     state: directory
   with_items:
     - "{{ handbrake_data_directory }}"
+    - "{{ handbrake_data_directory }}/config"
     - "{{ handbrake_output_directory }}"
     - "{{ handbrake_watch_directory }}"
 - name: Create HandBrake Docker Container
