@@ -145,6 +145,11 @@
         - gotify
       when: (gotify_enabled | default(False))
 
+    - role: handbrake
+      tags:
+        - handbrake
+      when: (handbrake_enabled | default(False))
+
     - role: healthchecks.io
       tags:
         - healthchecks.io
