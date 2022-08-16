@@ -8,7 +8,7 @@
     - "{{ handbrake_data_directory }}/config"
     - "{{ handbrake_output_directory }}"
     - "{{ handbrake_watch_directory }}"
-    
+
 - name: Create HandBrake Docker Container
   docker_container:
     name: handbrake
