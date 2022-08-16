@@ -1,5 +1,5 @@
 ---
-- name: Create Handbrake Directories
+- name: Create HandBrake Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -8,6 +8,7 @@
     - "{{ handbrake_data_directory }}/config"
     - "{{ handbrake_output_directory }}"
     - "{{ handbrake_watch_directory }}"
+    
 - name: Create HandBrake Docker Container
   docker_container:
     name: handbrake
@@ -20,8 +21,6 @@
       - "{{ handbrake_output_directory }}:/output:rw"
     ports:
       - "{{ handbrake_port_http }}:5800"
-    dns_servers: "{{ ansible_nas_dns }}"
-    hostname: "handbrake"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       USER_ID: "{{ handbrake_user_id }}"
@@ -40,7 +39,7 @@
     restart_policy: unless-stopped
     labels:
       traefik.enable: "{{ handbrake_available_externally | string }}"
-      traefik.http.routers.handbrake.rule: "Host(`handbrake.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.handbrake.rule: "Host(`{{ handbrake_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.handbrake.tls.certresolver: "letsencrypt"
       traefik.http.routers.handbrake.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.handbrake.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
