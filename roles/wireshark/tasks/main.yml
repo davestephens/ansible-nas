@@ -12,8 +12,6 @@
     name: wireshark
     image: linuxserver/wireshark:latest
     pull: true
-    ports:
-#      - "3000:3000"   # host mode - for reference only
     volumes:
       - "{{ wireshark_data_directory }}/config:/config:rw"
     network_mode: host
