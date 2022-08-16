@@ -14,7 +14,7 @@
     image: jlesage/handbrake
     pull: true
     volumes:
-      - "{{ handbrake_data_directory }}:/config:rw"
+      - "{{ handbrake_data_directory }}/config:/config:rw"
       - "{{ handbrake_storage_directory }}:/storage:ro"
       - "{{ handbrake_watch_directory }}:/watch:rw"
       - "{{ handbrake_output_directory }}:/output:rw"
