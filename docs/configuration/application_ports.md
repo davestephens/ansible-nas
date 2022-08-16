@@ -81,6 +81,7 @@ By default, applications can be found on the ports listed below.
 | Radarr           | 7878    | Bridge  | HTTP           |
 | RSS-Bridge       | 8091    | Bridge  | HTTP           |
 | Sabnzbd          | 18080   | Bridge  | HTTP           |
+| scrutiny         | 8085    | Bridge  | HTTP           |
 | Sickchill        | 8081    | Bridge  | HTTP           |
 | Sonarr           | 8989    | Bridge  | HTTP           |
 | Speedtest-Trk    | 8765    | HTTP    |                |
