@@ -10,6 +10,7 @@ qbittorrent_download_directory: "{{ downloads_root }}"
 # uid / gid
 qbittorrent_user_id: "0"
 qbittorrent_group_id: "1001"
+qbittorrent_umask: "000"
 
 # network
 qbittorrent_hostname: "qbittorrent"
@@ -17,4 +18,4 @@ qbittorrent_port_http: "8113"
 qbittorrent_port_bt: "6882"
 
 # specs
-qbittorrent_memory: "1g"
+qbittorrent_memory: "2g"
