@@ -14,7 +14,7 @@ tdarr_user_id: "0"
 tdarr_group_id: "1001"
 
 # network
-znc_hostname: "tdarr"
+tdarr_hostname: "tdarr"
 tdarr_port_http: "8265"
 
 # specs
