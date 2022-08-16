@@ -75,6 +75,11 @@
         - couchpotato
       when: (couchpotato_enabled | default(False))
 
+    - role: ddns-updater
+      tags:
+        - ddns-updater
+      when: (ddns_updater_enabled | default(False))
+
     - role: dashy
       tags:
         - dashy
