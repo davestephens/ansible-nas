@@ -305,6 +305,11 @@
         - sabnzbd
       when: (sabnzbd_enabled | default(False))
 
+    - role: scrutiny
+      tags:
+        - scrutiny
+      when: (scrutiny_enabled | default(False))
+
     - role: route53_ddns
       tags:
         - route53_ddns
