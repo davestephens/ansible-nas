@@ -78,6 +78,9 @@ By default, applications can be found on the ports listed below.
 | pyload           | 8000    | Bridge  | HTTP           |
 | PyTivo           | 9032    | Bridge  | HTTP           |
 | PyTivo           | 2190    | Bridge  | UDP            |
+| qBittorrent      | 8113    | Bridge  | HTTP           |
+| qBittorrent      | 6882    | Bridge  | HTTP           |
+| qBittorrent      | 6882    | Bridge  | UDP            |
 | Radarr           | 7878    | Bridge  | HTTP           |
 | RSS-Bridge       | 8091    | Bridge  | HTTP           |
 | Sabnzbd          | 18080   | Bridge  | HTTP           |
