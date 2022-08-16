@@ -19,3 +19,4 @@ tdarr_port_http: "8265"
 
 # specs
 tdarr_memory: "2g"
+tdarr_cpu_shares: "512" # about half default CPU resources
