@@ -17,3 +17,6 @@ nextcloud_sql_root_password: "nextcloud-secret"
 # specs
 nextcloud_memory: 1g
 nextcloud_mysql_memory: 1g
+
+# Special Configuration
+nextcloud_cli_command: "echo This does nothing! >/dev/null"
