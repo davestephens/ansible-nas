@@ -1,0 +1,37 @@
+---
+- name: Create WireGuard Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ wireguard_data_directory }}"
+    - "{{ wireguard_data_directory }}/config"
+
+- name: Create WireGuard Container
+  docker_container:
+    name: wireguard
+    image: linuxserver/wireguard:latest
+    pull: true
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ wireguard_user_id }}"
+      PGID: "{{ wireguard_group_id }}"
+      SERVERURL: "{{ wireguard_hostname }}.{{ ansible_nas_domain }}"
+      SERVERPORT: "{{ wireguard_port }}"
+      PEERS: "{{ wireguard_env_peers }}"
+      PEERDNS: "{{ wireguard_env_peerdns }}"
+      INTERNAL_SUBNET: "{{ wireguard_env_internalsubnet }}"
+      ALLOWEDIPS: "{{ wireguard_env_allowedips }}"
+    volumes:
+      - "{{ wireguard_data_directory }}/config:/config"
+      - "/lib/modules:/lib/modules"
+    ports:
+      - "{{ wireguard_port }}: 51820/udp"
+    devices:
+      - /dev/net/tun
+    capabilities:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls: "net.ipv4.conf.all.src_valid_mark=1"
+    restart_policy: unless-stopped
+    memory: "{{ wireguard_memory }}"
