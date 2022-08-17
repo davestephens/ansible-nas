@@ -8,7 +8,7 @@
     - "{{ navidrome_data_directory }}/data"
     - "{{ navidrome_data_directory }}/playlists"
 
-- name: Navidrome Docker Container
+- name: Create Navidrome Docker Container
   docker_container:
     name: navidrome
     image: deluan/navidrome:latest
