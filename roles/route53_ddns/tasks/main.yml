@@ -5,13 +5,13 @@
     path: "{{ route53_data_directory }}"
     state: directory
 
-- name: Generate AWS Route53 Dynamic DNS config file
+- name: Copy AWS Route53 Dynamic DNS Template
   template:
     src: config.yml
     dest: "{{ route53_data_directory }}/ddns-route53.yml"
   register: template_config
 
-- name: AWS Route53 Dynamic DNS Container
+- name: Create AWS Route53 Dynamic DNS Docker Container
   docker_container:
     name: route53-ddns
     image: crazymax/ddns-route53:latest
