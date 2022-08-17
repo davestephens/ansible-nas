@@ -6,6 +6,7 @@ readarr_available_externally: false
 # directories
 readarr_data_directory: "{{ docker_home }}/readarr"
 readarr_download_directory: "{{ downloads_root }}"
+readarr_books_directory: "{{ books_root }}"
 
 # uid / gid
 readarr_user_id: "998"
