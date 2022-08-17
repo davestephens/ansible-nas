@@ -1,0 +1,46 @@
+---
+- name: Create Tdarr Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ tdarr_data_directory }}"
+    - "{{ tdarr_db_directory }}"
+    - "{{ tdarr_cache_directory }}"
+    - "{{ tdarr_media_directory }}"
+
+- name: Create Tdarr Docker Container
+  docker_container:
+    name: tdarr_aio
+    image: haveagitgat/tdarr_aio
+    log_options:
+      driver: json-file
+      options:
+        max-file: 10
+        max-size: 200k
+    pull: true
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ tdarr_data_directory }}:/home/Tdarr/Documents/Tdarr"
+      - "{{ tdarr_db_directory }}:/var/lib/mongodb"
+      - "{{ tdarr_cache_directory }}:/home/Tdarr/cache"
+      - "{{ tdarr_media_directory }}:/media"
+    ports:
+      - "{{ tdarr_port_http }}:8265"
+    cpu_shares: "{{ tdarr_cpu_shares }}"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ tdarr_user_id }}"
+      PGID: "{{ tdarr_group_id }}"
+      NVIDIA_VISIBLE_DEVICES: "all"
+      NVIDIA_DRIVER_CAPABILITIES: "compute,video,utility"
+      VERSION: "docker"
+    restart_policy: unless-stopped
+    labels:
+      traefik.enable: "{{ tdarr_available_externally | string }}"
+      traefik.http.routers.tdarr.rule: "Host(`tdarr.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.tdarr.tls.certresolver: "letsencrypt"
+      traefik.http.routers.tdarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.tdarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.tdarr.loadbalancer.server.port: "8265"
+    memory: "{{ tdarr_memory }}"

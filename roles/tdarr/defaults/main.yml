@@ -1,0 +1,22 @@
+---
+# enable or disable the application
+tdarr_enabled: false
+tdarr_available_externally: false
+
+# directories
+tdarr_data_directory: "{{ docker_home }}/tdarr"
+tdarr_db_directory: "{{ docker_home }}/tdarr/db"
+tdarr_cache_directory: "{{ docker_home }}/tdarr/cache"
+tdarr_media_directory: "{{ samba_shares_root }}"
+
+# uid / gid
+tdarr_user_id: "0"
+tdarr_group_id: "1001"
+
+# network
+tdarr_hostname: "tdarr"
+tdarr_port_http: "8265"
+
+# specs
+tdarr_memory: "2g"
+tdarr_cpu_shares: "512" # about half default CPU resources
