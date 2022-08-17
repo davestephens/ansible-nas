@@ -1,12 +1,12 @@
 ---
-- name: Krusader Directory
+- name: Create Krusader Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ krusader_config_directory }}/krusader"
 
-- name: Krusader Docker Container
+- name: Create Krusader Docker Container
   docker_container:
     name: krusader
     image: djaydev/krusader:latest
