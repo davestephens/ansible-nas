@@ -6,7 +6,7 @@
   with_items:
     - "{{ mealie_data_directory }}/data"
 
-- name: Mealie Docker Container
+- name: Create Mealie Docker Container
   docker_container:
     name: mealie
     image: hkotel/mealie:latest
