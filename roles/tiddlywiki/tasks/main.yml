@@ -4,7 +4,7 @@
     path: "{{ tiddlywiki_data_directory }}"
     state: directory
 
-- name: Create Tiddlywiki Container
+- name: Create Tiddlywiki Docker Container
   docker_container:
     name: tiddlywiki
     image: wmudge/tiddlywiki:latest
