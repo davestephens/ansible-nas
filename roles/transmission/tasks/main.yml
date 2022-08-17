@@ -9,7 +9,7 @@
     - "{{ transmission_download_directory }}"
     - "{{ transmission_watch_directory }}"
 
-- name: Transmission Docker Container
+- name: Create Transmission Docker Container
   docker_container:
     name: transmission
     image: linuxserver/transmission
