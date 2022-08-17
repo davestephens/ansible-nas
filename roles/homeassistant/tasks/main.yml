@@ -6,7 +6,7 @@
   with_items:
     - "{{ homeassistant_data_directory }}/config"
 
-- name: Home Assistant Docker Container
+- name: Create Home Assistant Docker Container
   docker_container:
     name: homeassistant
     image: homeassistant/home-assistant
