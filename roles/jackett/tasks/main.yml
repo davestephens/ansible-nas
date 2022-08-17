@@ -1,12 +1,12 @@
 ---
-- name: Create jackett Directories
+- name: Create Jackett Directories
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ jackett_data_directory }}"
 
-- name: jackett
+- name: Create Jackett Docker Container
   docker_container:
     name: jackett
     image: linuxserver/jackett
