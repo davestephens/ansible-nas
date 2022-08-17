@@ -7,7 +7,7 @@
   with_items:
     - "{{ docker_home }}/couchpotato/config"
 
-- name: Couchpotato Docker Container
+- name: Create Couchpotato Docker Container
   docker_container:
     name: couchpotato
     image: linuxserver/couchpotato
