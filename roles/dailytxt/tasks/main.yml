@@ -6,7 +6,7 @@
   with_items:
     - "{{ dailytxt_data_directory }}/data"
 
-- name: Create DailyTxT Docker Container
+- name: Create DailyTxT Container
   docker_container:
     name: dailytxt
     image: phitux/dailytxt:latest
