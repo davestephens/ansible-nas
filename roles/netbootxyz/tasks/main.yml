@@ -1,5 +1,5 @@
 ---
-- name: netbootxyz Directory
+- name: Create netboot.xyz Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -7,7 +7,7 @@
     - "{{ netbootxyz_config_directory }}"
     - "{{ netbootxyz_assets_directory }}"
 
-- name: netbootxyz Docker Container
+- name: Create netboot.xyz Docker Container
   docker_container:
     name: netbootxyz
     image: linuxserver/netbootxyz:latest
