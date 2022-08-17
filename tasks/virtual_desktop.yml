@@ -12,7 +12,7 @@
     src: "templates/virtual_desktop/users.txt.j2"
     dest: "{{ vd_data_directory }}/users.txt"
 
-- name: Virtual Desktop Container
+- name: Create Virtual Desktop Container
   docker_container:
     name: virtual_desktop
     image: "{{ vd_docker_image }}"
