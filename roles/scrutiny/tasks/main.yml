@@ -8,7 +8,7 @@
     - "{{ scrutiny_data_directory }}/config"
     - "{{ scrutiny_data_directory }}/influxdb"
 
-- name: Create Scrutiny Container
+- name: Create Scrutiny Docker Container
   docker_container:
     name: scrutiny
     image: ghcr.io/analogj/scrutiny:master-omnibus
