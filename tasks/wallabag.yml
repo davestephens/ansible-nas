@@ -7,7 +7,7 @@
     - "{{ wallabag_data_directory }}/data"
     - "{{ wallabag_data_directory }}/images"
 
-- name: Wallabag Docker Container
+- name: Create Wallabag Docker Container
   docker_container:
     name: wallabag
     image: wallabag/wallabag:latest
