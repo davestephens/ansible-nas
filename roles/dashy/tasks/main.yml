@@ -1,5 +1,5 @@
 ---
-- name: Dashy Docker Container
+- name: Create Dashy Docker Container
   docker_container:
     name: dashy
     image: lissy93/dashy:latest
