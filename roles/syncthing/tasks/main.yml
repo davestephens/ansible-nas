@@ -6,7 +6,7 @@
   with_items:
     - "{{ syncthing_data_directory }}"
 
-- name: Syncthing Docker Container
+- name: Create Syncthing Docker Container
   docker_container:
     name: syncthing
     image: syncthing/syncthing:latest
