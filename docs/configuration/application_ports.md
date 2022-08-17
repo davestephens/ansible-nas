@@ -16,6 +16,7 @@ By default, applications can be found on the ports listed below.
 | Calibre-web      | 8084    | Bridge  | HTTP           |
 | Cloud Commander  | 7373    | Bridge  | HTTP           |
 | Couchpotato      | 5050    | Bridge  | HTTP           |
+| DailyTxt         | 8766    | Bridge  | HTTP           |
 | Dashy            | 8082    | Bridge  | HTTP           |
 | DokuWiki         | 8085    | Bridge  | HTTP           |
 | Duplicacy        | 3875    | Bridge  | HTTP           |

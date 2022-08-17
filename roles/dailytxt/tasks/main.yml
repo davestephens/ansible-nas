@@ -1,0 +1,33 @@
+---
+- name: Create DailyTxT Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ dailytxt_data_directory }}/data"
+
+- name: Create DailyTxT Docker Container
+  docker_container:
+    name: dailytxt
+    image: phitux/dailytxt:latest
+    pull: true
+    volumes:
+      - "{{ dailytxt_data_directory }}/data:/app/data:rw"
+    ports:
+      - "{{ dailytxt_port_http }}:{{ dailytxt_port_http }}"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      ALLOW_REGISTRATION: "{{ dailytxt_allow_registration }}"
+      DATA_INDENT: "2"
+      JWT_EXP_DAYS: "{{ dailytxt_jwt_exp_days }}"
+      PORT: "{{ dailytxt_port_http }}"
+      SECRET_KEY: "{{ dailytxt_secret_key }}"
+    restart_policy: unless-stopped
+    memory: "{{ dailytxt_memory }}"
+    labels:
+      traefik.enable: "{{ dailytxt_available_externally | string }}"
+      traefik.http.routers.dailytxt.rule: "Host(`{{ dailytxt_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.dailytxt.tls.certresolver: "letsencrypt"
+      traefik.http.routers.dailytxt.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.dailytxt.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.dailytxt.loadbalancer.server.port: "{{ dailytxt_port_http }}"
