@@ -1,5 +1,5 @@
 ---
-- name: Create Doku Container
+- name: Create Doku Docker Container
   docker_container:
     name: doku
     image: amerkurev/doku:latest
