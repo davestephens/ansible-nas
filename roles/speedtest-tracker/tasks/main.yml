@@ -1,12 +1,12 @@
 ---
-- name: Speedtest-Tracker Directory
+- name: Create Speedtest-Tracker Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ speedtest_data_directory }}/config"
 
-- name: Speedtest-Tracker Docker Container
+- name: Create Speedtest-Tracker Docker Container
   docker_container:
     name: speedtest_tracker
     image: henrywhitaker3/speedtest-tracker:latest
