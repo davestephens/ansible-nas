@@ -39,6 +39,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Gotify](https://gotify.net/) Self-hosted server for sending push notifications
 * [Grafana](https://github.com/grafana/grafana) - Dashboarding tool
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
+* [HandBrake](https://handbrake.fr/) - a tool for converting video from nearly any format to a selection of modern, widely supported codecs.
 * [healthchecks.io](https://healthchecks.io/) - Ensure your NAS is online and get notified otherwise
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation

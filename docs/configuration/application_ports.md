@@ -36,6 +36,7 @@ By default, applications can be found on the ports listed below.
 | Gotify           | 2346    | Bridge  | HTTP           |
 | Grafana          | 3000    | Bridge  | HTTP           |
 | Guacamole        | 8090    | Bridge  | HTTP           |
+| HandBrake        | 5801    | Bridge  | HTTP           |
 | Heimdall         | 10080   | Bridge  | HTTP           |
 | Heimdall         | 10443   | Bridge  | HTTPS          |
 | Home Assistant   | 8123    | Host    | HTTP           |

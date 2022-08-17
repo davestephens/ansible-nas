@@ -1,0 +1,35 @@
+---
+# enable or disable the application
+handbrake_enabled: false
+handbrake_available_externally: false
+
+# directories
+handbrake_data_directory: "{{ docker_home }}/handbrake"
+handbrake_storage_directory: "{{ samba_shares_root }}"
+handbrake_watch_directory: "{{ samba_shares_root }}/dump/transcode"
+handbrake_output_directory: "{{ samba_shares_root }}/dump/transcoded"
+
+# uid / gid
+handbrake_user_id: "0"
+handbrake_group_id: "1001"
+
+# network
+handbrake_hostname: "handbrake"
+handbrake_port_http: "5801"
+
+# specs
+handbrake_memory: "4g"
+# Selections below are VERY subjective. Read the following pages to set your preferences:
+# https://handbrake.fr/docs/en/latest/technical/official-presets.html
+# https://github.com/jlesage/docker-handbrake#automatic-video-conversion
+handbrake_keep_app_running: "1"
+handbrake_automated_conversion_preset: "Chromecast 2160p60 4K HEVC Surround"
+handbrake_automated_conversion_format: "mp4"
+handbrake_automated_conversion_keep_source: "0"
+handbrake_automated_conversion_non_video_file_action: "copy"
+handbrake_automated_conversion_output_subdir: "SAME_AS_SRC"
+handbrake_automated_conversion_source_stable_time: "120"
+handbrake_automated_conversion_check_interval: "300"
+handbrake_converted_files_umask: "000"
+handbrake_app_niceness: "0"
+handbrake_clean_tmp_dir: "1"
