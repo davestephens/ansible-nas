@@ -85,6 +85,11 @@
         - deluge
       when: (deluge_enabled | default(False))
 
+    - role: doku
+      tags:
+        - doku
+      when: (doku_enabled | default(False))
+
     - role: dokuwiki
       tags:
         - dokuwiki
