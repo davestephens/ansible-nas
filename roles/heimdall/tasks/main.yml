@@ -1,11 +1,11 @@
 ---
-- name: Create Heimdall group
+- name: Create Heimdall Group
   group:
     name: heimdall
     gid: "{{ heimdall_group_id }}"
     state: present
 
-- name: Create Heimdall user
+- name: Create Heimdall User
   user:
     name: heimdall
     uid: "{{ heimdall_user_id }}"
@@ -24,7 +24,7 @@
   with_items:
     - "{{ heimdall_data_directory }}"
 
-- name: Create Heimdall container
+- name: Create Heimdall Docker Container
   docker_container:
     name: heimdall
     image: "{{ heimdall_docker_image }}"
