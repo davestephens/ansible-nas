@@ -1,12 +1,12 @@
 ---
-- name: Create Guacamole directories
+- name: Create Guacamole Directories
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ guacamole_data_directory }}/config"
 
-- name: Remove Old Guacamole Mysql Docker Container
+- name: Remove Old Guacamole MySQL Docker Container
   docker_container:
     name: guacamole-mysql
     state: absent
@@ -18,7 +18,7 @@
     state: absent
     keep_volumes: true
 
-- name: Remove old Guacamole directories
+- name: Remove old Guacamole Directories
   file:
     path: "{{ item }}"
     state: absent
@@ -27,7 +27,7 @@
 
 # docker run -v /home/david/.guac:/config:rw  -p 8080:8080   oznu/guacamole
 
-- name: Guacamole Container
+- name: Create Guacamole Docker Container
   docker_container:
     name: guacamole
     image: "oznu/guacamole"
@@ -46,7 +46,7 @@
       traefik.http.routers.guacamole.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.guacamole.loadbalancer.server.port: "8080"
 
-- name: Restart Guacamole Container
+- name: Restart Guacamole Docker Container
   docker_container:
     name: guacamole
     image: "oznu/guacamole"
