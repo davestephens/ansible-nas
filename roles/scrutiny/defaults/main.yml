@@ -17,3 +17,7 @@ scrutiny_influxdb_port: "8086"
 
 # specs
 scrutiny_memory: "256m"
+
+# disks
+scrutiny_devices:
+ - /dev/sda:/dev/sda
