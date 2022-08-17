@@ -7,7 +7,7 @@
     - "{{ wireshark_data_directory }}"
     - "{{ wireshark_data_directory }}/config"
 
-- name: Create Wireshark Container
+- name: Create Wireshark Docker Container
   docker_container:
     name: wireshark
     image: linuxserver/wireshark:latest
