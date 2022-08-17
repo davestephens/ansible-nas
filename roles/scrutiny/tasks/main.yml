@@ -20,8 +20,7 @@
       - "/run/udev:/run/udev:ro"
     ports:
       - "{{ scrutiny_port }}: 8080"
-    devices:                             # herein lies the problem!
-      - /dev/sda:/dev/sda
+    devices: "{{ scrutiny_devices }}"
     capabilities:
       - SYS_RAWIO
       - SYS_ADMIN
