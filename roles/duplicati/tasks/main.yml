@@ -6,7 +6,7 @@
   with_items:
     - "{{ duplicati_data_directory }}"
 
-- name: Dupicati Docker Container
+- name: Create Dupicati Docker Container
   docker_container:
     name: duplicati
     image: linuxserver/duplicati
