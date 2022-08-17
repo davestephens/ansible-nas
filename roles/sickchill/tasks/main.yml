@@ -1,5 +1,5 @@
 ---
-- name: Create Sickchill Directories
+- name: Create SickChill Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -7,7 +7,7 @@
   with_items:
     - "{{ sickchill_config_directory }}"
 
-- name: Sickchill Docker Container
+- name: Create SickChill Docker Container
   docker_container:
     name: sickchill
     image: linuxserver/sickchill
