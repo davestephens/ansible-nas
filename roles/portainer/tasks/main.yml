@@ -6,7 +6,7 @@
   with_items:
     - "{{ portainer_data_directory }}"
 
-- name: Portainer Docker Container
+- name: Create Portainer Docker Container
   docker_container:
     name: portainer
     image: portainer/portainer-ce
