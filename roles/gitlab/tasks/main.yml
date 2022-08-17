@@ -1,12 +1,12 @@
 ---
 # The gitlab uid/gid matches 'git:git' in the Gitlab Docker image.
-- name: Create Gitlab group account
+- name: Create Gitlab Group Account
   group:
     name: gitlab
     gid: 998
     state: present
 
-- name: Create Gitlab user account
+- name: Create Gitlab User Account
   user:
     name: gitlab
     uid: 998
