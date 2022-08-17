@@ -1,12 +1,12 @@
 ---
-- name: Create Ubooquity Directories
+- name: Create Ubooquity Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ ubooquity_data_directory }}"
 
-- name: Ubooquity Docker Container
+- name: Create Ubooquity Docker Container
   docker_container:
     name: ubooquity
     image: linuxserver/ubooquity:latest
