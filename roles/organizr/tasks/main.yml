@@ -1,12 +1,12 @@
 ---
-- name: Create Organizr Directories
+- name: Create Organizr Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ organizr_data_directory }}"
 
-- name: Create Organizr container
+- name: Create Organizr Docker Container
   docker_container:
     name: organizr
     image: organizr/organizr:latest
