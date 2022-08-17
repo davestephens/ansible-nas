@@ -7,7 +7,7 @@
     - "{{ onlyoffice_data_directory }}/data"
     - "{{ onlyoffice_data_directory }}/log"
 
-- name: Create ONLYOFFICE Container
+- name: Create ONLYOFFICE Docker Container
   docker_container:
     name: onlyoffice-document-server
     image: onlyoffice/documentserver:latest
