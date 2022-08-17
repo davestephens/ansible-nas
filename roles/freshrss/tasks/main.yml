@@ -8,7 +8,7 @@
     - "{{ freshrss_data_directory }}/data"
     - "{{ freshrss_extensions_directory }}/extensions"
 
-- name: FreshRSS Docker Container
+- name: Create FreshRSS Docker Container
   docker_container:
     name: freshrss
     image: freshrss/freshrss
