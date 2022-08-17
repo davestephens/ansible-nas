@@ -1,5 +1,5 @@
 ---
-- name: Watchtower Docker Container
+- name: Create Watchtower Docker Container
   docker_container:
     name: watchtower
     image: containrrr/watchtower
