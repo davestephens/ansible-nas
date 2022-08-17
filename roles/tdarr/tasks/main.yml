@@ -9,7 +9,7 @@
     - "{{ tdarr_cache_directory }}"
     - "{{ tdarr_media_directory }}"
 
-- name: Create Tdarr Docker Container
+- name: Create Tdarr Container
   docker_container:
     name: tdarr_aio
     image: haveagitgat/tdarr_aio
