@@ -14,21 +14,19 @@ The scrutiny web interface can be found at <http://ansible_nas_host_or_ip:8086>.
 
 To enable more disks to be scrutinized than just sda you'll need to edit your `inventories/<your_inventory>/nas.yml` file and add an override for the devices the scrutiny container can see. Example:
 
-```
-scrutiny_devices:
- - /dev/sda:/dev/sda
- - /dev/sdb:/dev/sdb
- - /dev/sdc:/dev/sdc
- - /dev/sdd:/dev/sdd
- - /dev/sde:/dev/sde
- - /dev/sdf:/dev/sdf
- - /dev/sdg:/dev/sdg
- - /dev/sdh:/dev/sdh
- - /dev/sdi:/dev/sdi
- - /dev/sdj:/dev/sdj
- - /dev/sdk:/dev/sdk
- - /dev/sdl:/dev/sdl
- - /dev/sdm:/dev/sdm
- - /dev/sdn:/dev/sdn
- - /dev/nvme0n1:/dev/nvme0n1
-```
+`scrutiny_devices:`  
+` - /dev/sda:/dev/sda`   
+` - /dev/sdb:/dev/sdb`   
+` - /dev/sdc:/dev/sdc`   
+` - /dev/sdd:/dev/sdd`  
+` - /dev/sde:/dev/sde`  
+` - /dev/sdf:/dev/sdf`  
+` - /dev/sdg:/dev/sdg`  
+` - /dev/sdh:/dev/sdh`  
+` - /dev/sdi:/dev/sdi`  
+` - /dev/sdj:/dev/sdj`  
+` - /dev/sdk:/dev/sdk`  
+` - /dev/sdl:/dev/sdl`  
+` - /dev/sdm:/dev/sdm`  
+` - /dev/sdn:/dev/sdn`  
+` - /dev/nvme0n1:/dev/nvme0n1`  
