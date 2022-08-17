@@ -7,7 +7,7 @@
     - "{{ readarr_data_directory }}"
     - "{{ readarr_data_directory }}/config"
 
-- name: Create Readarr Docker Container
+- name: Create Readarr Container
   docker_container:
     name: readarr
     image: linuxserver/readarr:nightly
