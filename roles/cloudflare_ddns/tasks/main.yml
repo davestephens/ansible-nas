@@ -16,7 +16,7 @@
   register: template_files_result
 
 
-- name: Cloudflare Dynamic DNS Container
+- name: Create Cloudflare Dynamic DNS Docker Container
   docker_container:
     name: cloudflare-ddns
     image: joshava/cloudflare-ddns:latest
