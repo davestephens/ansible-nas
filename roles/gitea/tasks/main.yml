@@ -1,11 +1,11 @@
 ---
-- name: Create Gitea group account
+- name: Create Gitea Group Account
   group:
     name: git
     gid: 1309
     state: present
 
-- name: Create Gitea user account
+- name: Create Gitea User Account
   user:
     name: git
     uid: 1309
@@ -26,7 +26,7 @@
     - "{{ gitea_data_directory }}/gitea"
     - "{{ gitea_data_directory }}/mysql"
 
-- name: Create MySQL container for Gitea
+- name: Create Gitea MySQL Docker Container
   docker_container:
     name: gitea-mysql
     image: mysql:5.7
@@ -41,7 +41,7 @@
     restart_policy: unless-stopped
     memory: "{{ gitea_mysql_memory }}"
 
-- name: Create Gitea container
+- name: Create Gitea Docker Container
   docker_container:
     name: gitea
     image: gitea/gitea:1.6
