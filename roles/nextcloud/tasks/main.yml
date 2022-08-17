@@ -1,5 +1,5 @@
 ---
-- name: Create Nextcloud directories
+- name: Create Nextcloud Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -7,7 +7,7 @@
     - "{{ nextcloud_data_directory }}/nextcloud"
     - "{{ nextcloud_data_directory }}/mysql"
 
-- name: Nextcloud Mysql Docker Container
+- name: Create Nextcloud MySQL Docker Container
   docker_container:
     name: nextcloud-mysql
     image: mysql:5.7
@@ -22,7 +22,7 @@
     restart_policy: unless-stopped
     memory: "{{ nextcloud_mysql_memory }}"
 
-- name: Nextcloud Docker Container
+- name: Create Nextcloud Docker Container
   docker_container:
     name: nextcloud
     image: nextcloud:14
