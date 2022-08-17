@@ -1,5 +1,5 @@
 ---
-- name: Create Mymediaforalexa Directories
+- name: Create My Media for Alexa Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -7,7 +7,7 @@
     - "{{ mymediaforalexa_media_directory }}"
     - "{{ mymediaforalexa_data_directory }}"
 
-- name: mymediaforalexa Docker Container
+- name: Create My Media for Alexa Docker Container
   docker_container:
     name: mymediaforalexa
     image: bizmodeller/mymediaforalexa
