@@ -7,7 +7,7 @@
   with_items:
     - "{{ pytivo_config_directory }}"
 
-- name: Pytivo
+- name: Create Pytivo Docker Container
   docker_container:
     name: pytivo
     image: pinion/docker-pytivo
