@@ -1,12 +1,12 @@
 ---
-- name: Create Octoprint Directories
+- name: Create Octoprint Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ octoprint_data_directory }}"
 
-- name: Octoprint Docker Container
+- name: Create Octoprint Docker Container
   docker_container:
     name: octoprint
     image: octoprint/octoprint
