@@ -8,7 +8,7 @@
     - "{{ duplicacy_logs_directory }}"
     - "{{ duplicacy_cache_directory }}"
 
-- name: Duplicacy Docker Container
+- name: Create Duplicacy Docker Container
   docker_container:
     name: duplicacy
     image: saspus/duplicacy-web:mini
