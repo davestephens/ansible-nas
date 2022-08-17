@@ -1,12 +1,12 @@
 ---
-- name: Create NZBget Directories
+- name: Create NZBget Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ nzbget_data_directory }}"
 
-- name: NZBGet
+- name: Create NZBGet Docker Container
   docker_container:
     name: nzbget
     image: linuxserver/nzbget
