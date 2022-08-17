@@ -7,13 +7,13 @@
     - "{{ traefik_data_directory }}"
     - "{{ traefik_data_directory }}/letsencrypt"
 
-- name: Template Traefik config.toml
+- name: Copy Traefik Template
   template:
     src: traefik.toml
     dest: "{{ traefik_data_directory }}/traefik.toml"
   register: template_config
 
-- name: Traefik Docker Container
+- name: Create Traefik Docker Container
   docker_container:
     name: traefik
     image: "{{ traefik_docker_image }}"
