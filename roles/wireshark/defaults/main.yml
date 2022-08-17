@@ -12,7 +12,6 @@ wireshark_group_id: "1000"
 
 # network
 wireshark_hostname: "wireshark"
-wireshark_port: "3000"   # host mode - for reference only
 
 # specs
 wireshark_memory: "512m"
