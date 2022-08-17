@@ -7,7 +7,7 @@
   with_items:
     - "{{ rssbridge_data_directory }}/data"
 
-- name: RSSBridge Docker Container
+- name: Create RSSBridge Docker Container
   docker_container:
     name: rssbridge
     image: rssbridge/rss-bridge
