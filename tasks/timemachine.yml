@@ -1,10 +1,10 @@
 ---
-- name: Time Machine Directories
+- name: Create Time Machine Directory
   file:
     path: "{{ timemachine_data_directory }}"
     state: directory
 
-- name: Time Machine Docker Container
+- name: Create Time Machine Docker Container
   docker_container:
     name: timemachine
     image: awlnx/samba-timemachine:latest
