@@ -9,7 +9,7 @@
     - "{{ transmission_download_directory }}"
     - "{{ transmission_watch_directory }}"
 
-- name: Transmission with VPN
+- name: Create Transmission with VPN Docker Container
   docker_container:
     name: transmission-openvpn
     image: haugene/transmission-openvpn
