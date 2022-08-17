@@ -9,7 +9,7 @@
     - "{{ handbrake_output_directory }}"
     - "{{ handbrake_watch_directory }}"
 
-- name: Create HandBrake Container
+- name: Create HandBrake Docker Container
   docker_container:
     name: handbrake
     image: jlesage/handbrake
