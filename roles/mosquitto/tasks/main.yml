@@ -8,13 +8,13 @@
     - "{{ mosquitto_data_directory }}/data"
     - "{{ mosquitto_data_directory }}/log"
 
-- name: Template mosquitto.conf
+- name: Copy Mosquitto Template File
   copy:
     src: mosquitto.conf
     dest: "{{ mosquitto_data_directory }}/config/mosquitto.conf"
   register: mosquitto_conf
 
-- name: Create Mosquitto container
+- name: Create Mosquitto Docker Container
   docker_container:
     name: mosquitto
     image: eclipse-mosquitto:latest
