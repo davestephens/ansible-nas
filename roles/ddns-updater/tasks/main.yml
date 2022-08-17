@@ -9,7 +9,7 @@
     - "{{ ddns_updater_data_directory }}"
     - "{{ ddns_updater_data_directory }}/data"
 
-- name: Create DDNS-Updater Container
+- name: Create DDNS-Updater Docker Container
   docker_container:
     name: ddns-updater
     image: qmcgaw/ddns-updater:latest
