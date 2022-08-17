@@ -1,12 +1,12 @@
 ---
-- name: Create Gotify Data Directory
+- name: Create Gotify Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ gotify_data_directory }}"
 
-- name: Gotify Docker Container
+- name: Create Gotify Docker Container
   docker_container:
     name: gotify
     image: "{{ gotify_docker_image }}"
