@@ -7,7 +7,7 @@
   with_items:
     - "{{ bitwarden_data_directory }}"
 
-- name: Bitwarden Docker Container
+- name: Create Bitwarden Docker Container
   docker_container:
     name: bitwarden
     image: bitwardenrs/server:latest
