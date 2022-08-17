@@ -6,7 +6,7 @@
   with_items:
     - "{{ radarr_data_directory }}"
 
-- name: Radarr
+- name: Create Radarr Docker Container
   docker_container:
     name: radarr
     image: linuxserver/radarr
