@@ -7,7 +7,7 @@
     - "{{ wireguard_data_directory }}"
     - "{{ wireguard_data_directory }}/config"
 
-- name: Create WireGuard Container
+- name: Create WireGuard Docker Container
   docker_container:
     name: wireguard
     image: linuxserver/wireguard:latest
