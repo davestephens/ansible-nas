@@ -6,7 +6,7 @@
   with_items:
     - "{{ sonarr_data_directory }}"
 
-- name: Sonarr
+- name: Create Sonarr Docker Container
   docker_container:
     name: sonarr
     image: linuxserver/sonarr
