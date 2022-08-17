@@ -3,7 +3,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    group: 1000
+    group: "1000"
     mode: 0775
   with_items:
     - "{{ ddns_updater_data_directory }}"
