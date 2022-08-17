@@ -7,7 +7,7 @@
     - "{{ get_iplayer_config_directory }}"
     - "{{ get_iplayer_download_directory }}"
 
-- name: get_iplayer Docker Container
+- name: Create get_iplayer Docker Container
   docker_container:
     name: get_iplayer
     image: kolonuk/get_iplayer
