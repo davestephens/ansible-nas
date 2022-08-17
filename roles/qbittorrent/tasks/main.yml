@@ -8,7 +8,7 @@
     - "{{ qbittorrent_data_directory }}/config"
     - "{{ qbittorrent_download_directory }}"
 
-- name: Create qBittorrent Container
+- name: Create qBittorrent Docker Container
   docker_container:
     name: qbittorrent
     image: linuxserver/qbittorrent:latest
