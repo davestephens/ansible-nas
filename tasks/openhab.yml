@@ -27,7 +27,7 @@
     - "{{ openhab_data_directory }}/userdata"
     - "{{ openhab_data_directory }}/addons"
 
-- name: Create openHAB container
+- name: Create openHAB Docker Container
   docker_container:
     name: openHAB
     image: "{{ openhab_docker_image }}"
