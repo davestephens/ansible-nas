@@ -1,5 +1,5 @@
 ---
-- name: Create Youtubedlmaterial Directories
+- name: Create YoutubeDL-Material Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -13,7 +13,7 @@
     - "{{ youtubedlmaterial_dl_video_directory }}"
     - "{{ youtubedlmaterial_dl_subscriptions_directory }}"
 
-- name: youtubedlmaterial Docker Container
+- name: Create YoutubeDL-Material Docker Container
   docker_container:
     name: youtubedlmaterial
     image: tzahi12345/youtubedl-material:latest
