@@ -6,7 +6,7 @@
   with_items:
     - "{{ jellyfin_config_directory }}"
 
-- name: Jellyfin Docker Container
+- name: Create Jellyfin Docker Container
   docker_container:
     name: jellyfin
     image: linuxserver/jellyfin
