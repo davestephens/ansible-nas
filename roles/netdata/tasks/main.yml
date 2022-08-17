@@ -1,10 +1,10 @@
 ---
-- name: Get docker group id
+- name: Register docker Group ID
   group:
     name: docker
   register: docker_group
 
-- name: Netdata Docker Container
+- name: Create Netdata Docker Container
   docker_container:
     name: netdata
     hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"
