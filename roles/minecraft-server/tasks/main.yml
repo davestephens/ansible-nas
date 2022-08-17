@@ -6,7 +6,7 @@
   with_items:
     - "{{ minecraft_server_data_directory }}"
 
-- name: Minecraft Server Docker Container
+- name: Create Minecraft Server Docker Container
   docker_container:
     name: minecraft-server
     image: itzg/minecraft-server:latest
