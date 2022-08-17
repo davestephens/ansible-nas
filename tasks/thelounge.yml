@@ -1,5 +1,5 @@
 ---
-- name: The Lounge Directories
+- name: Create The Lounge Directories
   file:
     path: "{{ item }}"
     state: directory
@@ -7,13 +7,13 @@
     - "{{ thelounge_data_directory }}"
     - "{{ thelounge_data_directory }}/users"
 
-- name: Set up admin user
+- name: Create The Lounge admin user
   copy:
     src: files/thelounge/users/admin.json
     dest: "{{ thelounge_data_directory }}/users/admin.json"
     mode: 0777
 
-- name: The Lounge Docker Container
+- name: Create The Lounge Docker Container
   docker_container:
     name: thelounge
     image: thelounge/thelounge:latest
