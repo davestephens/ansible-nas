@@ -4,7 +4,7 @@
     path: "{{ lidarr_data_directory }}"
     state: directory
 
-- name: Lidarr Docker Container
+- name: Create Lidarr Docker Container
   docker_container:
     name: lidarr
     image: linuxserver/lidarr
