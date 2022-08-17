@@ -6,7 +6,7 @@
   with_items:
     - "{{ miniflux_data_directory }}/postgres"
 
-- name: Create Postgres for Miniflux
+- name: Create Miniflux Postgres Docker Container
   docker_container:
     name: miniflux-postgres
     image: postgres:11.1
