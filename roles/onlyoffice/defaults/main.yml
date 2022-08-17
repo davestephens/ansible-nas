@@ -1,0 +1,14 @@
+---
+# enable or disable the application
+onlyoffice_enabled: false
+onlyoffice_available_externally: false
+
+# directories
+onlyoffice_data_directory: "{{ docker_home }}/onlyoffice"
+
+# network
+onlyoffice_hostname: "onlyoffice"
+onlyoffice_port_http: "8090"
+
+# specs
+onlyoffice_memory: "1g"
