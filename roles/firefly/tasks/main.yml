@@ -9,7 +9,7 @@
     - "{{ firefly_data_directory }}/upload"
     - "{{ firefly_data_directory }}/export"
 
-- name: Create MySQL container for Firefly
+- name: Create Firefly III MySQL Docker Container
   docker_container:
     name: firefly-mysql
     image: mysql:5.7
@@ -28,7 +28,7 @@
   pause:
     seconds: 30
 
-- name: Create Firefly III container
+- name: Create Firefly III Docker Container
   docker_container:
     name: firefly
     image: fireflyiii/core:latest
