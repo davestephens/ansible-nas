@@ -1,0 +1,23 @@
+---
+# enable or disable the application
+wireguard_enabled: false
+
+# directories
+wireguard_data_directory: "{{ docker_home }}/wireguard"
+
+# uid / gid
+wireguard_user_id: "1000"
+wireguard_group_id: "1000"
+
+# environment
+wireguard_env_peers: "10"
+wireguard_env_peerdns: "auto"
+wireguard_env_internalsubnet: "10.13.13.0"
+wireguard_env_allowedips: "0.0.0.0/0"
+
+# network
+wireguard_port: "51820"
+wireguard_hostname: "wireguard"
+
+# specs
+wireguard_memory: "1g"

@@ -375,6 +375,11 @@
         - watchtower
       when: (watchtower_enabled | default(False))
 
+    - role: wireguard
+      tags:
+        - wireguard
+      when: (wireguard_enabled | default(False))
+
     - role: znc
       tags:
         - znc
