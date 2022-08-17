@@ -8,7 +8,7 @@
     - "{{ utorrent_download_directory }}"
     - "{{ utorrent_download_directory_active }}"
 
-- name: uTorrent Docker Container
+- name: Create uTorrent Docker Container
   docker_container:
     name: utorrent
     image: ekho/utorrent:latest
