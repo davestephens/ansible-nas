@@ -7,7 +7,7 @@
     - "{{ scrutiny_data_directory }}"
     - "{{ scrutiny_data_directory }}/config"
     - "{{ scrutiny_data_directory }}/influxdb"
-    
+
 - name: Create Scrutiny Container
   docker_container:
     name: scrutiny
