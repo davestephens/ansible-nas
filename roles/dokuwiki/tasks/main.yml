@@ -6,7 +6,7 @@
   with_items:
     - "{{ dokuwiki_data_directory }}/data"
 
-- name: DokuWiki Docker Container
+- name: Create DokuWiki Docker Container
   docker_container:
     name: dokuwiki
     image: linuxserver/dokuwiki:latest
