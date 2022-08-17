@@ -8,7 +8,7 @@
     - "{{ piwigo_data_directory }}"
     - "{{ piwigo_photos }}"
 
-- name: create MySQL container for Piwigo
+- name: Create Piwigo MySQL Docker Container
   docker_container:
     name: piwigo-mysql
     image: mysql:5.7
@@ -23,7 +23,7 @@
     restart_policy: unless-stopped
     memory: "{{ piwigo_mysql_memory }}"
 
-- name: Piwigo Docker Container
+- name: Create Piwigo Docker Container
   docker_container:
     name: piwigo
     image: linuxserver/piwigo
