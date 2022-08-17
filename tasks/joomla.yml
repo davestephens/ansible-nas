@@ -7,7 +7,7 @@
     - "{{ joomla_data_directory }}"
     - "{{ joomla_data_directory }}/db"
 
-- name: MySQL Docker Container for Joomla
+- name: Create Joomla MySQL Docker Container
   docker_container:
     name: joomla_mysql
     image: mysql:5.7
@@ -21,7 +21,7 @@
     restart_policy: unless-stopped
     memory: 1g
 
-- name: Joomla Docker Container
+- name: Create Joomla Docker Container
   docker_container:
     name: joomla
     image: joomla
