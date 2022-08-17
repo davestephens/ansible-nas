@@ -8,7 +8,7 @@
     - "{{ deluge_config_directory }}"
     - "{{ deluge_download_directory }}"
 
-- name: Deluge Docker Container
+- name: Create Deluge Docker Container
   docker_container:
     name: deluge
     image: linuxserver/deluge
