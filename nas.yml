@@ -375,6 +375,11 @@
         - watchtower
       when: (watchtower_enabled | default(False))
 
+    - role: wireshark
+      tags:
+        - wireshark
+      when: (wireshark_enabled | default(False))
+
     - role: znc
       tags:
         - znc
