@@ -1,0 +1,19 @@
+---
+# See https://github.com/AnalogJ/scrutiny/blob/master/example.scrutiny.yaml for full information
+
+web:
+  listen:
+    port: 8080
+    host: 0.0.0.0
+  database:
+    location: /scrutiny/data/scrutiny.db
+  src:
+    frontend:
+      path: /scrutiny/web
+
+log:
+  file: '/scrutiny/data/scrutiny.log'
+  level: {{ scrutiny_log_level }}
+
+notify:
+  urls: "{{ scrutiny_notify_urls }}"

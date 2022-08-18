@@ -1,0 +1,5 @@
+---
+# See https://github.com/AnalogJ/scrutiny/blob/master/example.collector.yaml for full information
+version: 1
+host:
+  id: ""

@@ -315,6 +315,11 @@
         - rssbridge
       when: (rssbridge_enabled | default(False))
 
+    - role: scrutiny
+      tags:
+        - scrutiny
+      when: (scrutiny_enabled | default(False))
+
     - role: sickchill
       tags:
         - sickchill
