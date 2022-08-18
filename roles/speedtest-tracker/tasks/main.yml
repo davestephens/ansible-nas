@@ -10,7 +10,7 @@
   docker_container:
     name: speedtest_tracker
     state: absent
-  when: speedtest_tracker_enabled = true
+  when: speedtest_tracker_enabled == true
 
 - name: Speedtest-Tracker Docker Container
   docker_container:
