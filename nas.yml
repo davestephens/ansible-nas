@@ -380,6 +380,11 @@
         - znc
       when: (znc_enabled | default(False))
 
+    - role: ansible-nas-plugins
+      tags:
+        - plugins
+      when: (plugins_enabled | default(False))
+
   tasks:
     - import_tasks: tasks/thelounge.yml
       when: (thelounge_enabled | default(False))
