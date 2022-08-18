@@ -300,6 +300,11 @@
         - radarr
       when: (radarr_enabled | default(False))
 
+    - role: readarr
+      tags:
+        - readarr
+      when: (readarr_enabled | default(False))
+
     - role: sabnzbd
       tags:
         - sabnzbd

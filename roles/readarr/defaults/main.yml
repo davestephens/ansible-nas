@@ -1,0 +1,20 @@
+---
+# enable or disable the application
+readarr_enabled: false
+readarr_available_externally: false
+
+# directories
+readarr_data_directory: "{{ docker_home }}/readarr"
+readarr_download_directory: "{{ downloads_root }}"
+readarr_books_directory: "{{ books_root }}"
+
+# uid / gid
+readarr_user_id: "0"
+readarr_group_id: "0"
+
+# network
+readarr_hostname: "readarr"
+readarr_port: "8787"
+
+# specs
+readarr_memory: "1g"

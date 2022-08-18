@@ -1,0 +1,33 @@
+---
+- name: Create Readarr Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ readarr_data_directory }}"
+    - "{{ readarr_data_directory }}/config"
+
+- name: Create Readarr Docker Container
+  docker_container:
+    name: readarr
+    image: linuxserver/readarr:nightly
+    pull: true
+    volumes:
+      - "{{ readarr_data_directory }}/config:/config:rw"
+      - "{{ readarr_books_directory }}:/books:rw"
+      - "{{ readarr_download_directory }}:/downloads:rw"
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ readarr_user_id }}"
+      PGID: "{{ readarr_group_id }}"
+    ports:
+      - "{{ readarr_port }}:8787"
+    restart_policy: unless-stopped
+    labels:
+      traefik.enable: "{{ readarr_available_externally | string }}"
+      traefik.http.routers.readarr.rule: "Host(`{{ readarr_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.readarr.tls.certresolver: "letsencrypt"
+      traefik.http.routers.readarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.readarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.readarr.loadbalancer.server.port: "8787"
+    memory: "{{ readarr_memory }}"
