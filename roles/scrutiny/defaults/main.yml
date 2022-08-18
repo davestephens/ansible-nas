@@ -1,0 +1,23 @@
+---
+# enable or disable the application
+scrutiny_enabled: false
+scrutiny_available_externally: false
+
+# directories
+scrutiny_data_directory: "{{ docker_home }}/scrutiny"
+
+# uid / gid
+scrutiny_user_id: "0"
+scrutiny_group_id: "0"
+
+# network
+scrutiny_hostname: "scrutiny"
+scrutiny_port: "8085"
+scrutiny_influxdb_port: "8086"
+
+# specs
+scrutiny_memory: "256m"
+
+# disks
+scrutiny_devices:
+ - /dev/sda:/dev/sda
