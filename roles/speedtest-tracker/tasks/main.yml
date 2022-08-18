@@ -8,7 +8,7 @@
 
 - name: Speedtest-Tracker Docker Container
   docker_container:
-    name: speedtest_tracker
+    name: speedtest-tracker
     image: henrywhitaker3/speedtest-tracker:latest
     pull: true
     volumes:
