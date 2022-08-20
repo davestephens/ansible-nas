@@ -6,6 +6,6 @@ Jackett works as a proxy server: it translates queries from apps (Sonarr, Radarr
 
 ## Usage
 
-Set `jackett_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `jackett_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Jackett web interface can be found at <http://ansible_nas_host_or_ip:9117>.
