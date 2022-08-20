@@ -9,7 +9,7 @@ host A record to point to your static IP, or enable this container to automatica
 
 ## Usage
 
-Set `cloudflare_ddns_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `cloudflare_ddns_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Set `cloudflare_token` to the one you grab from the Cloudflare UI (more below).
 
