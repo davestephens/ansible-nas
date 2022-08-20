@@ -6,7 +6,7 @@ Apache Guacamole is a clientless remote desktop gateway. It supports standard pr
 
 ## Usage
 
-Set `guacamole_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `guacamole_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 ## Specific Configuration
 
