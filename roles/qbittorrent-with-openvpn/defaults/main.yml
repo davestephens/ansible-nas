@@ -1,0 +1,36 @@
+---
+qbittorrent_with_openvpn_enabled: false # Please see docs about how to set VPN credentials
+qbittorrent_with_openvpn_available_externally: "false"
+
+# directories
+qbittorrent_data_directory: "{{ docker_home }}/qbittorrent"
+qbittorrent_config_directory: "{{ qbittorrent_data_directory }}/config"
+qbittorrent_download_directory: "{{ downloads_root }}"
+qbittorrent_watch_directory: "{{ torrents_root }}"
+
+# uid / gid
+qbittorrent_openvpn_user_id: "0"
+qbittorrent_openvpn_group_id: "0"
+
+# qbittorrent config
+qbittorrent_openvpn_ratio_limit_enabled: "true"
+qbittorrent_openvpn_ratio_limit: "2"
+qbittorrent_openvpn_local_network: "192.168.1.0/24"
+qbittorrent_openvpn_ipwhitelist: "192.168.1.0/24" # multi subnet example: "192.168.1.0/24,169.254.0.1/24"
+
+# network config
+qbittorrent_openvpn_webui_port: "8091"
+qbittorrent_openvpn_external_port: "51415"
+qbittorrent_openvpn_proxy_port: "3128"
+qbittorrent_openvpn_hostname: "qbittorrent_openvpn"
+
+# qbittorrent VPN Credentials
+# If you're using qbittorrent with a VPN, you'll need to set these credentials.
+# See https://github.com/haugene/docker-qbittorrent-openvpn/ for supported VPN providers.
+openvpn_username: leisure-suit-larry
+openvpn_password: secretpassword
+openvpn_provider: AWESOMEVPNPROVIDER
+openvpn_config: United-Kingdom
+
+# specs
+qbittorrent_openvpn_memory: 1g
