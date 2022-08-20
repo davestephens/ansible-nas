@@ -11,7 +11,7 @@ Deluge is a lightweight, Free Software, cross-platform BitTorrent client.
 
 ## Usage
 
-Set `deluge_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `deluge_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Deluge's web interface can be found at <http://ansible_nas_host_or_ip:8112>
 
