@@ -32,7 +32,7 @@
 
 - name: Setup timemachine service for avahi
   template:
-    src: timemachine/timemachine.service
+    src: timemachine.service
     dest: "/etc/avahi/services/timemachine.service"
 
 - name: Reload avahi configuration
