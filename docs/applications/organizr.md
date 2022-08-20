@@ -11,6 +11,6 @@ TODO: finish this truncated description
 
 ## Usage
 
-Set `organizr_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `organizr_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Organizr web interface can be found at <http://ansible_nas_host_or_ip:10081>.
