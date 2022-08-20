@@ -199,5 +199,3 @@ samba_map_to_guest: Bad Password
 
 # The NetBIOS hostname used by Samba on your network
 samba_netbios_name: "{{ ansible_nas_hostname }}"
-<<<<<<< HEAD
-=======
