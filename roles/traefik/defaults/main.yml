@@ -20,6 +20,7 @@ traefik_log_level: "INFO"
 # find the relevant name and environment variables for your DNS provider at https://go-acme.github.io/lego/dns/
 traefik_dns_provider: cloudflare
 traefik_environment_variables:
+  TZ: "{{ ansible_nas_timezone }}"
   CF_DNS_API_TOKEN: "abcdabcd123412341234"
 
 # Ansible-NAS requests a wildcard certificate for your domain, so there should be no reason to have to use the staging
