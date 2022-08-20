@@ -6,7 +6,7 @@ Docker Container: <https://hub.docker.com/r/ekho/utorrent>
 
 ## Usage
 
-Set `utorrent_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `utorrent_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 If you want to access uTorrent externally, don't forget to set `utorrent_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
 
