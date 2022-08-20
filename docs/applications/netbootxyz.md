@@ -11,6 +11,6 @@ You can remote attach the ISO to servers, set it up as a rescue option in Grub, 
 
 ## Usage
 
-Set `netbootxyz_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `netbootxyz_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The netbooxyz web interface can be found at <http://ansible_nas_host_or_ip:3002>.
