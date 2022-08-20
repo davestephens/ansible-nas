@@ -4,5 +4,4 @@
     name: healthchecks.io
     minute: "*/{{ healthchecks_ping_minutes }}"
     user: root
-    cron_file: /etc/crontab
     job: "curl -m 10 --retry 5 {{ healthchecks_url }}"

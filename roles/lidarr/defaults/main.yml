@@ -1,6 +1,6 @@
 ---
 lidarr_enabled: false
-lidarr_available_externally: "false"
+lidarr_available_externally: false
 
 # directories
 lidarr_data_directory: "{{ docker_home }}/lidarr/config"

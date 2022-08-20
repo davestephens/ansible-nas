@@ -1,6 +1,6 @@
 ---
 mealie_enabled: false
-mealie_available_externally: "false"
+mealie_available_externally: false
 
 # directories
 mealie_data_directory: "{{ docker_home }}/mealie"

@@ -1,6 +1,6 @@
 ---
 sabnzbd_enabled: false
-sabnzbd_available_externally: "false"
+sabnzbd_available_externally: false
 
 # directories
 sabnzbd_data_directory: "{{ docker_home }}/sabnzbd"

@@ -1,7 +1,6 @@
 # Nextcloud
 
-Homepage: [https://nextcloud.com](https://nextcloud.com)
-
+Homepage: <https://nextcloud.com>
 
 ## Usage
 

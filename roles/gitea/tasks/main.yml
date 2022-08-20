@@ -68,7 +68,7 @@
     restart_policy: unless-stopped
     memory: "{{ gitea_memory }}"
     labels:
-      traefik.enable: "{{ gitea_available_externally }}"
+      traefik.enable: "{{ gitea_available_externally | string }}"
       traefik.http.routers.gitea.rule: "Host(`{{ gitea_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.gitea.tls.certresolver: "letsencrypt"
       traefik.http.routers.gitea.tls.domains[0].main: "{{ ansible_nas_domain }}"

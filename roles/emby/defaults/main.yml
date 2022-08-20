@@ -1,12 +1,11 @@
 ---
 emby_enabled: false
-emby_available_externally: "false"
+emby_available_externally: false
 
 # directories
 emby_config_directory: "{{ docker_home }}/emby/config"
 emby_movies_directory: "{{ movies_root }}"
 emby_tv_directory: "{{ tv_root }}"
-
 
 # If you're paranoid, set permissions to "ro" so Emby won't ever be able to
 # delete your files

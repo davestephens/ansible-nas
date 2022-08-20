@@ -1,10 +1,11 @@
 # Ansible NAS
 
-[![CI](https://github.com/davestephens/ansible-nas/workflows/CI/badge.svg)](https://github.com/davestephens/ansible-nas/actions?query=workflow%3ACI) [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat) [![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/davestephens/ansible-nas/blob/master/LICENSE) [![Ko-fi](https://img.shields.io/static/v1.svg?label=ko-fi&message=Buy%20Me%20A%20Coffee&color=orange&style=flat-square&logo=buy-me-a-coffee)](https://ko-fi.com/davestephens)
+[![CI](https://github.com/davestephens/ansible-nas/workflows/CI/badge.svg)](https://github.com/davestephens/ansible-nas/actions?query=workflow%3ACI)
+[![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat)
+[![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/davestephens/ansible-nas/blob/master/LICENSE)
+[![Ko-fi](https://img.shields.io/static/v1.svg?label=ko-fi&message=Buy%20Me%20A%20Coffee&color=orange&style=flat-square&logo=buy-me-a-coffee)](https://ko-fi.com/davestephens)
 
-After getting burned by broken FreeNAS updates one too many times, I figured I
-could do a much better job myself using just a stock Ubuntu install, some clever
-Ansible config and a bunch of Docker containers.
+After getting burned by broken FreeNAS updates one too many times, I figured I could do a much better job myself using just a stock Ubuntu install, some clever Ansible config and a bunch of Docker containers.
 
 ## What Ansible-NAS Does
 
@@ -91,24 +92,19 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
+* [Wireshark](https://www.wireshark.org/) - the world’s foremost and widely-used network protocol analyzer.
 * [YouTubeDL-Material](https://github.com/Tzahi12345/YoutubeDL-Material) - Self-hosted YouTube downloader built on Material Design
 * [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 
 ## What This Could Do
 
-Ansible-NAS can run anything that's in a Docker image, which is why Portainer is
-included. A NAS configuration is a pretty personal thing based on what you
-download, what media you view, how many photos you take...so it's difficult to
-please everyone.
+Ansible-NAS can run anything that's in a Docker image, which is why Portainer is included. A NAS configuration is a pretty personal thing based on what you download, what media you view, how many photos you take...so it's difficult to please everyone.
 
-That said, if specific functionality you want isn't included and you think
-others could benefit, add it and raise a PR!
+That said, if specific functionality you want isn't included and you think others could benefit, add it and raise a PR!
 
 ## What This Doesn't Do
 
-Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive.
-That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be
-gained by automating it. Check out the [docs](https://davestephens.github.io/ansible-nas) for recommended setups.
+Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive. That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be gained by automating it. Check out the [docs](https://davestephens.github.io/ansible-nas) for recommended setups.
 
 ## Installation
 
@@ -120,8 +116,7 @@ See [Installation](https://davestephens.github.io/ansible-nas/installation/).
 
 ## Documentation
 
-You can read the docs [here](https://davestephens.github.io/ansible-nas). PRs
-for more documentation always welcome!
+You can read the docs [here](https://davestephens.github.io/ansible-nas). PRs for more documentation always welcome!
 
 ## Migrating from FreeNAS
 
@@ -136,10 +131,8 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 
 ## Requirements
 
-* Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu
-  Server 20.04 LTS.
-* You can run Ansible-NAS on whatever you like, read the docs for more info. I
-  use an HP Microserver.
+* Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu Server 22.04 LTS.
+* You can run Ansible-NAS on whatever you like, read the docs for more info. I use an HP Microserver.
 
 ## Getting Help
 

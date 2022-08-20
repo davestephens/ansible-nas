@@ -242,7 +242,7 @@
 
     - role: n8n
       tags:
-        - n8n_enabled
+        - n8n
       when: (n8n_enabled | default(False))
 
     - role: navidrome
@@ -429,6 +429,11 @@
       tags:
         - watchtower
       when: (watchtower_enabled | default(False))
+
+    - role: wireshark
+      tags:
+        - wireshark
+      when: (wireshark_enabled | default(False))
 
     - role: youtubedlmaterial
       tags:

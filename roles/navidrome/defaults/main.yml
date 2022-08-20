@@ -1,11 +1,10 @@
 ---
 navidrome_enabled: false
-navidrome_available_externally: "false"
+navidrome_available_externally: false
 
 # directories
 navidrome_data_directory: "{{ docker_home }}/navidrome"
 navidrome_music_directory: "{{ music_root }}"
-
 
 # network
 navidrome_port: "4533"

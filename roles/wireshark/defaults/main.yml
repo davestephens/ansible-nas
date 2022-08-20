@@ -1,0 +1,17 @@
+---
+# enable or disable the application
+wireshark_enabled: false
+wireshark_available_externally: false
+
+# directories
+wireshark_data_directory: "{{ docker_home }}/wireshark"
+
+# uid / gid
+wireshark_user_id: "1000"
+wireshark_group_id: "1000"
+
+# network
+wireshark_hostname: "wireshark"
+
+# specs
+wireshark_memory: "512m"

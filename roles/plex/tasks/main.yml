@@ -32,7 +32,7 @@
     restart_policy: unless-stopped
     memory: "{{ plex_memory }}"
     labels:
-      traefik.enable: "{{ plex_available_externally }}"
+      traefik.enable: "{{ plex_available_externally | string }}"
       traefik.http.routers.plex.rule: "Host(`{{ plex_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.plex.tls.certresolver: "letsencrypt"
       traefik.http.routers.plex.tls.domains[0].main: "{{ ansible_nas_domain }}"
