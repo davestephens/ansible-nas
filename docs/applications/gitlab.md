@@ -6,7 +6,7 @@ If Gitea isn't powerful enough for you then consider GitLab. It's a much more po
 
 ## Usage
 
-Set `gitlab_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `gitlab_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 To make GitLab available externally via Traefik set `gitlab_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
 
