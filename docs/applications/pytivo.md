@@ -14,7 +14,7 @@ Desktop. <http://pytivo.org/>
 
 ## Usage
 
-Set `pytivo_enabled: true` in your `inventories/<your_inventory>/nas.yml` file. The PyTivo
+Set `pytivo_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file. The PyTivo
 web interface can be found at <http://ansible_nas_host_or_ip:9032>.
 
 ## Specific Configuration
