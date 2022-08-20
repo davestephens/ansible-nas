@@ -10,7 +10,7 @@
   docker_container:
     name: speedtest_tracker
     state: absent
-  
+
 - name: Speedtest-Tracker Docker Container
   docker_container:
     name: speedtest-tracker
