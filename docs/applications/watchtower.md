@@ -6,7 +6,7 @@ A process for watching your Docker containers and automatically updating and res
 
 ## Usage
 
-Set `watchtower_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `watchtower_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 ## Specific Configuration
 
