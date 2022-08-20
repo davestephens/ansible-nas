@@ -8,7 +8,7 @@ This is a Bitwarden server API implementation written in Rust compatible with up
 
 ## Usage
 
-Set `bitwarden_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `bitwarden_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 ## Specific Configuration
 
