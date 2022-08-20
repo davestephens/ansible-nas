@@ -9,7 +9,7 @@ An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and to
 
 ## Usage
 
-Set `mylar_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `mylar_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 If you want to access Mylar externally, don't forget to set `mylar_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
 
