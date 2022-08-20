@@ -6,6 +6,6 @@ DokuWiki is a simple to use and highly versatile Open Source wiki software that 
 
 ## Usage
 
-Set `dokuwiki_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `dokuwiki_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The DokuWiki web interface can be found at <http://ansible_nas_host_or_ip:8085>.
