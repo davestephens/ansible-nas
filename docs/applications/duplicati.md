@@ -7,6 +7,6 @@ Duplicati is free backup software to store encrypted backups online For Windows,
 
 ## Usage
 
-Set `duplicati_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `duplicati_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Duplicati web interface can be found at <http://ansible_nas_host_or_ip:8200>.
