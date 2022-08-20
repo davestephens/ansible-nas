@@ -44,3 +44,7 @@
 
       [certificatesResolvers.letsencrypt.acme.dnsChallenge]
         provider = "{{ traefik_dns_provider }}"
+
+[file]
+filename = "rules.toml"
+watch = true
