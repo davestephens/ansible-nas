@@ -6,6 +6,6 @@ Octoprint is a control and monitoring application for your 3D printer. You can s
 
 ## Usage
 
-Connect the printer to your NAS, and take note of where the serial interface is mounted (usually it's automounted in `/dev/ttyUSB0`). Set `octoprint_enabled: true` in your `inventories/<your_inventory>/nas.yml` file, as well as the `octoprint_printer_mountpoint` variable if your printer doesn't mount to the default location.
+Connect the printer to your NAS, and take note of where the serial interface is mounted (usually it's automounted in `/dev/ttyUSB0`). Set `octoprint_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file, as well as the `octoprint_printer_mountpoint` variable if your printer doesn't mount to the default location.
 
 If you want to also have a webcam feed, attach one to your NAS and take note of its mountpoint as well (usually `/dev/video0`). Set `octoprint_enable_webcam: true` and add a `octoprint_webcam_mountpoint` variable if the webcam doesn't mount to the default location.
