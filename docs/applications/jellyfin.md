@@ -9,7 +9,7 @@ similar functionality.
 
 ## Usage
 
-Set `jellyfin_enabled: true` in your `inventories/<your_inventory>/nas.yml` file. There are further
+Set `jellyfin_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file. There are further
 parameters you can edit such as `movies_root`, `tv_root` or `music_root` lower down
 
 ## Specific Configuration
