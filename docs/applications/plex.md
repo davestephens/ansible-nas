@@ -6,7 +6,7 @@ Plex is a personal media server that also provides access to several external mo
 
 ## Usage
 
-Set `plex_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `plex_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Plex web interface can be found at <http://ansible_nas_host_or_ip:32400/web/index.html>.
 
