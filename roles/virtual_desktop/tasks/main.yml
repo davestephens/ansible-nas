@@ -9,7 +9,7 @@
 
 - name: Create users file
   template:
-    src: "templates/virtual_desktop/users.txt.j2"
+    src: "users.txt.j2"
     dest: "{{ virtual_desktop_data_directory }}/users.txt"
 
 - name: Virtual Desktop Container
