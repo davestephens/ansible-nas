@@ -6,6 +6,6 @@ A self-hosted recipe manager and meal planner with a RestAPI backend and a react
 
 ## Usage
 
-Set `mealie_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `mealie_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Mealie web interface can be found at <http://ansible_nas_host_or_ip:9925>.
