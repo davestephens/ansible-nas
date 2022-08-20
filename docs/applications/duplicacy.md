@@ -6,7 +6,7 @@ Duplicacy is a next-generation, cross-platform, cloud backup tool. Duplicacy bac
 
 ## Usage
 
-Set `duplicacy_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `duplicacy_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Duplicacy's web interface can be found at <http://ansible_nas_host_or_ip:3875>.
 
