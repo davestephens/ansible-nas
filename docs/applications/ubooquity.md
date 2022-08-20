@@ -10,7 +10,7 @@ Ubooquity is a free, lightweight and easy-to-use home server for your comics and
 
 ## Usage
 
-Set `ubooquity_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `ubooquity_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Access the webui at <http://ansible_nas_host_or_ip:2202/ubooquity> by default. See specific configuration section below for information on setting up external access.
 
