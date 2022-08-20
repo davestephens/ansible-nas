@@ -11,7 +11,7 @@ similar functionality.
 
 ## Usage
 
-Set `emby_enabled: true` in your `inventories/<your_inventory>/nas.yml` file. There are further
+Set `emby_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file. There are further
 parameters you can edit such as `movies_root` and `tv_root` lower down.
 
 ## Specific Configuration
