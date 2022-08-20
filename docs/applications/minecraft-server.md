@@ -6,7 +6,7 @@ The server version of the game Minecraft, running in a container. "Prepare for a
 
 ## Usage
 
-Set `minecraft_server_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `minecraft_server_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Ansible NAS host or ip address should then be usable as a server within the Minecraft multiplayer game menu.
 
