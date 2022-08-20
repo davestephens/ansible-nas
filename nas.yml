@@ -270,6 +270,11 @@
         - portainer
       when: (portainer_enabled | default(False))
 
+    - role: postfix-gmail-relay
+      tags:
+        - postfix-gmail-relay
+      when: (postfix_gmail_relay_enabled | default(False))
+
     - role: prowlarr
       tags:
         - prowlarr

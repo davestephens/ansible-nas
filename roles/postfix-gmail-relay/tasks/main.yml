@@ -1,0 +1,35 @@
+---
+- name: Install postfix package
+  apt:
+    name: "postfix"
+    state: present
+  register: result
+  until: result is succeeded
+
+- name: Enable and start postfix service
+  service:
+    name: "postfix"
+    state: started
+    enabled: true
+
+- name: Add required lines in /etc/postfix/main.cf file
+  template:
+    src: templates/postfix/main.cf.j2
+    dest: /etc/postfix/main.cf
+
+- name: Configure postfix sasl creds
+  copy:
+    content: "[smtp.gmail.com]:587 {{ postfix_gmail_relay_email }}:{{ postfix_gmail_relay_app_password }}"
+    dest: /etc/postfix/sasl_passwd
+    owner: root
+    group: postfix
+    mode: 0640
+
+- name: Process password file
+  command: postmap /etc/postfix/sasl_passwd
+  changed_when: false
+
+- name: Enable and start postfix service
+  service:
+    name: "postfix"
+    state: restarted
