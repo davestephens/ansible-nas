@@ -6,6 +6,6 @@ Homebridge is a lightweight NodeJS server you can run on your home network that 
 
 ## Usage
 
-Set `homebridge_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `homebridge_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Homebridge web interface can be found at <http://ansible_nas_host_or_ip:8087>. The default username and password is 'admin' - change this after your first login!
