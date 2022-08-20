@@ -1,0 +1,15 @@
+---
+joomla_enabled: false
+joomla_available_externally: false
+
+joomla_database_password: top_secret
+
+# directories
+joomla_data_directory: "{{ docker_home }}/joomla"
+
+# network
+joomla_port: "8181"
+joomla_hostname: "joomla"
+
+# specs
+joomla_memory: 1g

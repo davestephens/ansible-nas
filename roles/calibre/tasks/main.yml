@@ -22,7 +22,7 @@
     ports:
       - "{{ calibre_port }}:8083"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ calibre_memory }}"
     labels:
       traefik.enable: "{{ calibre_available_externally | string }}"
       traefik.http.routers.calibre.rule: "Host(`calibre.{{ ansible_nas_domain }}`)"

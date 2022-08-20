@@ -20,10 +20,10 @@
     env:
       SYMFONY__ENV__DOMAIN_NAME: "https://wallabag.{{ ansible_nas_domain }}"
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ wallabag_memory }}"
     labels:
       traefik.enable: "{{ wallabag_available_externally | string }}"
-      traefik.http.routers.wallabag.rule: "Host(`wallabag.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.wallabag.rule: "Host(`{{ wallabag_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.wallabag.tls.certresolver: "letsencrypt"
       traefik.http.routers.wallabag.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.wallabag.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"

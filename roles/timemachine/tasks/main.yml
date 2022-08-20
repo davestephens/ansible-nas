@@ -21,7 +21,7 @@
       - "nofile:1048576:1048576"
     network_mode: bridge
     restart_policy: unless-stopped
-    memory: 1g
+    memory: "{{ timemachine_memory }}"
 
 - name: Install avahi
   apt:

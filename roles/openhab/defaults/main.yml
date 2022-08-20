@@ -1,0 +1,14 @@
+---
+openhab_enabled: false
+openhab_available_externally: false
+
+# directories
+openhab_data_directory: "{{ docker_home }}/openhab"
+
+# network
+openhab_port_http: "7777"
+openhab_port_https: "7778"
+openhab_hostname: "openhab"
+
+# specs
+openhab_memory: 1g
