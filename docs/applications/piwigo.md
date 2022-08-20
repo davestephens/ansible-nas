@@ -6,7 +6,7 @@ Piwigo is open source photo gallery software for the web. Designed for organisat
 
 ## Usage
 
-Set `piwigo_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `piwigo_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 If you want to access Piwigo externally, set `piwigo_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
 
