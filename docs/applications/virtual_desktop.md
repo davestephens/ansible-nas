@@ -4,7 +4,7 @@ It's possible to run a cut down desktop within a Docker container. We use [Ratty
 
 ## Usage
 
-Set `virtual_desktop_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `virtual_desktop_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 ## Specific Configuration
 
