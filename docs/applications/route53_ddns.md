@@ -8,7 +8,7 @@ If you want your Ansible-NAS accessible externally then you need a domain name. 
 
 ## Usage
 
-Set `route53_ddns_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `route53_ddns_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Set required AWS access credentials from the AWS Console. (See below.)
 
