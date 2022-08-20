@@ -6,7 +6,7 @@ Homepages: [prowlarr](https://github.com/Prowlarr/Prowlarr)
 
 ## Usage
 
-Set `prowlarr_enabled: true` in your `/inventories/[my inventory]/group_vars/nas.yml` file.
+Set `prowlarr_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Prowlarr web interface can be found at `http://ansible_nas_host_or_ip:9696` by default
 
