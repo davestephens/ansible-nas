@@ -90,6 +90,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
 * [uTorrent](https://www.utorrent.com/) - The best torrent downloading app for beginners
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
+* [Code](https://code.visualstudio.com/) - Powerful and open source IDE accessible through the browser
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
 * [Wireshark](https://www.wireshark.org/) - the world’s foremost and widely-used network protocol analyzer.
