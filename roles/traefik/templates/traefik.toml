@@ -24,6 +24,8 @@
   providersThrottleDuration = "2s"
   [providers.docker]
     exposedbydefault = false
+  [providers.file]
+    filename = "/etc/traefik/dynamic_config.toml"
 
 [api]
   insecure = true
