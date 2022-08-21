@@ -1,6 +1,6 @@
 [entryPoints]
   [entryPoints.web]
-    address = ":traefik_port_http"
+    address = ":{{ traefik_port_http }}"
 
   [entryPoints.web.http.redirections.entryPoint]
     to = "websecure"
