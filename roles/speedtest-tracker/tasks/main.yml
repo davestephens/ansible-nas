@@ -6,9 +6,14 @@
   with_items:
     - "{{ speedtest_data_directory }}/config"
 
-- name: Speedtest-Tracker Docker Container
+- name: Remove old Speedtest-Tracker Docker Container
   docker_container:
     name: speedtest_tracker
+    state: absent
+
+- name: Speedtest-Tracker Docker Container
+  docker_container:
+    name: speedtest-tracker
     image: henrywhitaker3/speedtest-tracker:latest
     pull: true
     volumes:
