@@ -5,12 +5,12 @@
         - "WARNING: Use at your own risk."
 
 # templates below:
-####  how do roles know their file locations? - will role: plugins/role/appname work?
-#    - role: appname
-#      tags:
-#        - appname
-#      when: (appname_enabled | default(False))
-
-#    - import_tasks: plugins/tasks/appname.yml
-#      when: (appname_enabled | default(False))
-#      tags: appname
+#
+#  - import_role:
+#      name: plugins/roles/appname
+#    when: (appname_enabled | default(False))
+#    tags: appname
+#
+#  - import_tasks: plugins/tasks/appname.yml
+#    when: (appname_enabled | default(False))
+#    tags: appname
