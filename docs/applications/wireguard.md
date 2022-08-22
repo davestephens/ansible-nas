@@ -6,8 +6,10 @@ WireGuard® is an extremely simple yet fast and modern VPN that utilizes state-o
 
 ## Usage
 
-Set `wireguard_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `wireguard_enabled: true` and `wireguard_available_externally: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+
+The WireGuard's admin web interface can be found at <http://ansible_nas_host_or_ip:51821>. The default password is `topsecret`.
 
 ## Specific Configuration
 
-You will need to configure your router for port forwarding of UDP port 51820 to your Ansible NAS server. View <docker_home>/wireguard/config/wg0.conf for your public and private keys to configure your WireGuard clients.
+You will need to configure your router for port forwarding of UDP port 51820 to your Ansible NAS server. 
