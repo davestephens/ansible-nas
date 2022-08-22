@@ -1,23 +1,31 @@
 ---
 # enable or disable the application
 wireguard_enabled: false
+wireguard_available_externally: false
 
 # directories
 wireguard_data_directory: "{{ docker_home }}/wireguard"
 
-# uid / gid
-wireguard_user_id: "1000"
-wireguard_group_id: "1000"
-
 # environment
-wireguard_env_peers: "10"
-wireguard_env_peerdns: "auto"
-wireguard_env_internalsubnet: "10.13.13.0"
-wireguard_env_allowedips: "0.0.0.0/0"
+wireguard_environment_variables:
+  PASSWORD: "topsecret"
+  WG_HOST: "{{ wireguard_hostname }}.{{ ansible_nas_domain }}"
+  WG_PORT: "{{ wireguard_port }}"
+  WG_MTU: "1420"
+  WG_PERSISTENT_KEEPALIVE: "0"
+  WG_DEFAULT_ADDRESS: "10.23.23.x"
+  WG_DEFAULT_DNS: "{{ ansible_nas_dns }}"
+  WG_ALLOWED_IPS: "0.0.0.0/0, ::/0"
+  WG_PRE_UP: ""
+  WG_POST_UP: ""
+  WG_PRE_DOWN: ""
+  WG_POST_DOWN: ""
+  TZ: "{{ ansible_nas_timezone }}"
 
 # network
 wireguard_port: "51820"
+wireguard_port_http: "51821"
 wireguard_hostname: "wireguard"
 
 # specs
-wireguard_memory: "1g"
+wireguard_memory: "512m"
