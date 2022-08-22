@@ -1,37 +1,34 @@
 ---
-- name: Create WireGuard Directories
+- name: Create WireGuard Directory
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ wireguard_data_directory }}"
-    - "{{ wireguard_data_directory }}/config"
 
 - name: Create WireGuard Docker Container
   docker_container:
     name: wireguard
-    image: linuxserver/wireguard:latest
+    image: weejewel/wg-easy:latest
     pull: true
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ wireguard_user_id }}"
-      PGID: "{{ wireguard_group_id }}"
-      SERVERURL: "{{ wireguard_hostname }}.{{ ansible_nas_domain }}"
-      SERVERPORT: "{{ wireguard_port }}"
-      PEERS: "{{ wireguard_env_peers }}"
-      PEERDNS: "{{ wireguard_env_peerdns }}"
-      INTERNAL_SUBNET: "{{ wireguard_env_internalsubnet }}"
-      ALLOWEDIPS: "{{ wireguard_env_allowedips }}"
+    env: "{{ wireguard_environment_variables }}"
     volumes:
-      - "{{ wireguard_data_directory }}/config:/config"
-      - "/lib/modules:/lib/modules"
+      - "{{ wireguard_data_directory }}:/etc/wireguard"
     ports:
       - "{{ wireguard_port }}: 51820/udp"
-    devices:
-      - /dev/net/tun
+      - "{{ wireguard_port_http }}: 51821"
     capabilities:
       - NET_ADMIN
       - SYS_MODULE
-    sysctls: "net.ipv4.conf.all.src_valid_mark=1"
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark=1
+      net.ipv4.ip_forward=1
     restart_policy: unless-stopped
     memory: "{{ wireguard_memory }}"
+    labels:
+      traefik.enable: "{{ wireguard_available_externally | string }}"
+      traefik.http.routers.wireguard.rule: "Host(`{{ wireguard_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.wireguard.tls.certresolver: "letsencrypt"
+      traefik.http.routers.wireguard.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.wireguard.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.wireguard.loadbalancer.server.port: "51821"
