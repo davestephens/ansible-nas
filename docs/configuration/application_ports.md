@@ -101,5 +101,6 @@ By default, applications can be found on the ports listed below.
 | uTorrent         | 6881    | Bridge  | UDP            |
 | Wallabag         | 7780    | Bridge  | HTTP           |
 | WireGuard        | 51820   | Bridge  | UDP            |
+| WireGuard admin  | 51821   | Bridge  | HTTP           |
 | YouTubeDL-Mater  | 8998    | Bridge  | HTTP           |
 | ZNC              | 6677    | Bridge  |                |
