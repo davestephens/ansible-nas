@@ -8,7 +8,7 @@
     - "{{ pyload_config_directory }}"
     - "{{ pyload_download_directory }}"
 
-- name: pyLoad Docker Container
+- name: PyLoad Docker Container
   docker_container:
     name: pyload
     image: writl/pyload

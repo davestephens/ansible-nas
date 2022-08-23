@@ -12,12 +12,11 @@
     - "{{ paperless_ng_media_directory }}"
     - "{{ paperless_ng_consume_directory }}"
 
-
 - name: Create paperless_ng network
   docker_network:
     name: "{{ paperless_ng_container_network_name }}"
 
-- name: paperless_ng redis broker
+- name: Paperless_ng redis broker
   docker_container:
     name: "{{ paperless_ng_container_name_redis }}"
     image: redis:6.0
@@ -27,7 +26,7 @@
     networks:
       - name: "{{ paperless_ng_container_network_name }}"
 
-- name: paperless_ng postgres Docker Container
+- name: Paperless_ng postgres Docker Container
   docker_container:
     name: "{{ paperless_ng_container_name_postgres }}"
     image: postgres:13
@@ -43,7 +42,7 @@
     networks:
       - name: "{{ paperless_ng_container_network_name }}"
 
-- name: paperless_ng UI Docker Container
+- name: Paperless_ng UI Docker Container
   docker_container:
     name: "{{ paperless_ng_container_name_uiserver }}"
     image: jonaswinkler/paperless-ng:latest

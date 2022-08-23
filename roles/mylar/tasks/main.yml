@@ -7,7 +7,7 @@
   with_items:
     - "{{ mylar_data_directory }}/config"
 
-- name: mylar Docker Container
+- name: Mylar Docker Container
   docker_container:
     name: mylar
     image: linuxserver/mylar

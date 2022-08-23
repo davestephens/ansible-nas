@@ -7,7 +7,7 @@
     - "{{ mymediaforalexa_media_directory }}"
     - "{{ mymediaforalexa_data_directory }}"
 
-- name: mymediaforalexa Docker Container
+- name: Mymediaforalexa Docker Container
   docker_container:
     name: mymediaforalexa
     image: bizmodeller/mymediaforalexa

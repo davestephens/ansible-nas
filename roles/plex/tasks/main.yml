@@ -8,7 +8,7 @@
     - "{{ plex_config_directory }}"
     - "{{ plex_logs }}"
 
-- name: plex Docker Container
+- name: Plex Docker Container
   docker_container:
     name: plex
     image: linuxserver/plex
