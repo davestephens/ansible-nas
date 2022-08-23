@@ -9,7 +9,7 @@
 
 - name: Set up admin user
   copy:
-    src: files/thelounge/users/admin.json
+    src: admin.json
     dest: "{{ thelounge_data_directory }}/users/admin.json"
     mode: 0777
 
