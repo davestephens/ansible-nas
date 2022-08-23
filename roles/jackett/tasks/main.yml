@@ -6,7 +6,7 @@
   with_items:
     - "{{ jackett_data_directory }}"
 
-- name: jackett
+- name: Jackett Docker Container
   docker_container:
     name: jackett
     image: linuxserver/jackett

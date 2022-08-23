@@ -6,7 +6,7 @@
   with_items:
     - "{{ emby_config_directory }}"
 
-- name: emby Docker Container
+- name: Emby Docker Container
   docker_container:
     name: emby
     image: emby/embyserver

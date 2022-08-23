@@ -8,7 +8,7 @@
     - "{{ komga_data_directory }}"
     - "{{ komga_data_directory }}/config"
 
-- name: komga Docker Container
+- name: Komga Docker Container
   docker_container:
     name: komga
     image: gotson/komga
