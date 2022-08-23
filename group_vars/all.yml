@@ -68,6 +68,9 @@ photos_root: "{{ samba_shares_root }}/photos"
 # Where paperless_ng consumes documents
 documents_root: "{{ samba_shares_root }}/documents"
 
+# Where personal repos and code are stored
+code_root: "{{ samba_shares_root }}/code"
+
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
 
@@ -168,6 +171,14 @@ samba_shares:
     writable: yes
     browseable: yes
     path: "{{ documents_root }}"
+
+  - name: code
+    comment: "Code"
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browseable: yes
+    path: "{{ code_root }}"
 
 ###
 ### NFS

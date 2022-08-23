@@ -76,6 +76,11 @@
         - cloudflare_ddns
       when: (cloudflare_ddns_enabled | default(False))
 
+    - role: code-server
+      tags:
+        - code-server
+      when: (code_server_enabled | default(False))
+
     - role: couchpotato
       tags:
         - couchpotato

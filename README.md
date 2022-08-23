@@ -20,6 +20,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
 * [Booksonic](https://booksonic.org/) - The selfhosted audiobook server
 * [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
+* [Code Server](https://code.visualstudio.com/) - Powerful IDE from Microsoft accessible through the browser
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
