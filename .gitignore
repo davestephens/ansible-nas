@@ -8,6 +8,7 @@ inventories
 roles/bertvv.samba
 roles/geerlingguy.docker
 roles/geerlingguy.nfs
+/templates/samba*
 
 # Vim
 [._]sw[a-p]
