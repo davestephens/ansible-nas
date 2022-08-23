@@ -1,14 +1,15 @@
 ---
 - hosts: all
 
-  pre_tasks:
-    - import_tasks: tasks/users.yml
-      tags: users
-
   roles:
     ###
     ### Requirements
     ###
+    - role: ansible-nas-users
+      tags:
+        - ansible-nas-users
+        - ansible-nas
+
     - role: bertvv.samba
       tags:
         - samba
@@ -369,6 +370,11 @@
       tags:
         - speedtest-tracker
       when: (speedtest_tracker_enabled | default(False))
+
+    - role: stats
+      tags:
+        - stats
+      when: (stats_enabled | default(False))
 
     - role: syncthing
       tags:
