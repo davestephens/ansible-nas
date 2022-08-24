@@ -2,7 +2,7 @@
 
 Contributing to Ansible-NAS is easy! Add your functionality, then raise a pull request on GitHub. A few things to bear in mind:
 
-* **Restrict pull requests to one piece of functionality or bugfix at a time.** 
+* **Restrict pull requests to one piece of functionality or bugfix at a time.**
 * Test your new functionality or bugfix using the included `tests/test-vagrant.sh` script to spin up a test VM.
 * Run `ansible-lint` against the playbook before committing. (There is a VSCode task set up to run the right command for you)
 * Ensure that your PR only changes files required for your functionality or bugfix. Random changes in other files will result in your PR being rejected
@@ -26,3 +26,5 @@ If you're adding a new application:
 
 * Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) - you'll get some nice
 recommended extensions and task setups if you do the same.
+* You'll need a working Python 3 environment, and [pre-commit](https://pre-commit.com) installed - `pip install pre-commit`.
+
