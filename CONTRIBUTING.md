@@ -27,4 +27,3 @@ If you're adding a new application:
 * Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) - you'll get some nice
 recommended extensions and task setups if you do the same.
 * You'll need a working Python 3 environment, and [pre-commit](https://pre-commit.com) installed - `pip install pre-commit`.
-
