@@ -7,3 +7,10 @@ pipeline:
       galaxy: requirements.yml
       inventory: tests/inventories/integration_testing/inventory
       syntax_check: true
+
+  lint:
+    image: python:3
+    commands:
+      - pip3 install ansible yamllint==1.27.1 ansible-lint==6.5
+      - ansible-lint nas.yml
+      - yamllint .
