@@ -1,0 +1,9 @@
+---
+- name: Stop Code Server
+  docker_container:
+    name: "{{ code_server_container_name }}"
+    state: absent
+  when: code_server_enabled is false
+  listen:
+    - "stop code_server"
+    - "stop disabled applications"

@@ -16,3 +16,6 @@ code_server_hostname: "code-server"
 
 # specs
 code_server_memory: 1g
+
+# docker
+code_server_container_name: code_server

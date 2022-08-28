@@ -72,7 +72,6 @@
     - role: code-server
       tags:
         - code-server
-      when: (code_server_enabled | default(False))
 
     - role: couchpotato
       tags:
