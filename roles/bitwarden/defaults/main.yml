@@ -20,3 +20,7 @@ bitwarden_allow_signups: false
 # specs
 bitwarden_memory: 1g
 bitwarden_backup_memory: 1g
+
+# docker
+bitwarden_container_name: bitwarden
+bitwarden_backup_container_name: bitwarden-backup

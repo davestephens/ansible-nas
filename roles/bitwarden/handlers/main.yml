@@ -1,0 +1,18 @@
+---
+- name: Stop Bitwarden
+  docker_container:
+    name: "{{ bitwarden_container_name }}"
+    state: absent
+  when: bitwarden_enabled is false
+  listen:
+    - "stop bitwarden"
+    - "stop disabled applications"
+
+- name: Stop Bitwarden Backup
+  docker_container:
+    name: "{{ bitwarden_backup_container_name }}"
+    state: absent
+  when: bitwarden_enabled is false
+  listen:
+    - "stop bitwarden"
+    - "stop disabled applications"
