@@ -7,4 +7,3 @@ pipeline:
       galaxy: requirements.yml
       inventory: tests/inventories/integration_testing/inventory
       syntax_check: true
-

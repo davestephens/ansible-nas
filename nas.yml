@@ -446,6 +446,11 @@
         - wireshark
       when: (wireshark_enabled | default(False))
 
+    - role: woodpecker-ci
+      tags:
+        - woodpecker_ci
+      when: (woodpecker_ci_enabled | default(False))
+
     - role: youtubedlmaterial
       tags:
         - youtubedlmaterial
