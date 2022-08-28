@@ -13,3 +13,6 @@ airsonic_hostname: "airsonic"
 
 # specs
 airsonic_memory: 1g
+
+# docker
+airsonic_container_name: airsonic

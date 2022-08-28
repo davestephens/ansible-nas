@@ -44,7 +44,6 @@
     - role: airsonic
       tags:
         - airsonic
-      when: (airsonic_enabled | default(False))
 
     - role: bazarr
       tags:
