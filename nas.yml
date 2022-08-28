@@ -139,7 +139,6 @@
     - role: gitea
       tags:
         - gitea
-      when: (gitea_enabled | default(False))
 
     - role: gitlab
       tags:
@@ -460,3 +459,10 @@
       tags:
         - znc
       when: (znc_enabled | default(False))
+
+  post_tasks:
+    - name: Clean up stopped applications
+      command: /bin/true
+      notify: "stop disabled applications"
+      tags:
+        - stop_disabled_applications

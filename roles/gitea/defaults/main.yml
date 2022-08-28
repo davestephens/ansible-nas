@@ -16,3 +16,4 @@ gitea_mysql_memory: 1g
 
 # docker
 gitea_container_name: gitea
+gitea_mysql_container_name: gitea-mysql
