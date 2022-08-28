@@ -25,7 +25,7 @@
 
 - name: Create Gitea container
   docker_container:
-    name: gitea
+    name: "{{ gitea_container_name }}"
     image: gitea/gitea:latest
     pull: true
     links:

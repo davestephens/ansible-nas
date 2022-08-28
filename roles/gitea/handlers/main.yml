@@ -1,0 +1,6 @@
+---
+- name: "Restart Gitea"
+  docker_container:
+    name: "{{ gitea_container_name }}"
+    restart: true
+  listen: "restart gitea"
