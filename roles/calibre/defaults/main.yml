@@ -19,3 +19,6 @@ calibre_hostname: "calibre"
 
 # specs
 calibre_memory: 1g
+
+# docker
+calibre_container_name: calibre
