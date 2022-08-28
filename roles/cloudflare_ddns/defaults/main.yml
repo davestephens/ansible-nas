@@ -24,3 +24,6 @@ cloudflare_type: "A"
 
 # specs
 cloudflare_memory: 512MB
+
+# docker
+cloudflare_container_name: cloudflare-ddns

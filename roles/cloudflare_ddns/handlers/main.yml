@@ -1,0 +1,9 @@
+---
+- name: Stop Cloudflare DDNS
+  docker_container:
+    name: "{{ cloudflare_container_name }}"
+    state: absent
+  when: cloudflare_ddns_enabled is false
+  listen:
+    - "stop cloudflare_ddns"
+    - "stop disabled applications"
