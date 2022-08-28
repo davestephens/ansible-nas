@@ -1,0 +1,9 @@
+---
+- name: Stop Cloudcmd
+  docker_container:
+    name: "{{ cloudcmd_container_name }}"
+    state: absent
+  when: cloudcmd_enabled is false
+  listen:
+    - "stop cloudcmd"
+    - "stop disabled applications"
