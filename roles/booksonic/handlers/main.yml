@@ -1,0 +1,9 @@
+---
+- name: Stop Booksonic
+  docker_container:
+    name: "{{ booksonic_container_name }}"
+    state: absent
+  when: booksonic_enabled is false
+  listen:
+    - "stop booksonic"
+    - "stop disabled applications"

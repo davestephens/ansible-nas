@@ -56,7 +56,6 @@
     - role: booksonic
       tags:
         - booksonic
-      when: (booksonic_enabled | default(False))
 
     - role: calibre
       tags:
