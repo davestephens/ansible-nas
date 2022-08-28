@@ -4,7 +4,7 @@ pipeline:
     image: plugins/ansible:3
     settings:
       playbook: nas.yml
-      galaxy: ansible/requirements.yml
+      galaxy: requirements.yml
       inventory: tests/inventories/integration_testing/inventory
       syntax_check: true
 
