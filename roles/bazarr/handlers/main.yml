@@ -1,0 +1,9 @@
+---
+- name: Stop Bazarr
+  docker_container:
+    name: "{{ bazarr_container_name }}"
+    state: absent
+  when: bazarr_enabled is false
+  listen:
+    - "stop bazarr"
+    - "stop disabled applications"

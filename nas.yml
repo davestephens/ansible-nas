@@ -48,7 +48,6 @@
     - role: bazarr
       tags:
         - bazarr
-      when: (bazarr_enabled | default(False))
 
     - role: bitwarden
       tags:
