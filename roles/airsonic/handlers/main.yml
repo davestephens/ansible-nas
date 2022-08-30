@@ -1,9 +1,0 @@
----
-- name: Stop Airsonic
-  docker_container:
-    name: "{{ airsonic_container_name }}"
-    state: absent
-  when: airsonic_enabled is false
-  listen:
-    - "stop airsonic"
-    - "stop disabled applications"

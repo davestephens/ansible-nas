@@ -4,21 +4,3 @@
     name: "{{ gitea_container_name }}"
     restart: true
   listen: "restart gitea"
-
-- name: Stop Gitea
-  docker_container:
-    name: "{{ gitea_container_name }}"
-    state: absent
-  when: gitea_enabled is false
-  listen:
-    - "stop gitea"
-    - "stop disabled applications"
-
-- name: Stop Gitea Mysql
-  docker_container:
-    name: "{{ gitea_mysql_container_name }}"
-    state: absent
-  when: gitea_enabled is false
-  listen:
-    - "stop gitea"
-    - "stop disabled applications"

@@ -1,30 +1,38 @@
 ---
-- name: Cloudflare DDNS
+- name: Start Cloudflare DDNS
   block:
-  - name: Check for deprecated API key
-    fail:
-      msg: "Using a Cloudflare global API key is no longer supported. Please unset cloudflare_api_key and set cloudflare_token"
-    when: cloudflare_api_key is defined
+    - name: Check for deprecated API key
+      fail:
+        msg: "Using a Cloudflare global API key is no longer supported. Please unset cloudflare_api_key and set cloudflare_token"
+      when: cloudflare_api_key is defined
 
-  - name: Create cloudflare Dynamic DNS Directories
-    file:
-      path: "{{ cloudflare_data_directory }}"
-      state: directory
+    - name: Create cloudflare Dynamic DNS Directories
+      file:
+        path: "{{ cloudflare_data_directory }}"
+        state: directory
 
-  - name: Template Cloudflare Dynamic DNS config.yml with scoped token
-    template:
-      src: config.yml
-      dest: "{{ cloudflare_data_directory }}/config.yml"
-    register: template_files_result
+    - name: Template Cloudflare Dynamic DNS config.yml with scoped token
+      template:
+        src: config.yml
+        dest: "{{ cloudflare_data_directory }}/config.yml"
+      register: template_files_result
 
-  - name: Cloudflare Dynamic DNS Container
-    docker_container:
-      name: "{{ cloudflare_container_name }}"
-      image: joshava/cloudflare-ddns:latest
-      pull: true
-      volumes:
-        - "{{ cloudflare_data_directory }}/config.yml:/app/config.yaml"
-      restart_policy: unless-stopped
-      memory: "{{ cloudflare_memory }}"
-      recreate: "{{ template_files_result is changed }}"
+    - name: Cloudflare Dynamic DNS Container
+      docker_container:
+        name: "{{ cloudflare_container_name }}"
+        image: joshava/cloudflare-ddns:latest
+        pull: true
+        volumes:
+          - "{{ cloudflare_data_directory }}/config.yml:/app/config.yaml"
+        restart_policy: unless-stopped
+        memory: "{{ cloudflare_memory }}"
+        recreate: "{{ template_files_result is changed }}"
   when: cloudflare_ddns_enabled is true
+
+- name: Stop Cloudflare DDNS
+  block:
+    - name: Stop Cloudflare DDNS
+      docker_container:
+        name: "{{ cloudflare_container_name }}"
+        state: absent
+  when: cloudflare_ddns_enabled is false

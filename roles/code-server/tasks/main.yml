@@ -1,28 +1,36 @@
 ---
-- name: Code Server
+- name: Start Code Server
   block:
-  - name: Code Server Docker Container
-    docker_container:
-      name: "{{ code_server_container_name }}"
-      image: linuxserver/code-server
-      pull: true
-      volumes:
-        - "{{ code_server_config_directory }}:/config"
-        - "{{ code_server_projects_directory }}:/code:rw"
-      ports:
-        - "{{ code_server_port }}:8443"
-      env:
-        TZ: "{{ ansible_nas_timezone }}"
-        DEFAULT_WORKSPACE: "/code"
-        PUID: "{{ code_server_user_id }}"
-        PGID: "{{ code_server_group_id }}"
-      restart_policy: unless-stopped
-      memory: "{{ code_server_memory }}"
-      labels:
-        traefik.enable: "{{ code_server_available_externally | string }}"
-        traefik.http.routers.code_server.rule: "Host(`{{ code_server_hostname }}.{{ ansible_nas_domain }}`)"
-        traefik.http.routers.code_server.tls.certresolver: "letsencrypt"
-        traefik.http.routers.code_server.tls.domains[0].main: "{{ ansible_nas_domain }}"
-        traefik.http.routers.code_server.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-        traefik.http.services.code_server.loadbalancer.server.port: "8443"
+    - name: Code Server Docker Container
+      docker_container:
+        name: "{{ code_server_container_name }}"
+        image: linuxserver/code-server
+        pull: true
+        volumes:
+          - "{{ code_server_config_directory }}:/config"
+          - "{{ code_server_projects_directory }}:/code:rw"
+        ports:
+          - "{{ code_server_port }}:8443"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          DEFAULT_WORKSPACE: "/code"
+          PUID: "{{ code_server_user_id }}"
+          PGID: "{{ code_server_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ code_server_memory }}"
+        labels:
+          traefik.enable: "{{ code_server_available_externally | string }}"
+          traefik.http.routers.code_server.rule: "Host(`{{ code_server_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.code_server.tls.certresolver: "letsencrypt"
+          traefik.http.routers.code_server.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.code_server.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.code_server.loadbalancer.server.port: "8443"
   when: code_server_enabled is true
+
+- name: Stop Code Server
+  block:
+    - name: Stop Code Server
+      docker_container:
+        name: "{{ code_server_container_name }}"
+        state: absent
+  when: code_server_enabled is false

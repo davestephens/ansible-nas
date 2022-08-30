@@ -1,9 +1,0 @@
----
-- name: Stop Calibre
-  docker_container:
-    name: "{{ calibre_container_name }}"
-    state: absent
-  when: calibre_enabled is false
-  listen:
-    - "stop calibre"
-    - "stop disabled applications"

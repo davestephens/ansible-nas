@@ -1,35 +1,43 @@
 ---
-- name: Calibre
+- name: Start Calibre
   block:
-  - name: Create Calibre-web Directories
-    file:
-      path: "{{ item }}"
-      state: directory
-    with_items:
-      - "{{ calibre_data_directory }}/config"
+    - name: Create Calibre-web Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ calibre_data_directory }}/config"
 
-  - name: Calibre-web Docker Container
-    docker_container:
-      name: "{{ calibre_container_name }}"
-      image: linuxserver/calibre-web:latest
-      pull: true
-      volumes:
-        - "{{ calibre_data_directory }}/config:/config"
-        - "{{ calibre_books_root }}:/books"
-      env:
-        TZ: "{{ ansible_nas_timezone }}"
-        PUID: "{{ calibre_user_id }}"
-        PGID: "{{ calibre_group_id }}"
-        DOCKER_MODS: "{{ calibre_ebook_conversion }}"
-      ports:
-        - "{{ calibre_port }}:8083"
-      restart_policy: unless-stopped
-      memory: "{{ calibre_memory }}"
-      labels:
-        traefik.enable: "{{ calibre_available_externally | string }}"
-        traefik.http.routers.calibre.rule: "Host(`calibre.{{ ansible_nas_domain }}`)"
-        traefik.http.routers.calibre.tls.certresolver: "letsencrypt"
-        traefik.http.routers.calibre.tls.domains[0].main: "{{ ansible_nas_domain }}"
-        traefik.http.routers.calibre.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-        traefik.http.services.calibre.loadbalancer.server.port: "8083"
+    - name: Calibre-web Docker Container
+      docker_container:
+        name: "{{ calibre_container_name }}"
+        image: linuxserver/calibre-web:latest
+        pull: true
+        volumes:
+          - "{{ calibre_data_directory }}/config:/config"
+          - "{{ calibre_books_root }}:/books"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ calibre_user_id }}"
+          PGID: "{{ calibre_group_id }}"
+          DOCKER_MODS: "{{ calibre_ebook_conversion }}"
+        ports:
+          - "{{ calibre_port }}:8083"
+        restart_policy: unless-stopped
+        memory: "{{ calibre_memory }}"
+        labels:
+          traefik.enable: "{{ calibre_available_externally | string }}"
+          traefik.http.routers.calibre.rule: "Host(`calibre.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.calibre.tls.certresolver: "letsencrypt"
+          traefik.http.routers.calibre.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.calibre.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.calibre.loadbalancer.server.port: "8083"
   when: calibre_enabled is true
+
+- name: Stop Calibre
+  block:
+    - name: Stop Calibre
+      docker_container:
+        name: "{{ calibre_container_name }}"
+        state: absent
+  when: calibre_enabled is false
