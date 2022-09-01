@@ -28,7 +28,7 @@
     memory: "{{ ubooquity_memory }}"
     labels:
       traefik.enable: "{{ ubooquity_available_externally | string }}"
-      traefik.http.routers.ubooquity.rule: "Host(`{{ ubooquity }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.ubooquity.rule: "Host(`{{ ubooquity_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.ubooquity.tls.certresolver: "letsencrypt"
       traefik.http.routers.ubooquity.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.ubooquity.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
