@@ -1,0 +1,10 @@
+{
+{% if foundryvtt_admin_key is defined %}
+  "foundry_admin_key": "{{ foundryvtt_admin_key }}",
+{% endif %}
+{% if foundryvtt_license_key is defined %}
+  "foundry_license_key": "{{ foundryvtt_license_key }}",
+{% endif %}
+  "foundry_password": "{{ foundryvtt_password }}",
+  "foundry_username": "{{ foundryvtt_username }}"
+}

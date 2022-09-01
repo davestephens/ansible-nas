@@ -32,6 +32,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Emby](https://emby.media/) - Media streaming and management
 * [ESPHome](https://esphome.io/) - ESP8266/ESP32 programming and management for home automation
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
+* [FoundryVTT](https://foundryvtt.com/) - Virtual tabletop (VTT) for innovative online role-playing experience directly through a web browser
 * [Fresh RSS](https://freshrss.org/) - Self-hosted RSS feed aggregator like Leed or Kriss Feed
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone

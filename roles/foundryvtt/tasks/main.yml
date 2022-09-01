@@ -1,0 +1,48 @@
+---
+
+- name: Create FoundryVTT Data Directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ foundryvtt_data_directory }}"
+
+- name: Create FoundryVTT AWS Configuration File
+  when: foundryvtt_aws_key_id is defined
+  block:
+    - name: Create FoundryVTT Configuration Directory
+      file:
+        path: "{{ foundryvtt_data_directory }}/Config"
+        state: directory
+
+    - name: Create FoundryVTT AWS Configuration File
+      template:
+        dest: "{{ foundryvtt_data_directory }}/Config/aws.json"
+        src: aws.json.j2
+      vars:
+        required:
+          accessKeyId: "{{ foundryvtt_aws_key_id }}"
+          secretAccessKey: "{{ foundryvtt_aws_secret_key }}"
+          region: "{{ foundryvtt_aws_region }}"
+      no_log: true
+
+- name: Create FoundryVTT Docker Project
+  file:
+    path: foundryvtt
+    state: directory
+
+- name: Create FoundryVTT Secrets
+  template:
+    dest: foundryvtt/config.json
+    src: config.json.j2
+    mode: 0600
+
+- name: Create FoundryVTT Docker Compose File
+  template:
+    dest: foundryvtt/docker-compose.yml
+    src: docker-compose.yml.j2
+    mode: 0755
+
+- name: FoundryVTT Docker Service
+  docker_compose:
+    project_src: foundryvtt

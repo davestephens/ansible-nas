@@ -1,0 +1,50 @@
+---
+version: "3.8"
+secrets:
+  config_json:
+    file: ./config.json
+services:
+  foundry:
+    image: "felddy/foundryvtt:{{ foundryvtt_release_tag }}"
+    container_name: foundryvtt
+    hostname: foundryvtt
+    init: true
+    ports:
+      - "{{ foundryvtt_port }}:30000"
+    secrets:
+      - source: config_json
+        target: config.json
+    volumes:
+      - "{{ foundryvtt_data_directory }}:/data:rw"
+    environment:
+      CONTAINER_VERBOSE: "true"
+      TIMEZONE: "{{ ansible_nas_timezone }}"
+      FOUNDRY_UID: "{{ foundryvtt_user_id }}"
+      FOUNDRY_GID: "{{ foundryvtt_group_id }}"
+      FOUNDRY_MINIFY_STATIC_FILES: "{{ foundryvtt_minify_files | string }}"
+      FOUNDRY_PROXY_PORT: 443
+      FOUNDRY_PROXY_SSL: "true"
+{% if foundryvtt_release_url is defined %}
+      FOUNDRY_RELEASE_URL: "{{ foundryvtt_release_url }}"
+{% endif %}
+{% if foundryvtt_version is defined %}
+      FOUNDRY_VERSION: "{{ foundryvtt_version }}"
+{% endif %}
+{% if foundryvtt_world is defined %}
+      FOUNDRY_WORLD: "{{ foundryvtt_world }}"
+{% endif %}
+{% if foundryvtt_aws_key_id is defined %}
+      FOUNDRY_AWS_CONFIG: "aws.json"
+{% endif %}
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          memory: "{{ foundryvtt_memory }}"
+    labels:
+      traefik.enable: "{{ foundryvtt_available_externally }}"
+      traefik.http.routers.foundryvtt.rule: "Host(`{{ foundryvtt_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.foundryvtt.tls.certresolver: "letsencrypt"
+      traefik.http.routers.foundryvtt.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.foundryvtt.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.foundryvtt.loadbalancer.server.port: "30000"

@@ -1,0 +1,35 @@
+---
+
+foundryvtt_enabled: false
+foundryvtt_available_externally: "false"
+
+# Configuration
+# foundryvtt_release_url:
+foundryvtt_release_tag: "release"
+foundryvtt_minify_files: "true"
+# foundryvtt_world:
+# foundryvtt_version:
+
+# Secrets
+foundryvtt_username: "{{ mandatory }}"
+foundryvtt_password: "{{ mandatory }}"
+# foundryvtt_admin_key:
+# foundryvtt_license_key:
+
+# Data
+foundryvtt_data_directory: "{{ docker_home }}/foundryvtt"
+
+# AWS
+# foundryvtt_aws_key_id:
+# foundryvtt_aws_secret_key:
+# foundryvtt_aws_region:
+# foundryvtt_aws_options: {}
+
+# Network
+foundryvtt_port: "30000"
+foundryvtt_hostname: "foundryvtt"
+
+# Container
+foundryvtt_user_id: "1000"
+foundryvtt_group_id: "1000"
+foundryvtt_memory: 1g
