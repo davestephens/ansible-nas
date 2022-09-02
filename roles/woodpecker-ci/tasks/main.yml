@@ -1,0 +1,70 @@
+---
+- name: Check for Gitea installation
+  fail:
+    msg: "Woodpecker-CI requires Gitea enabled and running for authentication, please set that up first."
+  when: gitea_enabled is false
+
+- name: Check for Gitea config
+  fail:
+    msg: "Missing Gitea Oauth2 config! Read https://woodpecker-ci.org/docs/administration/forges/gitea and set woodpecker_ci_gitea_client and woodpecker_ci_gitea_secret."
+  when: woodpecker_ci_gitea_client == "notset"
+
+- name: Create Woodpecker-CI Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ woodpecker_ci_data_directory }}"
+
+- name: Create Woodpecker-CI container
+  docker_container:
+    name: woodpecker-ci
+    image: woodpeckerci/woodpecker-server:latest
+    pull: true
+    volumes:
+      - "{{ woodpecker_ci_data_directory }}:/var/lib/woodpecker:rw"
+    ports:
+      - "{{ woodpecker_ci_port_ui }}:8000"
+      - "{{ woodpecker_ci_port_grpc }}:9000"
+    env:
+      WOODPECKER_ADMIN: "{{ woodpecker_ci_admin_user }}"
+      WOODPECKER_OPEN: "true"
+      WOODPECKER_HOST: "{{ woodpecker_ci_address }}"
+      WOODPECKER_AGENT_SECRET: "{{ woodpecker_ci_agent_secret }}"
+      WOODPECKER_GITEA: "true"
+      WOODPECKER_GITEA_URL: "{{ woodpecker_ci_gitea_url }}"
+      WOODPECKER_GITEA_CLIENT: "{{ woodpecker_ci_gitea_client }}"
+      WOODPECKER_GITEA_SECRET: "{{ woodpecker_ci_gitea_secret }}"
+      WOODPECKER_LOG_LEVEL: "{{ woodpecker_ci_log_level }}"
+    restart_policy: unless-stopped
+    memory: "{{ woodpecker_ci_memory }}"
+    labels:
+      traefik.enable: "{{ woodpecker_ci_available_externally | string }}"
+      traefik.http.routers.woodpecker_ci.rule: "Host(`{{ woodpecker_ci_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.woodpecker_ci.tls.certresolver: "letsencrypt"
+      traefik.http.routers.woodpecker_ci.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.woodpecker_ci.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.woodpecker_ci.loadbalancer.server.port: "8000"
+
+- name: Create Woodpecker-CI agent container
+  docker_container:
+    name: woodpecker-ci-agent
+    image: woodpeckerci/woodpecker-agent:latest
+    pull: true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+    env:
+      WOODPECKER_SERVER: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ woodpecker_ci_port_grpc }}"
+      WOODPECKER_AGENT_SECRET: "{{ woodpecker_ci_agent_secret }}"
+      WOODPECKER_LOG_LEVEL: "{{ woodpecker_ci_log_level }}"
+    restart_policy: unless-stopped
+    memory: "{{ woodpecker_ci_agent_memory }}"
+
+- name: Add webhook allowed hosts to Gitea
+  blockinfile:
+    path: "{{ gitea_data_directory }}/gitea/gitea/conf/app.ini"
+    block: |
+     [webhook]
+     ALLOWED_HOST_LIST=private
+     SKIP_TLS_VERIFY=true
+  notify: restart gitea

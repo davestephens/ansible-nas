@@ -1,0 +1,13 @@
+---
+guacamole_enabled: false
+guacamole_available_externally: false
+
+# directories
+guacamole_data_directory: "{{ docker_home }}/guacamole"
+
+# network
+guacamole_port: "8090"
+guacamole_hostname: "guacamole"
+
+# specs
+guacamole_memory: 1g

@@ -6,7 +6,7 @@ Before running anything, check out the playbook and understand what it does. Run
 
 💀 💀 💀
 
-## Read This First...
+## Read This First
 
 Calling this page "installation" is a bit of a misnomer. Ansible-NAS isn't *installed* per-se, it is a bunch of automation that installs other software onto your server. Ansible-NAS relies heavily on Ansible's [variable prescedence](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable) to do its job. Ansible-NAS defines its installable software with roles with (mostly) sane defaults, these can then be enabled and the settings overridden in your inventory `nas.yml` file.
 

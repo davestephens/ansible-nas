@@ -6,7 +6,7 @@
   with_items:
     - "{{ n8n_data_directory }}"
 
-- name: n8n Docker Container
+- name: Create n8n Docker Container
   docker_container:
     name: n8n
     image: n8nio/n8n

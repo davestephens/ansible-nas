@@ -38,10 +38,8 @@
     content: "{{ docker_daemon_json | to_nice_json }}"
   register: docker_config
 
-- name: Restart Docker
+- name: Restart Docker # noqa no-handler
   service:
     name: docker
     state: restarted
   when: docker_config.changed
-  tags:
-    - skip_ansible_lint

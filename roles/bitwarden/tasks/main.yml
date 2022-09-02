@@ -1,52 +1,68 @@
 ---
-- name: Create Bitwarden Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: "0755"
-  with_items:
-    - "{{ bitwarden_data_directory }}"
+- name: Start Bitwarden
+  block:
+    - name: Create Bitwarden Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+      with_items:
+        - "{{ bitwarden_data_directory }}"
 
-- name: Bitwarden Docker Container
-  docker_container:
-    name: bitwarden
-    image: bitwardenrs/server:latest
-    pull: true
-    ports:
-      - "{{ bitwarden_port_a }}:80"
-      - "{{ bitwarden_port_b }}:3012"
-    volumes:
-      - "{{ bitwarden_data_directory }}:/data:rw"
-    env:
-      SIGNUPS_ALLOWED: "{{ bitwarden_allow_signups }}"
-      ADMIN_TOKEN: "{{ bitwarden_admin_token }}"
-      LOG_FILE: "/data/bitwarden.log"
-      WEBSOCKET_ENABLED: "true"
-    labels:
-      traefik.enable: "{{ bitwarden_available_externally | string }}"
-      traefik.http.routers.bitwarden.rule: "Host(`{{ bitwarden_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.bitwarden.tls.certresolver: "letsencrypt"
-      traefik.http.routers.bitwarden.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.bitwarden.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.routers.bitwarden.service: "bitwarden"
-      traefik.http.routers.bitwarden.middlewares: "bitwarden-ipwhitelist@docker"
-      traefik.http.services.bitwarden.loadbalancer.server.port: "80"
-      traefik.http.routers.bitwarden-ws.rule: "Host(`{{ bitwarden_hostname }}.{{ ansible_nas_domain }}`) && Path(`/notifications/hub`)"
-      traefik.http.routers.bitwarden-ws.tls.certresolver: "letsencrypt"
-      traefik.http.routers.bitwarden-ws.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.bitwarden-ws.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.routers.bitwarden-ws.service: "bitwarden-ws"
-      traefik.http.routers.bitwarden-ws.middlewares: "bitwarden-ipwhitelist@docker"
-      traefik.http.services.bitwarden-ws.loadbalancer.server.port: "3012"
-      traefik.http.middlewares.bitwarden-ipwhitelist.ipwhitelist.sourcerange: "{{ bitwarden_ip_whitelist }}"
-    memory: "{{ bitwarden_memory }}"
-    restart_policy: unless-stopped
+    - name: Bitwarden Docker Container
+      docker_container:
+        name: "{{ bitwarden_container_name }}"
+        image: bitwardenrs/server:latest
+        pull: true
+        ports:
+          - "{{ bitwarden_port_a }}:80"
+          - "{{ bitwarden_port_b }}:3012"
+        volumes:
+          - "{{ bitwarden_data_directory }}:/data:rw"
+        env:
+          SIGNUPS_ALLOWED: "{{ bitwarden_allow_signups }}"
+          ADMIN_TOKEN: "{{ bitwarden_admin_token }}"
+          LOG_FILE: "/data/bitwarden.log"
+          WEBSOCKET_ENABLED: "true"
+        labels:
+          traefik.enable: "{{ bitwarden_available_externally | string }}"
+          traefik.http.routers.bitwarden.rule: "Host(`{{ bitwarden_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.bitwarden.tls.certresolver: "letsencrypt"
+          traefik.http.routers.bitwarden.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.bitwarden.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.bitwarden.service: "bitwarden"
+          traefik.http.routers.bitwarden.middlewares: "bitwarden-ipwhitelist@docker"
+          traefik.http.services.bitwarden.loadbalancer.server.port: "80"
+          traefik.http.routers.bitwarden-ws.rule: "Host(`{{ bitwarden_hostname }}.{{ ansible_nas_domain }}`) && Path(`/notifications/hub`)"
+          traefik.http.routers.bitwarden-ws.tls.certresolver: "letsencrypt"
+          traefik.http.routers.bitwarden-ws.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.bitwarden-ws.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.bitwarden-ws.service: "bitwarden-ws"
+          traefik.http.routers.bitwarden-ws.middlewares: "bitwarden-ipwhitelist@docker"
+          traefik.http.services.bitwarden-ws.loadbalancer.server.port: "3012"
+          traefik.http.middlewares.bitwarden-ipwhitelist.ipwhitelist.sourcerange: "{{ bitwarden_ip_whitelist }}"
+        memory: "{{ bitwarden_memory }}"
+        restart_policy: unless-stopped
 
-- name: Bitwarden Backup Container
-  docker_container:
-    name: bitwarden-backup
-    image: bruceforce/bw_backup:latest
-    pull: true
-    restart_policy: unless-stopped
-    volumes_from: bitwarden
-    memory: "{{ bitwarden_backup_memory }}"
+    - name: Bitwarden Backup Container
+      docker_container:
+        name: "{{ bitwarden_backup_container_name }}"
+        image: bruceforce/bw_backup:latest
+        pull: true
+        restart_policy: unless-stopped
+        volumes_from: bitwarden
+        memory: "{{ bitwarden_backup_memory }}"
+  when: bitwarden_enabled is true
+
+- name: Stop Bitwarden
+  block:
+    - name: Stop Bitwarden
+      docker_container:
+        name: "{{ bitwarden_container_name }}"
+        state: absent
+
+    - name: Stop Bitwarden Backup
+      docker_container:
+        name: "{{ bitwarden_backup_container_name }}"
+        state: absent
+  when: bitwarden_enabled is false

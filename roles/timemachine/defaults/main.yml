@@ -1,0 +1,16 @@
+---
+timemachine_enabled: false
+
+timemachine_volume_size_limit: "0"
+timemachine_password: timemachine
+timemachine_share_name: Data
+timemachine_log_level: error
+
+# Directories
+timemachine_data_directory: "{{ docker_home }}/timemachine"
+
+# Networking
+timemachine_port: "10445"
+
+# Container
+timemachine_memory: 1g
