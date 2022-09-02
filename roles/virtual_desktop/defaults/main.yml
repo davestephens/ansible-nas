@@ -1,0 +1,22 @@
+---
+virtual_desktop_enabled: false
+
+virtual_desktop_docker_image: "rattydave/docker-ubuntu-xrdp-mate-custom:20.04-tools"
+
+virtual_desktop_users:
+  - username: "{{ ansible_nas_user }}"
+    password: "topsecret"
+    sudo: "Y"
+
+# uid / gid
+virtual_desktop_user_id: "0"
+virtual_desktop_group_id: "0"
+
+# Directories
+virtual_desktop_data_directory: "{{ docker_home }}/virtual_desktop"
+
+# Networking
+virtual_desktop_rdp_port: 3389
+
+# Container
+virtual_desktop_memory: 2g

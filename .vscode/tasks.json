@@ -22,9 +22,9 @@
             }
         },
         {
-            "label": "Run ansible-lint",
+            "label": "Run pre-commit checks",
             "type": "shell",
-            "command": "docker run --rm -it -v $(pwd):/code pipelinecomponents/ansible-lint:latest nas.yml",
+            "command": "pre-commit run --all-files",
             "group": "test"
         },
         {

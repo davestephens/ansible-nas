@@ -1,14 +1,15 @@
 ---
 - hosts: all
 
-  pre_tasks:
-    - import_tasks: tasks/users.yml
-      tags: users
-
   roles:
     ###
     ### Requirements
     ###
+    - role: ansible-nas-users
+      tags:
+        - ansible-nas-users
+        - ansible-nas
+
     - role: bertvv.samba
       tags:
         - samba
@@ -50,37 +51,38 @@
     - role: airsonic
       tags:
         - airsonic
-      when: (airsonic_enabled | default(False))
 
     - role: bazarr
       tags:
         - bazarr
-      when: (bazarr_enabled | default(False))
 
     - role: bitwarden
       tags:
         - bitwarden
-      when: (bitwarden_enabled | default(False))
 
     - role: booksonic
       tags:
         - booksonic
-      when: (booksonic_enabled | default(False))
+
+    - role: calibre
+      tags:
+        - calibre
 
     - role: cloudcmd
       tags:
         - cloudcmd
-      when: (cloudcmd_enabled | default(False))
 
     - role: cloudflare_ddns
       tags:
         - cloudflare_ddns
-      when: (cloudflare_ddns_enabled | default(False))
+
+    - role: code-server
+      tags:
+        - code-server
 
     - role: couchpotato
       tags:
         - couchpotato
-      when: (couchpotato_enabled | default(False))
 
     - role: dashy
       tags:
@@ -135,7 +137,6 @@
     - role: gitea
       tags:
         - gitea
-      when: (gitea_enabled | default(False))
 
     - role: gitlab
       tags:
@@ -152,6 +153,16 @@
         - gotify
       when: (gotify_enabled | default(False))
 
+    - role: guacamole
+      tags:
+        - guacamole
+      when: (guacamole_enabled | default(False))
+
+    - role: healthchecks.io
+      tags:
+        - healthchecks.io
+      when: (healthchecks_enabled | default(False))
+
     - role: heimdall
       tags:
         - heimdall
@@ -162,10 +173,35 @@
         - homeassistant
       when: (homeassistant_enabled | default(False))
 
+    - role: homebridge
+      tags:
+        - homebridge
+      when: (homebridge_enabled | default(False))
+
+    - role: jackett
+      tags:
+        - jackett
+      when: (jackett_enabled | default(False))
+
     - role: jellyfin
       tags:
         - jellyfin
       when: (jellyfin_enabled | default(False))
+
+    - role: joomla
+      tags:
+        - joomla
+      when: (joomla_enabled | default(False))
+
+    - role: komga
+      tags:
+        - komga
+      when: (komga_enabled | default(False))
+
+    - role: krusader
+      tags:
+        - krusader
+      when: (krusader_enabled | default(False))
 
     - role: lidarr
       tags:
@@ -209,7 +245,7 @@
 
     - role: n8n
       tags:
-        - n8n_enabled
+        - n8n
       when: (n8n_enabled | default(False))
 
     - role: navidrome
@@ -237,6 +273,21 @@
         - nzbget
       when: (nzbget_enabled | default(False))
 
+    - role: octoprint
+      tags:
+        - octoprint
+      when: (octoprint_enabled | default(False))
+
+    - role: ombi
+      tags:
+        - ombi
+      when: (ombi_enabled | default(False))
+
+    - role: openhab
+      tags:
+        - openhab
+      when: (openhab_enabled | default(False))
+
     - role: organizr
       tags:
         - organizr
@@ -257,6 +308,11 @@
         - piwigo
       when: (piwigo_enabled | default(False))
 
+    - role: plex
+      tags:
+        - plex
+      when: (plex_enabled | default(False))
+
     - role: portainer
       tags:
         - portainer
@@ -272,16 +328,6 @@
         - pyload
       when: (pyload_enabled | default(False))
 
-    - role: ombi
-      tags:
-        - ombi
-      when: (ombi_enabled | default(False))
-
-    - role: plex
-      tags:
-        - plex
-      when: (plex_enabled | default(False))
-
     - role: pytivo
       tags:
         - pytivo
@@ -292,11 +338,6 @@
         - radarr
       when: (radarr_enabled | default(False))
 
-    - role: sabnzbd
-      tags:
-        - sabnzbd
-      when: (sabnzbd_enabled | default(False))
-
     - role: route53_ddns
       tags:
         - route53_ddns
@@ -306,6 +347,11 @@
       tags:
         - rssbridge
       when: (rssbridge_enabled | default(False))
+
+    - role: sabnzbd
+      tags:
+        - sabnzbd
+      when: (sabnzbd_enabled | default(False))
 
     - role: sickchill
       tags:
@@ -322,6 +368,11 @@
         - speedtest-tracker
       when: (speedtest_tracker_enabled | default(False))
 
+    - role: stats
+      tags:
+        - stats
+      when: (stats_enabled | default(False))
+
     - role: syncthing
       tags:
         - syncthing
@@ -332,10 +383,25 @@
         - tautulli
       when: (tautulli_enabled | default(False))
 
+    - role: thelounge
+      tags:
+        - thelounge
+      when: (thelounge_enabled | default(False))
+
     - role: tiddlywiki
       tags:
         - tiddlywiki
       when: (tiddlywiki_enabled | default(False))
+
+    - role: timemachine
+      tags:
+        - timemachine
+      when: (timemachine_enabled | default(False))
+
+    - role: traefik
+      tags:
+        - traefik
+      when: (traefik_enabled | default(False))
 
     - role: transmission
       tags:
@@ -347,68 +413,47 @@
         - transmission_with_openvpn
       when: (transmission_with_openvpn_enabled | default(False))
 
+    - role: ubooquity
+      tags:
+        - ubooquity
+      when: (ubooquity_enabled | default(False))
+
     - role: utorrent
       tags:
         - utorrent
       when: (utorrent_enabled | default(False))
 
-    - role: traefik
+    - role: virtual_desktop
       tags:
-        - traefik
-      when: (traefik_enabled | default(False))
+        - virtual_desktop
+      when: (virtual_desktop_enabled | default(False))
 
-    - role: youtubedlmaterial
+    - role: wallabag
       tags:
-        - youtubedlmaterial
-      when: (youtubedlmaterial_enabled | default(False))
+        - wallabag
+      when: (wallabag_enabled | default(False))
 
     - role: watchtower
       tags:
         - watchtower
       when: (watchtower_enabled | default(False))
 
+    - role: wireshark
+      tags:
+        - wireshark
+      when: (wireshark_enabled | default(False))
+
+    - role: woodpecker-ci
+      tags:
+        - woodpecker_ci
+      when: (woodpecker_ci_enabled | default(False))
+
+    - role: youtubedlmaterial
+      tags:
+        - youtubedlmaterial
+      when: (youtubedlmaterial_enabled | default(False))
+
     - role: znc
       tags:
         - znc
       when: (znc_enabled | default(False))
-
-  tasks:
-    - import_tasks: tasks/thelounge.yml
-      when: (thelounge_enabled | default(False))
-      tags: thelounge
-
-    - import_tasks: tasks/timemachine.yml
-      when: (timemachine_enabled | default(False))
-      tags: timemachine
-
-    - import_tasks: tasks/guacamole.yml
-      when: (guacamole_enabled | default(False))
-      tags: guacamole
-
-    - import_tasks: tasks/joomla.yml
-      when: (joomla_enabled | default(False))
-      tags: joomla
-
-    - import_tasks: tasks/wallabag.yml
-      when: (wallabag_enabled | default(False))
-      tags: wallabag
-
-    - import_tasks: tasks/calibre.yml
-      when: (calibre_enabled | default(False))
-      tags: calibre
-
-    - import_tasks: tasks/openhab.yml
-      when: (openhab_enabled | default(False))
-      tags: openhab
-
-    - import_tasks: tasks/krusader.yml
-      when: (krusader_enabled | default(False))
-      tags: krusader
-
-    - import_tasks: tasks/ubooquity.yml
-      when: (ubooquity_enabled | default(False))
-      tags: ubooquity
-
-    - import_tasks: tasks/virtual_desktop.yml
-      when: (virtual_desktop_enabled | default(False))
-      tags: virtual_desktop

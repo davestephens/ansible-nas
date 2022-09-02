@@ -1,6 +1,6 @@
 ---
 sonarr_enabled: false
-sonarr_available_externally: "false"
+sonarr_available_externally: false
 
 # directories
 sonarr_data_directory: "{{ docker_home }}/sonarr/config"

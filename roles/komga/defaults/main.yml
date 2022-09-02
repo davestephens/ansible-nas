@@ -1,7 +1,7 @@
 ---
 # enable or disable the application
 komga_enabled: false
-komga_available_externally: "false"
+komga_available_externally: false
 
 # directories
 komga_data_directory: "{{ docker_home }}/komga"

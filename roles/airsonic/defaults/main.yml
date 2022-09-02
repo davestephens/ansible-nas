@@ -1,6 +1,6 @@
 ---
 airsonic_enabled: false
-airsonic_available_externally: "false"
+airsonic_available_externally: false
 
 # directories
 airsonic_data_directory: "{{ docker_home }}/airsonic"
@@ -13,3 +13,6 @@ airsonic_hostname: "airsonic"
 
 # specs
 airsonic_memory: 1g
+
+# docker
+airsonic_container_name: airsonic

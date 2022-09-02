@@ -1,6 +1,6 @@
 ---
 booksonic_enabled: false
-booksonic_available_externally: "false"
+booksonic_available_externally: false
 
 # uid / gid
 booksonic_user_id: "1000"
@@ -17,3 +17,6 @@ booksonic_hostname: "booksonic"
 
 # specs
 booksonic_memory: 1g
+
+# docker
+booksonic_container_name: booksonic

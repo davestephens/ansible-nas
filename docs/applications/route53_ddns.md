@@ -1,8 +1,8 @@
 # AWS Route53 Dynamic DNS Updater
 
-ddns-route53: [https://crazymax.dev/ddns-route53/](https://crazymax.dev/ddns-route53/)
+ddns-route53: <https://crazymax.dev/ddns-route53/>
 
-AWS Route53: [https://aws.amazon.com/route53/](https://aws.amazon.com/route53/)
+AWS Route53: <https://aws.amazon.com/route53/>
 
 If you want your Ansible-NAS accessible externally then you need a domain name. You will also need to set a wildcard host `A` record to point to your static IP, or enable this container to automatically update AWS Route53 with your dynamic IP address.
 
@@ -32,3 +32,9 @@ To set up Route53 to work with the service, please review the [Prerequisites](ht
 | route53_hosted_zone_id | Route53 hosted zone ID         | mandatory |
 | route53_ttl            | Time-to-live for the DNS entry |           |
 | route53_host           | Wildcard domain to update      |           |
+
+### Application
+
+| Parameter        | Description                                         | Status    |
+|------------------|-----------------------------------------------------|-----------|
+| route53_schedule | [CRON](https://pkg.go.dev/github.com/robfig/cron?utm_source=godoc#hdr-CRON_Expression_Format) schedule for checking and updating DNS entry |           |

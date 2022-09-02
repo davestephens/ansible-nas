@@ -1,0 +1,34 @@
+---
+stats_enabled: false
+stats_internet_speed_test_enabled: false
+stats_prometheus_available_externally: false
+stats_grafana_available_externally: false
+
+# directories
+stats_telegraf_config_directory: "{{ docker_home }}/stats/telegraf/config"
+stats_prometheus_data_directory: "{{ docker_home }}/stats/prometheus/data"
+stats_prometheus_config_directory: "{{ docker_home }}/stats/prometheus/config"
+stats_grafana_data_directory: "{{ docker_home }}/stats/grafana/data"
+stats_grafana_config_directory: "{{ docker_home }}/stats/grafana/config"
+
+# network
+stats_prometheus_port: "9090"
+stats_telegraf_port: "9273"
+stats_telegraf_influxdb_port: "8086"
+stats_prometheus_smartctl_port: "9902"
+stats_speedtest_exporter_port: "9798"
+stats_prometheus_hostname: "prometheus"
+stats_grafana_port: "3000"
+stats_grafana_hostname: "grafana"
+
+# specs
+stats_telegraf_memory: 1g
+stats_prometheus_memory: 1g
+stats_prometheus_smartctl_memory: 1g
+stats_speedtest_exporter_memory: 256m
+stats_grafana_memory: 1g
+
+# config
+stats_prometheus_retention_time: 365d
+stats_prometheus_retention_size: 30GB
+stats_collection_interval: 15s

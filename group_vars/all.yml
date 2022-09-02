@@ -13,38 +13,6 @@
 ###
 
 ###
-### Ansible-NAS Applications
-###
-
-# System Management
-stats_enabled: false
-guacamole_enabled: false
-virtual_desktop_enabled: false
-krusader_enabled: false
-
-# Backup & Restore
-timemachine_enabled: false
-
-# IRC
-thelounge_enabled: false
-
-# Wallabag
-wallabag_enabled: false
-
-# Home Automation
-mosquitto_enabled: false
-openhab_enabled: false
-
-# Books
-calibre_enabled: false
-
-# Ubooquity
-ubooquity_enabled: false
-
-# Joomla
-joomla_enabled: false
-
-###
 ### General
 ###
 
@@ -99,6 +67,9 @@ photos_root: "{{ samba_shares_root }}/photos"
 
 # Where paperless_ng consumes documents
 documents_root: "{{ samba_shares_root }}/documents"
+
+# Where personal repos and code are stored
+code_root: "{{ samba_shares_root }}/code"
 
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
@@ -201,6 +172,14 @@ samba_shares:
     browseable: yes
     path: "{{ documents_root }}"
 
+  - name: code
+    comment: "Code"
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browseable: yes
+    path: "{{ code_root }}"
+
 ###
 ### NFS
 ###
@@ -231,103 +210,3 @@ samba_map_to_guest: Bad Password
 
 # The NetBIOS hostname used by Samba on your network
 samba_netbios_name: "{{ ansible_nas_hostname }}"
-
-###
-### Joomla
-###
-joomla_data_directory: "{{ docker_home }}/joomla"
-joomla_available_externally: "false"
-joomla_database_password: top_secret
-joomla_port: "8181"
-
-###
-### OpenVPN
-###
-openvpn_config_directory: "{{ docker_home }}/openvpn"
-
-###
-### Guacamole
-###
-guacamole_available_externally: "false"
-guacamole_data_directory: "{{ docker_home }}/guacamole"
-guacamole_port: "8090"
-
-###
-### Krusader
-###
-krusader_available_externally: "false"
-krusader_config_directory: "{{ docker_home }}/krusader/config"
-krusader_browse_directory: "/"
-krusader_user_id: "0"
-krusader_group_id: "0"
-krusader_secure_connection: "0"
-krusader_vnc_password: "topsecret"
-krusader_port_http: "5800"
-krusader_port_vnc: "5900"
-
-###
-### Time Machine
-###
-timemachine_data_directory: "{{ docker_home }}/timemachine"
-timemachine_volume_size_limit: "0"
-timemachine_password: timemachine
-timemachine_share_name: Data
-timemachine_log_level: error
-timemachine_port: "10445"
-
-###
-### The Lounge
-###
-thelounge_available_externally: "false"
-thelounge_data_directory: "{{ docker_home }}/thelounge"
-thelounge_port_one: "113"
-thelounge_port_two: "9002"
-
-###
-### Wallabag
-###
-wallabag_available_externally: "false"
-wallabag_data_directory: "{{ docker_home }}/wallabag"
-wallabag_port: "7780"
-
-###
-### Calibre-web
-###
-calibre_available_externally: "false"
-calibre_data_directory: "{{ docker_home }}/calibre"
-calibre_user_id: "0"
-calibre_group_id: "0"
-calibre_books_root: "{{ books_root }}"
-calibre_port: "8084"
-# To disable ebook conversion set calibre_ebook_conversion to "". To enable it set it to "linuxserver/calibre-web:calibre"
-calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
-
-###
-### openHAB
-###
-openhab_available_externally: "false"
-openhab_docker_image: openhab/openhab:latest
-openhab_data_directory: "{{ docker_home }}/openhab"
-openhab_port_http: "7777"
-openhab_port_https: "7778"
-
-###
-### Ubooquity
-###
-ubooquity_available_externally: "false"
-ubooquity_data_directory: "{{ docker_home }}/ubooquity"
-ubooquity_user_id: "0"
-ubooquity_group_id: "0"
-ubooquity_port_webui: "2202"
-ubooquity_port_admin: "2203"
-
-###
-### Virtual Desktop
-###
-vd_data_directory: "{{ docker_home }}/virtual_desktop"
-vd_docker_image: "rattydave/docker-ubuntu-xrdp-mate-custom:20.04-tools"
-vd_users:
-  - username: "{{ ansible_nas_user }}"
-    password: "topsecret"
-    sudo: "Y"
-vd_rdp_port: 3389

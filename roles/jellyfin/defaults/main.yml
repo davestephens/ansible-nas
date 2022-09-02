@@ -1,7 +1,7 @@
 ---
 # enable or disable the application
 jellyfin_enabled: false
-jellyfin_available_externally: "false"
+jellyfin_available_externally: false
 
 # directories
 jellyfin_config_directory: "{{ docker_home }}/jellyfin/config"

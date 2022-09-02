@@ -18,5 +18,8 @@ route53_host: "*.{{ ansible_nas_domain }}"
 # The Time-To-Live for the DNS entry
 route53_ttl: 600
 
+# The CRON string schedule for checking and updating
+route53_schedule: "*/30 * * * *"
+
 # Container
 route53_memory: 512MB

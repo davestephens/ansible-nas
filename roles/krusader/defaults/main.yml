@@ -1,0 +1,22 @@
+---
+krusader_enabled: false
+krusader_available_externally: false
+
+krusader_secure_connection: "0"
+krusader_vnc_password: "topsecret"
+
+# uid / gid
+krusader_user_id: "0"
+krusader_group_id: "0"
+
+# directories
+krusader_config_directory: "{{ docker_home }}/krusader/config"
+krusader_browse_directory: "/"
+
+# network
+krusader_port_http: "5800"
+krusader_port_vnc: "5900"
+krusader_hostname: "krusader"
+
+# specs
+krusader_memory: 1g
