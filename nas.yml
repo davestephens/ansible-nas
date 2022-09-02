@@ -120,7 +120,6 @@
     - role: flaresolverr
       tags:
         - flaresolverr
-      when: (flaresolverr_enabled | default(False))
 
     - role: freshrss
       tags:
