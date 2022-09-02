@@ -1,6 +1,6 @@
 ---
 esphome_enabled: false
-esphome_available_externally: "false"
+esphome_available_externally: false
 
 # directories
 esphome_data_directory: "{{ docker_home }}/esphome"

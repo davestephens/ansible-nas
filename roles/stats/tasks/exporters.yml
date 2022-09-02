@@ -1,0 +1,22 @@
+---
+- name: Smartctl Exporter Docker Container
+  docker_container:
+    name: stats-smartctl
+    image: matusnovak/prometheus-smartctl:latest
+    pull: true
+    privileged: true
+    ports:
+      - "{{ stats_prometheus_smartctl_port }}:9902"
+    restart_policy: unless-stopped
+    memory: "{{ stats_prometheus_smartctl_memory }}"
+
+- name: Speedtest Exporter Docker Container
+  docker_container:
+    name: stats-speedtest
+    image: miguelndecarvalho/speedtest-exporter
+    pull: true
+    ports:
+      "{{ stats_speedtest_exporter_port }}:9798"
+    restart_policy: unless-stopped
+    memory: "{{ stats_speedtest_exporter_memory }}"
+  when: stats_internet_speed_test_enabled

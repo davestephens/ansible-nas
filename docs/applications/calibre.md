@@ -1,7 +1,6 @@
 # Calibre-web
 
-Homepage: [https://github.com/janeczku/calibre-web](https://github.com/janeczku/calibre-web)
-
+Homepage: <https://github.com/janeczku/calibre-web>
 
 Calibre-Web is a web app providing a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 
@@ -21,8 +20,8 @@ Requires Calibre ebook management program. Available for download [here](https:/
 
 If you do not need eBook conversion you can disable it to save resources by setting the `calibre_ebook_conversion` variable in `group_vars/all.yml` file to be empty.
 
- - Conversion enabled: `calibre_ebook_conversion: "linuxserver/calibre-web:calibre"`
+- Conversion enabled: `calibre_ebook_conversion: "linuxserver/calibre-web:calibre"`
 
- - Conversion disabled: `calibre_ebook_conversion: ""`
+- Conversion disabled: `calibre_ebook_conversion: ""`
 
 You can target just Calibre by appending `-t calibre` to your `ansible-playbook` command.

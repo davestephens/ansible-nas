@@ -1,31 +1,41 @@
 ---
-- name: Create Airsonic Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ airsonic_data_directory }}/data"
-    - "{{ airsonic_data_directory }}/playlists"
+- name: Start Airsonic
+  block:
+    - name: Create Airsonic Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ airsonic_data_directory }}/data"
+        - "{{ airsonic_data_directory }}/playlists"
 
-- name: Airsonic Docker Container
-  docker_container:
-    name: airsonic
-    image: airsonic/airsonic:latest
-    pull: true
-    volumes:
-      - "{{ airsonic_data_directory }}/data:/airsonic/data:rw"
-      - "{{ airsonic_data_directory }}/playlists:/airsonic/playlists:rw"
-      - "{{ airsonic_music_directory }}:/airsonic/music:rw"
-      - "{{ airsonic_podcasts_directory }}:/airsonic/podcasts:rw"
-    ports:
-      - "{{ airsonic_port }}:4040"
-    restart_policy: unless-stopped
-    memory: "{{ airsonic_memory }}"
-    labels:
-      traefik.enable: "{{ airsonic_available_externally }}"
-      traefik.http.routers.airsonic.rule: "Host(`{{ airsonic_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.airsonic.tls.certresolver: "letsencrypt"
-      traefik.http.routers.airsonic.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.airsonic.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.airsonic.loadbalancer.server.port: "4040"
+    - name: Airsonic Docker Container
+      docker_container:
+        name: "{{ airsonic_container_name }}"
+        image: airsonic/airsonic:latest
+        pull: true
+        volumes:
+          - "{{ airsonic_data_directory }}/data:/airsonic/data:rw"
+          - "{{ airsonic_data_directory }}/playlists:/airsonic/playlists:rw"
+          - "{{ airsonic_music_directory }}:/airsonic/music:rw"
+          - "{{ airsonic_podcasts_directory }}:/airsonic/podcasts:rw"
+        ports:
+          - "{{ airsonic_port }}:4040"
+        restart_policy: unless-stopped
+        memory: "{{ airsonic_memory }}"
+        labels:
+          traefik.enable: "{{ airsonic_available_externally | string }}"
+          traefik.http.routers.airsonic.rule: "Host(`{{ airsonic_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.airsonic.tls.certresolver: "letsencrypt"
+          traefik.http.routers.airsonic.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.airsonic.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.airsonic.loadbalancer.server.port: "4040"
+  when: airsonic_enabled is true
+
+- name: Stop Airsonic
+  block:
+    - name: Stop Airsonic
+      docker_container:
+        name: "{{ airsonic_container_name }}"
+        state: absent
+  when: airsonic_enabled is false

@@ -2,7 +2,7 @@
 
 By default, applications can be found on the ports listed below.
 
-# Application Ports
+## Default application ports
 
 By default, applications can be found on the ports listed below.
 
@@ -15,6 +15,7 @@ By default, applications can be found on the ports listed below.
 | Booksonic        | 4041    | Bridge  | HTTP           |
 | Calibre-web      | 8084    | Bridge  | HTTP           |
 | Cloud Commander  | 7373    | Bridge  | HTTP           |
+| Code Server      | 8443    | Bridge  | HTTP           |
 | Couchpotato      | 5050    | Bridge  | HTTP           |
 | Dashy            | 8082    | Bridge  | HTTP           |
 | DokuWiki         | 8085    | Bridge  | HTTP           |
@@ -100,6 +101,6 @@ By default, applications can be found on the ports listed below.
 | uTorrent         | 6881    | Bridge  | BT             |
 | uTorrent         | 6881    | Bridge  | UDP            |
 | Wallabag         | 7780    | Bridge  | HTTP           |
+| Wireshark        | 3000    | Host    | HTTP           |
 | YouTubeDL-Mater  | 8998    | Bridge  | HTTP           |
 | ZNC              | 6677    | Bridge  |                |
-

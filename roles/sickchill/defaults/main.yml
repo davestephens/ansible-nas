@@ -1,6 +1,6 @@
 ---
 sickchill_enabled: false
-sickchill_available_externally: "false"
+sickchill_available_externally: false
 
 # directories
 sickchill_config_directory: "{{ docker_home }}/sickchill/config"

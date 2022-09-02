@@ -1,7 +1,7 @@
 ---
 # enable or disable the application
 znc_enabled: false
-znc_available_externally: "false"
+znc_available_externally: false
 
 # directories
 znc_data_directory: "{{ docker_home }}/znc"

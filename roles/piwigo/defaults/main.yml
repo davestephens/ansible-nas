@@ -1,6 +1,6 @@
 ---
 piwigo_enabled: false
-piwigo_available_externally: "false"
+piwigo_available_externally: false
 
 # directories
 piwigo_config_directory: "{{ docker_home }}/piwigo/config"

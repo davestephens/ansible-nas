@@ -1,15 +1,16 @@
-:skull: :skull: :skull: Before running anything, check out the playbook and understand what it
-does. Run it against a VM and make sure you're happy. ***Do not*** blindly
-download code from the internet and trust that it's going to work as you expect.
-:skull: :skull: :skull:
+# Installation
 
-## Read This First...
+💀 💀 💀
 
-Calling this page "installation" is a bit of a misnomer. Ansible-NAS isn't *installed* per-se, it is a bunch of automation that installs other software onto your server. Ansible-NAS relies heavily on Ansible's [variable prescedence](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable) to do its job. Ansible-NAS
-defines its installable software with roles with (mostly) sane defaults, these can then be enabled and the settings overridden in your inventory `nas.yml` file.
+Before running anything, check out the playbook and understand what it does. Run it against a VM and make sure you're happy. ***Do not*** blindly download code from the internet and trust that it's going to work as you expect.
 
-A basic level of understanding of Ansible is required, or you're going to have a confusing time setting up your NAS. If you're willing to learn then great, but please don't raise issues because this is the first time you've looked at Ansible and you don't understand 
-why it's doing what it's doing. I'd love to teach the world Ansible...but I have a day job.
+💀 💀 💀
+
+## Read This First
+
+Calling this page "installation" is a bit of a misnomer. Ansible-NAS isn't *installed* per-se, it is a bunch of automation that installs other software onto your server. Ansible-NAS relies heavily on Ansible's [variable prescedence](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable) to do its job. Ansible-NAS defines its installable software with roles with (mostly) sane defaults, these can then be enabled and the settings overridden in your inventory `nas.yml` file.
+
+A basic level of understanding of Ansible is required, or you're going to have a confusing time setting up your NAS. If you're willing to learn then great, but please don't raise issues because this is the first time you've looked at Ansible and you don't understand why it's doing what it's doing. I'd love to teach the world Ansible...but I have a day job.
 
 ## Running Ansible-NAS
 

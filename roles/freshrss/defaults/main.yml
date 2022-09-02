@@ -1,11 +1,10 @@
 ---
 freshrss_enabled: false
-freshrss_available_externally: "false"
+freshrss_available_externally: false
 
 # directories
 freshrss_data_directory: "{{ docker_home }}/freshrss"
 freshrss_extensions_directory: "{{ docker_home }}/freshrss"
-
 
 # network
 freshrss_port: "8089"

@@ -1,19 +1,18 @@
 ---
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -24,12 +23,18 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install test dependencies
-        run: pip3 install ansible yamllint ansible-lint
+        run: pip3 install ansible yamllint==1.27.1 ansible-lint==6.5
 
-      - name: Linting
-        run: |
-          ansible-lint nas.yml
-          yamllint .
+      - name: Ansible-lint
+        run: ansible-lint nas.yml
+
+      - name: Lint yaml files
+        run: yamllint .
+
+      - name: Lint docs
+        uses: articulate/actions-markdownlint@v1
+        with:
+          version: 0.32.2
