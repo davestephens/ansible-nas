@@ -1,6 +1,7 @@
 ---
 transmission_with_openvpn_enabled: false # Please see docs about how to set VPN credentials
 transmission_with_openvpn_available_externally: false
+transmission_openvpn_available_externally: false
 
 # directories
 transmission_config_directory: "{{ docker_home }}/transmission/config"
