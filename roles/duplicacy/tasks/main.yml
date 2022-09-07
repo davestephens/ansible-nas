@@ -1,37 +1,48 @@
 ---
-- name: Create Duplicacy Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ duplicacy_config_directory }}"
-    - "{{ duplicacy_logs_directory }}"
-    - "{{ duplicacy_cache_directory }}"
+- name: Start Duplicacy
+  block:
+    - name: Create Duplicacy Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ duplicacy_config_directory }}"
+        - "{{ duplicacy_logs_directory }}"
+        - "{{ duplicacy_cache_directory }}"
 
-- name: Duplicacy Docker Container
-  docker_container:
-    name: duplicacy
-    image: saspus/duplicacy-web:mini
-    hostname: "{{ duplicacy_hostname }}"
-    pull: true
-    ports:
-      - "{{ duplicacy_port }}:3875"
-    volumes:
-      - "{{ duplicacy_config_directory }}:/config:rw"
-      - "{{ duplicacy_logs_directory }}:/logs:rw"
-      - "{{ duplicacy_cache_directory }}:/cache:rw"
-      - "{{ samba_shares_root }}:/backuproot:{{ duplicacy_data_permissions }}"
-    env:
-      DUPLICACY_WEB_VERSION: "{{ duplicacy_web_version }}"
-      TZ: "{{ ansible_nas_timezone }}"
-      USR_ID: "{{ duplicacy_user_id }}"
-      GRP_ID: "{{ duplicacy_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ duplicacy_memory }}"
-    labels:
-      traefik.enable: "{{ duplicacy_available_externally | string }}"
-      traefik.http.routers.duplicacy.rule: "Host(`{{ duplicacy_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.duplicacy.tls.certresolver: "letsencrypt"
-      traefik.http.routers.duplicacy.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.duplicacy.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.duplicacy.loadbalancer.server.port: "3875"
+    - name: Duplicacy Docker Container
+      docker_container:
+        name: "{{ duplicacy_container_name }}"
+        image: saspus/duplicacy-web:mini
+        hostname: "{{ duplicacy_hostname }}"
+        pull: true
+        ports:
+          - "{{ duplicacy_port }}:3875"
+        volumes:
+          - "{{ duplicacy_config_directory }}:/config:rw"
+          - "{{ duplicacy_logs_directory }}:/logs:rw"
+          - "{{ duplicacy_cache_directory }}:/cache:rw"
+          - "{{ samba_shares_root }}:/backuproot:{{ duplicacy_data_permissions }}"
+        env:
+          DUPLICACY_WEB_VERSION: "{{ duplicacy_web_version }}"
+          TZ: "{{ ansible_nas_timezone }}"
+          USR_ID: "{{ duplicacy_user_id }}"
+          GRP_ID: "{{ duplicacy_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ duplicacy_memory }}"
+        labels:
+          traefik.enable: "{{ duplicacy_available_externally | string }}"
+          traefik.http.routers.duplicacy.rule: "Host(`{{ duplicacy_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.duplicacy.tls.certresolver: "letsencrypt"
+          traefik.http.routers.duplicacy.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.duplicacy.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.duplicacy.loadbalancer.server.port: "3875"
+  when: duplicacy_enabled is true
+
+- name: Stop Duplicacy
+  block:
+    - name: Stop Duplicacy
+      docker_container:
+        name: "{{ duplicacy_container_name }}"
+        state: absent
+  when: duplicacy_enabled is false

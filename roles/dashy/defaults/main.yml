@@ -8,3 +8,6 @@ dashy_hostname: "dashy"
 
 # specs
 dashy_memory: 2g
+
+# docker
+dashy_container_name: dashy

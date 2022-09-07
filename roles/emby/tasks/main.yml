@@ -1,33 +1,44 @@
 ---
-- name: Create Emby Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ emby_config_directory }}"
+- name: Start Emby
+  block:
+    - name: Create Emby Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ emby_config_directory }}"
 
-- name: Emby Docker Container
-  docker_container:
-    name: emby
-    image: emby/embyserver
-    pull: true
-    volumes:
-      - "{{ emby_config_directory }}:/config:rw"
-      - "{{ emby_movies_directory }}:/movies:{{ emby_movies_permissions }}"
-      - "{{ emby_tv_directory }}:/tv:{{ emby_tv_permissions }}"
-    ports:
-      - "{{ emby_port_http }}:8096"
-      - "{{ emby_port_https }}:8920"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ emby_user_id }}"
-      PGID: "{{ emby_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ emby_memory }}"
-    labels:
-      traefik.enable: "{{ emby_available_externally | string }}"
-      traefik.http.routers.emby.rule: "Host(`{{ emby_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.emby.tls.certresolver: "letsencrypt"
-      traefik.http.routers.emby.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.emby.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.emby.loadbalancer.server.port: "8096"
+    - name: Emby Docker Container
+      docker_container:
+        name: "{{ emby_container_name }}"
+        image: emby/embyserver
+        pull: true
+        volumes:
+          - "{{ emby_config_directory }}:/config:rw"
+          - "{{ emby_movies_directory }}:/movies:{{ emby_movies_permissions }}"
+          - "{{ emby_tv_directory }}:/tv:{{ emby_tv_permissions }}"
+        ports:
+          - "{{ emby_port_http }}:8096"
+          - "{{ emby_port_https }}:8920"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ emby_user_id }}"
+          PGID: "{{ emby_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ emby_memory }}"
+        labels:
+          traefik.enable: "{{ emby_available_externally | string }}"
+          traefik.http.routers.emby.rule: "Host(`{{ emby_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.emby.tls.certresolver: "letsencrypt"
+          traefik.http.routers.emby.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.emby.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.emby.loadbalancer.server.port: "8096"
+  when: emby_enabled is true
+
+- name: Stop Emby
+  block:
+    - name: Stop Emby
+      docker_container:
+        name: "{{ emby_container_name }}"
+        state: absent
+  when: emby_enabled is false

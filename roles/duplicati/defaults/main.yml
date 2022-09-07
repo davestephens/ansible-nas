@@ -17,3 +17,6 @@ duplicati_port: "8200"
 duplicati_hostname: "duplicati"
 
 duplicati_memory: 1g
+
+# docker
+duplicati_container_name: duplicati

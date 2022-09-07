@@ -23,3 +23,6 @@ emby_hostname: "emby"
 
 # specs
 emby_memory: 1g
+
+# docker
+emby_container_name: emby
