@@ -108,7 +108,6 @@
     - role: firefly
       tags:
         - firefly
-      when: (firefly_enabled | default(False))
 
     - role: freshrss
       tags:
