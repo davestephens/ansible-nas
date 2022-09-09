@@ -1,0 +1,42 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    privileged: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      stdout_callback: dense
+  inventory:
+    group_vars:
+      all:
+        docker_home: /ansible-nas
+        ansible_nas_timezone: Europe/London
+        ansible_nas_domain: ansible-nas.io
+  playbooks:
+    prepare: ../../../../tests/molecule/resources/playbooks/prepare.yml
+    converge: ../../../../tests/molecule/resources/playbooks/converge.yml
+verifier:
+  name: ansible
+scenario:
+  test_sequence:
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - side_effect
+    - verify verify_stopped.yml
+    - cleanup
+    - destroy
