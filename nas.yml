@@ -153,6 +153,10 @@
         - heimdall
       when: (heimdall_enabled | default(False))
 
+    - role: hello_world
+      tags:
+        - hello_world
+
     - role: homeassistant
       tags:
         - homeassistant
