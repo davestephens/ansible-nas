@@ -10,7 +10,7 @@ spotweb_image: "jgeusebroek/spotweb:latest"
 spotweb_mysql_image: "mysql:5.7"
 
 # network
-spotweb_port: "80"
+spotweb_port: "8085"
 spotweb_hostname: "spotweb"
 
 # username / passwords
