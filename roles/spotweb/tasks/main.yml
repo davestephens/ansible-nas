@@ -30,7 +30,7 @@
     links:
       - spotweb-mysql:mysql
     volumes:
-      - "{{ spotweb_data_directory }}/spotweb:/var/www/html:rw"
+      - "{{ spotweb_data_directory }}/spotweb:/config:rw"
     ports:
       - "{{ spotweb_port }}:80"
     env:
