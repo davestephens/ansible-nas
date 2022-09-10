@@ -1,0 +1,53 @@
+---
+- name: Create Spotweb directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ spotweb_data_directory }}/spotweb"
+    - "{{ spotweb_data_directory }}/mysql"
+
+- name: Spotweb Mysql Docker Container
+  docker_container:
+    name: spotweb-mysql
+    image: "{{ spotweb_mysql_image }}"
+    pull: true
+    volumes:
+      - "{{ spotweb_data_directory }}/mysql:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: "spotweb"
+      MYSQL_USER: "{{ spotweb_sql_user }}"
+      MYSQL_PASSWORD: "{{ spotweb_sql_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ spotweb_sql_root_password }}"
+    restart_policy: unless-stopped
+    memory: "{{ spotweb_mysql_memory }}"
+
+- name: Spotweb Docker Container
+  docker_container:
+    name: spotweb
+    image: "{{ spotweb_image }}"
+    pull: true
+    links:
+      - spotweb-mysql:mysql
+    volumes:
+      - "{{ spotweb_data_directory }}/spotweb:/var/www/html:rw"
+    ports:
+      - "{{ spotweb_port }}:80"
+    env:
+      SPOTWEB_DB_TYPE: "pdo_mysql"
+      SPOTWEB_DB_HOST: "mysql"
+      SPOTWEB_DB_NAME: "spotweb"
+      SPOTWEB_DB_USER: "{{ spotweb_sql_user }}"
+      SPOTWEB_DB_PASS: "{{ spotweb_sql_password }}"
+      TZ: "{{ ansible_nas_timezone }}"
+    restart_policy: unless-stopped
+    memory: "{{ spotweb_memory }}"
+    labels:
+      traefik.enable: "{{ spotweb_available_externally | string }}"
+      traefik.http.routers.spotweb.rule: "Host(`{{ spotweb_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.spotweb.tls.certresolver: "letsencrypt"
+      traefik.http.routers.spotweb.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.spotweb.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.routers.spotweb.middlewares: "spotwebwhitelist"
+      traefik.http.services.spotweb.loadbalancer.server.port: "80"
+      traefik.http.middlewares.spotwebwhitelist.ipwhitelist.sourcerange: "{{ private_whitelist }}"

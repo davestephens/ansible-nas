@@ -1,0 +1,23 @@
+---
+spotweb_enabled: false
+spotweb_available_externally: false
+
+# directories
+spotweb_data_directory: "{{ docker_home }}/spotweb"
+
+# images
+spotweb_image: "jgeusebroek/spotweb:latest"
+spotweb_mysql_image: "mysql:5.7"
+
+# network
+spotweb_port: "80"
+spotweb_hostname: "spotweb"
+
+# username / passwords
+spotweb_sql_user: "spotweb-user"
+spotweb_sql_password: "spotweb-pass"
+spotweb_sql_root_password: "spotweb-secret"
+
+# specs
+spotweb_memory: 1g
+spotweb_mysql_memory: 1g
