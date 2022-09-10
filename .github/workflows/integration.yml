@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Dump env context
         id: env_context_step
-        run: echo '${{ toJSON(env) }}'
+        run: env
       - name: Dump GitHub context
         id: github_context_step
         run: echo '${{ toJSON(github) }}'
