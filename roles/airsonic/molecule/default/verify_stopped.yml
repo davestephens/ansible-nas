@@ -1,0 +1,17 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Try and stop and remove Airsonic
+      docker_container:
+        name: airsonic
+        state: absent
+      register: result
+
+    - name: Check Airsonic is stopped
+      assert:
+        that:
+          - not result.changed

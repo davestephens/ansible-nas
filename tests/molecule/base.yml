@@ -19,9 +19,21 @@ provisioner:
   inventory:
     group_vars:
       all:
-        docker_home: /ansible-nas
-        ansible_nas_timezone: Europe/London
         ansible_nas_domain: ansible-nas.io
+        ansible_nas_timezone: Europe/London
+        audiobooks_root: /audiobooks
+        books_root: /books
+        code_root: /code
+        comics_root: /comics
+        docker_home: /ansible-nas
+        documents_root: /documents
+        downloads_root: /downloads
+        movies_root: /movies
+        music_root: /music
+        photos_root: /photos
+        podcasts_root: /podcasts
+        torrents_root: /torrents
+        tv_root: /tv
   playbooks:
     prepare: ../../../../tests/molecule/resources/playbooks/prepare.yml
     converge: ../../../../tests/molecule/resources/playbooks/converge.yml
