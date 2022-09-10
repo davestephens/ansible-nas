@@ -1,0 +1,17 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Try and stop and remove Heimdall
+      docker_container:
+        name: heimdall
+        state: absent
+      register: result
+
+    - name: Check Heimdall is stopped
+      assert:
+        that:
+          - not result.changed
