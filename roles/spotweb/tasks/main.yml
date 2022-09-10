@@ -39,6 +39,8 @@
       SPOTWEB_DB_NAME: "spotweb"
       SPOTWEB_DB_USER: "{{ spotweb_sql_user }}"
       SPOTWEB_DB_PASS: "{{ spotweb_sql_password }}"
+      SPOTWEB_CRON_RETRIEVE: "*/15 * * * *"
+      SPOTWEB_CRON_CACHE_CHECK: "10 */1 * * *"
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
     memory: "{{ spotweb_memory }}"
