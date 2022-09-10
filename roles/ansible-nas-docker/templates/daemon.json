@@ -1,0 +1,5 @@
+{
+  "data-root": "{{ docker_image_directory }}",
+  "storage-driver": "{{ docker_storage_driver }}",
+  "bridge": "virbr0"
+}
