@@ -13,7 +13,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: set-matrix
         shell: bash
         run: "tests/github-test-matrix.sh"
@@ -26,17 +26,13 @@ jobs:
         matrix:
             role: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
-      - name: Dump env context
-        id: env_context_step
-        run: env
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
+      - uses: actions/checkout@v3
       - name: Molecule
         uses: gofrolist/molecule-action@v2
         with:
           molecule_options: --base-config ../../tests/molecule/base.yml
           molecule_command: test
-          molecule_working_dir: /github/workspace/${{ matrix.role }}
+          molecule_working_dir: ${{ matrix.role }}
         env:
+          PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
