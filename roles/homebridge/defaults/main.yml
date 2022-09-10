@@ -1,7 +1,7 @@
 ---
 # enable or disable the application
 homebridge_enabled: false
-homebridge_available_externally: "false"
+homebridge_available_externally: false
 
 # directories
 homebridge_config_directory: "{{ docker_home }}/homebridge/config"

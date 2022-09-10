@@ -6,7 +6,7 @@
   with_items:
     - "{{ n8n_data_directory }}"
 
-- name: n8n Docker Container
+- name: Create n8n Docker Container
   docker_container:
     name: n8n
     image: n8nio/n8n
@@ -23,7 +23,7 @@
       N8N_BASIC_AUTH_USER: "{{ n8n_basic_auth_user }}"
       N8N_BASIC_AUTH_PASSWORD: "{{ n8n_basic_auth_password }}"
     labels:
-      traefik.enable: "{{ n8n_available_externally }}"
+      traefik.enable: "{{ n8n_available_externally | string }}"
       traefik.http.routers.n8n.rule: "Host(`{{ n8n_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.n8n.tls.certresolver: "letsencrypt"
       traefik.http.routers.n8n.tls.domains[0].main: "{{ ansible_nas_domain }}"

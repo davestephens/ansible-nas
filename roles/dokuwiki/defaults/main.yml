@@ -1,6 +1,6 @@
 ---
 dokuwiki_enabled: false
-dokuwiki_available_externally: "false"
+dokuwiki_available_externally: false
 
 # directories
 dokuwiki_data_directory: "{{ docker_home }}/dokuwiki"
@@ -15,3 +15,6 @@ dokuwiki_port: "8085"
 
 # specs
 dokuwiki_memory: 1g
+
+# docker
+docuwiki_container_name: docuwiki

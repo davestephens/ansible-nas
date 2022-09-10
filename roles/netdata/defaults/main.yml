@@ -1,6 +1,6 @@
 ---
 netdata_enabled: false
-netdata_available_externally: "false"
+netdata_available_externally: false
 netdata_data_directory: "{{ docker_home }}/netdata"
 
 # network

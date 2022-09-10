@@ -1,5 +1,5 @@
 ---
-- name: netbootxyz Directory
+- name: Netbootxyz Directory
   file:
     path: "{{ item }}"
     state: directory
@@ -7,7 +7,7 @@
     - "{{ netbootxyz_config_directory }}"
     - "{{ netbootxyz_assets_directory }}"
 
-- name: netbootxyz Docker Container
+- name: Netbootxyz Docker Container
   docker_container:
     name: netbootxyz
     image: linuxserver/netbootxyz:latest
@@ -26,9 +26,9 @@
       PGID: "{{ netbootxyz_group_id }}"
     restart_policy: unless-stopped
     labels:
-      traefik.enable: "{{ netbootxyz_available_externally }}"
-      traefik.http.routers.netdata.rule: "Host(`{{ netbootxyz_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.netdata.tls.certresolver: "letsencrypt"
-      traefik.http.routers.netdata.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.netdata.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.netdata.loadbalancer.server.port: "80"
+      traefik.enable: "{{ netbootxyz_available_externally | string }}"
+      traefik.http.routers.netbootxyz.rule: "Host(`{{ netbootxyz_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.netbootxyz.tls.certresolver: "letsencrypt"
+      traefik.http.routers.netbootxyz.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.netbootxyz.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.netbootxyz.loadbalancer.server.port: "3000"

@@ -1,5 +1,6 @@
 # Sonarr
-Homepages: [sonarr](https://sonarr.tv/) 
+
+Homepages: <https://sonarr.tv/>
 
 **Sonarr** is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.
 
@@ -8,7 +9,6 @@ Homepages: [sonarr](https://sonarr.tv/)
 Set `sonarr_enabled: true` in your `/inventories/[my inventory]/group_vars/nas.yml` file.
 
 The Sonarr web interface can be found at `http://ansible_nas_host_or_ip:8989` by default
-
 
 ## Specific Configuration
 

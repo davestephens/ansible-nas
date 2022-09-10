@@ -16,6 +16,8 @@
     name: route53-ddns
     image: crazymax/ddns-route53:latest
     pull: true
+    env:
+      SCHEDULE: "{{ route53_schedule | string }}"
     volumes:
       - "{{ route53_data_directory }}/ddns-route53.yml:/etc/ddns-route53/ddns-route53.yml"
     restart_policy: unless-stopped

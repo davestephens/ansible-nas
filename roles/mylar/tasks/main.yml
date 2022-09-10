@@ -7,7 +7,7 @@
   with_items:
     - "{{ mylar_data_directory }}/config"
 
-- name: mylar Docker Container
+- name: Mylar Docker Container
   docker_container:
     name: mylar
     image: linuxserver/mylar
@@ -26,7 +26,7 @@
     restart_policy: unless-stopped
     memory: "{{ mylar_memory }}"
     labels:
-      traefik.enable: "{{ mylar_available_externally }}"
+      traefik.enable: "{{ mylar_available_externally | string }}"
       traefik.http.routers.mylar.rule: "Host(`{{ mylar_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.mylar.tls.certresolver: "letsencrypt"
       traefik.http.routers.mylar.tls.domains[0].main: "{{ ansible_nas_domain }}"

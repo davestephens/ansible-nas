@@ -1,0 +1,21 @@
+---
+code_server_enabled: false
+code_server_available_externally: false
+
+# directories
+code_server_config_directory: "{{ docker_home }}/code_server"
+code_server_projects_directory: "{{ code_root }}"
+
+# uid / gid
+code_server_user_id: "0"
+code_server_group_id: "0"
+
+# network
+code_server_port: "8443"
+code_server_hostname: "code-server"
+
+# specs
+code_server_memory: 1g
+
+# docker
+code_server_container_name: code_server

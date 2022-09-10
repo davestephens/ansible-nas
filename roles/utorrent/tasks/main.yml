@@ -8,7 +8,7 @@
     - "{{ utorrent_download_directory }}"
     - "{{ utorrent_download_directory_active }}"
 
-- name: uTorrent Docker Container
+- name: Create uTorrent Docker Container
   docker_container:
     name: utorrent
     image: ekho/utorrent:latest
@@ -31,7 +31,7 @@
     restart_policy: unless-stopped
     memory: "{{ utorrent_memory }}"
     labels:
-      traefik.enable: "{{ utorrent_available_externally }}"
+      traefik.enable: "{{ utorrent_available_externally | string }}"
       traefik.http.routers.utorrent.rule: "Host(`{{ utorrent_hostname }}.{{ ansible_nas_domain }}`)"
       traefik.http.routers.utorrent.tls.certresolver: "letsencrypt"
       traefik.http.routers.utorrent.tls.domains[0].main: "{{ ansible_nas_domain }}"

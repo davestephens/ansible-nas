@@ -1,7 +1,7 @@
 ---
 # enable or disable the application
 cloudcmd_enabled: false
-cloudcmd_available_externally: "false"
+cloudcmd_available_externally: false
 
 # directories
 cloudcmd_data_directory: "{{ docker_home }}/cloudcmd/config"
@@ -17,3 +17,6 @@ cloudcmd_port: "7373"
 
 # specs
 cloudcmd_memory: "1g"
+
+# docker
+cloudcmd_container_name: cloudcmd

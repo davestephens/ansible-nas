@@ -1,6 +1,6 @@
 ---
 deluge_enabled: false
-deluge_available_externally: "false"
+deluge_available_externally: false
 
 # directories
 deluge_config_directory: "{{ docker_home }}/deluge/config"
@@ -22,3 +22,5 @@ deluge_timezone: "{{ ansible_nas_timezone }}"
 
 # specs
 deluge_memory: 1g
+
+deluge_container_name: deluge

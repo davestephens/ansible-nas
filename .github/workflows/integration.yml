@@ -3,27 +3,39 @@ name: Integration
 
 # Controls when the action will run.
 on:
-  # Allows you to run this workflow manually from the Actions tab
+  schedule:
+    - cron:  '0 23 * * *'
   workflow_dispatch:
 
+
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-20.04
+  generate-matrix:
+    name: Generate test matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Generate Test Matrix
+        id: set-matrix
+        shell: bash
+        run: "tests/github-test-matrix.sh"
 
-      - name: Set up Python 3
-        uses: actions/setup-python@v2
+  test:
+    name: "Test ${{ matrix.role }}"
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            role: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Molecule Test
+        uses: gofrolist/molecule-action@v2
         with:
-          python-version: '3.x'
-
-      - name: Install Ansible
-        run: pip3 install ansible
-
-      - name: Install roles
-        run: ansible-galaxy install -r requirements.yml
-
-      - name: Run playbook
-        run: ansible-playbook -i tests/inventories/integration_testing/inventory nas.yml -b
+          molecule_options: --base-config ../../tests/molecule/base.yml
+          molecule_command: test
+          molecule_working_dir: ${{ matrix.role }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'

@@ -1,0 +1,32 @@
+---
+- name: Create Wireshark Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ wireshark_data_directory }}"
+    - "{{ wireshark_data_directory }}/config"
+
+- name: Create Wireshark Docker Container
+  docker_container:
+    name: wireshark
+    image: linuxserver/wireshark:latest
+    pull: true
+    volumes:
+      - "{{ wireshark_data_directory }}/config:/config:rw"
+    network_mode: host
+    env:
+      TZ: "{{ ansible_nas_timezone }}"
+      PUID: "{{ wireshark_user_id }}"
+      PGID: "{{ wireshark_group_id }}"
+    capabilities:
+      - NET_ADMIN
+    restart_policy: unless-stopped
+    memory: "{{ wireshark_memory }}"
+    labels:
+      traefik.enable: "{{ wireshark_available_externally | string }}"
+      traefik.http.routers.wireshark.rule: "Host(`{{ wireshark_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.wireshark.tls.certresolver: "letsencrypt"
+      traefik.http.routers.wireshark.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.wireshark.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.wireshark.loadbalancer.server.port: "3000"

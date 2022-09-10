@@ -1,6 +1,6 @@
 ---
 duplicacy_enabled: false
-duplicacy_available_externally: "false"
+duplicacy_available_externally: false
 
 # directories
 duplicacy_config_directory: "{{ docker_home }}/duplicacy/config"
@@ -8,7 +8,7 @@ duplicacy_logs_directory: "{{ docker_home }}/duplicacy/logs"
 duplicacy_cache_directory: "{{ docker_home }}/duplicacy/cache"
 
 # permissions
-duplicacy_data_permissions: "ro"    # Change to 'rw' to allow the UI to restore data
+duplicacy_data_permissions: "ro" # Change to 'rw' to allow the UI to restore data
 
 # version
 duplicacy_web_version: "Stable"
@@ -22,3 +22,6 @@ duplicacy_port: "3875"
 duplicacy_hostname: "duplicacy"
 
 duplicacy_memory: 1g
+
+# docker
+duplicacy_container_name: duplicacy

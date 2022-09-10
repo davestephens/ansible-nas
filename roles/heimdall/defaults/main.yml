@@ -1,6 +1,6 @@
 ---
-heimdall_enabled: true
-heimdall_available_externally: "false"
+heimdall_enabled: false
+heimdall_available_externally: false
 
 # directories
 heimdall_docker_image: linuxserver/heimdall:latest
@@ -17,3 +17,5 @@ heimdall_group_id: "1310"
 
 # specs
 heimdall_memory: 1g
+
+heimdall_container_name: heimdall

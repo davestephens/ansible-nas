@@ -1,0 +1,17 @@
+---
+# This is a Hello World playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Try and stop and remove Hello World
+      docker_container:
+        name: hello_world
+        state: absent
+      register: result
+
+    - name: Check Hello World is stopped
+      assert:
+        that:
+          - not result.changed

@@ -1,0 +1,16 @@
+---
+hello_world_enabled: false
+hello_world_available_externally: false
+
+# directories
+hello_world_data_directory: "{{ docker_home }}/hello_world"
+
+# network
+hello_world_port: "9999"
+hello_world_hostname: "hello_world"
+
+# specs
+hello_world_memory: 1g
+
+# docker
+hello_world_container_name: hello_world

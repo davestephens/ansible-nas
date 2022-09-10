@@ -1,0 +1,37 @@
+---
+- name: Start Hello World
+  block:
+    - name: Create Hello World Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ hello_world_data_directory }}"
+
+    - name: Hello World Docker Container
+      docker_container:
+        name: "{{ hello_world_container_name }}"
+        image: crccheck/hello-world
+        pull: true
+        volumes:
+          - "{{ hello_world_data_directory }}:/hello_world:rw"
+        ports:
+          - "{{ hello_world_port }}:8000"
+        restart_policy: unless-stopped
+        memory: "{{ hello_world_memory }}"
+        labels:
+          traefik.enable: "{{ hello_world_available_externally | string }}"
+          traefik.http.routers.hello_world.rule: "Host(`{{ hello_world_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hello_world.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hello_world.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hello_world.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hello_world.loadbalancer.server.port: "4040"
+  when: hello_world_enabled is true
+
+- name: Stop Hello World
+  block:
+    - name: Stop Hello World
+      docker_container:
+        name: "{{ hello_world_container_name }}"
+        state: absent
+  when: hello_world_enabled is false

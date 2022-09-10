@@ -1,34 +1,45 @@
 ---
-- name: Create Couchpotato Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ docker_home }}/couchpotato/config"
+- name: Start Couchpotato
+  block:
+    - name: Create Couchpotato Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ docker_home }}/couchpotato/config"
 
-- name: Couchpotato Docker Container
-  docker_container:
-    name: couchpotato
-    image: linuxserver/couchpotato
-    pull: true
-    volumes:
-      - "{{ couchpotato_config_directory }}:/config:rw"
-      - "{{ couchpotato_downloads_directory }}:/downloads:rw"
-      - "{{ couchpotato_movies_directory }}:/movies:rw"
-      - "{{ couchpotato_torrents_directory }}:/torrents:rw"
-    ports:
-      - "{{ couchpotato_port }}:5050"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ couchpotato_user_id }}"
-      PGID: "{{ couchpotato_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ couchpotato_memory }}"
-    labels:
-      traefik.enable: "{{ couchpotato_available_externally }}"
-      traefik.http.routers.couchpotato.rule: "Host(`couchpotato.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.couchpotato.tls.certresolver: "letsencrypt"
-      traefik.http.routers.couchpotato.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.couchpotato.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.couchpotato.loadbalancer.server.port: "5050"
+    - name: Couchpotato Docker Container
+      docker_container:
+        name: "{{ couchpotato_container_name }}"
+        image: linuxserver/couchpotato
+        pull: true
+        volumes:
+          - "{{ couchpotato_config_directory }}:/config:rw"
+          - "{{ couchpotato_downloads_directory }}:/downloads:rw"
+          - "{{ couchpotato_movies_directory }}:/movies:rw"
+          - "{{ couchpotato_torrents_directory }}:/torrents:rw"
+        ports:
+          - "{{ couchpotato_port }}:5050"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ couchpotato_user_id }}"
+          PGID: "{{ couchpotato_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ couchpotato_memory }}"
+        labels:
+          traefik.enable: "{{ couchpotato_available_externally | string }}"
+          traefik.http.routers.couchpotato.rule: "Host(`couchpotato.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.couchpotato.tls.certresolver: "letsencrypt"
+          traefik.http.routers.couchpotato.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.couchpotato.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.couchpotato.loadbalancer.server.port: "5050"
+  when: couchpotato_enabled is true
+
+- name: Stop Couchpotato
+  block:
+    - name: Stop Couchpotato
+      docker_container:
+        name: "{{ couchpotato_container_name }}"
+        state: absent
+  when: couchpotato_enabled is false
