@@ -31,6 +31,6 @@ jobs:
         with:
           molecule_options: --base-config ../../tests/molecule/base.yml
           molecule_command: test
-          molecule_working_dir: ${GITHUB_REPOSITORY}/${{ matrix.role }}
+          molecule_working_dir: /github/workspace/${{ matrix.role }}
         env:
           ANSIBLE_FORCE_COLOR: '1'
