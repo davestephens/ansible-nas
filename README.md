@@ -1,6 +1,7 @@
 # Ansible NAS
 
 [![CI](https://github.com/davestephens/ansible-nas/workflows/CI/badge.svg)](https://github.com/davestephens/ansible-nas/actions?query=workflow%3ACI)
+[![Integration](https://github.com/davestephens/ansible-nas/workflows/Integration/badge.svg)](https://github.com/davestephens/ansible-nas/actions?query=workflow%3AIntegration)
 [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat)
 [![license](https://img.shields.io/github/license/DAVFoundation/api_doc.svg?style=flat-square)](https://github.com/davestephens/ansible-nas/blob/master/LICENSE)
 [![Ko-fi](https://img.shields.io/static/v1.svg?label=ko-fi&message=Buy%20Me%20A%20Coffee&color=orange&style=flat-square&logo=buy-me-a-coffee)](https://ko-fi.com/davestephens)
@@ -115,10 +116,6 @@ Ansible NAS doesn't set up your disk partitions, primarily because getting it wr
 
 See [Installation](https://davestephens.github.io/ansible-nas/installation/).
 
-## Upgrading
-
-**The way Ansible-NAS configuration is structured has changed!** See [Upgrading](https://davestephens.github.io/ansible-nas/upgrading/) for more information. See the **Getting Help** section if you get stuck.
-
 ## Documentation
 
 You can read the docs [here](https://davestephens.github.io/ansible-nas). PRs for more documentation always welcome!
@@ -137,7 +134,7 @@ Assuming that your Ubuntu system disk is separate from your storage (it should b
 ## Requirements
 
 * Ansible NAS targets the latest Ubuntu LTS release, which is currently Ubuntu Server 22.04 LTS.
-* You can run Ansible-NAS on whatever you like, read the docs for more info. I use an HP Microserver.
+* You can run Ansible-NAS on whatever hardware you like, read the docs for more info. I use an HP Microserver.
 
 ## Getting Help
 
@@ -160,4 +157,4 @@ If you've enjoyed Ansible-NAS as much as I do working on it, please consider [bu
 
 The awesome dudes at [JetBrains](https://www.jetbrains.com/?from=Ansible-NAS) for supplying core contributors with JetBrains Open Source licenses!
 
-All of the awesome contributors to Ansible-NAS: ![All of the awesome contributors to Ansible-NAS](https://contrib.rocks/image?repo=davestephens/ansible-nas)
+All of the awesome contributors to Ansible-NAS!
