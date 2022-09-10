@@ -19,18 +19,18 @@ jobs:
         run: "tests/github-test-matrix.sh"
 
   test:
-    name: Test
+    name: "Test ${{ matrix.role }}"
     needs: generate-matrix
     runs-on: ubuntu-latest
     strategy:
         matrix:
             role: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-    steps:  
+    steps:
       - name: Molecule
         uses: gofrolist/molecule-action@v2
         with:
           molecule_options: --base-config ../../tests/molecule/base.yml
           molecule_command: test
-          molecule_working_dir: ./roles/${{ matrix.role }}
+          molecule_working_dir: ./${{ matrix.role }}
         env:
           ANSIBLE_FORCE_COLOR: '1'
