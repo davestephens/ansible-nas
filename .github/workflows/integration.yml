@@ -26,6 +26,12 @@ jobs:
         matrix:
             role: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
+      - name: Dump env context
+        id: env_context_step
+        run: echo '${{ toJSON(env) }}'
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
       - name: Molecule
         uses: gofrolist/molecule-action@v2
         with:
