@@ -357,6 +357,11 @@
         - speedtest-tracker
       when: (speedtest_tracker_enabled | default(False))
 
+    - role: spotweb
+      tags:
+        - spotweb
+      when: (spotweb_enabled | default(False))
+
     - role: stats
       tags:
         - stats
