@@ -20,7 +20,7 @@
         volumes:
           - "{{ bitwarden_data_directory }}:/data:rw"
         env:
-          SIGNUPS_ALLOWED: "{{ bitwarden_allow_signups }}"
+          SIGNUPS_ALLOWED: "{{ bitwarden_allow_signups | string }}"
           ADMIN_TOKEN: "{{ bitwarden_admin_token }}"
           LOG_FILE: "/data/bitwarden.log"
           WEBSOCKET_ENABLED: "true"
