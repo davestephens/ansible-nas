@@ -13,9 +13,6 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
-  # config_options:
-  #   defaults:
-  #     stdout_callback: dense
   inventory:
     group_vars:
       all:
