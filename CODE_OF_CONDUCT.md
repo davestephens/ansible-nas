@@ -10,7 +10,7 @@ Contributions of every kind have far-ranging consequences. Just as your work dep
 
 ## Patient
 
-Asynchronous communication can come with its own frustrations, even in the most responsive of communities. Please remember that our community is largely built on volunteered time, and that questions, contributions, and requests for support may take some time to receive a response. Repeated "bumps" or "reminders" in rapid succession are not good displays of patience. Additionally, it is considered poor manners to ping a specific person with general questions. Pose your question to the community as a whole, and wait patiently for a response.
+Asynchronous communication can come with its own frustrations, even in the most responsive of communities. Please remember that our community is totally built on volunteered time, and that questions, contributions, and requests for support may take some time to receive a response. Repeated "bumps" or "reminders" in rapid succession are not good displays of patience. Additionally, it is considered poor manners to ping a specific person with general questions. Pose your question to the community as a whole, and wait patiently for a response.
 
 ## Respectful
 
