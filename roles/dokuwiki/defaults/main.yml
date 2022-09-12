@@ -17,4 +17,4 @@ dokuwiki_port: "8085"
 dokuwiki_memory: 1g
 
 # docker
-docuwiki_container_name: docuwiki
+dokuwiki_container_name: dokuwiki
