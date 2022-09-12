@@ -16,6 +16,7 @@ provisioner:
   inventory:
     group_vars:
       all:
+        samba_shares_root: /shares
         ansible_nas_domain: ansible-nas.io
         ansible_nas_timezone: Europe/London
         audiobooks_root: /audiobooks
