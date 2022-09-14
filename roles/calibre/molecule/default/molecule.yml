@@ -4,3 +4,4 @@ provisioner:
     group_vars:
       all:
         calibre_enabled: true
+        calibre_port: "8085" # 8084 is used by github actions 
