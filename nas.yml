@@ -322,6 +322,11 @@
         - pytivo
       when: (pytivo_enabled | default(False))
 
+    - role: qbittorrent
+      tags:
+        - qbittorrent
+      when: (qbittorrent_enabled | default(False))
+
     - role: radarr
       tags:
         - radarr

@@ -1,0 +1,21 @@
+---
+# enable or disable the application
+qbittorrent_enabled: false
+qbittorrent_available_externally: false
+
+# directories
+qbittorrent_data_directory: "{{ docker_home }}/qbittorrent"
+qbittorrent_download_directory: "{{ downloads_root }}"
+
+# uid / gid
+qbittorrent_user_id: "0"
+qbittorrent_group_id: "1001"
+qbittorrent_umask: "000"
+
+# network
+qbittorrent_hostname: "qbittorrent"
+qbittorrent_port_http: "8113"
+qbittorrent_port_bt: "6882"
+
+# specs
+qbittorrent_memory: "2g"
