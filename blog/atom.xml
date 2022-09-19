@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://ansible-nas.io/blog</id>
+    <title>Ansible-NAS Blog</title>
+    <updated>2021-08-26T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://ansible-nas.io/blog"/>
+    <subtitle>Ansible-NAS Blog</subtitle>
+    <icon>https://ansible-nas.io/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Welcome]]></title>
+        <id>welcome</id>
+        <link href="https://ansible-nas.io/blog/welcome"/>
+        <updated>2021-08-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[It's about time Ansible-NAS had a proper website and domain name. This new Docusaurus based site is moving closer to that goal, served from  via Github Pages.]]></summary>
+        <content type="html"><![CDATA[<p>It's about time Ansible-NAS had a proper website and domain name. This new <a href="https://docusaurus.io" target="_blank" rel="noopener noreferrer">Docusaurus</a> based site is moving closer to that goal, served from <a href="https://ansible-nas.io" target="_blank" rel="noopener noreferrer">https://ansible-nas.io</a> via Github Pages.</p>]]></content>
+        <author>
+            <name>David Stephens</name>
+            <uri>https://github.com/davestephens</uri>
+        </author>
+        <category label="ansible-nas" term="ansible-nas"/>
+        <category label="website" term="website"/>
+    </entry>
+</feed>
