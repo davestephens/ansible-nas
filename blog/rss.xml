@@ -4,7 +4,7 @@
         <title>Ansible-NAS Blog</title>
         <link>https://ansible-nas.io/blog</link>
         <description>Ansible-NAS Blog</description>
-        <lastBuildDate>Thu, 26 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 19 Sep 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
@@ -12,7 +12,7 @@
             <title><![CDATA[Welcome]]></title>
             <link>https://ansible-nas.io/blog/welcome</link>
             <guid>welcome</guid>
-            <pubDate>Thu, 26 Aug 2021 00:00:00 GMT</pubDate>
+            <pubDate>Mon, 19 Sep 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[It's about time Ansible-NAS had a proper website and domain name. This new Docusaurus based site is moving closer to that goal, served from  via Github Pages.]]></description>
             <content:encoded><![CDATA[<p>It's about time Ansible-NAS had a proper website and domain name. This new <a href="https://docusaurus.io" target="_blank" rel="noopener noreferrer">Docusaurus</a> based site is moving closer to that goal, served from <a href="https://ansible-nas.io" target="_blank" rel="noopener noreferrer">https://ansible-nas.io</a> via Github Pages.</p>]]></content:encoded>
             <category>ansible-nas</category>
