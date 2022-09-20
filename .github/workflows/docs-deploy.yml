@@ -7,9 +7,21 @@ on:
       - master
 
 jobs:
+  lint:
+    name: Lint Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint docs
+        uses: articulate/actions-markdownlint@v1
+        with:
+          version: 0.32.2
+
   deploy:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
@@ -30,4 +42,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
-          publish_dir: ./build
+          publish_dir: ./website/build
