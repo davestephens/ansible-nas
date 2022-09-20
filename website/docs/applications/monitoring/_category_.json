@@ -1,0 +1,7 @@
+{
+  "label": "Monitoring",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the monitoring applications available for installation with Ansible-NAS."
+  }
+}

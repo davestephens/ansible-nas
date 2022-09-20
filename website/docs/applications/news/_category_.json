@@ -1,0 +1,7 @@
+{
+  "label": "News",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the news applications for installation with Ansible-NAS."
+  }
+}

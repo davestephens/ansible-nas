@@ -1,0 +1,32 @@
+---
+name: Test Website Deployment
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: Lint Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint docs
+        uses: articulate/actions-markdownlint@v1
+        with:
+          version: 0.32.2
+
+  test-deploy:
+    name: Test deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        run: yarn build

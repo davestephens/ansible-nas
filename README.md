@@ -118,18 +118,11 @@ See [Installation](https://davestephens.github.io/ansible-nas/installation/).
 
 ## Documentation
 
-You can read the docs [here](https://davestephens.github.io/ansible-nas). PRs for more documentation always welcome!
+You can read the docs [here](https://ansible-nas.io). PRs for more documentation always welcome!
 
 ## Migrating from FreeNAS
 
-Assuming that your Ubuntu system disk is separate from your storage (it should be!):
-
-1. Ensure you have a working backup of your data.
-2. Check that the working backup you think you have actually works.
-3. SSH to the server and run `zpool list` to determine available ZFS pools.
-4. `zpool import <pool_name>` against each of the pools you want to attach.
-5. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
-6. Follow the Quick Start instructions above.
+Read the [migrating from FreeNAS](https://ansible-nas.io/docs/further-configuration/migrating-from-freenas/) docs.
 
 ## Requirements
 

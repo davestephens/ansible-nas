@@ -1,0 +1,7 @@
+{
+  "label": "System Tools",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the system tools available for installation with Ansible-NAS."
+  }
+}
