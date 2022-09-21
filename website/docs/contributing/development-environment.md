@@ -22,4 +22,4 @@ Developing Ansible-NAS features require a few things:
 
 ## IDE
 
-- Development of Ansible-NAS is carried out in Visual Studio Code. 
+- Development of Ansible-NAS is carried out in Visual Studio Code.
