@@ -16,6 +16,7 @@
         volumes:
           - "{{ calibre_data_directory }}/config:/config"
           - "{{ calibre_books_root }}:/books"
+          - "{{ calibre_data_directory }}/data:/data"
         env:
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ calibre_user_id }}"
