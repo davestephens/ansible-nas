@@ -19,7 +19,7 @@
     ports:
       - "{{ calibremanager_port }}:8080"
       - "{{ calibremanager_webserver_port }}:8081"
-    security_opts: "{{ calibremanager_security_opts  }}"
+    security_opts: "{{ calibremanager_security_opts }}"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ calibremanager_user_id }}"
