@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        calibreweb_enabled: true
+        calibreweb_port: "8085" # 8084 is used by github actions

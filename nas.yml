@@ -61,9 +61,9 @@
       tags:
         - calibre
 
-    - role: calibremanager
+    - role: calibreweb
       tags:
-        - calibremanager
+        - calibreweb
 
     - role: cloudcmd
       tags:

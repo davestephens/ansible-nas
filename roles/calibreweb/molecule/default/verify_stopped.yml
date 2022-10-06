@@ -8,7 +8,7 @@
 
     - name: Try and stop and remove Calibre
       docker_container:
-        name: "{{ calibremanager_container_name }}"
+        name: "{{ calibreweb_container_name }}"
         state: absent
       register: result
 

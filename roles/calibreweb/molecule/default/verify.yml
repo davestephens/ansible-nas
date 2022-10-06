@@ -8,7 +8,7 @@
 
     - name: Get container state
       docker_container_info:
-        name: "{{ calibremanager_container_name }}"
+        name: "{{ calibreweb_container_name }}"
       register: result
 
     - name: Check Calibre is running

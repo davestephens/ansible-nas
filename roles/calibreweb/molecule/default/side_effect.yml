@@ -7,4 +7,4 @@
       include_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
       vars:
-        calibremanager_enabled: false
+        calibreweb_enabled: false
