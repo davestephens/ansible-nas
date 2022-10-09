@@ -161,4 +161,22 @@ All of the awesome contributors to Ansible-NAS!
 
     - ensure to add `https://auth.<<your domain>>/_oauth` to your Google project, to allow forward auth to work (see also: <https://github.com/thomseddon/traefik-forward-auth#provider-setup>)
 
-    -
+    - oauth is not enabled for most applications; even the block to facilitate that is not there; to enable it, using the example of the Heimdall, please see commit:
+
+    once similar has been done on the app you want to go through forward auth, you will also need to declare some data in your `nas.yaml`:
+
+```yaml
+
+heimdall_enabled: true                 # enable the actual application
+heimdall_available_externally: true    # make it available externally
+heimdall_oauth: true                   # force oauth
+
+## Enable oauth
+traefik_enabled: true                  # use traefik
+traefik_google_client_id:              # client ID from the Google project
+traefik_google_client_secret:          # client secret from the Google project
+traefik_forwardauth_secret:            # cookie secret
+traefik_forwardauth_whitelist:         # enabled email
+```
+
+    - note: it is not recommended to make this auth globally available; more on this here: https://github.com/davestephens/ansible-nas/issues/425

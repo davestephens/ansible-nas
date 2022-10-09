@@ -2,6 +2,9 @@
 heimdall_enabled: false
 heimdall_available_externally: false
 
+# oauth
+heimdall_oauth: false
+
 # directories
 heimdall_docker_image: linuxserver/heimdall:latest
 heimdall_data_directory: "{{ docker_home }}/heimdall"
