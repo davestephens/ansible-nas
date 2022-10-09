@@ -178,5 +178,6 @@ traefik_google_client_secret:          # client secret from the Google project
 traefik_forwardauth_secret:            # cookie secret
 traefik_forwardauth_whitelist:         # enabled email
 ```
+    see commit <https://github.com/fabricesemti80/ansible-nas-docker/commit/2b0b325d01cbe40b00535f2f87093739bf16e655> for example
 
     - note: it is not recommended to make this auth globally available; more on this here: https://github.com/davestephens/ansible-nas/issues/425
