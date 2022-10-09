@@ -5,6 +5,7 @@
     state: directory
   with_items:
     - "{{ traefik_data_directory }}"
+    - "{{ traefik_data_directory }}/config"
     - "{{ traefik_data_directory }}/letsencrypt"
 
 - name: Template Traefik config.toml
@@ -12,6 +13,27 @@
     src: traefik.toml
     dest: "{{ traefik_data_directory }}/traefik.toml"
   register: template_config
+
+- name: Traefik ForwardAuth Container
+  docker_container:
+    name: traefik-forward-auth
+    image: thomseddon/traefik-forward-auth:2
+    env: "{{ traefik_forwardauth_environment_variables }}"
+    ports:
+      - "4181:4181"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.auth.rule: "Host(`{{ traefik_forwardauth_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.auth.entrypoints: "websecure"
+      traefik.http.routers.auth.tls.certresolver: "letsencrypt"
+      traefik.http.routers.auth.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.auth.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.routers.auth.service: "traefik-forward-auth@docker"
+      traefik.http.middlewares.traefik-forward-auth.forwardauth.address: "http://localhost:4181"
+      traefik.http.middlewares.traefik-forward-auth.forwardauth.trustForwardHeader: "true"
+      traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders: "X-Forwarded-User"
+      traefik.http.services.traefik-forward-auth.loadbalancer.server.port: "4181"
+      traefik.http.routers.auth.middlewares: "traefik-forward-auth"
 
 - name: Traefik Docker Container
   docker_container:
@@ -22,6 +44,7 @@
     volumes:
       - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
       - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
+      - "{{ traefik_data_directory }}/config:/etc/traefik/config:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     env: "{{ traefik_environment_variables }}"
     restart_policy: unless-stopped

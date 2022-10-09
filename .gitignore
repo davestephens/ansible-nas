@@ -18,3 +18,4 @@ Session.vim
 # IntelliJ
 /.idea/
 .vscode/*
+.vscode/settings.json

@@ -151,3 +151,14 @@ If you've enjoyed Ansible-NAS as much as I do working on it, please consider [bu
 The awesome dudes at [JetBrains](https://www.jetbrains.com/?from=Ansible-NAS) for supplying core contributors with JetBrains Open Source licenses!
 
 All of the awesome contributors to Ansible-NAS!
+
+
+## FS:
+
+- docker issue fix --> <https://github.com/docker/for-linux/issues/1349>
+
+- oauth setup
+
+    - ensure to add `https://auth.<<your domain>>/_oauth` to your Google project, to allow forward auth to work (see also: <https://github.com/thomseddon/traefik-forward-auth#provider-setup>)
+
+    -

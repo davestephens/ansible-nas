@@ -1,3 +1,24 @@
 {
-    "yaml.schemaStore.enable": false
+    "yaml.schemaStore.enable": false,
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#292727",
+        "activityBar.background": "#292727",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#292727",
+        "statusBar.background": "#0f0e0e",
+        "statusBar.border": "#0f0e0e",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#292727",
+        "statusBarItem.remoteBackground": "#0f0e0e",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "tab.activeBorder": "#292727",
+        "titleBar.activeBackground": "#0f0e0e",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.border": "#0f0e0e",
+        "titleBar.inactiveBackground": "#0f0e0e99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.remoteColor": "#0F0E0E"
 }

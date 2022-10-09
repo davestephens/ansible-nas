@@ -25,6 +25,9 @@
   [providers.docker]
     exposedbydefault = false
 
+  [providers.file]
+    directory = "/etc/traefik/config"
+
 [api]
   insecure = true
   dashboard = true
