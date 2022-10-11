@@ -1,0 +1,23 @@
+---
+- name: Create Homepage Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ homepage_data_directory }}"
+    - "{{ homepage_data_directory }}/config"
+
+- name: Homepage Container
+  docker_container:
+    name: homepage
+    image: "{{ homepage_docker_image }}"
+    pull: true
+    volumes:
+      # - "{{ homepage_data_directory }}/users.txt:/root/createusers.txt:ro"
+      - "{{ homepage_data_directory }}/config:/app/config"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "{{ homepage_port }}:3000"
+    privileged: true
+    restart_policy: unless-stopped
+    memory: "{{ homepage_memory }}"
