@@ -1,0 +1,22 @@
+---
+homepage_enabled: false
+
+homepage_docker_image: "ghcr.io/benphelps/homepage:latest"
+
+homepage_users:
+  - username: "{{ ansible_nas_user }}"
+    password: "topsecret"
+    sudo: "Y"
+
+# uid / gid
+homepage_user_id: "0"
+homepage_group_id: "0"
+
+# Directories
+homepage_data_directory: "{{ docker_home }}/homepage"
+
+# Networking
+homepage_port: 3000
+
+# Container
+homepage_memory: 1g

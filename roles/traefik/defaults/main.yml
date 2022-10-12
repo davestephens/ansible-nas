@@ -20,13 +20,34 @@ traefik_log_level: "INFO"
 # find the relevant name and environment variables for your DNS provider at https://go-acme.github.io/lego/dns/
 traefik_dns_provider: cloudflare
 traefik_environment_variables:
-  CF_DNS_API_TOKEN: "abcdabcd123412341234"
+  CF_DNS_API_TOKEN: "{{ cloudflare_dns_api_token }}"
 
 # Ansible-NAS requests a wildcard certificate for your domain, so there should be no reason to have to use the staging
 # letsencrypt acme server. If you do want to flip between staging/production, you might need to stop Traefik and clear
 # the "{{ docker_home }}/traefik" after changing this setting.
 # traefik_acme_server: "https://acme-staging-v02.api.letsencrypt.org/directory" # staging
 traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory" # production
+
+
+# forwardauth using Google OAuth requries a client id and secret
+traefik_forwardauth_hostname: "auth"
+traefik_google_client_id: "28923428222-3jra876g8a7fg3h9ajf83jaf376hafa.apps.googleusercontent.com"
+traefik_google_client_secret: "f3a3-hH3JDe-ganlIUNAnffoe"
+
+# secret must be random: "openssl rand -hex 16"
+traefik_forwardauth_secret: "oh9dga4s8b653d86n854nusid6bnkljs"
+
+# Whitelist of account names to allow
+traefik_forwardauth_whitelist: ""
+
+traefik_forwardauth_environment_variables:
+  PROVIDERS_GOOGLE_CLIENT_ID: "{{ traefik_google_client_id }}"
+  PROVIDERS_GOOGLE_CLIENT_SECRET: "{{ traefik_google_client_secret }}"
+  SECRET: "{{ traefik_forwardauth_secret }}"
+  INSECURE_COOKIE: "true"
+  AUTH_HOST: "{{ traefik_forwardauth_hostname }}.{{ ansible_nas_domain }}"
+  COOKIE_DOMAIN: "{{ ansible_nas_domain }}"
+  WHITELIST: "{{ traefik_forwardauth_whitelist }}"
 
 # specs
 traefik_memory: 1g

@@ -42,6 +42,13 @@
           - "{{ heimdall_port_https }}:443"
         restart_policy: unless-stopped
         memory: "{{ heimdall_memory }}"
+  when: heimdall_enabled is true
+
+- name: Don't enable Heimdall oAuth
+  block:
+    - name: Don't enable Heimdall oAuth
+      docker_container:
+        name: "{{ heimdall_container_name }}"
         labels:
           traefik.enable: "{{ heimdall_available_externally | string }}"
           traefik.http.routers.heimdall.rule: "Host(`{{ heimdall_hostname }}.{{ ansible_nas_domain }}`)"
@@ -49,7 +56,23 @@
           traefik.http.routers.heimdall.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.heimdall.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.heimdall.loadbalancer.server.port: "80"
-  when: heimdall_enabled is true
+  when: heimdall_oauth is false
+
+- name: Enable Heimdall oAuth
+  block:
+    - name: Enable Heimdall oAuth
+      docker_container:
+        name: "{{ heimdall_container_name }}"
+        labels:
+          traefik.enable: "{{ heimdall_available_externally | string }}"
+          traefik.http.routers.heimdall.rule: "Host(`{{ heimdall_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.heimdall.tls.certresolver: "letsencrypt"
+          traefik.http.routers.heimdall.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.heimdall.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.heimdall.loadbalancer.server.port: "80"
+          traefik.http.routers.heimdall.middlewares: traefik-forward-auth
+  when: heimdall_oauth is true
+
 
 - name: Stop Heimdall
   block:

@@ -18,3 +18,7 @@ Session.vim
 # IntelliJ
 /.idea/
 .vscode/*
+<<<<<<< HEAD
+=======
+.vscode/settings.json
+>>>>>>> b2bfbb8a75c83bc78cb2a16acc656589d34c1e6a
