@@ -20,3 +20,4 @@ homepage_port: 3000
 
 # Container
 homepage_memory: 1g
+homepage_container_name: homepage
