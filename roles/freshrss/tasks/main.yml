@@ -5,14 +5,33 @@
     state: directory
     # mode: 0755
   with_items:
+    - "{{ freshrss_data_directory }}/pgsql_data"
     - "{{ freshrss_data_directory }}/data"
     - "{{ freshrss_extensions_directory }}/extensions"
+
+- name: FreshRSS PostgreSQL Docker Container
+  docker_container:
+    name: freshrss-postgres
+    image: postgres:12-alpine
+    pull: true
+    volumes:
+      - "{{ freshrss_data_directory }}/pgsql_data:/var/lib/postgresql/data"
+    ports:
+      - "{{ freshrss_db_port }}:5432"
+    env:
+      POSTGRES_USER: "freshrss"
+      POSTGRES_PASSWORD: "{{ freshrss_db_password }}"
+      POSTGRES_DB: "freshrss"
+    restart_policy: unless-stopped
+    memory: "{{ freshrss_db_memory }}"
 
 - name: FreshRSS Docker Container
   docker_container:
     name: freshrss
     image: freshrss/freshrss
     pull: true
+    links:
+      - freshrss-postgres
     volumes:
       - "{{ freshrss_data_directory }}/data:/var/www/FreshRSS/data:rw"
       - "{{ freshrss_extensions_directory }}/extensions:/var/www/FreshRSS/extensions:rw"

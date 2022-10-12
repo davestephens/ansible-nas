@@ -9,6 +9,11 @@ freshrss_extensions_directory: "{{ docker_home }}/freshrss"
 # network
 freshrss_port: "8089"
 freshrss_hostname: "freshrss"
+freshrss_db_port: "5432"
 
 # specs
 freshrss_memory: 1g
+freshrss_db_memory: 1g
+
+# accounts
+freshrss_db_password: "freshrss"
