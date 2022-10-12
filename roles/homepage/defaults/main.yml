@@ -1,5 +1,6 @@
 ---
 homepage_enabled: false
+homepage_hostname: homepage
 
 homepage_docker_image: "ghcr.io/benphelps/homepage:latest"
 
