@@ -149,6 +149,7 @@
         - healthchecks.io
       when: (healthchecks_enabled | default(False))
 
+
     - role: heimdall
       tags:
         - heimdall
@@ -167,6 +168,11 @@
       tags:
         - homebridge
       when: (homebridge_enabled | default(False))
+
+    - role: homepage
+      tags:
+        - homepage
+      when: (homepage_enabled | default(False))
 
     - role: jackett
       tags:
