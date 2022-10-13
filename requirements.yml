@@ -7,3 +7,6 @@
 
 - name: geerlingguy.nfs
   version: 2.0.0
+
+- name: ansible.posix
+  version: 1.4.0
