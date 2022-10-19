@@ -6,13 +6,13 @@
     - include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Calibre
+    - name: Try and stop and remove Calibre-web
       docker_container:
         name: "{{ calibreweb_container_name }}"
         state: absent
       register: result
 
-    - name: Check Calibre is stopped
+    - name: Check Calibre-web is stopped
       assert:
         that:
           - not result.changed

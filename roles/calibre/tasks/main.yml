@@ -1,7 +1,7 @@
 ---
-- name: Start Calibre Manager
+- name: Start Calibre
   block:
-    - name: Create Calibre Manager Directories
+    - name: Create Calibre Directories
       file:
         path: "{{ item }}"
         state: directory
@@ -39,9 +39,9 @@
           traefik.http.services.calibre.loadbalancer.server.port: "8080"
   when: calibre_enabled is true
 
-- name: Stop Calibre Manager
+- name: Stop Calibre
   block:
-    - name: Stop Calibre Manager
+    - name: Stop Calibre
       docker_container:
         name: "{{ calibre_container_name }}"
         state: absent

@@ -1,5 +1,5 @@
 ---
-- name: Start Calibre
+- name: Start Calibre-web
   block:
     - name: Create Calibre-web Directories
       file:
@@ -35,9 +35,9 @@
           traefik.http.services.calibreweb.loadbalancer.server.port: "8083"
   when: calibreweb_enabled is true
 
-- name: Stop Calibre
+- name: Stop Calibre-web
   block:
-    - name: Stop Calibre
+    - name: Stop Calibre-web
       docker_container:
         name: "{{ calibreweb_container_name }}"
         state: absent
