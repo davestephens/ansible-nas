@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Molecule Test
-        uses: gofrolist/molecule-action@0321a06bde0e4d1f4b6c819d0a0e1a941e92f06c
+        uses: gofrolist/molecule-action@5d3b2497368889553ec8cbb2762ae577c33b3d89
         with:
           molecule_options: --base-config ../../tests/molecule/base.yml
           molecule_command: test
