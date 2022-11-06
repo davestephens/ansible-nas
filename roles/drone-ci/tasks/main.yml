@@ -1,0 +1,88 @@
+---
+- name: Start Drone-CI
+  block:
+    - name: Check for Gitea installation
+      fail:
+        msg: "Drone-CI requires Gitea enabled and running for authentication, please set that up first."
+      when: gitea_enabled is false
+
+    - name: Check for Gitea config
+      fail:
+        msg: "Missing Gitea Oauth2 config! Read https://docs.drone.io/server/provider/gitea/ and set drone_ci_gitea_client_id and drone_ci_gitea_client_secret."
+      when: drone_ci_gitea_client_id == "notset"
+
+    - name: Create Drone-CI Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ drone_ci_data_directory }}"
+
+    - name: Create Drone-CI container
+      docker_container:
+        name: "{{ drone_ci_container_name }}"
+        image: drone/drone:2
+        pull: true
+        volumes:
+          - "{{ drone_ci_data_directory }}:/var/lib/drone:rw"
+        ports:
+          - "{{ drone_ci_port_http }}:80"
+        env:
+          DRONE_USER_CREATE: "username:{{ drone_ci_admin_user }},admin:true"
+          DRONE_SERVER_HOST: "{{ drone_ci_address }}"
+          DRONE_RPC_SECRET: "{{ drone_ci_agent_secret }}"
+          DRONE_GITEA_SERVER: "{{ drone_ci_gitea_url }}"
+          DRONE_GITEA_CLIENT_ID: "{{ drone_ci_gitea_client_id }}"
+          DRONE_GITEA_CLIENT_SECRET: "{{ drone_ci_gitea_client_secret }}"
+          DRONE_LOGS_DEBUG: "{{ drone_ci_debug_logging | string }}"
+          DRONE_SERVER_PROTO: "http"
+        restart_policy: unless-stopped
+        memory: "{{ drone_ci_memory }}"
+        labels:
+          traefik.enable: "{{ drone_ci_available_externally | string }}"
+          traefik.http.routers.drone_ci.rule: "Host(`{{ drone_ci_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.drone_ci.tls.certresolver: "letsencrypt"
+          traefik.http.routers.drone_ci.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.drone_ci.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.drone_ci.loadbalancer.server.port: "80"
+
+    - name: Create Drone-CI Runner container
+      docker_container:
+        name: "{{ drone_ci_runner_container_name }}"
+        image: drone/drone-runner-docker:1
+        pull: true
+        volumes:
+          - "/var/run/docker.sock:/var/run/docker.sock:rw"
+        ports:
+          - "{{ drone_ci_runner_port_http }}:3000"
+        env:
+          DRONE_RPC_HOST: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ drone_ci_port_http }}"
+          DRONE_RPC_SECRET: "{{ drone_ci_agent_secret }}"
+          DRONE_RPC_PROTO: "http"
+          DRONE_RUNNER_CAPACITY: "{{ drone_ci_runner_capacity | string }}"
+          DRONE_RUNNER_NAME: "{{ drone_ci_runner_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ drone_ci_agent_memory }}"
+
+    # - name: Add webhook allowed hosts to Gitea
+    #   blockinfile:
+    #     path: "{{ gitea_data_directory }}/gitea/gitea/conf/app.ini"
+    #     block: |
+    #     [webhook]
+    #     ALLOWED_HOST_LIST=private
+    #     SKIP_TLS_VERIFY=true
+    #   notify: restart gitea
+  when: drone_ci_enabled is true
+
+- name: Stop Drone-CI
+  block:
+    - name: Stop Drone-CI
+      docker_container:
+        name: "{{ drone_ci_container_name }}"
+        state: absent
+
+    - name: Stop Drone-CI Runner
+      docker_container:
+        name: "{{ drone_ci_runner_container_name }}"
+        state: absent
+  when: drone_ci_enabled is false
