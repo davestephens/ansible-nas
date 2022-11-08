@@ -1,0 +1,39 @@
+---
+- name: Install and start Nomad
+  block:
+    - name: Add Hashicorp GPG key
+      ansible.builtin.apt_key:
+        url: https://apt.releases.hashicorp.com/gpg
+        state: present
+
+    - name: Add Hashicorp apt repository
+      ansible.builtin.apt_repository:
+        repo: "deb https://apt.releases.hashicorp.com {{ ansible_facts['lsb']['codename'] }} main"
+        state: present
+        filename: hashicorp
+
+    - name: Install Nomad
+      ansible.builtin.apt:
+        name: nomad
+        state: present
+
+    - name: Template Nomad config
+      ansible.builtin.template:
+        src: nomad.hcl
+        dest: /etc/nomad.d/nomad.hcl
+
+    - name: Start Nomad
+      ansible.builtin.systemd:
+        name: "{{ nomad_service_name }}"
+        state: started
+        enabled: yes
+  when: nomad_enabled is true
+
+- name: Stop Nomad
+  block:
+    - name: Stop Nomad
+      ansible.builtin.systemd:
+        name: "{{ nomad_service_name }}"
+        state: stopped
+        enabled: no
+  when: nomad_enabled is false
