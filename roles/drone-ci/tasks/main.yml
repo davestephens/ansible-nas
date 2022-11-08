@@ -64,14 +64,14 @@
         restart_policy: unless-stopped
         memory: "{{ drone_ci_agent_memory }}"
 
-    # - name: Add webhook allowed hosts to Gitea
-    #   blockinfile:
-    #     path: "{{ gitea_data_directory }}/gitea/gitea/conf/app.ini"
-    #     block: |
-    #     [webhook]
-    #     ALLOWED_HOST_LIST=private
-    #     SKIP_TLS_VERIFY=true
-    #   notify: restart gitea
+    - name: Add webhook allowed hosts to Gitea
+      blockinfile:
+        path: "{{ gitea_data_directory }}/gitea/gitea/conf/app.ini"
+        block: |
+          [webhook]
+          ALLOWED_HOST_LIST=private
+          SKIP_TLS_VERIFY=true
+      notify: restart gitea
   when: drone_ci_enabled is true
 
 - name: Stop Drone-CI
