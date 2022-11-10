@@ -19,4 +19,9 @@ server {
 client {
   enabled = true
   servers = ["0.0.0.0"]
+
+  host_volume "docker_data" {
+    path      = "{{ docker_home }}"
+    read_only = false
+  }
 }

@@ -21,6 +21,7 @@
       ansible.builtin.template:
         src: nomad.hcl
         dest: /etc/nomad.d/nomad.hcl
+      notify: restart nomad
 
     - name: Start Nomad
       ansible.builtin.systemd:

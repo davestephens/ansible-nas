@@ -1,0 +1,6 @@
+---
+- name: Restart Nomad
+  systemd:
+    state: restarted
+    name: "{{ nomad_service_name }}"
+  listen: "restart nomad"
