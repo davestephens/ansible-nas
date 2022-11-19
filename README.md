@@ -116,7 +116,7 @@ Ansible NAS doesn't set up your disk partitions, primarily because getting it wr
 
 ## Installation
 
-See [Installation](https://davestephens.github.io/ansible-nas/installation/).
+See [Installation](https://ansible-nas.io/docs/getting-started/installation/).
 
 ## Documentation
 
