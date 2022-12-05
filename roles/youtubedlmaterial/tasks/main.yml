@@ -6,9 +6,6 @@
     # mode: 0755
   with_items:
     - "{{ youtubedlmaterial_data_directory }}/appdata"
-    - "{{ youtubedlmaterial_data_directory }}/audio"
-    - "{{ youtubedlmaterial_data_directory }}/video"
-    - "{{ youtubedlmaterial_data_directory }}/subscriptions"
     - "{{ youtubedlmaterial_dl_audio_directory }}"
     - "{{ youtubedlmaterial_dl_video_directory }}"
     - "{{ youtubedlmaterial_dl_subscriptions_directory }}"
@@ -23,6 +20,7 @@
       - "{{ youtubedlmaterial_dl_audio_directory }}:/app/audio:rw"
       - "{{ youtubedlmaterial_dl_video_directory }}:/app/video:rw"
       - "{{ youtubedlmaterial_dl_subscriptions_directory }}:/app/subscriptions:rw"
+      - "{{ podcasts_root }}:/app/podcasts:rw"
     network_mode: "bridge"
     ports:
       - "{{ youtubedlmaterial_port_http }}:17442"
