@@ -1,6 +1,12 @@
 ---
 - hosts: all
 
+  pre_tasks:
+    - name: Verify Ansible meets ansible-nas version requirements.
+      assert:
+        that: "ansible_version.full is version_compare('2.10', '>=')"
+        msg: "update Ansible to at least 2.10 to install ansible-nas"
+
   roles:
     ###
     ### Requirements
