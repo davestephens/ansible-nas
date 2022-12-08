@@ -5,12 +5,13 @@
       file:
         path: "{{ item }}"
         state: directory
+        mode: "0755"
       with_items:
         - "{{ mumble_data_directory }}"
 
     - name: Mumble Docker Container
       docker_container:
-        name: mumble
+        name: "{{ mumble_container_name }}"
         image: mumblevoip/mumble-server:latest
         pull: true
         volumes:

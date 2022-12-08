@@ -226,6 +226,11 @@
         - mosquitto
       when: (mosquitto_enabled | default(False))
 
+    - role: mumble
+      tags:
+        - mumble
+      when: (mumble_enabled | default(False))
+
     - role: mylar
       tags:
         - mylar
@@ -264,6 +269,7 @@
     - role: nomad
       tags:
         - nomad
+      when: (nomad_enabled | default(False))
 
     - role: nzbget
       tags:
