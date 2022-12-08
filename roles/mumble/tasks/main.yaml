@@ -1,0 +1,40 @@
+---
+- name: Start Mumble
+  block:
+    - name: Create Mumble Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ mumble_data_directory }}"
+
+    - name: Mumble Docker Container
+      docker_container:
+        name: mumble
+        image: mumblevoip/mumble-server:latest
+        pull: true
+        volumes:
+          - "{{ mumble_data_directory }}:/data:rw"
+        ports:
+          - "{{ mumble_tcp_port }}:64738/tcp"
+          - "{{ mumble_udp_port }}:64738/udp"
+        env:
+          # Setting the password prevents unwanted users from connecting to the instance, especially if publicly available.
+          MUMBLE_CONFIG_SERVER_PASSWORD: "{{ mumble_server_password }}"
+        restart_policy: unless-stopped
+        labels:
+          traefik.enable: "{{ mumble_available_externally | string }}"
+          traefik.http.routers.mumble.rule: "Host(`{{ mumble_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.mumble.tls.certresolver: "letsencrypt"
+          traefik.http.routers.mumble.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.mumble.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.mumble.loadbalancer.server.port: "64738"
+  when: mumble_enabled is true
+
+- name: Stop Mumble
+  block:
+    - name: Stop Mumble
+      docker_container:
+        name: "{{ mumble_container_name }}"
+        state: absent
+  when: mumble_enabled is false
