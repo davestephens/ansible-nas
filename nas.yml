@@ -229,7 +229,6 @@
     - role: mumble
       tags:
         - mumble
-      when: (mumble_enabled | default(False))
 
     - role: mylar
       tags:
