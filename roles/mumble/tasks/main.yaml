@@ -5,7 +5,9 @@
       file:
         path: "{{ item }}"
         state: directory
-        mode: "0755"
+        # The mumble image gets uid/gid at build time, and uses 1000 for both, by default.
+        # This ends up with permission denied on the data directory, unless we fully open the permissions.
+        mode: "0777"
       with_items:
         - "{{ mumble_data_directory }}"
 
