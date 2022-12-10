@@ -6,7 +6,7 @@
         path: "{{ item }}"
         state: directory
         # The mumble image gets uid/gid at build time, and uses 1000 for both, by default.
-        # This ends up with permission denied on the data directory, unless we fully open the permissions.
+        # This ends up with permission denied on the data directory, unless we change ownership or fully open the permissions.
         owner: 1000
         group: 1000
       with_items:
