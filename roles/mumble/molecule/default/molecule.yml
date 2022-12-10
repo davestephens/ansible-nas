@@ -4,4 +4,3 @@ provisioner:
     group_vars:
       all:
         mumble_enabled: true
-

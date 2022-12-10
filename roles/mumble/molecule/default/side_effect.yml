@@ -8,4 +8,3 @@
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
       vars:
         mumble_enabled: false
-
