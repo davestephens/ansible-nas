@@ -264,6 +264,7 @@
     - role: nomad
       tags:
         - nomad
+      when: (nomad_enabled | default(False))
 
     - role: nzbget
       tags:
