@@ -14,7 +14,7 @@ You can configure Ansible-NAS to set up any (or all!) of the applications listed
 
 If you have a spare domain name you can configure applications to be accessible externally to your home LAN too; they'll be configured with a sensible hostname and DNS gets updated accordingly if your home IP address changes.
 
-### Available Applications
+## Available Applications
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
@@ -29,6 +29,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Dashy](https://dashy.to/) - A self-hosted startpage for your server. Easy to use visual editor, status checking, widgets, themes and tons more!
 * [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
 * [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
+* [Drone CI](https://drone.io) - A self-service Continuous Integration platform for busy development teams.
 * [Duplicacy](https://duplicacy.com/) - A web UI for the Duplicacy cloud backup program, which provides lock-free deduplication backups to multiple providers
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
@@ -64,6 +65,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [netboot.xyz](https://netboot.xyz/) - a PXE boot server
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
+* [Nomad](https://www.nomadproject.io/) - A simple and flexible scheduler and software orchestrator
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
@@ -115,7 +117,7 @@ Ansible NAS doesn't set up your disk partitions, primarily because getting it wr
 
 ## Installation
 
-See [Installation](https://davestephens.github.io/ansible-nas/installation/).
+See [Installation](https://ansible-nas.io/docs/getting-started/installation/).
 
 ## Documentation
 

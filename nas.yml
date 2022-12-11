@@ -93,6 +93,10 @@
       tags:
         - dokuwiki
 
+    - role: drone-ci
+      tags:
+        - drone_ci
+
     - role: duplicacy
       tags:
         - duplicacy
@@ -260,6 +264,10 @@
       tags:
         - nextcloud
       when: (nextcloud_enabled | default(False))
+
+    - role: nomad
+      tags:
+        - nomad
 
     - role: nzbget
       tags:
