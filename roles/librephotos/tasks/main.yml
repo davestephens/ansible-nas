@@ -1,0 +1,110 @@
+---
+- name: Librephotos
+  block:
+    - name: Create Librephotos Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ librephotos_scan_directory }}"
+        - "{{ librephotos_data_directory }}"
+
+    - name: Librephotos  Docker Container
+      docker_container:
+        name: "{{ librephotos_container_name }}"
+        image: reallibrephotos/librephotos-proxy:{{ librephotos_tag }}
+        pull: true
+        volumes:
+          - "{{ librephotos_scan_directory }}:/data:rw"
+          - "{{ librephotos_data_directory }}/protected_media:/protected_media:rw"
+        ports:
+          - "{{ librephotos_port }}:80"
+        restart_policy: unless-stopped
+        memory: "{{ librephotos_memory }}"
+        labels:
+          traefik.enable: "{{ librephotos_available_externally | string }}"
+          traefik.http.routers.librephotos.rule: "Host(`{{ librephotos_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.librephotos.tls.certresolver: "letsencrypt"
+          traefik.http.routers.librephotos.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.librephotos.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.librephotos.loadbalancer.server.port: "4040"
+
+    - name: Librephotos Database Container
+      docker_container:
+        name: "libre_photos_db"
+        image: postgres:13
+        pull: true
+        volumes:
+          - "{{ librephotos_data_directory }}/db:/var/lib/postgresql/data"
+        ports:
+          - "{{ librephotos_port }}:80"
+        restart_policy: unless-stopped
+        memory: "{{ librephotos_memory }}"
+        env:
+          POSTGRES_USER: "{{ librephotos_dbUser }}"
+          POSTGRES_PASSWORD: "{{ librephotos_dbPass }}"
+          POSTGRES_DB: "{{ librephotos_dbName }}"
+        command: postgres -c fsync=off -c synchronous_commit=off -c full_page_writes=off -c random_page_cost=1.0
+        # healthcheck:
+        #   test: psql -U ${dbUser} -d ${dbName} -c "SELECT 1;"
+        #   interval: 5s
+        #   timeout: 5s
+        #   retries: 5
+
+    - name: Librephotos Frontend
+      docker_container:
+        name: librephotos_frontend
+        image: reallibrephotos/librephotos-frontend:{{ tag }}
+        restart: unless-stopped
+    
+    - name: Librephotos Backend
+      docker_container:
+        name: librephotos_backend
+        image: reallibrephotos/librephotos:{{ tag }}
+        restart: unless-stopped
+        volumes:
+          - ${scanDirectory}:/data
+          - ${data}/protected_media:/protected_media
+          - ${data}/logs:/logs
+          - ${data}/cache:/root/.cache
+        environment:
+          - SECRET_KEY: "{{ librephotos_shhhhKey:- }}"
+          - BACKEND_HOST: backend
+          - ADMIN_EMAIL: "{{ librephotos_adminEmail:- }}"
+          - ADMIN_USERNAME: "{{ librephotos_userName:- }}"
+          - ADMIN_PASSWORD: "{{ librephotos_userPass:- }}"
+          - DB_BACKEND: postgresql
+          - DB_NAME: "{{ librephotos_dbName }}"
+          - DB_USER: "{{ librephotos_dbUser }}"
+          - DB_PASS: "{{ librephotos_dbPass }}"
+          - DB_HOST: "{{ librephotos_dbHost }}"
+          - DB_PORT: 5432
+          - REDIS_HOST: redis
+          - REDIS_PORT: 6379
+          - MAPBOX_API_KEY: "{{ librephotos_mapApiKey:- }}"
+          - WEB_CONCURRENCY: "{{ librephotos_gunniWorkers:-1 }}"
+          - SKIP_PATTERNS: "{{ librephotos_skipPatterns:- }}"
+          - ALLOW_UPLOAD: "{{ librephotos_allowUpload:-false }}"
+          - DEBUG: 0
+          - HEAVYWEIGHT_PROCESS: "{{ librephotos_HEAVYWEIGHT_PROCESS:- }}"
+
+    - name: Librephotos Redis
+      docker_container: 
+        name: redis
+        image: redis:6
+        container_name: redis
+        restart: unless-stopped
+        # healthcheck:
+        #   test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+        #   interval: 5s
+        #   timeout: 5s
+        #   retries: 12
+  when: librephotos_enabled is true
+
+- name: Stop Librephotos
+  block:
+    - name: Stop Librephotos
+      docker_container:
+        name: "{{ librephotos_container_name }}"
+        state: absent
+  when: librephotos_enabled is false
