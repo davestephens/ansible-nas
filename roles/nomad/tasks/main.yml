@@ -38,3 +38,4 @@
         state: stopped
         enabled: no
   when: nomad_enabled is false
+  ignore_errors: true
