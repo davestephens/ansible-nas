@@ -6,7 +6,7 @@
   with_items:
     - "{{ prowlarr_data_directory }}"
 
-- name: prowlarr
+- name: Create Prowlarr Docker Container
   docker_container:
     name: prowlarr
     image: ghcr.io/linuxserver/prowlarr:develop

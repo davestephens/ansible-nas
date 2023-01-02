@@ -1,31 +1,42 @@
 ---
-- name: Create EspHome Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ esphome_data_directory }}/data"
+- name: Start EspHome
+  block:
+    - name: Create EspHome Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ esphome_data_directory }}/data"
 
-- name: EspHome Docker Container
-  docker_container:
-    name: esphome
-    image: esphome/esphome:latest
-    pull: true
-    volumes:
-      - "{{ esphome_data_directory }}:/config:rw"
-      - "/etc/localtime:/etc/localtime:ro"
-    ports:
-      - "{{ esphome_port }}:6052"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ esphome_user_id }}"
-      PGID: "{{ esphome_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ esphome_memory }}"
-    labels:
-      traefik.enable: "{{ esphome_available_externally | string }}"
-      traefik.http.routers.esphome.rule: "Host(`{{ esphome_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.esphome.tls.certresolver: "letsencrypt"
-      traefik.http.routers.esphome.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.esphome.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.esphome.loadbalancer.server.port: "80"
+    - name: EspHome Docker Container
+      docker_container:
+        name: "{{ esphome_container_name }}"
+        image: esphome/esphome:latest
+        pull: true
+        volumes:
+          - "{{ esphome_data_directory }}:/config:rw"
+          - "/etc/localtime:/etc/localtime:ro"
+        ports:
+          - "{{ esphome_port }}:6052"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ esphome_user_id }}"
+          PGID: "{{ esphome_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ esphome_memory }}"
+        labels:
+          traefik.enable: "{{ esphome_available_externally | string }}"
+          traefik.http.routers.esphome.rule: "Host(`{{ esphome_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.esphome.tls.certresolver: "letsencrypt"
+          traefik.http.routers.esphome.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.esphome.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.esphome.loadbalancer.server.port: "80"
+  when: esphome_enabled is true
+
+- name: Stop EspHome
+  block:
+    - name: Stop EspHome
+      docker_container:
+        name: "{{ esphome_container_name }}"
+        state: absent
+  when: esphome_enabled is false

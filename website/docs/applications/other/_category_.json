@@ -1,0 +1,7 @@
+{
+  "label": "Other",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the applications with no other home for installation with Ansible-NAS."
+  }
+}

@@ -1,0 +1,9 @@
+---
+nomad_enabled: false
+nomad_data_home: "{{ docker_home }}/nomad"
+nomad_service_name: nomad
+
+# ports
+nomad_port_http: 4646
+nomad_port_rpc: 4647
+nomad_port_serf: 4648

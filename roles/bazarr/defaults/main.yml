@@ -17,3 +17,6 @@ bazarr_hostname: "bazarr"
 
 # specs
 bazarr_memory: 1g
+
+# docker
+bazarr_container_name: bazarr

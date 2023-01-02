@@ -1,0 +1,18 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get container state
+      docker_container_info:
+        name: "{{ cloudflare_container_name }}"
+      register: result
+
+    - name: Check Cloudflare DDNS is running
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

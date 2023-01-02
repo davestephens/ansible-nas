@@ -22,3 +22,6 @@ duplicacy_port: "3875"
 duplicacy_hostname: "duplicacy"
 
 duplicacy_memory: 1g
+
+# docker
+duplicacy_container_name: duplicacy

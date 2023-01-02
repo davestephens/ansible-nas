@@ -26,15 +26,15 @@ jobs:
           python-version: "3.x"
 
       - name: Install test dependencies
-        run: pip3 install ansible yamllint ansible-lint
+        run: pip3 install ansible yamllint==1.27.1 ansible-lint==6.5
+
+      - name: Ansible-lint
+        run: ansible-lint nas.yml
 
       - name: Lint yaml files
-        run: |
-          ansible-lint nas.yml
-          yamllint .
+        run: yamllint .
 
       - name: Lint docs
         uses: articulate/actions-markdownlint@v1
         with:
-          config: markdownlint-config.json
-          files: "docs/**/*.md"
+          version: 0.32.2

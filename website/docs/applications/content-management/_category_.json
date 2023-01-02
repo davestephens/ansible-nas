@@ -1,0 +1,7 @@
+{
+  "label": "Content Management",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the content management applications for installation with Ansible-NAS."
+  }
+}

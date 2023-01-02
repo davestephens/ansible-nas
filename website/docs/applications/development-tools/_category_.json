@@ -1,0 +1,7 @@
+{
+  "label": "Development Tools",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the development tools available for installation with Ansible-NAS."
+  }
+}

@@ -1,0 +1,52 @@
+---
+- name: Create Grafana Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "472"
+    recurse: yes
+  with_items:
+    - "{{ stats_grafana_data_directory }}"
+    - "{{ stats_grafana_config_directory }}"
+    - "{{ stats_grafana_config_directory }}/dashboards"
+    - "{{ stats_grafana_config_directory }}/provisioning/datasources"
+    - "{{ stats_grafana_config_directory }}/provisioning/dashboards"
+
+- name: Template Grafana data source
+  template:
+    src: datasources/ansible-nas.yml
+    dest: "{{ stats_grafana_config_directory }}/provisioning/datasources/ansible-nas.yml"
+
+- name: Copy Grafana dashboards configuration
+  copy:
+    src: dashboards/ansible-nas.yml
+    dest: "{{ stats_grafana_config_directory }}/provisioning/dashboards/ansible-nas.yml"
+
+- name: Copy Grafana Ansible-NAS dashboard
+  copy:
+    src: dashboards/ansible-nas-overview.json
+    dest: "{{ stats_grafana_config_directory }}/dashboards/ansible-nas-overview.json"
+
+- name: Grafana Docker Container
+  docker_container:
+    name: grafana
+    image: grafana/grafana
+    pull: true
+    volumes:
+      - "{{ stats_grafana_data_directory }}:/var/lib/grafana:rw"
+      - "{{ stats_grafana_config_directory }}/provisioning:/etc/grafana/provisioning:ro"
+      - "{{ stats_grafana_config_directory }}/dashboards:/etc/dashboards:ro"
+    ports:
+      - "{{ stats_grafana_port }}:3000"
+    env:
+      GF_PLUGINS_ENABLE_ALPHA: "true"
+      GF_UNIFIED_ALERTING_ENABLED: "true"
+    restart_policy: unless-stopped
+    memory: 1g
+    labels:
+      traefik.enable: "{{ stats_grafana_available_externally | string }}"
+      traefik.http.routers.grafana.rule: "Host(`grafana.{{ ansible_nas_domain }}`) "
+      traefik.http.routers.grafana.tls.certresolver: "letsencrypt"
+      traefik.http.routers.grafana.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.grafana.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.grafana.loadbalancer.server.port: "3000"

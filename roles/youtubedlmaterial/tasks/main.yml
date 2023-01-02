@@ -13,7 +13,7 @@
     - "{{ youtubedlmaterial_dl_video_directory }}"
     - "{{ youtubedlmaterial_dl_subscriptions_directory }}"
 
-- name: youtubedlmaterial Docker Container
+- name: Create Youtubedlmaterial Docker Container
   docker_container:
     name: youtubedlmaterial
     image: tzahi12345/youtubedl-material:latest

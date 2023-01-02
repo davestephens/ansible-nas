@@ -1,0 +1,53 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      all:
+        samba_shares_root: /shares
+        ansible_nas_domain: ansible-nas.io
+        ansible_nas_timezone: Europe/London
+        audiobooks_root: /audiobooks
+        books_root: /books
+        code_root: /code
+        comics_root: /comics
+        docker_home: /ansible-nas
+        documents_root: /documents
+        downloads_root: /downloads
+        movies_root: /movies
+        music_root: /music
+        photos_root: /photos
+        podcasts_root: /podcasts
+        torrents_root: /torrents
+        tv_root: /tv
+  playbooks:
+    prepare: ../../../../tests/molecule/resources/playbooks/prepare.yml
+    converge: ../../../../tests/molecule/resources/playbooks/converge.yml
+verifier:
+  name: ansible
+scenario:
+  test_sequence:
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - side_effect
+    - verify verify_stopped.yml
+    - cleanup
+    - destroy

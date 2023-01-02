@@ -22,3 +22,5 @@ deluge_timezone: "{{ ansible_nas_timezone }}"
 
 # specs
 deluge_memory: 1g
+
+deluge_container_name: deluge

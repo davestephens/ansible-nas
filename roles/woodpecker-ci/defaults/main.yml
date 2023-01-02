@@ -1,0 +1,33 @@
+---
+woodpecker_ci_enabled: false
+woodpecker_ci_available_externally: false
+
+# directories
+woodpecker_ci_data_directory: "{{ docker_home }}/woodpecker-ci"
+
+# network
+woodpecker_ci_port_ui: 8000
+woodpecker_ci_port_grpc: 9000
+woodpecker_ci_address: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ woodpecker_ci_port_ui }}"
+woodpecker_ci_hostname: woodpecker-ci
+
+# memory
+woodpecker_ci_memory: 1g
+woodpecker_ci_agent_memory: 1g
+
+# Woodpecker-CI Application Config
+# the users that'll be granted admin, comma separated
+woodpecker_ci_admin_user: david
+
+# shared secret - use openssl rand -hex 32 to generate your own
+woodpecker_ci_agent_secret: 9f3aeaa7bbabcf42b724f65d4acb38456899ca32511677a8c3837869621c3798
+
+# logging level
+woodpecker_ci_log_level: info
+
+# the url to your gitea server
+woodpecker_ci_gitea_url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ gitea_port_http }}"
+
+# gitea auth credentials. see https://woodpecker-ci.org/docs/administration/forges/gitea for more info
+woodpecker_ci_gitea_client: notset
+woodpecker_ci_gitea_secret: notset

@@ -1,0 +1,25 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get container state
+      docker_container_info:
+        name: "{{ bitwarden_container_name }}"
+      register: result
+
+    - name: Get container state
+      docker_container_info:
+        name: "{{ bitwarden_backup_container_name }}"
+      register: result_backup
+
+    - name: Check Bitwarden is running
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+          - result_backup.container['State']['Status'] == "running"
+          - result_backup.container['State']['Restarting'] == false

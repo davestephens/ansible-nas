@@ -1,0 +1,7 @@
+{
+  "label": "Home Automation",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the home automation applications available for installation with Ansible-NAS."
+  }
+}

@@ -1,35 +1,46 @@
 ---
-- name: Create Booksonic Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0755
-  with_items:
-    - "{{ booksonic_data_directory }}/data"
-    - "{{ booksonic_data_directory }}/playlists"
+- name: Start Booksonic
+  block:
+    - name: Create Booksonic Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+      with_items:
+        - "{{ booksonic_data_directory }}/data"
+        - "{{ booksonic_data_directory }}/playlists"
 
-- name: Booksonic Docker Container
-  docker_container:
-    name: booksonic
-    image: linuxserver/booksonic-air:latest
-    pull: true
-    volumes:
-      - "{{ booksonic_data_directory }}/data:/booksonic/data:rw"
-      - "{{ booksonic_data_directory }}/playlists:/booksonic/playlists:rw"
-      - "{{ booksonic_audiobooks_directory }}:/booksonic/audiobooks:rw"
-      - "{{ booksonic_podcasts_directory }}:/booksonic/podcasts:rw"
-    ports:
-      - "{{ booksonic_port }}:4040"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ booksonic_user_id }}"
-      PGID: "{{ booksonic_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ booksonic_memory }}"
-    labels:
-      traefik.enable: "{{ booksonic_available_externally | string }}"
-      traefik.http.routers.booksonic.rule: "Host(`{{ booksonic_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.booksonic.tls.certresolver: "letsencrypt"
-      traefik.http.routers.booksonic.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.booksonic.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.booksonic.loadbalancer.server.port: "4040"
+    - name: Booksonic Docker Container
+      docker_container:
+        name: "{{ booksonic_container_name }}"
+        image: linuxserver/booksonic-air:latest
+        pull: true
+        volumes:
+          - "{{ booksonic_data_directory }}/data:/booksonic/data:rw"
+          - "{{ booksonic_data_directory }}/playlists:/booksonic/playlists:rw"
+          - "{{ booksonic_audiobooks_directory }}:/booksonic/audiobooks:rw"
+          - "{{ booksonic_podcasts_directory }}:/booksonic/podcasts:rw"
+        ports:
+          - "{{ booksonic_port }}:4040"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ booksonic_user_id }}"
+          PGID: "{{ booksonic_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ booksonic_memory }}"
+        labels:
+          traefik.enable: "{{ booksonic_available_externally | string }}"
+          traefik.http.routers.booksonic.rule: "Host(`{{ booksonic_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.booksonic.tls.certresolver: "letsencrypt"
+          traefik.http.routers.booksonic.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.booksonic.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.booksonic.loadbalancer.server.port: "4040"
+  when: booksonic_enabled is true
+
+- name: Stop Booksonic
+  block:
+    - name: Stop Booksonic
+      docker_container:
+        name: "{{ booksonic_container_name }}"
+        state: absent
+  when: booksonic_enabled is false
