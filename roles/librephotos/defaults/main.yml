@@ -4,7 +4,7 @@ librephotos_enabled: false
 librephotos_available_externally: false
 
 # directories
-librephotos_scan_directory: {{ photos_root }}
+librephotos_scan_directory: "{{ photos_root }}"
 librephotos_data_directory: "{{ docker_home }}/librephotos/data"
 
 # network
