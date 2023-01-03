@@ -17,3 +17,6 @@ Session.vim
 
 # IntelliJ
 /.idea/
+
+# VSCodium
+*.code-workspace
