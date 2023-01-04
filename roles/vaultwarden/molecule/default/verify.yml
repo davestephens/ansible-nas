@@ -3,20 +3,21 @@
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - name: Include vars
+      include_vars:
         file: ../../defaults/main.yml
 
     - name: Get container state
       docker_container_info:
-        name: "{{ bitwarden_container_name }}"
+        name: "{{ vaultwarden_container_name }}"
       register: result
 
     - name: Get container state
       docker_container_info:
-        name: "{{ bitwarden_backup_container_name }}"
+        name: "{{ vaultwarden_backup_container_name }}"
       register: result_backup
 
-    - name: Check Bitwarden is running
+    - name: Check Vaultwarden is running
       assert:
         that:
           - result.container['State']['Status'] == "running"
