@@ -3,4 +3,4 @@ provisioner:
   inventory:
     group_vars:
       all:
-        bitwarden_enabled: true
+        vaultwarden_enabled: true

@@ -49,10 +49,6 @@
       tags:
         - bazarr
 
-    - role: bitwarden
-      tags:
-        - bitwarden
-
     - role: booksonic
       tags:
         - booksonic
@@ -419,6 +415,10 @@
       tags:
         - utorrent
       when: (utorrent_enabled | default(False))
+
+    - role: vaultwarden
+      tags:
+        - vaultwarden
 
     - role: virtual_desktop
       tags:
