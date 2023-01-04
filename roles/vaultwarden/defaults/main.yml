@@ -1,0 +1,33 @@
+---
+vaultwarden_enabled: false
+vaultwarden_available_externally: false
+
+# directories
+vaultwarden_data_directory: "{{ docker_home }}/vaultwarden"
+
+# network
+vaultwarden_port_a: "19080"
+vaultwarden_port_b: "3012"
+vaultwarden_hostname: "vaultwarden"
+vaultwarden_ip_whitelist: "0.0.0.0/0"
+
+# specs
+vaultwarden_memory: 1g
+vaultwarden_backup_memory: 1g
+
+# docker
+vaultwarden_container_name: vaultwarden
+vaultwarden_backup_container_name: vaultwarden-backup
+
+# Keep this token secret, this is password to access admin area of your server!
+# This token can be anything, but it's recommended to use a long, randomly generated string of characters,
+# for example running openssl rand -base64 48
+vaultwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
+
+# To create a user set this to "true", and reprovision the container by re-running the anarion-nas playbook.
+# Once you have created your user, set to "false" and run one more time.
+# Target just Vaultwarden by running: ansible-playbook -i inventory nas.yml -b -K -t vaultwarden
+vaultwarden_allow_signups: false
+
+# watchtower
+vaultwarden_watchtower_enable: false

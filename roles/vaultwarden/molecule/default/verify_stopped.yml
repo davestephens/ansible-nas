@@ -1,0 +1,28 @@
+---
+# This is a Hello World playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove Vaultwarden
+      docker_container:
+        name: "{{ vaultwarden_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove Vaultwarden Backup
+      docker_container:
+        name: "{{ vaultwarden_backup_container_name }}"
+        state: absent
+      register: result_backup
+
+    - name: Check Vaultwarden is stopped
+      assert:
+        that:
+          - not result.changed
+          - not result_backup.changed
