@@ -1,0 +1,195 @@
+---
+- name: Start Authentik
+  block:
+    - name: Create Authentik Directory
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ authentik_data_directory }}"
+
+    - name: Create Authentik mount directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "1000"
+        group: "1000"
+        mode: 0755
+      with_items:
+        - "{{ authentik_data_directory }}/database"
+        - "{{ authentik_data_directory }}/redis"
+        - "{{ authentik_data_directory }}/media"
+        - "{{ authentik_data_directory }}/custom-templates"
+        - "{{ authentik_data_directory }}/certs"
+
+    - name: Create Authentik network
+      community.docker.docker_network:
+        name: "{{ authentik_network_name }}"
+
+    - name: Authentik Database Docker Container
+      community.docker.docker_container:
+        name: "{{ authentik_database_container_name }}"
+        image: docker.io/library/postgres:12-alpine
+        pull: true
+        volumes:
+          - "{{ authentik_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ authentik_network_name }}"
+        env:
+          POSTGRES_PASSWORD: "{{ authentik_pg_pass }}"
+          POSTGRES_USER: "{{ authentik_pg_user }}"
+          POSTGRES_DB: "{{ authentik_pg_db }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ authentik_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ authentik_pg_db }} -U {{ authentik_pg_user }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Authentik Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ authentik_redis_container_name }}"
+        image: docker.io/library/redis:alpine
+        pull: true
+        command: --save 60 1 --loglevel warning
+        volumes:
+          - "{{ authentik_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ authentik_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ authentik_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 3s
+
+    - name: Authentik Server Docker Container
+      community.docker.docker_container:
+        name: "{{ authentik_server_container_name }}"
+        image: "{{ authentik_image }}:{{ authentik_tag }}"
+        pull: true
+        command: server
+        volumes:
+          - "{{ authentik_data_directory }}/media:/media:rw"
+          - "{{ authentik_data_directory }}/custom-templates:/templates:rw"
+        ports:
+          - "{{ authentik_http_port }}:9000"
+          - "{{ authentik_https_port }}:9443"
+        networks:
+          - name: "{{ authentik_network_name }}"
+        env:
+          AUTHENTIK_REDIS__HOST: "{{ authentik_redis_container_name }}"
+          AUTHENTIK_POSTGRESQL__HOST: "{{ authentik_database_container_name }}"
+          AUTHENTIK_POSTGRESQL__USER: "{{ authentik_pg_user }}"
+          AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_pg_db }}"
+          AUTHENTIK_POSTGRESQL__PASSWORD: "{{ authentik_pg_pass }}"
+          AUTHENTIK_ERROR_REPORTING__ENABLED: "{{ authentik_error_reporting | string }}"
+          # SMTP Host Emails are sent to
+          AUTHENTIK_EMAIL__HOST: "{{ authentik_email_host }}"
+          AUTHENTIK_EMAIL__PORT: "{{ authentik_email_port }}"
+          # Optionally authenticate (don't add quotation marks to you password)
+          AUTHENTIK_EMAIL__USERNAME: "{{ authentik_email_username }}"
+          AUTHENTIK_EMAIL__PASSWORD: "{{ authentik_email_password }}"
+          # Use StartTLS
+          AUTHENTIK_EMAIL__USE_TLS: "{{ authentik_email_use_tls }}"
+          # Use SSL
+          AUTHENTIK_EMAIL__USE_SSL: "{{ authentik_email_use_ssl }}"
+          AUTHENTIK_EMAIL__TIMEOUT: "{{ authentik_email_timeout }}"
+          # Email address authentik will send from, should have a correct @domain
+          AUTHENTIK_EMAIL__FROM: "{{ authentik_email_from }}"
+          # WORKERS: 2
+          AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
+          AUTHENTIK_DISABLE_UPDATE_CHECK: "{{ authentik_disable_update_check | string }}"
+          AUTHENTIK_DISABLE_STARTUP_ANALYTICS: "{{ authentik_disable_startup_analytics | string }}"
+          AUTHENTIK_AVATARS: "{{ authentik_avatars }}"
+        labels:
+          traefik.enable: "{{ authentik_available_externally | string }}"
+          traefik.http.routers.authentik.rule: "Host(`{{ authentik_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.authentik.tls.certresolver: "letsencrypt"
+          traefik.http.routers.authentik.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.authentik.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.middlewares.authentik-whitelist.ipwhitelist.ipstrategy.depth: "1"
+          traefik.http.middlewares.authentik-whitelist.ipwhitelist.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
+          traefik.http.routers.authentik.middlewares: "authentik-whitelist"
+          traefik.http.services.authentik.loadbalancer.server.port: "9000"
+        restart_policy: unless-stopped
+        memory: "{{ authentik_memory }}"
+
+    - name: Authentik Worker Docker Container
+      community.docker.docker_container:
+        name: "{{ authentik_worker_container_name }}"
+        image: "{{ authentik_image }}:{{ authentik_tag }}"
+        pull: true
+        command: worker
+        volumes:
+          - "{{ authentik_data_directory }}/certs:/certs:rw"
+          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+          - "{{ authentik_data_directory }}/media:/media:rw"
+          - "{{ authentik_data_directory }}/custom-templates:/templates:rw"
+        networks:
+          - name: "{{ authentik_network_name }}"
+        env:
+          AUTHENTIK_REDIS__HOST: "{{ authentik_redis_container_name }}"
+          AUTHENTIK_POSTGRESQL__HOST: "{{ authentik_database_container_name }}"
+          AUTHENTIK_POSTGRESQL__USER: "{{ authentik_pg_user }}"
+          AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_pg_db }}"
+          AUTHENTIK_POSTGRESQL__PASSWORD: "{{ authentik_pg_pass }}"
+          AUTHENTIK_ERROR_REPORTING__ENABLED: "{{ authentik_error_reporting | string }}"
+          # SMTP Host Emails are sent to
+          AUTHENTIK_EMAIL__HOST: "{{ authentik_email_host }}"
+          AUTHENTIK_EMAIL__PORT: "{{ authentik_email_port }}"
+          # Optionally authenticate (don't add quotation marks to you password)
+          AUTHENTIK_EMAIL__USERNAME: "{{ authentik_email_username }}"
+          AUTHENTIK_EMAIL__PASSWORD: "{{ authentik_email_password }}"
+          # Use StartTLS
+          AUTHENTIK_EMAIL__USE_TLS: "{{ authentik_email_use_tls }}"
+          # Use SSL
+          AUTHENTIK_EMAIL__USE_SSL: "{{ authentik_email_use_ssl }}"
+          AUTHENTIK_EMAIL__TIMEOUT: "{{ authentik_email_timeout }}"
+          # Email address authentik will send from, should have a correct @domain
+          AUTHENTIK_EMAIL__FROM: "{{ authentik_email_from }}"
+          # WORKERS: 2
+          AUTHENTIK_SECRET_KEY: "{{ authentik_secret_key }}"
+        # `user: root` and the docker socket volume are optional.
+        # See more for the docker socket integration here:
+        # https://goauthentik.io/docs/outposts/integrations/docker
+        # Removing `user: root` also prevents the worker from fixing the permissions
+        # on the mounted folders, so when removing this make sure the folders have the correct UID/GID
+        # (1000:1000 by default)
+        user: root
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ authentik_memory }}"
+  when: authentik_enabled is true
+
+- name: Stop Authentik
+  block:
+    - name: Stop Authentik Database
+      community.docker.docker_container:
+        name: "{{ authentik_database_container_name }}"
+        state: absent
+
+    - name: Stop Authentik Redis
+      community.docker.docker_container:
+        name: "{{ authentik_redis_container_name }}"
+        state: absent
+
+    - name: Stop Authentik Server
+      community.docker.docker_container:
+        name: "{{ authentik_server_container_name }}"
+        state: absent
+
+    - name: Stop Authentik Worker
+      community.docker.docker_container:
+        name: "{{ authentik_worker_container_name }}"
+        state: absent
+  when: authentik_enabled is false

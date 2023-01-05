@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove Authentik Database
+      docker_container:
+        name: "{{ authentik_database_container_name }}"
+        state: absent
+      register: result_database
+
+    - name: Try and stop and remove Authentik Redis
+      docker_container:
+        name: "{{ authentik_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove Authentik Server
+      docker_container:
+        name: "{{ authentik_server_container_name }}"
+        state: absent
+      register: result_server
+
+    - name: Try and stop and remove Authentik Worker
+      docker_container:
+        name: "{{ authentik_worker_container_name }}"
+        state: absent
+      register: result_worker
+
+    - name: Check if Authentik containers are stopped
+      assert:
+        that:
+          - not result_database.changed
+          - not result_redis.changed
+          - not result_server.changed
+          - not result_worker.changed
