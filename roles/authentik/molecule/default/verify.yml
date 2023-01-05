@@ -1,0 +1,39 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get authentik database container state
+      docker_container_info:
+        name: "{{ authentik_database_container_name }}"
+      register: result_database
+
+    - name: Get authentik redis container state
+      docker_container_info:
+        name: "{{ authentik_redis_container_name }}"
+      register: result_redis
+
+    - name: Get authentik server container state
+      docker_container_info:
+        name: "{{ authentik_server_container_name }}"
+      register: result_server
+
+    - name: Get authentik worker container state
+      docker_container_info:
+        name: "{{ authentik_worker_container_name }}"
+      register: result_worker
+
+    - name: Check if Authentik docker containers are running
+      assert:
+        that:
+          - result_database.container['State']['Status'] == "running"
+          - result_database.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result_server.container['State']['Status'] == "running"
+          - result_server.container['State']['Restarting'] == false
+          - result_worker.container['State']['Status'] == "running"
+          - result_worker.container['State']['Restarting'] == false

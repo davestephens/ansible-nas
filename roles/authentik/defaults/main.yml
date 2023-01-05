@@ -1,0 +1,45 @@
+---
+authentik_enabled: false
+authentik_available_externally: false
+
+# directories
+authentik_data_directory: "{{ docker_home }}/authentik"
+
+# network
+authentik_http_port: "9000"
+authentik_https_port: "9443"
+authentik_hostname: "authentik"
+authentik_network_name: "authentik"
+
+# specs
+authentik_memory: 1g
+
+# docker
+authentik_database_container_name: "authentik_postgres"
+authentik_redis_container_name: "authentik_redis"
+authentik_server_container_name: "authentik_server"
+authentik_worker_container_name: "authentik_worker"
+authentik_image: "ghcr.io/goauthentik/server"
+authentik_tag: "2022.12.1"
+authentik_user_id: "1000"
+authentik_group_id: "1000"
+
+# database
+authentik_pg_pass: "password" # $(pwgen -s 40 1)
+authentik_pg_user: "authentik"
+authentik_pg_db: "authentik"
+
+# authentik
+authentik_secret_key: "secret"  # $(pwgen -s 50 1)
+authentik_error_reporting: true
+authentik_email_host: "localhost"
+authentik_email_port: "25"
+authentik_email_username: ""
+authentik_email_password: ""
+authentik_email_use_tls: "false"
+authentik_email_use_ssl: "false"
+authentik_email_timeout: "10"
+authentik_email_from: "authentik@{{ ansible_nas_domain }}"
+authentik_disable_update_check: true
+authentik_disable_startup_analytics: true
+authentik_avatars: "gravatar"

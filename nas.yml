@@ -45,6 +45,10 @@
       tags:
         - airsonic
 
+    - role: authentik
+      tags:
+        - authentik
+
     - role: bazarr
       tags:
         - bazarr
