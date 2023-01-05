@@ -45,6 +45,10 @@
       tags:
         - airsonic
 
+    - role: authelia
+      tags:
+        - authelia
+
     - role: bazarr
       tags:
         - bazarr
