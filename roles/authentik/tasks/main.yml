@@ -89,7 +89,7 @@
           AUTHENTIK_REDIS__HOST: "{{ authentik_redis_container_name }}"
           AUTHENTIK_POSTGRESQL__HOST: "{{ authentik_database_container_name }}"
           AUTHENTIK_POSTGRESQL__USER: "{{ authentik_pg_user }}"
-          AUTHENTIK_POSTGRESQL__NAME:  "{{ authentik_pg_db }}"
+          AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_pg_db }}"
           AUTHENTIK_POSTGRESQL__PASSWORD: "{{ authentik_pg_pass }}"
           AUTHENTIK_ERROR_REPORTING__ENABLED: "{{ authentik_error_reporting | string }}"
           # SMTP Host Emails are sent to
@@ -140,7 +140,7 @@
           AUTHENTIK_REDIS__HOST: "{{ authentik_redis_container_name }}"
           AUTHENTIK_POSTGRESQL__HOST: "{{ authentik_database_container_name }}"
           AUTHENTIK_POSTGRESQL__USER: "{{ authentik_pg_user }}"
-          AUTHENTIK_POSTGRESQL__NAME:  "{{ authentik_pg_db }}"
+          AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_pg_db }}"
           AUTHENTIK_POSTGRESQL__PASSWORD: "{{ authentik_pg_pass }}"
           AUTHENTIK_ERROR_REPORTING__ENABLED: "{{ authentik_error_reporting | string }}"
           # SMTP Host Emails are sent to
