@@ -18,8 +18,3 @@
       file:
         path: "{{ gitea_data_directory }}/gitea/gitea/conf/app.ini"
         state: touch
-
-  handlers:
-    - name: restart gitea
-      command: echo "this task will restart gitea"
-      listen: "restart gitea"
