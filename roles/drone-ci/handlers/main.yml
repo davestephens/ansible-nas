@@ -1,5 +1,5 @@
 ---
-- name: restart gitea
+- name: Restart gitea
   community.docker.docker_container:
     name: gitea
     image: gitea/gitea:latest
