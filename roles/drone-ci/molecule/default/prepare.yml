@@ -1,0 +1,25 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Install docker python module
+      pip:
+        name: docker
+
+    - name: Create a dummy gitea config directory
+      file:
+        path: "{{ item }}"
+        state: directory
+        recurse: yes
+      with_items:
+        - "{{ gitea_data_directory }}/gitea/gitea/conf"
+
+    - name: Create a dummy gitea config file
+      file:
+        path: "{{ gitea_data_directory }}/gitea/gitea/conf/app.ini"
+        state: touch
+
+  handlers:
+    - name: restart gitea
+      command: echo "this task will restart gitea"
+      listen: "restart gitea"
