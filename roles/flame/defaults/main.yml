@@ -1,0 +1,27 @@
+---
+flame_enabled: false
+flame_available_externally: false
+
+# directories
+flame_data_directory: "{{ docker_home }}/flame"
+
+# network
+flame_port: "5005"
+flame_hostname: "flame"
+
+# specs
+flame_memory: 1g
+
+# docker
+flame_container_name: "flame"
+flame_image: "pawelmalak/flame"
+flame_tag: "latest"
+flame_user_id: "1000"
+flame_group_id: "1000"
+flame_use_docker: false # enble if you want to use docker integration - adds docker.sock to mounts
+flame_volumes: |
+  {{
+    ([flame_data_directory + ":/app/data"])
+    +
+    (["/var/run/docker.sock:/var/run/docker.sock"] if flame_use_docker else [])
+  }}
