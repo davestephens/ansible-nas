@@ -1,0 +1,27 @@
+---
+barcodebuddy_enabled: false
+barcodebuddy_available_externally: false
+
+# directories
+barcodebuddy_data_directory: "{{ docker_home }}/barcodebuddy"
+
+# network
+barcodebuddy_http_port: "9284"
+barcodebuddy_https_port: "9285"
+barcodebuddy_hostname: "barcodebuddy"
+
+# specs
+barcodebuddy_memory: 1g
+
+# docker
+barcodebuddy_container_name: "barcodebuddy"
+barcodebuddy_image: "f0rc3/barcodebuddy-docker"
+barcodebuddy_tag: "latest"
+barcodebuddy_user_id: "1000"
+barcodebuddy_group_id: "1000"
+
+# barcode buddy
+barcodebuddy_scanner: false
+barcodebuddy_ignore_ssl_ca: true
+barcodebuddy_ignore_ssl_host: true
+barcodebuddy_grocy_url: "{{ 'https://' + grocy_hostname + '.' + ansible_nas_domain if grocy_enabled else 'EDIT HERE' }}"

@@ -49,6 +49,10 @@
       tags:
         - authentik
 
+    - role: barcodebuddy
+      tags:
+        - barcodebuddy
+
     - role: bazarr
       tags:
         - bazarr

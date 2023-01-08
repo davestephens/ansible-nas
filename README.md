@@ -18,6 +18,7 @@ If you have a spare domain name you can configure applications to be accessible 
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Authentik](https://goauthentik.io/) - an open-source Identity Provider focused on flexibility and versatility
+* [Barcode Buddy](https://github.com/Forceu/barcodebuddy/) - Barcode system for Grocy
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Booksonic](https://booksonic.org/) - The selfhosted audiobook server
 * [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
