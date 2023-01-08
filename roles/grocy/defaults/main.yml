@@ -1,0 +1,20 @@
+---
+grocy_enabled: false
+grocy_available_externally: false
+
+# directories
+grocy_data_directory: "{{ docker_home }}/grocy"
+
+# network
+grocy_port: "9283"
+grocy_hostname: "grocy"
+
+# specs
+grocy_memory: 1g
+
+# docker
+grocy_container_name: "grocy"
+grocy_image: "lscr.io/linuxserver/grocy"
+grocy_tag: "latest"
+grocy_user_id: "1000"
+grocy_group_id: "1000"
