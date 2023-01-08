@@ -1,0 +1,55 @@
+---
+- name: Start Barcodebuddy
+  block:
+    - name: Check for Grocy installation
+      fail:
+        msg: "Barcodebuddy is an extension to Grocy, therefore is requires Grocy enabled, please set it up first."
+      when: grocy_enabled is false
+
+    - name: Create Barcodebuddy Directory
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ barcodebuddy_data_directory }}"
+
+    - name: Barcodebuddy Docker Container
+      community.docker.docker_container:
+        name: "{{ barcodebuddy_container_name }}"
+        image: "{{ barcodebuddy_image }}:{{ barcodebuddy_tag }}"
+        pull: true
+        volumes:
+          - "{{ barcodebuddy_data_directory }}:/config:rw"
+        ports:
+          - "{{ barcodebuddy_http_port }}:80"
+          - "{{ barcodebuddy_https_port }}:443"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ barcodebuddy_user_id }}"
+          PGID: "{{ barcodebuddy_group_id }}"
+          ATTACH_BARCODESCANNER: "{{ barcodebuddy_scanner | string }}"
+          IGNORE_SSL_CA: "{{ barcodebuddy_ignore_ssl_ca | string }}"
+          IGNORE_SSL_HOST: "{{ barcodebuddy_ignore_ssl_host | string }}"
+          BBUDDY_EXTERNAL_GROCY_URL: "{{ barcodebuddy_grocy_url }}"
+        labels:
+          traefik.enable: "{{ barcodebuddy_available_externally | string }}"
+          traefik.http.routers.barcodebuddy.rule: "Host(`{{ barcodebuddy_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.barcodebuddy.tls.certresolver: "letsencrypt"
+          traefik.http.routers.barcodebuddy.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.barcodebuddy.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.middlewares.barcodebuddy-whitelist.ipwhitelist.ipstrategy.depth: "1"
+          traefik.http.middlewares.barcodebuddy-whitelist.ipwhitelist.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
+          traefik.http.routers.barcodebuddy.middlewares: "barcodebuddy-whitelist"
+          traefik.http.services.barcodebuddy.loadbalancer.server.port: "80"
+        restart_policy: unless-stopped
+        memory: "{{ barcodebuddy_memory }}"
+  when: barcodebuddy_enabled is true
+
+- name: Stop Barcodebuddy
+  block:
+    - name: Stop Barcodebuddy
+      community.docker.docker_container:
+        name: "{{ barcodebuddy_container_name }}"
+        state: absent
+
+  when: barcodebuddy_enabled is false

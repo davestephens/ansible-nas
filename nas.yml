@@ -45,6 +45,10 @@
       tags:
         - airsonic
 
+    - role: barcodebuddy
+      tags:
+        - barcodebuddy
+
     - role: bazarr
       tags:
         - bazarr
