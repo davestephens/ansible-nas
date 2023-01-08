@@ -1,0 +1,45 @@
+---
+- name: Start Grocy
+  block:
+    - name: Create Grocy Directory
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ grocy_data_directory }}"
+
+    - name: Grocy Docker Container
+      community.docker.docker_container:
+        name: "{{ grocy_container_name }}"
+        image: "{{ grocy_image }}:{{ grocy_tag }}"
+        pull: true
+        volumes:
+          - "{{ grocy_data_directory }}:/config:rw"
+        ports:
+          - "{{ grocy_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ grocy_user_id }}"
+          PGID: "{{ grocy_group_id }}"
+        labels:
+          traefik.enable: "{{ grocy_available_externally | string }}"
+          traefik.http.routers.grocy.rule: "Host(`{{ grocy_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.grocy.tls.certresolver: "letsencrypt"
+          traefik.http.routers.grocy.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.grocy.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.middlewares.grocy-whitelist.ipwhitelist.ipstrategy.depth: "1"
+          traefik.http.middlewares.grocy-whitelist.ipwhitelist.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
+          traefik.http.routers.grocy.middlewares: "grocy-whitelist"
+          traefik.http.services.grocy.loadbalancer.server.port: "80"
+        restart_policy: unless-stopped
+        memory: "{{ grocy_memory }}"
+  when: grocy_enabled is true
+
+- name: Stop grocy
+  block:
+    - name: Stop grocy
+      community.docker.docker_container:
+        name: "{{ grocy_container_name }}"
+        state: absent
+
+  when: grocy_enabled is false

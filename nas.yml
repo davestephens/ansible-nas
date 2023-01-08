@@ -142,6 +142,10 @@
         - gotify
       when: (gotify_enabled | default(False))
 
+    - role: grocy
+      tags:
+        - grocy
+
     - role: guacamole
       tags:
         - guacamole
