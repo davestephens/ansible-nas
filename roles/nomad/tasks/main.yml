@@ -1,4 +1,7 @@
 ---
+- name: Get the list of services
+  service_facts:
+
 - name: Install and start Nomad
   block:
     - name: Add Hashicorp GPG key
@@ -30,11 +33,27 @@
         enabled: yes
   when: nomad_enabled is true
 
-- name: Stop Nomad
+- name: Stop and uninstall Nomad
   block:
     - name: Stop Nomad
       ansible.builtin.systemd:
         name: "{{ nomad_service_name }}"
         state: stopped
         enabled: no
-  when: nomad_enabled is false
+        daemon_reload: yes
+
+    - name: Uninstall Nomad
+      ansible.builtin.apt:
+        name: nomad
+        state: absent
+        purge: true
+
+    - name: Remove Nomad config
+      ansible.builtin.file:
+        path: /etc/nomad.d/nomad.hcl
+        state: absent
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: yes
+  when: nomad_enabled is false and nomad_service_name + '.service' in services
