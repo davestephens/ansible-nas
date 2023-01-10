@@ -4,5 +4,6 @@ provisioner:
     group_vars:
       all:
         booksonic_enabled: true
+        booksonic_data_directory: "/tmp"
   playbooks:
     prepare: prepare.yml

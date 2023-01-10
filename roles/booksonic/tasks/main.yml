@@ -45,6 +45,7 @@
         name: "{{ booksonic_container_name }}"
         image: linuxserver/booksonic-air:latest
         state: stopped
+      tags: molecule-idempotence-notest
 
     - name: Add server.use-forward-headers to config file
       lineinfile:
@@ -57,6 +58,7 @@
         name: "{{ booksonic_container_name }}"
         image: linuxserver/booksonic-air:latest
         state: started
+      tags: molecule-idempotence-notest
   when: booksonic_enabled is true
 
 - name: Stop Booksonic
