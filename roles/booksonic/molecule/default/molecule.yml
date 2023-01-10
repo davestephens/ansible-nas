@@ -4,3 +4,5 @@ provisioner:
     group_vars:
       all:
         booksonic_enabled: true
+  playbooks:
+    prepare: prepare.yml

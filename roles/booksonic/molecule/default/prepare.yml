@@ -1,0 +1,20 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Install docker python module
+      pip:
+        name: docker
+
+    - name: Create a dummy booksonic onfig directory
+      file:
+        path: "{{ item }}"
+        state: directory
+        recurse: yes
+      with_items:
+        - "{{ booksonic_data_directory }}/config"
+
+    - name: Create a dummy booksonic config file
+      file:
+        path: "{{ booksonic_data_directory }}/config/airsonic.properties"
+        state: touch
