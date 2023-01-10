@@ -1,0 +1,61 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove Immich Postgres
+      docker_container:
+        name: "{{ immich_postgres_container_name }}"
+        state: absent
+      register: result_postgres
+
+    - name: Try and stop and remove Immich Redis
+      docker_container:
+        name: "{{ immich_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove Immich Server
+      docker_container:
+        name: "{{ immich_server_container_name }}"
+        state: absent
+      register: result_server
+
+    - name: Try and stop and remove Immich Microservices
+      docker_container:
+        name: "{{ immich_microservices_container_name }}"
+        state: absent
+      register: result_microservices
+
+    - name: Try and stop and remove Immich Machine Learning
+      docker_container:
+        name: "{{ immich_machinelearning_container_name }}"
+        state: absent
+      register: result_machinelearning
+
+    - name: Try and stop and remove Immich Web
+      docker_container:
+        name: "{{ immich_web_container_name }}"
+        state: absent
+      register: result_web
+
+    - name: Try and stop and remove Immich Proxy
+      docker_container:
+        name: "{{ immich_proxy_container_name }}"
+        state: absent
+      register: result_proxy
+
+    - name: Check if immich containers are stopped
+      assert:
+        that:
+          - not result_postgreschanged
+          - not result_redis.changed
+          - not result_server.changed
+          - not result_microservices.changed
+          - not result_machinelearning.changed
+          - not result_web.changed
+          - not result_proxy.changed

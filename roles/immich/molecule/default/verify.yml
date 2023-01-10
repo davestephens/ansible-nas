@@ -1,0 +1,61 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get Immich Postgres container state
+      docker_container_info:
+        name: "{{ immich_postgres_container_name }}"
+      register: result_postgres
+
+    - name: Get Immich Redis container state
+      docker_container_info:
+        name: "{{ immich_redis_container_name }}"
+      register: result_redis
+
+    - name: Get Immich Server container state
+      docker_container_info:
+        name: "{{ immich_server_container_name }}"
+      register: result_server
+
+    - name: Get Immich Microservies container state
+      docker_container_info:
+        name: "{{ immich_microservices_container_name }}"
+      register: result_microservices
+
+    - name: Get Immich Machine Learning container state
+      docker_container_info:
+        name: "{{ immich_machinelearning_container_name }}"
+      register: result_machinelearning
+
+    - name: Get Immich Web container state
+      docker_container_info:
+        name: "{{ immich_web_container_name }}"
+      register: result_web
+
+    - name: Get Immich Proxy container state
+      docker_container_info:
+        name: "{{ immich_proxy_container_name }}"
+      register: result_proxy
+
+    - name: Check if Immich docker containers are running
+      assert:
+        that:
+          - result_postgres.container['State']['Status'] == "running"
+          - result_postgres.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result_server.container['State']['Status'] == "running"
+          - result_server.container['State']['Restarting'] == false
+          - result_microservices.container['State']['Status'] == "running"
+          - result_microservices.container['State']['Restarting'] == false
+          - result_machinelearning.container['State']['Status'] == "running"
+          - result_machinelearning.container['State']['Restarting'] == false
+          - result_web.container['State']['Status'] == "running"
+          - result_web.container['State']['Restarting'] == false
+          - result_proxy.container['State']['Status'] == "running"
+          - result_proxy.container['State']['Restarting'] == false
