@@ -52,7 +52,7 @@
     - name: Check if immich containers are stopped
       assert:
         that:
-          - not result_postgreschanged
+          - not result_postgres.changed
           - not result_redis.changed
           - not result_server.changed
           - not result_microservices.changed
