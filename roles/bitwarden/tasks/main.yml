@@ -12,7 +12,7 @@
     - name: Bitwarden Docker Container
       docker_container:
         name: "{{ bitwarden_container_name }}"
-        image: bitwardenrs/server:latest
+        image: vaultwarden/server:latest
         pull: true
         ports:
           - "{{ bitwarden_port_a }}:80"
