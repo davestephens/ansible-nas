@@ -1,0 +1,18 @@
+---
+ddns_updater_enabled: false
+ddns_updater_available_externally: false
+
+# directories
+ddns_updater_config_directory: "{{ docker_home }}/ddns_updater"
+
+# network
+ddns_updater_port: "8560"
+ddns_updater_hostname: "ddns_updater"
+
+# docker
+ddns_updater_container_name: ddns_updater
+ddns_updater_memory: 1g
+
+#config
+ddns_updater_provider: "namecheap"
+ddns_updater_password: "password"

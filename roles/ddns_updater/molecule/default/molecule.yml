@@ -1,0 +1,6 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        ddns_updater_enabled: true

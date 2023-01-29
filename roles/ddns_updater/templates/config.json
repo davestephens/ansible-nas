@@ -1,0 +1,16 @@
+{
+    "settings": [
+        {
+            "provider": "{{ ddns_updater_provider }}",
+            "domain": " {{ ansible_nas_domain }}",
+            "host": "@",
+            "password": "{{ ddns_updater_password }}"
+        },
+	    {
+            "provider": "{{ ddns_updater_provider }}",
+            "domain": " {{ ansible_nas_domain }}",
+            "host": "*",
+            "password": "{{ ddns_updater_password }}"
+        }
+    ]
+}
