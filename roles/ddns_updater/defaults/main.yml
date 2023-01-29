@@ -13,6 +13,6 @@ ddns_updater_hostname: "ddns_updater"
 ddns_updater_container_name: ddns_updater
 ddns_updater_memory: 1g
 
-#config
+# config
 ddns_updater_provider: "namecheap"
 ddns_updater_password: "password"

@@ -49,3 +49,4 @@
         name: "{{ ddns_updater_container_name }}"
         state: absent
   when: ddns_updater_enabled is false
+  
