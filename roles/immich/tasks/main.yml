@@ -182,6 +182,7 @@
           UPLOAD_LOCATION: "./upload"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
           PUBLIC_IMMICH_SERVER_URL: "http://{{ immich_server_container_name }}:3001"
+          IMMICH_SERVER_URL: "http://{{ immich_server_container_name }}:3001"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
