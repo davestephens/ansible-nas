@@ -7,5 +7,4 @@ provisioner:
         drone_ci_gitea_client_id: asdfasdf12341234
         drone_ci_gitea_client_secret: asdfasd12341234
         gitea_port_http: 3001
-        gitea_data_directory: /tmp/
         ansible_nas_hostname: ansible-nas-ci
