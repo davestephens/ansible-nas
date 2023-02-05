@@ -38,17 +38,17 @@
       register: nomad_install
 
     - block:
-      - name: Stop Nomad
-        ansible.builtin.systemd:
-          name: "{{ nomad_service_name }}"
-          state: stopped
-          enabled: no
-          daemon_reload: yes
+        - name: Stop Nomad
+          ansible.builtin.systemd:
+            name: "{{ nomad_service_name }}"
+            state: stopped
+            enabled: no
+            daemon_reload: yes
 
-      - name: Uninstall Nomad
-        ansible.builtin.apt:
-          name: nomad
-          state: absent
+        - name: Uninstall Nomad
+          ansible.builtin.apt:
+            name: nomad
+            state: absent
 
       when: nomad_install.stat.exists
   when: nomad_enabled is false
