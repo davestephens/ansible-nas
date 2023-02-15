@@ -42,6 +42,8 @@
         ports:
           - "{{ firefly_port }}:8080"
         env:
+          APP_URL: "https://{{ firefly_hostname }}.{{ ansible_nas_domain }}"
+          TRUSTED_PROXIES: "**"
           APP_ENV: "local"
           APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
           DB_CONNECTION: "mysql"
