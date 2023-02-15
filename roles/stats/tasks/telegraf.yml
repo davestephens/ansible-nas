@@ -1,49 +1,63 @@
 ---
-- name: Create Telegraf Directory
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ stats_telegraf_config_directory }}"
+- name: Start Telegraf
+  block:
+    - name: Create Telegraf Directory
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ stats_telegraf_config_directory }}"
 
-- name: Template telegraf.conf
-  template:
-    src: telegraf.conf.j2
-    dest: "{{ stats_telegraf_config_directory }}/telegraf.conf"
-  register: telegraf_config
+    - name: Template telegraf.conf
+      template:
+        src: telegraf.conf.j2
+        dest: "{{ stats_telegraf_config_directory }}/telegraf.conf"
+      register: telegraf_config
 
-- name: Get Docker daemon uid
-  command: stat -c '%g' /var/run/docker.sock
-  register: docker_uid
-  changed_when: false
+    - name: Get Docker daemon uid
+      command: stat -c '%g' /var/run/docker.sock
+      register: docker_uid
+      changed_when: false
 
-- name: Telegraf Docker Container
-  docker_container:
-    name: stats-telegraf
-    image: telegraf
-    pull: true
-    privileged: true
-    ipc_mode: host
-    ports:
-      - "{{ stats_telegraf_influxdb_port }}:8086"
-      - "{{ stats_telegraf_port }}:9273"
-    user: "telegraf:{{ docker_uid.stdout }}"
-    volumes:
-      - "{{ stats_telegraf_config_directory }}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/:/hostfs:ro"
-      - "/etc:/hostfs/etc:ro"
-      - "/proc:/hostfs/proc:ro"
-      - "/sys:/hostfs/sys:ro"
-      - "/var:/hostfs/var:ro"
-      - "/run:/hostfs/run:ro"
-    env:
-      HOST_ETC: "/hostfs/etc"
-      HOST_PROC: "/hostfs/proc"
-      HOST_SYS: "/hostfs/sys"
-      HOST_VAR: "/hostfs/var"
-      HOST_RUN: "/hostfs/run"
-      HOST_MOUNT_PREFIX: "/hostfs"
-    restart_policy: unless-stopped
-    memory: 1g
-    restart: "{{ telegraf_config is changed }}"
+    - name: Telegraf Docker Container
+      docker_container:
+        name: "{{ stats_telegraf_container_name }}"
+        image: telegraf
+        pull: true
+        privileged: true
+        ipc_mode: host
+        ports: |
+          {{
+            ([stats_telegraf_influxdb_port + ':8086'] if stats_prometheus_enabled | bool and not stats_influxdb_enabled | bool else [])
+            +
+            [stats_telegraf_port + ':9273']
+          }}
+        user: "telegraf:{{ docker_uid.stdout }}"
+        volumes:
+          - "{{ stats_telegraf_config_directory }}:/etc/telegraf/:ro"
+          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+          - "/:/hostfs:ro"
+          - "/etc:/hostfs/etc:ro"
+          - "/proc:/hostfs/proc:ro"
+          - "/sys:/hostfs/sys:ro"
+          - "/var:/hostfs/var:ro"
+          - "/run:/hostfs/run:ro"
+        env:
+          HOST_ETC: "/hostfs/etc"
+          HOST_PROC: "/hostfs/proc"
+          HOST_SYS: "/hostfs/sys"
+          HOST_VAR: "/hostfs/var"
+          HOST_RUN: "/hostfs/run"
+          HOST_MOUNT_PREFIX: "/hostfs"
+        restart_policy: unless-stopped
+        memory: 1g
+        restart: "{{ telegraf_config is changed }}"
+  when: stats_enabled is true
+
+- name: Stop Telegraf
+  block:
+    - name: Stop Telegraf
+      docker_container:
+        name: "{{ stats_telegraf_container_name }}"
+        state: absent
+  when: stats_enabled is false

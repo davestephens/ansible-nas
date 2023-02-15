@@ -3,21 +3,28 @@ stats_enabled: false
 stats_internet_speed_test_enabled: false
 stats_prometheus_available_externally: false
 stats_grafana_available_externally: false
+stats_influxdb_available_externally: false
+stats_prometheus_enabled: true
+stats_influxdb_enabled: false
 
 # directories
 stats_telegraf_config_directory: "{{ docker_home }}/stats/telegraf/config"
 stats_prometheus_data_directory: "{{ docker_home }}/stats/prometheus/data"
 stats_prometheus_config_directory: "{{ docker_home }}/stats/prometheus/config"
+stats_influxdb_data_directory: "{{ docker_home }}/stats/influxdb/data"
+stats_influxdb_config_directory: "{{ docker_home }}/stats/influxdb/config"
 stats_grafana_data_directory: "{{ docker_home }}/stats/grafana/data"
 stats_grafana_config_directory: "{{ docker_home }}/stats/grafana/config"
 
 # network
 stats_prometheus_port: "9090"
+stats_influxdb_port: "8086"
 stats_telegraf_port: "9273"
 stats_telegraf_influxdb_port: "8086"
 stats_prometheus_smartctl_port: "9902"
 stats_speedtest_exporter_port: "9798"
 stats_prometheus_hostname: "prometheus"
+stats_influxdb_hostname: "influxdb"
 stats_grafana_port: "3000"
 stats_grafana_hostname: "grafana"
 
@@ -32,3 +39,20 @@ stats_grafana_memory: 1g
 stats_prometheus_retention_time: 365d
 stats_prometheus_retention_size: 30GB
 stats_collection_interval: 15s
+
+# influxdb
+stats_influxdb_init_mode: "setup"
+stats_influxdb_init_username: "root"
+stats_influxdb_init_password: "supersecure"
+stats_influxdb_init_org: "ansible-nas"
+stats_influxdb_init_bucket: "ansible-nas"
+stats_influxdb_init_retention: ""
+stats_influxdb_init_admin_token: ""
+
+# docker
+stats_grafana_container_name: stats-grafana
+stats_prometheus_container_name: stats-prometheus
+stats_influxdb_container_name: stats-influxdb
+stats_telegraf_container_name: stats-telegraf
+stats_smartctl_container_name: stats-smartctl
+stats_speedtest_container_name: stats-speedtest

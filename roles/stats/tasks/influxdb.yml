@@ -1,0 +1,55 @@
+---
+- name: Start Influxdb
+  block:
+    - name: Create Influxdb Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "472"
+        recurse: yes
+      with_items:
+        - "{{ stats_influxdb_data_directory }}"
+
+    - name: Influxdb Docker Container
+      docker_container:
+        name: "{{ stats_influxdb_container_name }}"
+        image: influxdb:latest
+        pull: true
+        volumes:
+          - "{{ stats_influxdb_data_directory }}:/var/lib/influxdb2:rw"
+          - "{{ stats_influxdb_config_directory }}:/etc/influxdb2:rw"
+        ports:
+          - "{{ stats_influxdb_port }}:8086"
+        env:
+          INFLUXDB_LOGGING_LEVEL: "error"
+          DOCKER_INFLUXDB_INIT_MODE: "{{ stats_influxdb_init_mode }}"
+          DOCKER_INFLUXDB_INIT_USERNAME: "{{ stats_influxdb_init_username }}"
+          DOCKER_INFLUXDB_INIT_PASSWORD: "{{ stats_influxdb_init_password }}"
+          DOCKER_INFLUXDB_INIT_ORG: "{{ stats_influxdb_init_org }}"
+          DOCKER_INFLUXDB_INIT_BUCKET: "{{ stats_influxdb_init_bucket }}"
+          DOCKER_INFLUXDB_INIT_RETENTION: "{{ stats_influxdb_init_retention }}"
+          DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: "{{ stats_influxdb_init_admin_token }}"
+        restart_policy: unless-stopped
+        memory: 1g
+        labels:
+          traefik.enable: "{{ stats_influxdb_available_externally | string }}"
+          traefik.http.routers.influxdb.rule: "Host(`{{ stats_influxdb_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.influxdb.tls.certresolver: "letsencrypt"
+          traefik.http.routers.influxdb.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.influxdb.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.influxdb.loadbalancer.server.port: "8086"
+          traefik.http.middlewares.influxdb-whitelist.ipwhitelist.ipstrategy.depth: "0"
+          traefik.http.middlewares.influxdb-whitelist.ipwhitelist.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
+          traefik.http.routers.influxdb.middlewares: "influxdb-whitelist,influxdb-header"
+          traefik.http.middlewares.influx-redirect.redirectScheme.scheme: "https"
+          traefik.http.middlewares.influxdb-header.headers.forceSTSHeader: "true"
+          traefik.http.middlewares.influxdb-header.headers.accesscontrolalloworiginlist: "https://{{ stats_influxdb_hostname }}.{{ ansible_nas_domain }}"
+  when: stats_enabled is true
+
+- name: Stop Influxdb
+  block:
+    - name: Stop Influxdb
+      docker_container:
+        name: "{{ stats_influxdb_container_name }}"
+        state: absent
+  when: stats_enabled is false

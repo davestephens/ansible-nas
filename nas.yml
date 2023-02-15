@@ -384,7 +384,6 @@
     - role: stats
       tags:
         - stats
-      when: (stats_enabled | default(False))
 
     - role: syncthing
       tags:
