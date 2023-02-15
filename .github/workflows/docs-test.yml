@@ -6,6 +6,8 @@ on:
     branches:
       - master
       - fix-docs-test
+  push:
+    branches: [fix-docs-test]
   workflow_dispatch:
 
 jobs:
