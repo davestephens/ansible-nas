@@ -5,6 +5,7 @@ on:
   pull_request:
     branches:
       - master
+      - fix-docs-test
   workflow_dispatch:
 
 jobs:
