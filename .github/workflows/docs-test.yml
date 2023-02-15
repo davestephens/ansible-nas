@@ -5,10 +5,6 @@ on:
   pull_request:
     branches:
       - master
-      - fix-docs-test
-  push:
-    branches: [fix-docs-test]
-  workflow_dispatch:
 
 jobs:
   lint:
@@ -35,10 +31,6 @@ jobs:
           cache: npm
           cache-dependency-path: website/package-lock.json
 
-      # - name: Install dependencies
-      #   run: yarn install --frozen-lockfile
-      # - name: Test build website
-      #   run: yarn build
       - name: Install dependencies
         run: npm ci
 
