@@ -35,25 +35,24 @@
 
 - name: Stop and uninstall Nomad
   block:
-    - name: Stop Nomad
-      ansible.builtin.systemd:
-        name: "{{ nomad_service_name }}"
-        state: stopped
-        enabled: no
-        daemon_reload: yes
+    - name: Check if Nomad is installed
+      stat:
+        path: /usr/bin/nomad
+      register: nomad_install
 
-    - name: Uninstall Nomad
-      ansible.builtin.apt:
-        name: nomad
-        state: absent
-        purge: true
+    - name: Stop Nomad if it is installed
+      block:
+        - name: Stop Nomad
+          ansible.builtin.systemd:
+            name: "{{ nomad_service_name }}"
+            state: stopped
+            enabled: no
+            daemon_reload: yes
 
-    - name: Remove Nomad config
-      ansible.builtin.file:
-        path: /etc/nomad.d/nomad.hcl
-        state: absent
+        - name: Uninstall Nomad
+          ansible.builtin.apt:
+            name: nomad
+            state: absent
 
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: yes
-  when: nomad_enabled is false and nomad_service_name + '.service' in services
+      when: nomad_install.stat.exists
+  when: nomad_enabled is false
