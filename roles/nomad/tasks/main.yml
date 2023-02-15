@@ -40,7 +40,8 @@
         path: /usr/bin/nomad
       register: nomad_install
 
-    - block:
+    - name: Stop Nomad if it is installed
+      block:
         - name: Stop Nomad
           ansible.builtin.systemd:
             name: "{{ nomad_service_name }}"
