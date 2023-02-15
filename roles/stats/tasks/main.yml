@@ -1,5 +1,8 @@
 ---
 - import_tasks: prometheus.yml
+  when: stats_prometheus_enabled | bool
+- import_tasks: influxdb.yml
+  when: stats_influxdb_enabled | bool
 - import_tasks: telegraf.yml
 - import_tasks: exporters.yml
 - import_tasks: grafana.yml
