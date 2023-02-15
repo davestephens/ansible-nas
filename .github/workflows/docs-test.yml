@@ -32,10 +32,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: yarn
+          cache: npm
           cache-dependency-path: website/package-lock.json
 
+      # - name: Install dependencies
+      #   run: yarn install --frozen-lockfile
+      # - name: Test build website
+      #   run: yarn build
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Test build website
-        run: yarn build
+        run: npm ci
+
+      - name: Build website
+        run: npm run build
