@@ -1,0 +1,28 @@
+---
+# This is a Hello World playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove Claper Database
+      docker_container:
+        name: "{{ claper_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove Claper
+      docker_container:
+        name: "{{ claper_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if Claper is stopped
+      assert:
+        that:
+          - not result_db.changed
+          - not result.changed

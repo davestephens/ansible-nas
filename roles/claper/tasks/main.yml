@@ -1,0 +1,94 @@
+---
+- name: Start Claper
+  block:
+    - name: Create Claper Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ claper_user_id }}"
+        group: "{{ claper_group_id }}"
+        mode: 0755
+      with_items:
+        - "{{ claper_data_directory }}"
+
+    - name: Create Claper network
+      community.docker.docker_network:
+        name: "{{ claper_network_name }}"
+
+    - name: Create Claper database container
+      community.docker.docker_container:
+        name: "{{ claper_db_container_name }}"
+        image: postgres:9
+        pull: true
+        networks:
+          - name: "{{ claper_network_name }}"
+        volumes:
+          - "{{ claper_data_directory }}/data:/var/lib/postgresql/data:rw"
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_PASSWORD: "{{ claper_db_pass }}"
+          POSTGRES_USER: "{{ claper_db_user }}"
+          POSTGRES_DB: "{{ claper_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ claper_memory }}"
+
+    - name: Claper Docker Container
+      community.docker.docker_container:
+        name: "{{ claper_container_name }}"
+        image: ghcr.io/claperco/claper:latest
+        pull: true
+        tty: true
+        volumes:
+          - "{{ claper_data_directory }}/data:/data:ro"
+        ports:
+          - "{{ claper_port }}:4000"
+        networks:
+          - name: "{{ claper_network_name }}"
+        env:
+          DATABASE_URL: postgres://{{ claper_db_user }}:{{ claper_db_pass }}@{{ claper_db_container_name }}:5432/{{ claper_db_name }}
+          SECRET_KEY_BASE: "{{ claper_secret_key_base }}"
+          MAIL_TRANSPORT: "{{ claper_mail_transport }}"
+          MAIL_FROM: "{{ claper_mail_from }}"
+          MAIL_FROM_NAME: "{{ claper_mail_from_name }}"
+          SMTP_RELAY: "{{ claper_smtp_relay }}"
+          SMTP_USERNAME: "{{ claper_smtp_username }}"
+          SMTP_PASSWORD: "{{ claper_smtp_password }}"
+          SMTP_PORT: "{{ claper_smtp_port }}"
+          SMTP_TLS: "{{ claper_smtp_tls }}"
+          SMTP_AUTH: "{{ claper_smtp_auth }}"
+          SMTP_SSL: "{{ claper_smtp_ssl }}"
+          PRESENTATION_STORAGE: "{{ claper_presentation_storage }}"
+          AWS_ACCESS_KEY_ID: "{{ claper_aws_access_key_id }}"
+          AWS_SECRET_ACCESS_KEY: "{{ claper_aws_secret_access_key }}"
+          AWS_S3_BUCKET: "{{ claper_aws_s3_bucket }}"
+          AWS_S3_REGION: "{{ claper_aws_s3_region }}"
+          ENDPOINT_HOST: "{{ claper_endpoint_host }}"
+          ENDPOINT_PORT: "{{ claper_endpoint_port }}"
+          ENABLE_ACCOUNT_CREATION: "{{ claper_account_creation }}"
+          PORT: "{{ claper_port }}"
+        restart_policy: unless-stopped
+        memory: "{{ claper_memory }}"
+        labels:
+          traefik.enable: "{{ claper_available_externally | string }}"
+          traefik.http.routers.claper.rule: "Host(`{{ claper_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.claper.tls.certresolver: "letsencrypt"
+          traefik.http.routers.claper.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.claper.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.claper.loadbalancer.server.port: "4000"
+  when: claper_enabled is true
+
+- name: Stop Claper
+  block:
+    - name: Stop Claper Database
+      docker_container:
+        name: "{{ claper_db_container_name }}"
+        state: absent
+
+    - name: Stop Claper
+      docker_container:
+        name: "{{ claper_container_name }}"
+        state: absent
+  when: claper_enabled is false
