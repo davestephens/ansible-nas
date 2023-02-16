@@ -61,6 +61,10 @@
       tags:
         - bazarr
 
+    - role: beets
+      tags:
+        - beets
+
     - role: booksonic
       tags:
         - booksonic
