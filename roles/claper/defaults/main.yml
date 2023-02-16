@@ -1,0 +1,44 @@
+---
+claper_enabled: false
+claper_available_externally: false
+
+# directories
+claper_data_directory: "{{ docker_home }}/claper"
+
+# network
+claper_port: "4000"
+claper_hostname: "claper"
+
+# specs
+claper_memory: 1g
+
+# docker
+claper_container_name: claper
+claper_db_container_name: claper-db
+claper_network_name: claper
+claper_user_id: "1001"
+claper_group_id: "1001"
+claper_db_pass: "claper"
+claper_db_user: "claper"
+claper_db_name: "claper"
+
+# environment variables
+claper_endpoint_host: "claper.{{ ansible_nas_domain }}"
+claper_endpoint_port: "80"
+claper_mail_transport: "local"
+claper_mail_from: "claper@{{ ansible_nas_domain }}"
+claper_mail_from_name: "Claper"
+claper_smtp_relay: ""
+claper_smtp_username: "username"
+claper_smtp_password: "password"
+claper_smtp_port: "25"
+claper_smtp_tls: "always"
+claper_smtp_auth: "always"
+claper_smtp_ssl: "true"
+claper_presentation_storage: "local"
+claper_aws_access_key_id: ""
+claper_aws_secret_access_key: ""
+claper_aws_s3_bucket: ""
+claper_aws_s3_region: ""
+claper_secret_key_base: 0LZiQBLw4WvqPlz4cz8RsHJlxNiSqM9B48y4ChyJ5v1oA0L/TPIqRjQNdPZN3iEG
+claper_account_creation: true

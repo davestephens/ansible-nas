@@ -73,6 +73,10 @@
       tags:
         - calibre
 
+    - role: claper
+      tags:
+        - claper
+
     - role: cloudcmd
       tags:
         - cloudcmd
