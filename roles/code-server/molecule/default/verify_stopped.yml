@@ -3,7 +3,8 @@
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - name: Include vars
+      include_vars:
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Code Server
