@@ -1,0 +1,20 @@
+---
+beets_enabled: false
+beets_available_externally: false
+
+# directories
+beets_data_directory: "{{ docker_home }}/beets"
+beets_music_directory: "{{ music_root }}"
+beets_downloads_directory: "{{ downloads_root }}"
+
+# network
+beets_port: "8337"
+beets_hostname: "beets"
+
+# specs
+beets_memory: 1g
+
+# docker
+beets_container_name: beets
+beets_user_id: "1001"
+beets_group_id: "1001"
