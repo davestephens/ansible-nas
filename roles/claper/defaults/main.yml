@@ -41,4 +41,4 @@ claper_aws_secret_access_key: ""
 claper_aws_s3_bucket: ""
 claper_aws_s3_region: ""
 claper_secret_key_base: 0LZiQBLw4WvqPlz4cz8RsHJlxNiSqM9B48y4ChyJ5v1oA0L/TPIqRjQNdPZN3iEG
-claper_account_creation: true
+claper_account_creation: "true"

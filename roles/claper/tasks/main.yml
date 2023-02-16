@@ -67,7 +67,7 @@
           AWS_S3_REGION: "{{ claper_aws_s3_region }}"
           ENDPOINT_HOST: "{{ claper_endpoint_host }}"
           ENDPOINT_PORT: "{{ claper_endpoint_port }}"
-          ENABLE_ACCOUNT_CREATION: "{{ claper_account_creation | bool }}"
+          ENABLE_ACCOUNT_CREATION: "{{ claper_account_creation }}"
           PORT: "{{ claper_port }}"
         restart_policy: unless-stopped
         memory: "{{ claper_memory }}"
