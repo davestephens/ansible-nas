@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove authelia
+      docker_container:
+        name: "{{ authelia_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove authelia Redis
+      docker_container:
+        name: "{{ authelia_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove authelia secure example
+      docker_container:
+        name: "authelia_secure"
+        state: absent
+      register: result_secure
+
+    - name: Try and stop and remove authelia public example
+      docker_container:
+        name: "authelia_public"
+        state: absent
+      register: result_public
+
+    - name: Check if authelia containers are stopped
+      assert:
+        that:
+          - not result.changed
+          - not result_redis.changed
+          - not result_secure.changed
+          - not result_public.changed
