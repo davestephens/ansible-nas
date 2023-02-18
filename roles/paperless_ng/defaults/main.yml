@@ -27,7 +27,7 @@ paperless_ng_user_id: "1000"
 paperless_ng_group_id: "1000"
 
 # settings
-paperless_ng_languages: "eng+pol"
+paperless_ng_languages: "eng"
 
 # specs
 paperless_ng_ui_memory: 1g
