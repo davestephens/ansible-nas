@@ -1,11 +1,11 @@
 ---
 paperless_ng_enabled: false
+paperless_ng_available_externally: false
 
 # directories
 paperless_ng_config_directory: "{{ docker_home }}/paperless_ng"
 paperless_ng_files_directory: "{{ documents_root }}/paperless"
 
-paperless_ng_postgres_directory: "{{ paperless_ng_config_directory }}/postgres"
 paperless_ng_data_directory: "{{ paperless_ng_config_directory }}/data"
 paperless_ng_export_directory: "{{ paperless_ng_config_directory }}/export"
 paperless_ng_media_directory: "{{ paperless_ng_files_directory }}/media"
@@ -15,25 +15,22 @@ paperless_ng_consume_directory: "{{ paperless_ng_files_directory }}/consume"
 paperless_ng_port: "16922"
 paperless_ng_hostname: "paperless_ng"
 
-# postgres
-paperless_ng_postgres_db: "paperless"
-paperless_ng_postgres_user: "paperless"
-paperless_ng_postgres_password: "paperless"
-
 # container names
-paperless_ng_container_network_name: "paperless_ng_network"
-paperless_ng_container_name_redis: "paperless_ng_redis"
-paperless_ng_container_name_postgres: "paperless_ng_postgres"
-paperless_ng_container_name_uiserver: "paperless_ng_uiserver"
+paperless_ng_container_network_name: "paperless_ngx_network"
+paperless_ng_container_name_redis: "paperless_ngx_redis"
+paperless_ng_container_name_uiserver: "paperless_ngx_uiserver"
+paperless_ng_container_name_tika: "paperless_ngx_tika"
+paperless_ng_container_name_gotenberg: "paperless_ngx_gotenberg"
 
 # uid/guid
 paperless_ng_user_id: "1000"
 paperless_ng_group_id: "1000"
 
 # settings
-paperless_ng_languages: "deu eng"
+paperless_ng_languages: "eng+pol"
 
 # specs
 paperless_ng_ui_memory: 1g
-paperless_ng_postgres_memory: 1g
 paperless_ng_redis_memory: 1g
+paperless_ng_tika_memory: 1g
+paperless_ng_gotenberg_memory: 1g

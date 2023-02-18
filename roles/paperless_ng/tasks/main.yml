@@ -4,16 +4,13 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ paperless_ng_config_directory }}"
-    - "{{ paperless_ng_files_directory }}"
-    - "{{ paperless_ng_postgres_directory }}"
     - "{{ paperless_ng_data_directory }}"
     - "{{ paperless_ng_export_directory }}"
     - "{{ paperless_ng_media_directory }}"
     - "{{ paperless_ng_consume_directory }}"
 
 
-- name: Create paperless_ng network
+- name: Create paperless_ngx network
   docker_network:
     name: "{{ paperless_ng_container_network_name }}"
 
@@ -27,27 +24,33 @@
     networks:
       - name: "{{ paperless_ng_container_network_name }}"
 
-- name: Create paperless_ng postgres Docker Container
+- name: Create paperless_ngx gotenberg service
   docker_container:
-    name: "{{ paperless_ng_container_name_postgres }}"
-    image: postgres:13
+    name: "{{ paperless_ng_container_name_gotenberg }}"
+    image: thecodingmachine/gotenberg
     pull: true
-    volumes:
-      - "{{ paperless_ng_postgres_directory }}:/var/lib/postgresql/data"
-    env:
-      POSTGRES_DB: "{{ paperless_ng_postgres_db }}"
-      POSTGRES_USER: "{{ paperless_ng_postgres_user }}"
-      POSTGRES_PASSWORD: "{{ paperless_ng_postgres_password }}"
     restart_policy: unless-stopped
-    memory: "{{ paperless_ng_postgres_memory }}"
+
+    env:
+      DISABLE_GOOGLE_CHROME: "1"
+    networks:
+      - name: "{{ paperless_ng_container_network_name }}"
+
+- name: Create paperless_ngx tika service
+  docker_container:
+    name: "{{ paperless_ng_container_name_tika }}"
+    image: apache/tika
+    pull: true
+    restart_policy: unless-stopped
     networks:
       - name: "{{ paperless_ng_container_network_name }}"
 
 - name: Create paperless_ng UI Docker Container
   docker_container:
     name: "{{ paperless_ng_container_name_uiserver }}"
-    image: jonaswinkler/paperless-ng:latest
+    image: paperlessngx/paperless-ngx:latest
     pull: true
+    restart_policy: unless-stopped
     volumes:
       - "{{ paperless_ng_data_directory }}:/usr/src/paperless/data"
       - "{{ paperless_ng_media_directory }}:/usr/src/paperless/media"
@@ -56,12 +59,21 @@
     ports:
       - "{{ paperless_ng_port }}:8000"
     env:
-      PAPERLESS_REDIS: "redis://{{ paperless_ng_container_name_redis | string }}:6379"
-      PAPERLESS_DBHOST: "{{ paperless_ng_container_name_postgres | string }}"
       USERMAP_UID: "{{ paperless_ng_user_id }}"
       USERMAP_GID: "{{ paperless_ng_group_id }}"
-      PAPERLESS_OCR_LANGUAGES: "{{ paperless_ng_languages }}"
-    restart_policy: unless-stopped
+      PAPERLESS_URL: "https://{{ paperless_ng_hostname }}.{{ ansible_nas_domain }}"
+      PAPERLESS_REDIS: "redis://{{ paperless_ng_container_name_redis | string }}:6379"
+      PAPERLESS_OCR_LANGUAGE: "{{ paperless_ng_languages }}"
+      PAPERLESS_TIKA_ENABLED: "1"
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: "http://{{ paperless_ng_container_name_gotenberg }}:3000"
+      PAPERLESS_TIKA_ENDPOINT: "http://{{ paperless_ng_container_name_tika }}:9998"
     memory: "{{ paperless_ng_ui_memory }}"
     networks:
       - name: "{{ paperless_ng_container_network_name }}"
+    labels:
+      traefik.enable: "{{ paperless_ng_available_externally | string }}"
+      traefik.http.routers.paperless_ng.rule: "Host(`{{ paperless_ng_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.paperless_ng.tls.certresolver: "letsencrypt"
+      traefik.http.routers.paperless_ng.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.paperless_ng.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.paperless_ng.loadbalancer.server.port: "8000"
