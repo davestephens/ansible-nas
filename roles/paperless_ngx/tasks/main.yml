@@ -49,7 +49,7 @@
     # 4. gotenberg
     - name: Create paperless_ngx gotenberg Docker Container
       docker_container:
-        name: "{{paperless_ng_container_name_gotenberg}}"
+        name: "{{ paperless_ng_container_name_gotenberg }}"
         image: docker.io/gotenberg/gotenberg:7.8
         restart_policy: unless-stopped
         container_default_behavior: compatibility
@@ -59,16 +59,16 @@
           - "gotenberg"
           - "--chromium-disable-javascript=true"
           - "--chromium-allow-list=file:///tmp/.*"
-        memory: "{{paperless_ng_gotenberg_memory}}"
+        memory: "{{ paperless_ng_gotenberg_memory }}"
 
     # 5. tika
     - name: Create paperless_ngx tika Docker Container
       docker_container:
-        name: "{{paperless_ng_container_name_tika}}"
+        name: "{{ paperless_ng_container_name_tika }}"
         image: ghcr.io/paperless-ngx/tika:latest
         restart_policy: unless-stopped
         container_default_behavior: compatibility
-        memory: "{{paperless_ng_tika_memory}}"
+        memory: "{{ paperless_ng_tika_memory }}"
 
     # 6. webserver
     - name: Create paperless_ngx UI Docker Container
@@ -95,21 +95,21 @@
           USERMAP_UID: "{{ paperless_ng_user_id }}"
           USERMAP_GID: "{{ paperless_ng_group_id }}"
           PAPERLESS_TIKA_ENABLED: "1"
-          PAPERLESS_TIKA_GOTENBERG_ENDPOINT: "http://{{paperless_tika_gotenberg_name}}:3000"
-          PAPERLESS_TIKA_ENDPOINT: "http://{{paperless_tika_name}}:9998"
+          PAPERLESS_TIKA_GOTENBERG_ENDPOINT: "http://{{ paperless_tika_gotenberg_name }}:3000"
+          PAPERLESS_TIKA_ENDPOINT: "http://{{ paperless_tika_name }}:9998"
           PAPERLESS_OCR_LANGUAGES: "{{ paperless_ng_languages }}"
-          #needed when exposing through traefik, or else CSRF will trigger
+          # needed when exposing through traefik, or else CSRF will trigger
           PAPERLESS_URL: "https://{{ paperless_ng_hostname }}.{{ ansible_nas_domain }}"
-          PAPERLESS_SECRET_KEY: "{{paperless_secret_key}}"
-          #when set allows automatically creating admin user
-          PAPERLESS_ADMIN_USER: "{{paperless_admin_user}}"
-          PAPERLESS_ADMIN_PASSWORD: "{{paperless_admin_password}}"
-          PAPERLESS_ADMIN_MAIL: "{{paperless_admin_mail}}"
+          PAPERLESS_SECRET_KEY: "{{ paperless_secret_key }}"
+          # when set allows automatically creating admin user
+          PAPERLESS_ADMIN_USER: "{{ paperless_admin_user }}"
+          PAPERLESS_ADMIN_PASSWORD: "{{ paperless_admin_password }}"
+          PAPERLESS_ADMIN_MAIL: "{{ paperless_admin_mail }}"
 
         restart_policy: unless-stopped
         memory: "{{ paperless_ng_ui_memory }}"
         networks:
-        - name: "{{ paperless_ng_container_network_name }}"
+          - name: "{{ paperless_ng_container_network_name }}"
         labels:
           traefik.enable: "{{ paperless_ngx_available_externally | string }}"
           traefik.http.routers.paperlessngx.rule: "Host(`{{ paperless_ng_hostname }}.{{ ansible_nas_domain }}`)"
@@ -129,12 +129,12 @@
     # 2. tika
     - name: Stop paperless_ngx tika Docker Container
       docker_container:
-        name: "{{paperless_ng_container_name_tika}}"
+        name: "{{ paperless_ng_container_name_tika }}"
         state: absent
     # 3. gotenberg
     - name: Stop paperless_ngx gotenberg Docker Container
       docker_container:
-        name: "{{paperless_ng_container_name_gotenberg}}"
+        name: "{{ paperless_ng_container_name_gotenberg }}"
         state: absent
     # 4. Postgres database
     - name: Stop paperless_ngx postgres Docker Container

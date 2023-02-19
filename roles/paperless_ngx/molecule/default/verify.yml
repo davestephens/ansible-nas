@@ -11,7 +11,7 @@
     # 1. webserver
     - name: Get container state for paperless_ngx webserver
       docker_container:
-        name: "{{paperless_ng_container_name_uiserver}}"
+        name: "{{ paperless_ng_container_name_uiserver }}"
       register: result
 
     - name: Check paperless_ngx webserver is stopped
@@ -23,7 +23,7 @@
     # 2. tika
     - name: Get container state for paperless_ngx tika
       docker_container:
-        name: "{{paperless_ng_container_name_tika}}"
+        name: "{{ paperless_ng_container_name_tika }}"
       register: result
 
     - name: Check paperless_ngx tika Docker container is stopped
@@ -35,7 +35,7 @@
     # 3. gotenberg
     - name: Get container state for paperless_ngx gotenberg
       docker_container:
-        name: "{{paperless_ng_container_name_gotenberg}}"
+        name: "{{ paperless_ng_container_name_gotenberg }}"
       register: result
 
     - name: Check paperless_ngx gotenberg Docker container is stopped
