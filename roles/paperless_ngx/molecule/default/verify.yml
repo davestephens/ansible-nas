@@ -5,76 +5,57 @@
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - name: Include vars
+      include_vars:
         file: ../../defaults/main.yml
 
     # 1. webserver
     - name: Get container state for paperless_ngx webserver
       docker_container:
         name: "{{ paperless_ng_container_name_uiserver }}"
-      register: result
-
-    - name: Check paperless_ngx webserver is stopped
-      assert:
-        that:
-          - result.container['State']['Status'] == "running"
-          - result.container['State']['Restarting'] == false
+      register: result_webserver
 
     # 2. tika
     - name: Get container state for paperless_ngx tika
       docker_container:
         name: "{{ paperless_ng_container_name_tika }}"
-      register: result
-
-    - name: Check paperless_ngx tika Docker container is stopped
-      assert:
-        that:
-          - result.container['State']['Status'] == "running"
-          - result.container['State']['Restarting'] == false
+      register: result_tika
 
     # 3. gotenberg
     - name: Get container state for paperless_ngx gotenberg
       docker_container:
         name: "{{ paperless_ng_container_name_gotenberg }}"
-      register: result
-
-    - name: Check paperless_ngx gotenberg Docker container is stopped
-      assert:
-        that:
-          - result.container['State']['Status'] == "running"
-          - result.container['State']['Restarting'] == false
+      register: result_gotenberg
 
     # 4. Postgres database
     - name: Get container state for paperless_ngx postgres
       docker_container:
         name: "{{ paperless_ng_container_name_postgres }}"
-      register: result
-
-    - name: Check paperless_ngx postgres Docker container is stopped
-      assert:
-        that:
-          - result.container['State']['Status'] == "running"
-          - result.container['State']['Restarting'] == false
+      register: result_postgres
 
     # 5. paperless_ngx redis broker
     - name: Get container state for paperless_ngx redis broker
       docker_container:
         name: "{{ paperless_ng_container_name_redis }}"
-      register: result
-
-    - name: Check paperless_ngx redis broker is stopped
-      assert:
-        that:
-          - result.container['State']['Status'] == "running"
-          - result.container['State']['Restarting'] == false
+      register: result_redis
 
     # 6. Docker network for paperless_ngx
     - name: Get paperless_ngx network status
       docker_network_info:
         name: "{{ paperless_ng_container_network_name }}"
-      register: result
+      register: result_network
 
-    - name: Check paperless_ngx network
+    - name: Check if all paperless_ngx containers are running and network was created webserver is stopped
       assert:
         that:
-          - result.exists == true
+          - result_webserver.container['State']['Status'] == "running"
+          - result_webserver.container['State']['Restarting'] == false
+          - result_tika.container['State']['Status'] == "running"
+          - result_tika.container['State']['Restarting'] == false
+          - result_gotenberg.container['State']['Status'] == "running"
+          - result_gotenberg.container['State']['Restarting'] == false
+          - result_postgres.container['State']['Status'] == "running"
+          - result_postgres.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result_network.exists == true
