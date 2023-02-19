@@ -1,0 +1,13 @@
+[Unit]
+Description=Mergerfs mount
+{{ 'Requires=rclone.service
+After=rclone.service' if (rclone_mount_enabled | default(false)) }}
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/mergerfs {{ ':'.join(mergerfs_branches_to_mount | mandatory) }} {{ mergerfs_mount | mandatory }} -o {{ mergerfs_options | default('allow_other,use_ino') }}
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

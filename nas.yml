@@ -234,6 +234,10 @@
         - mealie
       when: (mealie_enabled | default(False))
 
+    - role: mergerfs
+      tags:
+        - mergerfs
+
     - role: minecraft-server
       tags:
         - minecraft-server

@@ -1,0 +1,20 @@
+---
+mergerfs_enabled: false
+
+# Mounts
+mergerfs_rclone_local_mount: /mnt/local
+mergerfs_branches:
+  - /mnt/data1
+  - /mnt/data2
+mergerfs_mount: /mnt/mergerfs
+
+# Options
+mergerfs_options: rw,use_ino,allow_other,func.getattr=newest,category.action=all,category.create=ff,cache.files=auto-full
+
+# Owners
+mergerfs_service_user: ansible-nas
+mergerfs_service_group: ansible-nas
+
+# Helpers
+mergerfs_rclone_remote_mount: "{{ rclone_mount | default('/mnt/remote') }}"
+mergerfs_branches_to_mount: "{{ rclone_mount_enabled | default(false) | ternary([mergerfs_rclone_local_mount, mergerfs_rclone_remote_mount], mergerfs_branches) }}"
