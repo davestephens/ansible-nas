@@ -1,0 +1,110 @@
+---
+- name: Start Rclone
+  block:
+    - name: Create ansible-nas group
+      group:
+        name: ansible-nas
+        state: present
+
+    - name: Create ansible-nas user
+      user:
+        name: ansible-nas
+        state: present
+        system: yes
+        update_password: on_create
+        create_home: yes
+        group: ansible-nas
+        shell: /bin/bash
+      tags: molecule-idempotence-notest
+
+    - name: Create rclone config directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ rclone_service_user }}"
+        group: "{{ rclone_service_group }}"
+      with_items:
+        - "{{ rclone_config_folder }}"
+
+    - name: Create Service Account file
+      template:
+        src: gsuite.json
+        dest: "/home/{{ rclone_service_user }}/.config/rclone/gsuite.json"
+        owner: "{{ rclone_service_user }}"
+        group: "{{ rclone_service_group }}"
+
+    - name: Include Rclone role
+      include_role:
+        name: stefangweichinger.ansible_rclone
+
+    - name: Install Rclone mount service
+      block:
+        - name: Make sure fuse is installed
+          apt:
+            name: fuse
+            state: present
+          register: fuse
+          until: fuse is succeeded
+
+        - name: Create rclone mount directories
+          file:
+            path: "{{ item }}"
+            state: directory
+            owner: "{{ rclone_service_user }}"
+            group: "{{ rclone_service_group }}"
+          with_items:
+            - "{{ rclone_mount }}"
+
+        - name: Create Rclone service
+          template:
+            src: rclone.service
+            dest: "/etc/systemd/system/rclone.service"
+
+        - name: Enable allow_other option in fuse config
+          lineinfile:
+            path: "/etc/fuse.conf"
+            line: 'user_allow_other'
+            insertbefore: EOF
+
+        - name: Create rclone.log file
+          file:
+            path: /var/log/rclone.log
+            state: touch
+            owner: "{{ rclone_service_user }}"
+            group: "{{ rclone_service_group }}"
+            mode: u=rw,g=r,o=r
+          tags: molecule-idempotence-notest
+
+        - name: Force systemd to reload configs
+          systemd:
+            daemon_reload: true
+
+        - name: Enable service rclone, ensure it is not masked and start it
+          systemd:
+            name: rclone
+            enabled: true
+            masked: no
+            state: started
+          register: start_service
+          until: start_service.status.ActiveState == "active"
+          retries: 5
+          delay: 5
+      when: rclone_mount_enabled is true
+
+  when: rclone_enabled is true
+
+- name: Stop Rclone
+  block:
+    - name: Stop Rclone
+      systemd:
+        name: rclone
+        enabled: false
+        masked: true
+        state: stopped
+      register: stop_service
+      until: stop_service.status.ActiveState == "inactive"
+      retries: 5
+      delay: 5
+
+      # TODO: Add proper service removal
+  when: rclone_enabled is false and rclone_mount_enabled is false

@@ -1,0 +1,44 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: "Rclone - retrieve information"
+      stat:
+        path: "/usr/local/bin/rclone"
+      register: remote_file
+
+    - name: "Rclone - assert that file is created correctly"
+      assert:
+        that:
+          - "remote_file.stat.exists"
+          - "remote_file.stat.isreg"
+          - "remote_file.stat.mode == '0755'"
+
+    - name: "Rclone - check version"
+      command: "/usr/local/bin/rclone version"
+      changed_when: false
+      register: shell_result
+
+    - name: Show version
+      debug:
+        var: shell_result.stdout_lines
+
+    - name: Get Rclone service state
+      ansible.builtin.systemd:
+        name: rclone
+        state: started
+      register: service_result
+
+    - name: Check that Rclone service is running
+      assert:
+        that:
+          - service_result.status['ActiveState'] == "active"
+          - service_result.status['Result'] == "success"
+          - service_result.state == "started"

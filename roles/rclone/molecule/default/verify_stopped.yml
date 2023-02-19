@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Stop Rclone service state
+      systemd:
+        name: rclone
+        enabled: false
+        masked: true
+        state: stopped
+      register: stop_service
+      until: stop_service.status.ActiveState == "inactive"
+      retries: 5
+      delay: 5
+
+    - name: Check that Rclone service is stopped
+      assert:
+        that:
+          - stop_service.status['Result'] == "success"
+          - stop_service.status['ActiveState'] == "inactive"
+          - stop_service.state == "stopped"

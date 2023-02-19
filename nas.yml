@@ -363,6 +363,10 @@
         - radarr
       when: (radarr_enabled | default(False))
 
+    - role: rclone
+      tags:
+        - rclone
+
     - role: route53_ddns
       tags:
         - route53_ddns

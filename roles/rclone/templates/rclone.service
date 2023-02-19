@@ -1,0 +1,44 @@
+[Unit]
+Description=RClone Service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=notify
+Environment=RCLONE_CONFIG={{ rclone_config_location }}
+
+ExecStart=/usr/local/bin/rclone mount {{ rclone_remote_to_mount }}:{{ rclone_remote_path_to_mount }} {{ rclone_mount }} \
+--config "{{ rclone_config_location }}" \
+--drive-skip-gdocs \
+--vfs-read-chunk-size=64M \
+--vfs-read-chunk-size-limit=2048M \
+--vfs-read-ahead=2G \
+--vfs-cache-mode=full \
+--vfs-cache-max-size=100G \
+--vfs-cache-max-age=5000h \
+--vfs-cache-poll-interval=5m \
+--max-read-ahead=256M \
+--poll-interval=10s \
+--dir-cache-time=5000h \
+--timeout=10m \
+--transfers=16 \
+--checkers=8 \
+--drive-chunk-size=64M \
+--drive-impersonate={{ rclone_impersonate_user }} \
+--drive-pacer-min-sleep=10ms \
+--drive-pacer-burst=200 \
+--allow-other \
+--allow-non-empty \
+--log-level NOTICE \
+--log-file /var/log/rclone.log \
+--umask 002 \
+--user-agent ansible-nas \
+--rc
+ExecStop=/bin/fusermount -uz {{ rclone_mount }}
+Restart=on-failure
+User={{ rclone_service_user }}
+Group={{ rclone_service_group }}
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,81 @@
+---
+rclone_enabled: false
+rclone_mount_enabled: false
+rclone_cloud_upload_enabled: false
+rclone_remote_to_mount: gscrypt_sa
+rclone_remote_path_to_mount: ""
+rclone_mount: /mnt/rclone
+rclone_impersonate_user: "{{ rclone_service_user }}@{{ ansible_nas_domain }}"
+rclone_service_user: ansible-nas
+rclone_service_group: ansible-nas
+
+# overwrite the following 3 variables in your own inventory file
+rclone_config_folder: /home/{{ rclone_service_user }}/.config/rclone
+rclone_config_location: "{{ rclone_config_folder }}/rclone.conf"
+rclone_config_owner:
+  OWNER: "{{ rclone_service_user }}"
+  GROUP: "{{ rclone_service_user }}"
+
+rclone_gdrive_client_id: ""
+rclone_gdrive_client_secret: ""
+rclone_gdrive_access_token: ""
+rclone_gdrive_refresh_token: ""
+rclone_gdrive_token_expiry: ""
+rclone_gsuite_client_id: ""
+rclone_gsuite_client_secret: ""
+rclone_gsuite_access_token: ""
+rclone_gsuite_refresh_token: ""
+rclone_gsuite_token_expiry: ""
+rclone_gscrypt_remote: "gsuite:media"
+rclone_gsuite_sa_service_account_file: "/home/{{ rclone_service_user }}/.config/rclone/gsuite.json"
+rclone_gsuite_sa_root_folder: ""
+rclone_gscrypt_sa_remote: "gsuite_sa:media"
+rclone_gscrypt_sa_password: ""
+rclone_gscrypt_sa_password2: ""
+rclone_sa_project_id: ""
+rclone_sa_private_key_id: ""
+rclone_sa_private_key: ""
+rclone_sa_client_email: ""
+rclone_sa_client_id: ""
+rclone_sa_client_cert: ""
+
+rclone_configs:
+  - name: gdrive
+    properties:
+      type: drive
+      client_id: "{{ rclone_gdrive_client_id }}"
+      client_secret: "{{ rclone_gdrive_client_secret }}"
+      token: >
+        {"access_token": "{{ rclone_gdrive_access_token }}","token_type":"Bearer","refresh_token": "{{ rclone_gdrive_refresh_token }}","expiry": "{{ rclone_gdrive_token_expiry }}"}
+  - name: crypt
+    properties:
+      type: crypt
+      remote: gdrive:media
+      filename_encryption: standard
+  - name: gsuite
+    properties:
+      type: drive
+      client_id: "{{ rclone_gsuite_client_id }}"
+      client_secret: "{{ rclone_gsuite_client_secret }}"
+      scope: drive
+      token: >
+        {"access_token": "{{ rclone_gsuite_access_token }}","token_type":"Bearer","refresh_token": "{{ rclone_gsuite_refresh_token }}","expiry": "{{ rclone_gsuite_token_expiry }}"}
+  - name: gscrypt
+    properties:
+      type: crypt
+      remote: "{{ rclone_gscrypt_remote }}"
+      filename_encryption: standard
+  - name: gsuite_sa
+    properties:
+      type: drive
+      scope: drive
+      service_account_file: "{{ rclone_gsuite_sa_service_account_file }}"
+      root_folder_id: "{{ rclone_gsuite_sa_root_folder }}"
+  - name: gscrypt_sa
+    properties:
+      type: crypt
+      remote: "{{ rclone_gscrypt_sa_remote }}"
+      filename_encryption: standard
+      directory_name_encryption: true
+      password: "{{ rclone_gscrypt_sa_password }}"
+      password2: "{{ rclone_gscrypt_sa_password2 }}"
