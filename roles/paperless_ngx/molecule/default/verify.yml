@@ -1,0 +1,80 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - include_vars:
+        file: ../../defaults/main.yml
+
+    # 1. webserver
+    - name: Get container state for paperless_ngx webserver
+      docker_container:
+        name: "{{paperless_ng_container_name_uiserver}}"
+      register: result
+
+    - name: Check paperless_ngx webserver is stopped
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+
+    # 2. tika
+    - name: Get container state for paperless_ngx tika
+      docker_container:
+        name: "{{paperless_ng_container_name_tika}}"
+      register: result
+
+    - name: Check paperless_ngx tika Docker container is stopped
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+
+    # 3. gotenberg
+    - name: Get container state for paperless_ngx gotenberg
+      docker_container:
+        name: "{{paperless_ng_container_name_gotenberg}}"
+      register: result
+
+    - name: Check paperless_ngx gotenberg Docker container is stopped
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+
+    # 4. Postgres database
+    - name: Get container state for paperless_ngx postgres
+      docker_container:
+        name: "{{ paperless_ng_container_name_postgres }}"
+      register: result
+
+    - name: Check paperless_ngx postgres Docker container is stopped
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+
+    # 5. paperless_ngx redis broker
+    - name: Get container state for paperless_ngx redis broker
+      docker_container:
+        name: "{{ paperless_ng_container_name_redis }}"
+      register: result
+
+    - name: Check paperless_ngx redis broker is stopped
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+
+    # 6. Docker network for paperless_ngx
+    - name: Get paperless_ngx network status
+      docker_network_info:
+        name: "{{ paperless_ng_container_network_name }}"
+      register: result
+
+    - name: Check paperless_ngx network
+      assert:
+        that:
+          - result.exists == true
