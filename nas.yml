@@ -298,7 +298,7 @@
     - role: paperless_ngx
       tags:
         - paperless_ngx
-      when: (paperless_ngx_enabled | default(False))
+
 
     - role: piwigo
       tags:
