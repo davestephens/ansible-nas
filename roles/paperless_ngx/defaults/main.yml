@@ -2,22 +2,24 @@
 paperless_ngx_enabled: false
 paperless_ngx_available_externally: false
 # !!IMPORTANT!!
-#when **enabling** traefik set the secret key to a long random string; you don't have to remember it. 
-#If not set, default value(which is well known) will be used
-#user for example https://numbergenerator.org/randomnumbergenerator/ascii
-#or
-#https://numbergenerator.org/hex-code-generator#!numbers=1&length=128&addfilters=
-#paperless_secret_key: "very_long-string!-09skjlOJIOKSN-ofrandonm-charcters!_?"
+# when **enabling** traefik set the secret key to a long random string; you don't have to remember it.
+# If not set, default value(which is well known) will be used
+# user for example https://numbergenerator.org/randomnumbergenerator/ascii
+# or
+# https://numbergenerator.org/hex-code-generator#!numbers=1&length=128&addfilters=
+paperless_secret_key: "very_long-string!-09skjlOJIOKSN-ofrandonm-charcters!_?"
 
 # admin user: override these values to automatically create an admin user
-#This will not change an existing [super]user's password, nor will it recreate a user that already exists.
-#You can leave this throughout the lifecycle of the containers.
+# This will not change an existing [super]user's password, nor will it recreate a user that already exists.
+# You can leave this throughout the lifecycle of the containers.
 paperless_admin_user: ""
 paperless_admin_password: ""
 paperless_admin_mail: ""
 
 
 # directories
+paperless_ng_config_directory: "{{ docker_home }}/paperless_ngx"
+paperless_ng_files_directory: "{{ documents_root }}/paperless"
 paperless_ng_postgres_directory: "{{ paperless_ng_config_directory }}/postgres"
 paperless_ng_data_directory: "{{ paperless_ng_config_directory }}/data"
 paperless_ng_export_directory: "{{ paperless_ng_config_directory }}/export"
@@ -32,10 +34,6 @@ paperless_ng_hostname: "paperless"
 paperless_ng_postgres_db: "paperless"
 paperless_ng_postgres_user: "paperless"
 paperless_ng_postgres_password: "paperless"
-
-POSTGRES_DB: paperless
-POSTGRES_USER: paperless
-POSTGRES_PASSWORD: paperless
 
 # mariadb
 # mariadb is not an option yet
@@ -67,5 +65,5 @@ paperless_ng_languages: "eng"
 paperless_ng_ui_memory: 1g
 paperless_ng_postgres_memory: 1g
 paperless_ng_redis_memory: 1g
-paperless_ng_tika_memory: 1g
+paperless_ng_tika_memory: 0
 paperless_ng_gotenberg_memory: 1g
