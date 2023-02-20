@@ -1,0 +1,63 @@
+---
+- name: Start Frigate
+  block:
+    - name: Create Frigate Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ frigate_user_id }}"
+        group: "{{ frigate_group_id }}"
+      with_items:
+        - "{{ frigate_data_directory }}"
+        - "{{ frigate_data_directory }}/config"
+
+    - name: Template Frigate config.yml
+      ansible.builtin.template:
+        src: config.yml.j2
+        dest: "{{ frigate_data_directory }}/config/config.yml"
+        owner: "{{ frigate_user_id }}"
+        group: "{{ frigate_group_id }}"
+
+    - name: Create Frigate Docker Container
+      community.docker.docker_container:
+        name: "{{ frigate_container_name }}"
+        image: "{{ frigate_docker_image }}:{{ frigate_docker_image_version }}"
+        pull: true
+        tty: true
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /etc/localtime:/etc/localtime:ro
+          - "{{ frigate_data_directory }}/config:/config:ro"
+          - "{{ frigate_data_directory }}/media:/media/frigate"
+          - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+            target: /tmp/cache
+            tmpfs:
+              size: 1000000000
+        ports:
+          - "{{ frigate_port }}:5000"
+          - "{{ frigate_rtmp_port }}:1935" # RTMP feeds
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ frigate_user_id }}"
+          PGID: "{{ frigate_group_id }}"
+          FRIGATE_RTSP_PASSWORD: "{{ frigate_rtsp_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ frigate_memory }}"
+        shm_size: "340M"
+        devices: "{{ frigate_devices }}"
+        labels:
+          traefik.enable: "{{ frigate_available_externally | string }}"
+          traefik.http.routers.frigate.rule: "Host(`{{ frigate_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.frigate.tls.certresolver: "letsencrypt"
+          traefik.http.routers.frigate.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.frigate.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.frigate.loadbalancer.server.port: "5005"
+  when: frigate_enabled is true
+
+- name: Stop Frigate
+  block:
+    - name: Stop frigate
+      community.docker.docker_container:
+        name: "{{ frigate_container_name }}"
+        state: absent
+  when: frigate_enabled is false

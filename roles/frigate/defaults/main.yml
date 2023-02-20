@@ -1,0 +1,32 @@
+---
+frigate_enabled: false
+frigate_available_externally: false
+
+# directories
+frigate_data_directory: "{{ docker_home }}/frigate"
+
+# network
+frigate_port: "5000"
+frigate_rtmp_port: "1936"
+frigate_hostname: "frigate"
+
+# specs
+frigate_memory: 1g
+
+# docker
+frigate_container_name: frigate
+frigate_docker_image: blakeblackshear/frigate
+frigate_docker_image_version: stable
+frigate_user_id: "1000"
+frigate_group_id: "1000"
+
+# environment variables
+frigate_rtsp_password: "password"
+frigate_camera_username: "username"
+frigate_camera_password: "password"
+frigate_mqtt_host: "{{ ansible_nas_hostname }}"
+frigate_mqtt_port: "{{ mosquitto_port_a }}"
+frigate_devices: # add device mapping as needed
+#   - /dev/bus/usb:/dev/bus/usb
+#   - /dev/apex_0:/dev/apex_0
+#   - /dev/dri/renderD128
