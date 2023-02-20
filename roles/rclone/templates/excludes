@@ -1,0 +1,1 @@
+{{ '\n'.join(rclone_cloud_upload_excludes) }}

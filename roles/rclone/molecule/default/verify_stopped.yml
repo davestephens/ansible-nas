@@ -4,11 +4,11 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Stop Rclone service state
-      systemd:
+      ansible.builtin.systemd:
         name: rclone
         enabled: false
         masked: true
@@ -19,8 +19,43 @@
       delay: 5
 
     - name: Check that Rclone service is stopped
-      assert:
+      ansible.builtin.assert:
         that:
           - stop_service.status['Result'] == "success"
           - stop_service.status['ActiveState'] == "inactive"
           - stop_service.state == "stopped"
+
+    - name: "Cloud upload script - retrieve information"
+      ansible.builtin.stat:
+        path: "/home/{{ rclone_service_user }}/.config/rclone/cloud_upload.sh"
+      register: cloud_upload
+
+    - name: "Cloud upload script - assert that file is removed"
+      ansible.builtin.assert:
+        that:
+          - "cloud_upload.stat.exists is false"
+        success_msg: "Cloud upload script file is removed!"
+        fail_msg: "Cloud upload script file is not removed!"
+
+    - name: "Excludes file - retrieve information"
+      ansible.builtin.stat:
+        path: "/home/{{ rclone_service_user }}/.config/rclone/excludes"
+      register: excludes
+
+    - name: "Excludes file - assert that file is removed"
+      ansible.builtin.assert:
+        that:
+          - "excludes.stat.exists is false"
+        success_msg: "Excludes file is removed!"
+        fail_msg: "Excludes file is not removed!"
+
+    - name: Check cron job file
+      ansible.builtin.fetch:
+        src: /var/spool/cron/crontabs/{{ rclone_service_user }}
+        dest: /tmp/fetched
+
+    - name: Check if cron job does exist
+      ansible.builtin.assert:
+        that: "lookup('file', '/tmp/fetched/instance/var/spool/cron/crontabs/{{ rclone_service_user }}') is not search('Run cloud_upload script')"
+        fail_msg: "Cron job 'Run cloud_upload script' still exists for user {{ rclone_service_user }}!"
+        success_msg: "Cron job 'Run cloud_upload script' does not exist for user {{ rclone_service_user }}!"

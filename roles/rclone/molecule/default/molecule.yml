@@ -11,6 +11,9 @@ provisioner:
       all:
         rclone_enabled: true
         rclone_mount_enabled: true
+        mergerfs_enabled: true
+        mergerfs_rclone_local_mount: /mnt/local
+        rclone_cloud_upload_enabled: true
         rclone_config_folder: /home/ansible-nas/.config/rclone
         rclone_config_location: "{{ rclone_config_folder }}/rclone.conf"
         rclone_config_owner:

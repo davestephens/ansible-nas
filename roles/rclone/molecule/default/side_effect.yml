@@ -4,7 +4,8 @@
   become: true
   tasks:
     - name: "Include {{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }} role"
-      include_role:
+      ansible.builtin.include_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
       vars:
         rclone_enabled: false
+        rclone_cloud_upload_enabled: false

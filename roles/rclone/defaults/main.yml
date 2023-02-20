@@ -1,7 +1,6 @@
 ---
 rclone_enabled: false
 rclone_mount_enabled: false
-rclone_cloud_upload_enabled: false
 rclone_remote_to_mount: gscrypt_sa
 rclone_remote_path_to_mount: ""
 rclone_mount: /mnt/rclone
@@ -79,3 +78,15 @@ rclone_configs:
       directory_name_encryption: true
       password: "{{ rclone_gscrypt_sa_password }}"
       password2: "{{ rclone_gscrypt_sa_password2 }}"
+
+# cloud upload script
+rclone_cloud_upload_enabled: false
+rclone_cloud_upload_min_age: "3d"
+rclone_cloud_upload_cron_minute: "5"
+rclone_cloud_upload_cron_hour: "1"
+rclone_cloud_upload_cron_day: "*"
+rclone_cloud_upload_cron_month: "*"
+rclone_cloud_upload_cron_weekday: "*"
+rclone_cloud_upload_excludes:
+  - "*partial~"
+  - "torrents/**"
