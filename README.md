@@ -41,6 +41,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Flame](https://github.com/pawelmalak/flame/) - Flarum is a delightfully simple discussion platform for your website
 * [Flarum](https://flarum.org/) - Self-hosted startpage for your server
 * [Fresh RSS](https://freshrss.org/) - Self-hosted RSS feed aggregator like Leed or Kriss Feed
+* [Frigate](https://frigate.video/) - Frigate is an open source NVR built around real-time AI object detection
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
 * [GitLab](https://about.gitlab.com/features/) - Self-hosted GitHub clone of the highest order

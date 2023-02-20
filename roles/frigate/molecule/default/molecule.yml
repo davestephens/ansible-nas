@@ -1,0 +1,21 @@
+---
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp:rw
+    privileged: true
+    pre_build_image: true
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        frigate_enabled: true
+        frigate_data_directory: /tmp
+        ansible_nas_hostname: localhost
+        frigate_mqtt_host: broker.hivemq.com
+        frigate_mqtt_port: "1883"
+        frigate_camera_username: test
+        frigate_camera_password: test

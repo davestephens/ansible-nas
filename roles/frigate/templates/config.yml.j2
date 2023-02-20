@@ -1,0 +1,321 @@
+mqtt:
+  host: {{ frigate_mqtt_host }}
+    # Optional: port (default: shown below)
+  port: {{ frigate_mqtt_port }}
+  # Optional: topic prefix (default: shown below)
+  # WARNING: must be unique if you are running multiple instances
+  topic_prefix: frigate
+  # Optional: client id (default: shown below)
+  # WARNING: must be unique if you are running multiple instances
+  client_id: frigate
+  # Optional: user
+  # user: mqtt_user
+  # Optional: password
+  # NOTE: Environment variables that begin with 'FRIGATE_' may be referenced in {}.
+  #       eg. password: '{FRIGATE_MQTT_PASSWORD}'
+  # password: password
+  # Optional: interval in seconds for publishing stats (default: shown below)
+  #stats_interval: 60
+cameras:
+  main:
+    ffmpeg:
+      #hwaccel_args:
+      input_args:
+        - -avoid_negative_ts
+        - make_zero
+        - -fflags
+        - nobuffer+genpts+discardcorrupt
+        - -flags
+        - low_delay
+        - -strict
+        - experimental
+        - -analyzeduration
+        - 1000M
+        - -probesize
+        - 1000M
+        - -rw_timeout
+        - "5000000"
+      inputs:
+        - path: http://192.168.2.46/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={{ frigate_camera_username }}&password={{ frigate_camera_password }}
+          roles:
+            - record
+            #- rtmp
+        - path: http://192.168.2.46/flv?port=1935&app=bcs&stream=channel0_ext.sub&user={{ frigate_camera_username }}&password={{ frigate_camera_password }}
+          roles:
+            - detect
+    rtmp:
+      enabled: False # <-- RTMP should be disabled if your stream is not H264
+  garage:
+    ffmpeg:
+      #hwaccel_args:
+      input_args:
+        - -avoid_negative_ts
+        - make_zero
+        - -fflags
+        - nobuffer+genpts+discardcorrupt
+        - -flags
+        - low_delay
+        - -strict
+        - experimental
+        - -analyzeduration
+        - 1000M
+        - -probesize
+        - 1000M
+        - -rw_timeout
+        - "5000000"
+      inputs:
+        - path: http://192.168.2.47/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={{ frigate_camera_username }}&password={{ frigate_camera_password }}
+          roles:
+            - record
+            #- rtmp
+        - path: http://192.168.2.47/flv?port=1935&app=bcs&stream=channel0_sub.bcs&user={{ frigate_camera_username }}&password={{ frigate_camera_password }}
+          roles:
+            - detect
+    rtmp:
+      enabled: False # <-- RTMP should be disabled if your stream is not H264
+  garden:
+    ffmpeg:
+      #hwaccel_args:
+      input_args:
+        - -avoid_negative_ts
+        - make_zero
+        - -fflags
+        - nobuffer+genpts+discardcorrupt
+        - -flags
+        - low_delay
+        - -strict
+        - experimental
+        - -analyzeduration
+        - 1000M
+        - -probesize
+        - 1000M
+        - -rw_timeout
+        - "5000000"
+      inputs:
+        - path: http://192.168.2.48/flv?port=1935&app=bcs&stream=channel0_main.bcs&user={{ frigate_camera_username }}&password={{ frigate_camera_password }}
+          roles:
+            - record
+            - rtmp
+        - path: http://192.168.2.48/flv?port=1935&app=bcs&stream=channel0_sub.bcs&user={{ frigate_camera_username }}&password={{ frigate_camera_password }}
+          roles:
+            - detect
+    # clips:
+      # # Required: enables clips for the camera (default: shown below)
+      # # This value can be set via MQTT and will be updated in startup based on retained value
+      # enabled: True
+      # # Optional: Number of seconds before the event to include in the clips (default: shown below)
+      # pre_capture: 5
+      # # Optional: Number of seconds after the event to include in the clips (default: shown below)
+      # post_capture: 5
+      # # Optional: Objects to save clips for. (default: all tracked objects)
+      # objects:
+        # - person
+      # # Optional: Restrict clips to objects that entered any of the listed zones (default: no required zones)
+      # #required_zones: []
+      # # Optional: Camera override for retention settings (default: global values)
+      # retain:
+        # # Required: Default retention days (default: shown below)
+        # default: 10
+        # # Optional: Per object retention days
+        # objects:
+          # person: 15
+
+    # snapshots:
+      # # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
+      # # This value can be set via MQTT and will be updated in startup based on retained value
+      # enabled: True
+      # # Optional: print a timestamp on the snapshots (default: shown below)
+      # timestamp: False
+      # # Optional: draw bounding box on the snapshots (default: shown below)
+      # bounding_box: True
+      # # Optional: crop the snapshot (default: shown below)
+      # crop: False
+      # # Optional: height to resize the snapshot to (default: original size)
+      # height: 175
+      # # Optional: Restrict snapshots to objects that entered any of the listed zones (default: no required zones)
+      # #required_zones: []
+      # # Optional: Camera override for retention settings (default: global values)
+      # retain:
+        # # Required: Default retention days (default: shown below)
+        # default: 10
+        # # Optional: Per object retention days
+        # objects:
+          # person: 15
+
+detectors:
+  cpu1:
+    type: cpu
+
+birdseye:
+  # Optional: Enable birdseye view (default: shown below)
+  enabled: True
+  # Optional: Width of the output resolution (default: shown below)
+  width: 1280
+  # Optional: Height of the output resolution (default: shown below)
+  height: 720
+  # Optional: Encoding quality of the mpeg1 feed (default: shown below)
+  # 1 is the highest quality, and 31 is the lowest. Lower quality feeds utilize less CPU resources.
+  quality: 8
+  # Optional: Mode of the view. Available options are: objects, motion, and continuous
+  #   objects - cameras are included if they have had a tracked object within the last 30 seconds
+  #   motion - cameras are included if motion was detected in the last 30 seconds
+  #   continuous - all cameras are included always
+  mode: continuous
+
+detect:
+  # Optional: width of the frame for the input with the detect role (default: shown below)
+  width: 1280
+  # Optional: height of the frame for the input with the detect role (default: shown below)
+  height: 720
+  # Optional: desired fps for your camera for the input with the detect role (default: shown below)
+  # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
+  fps: 5
+  # Optional: enables detection for the camera (default: True)
+  # This value can be set via MQTT and will be updated in startup based on retained value
+  enabled: True
+  # Optional: Number of frames without a detection before frigate considers an object to be gone. (default: 5x the frame rate)
+  max_disappeared: 25
+  # Optional: Configuration for stationary object tracking
+  stationary:
+    # Optional: Frequency for running detection on stationary objects (default: shown below)
+    # When set to 0, object detection will never be run on stationary objects. If set to 10, it will be run on every 10th frame.
+    interval: 0
+    # Optional: Number of frames without a position change for an object to be considered stationary (default: 10x the frame rate or 10s)
+    threshold: 50
+    # Optional: Define a maximum number of frames for tracking a stationary object (default: not set, track forever)
+    # This can help with false positives for objects that should only be stationary for a limited amount of time.
+    # It can also be used to disable stationary object tracking. For example, you may want to set a value for person, but leave
+    # car at the default.
+    # WARNING: Setting these values overrides default behavior and disables stationary object tracking.
+    #          There are very few situations where you would want it disabled. It is NOT recommended to
+    #          copy these values from the example config into your config unless you know they are needed.
+    max_frames:
+      # Optional: Default for all object types (default: not set, track forever)
+      default: 3000
+      # Optional: Object specific values
+      objects:
+        person: 1000
+
+objects:
+  # Optional: list of objects to track from labelmap.txt (default: shown below)
+  track:
+    - person
+    - car
+    - cat
+    - dog
+    - bird
+
+motion:
+  # Optional: The threshold passed to cv2.threshold to determine if a pixel is different enough to be counted as motion. (default: shown below)
+  # Increasing this value will make motion detection less sensitive and decreasing it will make motion detection more sensitive.
+  # The value should be between 1 and 255.
+  threshold: 25
+  # Optional: Minimum size in pixels in the resized motion image that counts as motion (default: 30)
+  # Increasing this value will prevent smaller areas of motion from being detected. Decreasing will
+  # make motion detection more sensitive to smaller moving objects.
+  # As a rule of thumb:
+  #  - 15 - high sensitivity
+  #  - 30 - medium sensitivity
+  #  - 50 - low sensitivity
+  contour_area: 30
+  # Optional: Alpha value passed to cv2.accumulateWeighted when averaging the motion delta across multiple frames (default: shown below)
+  # Higher values mean the current frame impacts the delta a lot, and a single raindrop may register as motion.
+  # Too low and a fast moving person wont be detected as motion.
+  delta_alpha: 0.2
+  # Optional: Alpha value passed to cv2.accumulateWeighted when averaging frames to determine the background (default: shown below)
+  # Higher values mean the current frame impacts the average a lot, and a new object will be averaged into the background faster.
+  # Low values will cause things like moving shadows to be detected as motion for longer.
+  # https://www.geeksforgeeks.org/background-subtraction-in-an-image-using-concept-of-running-average/
+  frame_alpha: 0.2
+  # Optional: Height of the resized motion frame  (default: 50)
+  # This operates as an efficient blur alternative. Higher values will result in more granular motion detection at the expense
+  # of higher CPU usage. Lower values result in less CPU, but small changes may not register as motion.
+  frame_height: 50
+  #live:
+  # Optional: Set the height of the live stream. (default: 720)
+  # This must be less than or equal to the height of the detect stream. Lower resolutions
+  # reduce bandwidth required for viewing the live stream. Width is computed to match known aspect ratio.
+  #height: 720
+  # Optional: Set the encode quality of the live stream (default: shown below)
+  # 1 is the highest quality, and 31 is the lowest. Lower quality feeds utilize less CPU resources.
+  #quality: 8
+
+snapshots:
+  # # Optional: Enable writing jpg snapshot to /media/frigate/clips (default: shown below)
+  # # This value can be set via MQTT and will be updated in startup based on retained value
+  enabled: True
+  # # Optional: print a timestamp on the snapshots (default: shown below)
+  # timestamp: False
+  # # Optional: draw bounding box on the snapshots (default: shown below)
+  # bounding_box: True
+  # # Optional: crop the snapshot (default: shown below)
+  # crop: False
+  # # Optional: height to resize the snapshot to (default: original size)
+  # height: 175
+  # # Optional: Restrict snapshots to objects that entered any of the listed zones (default: no required zones)
+  # #required_zones: []
+  # # Optional: Camera override for retention settings (default: global values)
+  retain:
+    # # Required: Default retention days (default: shown below)
+    default: 10
+    # # Optional: Per object retention days
+    objects:
+      person: 15
+record:
+  # Optional: Enable recording (default: shown below)
+  # WARNING: If recording is disabled in the config, turning it on via
+  #          the UI or MQTT later will have no effect.
+  # WARNING: Frigate does not currently support limiting recordings based
+  #          on available disk space automatically. If using recordings,
+  #          you must specify retention settings for a number of days that
+  #          will fit within the available disk space of your drive or Frigate
+  #          will crash.
+  enabled: True
+  # Optional: Number of minutes to wait between cleanup runs (default: shown below)
+  # This can be used to reduce the frequency of deleting recording segments from disk if you want to minimize i/o
+  expire_interval: 60
+  # Optional: Retention settings for recording
+  retain:
+    # Optional: Number of days to retain recordings regardless of events (default: shown below)
+    # NOTE: This should be set to 0 and retention should be defined in events section below
+    #       if you only want to retain recordings of events.
+    days: 7
+    # Optional: Mode for retention. Available options are: all, motion, and active_objects
+    #   all - save all recording segments regardless of activity
+    #   motion - save all recordings segments with any detected motion
+    #   active_objects - save all recording segments with active/moving objects
+    # NOTE: this mode only applies when the days setting above is greater than 0
+    mode: all
+  # Optional: Event recording settings
+  events:
+    # Optional: Number of seconds before the event to include (default: shown below)
+    pre_capture: 5
+    # Optional: Number of seconds after the event to include (default: shown below)
+    post_capture: 5
+    # Optional: Objects to save recordings for. (default: all tracked objects)
+    objects:
+      - person
+      - car
+      - cat
+      - dog
+    # Optional: Restrict recordings to objects that entered any of the listed zones (default: no required zones)
+    required_zones: []
+    # Optional: Retention settings for recordings of events
+    retain:
+      # Required: Default retention days (default: shown below)
+      default: 10
+      # Optional: Mode for retention. (default: shown below)
+      #   all - save all recording segments for events regardless of activity
+      #   motion - save all recordings segments for events with any detected motion
+      #   active_objects - save all recording segments for event with active/moving objects
+      #
+      # NOTE: If the retain mode for the camera is more restrictive than the mode configured
+      #       here, the segments will already be gone by the time this mode is applied.
+      #       For example, if the camera retain mode is "motion", the segments without motion are
+      #       never stored, so setting the mode to "all" here won't bring them back.
+      mode: motion
+      # Optional: Per object retention days
+      objects:
+        person: 15
+
+
