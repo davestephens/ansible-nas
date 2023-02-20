@@ -1,0 +1,35 @@
+---
+# This is a Hello World playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove flarum Database
+      community.docker.docker_container:
+        name: "{{ flarum_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove flarum msmtpd
+      community.docker.docker_container:
+        name: "{{ flarum_msmtpd_container_name }}"
+        state: absent
+      register: result_msmtpd
+
+    - name: Try and stop and remove flarum
+      community.docker.docker_container:
+        name: "{{ flarum_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if flarum is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result_msmtpd.changed
+          - not result.changed

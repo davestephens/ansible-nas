@@ -1,0 +1,54 @@
+---
+flarum_enabled: false
+flarum_plugins_enabled: false
+flarum_available_externally: false
+
+# directories
+flarum_data_directory: "{{ docker_home }}/flarum"
+
+# network
+flarum_port: "8001"
+flarum_hostname: "flarum"
+
+# specs
+flarum_memory: 1g
+
+# docker
+flarum_container_name: flarum
+flarum_db_container_name: flarum-db
+flarum_msmtpd_container_name: flarum-msmtpd
+flarum_network_name: flarum
+flarum_user_id: "1000"
+flarum_group_id: "1000"
+
+# environment variables
+flarum_db_allow_empty_password: "yes"
+flarum_memory_limit: "256M" # PHP memory limit (default 256M)
+flarum_max_upload_size: "16M" # Upload max size (default 16M)
+flarum_clear_env: "yes" # Clear environment in FPM workers (default yes)
+flarum_php_opcache: "128" # PHP OpCache memory consumption (default 128)
+flarum_enable_ipv6: "true" # Enable IPv6 for Nginx (default true)
+flarum_real_ip_from: "0.0.0.0/32" # Trusted addresses that are known to send correct replacement addresses (default 0.0.0.0/32)
+flarum_real_ip_header: "X-Forwarded-For" # Request header field whose value will be used to replace the client address (default X-Forwarded-For)
+flarum_log_ip_var: "remote_addr" # Use another variable to retrieve the remote IP address for access log_format on Nginx. (default remote_addr)
+flarum_debug: "false" # Enables or disables debug mode, used to troubleshoot issues (default false)
+flarum_base_url: "https://flarum.{{ ansible_nas_domain }}/" # The URL to your Flarum installation required
+flarum_forum_title: "Flarum Dockerized" # Flarum forum title, only used during first installation (default Flarum Dockerized)
+flarum_api_path: "api" # Flarum api path (default api)
+flarum_admin_path: "admin" # Flarum admin path (default admin)
+flarum_db_host: "{{ flarum_db_container_name }}" # MySQL database hostname / IP address required
+flarum_db_port: "3306" # MySQL database port (default 3306)
+flarum_db_name: "flarum" # MySQL database name (default flarum)
+flarum_db_user: "flarum" # MySQL user (default flarum)
+flarum_db_password: "password" # MySQL password
+flarum_db_prefix: "flarum_" # MySQL database prefix (default flarum_)
+flarum_db_timeout: "60" # Time in seconds after which we stop trying to reach the MySQL server (useful for clusters, default 60)
+flarum_smtp_host: "smtp.gmail.com"
+flarum_smtp_port: "587"
+flarum_smtp_tls: "on"
+flarum_smtp_starttls: "on"
+flarum_smtp_tls_checkcert: "on"
+flarum_smtp_auth: "on"
+flarum_smtp_user: "foo"
+flarum_smtp_password: "bar"
+flarum_smtp_from: "flarum@{{ ansible_nas_domain }}"

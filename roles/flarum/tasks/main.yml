@@ -1,0 +1,177 @@
+---
+- name: Start Flarum
+  block:
+    - name: Create Flarum Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ flarum_user_id }}"
+        group: "{{ flarum_group_id }}"
+        mode: 0755
+      with_items:
+        - "{{ flarum_data_directory }}"
+
+    - name: Create Flarum Network
+      community.docker.docker_network:
+        name: "{{ flarum_network_name }}"
+
+    - name: Create Flarum Database Container
+      community.docker.docker_container:
+        name: "{{ flarum_db_container_name }}"
+        image: mariadb:10.5
+        pull: true
+        networks:
+          - name: "{{ flarum_network_name }}"
+        volumes:
+          - "{{ flarum_data_directory }}/db:/var/lib/mysql:rw"
+        command:
+          - "mysqld"
+          - "--character-set-server=utf8mb4"
+          - "--collation-server=utf8mb4_unicode_ci"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          MYSQL_ALLOW_EMPTY_PASSWORD: "{{ flarum_db_allow_empty_password }}"
+          MYSQL_DATABASE: "{{ flarum_db_name }}"
+          MYSQL_USER: "{{ flarum_db_user }}"
+          MYSQL_PASSWORD: "{{ flarum_db_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ flarum_memory }}"
+
+    - name: Create Flarum Msmtpd Container
+      community.docker.docker_container:
+        name: "{{ flarum_msmtpd_container_name }}"
+        image: crazymax/msmtpd:latest
+        pull: true
+        networks:
+          - name: "{{ flarum_network_name }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          SMTP_HOST: "{{ flarum_smtp_host }}"
+          SMTP_PORT: "{{ flarum_smtp_port }}"
+          SMTP_TLS: "{{ flarum_smtp_tls }}"
+          SMTP_STARTTLS: "{{ flarum_smtp_starttls }}"
+          SMTP_TLS_CHECKCERT: "{{ flarum_smtp_tls_checkcert }}"
+          SMTP_AUTH: "{{ flarum_smtp_auth }}"
+          SMTP_USER: "{{ flarum_smtp_user }}"
+          SMTP_PASSWORD: "{{ flarum_smtp_password }}"
+          SMTP_FROM: "{{ flarum_smtp_from }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ flarum_memory }}"
+
+    - name: Create Flarum Docker Container
+      community.docker.docker_container:
+        name: "{{ flarum_container_name }}"
+        image: crazymax/flarum:latest
+        pull: true
+        tty: true
+        volumes:
+          - "{{ flarum_data_directory }}:/data:rw"
+          - "/etc/timezone:/etc/timezone:ro"
+        ports:
+          - "{{ flarum_port }}:8000"
+        networks:
+          - name: "{{ flarum_network_name }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ flarum_user_id }}"
+          PGID: "{{ flarum_group_id }}"
+          MEMORY_LIMIT: "{{ flarum_memory_limit }}" # PHP memory limit (default 256M)
+          UPLOAD_MAX_SIZE: "{{ flarum_max_upload_size }}" # Upload max size (default 16M)
+          CLEAR_ENV: "{{ flarum_clear_env }}" # Clear environment in FPM workers (default yes)
+          OPCACHE_MEM_SIZE: "{{ flarum_php_opcache }}" # PHP OpCache memory consumption (default 128)
+          LISTEN_IPV6: "{{ flarum_enable_ipv6 }}" # Enable IPv6 for Nginx (default true)
+          REAL_IP_FROM: "{{ flarum_real_ip_from }}" # Trusted addresses that are known to send correct replacement addresses (default 0.0.0.0/32)
+          REAL_IP_HEADER: "{{ flarum_real_ip_header }}" # Request header field whose value will be used to replace the client address (default X-Forwarded-For)
+          LOG_IP_VAR: "{{ flarum_log_ip_var }}" # Use another variable to retrieve the remote IP address for access log_format on Nginx. (default remote_addr)
+          FLARUM_DEBUG: "{{ flarum_debug | string }}" # Enables or disables debug mode, used to troubleshoot issues (default false)
+          FLARUM_BASE_URL: "{{ flarum_base_url }}" # The URL to your Flarum installation required
+          FLARUM_FORUM_TITLE: "{{ flarum_forum_title }}" # Flarum forum title, only used during first installation (default Flarum Dockerized)
+          FLARUM_API_PATH: "{{ flarum_api_path }}" # Flarum api path (default api)
+          FLARUM_ADMIN_PATH: "{{ flarum_admin_path }}" # Flarum admin path (default admin)
+          DB_HOST: "{{ flarum_db_host }}" # MySQL database hostname / IP address required
+          DB_PORT: "{{ flarum_db_port }}" # MySQL database port (default 3306)
+          DB_NAME: "{{ flarum_db_name }}" # MySQL database name (default flarum)
+          DB_USER: "{{ flarum_db_user }}" # MySQL user (default flarum)
+          DB_PASSWORD: "{{ flarum_db_password }}" # MySQL password
+          DB_PREFIX: "{{ flarum_db_prefix }}" # MySQL database prefix (default flarum_)
+          DB_TIMEOUT: "{{ flarum_db_timeout }}" # Time in seconds after which we stop trying to reach the MySQL server (useful for clusters, default 60)
+        restart_policy: unless-stopped
+        memory: "{{ flarum_memory }}"
+        labels:
+          traefik.enable: "{{ flarum_available_externally | string }}"
+          traefik.http.routers.flarum.rule: "Host(`{{ flarum_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.flarum.tls.certresolver: "letsencrypt"
+          traefik.http.routers.flarum.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.flarum.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.flarum.loadbalancer.server.port: "8000"
+
+    - name: Add Flarum Plugins
+      block:
+        - name: Add PL language pack
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require rob006/flarum-lang-polish
+          changed_when: false
+
+        - name: Add fof/formatting
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require fof/formatting
+          changed_when: false
+
+        - name: Add fof/links
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require fof/links
+          changed_when: false
+
+        - name: Add fof/polls
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require fof/polls
+          changed_when: false
+
+        - name: Add fof/byobu
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require "fof/byobu:*"
+          changed_when: false
+
+        - name: Add fof/merge discussions
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require fof/merge-discussions
+          changed_when: false
+
+        - name: Add fof/follow-tags
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require fof/follow-tags
+          changed_when: false
+
+        - name: Add fof/reactions
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require fof/reactions
+          changed_when: false
+
+        - name: Add fof/split
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require "fof/split:*"
+          changed_when: false
+
+        - name: Add synopsis
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require ianm/synopsis
+          changed_when: false
+
+        - name: Add fof/subscribed
+          ansible.builtin.command: docker exec {{ flarum_container_name }} extension require "fof/subscribed:*"
+          changed_when: false
+      when: flarum_plugins_enabled is true
+
+  when: flarum_enabled is true
+
+- name: Stop flarum
+  block:
+    - name: Stop Flarum Database
+      community.docker.docker_container:
+        name: "{{ flarum_db_container_name }}"
+        state: absent
+
+    - name: Stop Flarum msmtpd
+      community.docker.docker_container:
+        name: "{{ flarum_msmtpd_container_name }}"
+        state: absent
+
+    - name: Stop Flarum
+      community.docker.docker_container:
+        name: "{{ flarum_container_name }}"
+        state: absent
+  when: flarum_enabled is false

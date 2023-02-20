@@ -133,6 +133,10 @@
       tags:
         - flame
 
+    - role: flarum
+      tags:
+        - flarum
+
     - role: freshrss
       tags:
         - freshrss

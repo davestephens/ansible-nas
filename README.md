@@ -38,7 +38,8 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Emby](https://emby.media/) - Media streaming and management
 * [ESPHome](https://esphome.io/) - ESP8266/ESP32 programming and management for home automation
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
-* [Flame](https://github.com/pawelmalak/flame/) - Self-hosted startpage for your server
+* [Flame](https://github.com/pawelmalak/flame/) - Flarum is a delightfully simple discussion platform for your website
+* [Flarum](https://flarum.org/) - Self-hosted startpage for your server
 * [Fresh RSS](https://freshrss.org/) - Self-hosted RSS feed aggregator like Leed or Kriss Feed
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
