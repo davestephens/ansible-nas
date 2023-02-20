@@ -60,6 +60,8 @@
           - "--chromium-disable-javascript=true"
           - "--chromium-allow-list=file:///tmp/.*"
         memory: "{{ paperless_ng_gotenberg_memory }}"
+        networks:
+          - name: "{{ paperless_ng_container_network_name }}"
 
     # 5. tika
     - name: Create paperless_ngx tika Docker Container
@@ -69,6 +71,8 @@
         restart_policy: unless-stopped
         container_default_behavior: compatibility
         memory: "{{ paperless_ng_tika_memory }}"
+        networks:
+          - name: "{{ paperless_ng_container_network_name }}"
 
     # 6. webserver
     - name: Create paperless_ngx UI Docker Container
