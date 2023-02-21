@@ -178,6 +178,10 @@
         - gotify
       when: (gotify_enabled | default(False))
 
+    - role: graylog
+      tags:
+        - graylog
+
     - role: grocy
       tags:
         - grocy

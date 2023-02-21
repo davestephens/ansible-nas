@@ -1,0 +1,56 @@
+---
+graylog_enabled: false
+graylog_available_externally: false
+
+# directories
+graylog_data_directory: "{{ docker_home }}/graylog"
+
+# network
+graylog_web_port: "9003"
+graylog_syslog_tcp_port: "1514"
+graylog_syslog_udp_port: "1514"
+graylog_gelf_tcp_port: "12201"
+graylog_gelf_udp_port: "12201"
+graylog_hostname: "graylog"
+
+# specs
+graylog_memory: 1g
+
+# docker
+graylog_container_name: graylog
+graylog_mongodb_container_name: graylog-mongodb
+graylog_elasticsearch_container_name: graylog-elastic
+graylog_network_name: graylog
+graylog_image_name: "graylog/graylog"
+graylog_image_version: "5.0"
+graylog_mongodb_image_name: mongo
+graylog_mongodb_image_version: "5.0.13"
+graylog_elasticsearch_image_name: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+graylog_elasticsearch_image_version: "7.10.2"
+
+# environment variables
+graylog_ports:
+  # Graylog web interface and REST API
+  - "{{ graylog_web_port }}:9000"
+  # Syslog TCP
+  - "{{ graylog_syslog_tcp_port }}:1514/tcp"
+  # Syslog UDP
+  - "{{ graylog_syslog_udp_port }}:1514/udp"
+  # GELF TCP
+  - "{{ graylog_gelf_tcp_port }}:12201/tcp"
+  # GELF UDP
+  - "{{ graylog_gelf_udp_port }}:12201/udp"
+graylog_password_secret: "super_secret_password"
+graylog_root_password_sha2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+graylog_http_external_uri: "https://{{ graylog_hostname }}.{{ ansible_nas_domain }}/"
+graylog_http_publish_uri: "{{ graylog_http_external_uri }}"
+graylog_email_enabled: "false"
+graylog_email_hostname: "smtp"
+graylog_email_port: "25"
+graylog_email_use_auth: "false"
+graylog_email_use_tls: "false"
+graylog_email_use_ssl: "false"
+graylog_email_auth_username: ""
+graylog_email_auth_password: ""
+graylog_email_subject_prefix: "[graylog]"
+graylog_email_from_email: "graylog@{{ ansible_nas_domain }}"

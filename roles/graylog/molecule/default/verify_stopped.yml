@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove graylog mongodb
+      community.docker.docker_container:
+        name: "{{ graylog_mongodb_container_name }}"
+        state: absent
+      register: result_mongodb
+
+    - name: Try and stop and remove graylog elasticsearch
+      community.docker.docker_container:
+        name: "{{ graylog_elasticsearch_container_name }}"
+        state: absent
+      register: result_elastic
+
+    - name: Try and stop and remove graylog
+      community.docker.docker_container:
+        name: "{{ graylog_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if graylog is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_mongodb.changed
+          - not result_elastic.changed
+          - not result.changed

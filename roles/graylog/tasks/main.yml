@@ -1,0 +1,135 @@
+---
+- name: Start Graylog
+  block:
+    - name: Create Graylog Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "1100"
+        group: "1100"
+        mode: 0750
+      with_items:
+        - "{{ graylog_data_directory }}/data"
+        - "{{ graylog_data_directory }}/plugins"
+        - "{{ graylog_data_directory }}/journal"
+
+    - name: Create Elasticsearch Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "1000"
+        group: "1000"
+        mode: 0750
+      with_items:
+        - "{{ graylog_data_directory }}/elastic"
+
+    - name: Create Mongodb Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "999"
+        group: "1099900"
+        mode: 0750
+      with_items:
+        - "{{ graylog_data_directory }}/db"
+
+    - name: Create graylog Network
+      community.docker.docker_network:
+        name: "{{ graylog_network_name }}"
+
+    - name: Create MongoDB container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ graylog_mongodb_container_name }}"
+        image: "{{ graylog_mongodb_image_name }}:{{ graylog_mongodb_image_version }}"
+        networks:
+          - name: "{{ graylog_network_name }}"
+        pull: true
+        volumes:
+          - "{{ graylog_data_directory }}/db:/data/db:rw"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+
+    - name: Create Elasticsearch container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ graylog_elasticsearch_container_name }}"
+        image: "{{ graylog_elasticsearch_image_name }}:{{ graylog_elasticsearch_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ graylog_network_name }}"
+        volumes:
+          - "{{ graylog_data_directory }}/elastic:/usr/share/elasticsearch/data:rw"
+        env:
+          http.host: "0.0.0.0"
+          transport.host: "localhost"
+          network.host: "0.0.0.0"
+          ES_JAVA_OPTS: "-Dlog4j2.formatMsgNoLookups=true -Xms512m -Xmx512m"
+        restart_policy: unless-stopped
+        memory: 1g
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Graylog Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ graylog_container_name }}"
+        image: "{{ graylog_image_name }}:{{ graylog_image_version }}"
+        pull: true
+        volumes:
+          - graylog_data:/usr/share/graylog/data:rw
+          - graylog_journal:/usr/share/graylog/data/journal
+        ports: "{{ graylog_ports }}"
+        networks:
+          - name: "{{ graylog_network_name }}"
+        env:
+          GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
+          # Password: admin
+          GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_root_password_sha2 }}"
+          GRAYLOG_HTTP_EXTERNAL_URI: "{{ graylog_http_external_uri }}"
+          GRAYLOG_HTTP_PUBLISH_URI: "{{ graylog_http_publish_uri }}"
+          GRAYLOG_ELASTICSEARCH_HOSTS: "http://{{ graylog_elasticsearch_container_name }}:9200"
+          GRAYLOG_MONGODB_URI: "mongodb://{{ graylog_mongodb_container_name }}:27017/graylog"
+          GRAYLOG_TRANSPORT_EMAIL_ENABLED: "{{ graylog_email_enabled }}"
+          GRAYLOG_TRANSPORT_EMAIL_HOSTNAME: "{{ graylog_email_hostname }}"
+          GRAYLOG_TRANSPORT_EMAIL_PORT: "{{ graylog_email_port }}"
+          GRAYLOG_TRANSPORT_EMAIL_USE_AUTH: "{{ graylog_email_use_auth }}"
+          GRAYLOG_TRANSPORT_EMAIL_USE_TLS: "{{ graylog_email_use_tls }}"
+          GRAYLOG_TRANSPORT_EMAIL_USE_SSL: "{{ graylog_email_use_ssl }}"
+          GRAYLOG_TRANSPORT_EMAIL_AUTH_USERNAME: "{{ graylog_email_auth_username }}"
+          GRAYLOG_TRANSPORT_EMAIL_AUTH_PASSWORD: "{{ graylog_email_auth_password }}"
+          GRAYLOG_TRANSPORT_EMAIL_SUBJECT_PREFIX: "{{ graylog_email_subject_prefix }}"
+          GRAYLOG_TRANSPORT_EMAIL_FROM_EMAIL: "{{ graylog_email_from_email }}"
+          GRAYLOG_ROOT_TIMEZONE: "{{ ansible_nas_timezone }}"
+          TZ: "{{ ansible_nas_timezone }}"
+        entrypoint: ["/usr/bin/tini", "--", "wait-for-it", "{{ graylog_elasticsearch_container_name }}:9200", "--", "/docker-entrypoint.sh"]
+        # entrypoint: "/usr/bin/tini -- wait-for-it {{ graylog_elasticsearch_container_name }}:9200 --  /docker-entrypoint.sh"
+        restart_policy: unless-stopped
+        memory: "{{ graylog_memory }}"
+        labels:
+          traefik.enable: "{{ graylog_available_externally | string }}"
+          traefik.http.routers.graylog.rule: "Host(`{{ graylog_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.graylog.tls.certresolver: "letsencrypt"
+          traefik.http.routers.graylog.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.graylog.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.graylog.loadbalancer.server.port: "2368"
+  when: graylog_enabled is true
+
+- name: Stop Graylog
+  block:
+    - name: Stop Graylog Mongodb
+      community.docker.docker_container:
+        name: "{{ graylog_mongodb_container_name }}"
+        state: absent
+
+    - name: Stop Graylog Elastic Search
+      community.docker.docker_container:
+        name: "{{ graylog_elasticsearch_container_name }}"
+        state: absent
+
+    - name: Stop Graylog
+      community.docker.docker_container:
+        name: "{{ graylog_container_name }}"
+        state: absent
+  when: graylog_enabled is false
