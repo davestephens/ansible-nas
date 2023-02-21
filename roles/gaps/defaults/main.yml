@@ -1,0 +1,18 @@
+---
+gaps_enabled: false
+gaps_available_externally: false
+
+# directories
+gaps_data_directory: "{{ docker_home }}/gaps"
+
+# network
+gaps_port: "8484"
+gaps_hostname: "gaps"
+
+# specs
+gaps_memory: 1g
+
+# docker
+gaps_container_name: gaps
+gaps_user_id: "1000"
+gaps_group_id: "1000"

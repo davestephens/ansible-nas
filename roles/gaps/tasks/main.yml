@@ -1,0 +1,42 @@
+---
+- name: Start Gaps
+  block:
+    - name: Create Gaps Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ gaps_data_directory }}"
+
+    - name: Create Gaps Docker Container
+      community.docker.docker_container:
+        name: "{{ gaps_container_name }}"
+        image: housewrecker/gaps:latest
+        pull: true
+        tty: true
+        volumes:
+          - "{{ gaps_data_directory }}:/usr/data:rw"
+        ports:
+          - "{{ gaps_port }}:8484"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ gaps_user_id }}"
+          PGID: "{{ gaps_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ gaps_memory }}"
+        labels:
+          traefik.enable: "{{ gaps_available_externally | string }}"
+          traefik.http.routers.gaps.rule: "Host(`{{ gaps_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.gaps.tls.certresolver: "letsencrypt"
+          traefik.http.routers.gaps.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.gaps.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.gaps.loadbalancer.server.port: "8484"
+  when: gaps_enabled is true
+
+- name: Stop Gaps
+  block:
+    - name: Stop Gaps
+      community.docker.docker_container:
+        name: "{{ gaps_container_name }}"
+        state: absent
+  when: gaps_enabled is false

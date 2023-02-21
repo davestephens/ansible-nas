@@ -146,6 +146,10 @@
       tags:
         - frigate
 
+    - role: gaps
+      tags:
+        - gaps
+
     - role: get_iplayer
       tags:
         - get_iplayer
