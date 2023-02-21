@@ -6,7 +6,7 @@ authentik_available_externally: false
 authentik_data_directory: "{{ docker_home }}/authentik"
 
 # network
-authentik_http_port: "9000"
+authentik_http_port: "9001"
 authentik_https_port: "9443"
 authentik_hostname: "authentik"
 authentik_network_name: "authentik"

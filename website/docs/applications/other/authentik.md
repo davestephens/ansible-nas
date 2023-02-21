@@ -12,9 +12,9 @@ Set `authentik_enabled: true` in your `inventories/<your_inventory>/nas.yml` fil
 
 Set all `authentik_*` variables in `inventories/<your_inventory>/group_vars/all.yml`.
 
-The Authentik web interface can be found at <http://ansible_nas_host_or_ip:9000>.
+The Authentik web interface can be found at <http://ansible_nas_host_or_ip:9001>.
 
-To start the initial setup, navigate to <http://ansible_nas_host_or_ip:9000/if/flow/initial-setup/>. There you will be prompted to set a password for the akadmin user.
+To start the initial setup, navigate to <http://ansible_nas_host_or_ip:9001/if/flow/initial-setup/>. There you will be prompted to set a password for the akadmin user.
 
 ## Specific Configuration
 
