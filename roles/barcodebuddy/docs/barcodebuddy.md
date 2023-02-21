@@ -10,4 +10,4 @@ Set `barcodebuddy_enabled: true` in your `inventories/<your_inventory>/nas.yml` 
 
 Set all `barcodebuddy_*` variables in `inventories/<your_inventory>/group_vars/all.yml`.
 
-The barcodebuddy web interface can be found at <http://ansible_nas_host_or_ip:5005>.
+The barcodebuddy web interface can be found at <http://ansible_nas_host_or_ip:9284>.
