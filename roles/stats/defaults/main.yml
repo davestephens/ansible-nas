@@ -25,7 +25,7 @@ stats_prometheus_smartctl_port: "9902"
 stats_speedtest_exporter_port: "9798"
 stats_prometheus_hostname: "prometheus"
 stats_influxdb_hostname: "influxdb"
-stats_grafana_port: "3000"
+stats_grafana_port: "3003"
 stats_grafana_hostname: "grafana"
 
 # specs
