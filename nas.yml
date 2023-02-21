@@ -215,6 +215,10 @@
         - homebridge
       when: (homebridge_enabled | default(False))
 
+    - role: huginn
+      tags:
+        - huginn
+
     - role: immich
       tags:
         - immich

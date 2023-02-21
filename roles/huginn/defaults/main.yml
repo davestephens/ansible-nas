@@ -1,0 +1,33 @@
+---
+huginn_enabled: false
+huginn_available_externally: false
+
+# directories
+huginn_data_directory: "{{ docker_home }}/huginn"
+
+# network
+huginn_port: "3004"
+huginn_hostname: huginn
+huginn_network_name: huginn
+
+# specs
+huginn_memory: 1g
+huginn_db_memory: 1g
+
+# docker
+huginn_container_name: huginn
+huginn_db_container_name: huginn-db
+huginn_image_name: "huginn/huginn"
+huginn_image_version: latest
+huginn_db_image_name: "mysql"
+huginn_db_image_version: "5.7"
+huginn_user_id: "1000"
+huginn_group_id: "1000"
+huginn_app_secret_token: "3bd139f9186b31a85336bb89cd1a1337078921134b2f48e022fd09c234d764d3e19b018b2ab789c6e0e04a1ac9e3365116368049660234c2038dc9990513d49c"
+huginn_db_adapter: "mysql2"
+huginn_db_addr: "{{ huginn_db_container_name }}"
+huginn_db_port: "3306"
+huginn_db_root_password: "supersecure"
+huginn_db_password: "supersecure"
+huginn_db_username: "root"
+huginn_db_name: "huginn"

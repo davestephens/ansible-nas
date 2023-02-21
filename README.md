@@ -57,6 +57,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API
+* [Huginn](https://github.com/huginn/huginn) - Create agents that monitor and act on your behalf. Your agents are standing by!
 * [Immich](https://immich.app/) - Self-hosted photo and video backup solution directly from your mobile phone.
 * [Influxdb](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers

@@ -1,0 +1,87 @@
+---
+- name: Start Huginn
+  block:
+    - name: Create Huginn Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ huginn_data_directory }}"
+
+    - name: Create Huginn Network
+      community.docker.docker_network:
+        name: "{{ huginn_network_name }}"
+
+    - name: Create Huginn Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huginn_db_container_name }}"
+        image: "{{ huginn_db_image_name }}:{{ huginn_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ huginn_network_name }}"
+        volumes:
+          - "{{ huginn_data_directory }}/db:/var/lib/mysql:rw"
+        env:
+          MYSQL_PORT_3306_TCP_ADDR: "{{ huginn_db_addr }}"
+          MYSQL_PORT_3306_TCP_PORT: "{{ huginn_db_port }}"
+          MYSQL_ROOT_PASSWORD: "{{ huginn_db_root_password }}"
+          HUGINN_DATABASE_PASSWORD: "{{ huginn_db_password }}"
+          HUGINN_DATABASE_USERNAME: "{{ huginn_db_username }}"
+          HUGINN_DATABASE_NAME: "{{ huginn_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ huginn_db_memory }}"
+
+    - name: Pause for 30 seconds to wait for DB to get up
+      ansible.builtin.pause:
+        seconds: 30
+
+    - name: Create Huginn Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huginn_container_name }}"
+        image: "{{ huginn_image_name }}:{{ huginn_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ huginn_network_name }}"
+        volumes:
+          - "{{ huginn_data_directory }}:/config:rw"
+        ports:
+          - "{{ huginn_port }}:3000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ huginn_user_id }}"
+          PGID: "{{ huginn_group_id }}"
+          MYSQL_PORT_3306_TCP_ADDR: "{{ huginn_db_addr }}"
+          MYSQL_PORT_3306_TCP_PORT: "{{ huginn_db_port }}"
+          MYSQL_ROOT_PASSWORD: "{{ huginn_db_root_password }}"
+          HUGINN_DATABASE_PASSWORD: "{{ huginn_db_password }}"
+          HUGINN_DATABASE_USERNAME: "{{ huginn_db_username }}"
+          HUGINN_DATABASE_NAME: "{{ huginn_db_name }}"
+          HUIGNN_DATABASE_ADAPTER: "{{ huginn_db_adapter }}"
+          APP_SECRET_TOKEN: "{{ huginn_app_secret_token }}"
+        restart_policy: unless-stopped
+        memory: "{{ huginn_memory }}"
+        labels:
+          traefik.enable: "{{ huginn_available_externally | string }}"
+          traefik.http.routers.huginn.rule: "Host(`{{ huginn_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.huginn.tls.certresolver: "letsencrypt"
+          traefik.http.routers.huginn.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.huginn.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.huginn.loadbalancer.server.port: "2368"
+  when: huginn_enabled is true
+
+- name: Stop Huginn
+  block:
+    - name: Stop Huginn DB
+      community.docker.docker_container:
+        name: "{{ huginn_db_container_name }}"
+        state: absent
+
+    - name: Stop Huginn
+      community.docker.docker_container:
+        name: "{{ huginn_container_name }}"
+        state: absent
+  when: huginn_enabled is false
