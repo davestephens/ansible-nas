@@ -207,11 +207,11 @@
           IMMICH_WEB_URL: "http://{{ immich_web_container_name }}:3000"
         labels:
           traefik.enable: "{{ immich_available_externally | string }}"
-          traefik.http.routers.hello_world.rule: "Host(`{{ immich_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.hello_world.tls.certresolver: "letsencrypt"
-          traefik.http.routers.hello_world.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.hello_world.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.hello_world.loadbalancer.server.port: "8080"
+          traefik.http.routers.immich.rule: "Host(`{{ immich_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.immich.tls.certresolver: "letsencrypt"
+          traefik.http.routers.immich.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.immich.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.immich.loadbalancer.server.port: "8080"
         restart_policy: unless-stopped
         memory: "{{ immich_proxy_memory }}"
   when: immich_enabled is true
