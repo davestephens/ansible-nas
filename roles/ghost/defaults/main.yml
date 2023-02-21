@@ -1,0 +1,41 @@
+---
+ghost_enabled: false
+ghost_available_externally: false
+
+# directories
+ghost_data_directory: "{{ docker_home }}/ghost"
+
+# network
+ghost_port: "2368"
+ghost_hostname: "ghost"
+
+# specs
+ghost_memory: 1g
+ghost_db_memory: 1g
+
+# docker
+ghost_container_name: ghost
+ghost_db_container_name: ghost-db
+ghost_network_name: ghost
+ghost_image_name: ghost
+ghost_image_version: latest
+
+# environment variables
+ghost_db_client: "mysql"
+ghost_db_host: "{{ ghost_db_container_name }}"
+ghost_db_user: "root"
+ghost_db_password: "password"
+ghost_db_database: "ghost"
+ghost_mail_from: "'Ghost Publishing' <ghost@example.com>"
+ghost_mail_transport: "SMTP"
+ghost_mail_options_service: "Mailgun"
+ghost_mail_options_host: "smtp.eu.mailgun.org"
+ghost_mail_options_port: "587"
+ghost_mail_options_secure: "false"
+ghost_mail_options_auth: ""
+ghost_mail_options_pass: ""
+ghost_url: "https://{{ ghost_hostname }}.{{ ansible_nas_domain }}"
+ghost_mysql_root_password: "password"
+ghost_cloudinary_cloud_name: ""
+ghost_cloudinary_api_key: ""
+ghost_cloudinary_api_secret: ""

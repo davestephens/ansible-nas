@@ -1,0 +1,85 @@
+---
+- name: Start Ghost
+  block:
+    - name: Create Ghost Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ ghost_data_directory }}"
+
+    - name: Create Ghost Network
+      community.docker.docker_network:
+        name: "{{ ghost_network_name }}"
+
+    - name: Create Ghost Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ghost_db_container_name }}"
+        image: mysql:8.0
+        pull: true
+        networks:
+          - name: "{{ ghost_network_name }}"
+        volumes:
+          - "{{ ghost_data_directory }}/db:/var/lib/mysql:rw"
+        env:
+          MYSQL_ROOT_PASSWORD: "{{ ghost_mysql_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ ghost_db_memory }}"
+
+    - name: Create Ghost Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ghost_container_name }}"
+        image: "{{ ghost_image_name }}:{{ ghost_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ghost_data_directory }}/content:/var/lib/ghost/content:rw"
+        ports:
+          - "{{ ghost_port }}:2368"
+        networks:
+          - name: "{{ ghost_network_name }}"
+        env:
+          url: "{{ ghost_url }}"
+          database__client: "{{ ghost_db_client }}"
+          database__connection__host: "{{ ghost_db_host }}"
+          database__connection__user: "{{ ghost_db_user }}"
+          database__connection__password: "{{ ghost_db_password }}"
+          database__connection__database: "{{ ghost_db_database }}"
+          mail__from: "{{ ghost_mail_from }}"
+          mail__transport: "{{ ghost_mail_transport }}"
+          mail__options__service: "{{ ghost_mail_options_service }}"
+          mail__options__host: "{{ ghost_mail_options_host }}"
+          mail__options__port: "{{ ghost_mail_options_port }}"
+          mail__options__secureConnection: "{{ ghost_mail_options_secure }}"
+          mail__options__auth__user: "{{ ghost_mail_options_auth }}"
+          mail__options__auth__pass: "{{ ghost_mail_options_pass }}"
+          imageOptimization__resize: "false"
+          storage__ghost-storage-cloudinary__auth__cloud_name: "{{ ghost_cloudinary_cloud_name }}"
+          storage__ghost-storage-cloudinary__auth__api_key: "{{ ghost_cloudinary_api_key }}"
+          storage__ghost-storage-cloudinary__auth__api_secret: "{{ ghost_cloudinary_api_secret }}"
+        restart_policy: unless-stopped
+        memory: "{{ ghost_memory }}"
+        labels:
+          traefik.enable: "{{ ghost_available_externally | string }}"
+          traefik.http.routers.ghost.rule: "Host(`{{ ghost_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.ghost.tls.certresolver: "letsencrypt"
+          traefik.http.routers.ghost.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.ghost.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.ghost.loadbalancer.server.port: "2368"
+  when: ghost_enabled is true
+
+- name: Stop Ghost
+  block:
+    - name: Stop Ghost Database
+      community.docker.docker_container:
+        name: "{{ ghost_db_container_name }}"
+        state: absent
+
+    - name: Stop Ghost
+      community.docker.docker_container:
+        name: "{{ ghost_container_name }}"
+        state: absent
+  when: ghost_enabled is false

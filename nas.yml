@@ -155,6 +155,10 @@
         - get_iplayer
       when: (get_iplayer_enabled | default(False))
 
+    - role: ghost
+      tags:
+        - ghost
+
     - role: gitea
       tags:
         - gitea

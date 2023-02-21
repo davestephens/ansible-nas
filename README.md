@@ -44,6 +44,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Frigate](https://frigate.video/) - Frigate is an open source NVR built around real-time AI object detection
 * [Gaps](https://github.com/JasonHHouse/gaps) - Find the missing movies in your Plex Server
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
+* [Ghost](https://ghost.org/) - Turn your audience into a business. Publishing, memberships, subscriptions and newsletters
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
 * [GitLab](https://about.gitlab.com/features/) - Self-hosted GitHub clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
