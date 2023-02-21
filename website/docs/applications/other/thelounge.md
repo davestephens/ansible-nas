@@ -10,7 +10,7 @@ The Lounge is a self-hosted web IRC client.
 
 Set `thelounge_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-The Lounge web interface can be found at <http://ansible_nas_host_or_ip:9000>.
+The Lounge web interface can be found at <http://ansible_nas_host_or_ip:9002>.
 
 ## Specific Configuration
 
