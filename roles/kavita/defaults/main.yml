@@ -1,0 +1,22 @@
+---
+kavita_enabled: false
+kavita_available_externally: false
+
+# directories
+kavita_data_directory: "{{ docker_home }}/kavita"
+kavita_comics_directory: "{{ comics_root }}"
+
+# network
+kavita_port: "5001"
+kavita_hostname: "kavita"
+
+# specs
+kavita_memory: 4g
+
+# docker
+kavita_container_name: kavita
+kavita_image_name: "kizaing/kavita"
+kavita_image_version: latest
+kavita_user_id: "1000"
+kavita_group_id: "1000"
+kavita_java_options: "-Xmx4g"
