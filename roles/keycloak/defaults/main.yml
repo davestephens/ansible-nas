@@ -1,0 +1,52 @@
+---
+keycloak_enabled: false
+keycloak_available_externally: false
+
+# directories
+keycloak_data_directory: "{{ docker_home }}/keycloak"
+
+# network
+keycloak_port: "8093"
+keycloak_hostname: "keycloak"
+
+# specs
+keycloak_memory: 1g
+keycloak_db_memory: 1g
+
+# docker
+keycloak_container_name: "keycloak"
+keycloak_db_container_name: "keycloak-db"
+keycloak_network_name: "keycloak"
+keycloak_image_name: "quay.io/keycloak/keycloak"
+keycloak_image_version: "latest"
+keycloak_db_image_name: "mysql"
+keycloak_db_image_version: "5.7"
+
+# environment variables
+keycloak_mysql_db_name: "keycloak"
+keycloak_mysql_db_user: "keycloak"
+keycloak_mysql_db_password: "keycloak"
+keycloak_mysql_db_root_password: "keycloak"
+keycloak_db_vendor: "mysql"
+keycloak_db_addr: "{{ keycloak_db_container_name }}"
+keycloak_db_port: "3306"
+keycloak_user: "admin"
+keycloak_password: "password"
+keycloak_admin: "admin"
+keycloak_admin_password: "password"
+keycloak_frontend_url: "https://{{ keycloak_hostname }}.{{ ansible_nas_domain }}/auth"
+keycloak_proxy_address_forwarding: "true"
+keycloak_command:
+  - start
+  # - --optimized
+  - --hostname={{ keycloak_hostname }}.{{ ansible_nas_domain }}
+  - --hostname-admin={{ keycloak_hostname }}.{{ ansible_nas_domain }}
+  - --hostname-strict-backchannel=true
+  - --hostname-strict=false
+  - --http-enabled=true
+  - --features=token-exchange
+  - --proxy=edge
+  - --db=mysql
+  - --db-url="jdbc:{{ keycloak_db_vendor }}://{{ keycloak_db_addr }}:{{ keycloak_db_port }}/{{ keycloak_mysql_db_name }}"
+  - --db-username={{ keycloak_mysql_db_user }}
+  - --db-password={{ keycloak_mysql_db_password }}

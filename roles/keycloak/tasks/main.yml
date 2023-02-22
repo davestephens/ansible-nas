@@ -1,0 +1,74 @@
+---
+- name: Start Keycloak
+  block:
+    - name: Create Keycloak Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ keycloak_data_directory }}"
+
+    - name: Create Keycloak Network
+      community.docker.docker_network:
+        name: "{{ keycloak_network_name }}"
+
+    - name: Create Keycloak Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ keycloak_db_container_name }}"
+        image: "{{ keycloak_db_image_name }}:{{ keycloak_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ keycloak_network_name }}"
+        volumes:
+          - "{{ keycloak_data_directory }}/db:/var/lib/mysql:rw"
+        env:
+          MYSQL_DATABASE: "{{ keycloak_mysql_db_name }}"
+          MYSQL_USER: "{{ keycloak_mysql_db_user }}"
+          MYSQL_PASSWORD: "{{ keycloak_mysql_db_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ keycloak_mysql_db_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ keycloak_db_memory }}"
+
+    - name: Create Keycloak Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ keycloak_container_name }}"
+        image: "{{ keycloak_image_name }}:{{ keycloak_image_version }}"
+        pull: true
+        volumes:
+          - "{{ keycloak_data_directory }}/content:/var/lib/keycloak/content:rw"
+        ports:
+          - "{{ keycloak_port }}:8080"
+        networks:
+          - name: "{{ keycloak_network_name }}"
+        env:
+          KEYCLOAK_ADMIN: "{{ keycloak_admin }}"
+          KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_password }}"
+          PROXY_ADDRESS_FORWARDING: "{{ keycloak_proxy_address_forwarding }}"
+        restart_policy: unless-stopped
+        memory: "{{ keycloak_memory }}"
+        labels:
+          traefik.enable: "{{ keycloak_available_externally | string }}"
+          traefik.http.routers.keycloak.rule: "Host(`{{ keycloak_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.keycloak.tls.certresolver: "letsencrypt"
+          traefik.http.routers.keycloak.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.keycloak.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.keycloak.loadbalancer.server.port: "8080"
+        command: "{{ keycloak_command }}"
+  when: keycloak_enabled is true
+
+- name: Stop Keycloak
+  block:
+    - name: Stop Keycloak Database
+      community.docker.docker_container:
+        name: "{{ keycloak_db_container_name }}"
+        state: absent
+
+    - name: Stop Keycloak
+      community.docker.docker_container:
+        name: "{{ keycloak_container_name }}"
+        state: absent
+  when: keycloak_enabled is false

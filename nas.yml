@@ -242,6 +242,10 @@
       tags:
         - kavita
 
+    - role: keycloak
+      tags:
+        - keycloak
+
     - role: komga
       tags:
         - komga
