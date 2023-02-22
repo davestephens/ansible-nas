@@ -1,0 +1,48 @@
+---
+- name: Start Libreddit
+  block:
+    - name: Create Libreddit Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ libreddit_data_directory }}"
+
+    - name: Create Libreddit Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ libreddit_container_name }}"
+        image: "{{ libreddit_image_name }}:{{ libreddit_image_version }}"
+        pull: true
+        ports:
+          - "{{ libreddit_port }}:8080"
+        env:
+          THEME: "{{ libreddit_theme }}"
+          FRONT_PAGE: "{{ libreddit_front_page }}"
+          LAYOUT: "{{ libreddit_layout }}"
+          WIDE: "{{ libreddit_wide }}"
+          POST_SORT: "{{ libreddit_post_sort }}"
+          COMMENT_SORT: "{{ libreddit_comment_sort }}"
+          SHOW_NSFW: "{{ libreddit_show_nsfw }}"
+          BLUR_NSFW: "{{ libreddit_blur_nsfw }}"
+          USE_HLS: "{{ libreddit_use_hls }}"
+          HIDE_HLS_NOTIFICATION: "{{ libreddit_hide_hls }}"
+          AUTOPLAY_VIDEOS: "{{ libreddit_autoplay }}"
+        restart_policy: unless-stopped
+        memory: "{{ libreddit_memory }}"
+        labels:
+          traefik.enable: "{{ libreddit_available_externally | string }}"
+          traefik.http.routers.libreddit.rule: "Host(`{{ libreddit_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.libreddit.tls.certresolver: "letsencrypt"
+          traefik.http.routers.libreddit.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.libreddit.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.libreddit.loadbalancer.server.port: "8080"
+  when: libreddit_enabled is true
+
+- name: Stop Libreddit
+  block:
+    - name: Stop Libreddit
+      community.docker.docker_container:
+        name: "{{ libreddit_container_name }}"
+        state: absent
+  when: libreddit_enabled is false

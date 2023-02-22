@@ -1,0 +1,32 @@
+---
+libreddit_enabled: false
+libreddit_available_externally: false
+
+# directories
+libreddit_data_directory: "{{ docker_home }}/libreddit"
+libreddit_comics_directory: "{{ comics_root }}"
+
+# network
+libreddit_port: "8094"
+libreddit_hostname: "libreddit"
+
+# specs
+libreddit_memory: 4g
+
+# docker
+libreddit_container_name: libreddit
+libreddit_image_name: "libreddit/libreddit"
+libreddit_image_version: latest
+
+# environment variables
+libreddit_theme: "system"
+libreddit_front_page: "default"
+libreddit_layout: "card"
+libreddit_wide: "off"
+libreddit_post_sort: "host"
+libreddit_comment_sort: "confidence"
+libreddit_show_nsfw: "off"
+libreddit_blur_nsfw: "off"
+libreddit_use_hls: "off"
+libreddit_hide_hls: "off"
+libreddit_autoplay: "off"

@@ -260,6 +260,10 @@
       tags:
         - lazylibrarian
 
+    - role: libreddit
+      tags:
+        - libreddit
+
     - role: librephotos
       tags:
         - librephotos
