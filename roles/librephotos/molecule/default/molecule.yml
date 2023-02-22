@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        librephotos_enabled: true
+        ansible_nas_email: "test@test.com"

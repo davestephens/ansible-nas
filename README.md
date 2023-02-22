@@ -68,6 +68,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Komga](https://komga.org/) - a media server for your comics, mangas, BDs and magazines
 * [Krusader](https://krusader.org/) - Twin panel file management for your desktop
 * [LazyLibrarian](https://lazylibrarian.gitlab.io/) - LazyLibrarian is a program to follow authors and grab metadata for all your digital reading needs
+* [Librephotos](https://github.com/LibrePhotos/librephotos) - self-hosted open source photo management service
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
 * [Minecraft Server](https://www.minecraft.net/) - Server edition of the popular building and exploring game

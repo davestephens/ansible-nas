@@ -1,0 +1,67 @@
+---
+librephotos_enabled: false
+librephotos_available_externally: false
+
+# directories
+librephotos_data_directory: "{{ docker_home }}/librephotos"
+librephotos_photos_directory: "{{ docker_home }}/librephotos/photos"
+
+# network
+librephotos_port: "3005"
+librephotos_hostname: "librephotos"
+librephotos_network_name: "librephotos"
+
+# specs
+librephotos_postgres_memory: 1g
+librephotos_redis_memory: 1g
+librephotos_frontend_memory: 1g
+librephotos_backend_memory: 1g
+librephotos_proxy_memory: 1g
+
+# docker
+librephotos_postgres_container_name: "librephotos-db"
+librephotos_postgres_image: "postgres"
+librephotos_postgres_tag: "latest"
+
+librephotos_redis_container_name: "librephotos-redis"
+librephotos_redis_image: "redis"
+librephotos_redis_tag: "alpine"
+
+librephotos_frontend_container_name: "librephotos-frontend"
+librephotos_frontend_image: "reallibrephotos/librephotos-frontend"
+librephotos_frontend_tag: "latest"
+
+librephotos_backend_container_name: "librephotos-backend"
+librephotos_backend_image: "reallibrephotos/librephotos"
+librephotos_backend_tag: "latest"
+
+librephotos_proxy_container_name: "librephotos-proxy"
+librephotos_proxy_image: "reallibrephotos/librephotos-proxy"
+librephotos_proxy_tag: "latest"
+
+librephotos_user_id: "1000"
+librephotos_group_id: "1000"
+
+librephotos_backend_host: "{{ librephotos_backend_container_name }}"
+librephotos_db_backend: "postgresql"
+librephotos_db_host: "{{ librephotos_postgres_container_name }}"
+librephotos_db_port: "5432"
+librephotos_redis_host: "{{ librephotos_redis_container_name }}"
+librephotos_redis_port: "6379"
+
+librephotos_allow_upload: "true"
+librephotos_heavyweight_process: "-1"
+
+librephotos_secret_key: "pOdusJKQEf9gNS7ZlrlO"
+librephotos_admin_email: "{{ ansible_nas_email }}"
+librephotos_admin_username: "admin"
+librephotos_admin_password: "insecure"
+librephotos_debug: "false"
+librephotos_proxy_port: "3005"
+librephotos_db_name: "librephotos"
+librephotos_db_user: "docker"
+librephotos_db_pass: "insecure"
+librephotos_mapbox_api_key: "key"
+librephotos_web_concurrency: "2"
+librephotos_worker_timeout: "1800"
+librephotos_skip_patterns: "-"

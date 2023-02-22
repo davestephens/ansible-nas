@@ -1,0 +1,188 @@
+---
+- name: Start Librephotos
+  block:
+    - name: Create Librephotos Directory
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ librephotos_user_id }}"
+        group: "{{ librephotos_group_id }}"
+        mode: 0755
+      with_items:
+        - "{{ librephotos_data_directory }}"
+
+    - name: Create librephotos network
+      community.docker.docker_network:
+        name: "{{ librephotos_network_name }}"
+
+    - name: Librephotos Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ librephotos_postgres_container_name }}"
+        image: "{{ librephotos_postgres_image }}:{{ librephotos_postgres_tag }}"
+        pull: true
+        volumes:
+          - "{{ librephotos_data_directory }}/db:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        network_mode: "{{ librephotos_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ librephotos_db_pass }}"
+          POSTGRES_USER: "{{ librephotos_db_user }}"
+          POSTGRES_DB: "{{ librephotos_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ librephotos_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "psql -d {{ librephotos_db_name }} -U {{ librephotos_db_user }} -c \"SELECT 1;\""]
+          start_period: 20s
+          interval: 5s
+          retries: 12
+          timeout: 5s
+
+    - name: Librephotos Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ librephotos_redis_container_name }}"
+        image: "{{ librephotos_redis_image }}:{{ librephotos_redis_tag }}"
+        pull: true
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ librephotos_redis_memory }}"
+        healthcheck:
+          test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 3s
+
+    - name: Librephotos Frontend Docker Container
+      community.docker.docker_container:
+        name: "{{ librephotos_frontend_container_name }}"
+        image: "{{ librephotos_frontend_image }}:{{ librephotos_frontend_tag }}"
+        pull: true
+        tty: true
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        env:
+          DEBUG: "1"
+          WDS_SOCKET_PORT: "0" # needed for webpack-dev-server
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ librephotos_frontend_memory }}"
+
+    - name: Librephotos Backend Docker Container
+      community.docker.docker_container:
+        name: "{{ librephotos_backend_container_name }}"
+        image: "{{ librephotos_backend_image }}:{{ librephotos_backend_tag }}"
+        pull: true
+        volumes:
+          - "{{ librephotos_photos_directory }}:/data"
+          - "{{ librephotos_data_directory }}/promedia:/protected_media"
+          - "{{ librephotos_data_directory }}/logs:/logs"
+          - "{{ librephotos_data_directory }}/cache:/root/.cache"
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          SECRET_KEY: "{{ librephotos_secret_key }}"
+          BACKEND_HOST: "{{ librephotos_backend_host }}"
+          ADMIN_EMAIL: "{{ librephotos_admin_email }}"
+          ADMIN_USERNAME: "{{ librephotos_admin_username }}"
+          ADMIN_PASSWORD: "{{ librephotos_admin_password }}"
+          DEBUG: "{{ librephotos_debug }}"
+          DB_BACKEND: "{{ librephotos_db_backend }}"
+          DB_NAME: "{{ librephotos_db_name }}"
+          DB_USER: "{{ librephotos_db_user }}"
+          DB_PASS: "{{ librephotos_db_pass }}"
+          DB_HOST: "{{ librephotos_db_host }}"
+          DB_PORT: "{{ librephotos_db_port }}"
+          REDIS_HOST: "{{ librephotos_redis_host }}"
+          REDIS_PORT: "{{ librephotos_redis_port }}"
+          MAPBOX_API_KEY: "{{ librephotos_mapbox_api_key }}"
+          TIME_ZONE: "{{ ansible_nas_timezone }}"
+          WEB_CONCURRENCY: "{{ librephotos_web_concurrency }}"
+          WORKER_TIMEOUT: "{{ librephotos_worker_timeout }}"
+          SKIP_PATTERNS: "{{ librephotos_skip_patterns }}"
+          ALLOW_UPLOAD: "{{ librephotos_allow_upload }}"
+          HEAVYWEIGHT_PROCESS: "{{ librephotos_heavyweight_process }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ librephotos_backend_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "curl -sI localhost:8001 | grep HTTP | grep 401"]
+          interval: 5s
+          timeout: 5s
+          retries: 24
+
+    - name: Librephotos Proxy Docker Container
+      community.docker.docker_container:
+        name: "{{ librephotos_proxy_container_name }}"
+        image: "{{ librephotos_proxy_image }}:{{ librephotos_proxy_tag }}"
+        pull: true
+        tty: true
+        # uncomment the command below if you're using dev tag of the images
+        # command: ["/bin/bash", "-c", "sed -ri 's/backend/{{ librephotos_backend_container_name }}/g' /etc/nginx/nginx.conf && sed -ri 's/frontend/{{ librephotos_frontend_container_name }}/g' /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
+        volumes:
+          - "{{ librephotos_photos_directory }}:/data"
+          - "{{ librephotos_data_directory }}/promedia:/protected_media"
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        ports:
+          - "{{ librephotos_proxy_port }}:80"
+        env:
+          BACKEND_NAME: "{{ librephotos_backend_container_name }}"
+          FRONTEND_NAME: "{{ librephotos_frontend_container_name }}"
+        labels:
+          traefik.enable: "{{ librephotos_available_externally | string }}"
+          traefik.http.routers.librephotos.rule: "Host(`{{ librephotos_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.librephotos.tls.certresolver: "letsencrypt"
+          traefik.http.routers.librephotos.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.librephotos.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.librephotos.loadbalancer.server.port: "80"
+        restart_policy: unless-stopped
+        memory: "{{ librephotos_proxy_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "curl -sI localhost | grep HTTP | grep 200"]
+          interval: 5s
+          timeout: 5s
+          retries: 12
+  when: librephotos_enabled is true
+
+- name: Stop Librephotos
+  block:
+    - name: Stop Librephotos Postgres
+      community.docker.docker_container:
+        name: "{{ librephotos_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Librephotos Redis
+      community.docker.docker_container:
+        name: "{{ librephotos_redis_container_name }}"
+        state: absent
+
+    - name: Stop Librephotos Frontend
+      community.docker.docker_container:
+        name: "{{ librephotos_frontend_container_name }}"
+        state: absent
+
+    - name: Stop Librephotos Backedn
+      community.docker.docker_container:
+        name: "{{ librephotos_backend_container_name }}"
+        state: absent
+
+    - name: Stop Librephotos Proxy
+      community.docker.docker_container:
+        name: "{{ librephotos_proxy_container_name }}"
+        state: absent
+
+    - name: Delete Librephotos Network
+      community.docker.docker_network:
+        name: "{{ librephotos_network_name }}"
+        state: absent
+  when: librephotos_enabled is false
