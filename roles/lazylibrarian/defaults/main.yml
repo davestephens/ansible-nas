@@ -1,0 +1,23 @@
+---
+lazylibrarian_enabled: false
+lazylibrarian_available_externally: false
+
+# directories
+lazylibrarian_data_directory: "{{ docker_home }}/lazylibrarian/config"
+lazylibrarian_music_directory: "{{ music_root }}"
+lazylibrarian_downloads_directory: "{{ downloads_root }}"
+lazylibrarian_books_directory: "{{ books_root }}"
+
+# network
+lazylibrarian_port: "5299"
+lazylibrarian_hostname: "lazylibrarian"
+
+# specs
+lazylibrarian_memory: 4g
+
+# docker
+lazylibrarian_container_name: lazylibrarian
+lazylibrarian_image_name: "linuxserver/lazylibrarian"
+lazylibrarian_image_version: latest
+lazylibrarian_user_id: "1001"
+lazylibrarian_group_id: "1001"

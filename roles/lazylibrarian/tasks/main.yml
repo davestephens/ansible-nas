@@ -1,0 +1,44 @@
+---
+- name: Start Lazylibrarian
+  block:
+    - name: Create Lazylibrarian Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ lazylibrarian_data_directory }}"
+
+    - name: Create Lazylibrarian Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ lazylibrarian_container_name }}"
+        image: "{{ lazylibrarian_image_name }}:{{ lazylibrarian_image_version }}"
+        pull: true
+        volumes:
+          - "{{ lazylibrarian_downloads_directory }}:/downloads:rw"
+          - "{{ lazylibrarian_books_directory }}:/books:rw"
+          - "{{ lazylibrarian_data_directory }}:/config:rw"
+        ports:
+          - "{{ lazylibrarian_port }}:5299"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ lazylibrarian_user_id }}"
+          PGID: "{{ lazylibrarian_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ lazylibrarian_memory }}"
+        labels:
+          traefik.enable: "{{ lazylibrarian_available_externally | string }}"
+          traefik.http.routers.lazylibrarian.rule: "Host(`{{ lazylibrarian_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.lazylibrarian.tls.certresolver: "letsencrypt"
+          traefik.http.routers.lazylibrarian.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.lazylibrarian.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.lazylibrarian.loadbalancer.server.port: "5299"
+  when: lazylibrarian_enabled is true
+
+- name: Stop Lazylibrarian
+  block:
+    - name: Stop Lazylibrarian
+      community.docker.docker_container:
+        name: "{{ lazylibrarian_container_name }}"
+        state: absent
+  when: lazylibrarian_enabled is false

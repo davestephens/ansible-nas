@@ -256,6 +256,10 @@
         - krusader
       when: (krusader_enabled | default(False))
 
+    - role: lazylibrarian
+      tags:
+        - lazylibrarian
+
     - role: lidarr
       tags:
         - lidarr
