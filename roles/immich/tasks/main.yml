@@ -130,10 +130,11 @@
         name: "{{ immich_machinelearning_container_name }}"
         image: "{{ immich_machinelearning_image }}:{{ immich_machinelearning_tag }}"
         pull: true
-        entrypoint: ["/bin/sh", "./entrypoint.sh"]
+        command: [ "python", "src/main.py" ]
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
+          - "model-cache:/cache"
         networks:
           - name: "{{ immich_network_name }}"
         env:
