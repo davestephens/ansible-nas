@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove mysql
+      community.docker.docker_container:
+        name: "{{ mysql_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove mysql adminer
+      community.docker.docker_container:
+        name: "{{ mysql_adminer_container_name }}"
+        state: absent
+      register: result_adminer
+
+    - name: Check if mysql is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_adminer.changed

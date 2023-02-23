@@ -312,6 +312,10 @@
         - mymediaforalexa
       when: (mymediaforalexa_enabled | default(False))
 
+    - role: mysql
+      tags:
+        - mysql
+
     - role: n8n
       tags:
         - n8n

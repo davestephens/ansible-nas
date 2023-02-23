@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get mysql container state
+      community.docker.docker_container:
+        name: "{{ mysql_container_name }}"
+      register: result
+
+    - name: Get mysql adminer container state
+      community.docker.docker_container:
+        name: "{{ mysql_adminer_container_name }}"
+      register: result_adminer
+
+    - name: Check if mysql containers are running
+      ansible.builtin.assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+          - result_adminer.container['State']['Status'] == "running"
+          - result_adminer.container['State']['Restarting'] == false

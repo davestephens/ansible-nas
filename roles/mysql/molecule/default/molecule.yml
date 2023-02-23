@@ -1,0 +1,8 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        mysql_enabled: true
+        mysql_adminer_enabled: true
+        mysql_db_type: mysql

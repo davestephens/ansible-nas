@@ -1,0 +1,34 @@
+---
+mysql_enabled: false
+mysql_adminer_enabled: false
+mysql_available_externally: false
+mysql_db_type: mysql
+
+# directories
+mysql_data_directory: "{{ docker_home }}/{{ mysql_db_type }}"
+
+# network
+mysql_port: "3306"
+mysql_adminer_port: "8098"
+mysql_hostname: "{{ mysql_db_type }}"
+mysql_adminer_hostname: "adminer"
+mysql_network_name: "mysql" # update this to be able to access other db container
+
+# specs
+mysql_memory: 1g
+mysql_adminer_memory: 1g
+
+# docker
+mysql_container_name: "{{ mysql_db_type }}"
+mysql_image_name: "{{ mysql_db_type }}"
+mysql_image_version: latest
+mysql_adminer_container_name: adminer
+mysql_adminer_image_name: "adminer"
+mysql_adminer_image_version: latest
+mysql_user_id: "1000"
+mysql_group_id: "1000"
+
+mysql_root_password: "supersecure"
+mysql_database: "mysql"
+mysql_user: "mysql"
+mysql_password: "mysql"

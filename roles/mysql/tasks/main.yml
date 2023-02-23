@@ -1,0 +1,93 @@
+---
+- name: Start Mysql
+  block:
+    - name: Check variable value
+      ansible.builtin.assert:
+        that:
+          - mysql_db_type in ["mysql", "mariadb"]
+        fail_msg: "Variable 'mysql_db_type' must be either 'mysql' or 'mariadb'"
+
+    - name: Create Mysql Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ mysql_user_id }}"
+        group: "{{ mysql_group_id }}"
+      with_items:
+        - "{{ mysql_data_directory }}"
+
+    - name: Create Mysql network
+      community.docker.docker_network:
+        name: "{{ mysql_network_name }}"
+
+    - name: Create Mysql Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ mysql_container_name }}"
+        image: "{{ mysql_image_name }}:{{ mysql_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ mysql_network_name }}"
+        volumes:
+          - "{{ mysql_data_directory }}/data:/var/lib/mysql:rw"
+          - "{{ mysql_data_directory }}/custom:/etc/mysql/custom.conf.d"
+        # ports:
+        #   - "{{ mysql_port }}:3306"
+        env:
+          PUID: "{{ mysql_user_id }}"
+          PGID: "{{ mysql_group_id }}"
+          TZ: "{{ ansible_nas_timezone }}"
+          MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
+          MYSQL_DATABASE: "{{ mysql_database }}"
+          MYSQL_USER: "{{ mysql_user }}"
+          MYSQL_PASSWORD: "{{ mysql_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ mysql_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Mysql Adminer Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ mysql_adminer_container_name }}"
+        image: "{{ mysql_adminer_image_name }}:{{ mysql_adminer_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ mysql_network_name }}"
+        ports:
+          - "{{ mysql_adminer_port }}:8080"
+        env:
+          PUID: "{{ mysql_user_id }}"
+          PGID: "{{ mysql_group_id }}"
+          TZ: "{{ ansible_nas_timezone }}"
+          MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ mysql_adminer_memory }}"
+        labels:
+          traefik.enable: "{{ mysql_available_externally | string }}"
+          traefik.http.routers.mysql.rule: "Host(`{{ mysql_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.mysql.tls.certresolver: "letsencrypt"
+          traefik.http.routers.mysql.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.mysql.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.mysql.loadbalancer.server.port: "8080"
+      when: mysql_adminer_enabled is true
+  when: mysql_enabled is true
+
+- name: Stop Mysql
+  block:
+    - name: Stop Mysql
+      community.docker.docker_container:
+        name: "{{ mysql_container_name }}"
+        state: absent
+
+    - name: Stop Mysql Adminer
+      community.docker.docker_container:
+        name: "{{ mysql_adminer_container_name }}"
+        state: absent
+      when: mysql_adminer_enabled is false
+
+    - name: Delete Mysql Network
+      community.docker.docker_network:
+        name: "{{ mysql_network_name }}"
+        state: absent
+  when: mysql_enabled is false
