@@ -70,7 +70,7 @@
           traefik.http.routers.huginn.tls.certresolver: "letsencrypt"
           traefik.http.routers.huginn.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.huginn.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.huginn.loadbalancer.server.port: "2368"
+          traefik.http.services.huginn.loadbalancer.server.port: "3000"
   when: huginn_enabled is true
 
 - name: Stop Huginn
