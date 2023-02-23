@@ -1,0 +1,71 @@
+---
+- name: Start Phpmyadmin
+  block:
+    - name: Create Phpmyadmin Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ phpmyadmin_data_directory }}"
+
+    - name: Create Phpmyadmin network
+      community.docker.docker_network:
+        name: "{{ phpmyadmin_network_name }}"
+
+    # get containers IP addresses to be populated in config file
+    - name: Get infos on container
+      community.docker.docker_container_info:
+        name: "{{ item }}"
+      with_items:
+        - "{{ phpmyadmin_databases }}"
+      register: outcome
+
+    - name: Create config file
+      ansible.builtin.template:
+        src: config.inc.php
+        dest: "{{ phpmyadmin_data_directory }}/config.inc.php"
+        owner: "{{ phpmyadmin_user_id }}"
+        group: "{{ phpmyadmin_group_id }}"
+      tags: molecule-idempotence-notest
+
+    - name: Create Phpmyadmin Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ phpmyadmin_container_name }}"
+        image: "{{ phpmyadmin_image_name }}:{{ phpmyadmin_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ phpmyadmin_network_name }}"
+        volumes:
+          - "{{ phpmyadmin_data_directory }}:/etc/phpmyadmin:rw"
+        ports:
+          - "{{ phpmyadmin_port }}:80"
+        env:
+          PUID: "{{ phpmyadmin_user_id }}"
+          PGID: "{{ phpmyadmin_group_id }}"
+          TZ: "{{ ansible_nas_timezone }}"
+          # PMA_ARBITRARY: "{{ phpmyadmin_arbitrary }}" <- set in templated config file
+          # PMA_ABSOLUTE_URI: "https://{{ phpmyadmin_hostname }}.{{ ansible_nas_domain }}"
+        restart_policy: unless-stopped
+        memory: "{{ phpmyadmin_memory }}"
+        labels:
+          traefik.enable: "{{ phpmyadmin_available_externally | string }}"
+          traefik.http.routers.phpmyadmin.rule: "Host(`{{ phpmyadmin_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.phpmyadmin.tls.certresolver: "letsencrypt"
+          traefik.http.routers.phpmyadmin.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.phpmyadmin.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.phpmyadmin.loadbalancer.server.port: "80"
+  when: phpmyadmin_enabled is true
+
+- name: Stop Phpmyadmin
+  block:
+    - name: Stop Phpmyadmin
+      community.docker.docker_container:
+        name: "{{ phpmyadmin_container_name }}"
+        state: absent
+
+    - name: Delete Phpmyadmin Network
+      community.docker.docker_network:
+        name: "{{ phpmyadmin_network_name }}"
+        state: absent
+  when: phpmyadmin_enabled is false

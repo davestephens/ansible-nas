@@ -91,6 +91,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
 * [overseerr](https://docs.overseerr.dev) - open source software application for managing requests for your media library
 * [Paperless_ng](https://github.com/jonaswinkler/paperless-ng) - Scan, index and archive all your physical documents
+* [PhpMyAdmin](https://www.phpmyadmin.net/) - a tool intended to handle the administration of MySQL over the Web
 * [Piwigo](https://piwigo.org/) - Photo Gallery Software
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images

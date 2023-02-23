@@ -1,0 +1,29 @@
+---
+phpmyadmin_enabled: false
+phpmyadmin_available_externally: false
+
+# directories
+phpmyadmin_data_directory: "{{ docker_home }}/phpmyadmin"
+phpmyadmin_comics_directory: "{{ comics_root }}"
+
+# network
+phpmyadmin_port: "8097"
+phpmyadmin_hostname: "phpmyadmin"
+phpmyadmin_network_name: "phpmyadmin" # update this to be able to access other db container
+
+# specs
+phpmyadmin_memory: 1g
+
+# docker
+phpmyadmin_container_name: phpmyadmin
+phpmyadmin_image_name: "phpmyadmin"
+phpmyadmin_image_version: latest
+phpmyadmin_user_id: "1000"
+phpmyadmin_group_id: "1000"
+
+# define here container names that you want to be able to select from servers list in pypmyadmin
+phpmyadmin_databases:
+# - "mariadb"
+# - "{{ firefly_mysql_container_name }}"
+
+phpmyadmin_arbitrary: "false"

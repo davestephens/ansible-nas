@@ -376,6 +376,10 @@
         - paperless_ng
       when: (paperless_ng_enabled | default(False))
 
+    - role: phpmyadmin
+      tags:
+        - phpmyadmin
+
     - role: piwigo
       tags:
         - piwigo
