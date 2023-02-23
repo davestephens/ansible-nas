@@ -66,6 +66,15 @@
           HUGINN_DATABASE_NAME: "{{ huginn_db_name }}"
           HUIGNN_DATABASE_ADAPTER: "{{ huginn_db_adapter }}"
           APP_SECRET_TOKEN: "{{ huginn_app_secret_token }}"
+          SMTP_DOMAIN: "{{ huginn_smtp_domain }}"
+          SMTP_USER_NAME: "{{ huginn_smtp_user_name }}"
+          SMTP_PASSWORD: "{{ huginn_smtp_password }}"
+          SMTP_SERVER: "{{ huginn_smtp_server }}"
+          SMTP_PORT: "{{ huginn_smtp_port }}"
+          SMTP_AUTHENTICATION: "{{ huginn_smtp_authentication }}"
+          SMTP_ENABLE_STARTTLS_AUTO: "{{ huginn_smtp_enable_starttls_auto }}"
+          SMTP_SSL: "{{ huginn_smtp_ssl}}"
+          EMAIL_FROM_ADDRESS: "{{ huginn_email_from }}"
         restart_policy: unless-stopped
         memory: "{{ huginn_memory }}"
         labels:
