@@ -73,7 +73,7 @@
           SMTP_PORT: "{{ huginn_smtp_port }}"
           SMTP_AUTHENTICATION: "{{ huginn_smtp_authentication }}"
           SMTP_ENABLE_STARTTLS_AUTO: "{{ huginn_smtp_enable_starttls_auto }}"
-          SMTP_SSL: "{{ huginn_smtp_ssl}}"
+          SMTP_SSL: "{{ huginn_smtp_ssl }}"
           EMAIL_FROM_ADDRESS: "{{ huginn_email_from }}"
         restart_policy: unless-stopped
         memory: "{{ huginn_memory }}"
