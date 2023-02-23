@@ -13,30 +13,34 @@
         name: "{{ huginn_network_name }}"
 
     - name: Create Huginn Database Container
-      community.docker.docker_container:
-        container_default_behavior: no_defaults
-        name: "{{ huginn_db_container_name }}"
-        image: "{{ huginn_db_image_name }}:{{ huginn_db_image_version }}"
-        pull: true
-        networks:
-          - name: "{{ huginn_network_name }}"
-        volumes:
-          - "{{ huginn_data_directory }}/db:/var/lib/mysql:rw"
-        env:
-          MYSQL_PORT_3306_TCP_ADDR: "{{ huginn_db_addr }}"
-          MYSQL_PORT_3306_TCP_PORT: "{{ huginn_db_port }}"
-          MYSQL_ROOT_PASSWORD: "{{ huginn_db_root_password }}"
-          HUGINN_DATABASE_PASSWORD: "{{ huginn_db_password }}"
-          HUGINN_DATABASE_USERNAME: "{{ huginn_db_username }}"
-          HUGINN_DATABASE_NAME: "{{ huginn_db_name }}"
-        labels:
-          traefik.enable: "false"
-        restart_policy: unless-stopped
-        memory: "{{ huginn_db_memory }}"
+      block:
+        - name: Create Huginn Database Container
+          community.docker.docker_container:
+            container_default_behavior: no_defaults
+            name: "{{ huginn_db_container_name }}"
+            image: "{{ huginn_db_image_name }}:{{ huginn_db_image_version }}"
+            pull: true
+            networks:
+              - name: "{{ huginn_network_name }}"
+            volumes:
+              - "{{ huginn_data_directory }}/db:/var/lib/mysql:rw"
+            env:
+              MYSQL_PORT_3306_TCP_ADDR: "{{ huginn_db_addr }}"
+              MYSQL_PORT_3306_TCP_PORT: "{{ huginn_db_port }}"
+              MYSQL_ROOT_PASSWORD: "{{ huginn_db_root_password }}"
+              HUGINN_DATABASE_PASSWORD: "{{ huginn_db_password }}"
+              HUGINN_DATABASE_USERNAME: "{{ huginn_db_username }}"
+              HUGINN_DATABASE_NAME: "{{ huginn_db_name }}"
+            labels:
+              traefik.enable: "false"
+            restart_policy: unless-stopped
+            memory: "{{ huginn_db_memory }}"
+          when: huginn_db_addr == huginn_db_container_name
 
-    - name: Pause for 30 seconds to wait for DB to get up
-      ansible.builtin.pause:
-        seconds: 30
+        - name: Pause for 30 seconds to wait for DB to get up
+          ansible.builtin.pause:
+            seconds: 30
+      when: huginn_db_addr == huginn_db_container_name
 
     - name: Create Huginn Docker Container
       community.docker.docker_container:
