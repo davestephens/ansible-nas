@@ -278,6 +278,10 @@
         - mealie
       when: (mealie_enabled | default(False))
 
+    - role: memos
+      tags:
+        - memos
+
     - role: mergerfs
       tags:
         - mergerfs

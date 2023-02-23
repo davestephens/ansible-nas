@@ -1,0 +1,20 @@
+---
+memos_enabled: false
+memos_available_externally: false
+
+# directories
+memos_data_directory: "{{ docker_home }}/memos"
+
+# network
+memos_port: "5230"
+memos_hostname: "memos"
+
+# specs
+memos_memory: 1g
+
+# docker
+memos_container_name: memos
+memos_image_name: "neosmemo/memos"
+memos_image_version: latest
+memos_user_id: "1000"
+memos_group_id: "1000"

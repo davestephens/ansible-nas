@@ -1,0 +1,42 @@
+---
+- name: Start Memos
+  block:
+    - name: Create Memos Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ memos_data_directory }}"
+
+    - name: Create Memos Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ memos_container_name }}"
+        image: "{{ memos_image_name }}:{{ memos_image_version }}"
+        pull: true
+        volumes:
+          - "{{ memos_data_directory }}:/var/opt/memos:rw"
+        ports:
+          - "{{ memos_port }}:5230"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ memos_user_id | quote }}"
+          PGID: "{{ memos_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ memos_memory }}"
+        labels:
+          traefik.enable: "{{ memos_available_externally | string }}"
+          traefik.http.routers.memos.rule: "Host(`{{ memos_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.memos.tls.certresolver: "letsencrypt"
+          traefik.http.routers.memos.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.memos.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.memos.loadbalancer.server.port: "5230"
+  when: memos_enabled is true
+
+- name: Stop Memos
+  block:
+    - name: Stop Memos
+      community.docker.docker_container:
+        name: "{{ memos_container_name }}"
+        state: absent
+  when: memos_enabled is false
