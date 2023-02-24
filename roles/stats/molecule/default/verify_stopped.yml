@@ -25,6 +25,18 @@
         state: absent
       register: result_influxdb
 
+    - name: Try and stop and remove Loki
+      docker_container:
+        name: "{{ stats_loki_container_name }}"
+        state: absent
+      register: result_loki
+
+    - name: Try and stop and remove Promtail
+      docker_container:
+        name: "{{ stats_promtail_container_name }}"
+        state: absent
+      register: result_promtail
+
     - name: Try and stop and remove Telegraf
       docker_container:
         name: "{{ stats_telegraf_container_name }}"
@@ -49,6 +61,8 @@
           - not result_grafana.changed
           - not result_prometheus.changed
           - not result_influxdb.changed
+          - not result_loki.changed
+          - not result_promtail.changed
           - not result_telegraf.changed
           - not result_smartctl.changed
           - not result_speedtest.changed

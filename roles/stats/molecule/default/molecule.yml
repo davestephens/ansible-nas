@@ -16,6 +16,7 @@ provisioner:
         stats_enabled: true
         stats_prometheus_enabled: true
         stats_influxdb_enabled: true
+        stats_loki_enabled: true
         stats_internet_speed_test_enabled: true
         ansible_nas_hostname: "ansible-nas"
         stats_grafana_data_directory: "/tmp/grafana/data"
@@ -23,4 +24,5 @@ provisioner:
         stats_prometheus_data_directory: "/tmp/prometheus/data"
         stats_prometheus_config_directory: "/tmp/prometheus/config"
         stats_telegraf_config_directory: "/tmp/telegraf/config"
+        stats_loki_data_directory: "/tmp/loki/data"
         stats_collection_interval: 15s

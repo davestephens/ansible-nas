@@ -22,8 +22,12 @@
     - name: Telegraf Docker Container
       docker_container:
         name: "{{ stats_telegraf_container_name }}"
-        image: telegraf
+        image: "{{ stats_telegraf_docker_image_name }}:{{ stats_telegraf_docker_image_version }}"
         pull: true
+        networks:
+          - name: "{{ stats_network_name }}"
+        network_mode: "{{ stats_network_name }}"
+        container_default_behavior: no_defaults
         privileged: true
         ipc_mode: host
         ports: |

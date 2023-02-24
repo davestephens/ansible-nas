@@ -19,7 +19,7 @@
 
     - name: Template Grafana data source
       template:
-        src: datasources/ansible-nas.yml
+        src: datasources/ansible-nas.yml.j2
         dest: "{{ stats_grafana_config_directory }}/provisioning/datasources/ansible-nas.yml"
 
     - name: Copy Grafana dashboards configuration
@@ -32,11 +32,19 @@
         src: dashboards/ansible-nas-overview.json
         dest: "{{ stats_grafana_config_directory }}/dashboards/ansible-nas-overview.json"
 
+    - name: Create stats network
+      community.docker.docker_network:
+        name: "{{ stats_network_name }}"
+
     - name: Grafana Docker Container
       docker_container:
         name: "{{ stats_grafana_container_name }}"
-        image: grafana/grafana
+        image: "{{ stats_grafana_docker_image_name }}:{{ stats_grafana_docker_image_version }}"
         pull: true
+        networks:
+          - name: "{{ stats_network_name }}"
+        network_mode: "{{ stats_network_name }}"
+        container_default_behavior: no_defaults
         volumes:
           - "{{ stats_grafana_data_directory }}:/var/lib/grafana:rw"
           - "{{ stats_grafana_config_directory }}/provisioning:/etc/grafana/provisioning:ro"

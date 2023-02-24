@@ -10,6 +10,15 @@ datasources:
     uid: ansible_nas
     isDefault: true
     version: 4
+{{ '  - name: Loki
+    type: loki
+    access: proxy
+    orgId: 1
+    url: http://' + stats_loki_container_name  + ':3100
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: true' if stats_loki_enabled | bool }}
 
 deleteDatasources:
   - name: "InfluxDB"

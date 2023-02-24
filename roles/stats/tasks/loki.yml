@@ -1,0 +1,93 @@
+---
+- name: Start Loki
+  block:
+    - name: Create Loki Config Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ stats_loki_data_directory }}"
+
+    - name: Create Loki Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        recurse: yes
+      with_items:
+        - "{{ stats_loki_data_directory }}"
+        - "{{ stats_loki_data_directory }}/data"
+        - "{{ stats_loki_data_directory }}/data/loki"
+        - "{{ stats_loki_data_directory }}/data/promtail/"
+
+    - name: Create Loki network
+      community.docker.docker_network:
+        name: "{{ stats_network_name }}"
+
+    - name: Loki Docker Container
+      community.docker.docker_container:
+        name: "{{ stats_loki_container_name }}"
+        image: "{{ stats_loki_docker_image_name }}:{{ stats_loki_docker_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ stats_network_name }}"
+        network_mode: "{{ stats_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+        volumes:
+          - "{{ stats_loki_data_directory }}/data/loki:/data:rw"
+        ports:
+          - "{{ stats_loki_port }}:3100"
+        restart_policy: unless-stopped
+        memory: "{{ stats_loki_memory }}"
+        labels:
+          traefik.enable: "{{ stats_loki_available_externally | string }}"
+          traefik.http.routers.loki.rule: "Host(`{{ stats_loki_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.loki.tls.certresolver: "letsencrypt"
+          traefik.http.routers.loki.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.loki.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.loki.loadbalancer.server.port: "3100"
+
+    - name: Copy loki config file
+      ansible.builtin.copy:
+        src: loki/loki-config.yaml
+        dest: "{{ stats_loki_data_directory }}/data/loki/loki-config.yaml"
+
+    - name: Template promtail config file
+      ansible.builtin.template:
+        src: promtail-config.yaml.j2
+        dest: "{{ stats_loki_data_directory }}/data/promtail/config.yml"
+
+    - name: Promtail Docker Container
+      community.docker.docker_container:
+        name: "{{ stats_promtail_container_name }}"
+        image: "{{ stats_promtail_docker_image_name }}:{{ stats_promtail_docker_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ stats_network_name }}"
+        network_mode: "{{ stats_network_name }}"
+        container_default_behavior: no_defaults
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /var/lib/docker/containers:/var/lib/docker/containers
+          - "{{ stats_loki_data_directory }}/data/promtail:/etc/promtail:rw"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+        memory: "{{ stats_promtail_memory }}"
+        restart_policy: unless-stopped
+        labels:
+          traefik.enable: "false"
+  when: stats_enabled is true
+
+- name: Stop Loki
+  block:
+    - name: Stop Loki
+      docker_container:
+        name: "{{ stats_loki_container_name }}"
+        state: absent
+
+    - name: Stop Promtail
+      docker_container:
+        name: "{{ stats_promtail_container_name }}"
+        state: absent
+  when: stats_enabled is false

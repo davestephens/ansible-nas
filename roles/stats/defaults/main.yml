@@ -4,7 +4,9 @@ stats_internet_speed_test_enabled: false
 stats_prometheus_available_externally: false
 stats_grafana_available_externally: false
 stats_influxdb_available_externally: false
+stats_loki_available_externally: false
 stats_prometheus_enabled: true
+stats_loki_enabled: false
 stats_influxdb_enabled: false
 
 # directories
@@ -15,8 +17,10 @@ stats_influxdb_data_directory: "{{ docker_home }}/stats/influxdb/data"
 stats_influxdb_config_directory: "{{ docker_home }}/stats/influxdb/config"
 stats_grafana_data_directory: "{{ docker_home }}/stats/grafana/data"
 stats_grafana_config_directory: "{{ docker_home }}/stats/grafana/config"
+stats_loki_data_directory: "{{ docker_home }}/stats/loki"
 
 # network
+stats_network_name: "stats"
 stats_prometheus_port: "9090"
 stats_influxdb_port: "8086"
 stats_telegraf_port: "9273"
@@ -27,6 +31,8 @@ stats_prometheus_hostname: "prometheus"
 stats_influxdb_hostname: "influxdb"
 stats_grafana_port: "3003"
 stats_grafana_hostname: "grafana"
+stats_loki_port: "3100"
+stats_loki_hostname: "loki"
 
 # specs
 stats_telegraf_memory: 1g
@@ -34,6 +40,8 @@ stats_prometheus_memory: 1g
 stats_prometheus_smartctl_memory: 1g
 stats_speedtest_exporter_memory: 256m
 stats_grafana_memory: 1g
+stats_loki_memory: 1g
+stats_promtail_memory: 1g
 
 # config
 stats_prometheus_retention_time: 365d
@@ -51,8 +59,33 @@ stats_influxdb_init_admin_token: ""
 
 # docker
 stats_grafana_container_name: stats-grafana
+stats_grafana_docker_image_name: "grafana/grafana"
+stats_grafana_docker_image_version: "latest"
+
 stats_prometheus_container_name: stats-prometheus
+stats_prometheus_docker_image_name: "prom/prometheus"
+stats_prometheus_docker_image_version: "latest"
+
 stats_influxdb_container_name: stats-influxdb
+stats_influxdb_docker_image_name: "influxdb"
+stats_influxdb_docker_image_version: "latest"
+
 stats_telegraf_container_name: stats-telegraf
+stats_telegraf_docker_image_name: "telegraf"
+stats_telegraf_docker_image_version: "latest"
+
 stats_smartctl_container_name: stats-smartctl
+stats_smartctl_docker_image_name: "matusnovak/prometheus-smartctl"
+stats_smartctl_docker_image_version: "latest"
+
 stats_speedtest_container_name: stats-speedtest
+stats_speedtest_docker_image_name: "miguelndecarvalho/speedtest-exporter"
+stats_speedtest_docker_image_version: "latest"
+
+stats_loki_container_name: stats-loki
+stats_loki_docker_image_name: "grafana/loki"
+stats_loki_docker_image_version: "latest"
+
+stats_promtail_container_name: stats-promtail
+stats_promtail_docker_image_name: "grafana/promtail"
+stats_promtail_docker_image_version: "latest"

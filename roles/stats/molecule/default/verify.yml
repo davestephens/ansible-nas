@@ -22,6 +22,16 @@
         name: "{{ stats_influxdb_container_name }}"
       register: result_influxdb
 
+    - name: Get Loki container state
+      docker_container_info:
+        name: "{{ stats_loki_container_name }}"
+      register: result_loki
+
+    - name: Get Promtail container state
+      docker_container_info:
+        name: "{{ stats_promtail_container_name }}"
+      register: result_promtail
+
     - name: Get Telegraf container state
       docker_container_info:
         name: "{{ stats_telegraf_container_name }}"
@@ -46,6 +56,10 @@
           - result_prometheus.container['State']['Restarting'] == false
           - result_influxdb.container['State']['Status'] == "running"
           - result_influxdb.container['State']['Restarting'] == false
+          - result_loki.container['State']['Status'] == "running"
+          - result_loki.container['State']['Restarting'] == false
+          - result_promtail.container['State']['Status'] == "running"
+          - result_promtail.container['State']['Restarting'] == false
           - result_telegraf.container['State']['Status'] == "running"
           - result_telegraf.container['State']['Restarting'] == false
           - result_smartctl.container['State']['Status'] == "running"
