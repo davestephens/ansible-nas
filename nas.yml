@@ -273,6 +273,10 @@
         - lidarr
       when: (lidarr_enabled | default(False))
 
+    - role: mattermost
+      tags:
+        - mattermost
+
     - role: mealie
       tags:
         - mealie

@@ -1,0 +1,143 @@
+---
+- name: Start Mattermost
+  block:
+    - name: Create Mattermost Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ mattermost_user_id }}"
+        group: "{{ mattermost_group_id }}"
+        mode: 0755
+      with_items:
+        - "{{ mattermost_data_directory }}"
+
+    - name: Create mattermost mount directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "2000"
+        group: "2000"
+        mode: 0755
+      with_items:
+        - "{{ mattermost_data_directory }}/config"
+        - "{{ mattermost_data_directory }}/data"
+        - "{{ mattermost_data_directory }}/logs"
+        - "{{ mattermost_data_directory }}/plugins"
+        - "{{ mattermost_data_directory }}/client_plugins"
+        - "{{ mattermost_data_directory }}/bleve_indexes"
+
+    - name: Create Matermost Network
+      community.docker.docker_network:
+        name: "{{ mattermost_network_name }}"
+
+    - name: Create Mattermost DB Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ mattermost_db_container_name }}"
+        image: "{{ mattermost_db_image_name }}:{{ mattermost_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ mattermost_network_name }}"
+        network_mode: "{{ mattermost_network_name }}"
+        volumes:
+          - "{{ mattermost_data_directory }}/postgres-data:/var/lib/postgresql/data/:rw"
+        # exposed_ports:
+        #   - 5432
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          POSTGRES_USER: "{{ mattermost_db_user }}"
+          POSTGRES_PASSWORD: "{{ mattermost_db_password }}"
+          POSTGRES_DB: "{{ mattermost_db_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ mattermost_db_memory }}"
+        labels:
+          traefik.enable: "false"
+        healthcheck:
+          test: "pg_isready -U {{ mattermost_db_user }} -d {{ mattermost_db_name }} || exit 1"
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Mattermost Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ mattermost_container_name }}"
+        image: "{{ mattermost_image_name }}:{{ mattermost_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ mattermost_network_name }}"
+        network_mode: "{{ mattermost_network_name }}"
+        volumes:
+          - "{{ mattermost_data_directory }}/config:/mattermost/config:rw"
+          - "{{ mattermost_data_directory }}/data:/mattermost/data:rw"
+          - "{{ mattermost_data_directory }}/logs:/mattermost/logs:rw"
+          - "{{ mattermost_data_directory }}/plugins:/mattermost/plugins:rw"
+          - "{{ mattermost_data_directory }}/client_plugins:/mattermost/client/plugins:rw"
+          - "{{ mattermost_data_directory }}/bleve_indexes:/mattermost/bleve-indexes:rw"
+        ports:
+          - "{{ mattermost_app_port }}:8065"
+          - "{{ mattermost_calls_port }}:8443/udp"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+
+          ## Bleve index (inside the container)
+          MM_BLEVESETTINGS_INDEXDIR: "/mattermost/bleve-indexes"
+
+          ## Configuration settings for Mattermost. Documentation on the variables and the settings itself can be found at
+          ## https://docs.mattermost.com/administration/config-settings.html
+          ## Keep in mind that variables set here will take precedence over the same setting in config.json. This includes
+          ## the system console as well and settings set with env variables will be greyed out.
+
+          ## Below one can find necessary settings to spin up the Mattermost container
+          MM_SQLSETTINGS_DRIVERNAME: "postgres"
+          MM_SQLSETTINGS_DATASOURCE: "postgres://{{ mattermost_db_user }}:{{ mattermost_db_password }}@{{ mattermost_db_container_name }}:5432/{{ mattermost_db_name }}?sslmode=disable&connect_timeout=10"
+
+          ## Example settings (any additional setting added here also needs to be introduced in the docker-compose.yml)
+          MM_SERVICESETTINGS_SITEURL: "https://mattermost.{{ ansible_nas_domain }}"
+          MM_SERVICESETTINGS.LISTENADDRESS: "8065"
+          MM_LICENSE: "{{ mattermost_license }}"
+          MM_EMAILSETTINGS_SMTPSERVER: "{{ mattermost_smtp_server }}"
+          MM_EMAILSETTINGS_SMTPPORT: "{{ mattermost_smtp_port }}"
+          MM_EMAILSETTINGS_ENABLESMTPAUTH: "{{ mattermost_smtp_auth }}"
+          MM_EMAILSETTINGS_SMTPUSERNAME: "{{ mattermost_smtp_user }}"
+          MM_EMAILSETTINGS_SMTPPASSWORD: "{{ mattermost_smtp_password }}"
+          MM_EMAILSETTINGS_CONNECTIONSECURITY: "{{ mattermost_smtp_connection_security }}"
+          MM_EMAILSETTINGS_SKIPSERVERCERTIFICATEVERIFICATION: "{{ mattermost_smtp_skip_certs }}"
+          MM_EMAILSETTINGS_ENABLESECURITYFIXALERT: "{{ mattermost_smtp_enable_security_alert }}"
+          MM_EMAILSETTINGS_SMTPSERVERTIMEOUT: "{{ mattermost_smtp_timeout }}"
+          MM_EMAILSETTINGS_SENDPUSHNOTIFICATIONS: "{{ mattermost_smtp_push }}"
+          MM_EMAILSETTINGS_PUSHNOTIFICATIONSERVER: "{{ mattermost_smtp_push_server }}"
+          MM_SERVICESETTINGS_ALLOWUNTRUSTEDINTERNALCONNECTIONS: "{{ mattermost_untrusted_internal }}"
+          MM_EMAILSETTINGS_FEEDBACKNAME: "{{ mattermost_email_name }}"
+          MM_EMAILSETTINGS_FEEDBACKEMAIL: "{{ mattermost_email_email }}"
+          MM_SUPPORTSETTINGS_SUPPORTEMAIL: "{{ mattermost_email_support }}"
+          MM_EMAILSETTINGS_REPLYTOADDRESS: "{{ mattermost_email_replyto }}"
+        restart_policy: unless-stopped
+        memory: "{{ mattermost_memory }}"
+        labels:
+          traefik.enable: "{{ mattermost_available_externally | string }}"
+          traefik.http.routers.mattermost.rule: "Host(`{{ mattermost_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.mattermost.tls.certresolver: "letsencrypt"
+          traefik.http.routers.mattermost.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.mattermost.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.mattermost.loadbalancer.server.port: "8065"
+        healthcheck:
+          test: "curl --fail http://localhost:8065 || exit 1"
+          interval: 30s
+          timeout: 10s
+          retries: 5
+          start_period: 30s
+        read_only: false
+  when: mattermost_enabled is true
+
+- name: Stop Mattermost
+  block:
+    - name: Stop Mattermost DB
+      community.docker.docker_container:
+        name: "{{ mattermost_db_container_name }}"
+        state: absent
+    - name: Stop Mattermost
+      community.docker.docker_container:
+        name: "{{ mattermost_container_name }}"
+        state: absent
+  when: mattermost_enabled is false

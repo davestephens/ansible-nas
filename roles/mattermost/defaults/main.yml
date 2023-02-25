@@ -1,0 +1,48 @@
+---
+mattermost_enabled: false
+mattermost_available_externally: false
+
+# directories
+mattermost_data_directory: "{{ docker_home }}/mattermost"
+
+# network
+mattermost_app_port: "8065"
+mattermost_calls_port: "8066"
+mattermost_hostname: "mattermost"
+mattermost_network_name: "mattermost"
+
+# specs
+mattermost_db_memory: 1g
+mattermost_memory: 1g
+
+# docker
+mattermost_container_name: mattermost
+mattermost_image_name: "mattermost/mattermost-enterprise-edition"
+mattermost_image_version: "7.1"
+mattermost_db_container_name: mattermost-db
+mattermost_db_image_name: "postgres"
+mattermost_db_image_version: "13-alpine"
+mattermost_user_id: "1000"
+mattermost_group_id: "1000"
+
+# mattermost
+mattermost_db_user: "mmuser"
+mattermost_db_password: "mmuser_password"
+mattermost_db_name: "mattermost"
+mattermost_license: ""
+mattermost_smtp_server: ""
+mattermost_smtp_port: "25"
+mattermost_smtp_auth: "false"
+mattermost_smtp_user: ""
+mattermost_smtp_password: ""
+mattermost_smtp_connection_security: ""
+mattermost_smtp_skip_certs: "true"
+mattermost_smtp_enable_security_alert: "true"
+mattermost_smtp_timeout: "30"
+mattermost_smtp_push: "true"
+mattermost_smtp_push_server: "https://hpns-de.mattermost.com/"
+mattermost_untrusted_internal: ""
+mattermost_email_name: "mattermost@{{ ansible_nas_domain }}"
+mattermost_email_email: "mattermost@{{ ansible_nas_domain }}"
+mattermost_email_support: "mattermost@{{ ansible_nas_domain }}"
+mattermost_email_replyto: "mattermost@{{ ansible_nas_domain }}"
