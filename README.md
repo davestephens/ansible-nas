@@ -77,6 +77,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
 * [Memos](https://usememos.com/) - An open-source memo hub with knowledge management and social networking
 * [Minecraft Server](https://www.minecraft.net/) - Server edition of the popular building and exploring game
+* [Minetest Server](https://www.minetest.net/) - An open source voxel game engine server
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker

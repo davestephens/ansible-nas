@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        minetest_server_enabled: true
+        minetest_server_data_directory: "/tmp/minetest_server"

@@ -295,6 +295,10 @@
         - minecraft-server
       when: (minecraft_server_enabled | default(False))
 
+    - role: minetest-server
+      tags:
+        - minetest-server
+
     - role: minidlna
       tags:
         - minidlna

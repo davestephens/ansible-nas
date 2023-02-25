@@ -1,0 +1,51 @@
+---
+- name: Start Minetest Server
+  block:
+    - name: Create Minetest Server Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ minetest_server_data_directory }}/config"
+        - "{{ minetest_server_data_directory }}/config/main-config"
+
+    - name: Template minetest.conf
+      ansible.builtin.template:
+        src: minetest.conf.j2
+        dest: "{{ minetest_server_data_directory }}/config/main-config/minetest.conf"
+      register: minetest_config
+
+    - name: Create Minetest Server Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ minetest_server_container_name }}"
+        image: "{{ minetest_server_image_name }}:{{ minetest_server_image_version }}"
+        pull: true
+        volumes:
+          - "{{ minetest_server_data_directory }}/config:/config/.minetest:rw"
+        ports:
+          - "{{ minetest_server_port_http }}:30000/tcp"
+          - "{{ minetest_server_port_http }}:30000/udp"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ minetest_server_user_id }}"
+          PGID: "{{ minetest_server_group_id }}"
+          CLI_ARGS: "--gameid {{ minecraft_server_gameid }}" # optional
+        restart_policy: unless-stopped
+        memory: "{{ minetest_server_memory }}"
+        labels:
+          traefik.enable: "{{ minetest_server_available_externally | string }}"
+          traefik.http.routers.minetest_server.rule: "Host(`{{ minetest_server_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.minetest_server.tls.certresolver: "letsencrypt"
+          traefik.http.routers.minetest_server.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.minetest_server.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.minetest_server.loadbalancer.server.port: "30000"
+  when: minetest_server_enabled is true
+
+- name: Stop Minetest Server
+  block:
+    - name: Stop Minetest Server
+      community.docker.docker_container:
+        name: "{{ minetest_server_container_name }}"
+        state: absent
+  when: minetest_server_enabled is false

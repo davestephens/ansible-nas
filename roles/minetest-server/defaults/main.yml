@@ -1,0 +1,31 @@
+---
+minetest_server_enabled: false
+minetest_server_available_externally: false
+
+# directories
+minetest_server_data_directory: "{{ docker_home }}/minetest_server"
+
+# network
+minetest_server_port_http: "30000"
+minetest_server_hostname: "minetest_server"
+
+# specs
+minetest_server_memory: 1g
+
+# docker
+minetest_server_container_name: minetest-server
+minetest_server_image_name: "linuxserver/minetest"
+minetest_server_image_version: latest
+minetest_server_user_id: "1000"
+minetest_server_group_id: "1000"
+
+# minetest
+minecraft_server_gameid: minetest
+minecraft_server_default_game: minetest
+minecraft_server_name: "Ansible-NAS Minetest Server"
+minecraft_server_description: "Ansible-NAS Minetest Server"
+minecraft_server_motd: "Welcome to Ansible-NAS Minetest Server!"
+minecraft_server_announce: false
+minecraft_server_enable_damage: false
+minecraft_server_creative_mode: false
+minetest_server_admin_user: ansible-nas
