@@ -127,7 +127,7 @@
         pull: true
         tty: true
         # uncomment the command below if you're using dev tag of the images
-        # command: ["/bin/bash", "-c", "sed -ri 's/backend/{{ librephotos_backend_container_name }}/g' /etc/nginx/nginx.conf && sed -ri 's/frontend/{{ librephotos_frontend_container_name }}/g' /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
+        command: ["/bin/bash", "-c", "sed -ri 's/backend/{{ librephotos_backend_container_name }}/g' /etc/nginx/nginx.conf && sed -ri 's/frontend/{{ librephotos_frontend_container_name }}/g' /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
         volumes:
           - "{{ librephotos_photos_directory }}:/data"
           - "{{ librephotos_data_directory }}/promedia:/protected_media"
