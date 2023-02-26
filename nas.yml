@@ -314,6 +314,10 @@
         - mosquitto
       when: (mosquitto_enabled | default(False))
 
+    - role: moviematch
+      tags:
+        - moviematch
+
     - role: mylar
       tags:
         - mylar

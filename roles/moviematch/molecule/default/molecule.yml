@@ -1,0 +1,8 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        moviematch_enabled: true
+        moviematch_plex_url: "http://127.0.0.1:32400"
+        moviematch_plex_token: "plex_token"

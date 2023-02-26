@@ -1,0 +1,31 @@
+---
+moviematch_enabled: false
+moviematch_available_externally: false
+
+# directories
+moviematch_data_directory: "{{ docker_home }}/moviematch"
+
+# network
+moviematch_port: "8003"
+moviematch_hostname: "moviematch"
+
+# specs
+moviematch_memory: 1g
+
+# docker
+moviematch_container_name: moviematch
+moviematch_image_name: "lukechannings/moviematch"
+moviematch_image_version: latest
+moviematch_user_id: "1000"
+moviematch_group_id: "1000"
+
+# moviematch
+moviematch_plex_url: ""
+moviematch_plex_token: ""
+moviematch_root_path: "" # The root path to use when loading resources. For example, if MovieMatch is on a sub-path, the ROOT_PATH should be set to that sub-path (without a trailing slash)
+moviematch_library_filter: "" # A list of libraries to be included in the cards, comma delimited. e.g. Films, or Films,Television, or Films,Workout Videos
+moviematch_collection_filter: "" # A list of collections to be included in the cards, comma delimited. e.g. Marvel, or Marvel,HBO
+moviematch_default_section_type_filter: "movie" # The first library with this type will be chosen as a default library
+moviematch_link_type: "app" # The method to use for opening match links
+moviematch_log_level: "INFO" # How much the server should log
+moviematch_movie_batch_size: "25" # How many movies to get from the server initially. Unless you're running out of cards really quickly you should leave this alone.

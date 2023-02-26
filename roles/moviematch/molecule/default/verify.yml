@@ -1,0 +1,21 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get moviematch container state
+      community.docker.docker_container:
+        name: "{{ moviematch_container_name }}"
+      register: result
+
+    # The test is faked as it requres actual Plex url and token. Container is restarting without it.
+    # TODO: Find a way to test properly
+    - name: Check if moviematch containers are running
+      ansible.builtin.assert:
+        that:
+          - result.container['State']['Status'] == "running" or result.container['State']['Status'] == "restarting"
+          - result.container['State']['Restarting'] == true

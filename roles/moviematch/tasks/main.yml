@@ -1,0 +1,46 @@
+---
+- name: Start Moviematch
+  block:
+    - name: Create Moviematch Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ moviematch_data_directory }}"
+
+    - name: Create Moviematch Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ moviematch_container_name }}"
+        image: "{{ moviematch_image_name }}:{{ moviematch_image_version }}"
+        pull: true
+        ports:
+          - "{{ moviematch_port }}:8000"
+        env:
+          PLEX_URL: "{{ moviematch_plex_url }}"
+          PLEX_TOKEN: "{{ moviematch_plex_token }}"
+          ROOT_PATH: "{{ moviematch_root_path }}"
+          LIBRARY_FILTER: "{{ moviematch_library_filter }}"
+          COLLECTION_FILTER: "{{ moviematch_collection_filter }}"
+          DEFAULT_SECTION_TYPE_FILTER: "{{ moviematch_default_section_type_filter }}"
+          LINK_TYPE: "{{ moviematch_link_type }}"
+          LOG_LEVEL: "{{ moviematch_log_level }}"
+          MOVIE_BATCH_SIZE: "{{ moviematch_movie_batch_size }}"
+        restart_policy: unless-stopped
+        memory: "{{ moviematch_memory }}"
+        labels:
+          traefik.enable: "{{ moviematch_available_externally | string }}"
+          traefik.http.routers.moviematch.rule: "Host(`{{ moviematch_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.moviematch.tls.certresolver: "letsencrypt"
+          traefik.http.routers.moviematch.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.moviematch.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.moviematch.loadbalancer.server.port: "8000"
+  when: moviematch_enabled is true
+
+- name: Stop Moviematch
+  block:
+    - name: Stop Moviematch
+      community.docker.docker_container:
+        name: "{{ moviematch_container_name }}"
+        state: absent
+  when: moviematch_enabled is false
