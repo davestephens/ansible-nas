@@ -88,6 +88,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [n8n](https://n8n.io/) - Nodemation, a node based workflow and automation service like IFTTT.
 * [navidrome](https://www.navidrome.org/) - Modern Music Server and Streamer compatible with Subsonic/Airsonic
 * [netboot.xyz](https://netboot.xyz/) - a PXE boot server
+* [Netbox](https://netbox.dev/) - The premiere source of truth powering network automation
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [Nomad](https://www.nomadproject.io/) - A simple and flexible scheduler and software orchestrator

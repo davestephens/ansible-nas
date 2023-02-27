@@ -1,0 +1,8 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        netbox_enabled: true
+        netbox_backup_enabled: true
+        ansible_nas_email: me@me.com

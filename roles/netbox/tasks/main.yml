@@ -1,0 +1,461 @@
+---
+- name: Start Netbox
+  block:
+    - name: Create Netbox Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "101"
+      with_items:
+        - "{{ netbox_data_directory }}/config"
+        - "{{ netbox_data_directory }}/reports"
+        - "{{ netbox_data_directory }}/scripts"
+        - "{{ netbox_data_directory }}/netbox-media-files"
+        - "{{ netbox_data_directory }}/startup_scripts"
+        - "{{ netbox_data_directory }}/initializers"
+
+    - name: Create ansible-nas group
+      group:
+        name: ansible-nas
+        state: present
+
+    # for backup script
+    - name: Create docker group
+      group:
+        name: docker
+        state: present
+
+    - name: Ensure user ansible-nas exists and is in group docker
+      user:
+        name: ansible-nas
+        state: present
+        system: yes
+        update_password: on_create
+        create_home: yes
+        groups: ansible-nas,docker
+        shell: /bin/bash
+        append: yes
+      tags: molecule-idempotence-notest
+
+    - name: Create Netbox network
+      community.docker.docker_network:
+        name: "{{ netbox_network_name }}"
+
+    - name: Netbox Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ netbox_postgres_container_name }}"
+        image: "{{ netbox_postgres_image }}:{{ netbox_postgres_tag }}"
+        pull: true
+        volumes:
+          - "{{ netbox_data_directory }}/data:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ netbox_network_name }}"
+        network_mode: "{{ netbox_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ netbox_postgres_password }}"
+          POSTGRES_USER: "{{ netbox_postgres_user }}"
+          POSTGRES_DB: "{{ netbox_postgres_db }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ netbox_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ netbox_postgres_db }} -U {{ netbox_postgres_user }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Netbox Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ netbox_redis_container_name }}"
+        image: "{{ netbox_redis_image }}:{{ netbox_redis_tag }}"
+        pull: true
+        tty: true
+        env:
+          REDIS_PASSWORD: "{{ netbox_redis_password }}"
+        volumes:
+          - "{{ netbox_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ netbox_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ netbox_redis_memory }}"
+        command: "redis-server --appendonly yes --requirepass {{ netbox_redis_password }}"
+        healthcheck:
+          test: ["CMD-SHELL", "redis-cli -a {{ netbox_redis_password }} ping | grep PONG"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 3s
+
+    - name: Netbox Redis Cache Docker Container
+      community.docker.docker_container:
+        name: "{{ netbox_redis_cache_container_name }}"
+        image: "{{ netbox_redis_cache_image }}:{{ netbox_redis_cache_tag }}"
+        pull: true
+        env:
+          REDIS_PASSWORD: "{{ netbox_redis_cache_password }}"
+        volumes:
+          - "{{ netbox_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ netbox_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ netbox_redis_memory }}"
+        command: "redis-server --requirepass {{ netbox_redis_cache_password }}"
+        healthcheck:
+          test: ["CMD-SHELL", "redis-cli -a {{ netbox_redis_cache_password }} ping | grep PONG"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 3s
+
+    - name: Netbox Docker Container
+      community.docker.docker_container:
+        name: "{{ netbox_container_name }}"
+        image: "{{ netbox_image }}:{{ netbox_tag }}"
+        pull: true
+        volumes:
+          - "{{ netbox_data_directory }}/startup_scripts:/opt/netbox/startup_scripts:z,ro"
+          - "{{ netbox_data_directory }}/initializers:/opt/netbox/initializers:z,ro"
+          # - configuration:/etc/netbox/config:z,ro
+          - "{{ netbox_data_directory }}/reports:/etc/netbox/reports"
+          - "{{ netbox_data_directory }}/scripts:/etc/netbox/scripts"
+          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z"
+        networks:
+          - name: "{{ netbox_network_name }}"
+        ports:
+          - "{{ netbox_port }}:8080"
+        user: 'unit:root'
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ netbox_user_id }}"
+          PGID: "{{ netbox_group_id }}"
+          CORS_ORIGIN_ALLOW_ALL: "{{ netbox_cors_origin_allow_all }}"
+          DB_HOST: "{{ netbox_db_host }}"
+          DB_NAME: "{{ netbox_db_name }}"
+          DB_PASSWORD: "{{ netbox_db_password }}"
+          DB_USER: "{{ netbox_db_user }}"
+          DB_PORT: "{{ netbox_db_port }}"
+          EMAIL_FROM: "{{ netbox_email_from }}"
+          EMAIL_PASSWORD: "{{ netbox_email_password }}"
+          EMAIL_PORT: "{{ netbox_email_port }}"
+          EMAIL_SERVER: "{{ netbox_email_server }}"
+          EMAIL_SSL_CERTFILE: "{{ netbox_email_ssl_certfile }}"
+          EMAIL_SSL_KEYFILE: "{{ netbox_email_ssl_keyfile }}"
+          EMAIL_TIMEOUT: "{{ netbox_email_timeout }}"
+          EMAIL_USERNAME: "{{ netbox_email_username }}"
+          # EMAIL_USE_SSL and EMAIL_USE_TLS are mutually exclusive, i.e. they can't both be `true`!
+          EMAIL_USE_SSL: "{{ netbox_email_use_ssl }}"
+          EMAIL_USE_TLS: "{{ netbox_email_use_tls }}"
+          MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
+          MEDIA_ROOT: "{{ netbox_media_root }}"
+          METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
+          NAPALM_PASSWORD: "{{ netbox_napalm_password }}"
+          NAPALM_TIMEOUT: "{{ netbox_napalm_timeout }}"
+          NAPALM_USERNAME: "{{ netbox_napalm_username }}"
+          REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
+          REDIS_CACHE_HOST: "{{ netbox_redis_cache_host }}"
+          REDIS_CACHE_PASSWORD: "{{ netbox_redis_cache_password }}"
+          REDIS_CACHE_SSL: "{{ netbox_redis_cache_ssl }}"
+          REDIS_DATABASE: "{{ netbox_redis_database }}"
+          REDIS_HOST: "{{ netbox_redis_host }}"
+          REDIS_PORT: "{{ netbox_redis_port }}"
+          REDIS_CACHE_PORT: "{{ netbox_redis_cache_port }}"
+          REDIS_PASSWORD: "{{ netbox_redis_password }}"
+          REDIS_SSL: "{{ netbox_redis_ssl }}"
+          RELEASE_CHECK_URL: "{{ netbox_release_check_url }}"
+          SECRET_KEY: "{{ netbox_secret_key }}"
+          SKIP_STARTUP_SCRIPTS: "{{ netbox_skip_startup_scripts }}"
+          SKIP_SUPERUSER: "{{ netbox_skip_superuser }}"
+          SUPERUSER_API_TOKEN: "{{ netbox_superuser_api_token }}"
+          SUPERUSER_EMAIL: "{{ netbox_superuser_email }}"
+          SUPERUSER_NAME: "{{ netbox_superuser_name }}"
+          SUPERUSER_PASSWORD: "{{ netbox_superuser_password }}"
+          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
+        labels:
+          traefik.enable: "{{ netbox_available_externally | string }}"
+          traefik.http.routers.netbox.rule: "Host(`{{ netbox_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.netbox.tls.certresolver: "letsencrypt"
+          traefik.http.routers.netbox.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.netbox.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.netbox.loadbalancer.server.port: "8080"
+        restart_policy: unless-stopped
+        memory: "{{ netbox_memory }}"
+        healthcheck:
+          start_period: 60s
+          timeout: 3s
+          interval: 15s
+          test: "curl -f http://localhost:8080/api/ || exit 1"
+
+    - name: Netbox Worker Docker Container
+      community.docker.docker_container:
+        name: "{{ netbox_worker_container_name }}"
+        image: "{{ netbox_worker_image }}:{{ netbox_worker_tag }}"
+        pull: true
+        volumes:
+          - "{{ netbox_data_directory }}/startup_scripts:/opt/netbox/startup_scripts:z,ro"
+          - "{{ netbox_data_directory }}/initializers:/opt/netbox/initializers:z,ro"
+          # - configuration:/etc/netbox/config:z,ro
+          - "{{ netbox_data_directory }}/reports:/etc/netbox/reports"
+          - "{{ netbox_data_directory }}/scripts:/etc/netbox/scripts"
+          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z"
+        networks:
+          - name: "{{ netbox_network_name }}"
+        user: 'unit:root'
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ netbox_user_id }}"
+          PGID: "{{ netbox_group_id }}"
+          CORS_ORIGIN_ALLOW_ALL: "{{ netbox_cors_origin_allow_all }}"
+          ALLOWED_HOSTS: "{{ netbox_allowed_hosts }}"
+          DB_HOST: "{{ netbox_db_host }}"
+          DB_NAME: "{{ netbox_db_name }}"
+          DB_PASSWORD: "{{ netbox_db_password }}"
+          DB_USER: "{{ netbox_db_user }}"
+          DB_PORT: "{{ netbox_db_port }}"
+          EMAIL_FROM: "{{ netbox_email_from }}"
+          EMAIL_PASSWORD: "{{ netbox_email_password }}"
+          EMAIL_PORT: "{{ netbox_email_port }}"
+          EMAIL_SERVER: "{{ netbox_email_server }}"
+          EMAIL_SSL_CERTFILE: "{{ netbox_email_ssl_certfile }}"
+          EMAIL_SSL_KEYFILE: "{{ netbox_email_ssl_keyfile }}"
+          EMAIL_TIMEOUT: "{{ netbox_email_timeout }}"
+          EMAIL_USERNAME: "{{ netbox_email_username }}"
+          # EMAIL_USE_SSL and EMAIL_USE_TLS are mutually exclusive, i.e. they can't both be `true`!
+          EMAIL_USE_SSL: "{{ netbox_email_use_ssl }}"
+          EMAIL_USE_TLS: "{{ netbox_email_use_tls }}"
+          MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
+          MEDIA_ROOT: "{{ netbox_media_root }}"
+          METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
+          NAPALM_PASSWORD: "{{ netbox_napalm_password }}"
+          NAPALM_TIMEOUT: "{{ netbox_napalm_timeout }}"
+          NAPALM_USERNAME: "{{ netbox_napalm_username }}"
+          REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
+          REDIS_CACHE_HOST: "{{ netbox_redis_cache_host }}"
+          REDIS_CACHE_PASSWORD: "{{ netbox_redis_cache_password }}"
+          REDIS_CACHE_SSL: "{{ netbox_redis_cache_ssl }}"
+          REDIS_DATABASE: "{{ netbox_redis_database }}"
+          REDIS_HOST: "{{ netbox_redis_host }}"
+          REDIS_PORT: "{{ netbox_redis_port }}"
+          REDIS_CACHE_PORT: "{{ netbox_redis_cache_port }}"
+          REDIS_PASSWORD: "{{ netbox_redis_password }}"
+          REDIS_SSL: "{{ netbox_redis_ssl }}"
+          RELEASE_CHECK_URL: "{{ netbox_release_check_url }}"
+          SECRET_KEY: "{{ netbox_secret_key }}"
+          SKIP_STARTUP_SCRIPTS: "{{ netbox_skip_startup_scripts }}"
+          SKIP_SUPERUSER: "{{ netbox_skip_superuser }}"
+          SUPERUSER_API_TOKEN: "{{ netbox_superuser_api_token }}"
+          SUPERUSER_EMAIL: "{{ netbox_superuser_email }}"
+          SUPERUSER_NAME: "{{ netbox_superuser_name }}"
+          SUPERUSER_PASSWORD: "{{ netbox_superuser_password }}"
+          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ netbox_worker_memory }}"
+        command:
+          - /opt/netbox/venv/bin/python
+          - /opt/netbox/netbox/manage.py
+          - rqworker
+        healthcheck:
+          start_period: 20s
+          timeout: 3s
+          interval: 15s
+          test: "ps -aux | grep -v grep | grep -q rqworker || exit 1"
+
+    - name: Wait until NetBox initializes the DB and is healthy
+      community.docker.docker_container_info:
+        name: "{{ netbox_container_name }}"
+      register: result
+      until: result.container.State.Health.Status == "healthy"
+      retries: 20
+      delay: 30
+
+    - name: Netbox Housekeeping Docker Container
+      community.docker.docker_container:
+        name: "{{ netbox_housekeeping_container_name }}"
+        image: "{{ netbox_housekeeping_image }}:{{ netbox_worker_tag }}"
+        pull: true
+        volumes:
+          - "{{ netbox_data_directory }}/startup_scripts:/opt/netbox/startup_scripts:z,ro"
+          - "{{ netbox_data_directory }}/initializers:/opt/netbox/initializers:z,ro"
+          # - configuration:/etc/netbox/config:z,ro
+          - "{{ netbox_data_directory }}/reports:/etc/netbox/reports"
+          - "{{ netbox_data_directory }}/scripts:/etc/netbox/scripts"
+          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z"
+        networks:
+          - name: "{{ netbox_network_name }}"
+        user: 'unit:root'
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ netbox_user_id }}"
+          PGID: "{{ netbox_group_id }}"
+          CORS_ORIGIN_ALLOW_ALL: "{{ netbox_cors_origin_allow_all }}"
+          ALLOWED_HOSTS: "{{ netbox_allowed_hosts }}"
+          DB_HOST: "{{ netbox_db_host }}"
+          DB_NAME: "{{ netbox_db_name }}"
+          DB_PASSWORD: "{{ netbox_db_password }}"
+          DB_USER: "{{ netbox_db_user }}"
+          DB_PORT: "{{ netbox_db_port }}"
+          EMAIL_FROM: "{{ netbox_email_from }}"
+          EMAIL_PASSWORD: "{{ netbox_email_password }}"
+          EMAIL_PORT: "{{ netbox_email_port }}"
+          EMAIL_SERVER: "{{ netbox_email_server }}"
+          EMAIL_SSL_CERTFILE: "{{ netbox_email_ssl_certfile }}"
+          EMAIL_SSL_KEYFILE: "{{ netbox_email_ssl_keyfile }}"
+          EMAIL_TIMEOUT: "{{ netbox_email_timeout }}"
+          EMAIL_USERNAME: "{{ netbox_email_username }}"
+          # EMAIL_USE_SSL and EMAIL_USE_TLS are mutually exclusive, i.e. they can't both be `true`!
+          EMAIL_USE_SSL: "{{ netbox_email_use_ssl }}"
+          EMAIL_USE_TLS: "{{ netbox_email_use_tls }}"
+          GRAPHQL_ENABLED: "{{ netbox_graphql_enabled }}"
+          HOUSEKEEPING_INTERVAL: "{{ netbox_housekeeping_interval }}"
+          MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
+          MEDIA_ROOT: "{{ netbox_media_root }}"
+          METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
+          NAPALM_PASSWORD: "{{ netbox_napalm_password }}"
+          NAPALM_TIMEOUT: "{{ netbox_napalm_timeout }}"
+          NAPALM_USERNAME: "{{ netbox_napalm_username }}"
+          REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
+          REDIS_CACHE_HOST: "{{ netbox_redis_cache_host }}"
+          REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY: "{{ netbox_redis_cache_insecure_skip_tls_verify }}"
+          REDIS_CACHE_PASSWORD: "{{ netbox_redis_cache_password }}"
+          REDIS_CACHE_SSL: "{{ netbox_redis_cache_ssl }}"
+          REDIS_DATABASE: "{{ netbox_redis_database }}"
+          REDIS_HOST: "{{ netbox_redis_host }}"
+          REDIS_PORT: "{{ netbox_redis_port }}"
+          REDIS_CACHE_PORT: "{{ netbox_redis_cache_port }}"
+          REDIS_INSECURE_SKIP_TLS_VERIFY: "{{ netbox_redis_insecure_skip_tls_verify }}"
+          REDIS_PASSWORD: "{{ netbox_redis_password }}"
+          REDIS_SSL: "{{ netbox_redis_ssl }}"
+          RELEASE_CHECK_URL: "{{ netbox_release_check_url }}"
+          SECRET_KEY: "{{ netbox_secret_key }}"
+          SKIP_STARTUP_SCRIPTS: "{{ netbox_skip_startup_scripts }}"
+          SKIP_SUPERUSER: "{{ netbox_skip_superuser }}"
+          SUPERUSER_API_TOKEN: "{{ netbox_superuser_api_token }}"
+          SUPERUSER_EMAIL: "{{ netbox_superuser_email }}"
+          SUPERUSER_NAME: "{{ netbox_superuser_name }}"
+          SUPERUSER_PASSWORD: "{{ netbox_superuser_password }}"
+          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ netbox_housekeeping_memory }}"
+        command:
+          - /opt/netbox/housekeeping.sh
+        healthcheck:
+          start_period: 20s
+          timeout: 3s
+          interval: 15s
+          test: "ps -aux | grep -v grep | grep -q housekeeping || exit 1"
+
+    - name: Backup script
+      block:
+        - name: Create backup script
+          ansible.builtin.template:
+            src: netbox_backup.sh.j2
+            dest: "/home/{{ netbox_service_user }}/netbox_backup.sh"
+            owner: "{{ netbox_user_id }}"
+            group: "{{ netbox_group_id }}"
+            mode: 0700
+
+        - name: Create backup.log file
+          ansible.builtin.file:
+            path: /var/log/netbox_backup.log
+            state: touch
+            owner: "{{ netbox_user_id }}"
+            group: "{{ netbox_group_id }}"
+            mode: u=rw,g=r,o=r
+          tags: molecule-idempotence-notest
+
+        - name: Create cron job for backups
+          ansible.builtin.cron:
+            name: "Run backup script as root"
+            user: "{{ netbox_user_id }}"
+            minute: "{{ netbox_cron_minute | default(\"5\") }}"
+            hour: "{{ netbox_cron_hour | default(\"7\") }}"
+            day: "{{ netbox_cron_day | default(\"*\") }}"
+            month: "{{ netbox_ron_month | default(\"*\") }}"
+            weekday: "{{ netbox_cron_weekday | default(\"*\") }}"
+            job: "ionice -c2 -n7 nice -n19 bash /home/{{ netbox_user_id }}/netbox_backup.sh > /var/log/netbox_backup.log 2>&1"
+      when: netbox_backup_enabled is true
+
+    - name: Run Device Type Library Import
+      block:
+        - name: Run Device Type Library Import Docker Image
+          community.docker.docker_container:
+            name: netbox-import
+            image: ghcr.io/minitriga/netbox-device-type-library-import
+            pull: true
+            networks:
+              - name: "{{ netbox_network_name }}"
+            env:
+              REPO_URL: "{{ netbox_import_repo_url }}"
+              REPO_BRANCH: "{{ netbox_import_repo_branch }}"
+              NETBOX_URL: "{{ netbox_import_netbox_url }}"
+              NETBOX_TOKEN: "{{ netbox_import_netbox_token }}"
+              VENDORS: "{{ netbox_import_vendors }}"
+            restart_policy: "no"
+
+        - name: Wait for the import to finish
+          community.docker.docker_container_info:
+            name: netbox-import
+          register: import_result
+          until: import_result.container.State.Status == "exited"
+          retries: 30
+          delay: 30
+
+        - name: Remove the import container
+          community.docker.docker_container:
+            name: netbox-import
+            image: ghcr.io/minitriga/netbox-device-type-library-import
+            state: absent
+      when:
+        - netbox_device_type_library_import is true
+        - netbox_import_netbox_token is defined
+        - netbox_import_netbox_token != ""
+
+  when: netbox_enabled is true
+
+- name: Stop Netbox
+  block:
+    - name: Stop Netbox Postgres
+      community.docker.docker_container:
+        name: "{{ netbox_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Netbox Redis
+      community.docker.docker_container:
+        name: "{{ netbox_redis_container_name }}"
+        state: absent
+
+    - name: Stop Netbox Redis Cache
+      community.docker.docker_container:
+        name: "{{ netbox_redis_cache_container_name }}"
+        state: absent
+
+    - name: Stop Netbox
+      community.docker.docker_container:
+        name: "{{ netbox_container_name }}"
+        state: absent
+
+    - name: Stop Netbox Worker
+      community.docker.docker_container:
+        name: "{{ netbox_worker_container_name }}"
+        state: absent
+
+    - name: Stop Netbox Housekeeping
+      community.docker.docker_container:
+        name: "{{ netbox_housekeeping_container_name }}"
+        state: absent
+
+    - name: Delete netbox Network
+      community.docker.docker_network:
+        name: "{{ netbox_network_name }}"
+        state: absent
+  when: netbox_enabled is false

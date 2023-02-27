@@ -1,0 +1,14 @@
+#!/bin/bash
+cd /home/{{ netbox_user_id }}
+BACKUP_PATH=netbox_backup
+BACKUP_DATE=$(date +"%Y-%m-%d_%H.%M.%S")
+mkdir -p "${BACKUP_PATH}"
+
+#exit if running
+if [[ $(pidof -x "$(basename "$0")" -o %PPID) ]]; then exit; fi
+
+# dump database
+/usr/bin/docker exec -i {{ netbox_postgres_container_name }} sh -c 'pg_dump -v -Fc -c -U $POSTGRES_USER $POSTGRES_DB' > "${BACKUP_PATH}/netbox_${BACKUP_DATE}.pgdump"
+
+# dump media files
+/usr/bin/docker exec -i {{ netbox_container_name }} tar c -zvf - -C /opt/netbox/netbox/media ./ > "${BACKUP_PATH}/netbox_${BACKUP_DATE}_media.tgz"

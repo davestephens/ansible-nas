@@ -1,0 +1,105 @@
+---
+netbox_enabled: false
+netbox_backup_enabled: false
+netbox_device_type_library_import: false
+netbox_available_externally: false
+
+# directories
+netbox_data_directory: "{{ docker_home }}/netbox"
+
+# network
+netbox_port: "8099"
+netbox_hostname: "netbox"
+netbox_network_name: "netbox"
+
+# specs
+netbox_postgres_memory: 1g
+netbox_redis_memory: 1g
+netbox_redis_cache_memory: 1g
+netbox_worker_memory: 1g
+netbox_housekeeping_memory: 1g
+netbox_memory: 1g
+
+# docker
+netbox_postgres_container_name: "netbox-postgres"
+netbox_redis_container_name: "netbox-redis"
+netbox_redis_cache_container_name: "netbox-redis-cache"
+netbox_worker_container_name: "netbox-worker"
+netbox_housekeeping_container_name: "netbox-housekeeping"
+netbox_container_name: "netbox"
+
+netbox_postgres_image: "postgres"
+netbox_postgres_tag: "15-alpine"
+netbox_redis_image: "redis"
+netbox_redis_tag: "7-alpine"
+netbox_redis_cache_image: "redis"
+netbox_redis_cache_tag: "7-alpine"
+netbox_worker_image: "netboxcommunity/netbox"
+netbox_worker_tag: "latest"
+netbox_housekeeping_image: "netboxcommunity/netbox"
+netbox_housekeeping_tag: "latest"
+netbox_image: "netboxcommunity/netbox"
+netbox_tag: "latest"
+netbox_user_id: "ansible-nas"
+netbox_group_id: "ansible-nas"
+
+# netbox
+netbox_service_user: "ansible-nas"
+netbox_postgres_db: "netbox"
+netbox_postgres_password: "password"
+netbox_postgres_user: "netbox"
+netbox_postgres_port: "5432"
+netbox_redis_password: "password"
+netbox_redis_cache_password: "password"
+netbox_cors_origin_allow_all: "true"
+netbox_allowed_hosts: "localhost ::1 127.0.0.1 {{ netbox_hostname }}.{{ ansible_nas_domain }} {{ ansible_default_ipv4.address }}"
+netbox_db_host: "{{ netbox_postgres_container_name }}"
+netbox_db_name: "{{ netbox_postgres_db }}"
+netbox_db_password: "{{ netbox_postgres_password }}"
+netbox_db_user: "{{ netbox_postgres_user }}"
+netbox_db_port: "{{ netbox_postgres_port }}"
+netbox_email_from: "netbox@{{ ansible_nas_domain }}"
+netbox_email_password: ""
+netbox_email_port: "25"
+netbox_email_server: "localhost"
+netbox_email_ssl_certfile: ""
+netbox_email_ssl_keyfile: ""
+netbox_email_timeout: "5"
+netbox_email_username: "netbox"
+# EMAIL_USE_SSL and EMAIL_USE_TLS are mutually exclusive, i.e. they can't both be `true`!
+netbox_email_use_ssl: "false"
+netbox_email_use_tls: "false"
+netbox_graphql_enabled: "true"
+netbox_housekeeping_interval: "86400"
+netbox_max_page_size: "1000"
+netbox_media_root: "/opt/netbox/netbox/media"
+netbox_metrics_enabled: "false"
+netbox_napalm_password: ""
+netbox_napalm_timeout: "30"
+netbox_napalm_username: ""
+netbox_redis_cache_database: "1"
+netbox_redis_cache_host: "{{ netbox_redis_cache_container_name }}"
+netbox_redis_cache_insecure_skip_tls_verify: "false"
+netbox_redis_port: "6379"
+netbox_redis_cache_port: "6379"
+netbox_redis_cache_ssl: "false"
+netbox_redis_database: "0"
+netbox_redis_host: "{{ netbox_redis_container_name }}"
+netbox_redis_ssl: "false"
+netbox_redis_insecure_skip_tls_verify: "false"
+netbox_release_check_url: "https://api.github.com/repos/netbox-community/netbox/releases"
+netbox_secret_key: "secret_key"
+netbox_skip_startup_scripts: "false"
+netbox_skip_superuser: "false"
+netbox_superuser_api_token: "0123456789abcdef0123456789abcdef01234567"
+netbox_superuser_email: "{{ ansible_nas_email }}"
+netbox_superuser_name: "admin"
+netbox_superuser_password: "admin"
+netbox_webhooks_enabled: "true"
+
+# import
+netbox_import_repo_url: "https://github.com/netbox-community/devicetype-library.git"
+netbox_import_repo_branch: master
+netbox_import_netbox_url: "http://{{ netbox_container_name }}:8080"
+netbox_import_netbox_token: ""
+netbox_import_vendors: "" # a comma separated list of vendors, e.g: "apc,juniper"
