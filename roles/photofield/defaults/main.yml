@@ -1,0 +1,21 @@
+---
+photofield_enabled: false
+photofield_available_externally: false
+
+# directories
+photofield_data_directory: "{{ docker_home }}/photofield"
+photofield_photos_directory: ""
+
+# network
+photofield_port: "8100"
+photofield_hostname: "photofield"
+
+# specs
+photofield_memory: 1g
+
+# docker
+photofield_container_name: photofield
+photofield_image_name: "ghcr.io/smilyorg/photofield"
+photofield_image_version: latest
+photofield_user_id: "1000"
+photofield_group_id: "1000"

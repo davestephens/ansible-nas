@@ -1,0 +1,8 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        photofield_enabled: true
+        photofield_photos_directory: "/tmp/photos"
+        photofield_data_directory: "/tmp/photofield"

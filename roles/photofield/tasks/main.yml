@@ -1,0 +1,51 @@
+---
+- name: Start Photofield
+  block:
+    - name: Create Photofield Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ photofield_data_directory }}"
+        - "{{ photofield_data_directory }}/data"
+        - "{{ photofield_photos_directory }}"
+
+    - name: Copy config file
+      ansible.builtin.copy:
+        src: configuration.yaml
+        dest: "{{ photofield_data_directory }}/data/configuration.yaml"
+
+    - name: Create Photofield Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ photofield_container_name }}"
+        image: "{{ photofield_image_name }}:{{ photofield_image_version }}"
+        pull: true
+        volumes:
+          - "{{ photofield_data_directory }}/data:/app/data:rw"
+          - "{{ photofield_photos_directory }}:/app/photos:ro"
+          - "{{ photofield_data_directory }}/data/configuration.yaml:/app/data/configuration.yaml:ro"
+        ports:
+          - "{{ photofield_port }}:8080"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ photofield_user_id | quote }}"
+          PGID: "{{ photofield_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ photofield_memory }}"
+        labels:
+          traefik.enable: "{{ photofield_available_externally | string }}"
+          traefik.http.routers.photofield.rule: "Host(`{{ photofield_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.photofield.tls.certresolver: "letsencrypt"
+          traefik.http.routers.photofield.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.photofield.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.photofield.loadbalancer.server.port: "8080"
+  when: photofield_enabled is true
+
+- name: Stop Photofield
+  block:
+    - name: Stop Photofield
+      community.docker.docker_container:
+        name: "{{ photofield_container_name }}"
+        state: absent
+  when: photofield_enabled is false

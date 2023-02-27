@@ -412,6 +412,10 @@
         - paperless_ng
       when: (paperless_ng_enabled | default(False))
 
+    - role: photofield
+      tags:
+        - photofield
+
     - role: phpmyadmin
       tags:
         - phpmyadmin
