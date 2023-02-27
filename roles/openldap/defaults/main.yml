@@ -1,0 +1,48 @@
+---
+openldap_enabled: false
+openldap_available_externally: false
+openldap_phpldapadmin_available_externally: false
+
+# directories
+openldap_data_directory: "{{ docker_home }}/openldap"
+
+# network
+openldap_port: "1389"
+openldap_port_ssl: "1636"
+openldap_phpldapadmin_port: "6443"
+openldap_hostname: "openldap"
+openldap_phpldapadmin_hostname: "phpldapadmin"
+openldap_network_name: "openldap"
+
+# specs
+openldap_memory: 1g
+openldap_phpldapadmin_memory: 1g
+
+# docker
+openldap_container_name: openldap
+openldap_image_name: "bitnami/openldap"
+openldap_image_version: latest
+openldap_phpldapadmin_container_name: phpldapadmin
+openldap_phpldapadmin_image_name: "osixia/phpldapadmin"
+openldap_phpldapadmin_image_version: latest
+openldap_user_id: "1000"
+openldap_group_id: "1000"
+
+# OpenLDAP
+openldap_ldap_root: dc=ansible-nas,dc=org
+openldap_admin_username: "admin"
+openldap_admin_password: "adminpassword"
+openldap_organization: "Ansible-NAS"
+openldap_domain: "{{ ansible_nas_domain }}"
+openldap_ldap_users: "ansible-nas" # Comma separated list of LDAP users to create in the default LDAP tree. Example: user01,user02
+openldap_ldap_passwords: "password1" # Comma separated list of passwords to use for LDAP users. Example: bitnami1,bitnami2
+openldap_ldap_user_dc: "users" # DC for the users' organizational unit
+openldap_ldap_group: "users" # Group used to group created users
+openldap_ldap_skip_default_tree: "no" # Whether to skip creating the default LDAP tree based on LDAP_USERS, LDAP_PASSWORDS, LDAP_USER_DC and LDAP_GROUP.
+openldap_ldap_allow_anon_binding: "no" # Allow anonymous bindings to the LDAP server
+openldap_ldap_enable_tls: "no" # Whether to enable TLS for traffic or not. Defaults to no.
+openldap_ldap_ldaps_port_number: "1636" # Port used for TLS secure traffic. Defaults to 1636.
+openldap_ldap_tls_cert_file: "" # File containing the certificate file for the TLS traffic. No defaults.
+openldap_ldap_tls_key_file: "" # File containing the key for certificate. No defaults.
+openldap_ldap_tls_ca_file: "" # File containing the CA of the certificate. No defaults.
+openldap_ldap_tls_dh_params_file: "" # File containing the DH parameters. No defaults.

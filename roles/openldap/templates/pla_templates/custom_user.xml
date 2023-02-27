@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE template SYSTEM "template.dtd">
+
+<template>
+<askcontainer>1</askcontainer>
+<description>New User Entry</description>
+<icon>address-book.png</icon>
+<invalid>0</invalid>
+<rdn>cn</rdn>
+<!--<regexp>^ou=People,o=.*,</regexp>-->
+<title>Custom: Add User</title>
+<visible>1</visible>
+
+<objectClasses>
+<objectClass id="inetOrgPerson"></objectClass>
+<objectClass id="posixAccount"></objectClass>
+<objectClass id="shadowAccount"></objectClass>
+<objectClass id="person"></objectClass>
+<objectClass id="organizationalPerson"></objectClass>
+</objectClasses>
+
+<attributes>
+<attribute id="givenName">
+        <display>First name</display>
+        <icon>ldap-uid.png</icon>
+        <onchange>=autoFill(cn;%givenName/l%)</onchange>
+        <order>1</order>
+        <page>1</page>
+</attribute>
+<attribute id="sn">
+        <display>Last name</display>
+        <icon>ldap-uid.png</icon>
+        <onchange>=autoFill(displayName;%givenName% %sn%)</onchange>
+        <order>2</order>
+        <page>1</page>
+</attribute>
+<attribute id="cn">
+        <display>Common Name</display>
+        <icon>ldap-uid.png</icon>
+	<onchange>=autoFill(uid;%cn/l%)</onchange>
+        <onchange>=autoFill(homeDirectory;/home/%cn/l%)</onchange>
+        <order>3</order>
+        <page>1</page>
+        <spacer>1</spacer>
+</attribute>
+<attribute id="displayName">
+        <display>Display Name</display>
+        <icon>ldap-uid.png</icon>
+        <order>3</order>
+        <page>1</page>
+        <spacer>1</spacer>
+</attribute>
+<attribute id="uid">
+	<display>User ID (uid)</display>
+        <icon>ldap-uid.png</icon>
+	<order>3</order>
+	<page>1</page>
+</attribute>
+<attribute id="ou">
+	<display>Organizational Unit Name</display>
+        <icon>ldap-ou.png</icon>
+	<value>ou={{ openldap_ldap_user_dc }},{{ openldap_ldap_root }}</value>
+	<order>4</order>
+	<page>1</page>
+	<spacer>1</spacer>
+</attribute>
+<attribute id="jpegPhoto">
+        <display>Photo</display>
+        <icon>photo.png</icon>
+        <order>3</order>
+        <spacer>1</spacer>
+</attribute>
+<attribute id="street">
+        <cols>50</cols>
+        <display>Street</display>
+        <icon>mail.png</icon>
+        <order>4</order>
+        <page>1</page>
+        <rows>4</rows>
+        <type>textarea</type>
+</attribute>
+<attribute id="l">
+        <display>City</display>
+        <icon>mail.png</icon>
+        <order>5</order>
+        <page>1</page>
+</attribute>
+<attribute id="postalCode">
+        <display>Postal code</display>
+        <icon>mail.png</icon>
+        <order>7</order>
+        <page>1</page>
+        <spacer>1</spacer>
+</attribute>
+<attribute id="telephoneNumber">
+        <display>Work phone</display>
+        <icon>phone.png</icon>
+        <order>8</order>
+        <page>1</page>
+</attribute>
+<attribute id="mobile">
+        <display>Mobile</display>
+        <icon>phone.png</icon>
+        <order>9</order>
+        <page>1</page>
+</attribute>
+<attribute id="mail">
+        <display>Email</display>
+        <icon>mail.png</icon>
+        <order>10</order>
+        <page>1</page>
+        <spacer>1</spacer>
+</attribute>
+<attribute id="uidNumber">
+	<display>UID Number</display>
+        <value>=php.GetNextNumber(/;uidNumber)</value>
+	<order>10</order>
+	<icon>terminal.png</icon>
+	<page>1</page>
+</attribute>
+<attribute id="gidNumber">
+	<display>GID Number</display>
+        <icon>terminal.png</icon>
+	<order>12</order>
+	<page>1</page>
+	<value><![CDATA[=php.PickList(/;(&(objectClass=posixGroup));gidNumber;%cn%;;;;cn)]]></value>
+</attribute>
+<attribute id="loginShell">
+	<display>Login shell</display>
+        <icon>terminal.png</icon>
+	<order>13</order>
+	<page>1</page>
+	<type>select</type>
+	<value id="/bin/bash">Bash</value>
+	<value id="/bin/csh">C Shell</value>
+	<value id="/bin/dash">Dash</value>
+	<value id="/bin/sh">Shell</value>
+	<value id="/bin/tsh">Turbo C Shell</value>
+	<value id="/bin/false">False</value>
+	<default id="/usr/sbin/nologin">No Login</default>
+</attribute>
+<attribute id="homeDirectory">
+	<display>Home directory</display>
+        <icon>terminal.png</icon>
+	<order>14</order>
+	<page>1</page>
+</attribute>
+<attribute id="userPassword">
+	<display>Password</display>
+	<order>15</order>
+	<icon>lock.png</icon>
+	<page>1</page>
+	<post>=php.PasswordEncrypt(%enc%;%userPassword%)</post>
+	<verify>1</verify>
+</attribute>
+</attributes>
+
+</template>

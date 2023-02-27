@@ -393,6 +393,10 @@
         - openhab
       when: (openhab_enabled | default(False))
 
+    - role: openldap
+      tags:
+        - openldap
+
     - role: organizr
       tags:
         - organizr

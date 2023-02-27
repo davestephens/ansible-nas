@@ -1,0 +1,21 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Install docker python module
+      ansible.builtin.pip:
+        name: docker
+
+    - name: Update repositories cache and install "gnupg" package
+      ansible.builtin.apt:
+        name: gnupg
+        update_cache: yes
+
+    - name: Include docker role
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_service_manage: false
+        docker_service_state: present
+        docker_service_enabled: false
+        docker_restart_handler_state: restarted

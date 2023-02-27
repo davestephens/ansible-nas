@@ -1,0 +1,116 @@
+---
+- name: Start OpenLDAP
+  block:
+    - name: Create OpenLDAP Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "1001"
+      with_items:
+        - "{{ openldap_data_directory }}"
+        - "{{ openldap_data_directory }}/data"
+
+    - name: Create OpenLDAP Network
+      community.docker.docker_network:
+        name: "{{ openldap_network_name }}"
+
+    - name: Create OpenLDAP Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ openldap_container_name }}"
+        image: "{{ openldap_image_name }}:{{ openldap_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ openldap_network_name }}"
+        network_mode: "{{ openldap_network_name }}"
+        volumes:
+          - "{{ openldap_data_directory }}:/bitnami/openldap"
+        ports:
+          - '{{ openldap_port }}:1389'
+          - '{{ openldap_port_ssl }}:1636'
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          LDAP_ROOT: "{{ openldap_ldap_root }}"
+          LDAP_ADMIN_USERNAME: "{{ openldap_admin_username }}"
+          LDAP_ADMIN_PASSWORD: "{{ openldap_admin_password }}"
+          LDAP_USERS: "{{ openldap_ldap_users }}"
+          LDAP_PASSWORDS: "{{ openldap_ldap_passwords }}"
+          LDAP_USER_DC: "{{ openldap_ldap_user_dc }}"
+          LDAP_GROUP: "{{ openldap_ldap_group }}"
+          LDAP_SKIP_DEFAULT_TREE: "{{ openldap_ldap_skip_default_tree }}"
+          LDAP_ALLOW_ANON_BINDING: "{{ openldap_ldap_allow_anon_binding }}"
+          LDAP_ENABLE_TLS: "{{ openldap_ldap_enable_tls }}"
+          LDAP_LDAPS_PORT_NUMBER: "{{ openldap_ldap_ldaps_port_number }}"
+          LDAP_TLS_CERT_FILE: "{{ openldap_ldap_tls_cert_file }}"
+          LDAP_TLS_KEY_FILE: "{{ openldap_ldap_tls_key_file }}"
+          LDAP_TLS_CA_FILE: "{{ openldap_ldap_tls_ca_file }}"
+          LDAP_TLS_DH_PARAMS_FILE: "{{ openldap_ldap_tls_dh_params_file }}"
+        restart_policy: unless-stopped
+        memory: "{{ openldap_memory }}"
+        labels:
+          traefik.enable: "{{ openldap_available_externally | string }}"
+          traefik.http.routers.openldap.rule: "Host(`{{ openldap_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.openldap.tls.certresolver: "letsencrypt"
+          traefik.http.routers.openldap.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.openldap.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.openldap.loadbalancer.server.port: "1389"
+
+    - name: Create phpLDAPadmin Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ openldap_phpldapadmin_container_name }}"
+        image: "{{ openldap_phpldapadmin_image_name }}:{{ openldap_phpldapadmin_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ openldap_network_name }}"
+        network_mode: "{{ openldap_network_name }}"
+        volumes:
+          - "{{ openldap_data_directory }}/lib:/var/lib/ldap:rw"
+          - "{{ openldap_data_directory }}/config:/etc/ldap/slapd.d:rw"
+        ports:
+          - '{{ openldap_phpldapadmin_port }}:443'
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{'{{ openldap_container_name }}': [{'server': [{'tls': False}, {'port': 1389}]},{'login': [{'bind_id': 'cn={{ openldap_admin_username }},{{ openldap_ldap_root }}'},{'bind_pass': '{{ openldap_admin_password }}'}]}]}]"
+        restart_policy: unless-stopped
+        memory: "{{ openldap_phpldapadmin_memory }}"
+        labels:
+          traefik.enable: "{{ openldap_phpldapadmin_available_externally | string }}"
+          traefik.http.routers.phpldapadmin.rule: "Host(`{{ openldap_phpldapadmin_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.phpldapadmin.tls.certresolver: "letsencrypt"
+          traefik.http.routers.phpldapadmin.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.phpldapadmin.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.phpldapadmin.loadbalancer.server.port: "443"
+
+    - name: Copy all templates
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ openldap_data_directory }}/config/templates/"
+      with_fileglob:
+        - "templates/pla_templates/*"
+
+    - name: Copy PLA templates to container
+      become: true
+      ansible.builtin.shell: /usr/bin/docker cp {{ openldap_data_directory }}/config/templates/* {{ openldap_phpldapadmin_container_name }}:/var/www/phpldapadmin/templates/creation/
+      changed_when: false
+      tags: molecule-idempotence-notest
+
+    - name: Update template permissions
+      become: true
+      ansible.builtin.command: /usr/bin/docker exec {{ openldap_phpldapadmin_container_name }} chown -R www-data:www-data /var/www/phpldapadmin/templates/creation/
+      changed_when: false
+      tags: molecule-idempotence-notest
+  when: openldap_enabled is true
+
+- name: Stop OpenLDAP
+  block:
+    - name: Stop OpenLDAP
+      community.docker.docker_container:
+        name: "{{ openldap_container_name }}"
+        state: absent
+
+    - name: Stop phpLDAPAdmin
+      community.docker.docker_container:
+        name: "{{ openldap_phpldapadmin_container_name }}"
+        state: absent
+  when: openldap_enabled is false

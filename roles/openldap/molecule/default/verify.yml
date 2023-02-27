@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get openldap container state
+      community.docker.docker_container:
+        name: "{{ openldap_container_name }}"
+      register: result
+
+    - name: Get phpldapadmin container state
+      community.docker.docker_container:
+        name: "{{ openldap_phpldapadmin_container_name }}"
+      register: result_phpldapadmin
+
+    - name: Check if openldap containers are running
+      ansible.builtin.assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+          - result_phpldapadmin.container['State']['Status'] == "running"
+          - result_phpldapadmin.container['State']['Restarting'] == false

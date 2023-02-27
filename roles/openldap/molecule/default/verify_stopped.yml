@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove openldap
+      community.docker.docker_container:
+        name: "{{ openldap_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove phpldapadmin
+      community.docker.docker_container:
+        name: "{{ openldap_phpldapadmin_container_name }}"
+        state: absent
+      register: result_phpldapadmin
+
+    - name: Check if openldap is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_phpldapadmin.changed
