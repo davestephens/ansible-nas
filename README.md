@@ -91,6 +91,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Netbox](https://netbox.dev/) - The premiere source of truth powering network automation
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
+* [Node-RED](https://nodered.org/) - A programming tool for wiring together hardware devices, APIs and online services
 * [Nomad](https://www.nomadproject.io/) - A simple and flexible scheduler and software orchestrator
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer

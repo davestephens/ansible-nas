@@ -1,0 +1,45 @@
+---
+- name: Start Nodered
+  block:
+    - name: Create Nodered Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "1000"
+        group: "1000"
+      with_items:
+        - "{{ nodered_data_directory }}"
+        - "{{ nodered_data_directory }}/data"
+
+    - name: Create Nodered Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ nodered_container_name }}"
+        image: "{{ nodered_image_name }}:{{ nodered_image_version }}"
+        pull: true
+        volumes:
+          - "{{ nodered_data_directory }}/data:/data:rw"
+        ports:
+          - "{{ nodered_port }}:1880"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ nodered_user_id }}"
+          PGID: "{{ nodered_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ nodered_memory }}"
+        labels:
+          traefik.enable: "{{ nodered_available_externally | string }}"
+          traefik.http.routers.nodered.rule: "Host(`{{ nodered_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.nodered.tls.certresolver: "letsencrypt"
+          traefik.http.routers.nodered.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.nodered.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.nodered.loadbalancer.server.port: "1880"
+  when: nodered_enabled is true
+
+- name: Stop Nodered
+  block:
+    - name: Stop Nodered
+      community.docker.docker_container:
+        name: "{{ nodered_container_name }}"
+        state: absent
+  when: nodered_enabled is false

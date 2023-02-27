@@ -1,0 +1,20 @@
+---
+nodered_enabled: false
+nodered_available_externally: false
+
+# directories
+nodered_data_directory: "{{ docker_home }}/nodered"
+
+# network
+nodered_port: "1880"
+nodered_hostname: "nodered"
+
+# specs
+nodered_memory: 1g
+
+# docker
+nodered_container_name: nodered
+nodered_image_name: "nodered/node-red"
+nodered_image_version: latest
+nodered_user_id: "1000"
+nodered_group_id: "1000"
