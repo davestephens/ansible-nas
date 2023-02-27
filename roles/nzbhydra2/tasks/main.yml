@@ -1,0 +1,43 @@
+---
+- name: Start Nzbhydra2
+  block:
+    - name: Create Nzbhydra2 Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ nzbhydra2_data_directory }}"
+
+    - name: Create Nzbhydra2 Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ nzbhydra2_container_name }}"
+        image: "{{ nzbhydra2_image_name }}:{{ nzbhydra2_image_version }}"
+        pull: true
+        volumes:
+          - "{{ nzbhydra2_data_directory }}:/config:rw"
+          - "{{ nzbhydra2_download_directory }}:/downloads:rw"
+        ports:
+          - "{{ nzbhydra2_port }}:5076"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ nzbhydra2_user_id | quote }}"
+          PGID: "{{ nzbhydra2_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ nzbhydra2_memory }}"
+        labels:
+          traefik.enable: "{{ nzbhydra2_available_externally | string }}"
+          traefik.http.routers.nzbhydra2.rule: "Host(`{{ nzbhydra2_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.nzbhydra2.tls.certresolver: "letsencrypt"
+          traefik.http.routers.nzbhydra2.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.nzbhydra2.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.nzbhydra2.loadbalancer.server.port: "5076"
+  when: nzbhydra2_enabled is true
+
+- name: Stop Nzbhydra2
+  block:
+    - name: Stop Nzbhydra2
+      community.docker.docker_container:
+        name: "{{ nzbhydra2_container_name }}"
+        state: absent
+  when: nzbhydra2_enabled is false

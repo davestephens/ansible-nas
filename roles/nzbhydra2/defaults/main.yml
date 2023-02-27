@@ -1,0 +1,21 @@
+---
+nzbhydra2_enabled: false
+nzbhydra2_available_externally: false
+
+# directories
+nzbhydra2_data_directory: "{{ docker_home }}/nzbhydra2"
+nzbhydra2_download_directory: "{{ downloads_root }}"
+
+# network
+nzbhydra2_port: "5076"
+nzbhydra2_hostname: "nzbhydra2"
+
+# specs
+nzbhydra2_memory: 1g
+
+# docker
+nzbhydra2_container_name: nzbhydra2
+nzbhydra2_image_name: "linuxserver/nzbhydra2"
+nzbhydra2_image_version: latest
+nzbhydra2_user_id: "1000"
+nzbhydra2_group_id: "1000"

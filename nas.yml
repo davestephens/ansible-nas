@@ -374,6 +374,10 @@
         - nzbget
       when: (nzbget_enabled | default(False))
 
+    - role: nzbhydra2
+      tags:
+        - nzbhydra2
+
     - role: octoprint
       tags:
         - octoprint

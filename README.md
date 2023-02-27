@@ -94,6 +94,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Node-RED](https://nodered.org/) - A programming tool for wiring together hardware devices, APIs and online services
 * [Nomad](https://www.nomadproject.io/) - A simple and flexible scheduler and software orchestrator
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
+* [Nzbhydra2](https://github.com/theotherp/nzbhydra2) - Usenet meta search
 * [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
