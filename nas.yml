@@ -416,6 +416,10 @@
       tags:
         - photofield
 
+    - role: photoprism
+      tags:
+        - photoprism
+
     - role: phpmyadmin
       tags:
         - phpmyadmin

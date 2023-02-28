@@ -1,0 +1,98 @@
+---
+- name: Start Photoprism
+  block:
+    - name: Create Photoprism Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ photoprism_data_directory }}"
+
+    - name: Create Photoprism Network
+      community.docker.docker_network:
+        name: "{{ photoprism_network_name }}"
+
+    - name: Create Photoprism Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ photoprism_db_container_name }}"
+        image: "{{ photoprism_db_image_name }}:{{ photoprism_db_image_version }}"
+        pull: true
+        security_opts: # see https://github.com/MariaDB/mariadb-docker/issues/434#issuecomment-1136151239
+          - seccomp:unconfined
+          - apparmor:unconfined
+        networks:
+          - name: "{{ photoprism_network_name }}"
+        network_mode: "{{ photoprism_network_name }}"
+        volumes:
+          - "{{ photoprism_data_directory }}/db:/var/lib/mysql"
+        command:
+          - "mysqld"
+          - "--innodb-buffer-pool-size=512M"
+          - "--transaction-isolation=READ-COMMITTED"
+          - "--character-set-server=utf8mb4"
+          - "--collation-server=utf8mb4_unicode_ci"
+          - "--max-connections=512"
+          - "--innodb-rollback-on-timeout=OFF"
+          - "--innodb-lock-wait-timeout=120"
+        env:
+          MARIADB_AUTO_UPGRADE: "1"
+          MARIADB_INITDB_SKIP_TZINFO: "1"
+          MARIADB_DATABASE: "{{ photoprism_database_name }}"
+          MARIADB_USER: "{{ photoprism_database_user }}"
+          MARIADB_PASSWORD: "{{ photoprism_database_password }}"
+          MARIADB_ROOT_PASSWORD: "{{ photoprism_database_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ photoprism_db_memory }}"
+
+    - name: Create Photoprism Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ photoprism_container_name }}"
+        image: "{{ photoprism_image_name }}:{{ photoprism_image_version }}"
+        pull: true
+        volumes:
+          # Your photo and video files ([local path]:[container path]):
+          - "{{ photoprism_originals_directory }}:/photoprism/originals:ro"
+          # Multiple folders can be indexed by mounting them as sub-folders of /photoprism/originals:
+          # - "/mnt/Family:/photoprism/originals/Family"    # [folder_1]:/photoprism/originals/[folder_1]
+          # - "/mnt/Friends:/photoprism/originals/Friends"  # [folder_2]:/photoprism/originals/[folder_2]
+          # Mounting an import folder is optional (see docs):
+          - "{{ photoprism_import_directory }}:/photoprism/storage/import"
+          # Permanent storage for settings, index & sidecar files (DON'T REMOVE):
+          - "{{ photoprism_storage_directory }}:/photoprism/storage"
+        ports:
+          - "{{ photoprism_http_port }}:2342"
+        networks:
+          - name: "{{ photoprism_network_name }}"
+        network_mode: "{{ photoprism_network_name }}"
+        user: "1000:1000"
+        security_opts:
+          - seccomp:unconfined
+          - apparmor:unconfined
+        devices: "{{ photoprism_devices | default(omit) }}"
+        env: "{{ photoprism_optional_env | default({}) | combine(photoprism_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ photoprism_memory }}"
+        labels:
+          traefik.enable: "{{ photoprism_available_externally | string }}"
+          traefik.http.routers.photoprism.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.photoprism.tls.certresolver: "letsencrypt"
+          traefik.http.routers.photoprism.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.photoprism.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.photoprism.loadbalancer.server.port: "2342"
+  when: photoprism_enabled is true
+
+- name: Stop Photoprism
+  block:
+    - name: Stop Photoprism
+      community.docker.docker_container:
+        name: "{{ photoprism_container_name }}"
+        state: absent
+    - name: Stop Photoprism DB
+      community.docker.docker_container:
+        name: "{{ photoprism_db_container_name }}"
+        state: absent
+  when: photoprism_enabled is false

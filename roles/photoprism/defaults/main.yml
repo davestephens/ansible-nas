@@ -1,0 +1,146 @@
+---
+photoprism_enabled: false
+photoprism_available_externally: false
+
+# directories
+photoprism_data_directory: "{{ docker_home }}/photoprism"
+photoprism_originals_directory: "{{ photoprism_data_directory }}/originals"
+photoprism_import_directory: "{{ photoprism_data_directory }}/import"
+photoprism_storage_directory: "{{ photoprism_data_directory }}/storage"
+
+# network
+photoprism_port: "2342"
+photoprism_hostname: "photoprism"
+photoprism_network_name: "photoprism"
+
+# specs
+photoprism_memory: 1g
+photoprism_db_memory: 1g
+
+# docker
+photoprism_container_name: photoprism
+photoprism_image_name: "photoprism/photoprism"
+photoprism_image_version: latest
+photoprism_db_container_name: photoprism-db
+photoprism_db_image_name: "mariadb"
+photoprism_db_image_version: latest
+photoprism_user_id: "1000"
+photoprism_group_id: "1000"
+
+# Photoprism
+photoprism_init: "https" # Options: "update https gpu tensorflow davfs clitools clean"
+photoprism_umask: "117"
+photoprism_admin_user: "admin" # superadmin username
+photoprism_admin_password: "insecure" # initial superadmin password (minimum 8 characters)
+photoprism_auth_mode: "password" # authentication mode (public, password)
+photoprism_log_level: "info" # log level: trace, debug, info, warning, error, fatal, or panic
+photoprism_http_port: "2342"
+photoprism_http_compression: "gzip" # improves transfer speed and bandwidth utilization (none or gzip)
+photoprism_http_mode: "release"
+photoprism_http_host: "0.0.0.0"
+photoprism_originals_limit: "5000" # file size limit for originals in MB (increase for high-res video)
+photoprism_debug: "false"
+photoprism_public: "false"
+photoprism_readonly: "false" # do not modify originals directory (reduced functionality)
+photoprism_experimental: "false" # enables experimental features
+photoprism_disable_webdav: "false" # disables built-in WebDAV server
+photoprism_disable_settings: "false" # disables settings UI and API
+photoprism_disable_tensorflow: "false" # disables all features depending on TensorFlow
+photoprism_disable_chown: "false" # disables updating storage permissions via chmod and chown on startup
+photoprism_disable_backups: "false"
+photoprism_disable_places: "false"
+photoprism_disable_exiftool: "false"
+photoprism_disable_faces: "false" # disables face detection and recognition (requires TensorFlow)
+photoprism_disable_classification: "false" # disables image classification (requires TensorFlow)
+photoprism_disable_raw: "false" # disables indexing and conversion of RAW files
+photoprism_darktable_presets: "false"
+photoprism_detect_nsfw: "false" # automatically flags photos as private that MAY be offensive (requires TensorFlow)
+photoprism_upload_nsfw: "true" # allows uploads that MAY be offensive (no effect without TensorFlow)
+photoprism_database_driver: "mysql" # use MariaDB 10.5+ or MySQL 8+ instead of SQLite for improved performance ((sqlite, mysql)
+photoprism_database_server: "{{ photoprism_db_container_name }}:3306" # MariaDB or MySQL database server (hostname:port)
+photoprism_database_name: "photoprism" # MariaDB or MySQL database schema name
+photoprism_database_user: "photoprism" # MariaDB or MySQL database user name
+photoprism_database_password: "insecure" # MariaDB or MySQL database user password
+photoprism_database_root_password: "supersecure"
+photoprism_site_url: "https://{{ photoprism_hostname }}.{{ ansible_nas_domain }}" # server URL in the format "http(s)://domain.name(:port)/(path)"
+photoprism_site_title: "PhotoPrism"
+photoprism_site_caption: "Browse Your Life"
+photoprism_site_description: "Tags and finds pictures without getting in your way!" # meta site description
+photoprism_site_author: "@photoprism_app" # meta site author
+photoprism_raw_presets: "false" # enables applying user presets when converting RAW files (reduces performance)
+photoprism_thumb_filter: "Lanczos"
+photoprism_thumb_unached: "true"
+photoprism_thumb_size: "2048"
+photoprism_thumb_size_uncached: "7680"
+photoprism_jpeg_size: "7680"
+photoprism_jpeg_quality: "85" # a higher value increases the quality and file size of JPEG images and thumbnails (25-100)
+photoprism_ttf_cpp_min_log_level: "0"
+photoprism_ffmpeg_encoder: "software" # FFmpeg encoder ("software", "intel", "nvidia", "apple", "raspberry")
+photoprism_ffmpeg_bitrate: "32" # FFmpeg encoding bitrate limit in Mbit/s (default: 50)
+## Share hardware devices with FFmpeg and TensorFlow (optional):
+# photoprism_devices:
+#  - "/dev/dri:/dev/dri"                         # Intel QSV (Broadwell and later) or VAAPI (Haswell and earlier)
+#  - "/dev/nvidia0:/dev/nvidia0"                 # Nvidia CUDA
+#  - "/dev/nvidiactl:/dev/nvidiactl"
+#  - "/dev/nvidia-modeset:/dev/nvidia-modeset"
+#  - "/dev/nvidia-nvswitchctl:/dev/nvidia-nvswitchctl"
+#  - "/dev/nvidia-uvm:/dev/nvidia-uvm"
+#  - "/dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools"
+#  - "/dev/video11:/dev/video11"                 # Video4Linux Video Encode Device (h264_v4l2m2m)
+
+# main env dictionary for the container and for merging with optional environment variables
+photoprism_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  PHOTOPRISM_INIT: "{{ photoprism_init }}"
+  PHOTOPRISM_UID: "{{ photoprism_user_id }}"
+  PHOTOPRISM_GID: "{{ photoprism_group_id }}"
+  PHOTOPRISM_UMASK: "{{ photoprism_umask }}"
+  PHOTOPRISM_ADMIN_USER: "{{ photoprism_admin_user }}"
+  PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_admin_password }}"
+  PHOTOPRISM_LOG_LEVEL: "{{ photoprism_log_level }}"
+  PHOTOPRISM_AUTH_MODE: "{{ photoprism_auth_mode }}"
+  PHOTOPRISM_HTTP_PORT: "{{ photoprism_http_port }}"
+  PHOTOPRISM_HTTP_COMPRESSION: "{{ photoprism_http_compression }}"
+  PHOTOPRISM_HTTP_MODE: "{{ photoprism_http_mode }}"
+  PHOTOPRISM_HTTP_HOST: "{{ photoprism_http_host }}"
+  PHOTOPRISM_ORIGINALS_LIMIT: "{{ photoprism_originals_limit }}"
+  PHOTOPRISM_DEBUG: "{{ photoprism_debug }}"
+  PHOTOPRISM_PUBLIC: "{{ photoprism_public }}"
+  PHOTOPRISM_READONLY: "{{ photoprism_readonly }}"
+  PHOTOPRISM_EXPERIMENTAL: "{{ photoprism_experimental }}"
+  PHOTOPRISM_DISABLE_WEBDAV: "{{ photoprism_disable_webdav }}"
+  PHOTOPRISM_DISABLE_SETTINGS: "{{ photoprism_disable_settings }}"
+  PHOTOPRISM_DISABLE_TENSORFLOW: "{{ photoprism_disable_tensorflow }}"
+  PHOTOPRISM_DISABLE_CHOWN: "{{ photoprism_disable_chown }}"
+  PHOTOPRISM_DISABLE_BACKUPS: "{{ photoprism_disable_backups }}"
+  PHOTOPRISM_DISABLE_PLACES: "{{ photoprism_disable_places }}"
+  PHOTOPRISM_DISABLE_EXIFTOOL: "{{ photoprism_disable_exiftool }}"
+  PHOTOPRISM_DISABLE_FACES: "{{ photoprism_disable_faces }}"
+  PHOTOPRISM_DISABLE_CLASSIFICATION: "{{ photoprism_disable_classification }}"
+  PHOTOPRISM_DISABLE_RAW: "{{ photoprism_disable_raw }}"
+  PHOTOPRISM_DARKTABLE_PRESETS: "{{ photoprism_darktable_presets }}"
+  PHOTOPRISM_DETECT_NSFW: "{{ photoprism_detect_nsfw }}"
+  PHOTOPRISM_UPLOAD_NSFW: "{{ photoprism_upload_nsfw }}"
+  PHOTOPRISM_DATABASE_DRIVER: "{{ photoprism_database_driver }}"
+  PHOTOPRISM_DATABASE_SERVER: "{{ photoprism_database_server }}"
+  PHOTOPRISM_DATABASE_NAME: "{{ photoprism_database_name }}"
+  PHOTOPRISM_DATABASE_USER: "{{ photoprism_database_user }}"
+  PHOTOPRISM_DATABASE_PASSWORD: "{{ photoprism_database_password }}"
+  PHOTOPRISM_SITE_URL: "{{ photoprism_site_url }}"
+  PHOTOPRISM_SITE_TITLE: "{{ photoprism_site_title }}"
+  PHOTOPRISM_SITE_CAPTION: "{{ photoprism_site_caption }}"
+  PHOTOPRISM_SITE_DESCRIPTION: "{{ photoprism_site_description }}"
+  PHOTOPRISM_SITE_AUTHOR: "{{ photoprism_site_author }}"
+  PHOTOPRISM_RAW_PRESETS: "{{ photoprism_raw_presets }}"
+  PHOTOPRISM_THUMB_FILTER: "{{ photoprism_thumb_filter }}"
+  PHOTOPRISM_THUMB_UNCACHED: "{{ photoprism_thumb_unached }}"
+  PHOTOPRISM_THUMB_SIZE: "{{ photoprism_thumb_size }}"
+  PHOTOPRISM_THUMB_SIZE_UNCACHED: "{{ photoprism_thumb_size_uncached }}"
+  PHOTOPRISM_JPEG_SIZE: "{{ photoprism_jpeg_size }}"
+  PHOTOPRISM_JPEG_QUALITY: "{{ photoprism_jpeg_quality }}"
+  TF_CPP_MIN_LOG_LEVEL: "{{ photoprism_ttf_cpp_min_log_level }}"
+  PHOTOPRISM_FFMPEG_ENCODER: "{{ photoprism_ffmpeg_encoder }}"   # Options: "software", "intel", "nvidia", "apple", "raspberry"
+  PHOTOPRISM_FFMPEG_BITRATE: "{{ photoprism_ffmpeg_bitrate }}"
+  PHOTOPRISM_STORAGE_PATH: "/photoprism/storage"
+  PHOTOPRISM_ORIGINALS_PATH: "/photoprism/storage/originals"
+  PHOTOPRISM_IMPORT_PATH: "/photoprism/storage/import"

@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove photoprism
+      community.docker.docker_container:
+        name: "{{ photoprism_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove photoprism db
+      community.docker.docker_container:
+        name: "{{ photoprism_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Check if photoprism is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_db.changed
