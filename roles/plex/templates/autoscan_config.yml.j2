@@ -1,0 +1,45 @@
+# Optionally, protect your webhooks with authentication
+#authentication:
+#  username: hello there
+#  password: general kenobi
+
+# port for Autoscan webhooks to listen on
+port: {{ plex_autoscan_port }}
+
+triggers:
+
+  inotify:
+    - priority: 0
+
+      # filter with regular expressions
+      include:
+        - ^/movies
+        - ^/tv
+        - ^/podcasts
+        - ^/music
+      exclude:
+        - '\.(pdf)$'
+
+      # local filesystem paths to monitor
+      paths:
+        - path: /movies
+        - path: /tv
+        - path: /podcasts
+        - path: /music
+
+  sonarr:
+    - name: sonarr-docker # /triggers/sonarr-docker
+      priority: 1
+  radarr:
+    - name: radarr-docker   # /triggers/radarr-docker
+      priority: 1
+  lidarr:
+    - name: lidarr-docker   # /triggers/lidarr-docker
+      priority: 1
+
+# <- targets ->
+
+targets:
+  plex:
+    - url: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:32400/ # URL of your Plex server
+      token: "{{ plex_api_token | default("") }}" # Plex API Token

@@ -1,5 +1,6 @@
 ---
 plex_enabled: false
+plex_autoscan_enabled: false
 plex_available_externally: false
 
 # directories
@@ -15,6 +16,8 @@ plex_audiobooks_directory: "{{ audiobooks_root }}"
 # uid / gid
 plex_user_id: "0"
 plex_group_id: "0"
+plex_autoscan_user_id: "1000"
+plex_autoscan_group_id: "1000"
 
 # If you're paranoid, set permissions to "ro" so Plex won't ever be able to
 # delete your files
@@ -27,9 +30,20 @@ plex_audiobooks_permissions: "rw"
 
 # network
 plex_hostname: "plex"
+plex_network_name: "plex"
+plex_autoscan_port: "3030"
+
+# docker
+plex_container_name: plex
+plex_image_name: "linuxserver/plex"
+plex_image_version: "latest"
+plex_autoscan_container_name: plex-autoscan
+plex_autoscan_image_name: "cloudb0x/autoscan"
+plex_autoscan_image_version: "latest"
 
 # specs
 plex_memory: "2g"
+plex_autoscan_memory: "1g"
 
 # Device mappings for the docker container. E.g. To enable hardware transcoding:
 # plex_devices:
@@ -37,3 +51,6 @@ plex_memory: "2g"
 
 # see https://hub.docker.com/r/linuxserver/plex for details on this setting
 plex_version: "docker"
+plex_claim: ""
+plex_autoscan_verbosity: "0"
+plex_api_token: ""

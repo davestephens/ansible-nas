@@ -1,40 +1,100 @@
 ---
-- name: Create Plex Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ plex_config_directory }}"
-    - "{{ plex_logs }}"
+- name: Start Plex
+  block:
+    - name: Create Plex Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ plex_config_directory }}"
+        - "{{ plex_config_directory }}/autoscan"
+        - "{{ plex_logs }}"
 
-- name: Create Plex Docker Container
-  docker_container:
-    name: plex
-    image: linuxserver/plex
-    pull: true
-    volumes:
-      - "{{ plex_config_directory }}:/config:rw"
-      - "{{ plex_logs }}:/opt/plex/Library/Application Support/Plex Media Server/Logs:rw"
-      - "{{ plex_movies_directory }}:/movies:{{ plex_movies_permissions }}"
-      - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
-      - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
-      - "{{ plex_podcasts_directory }}:/podcasts:{{ plex_podcasts_permissions }}"
-      - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
-      - "{{ plex_audiobooks_directory }}:/audiobooks:{{ plex_audiobooks_permissions }}"
-    network_mode: "host"
-    devices: "{{ plex_devices | default(omit) }}"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ plex_user_id }}"
-      PGID: "{{ plex_group_id }}"
-      VERSION: "{{ plex_version }}"
-    restart_policy: unless-stopped
-    memory: "{{ plex_memory }}"
-    labels:
-      traefik.enable: "{{ plex_available_externally | string }}"
-      traefik.http.routers.plex.rule: "Host(`{{ plex_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.plex.tls.certresolver: "letsencrypt"
-      traefik.http.routers.plex.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.plex.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.plex.loadbalancer.server.port: "32400"
+    - name: Create Plex Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ plex_container_name }}"
+        image: "{{ plex_image_name }}:{{ plex_image_version }}"
+        pull: true
+        volumes:
+          - "{{ plex_config_directory }}:/config:rw"
+          - "{{ plex_logs }}:/opt/plex/Library/Application Support/Plex Media Server/Logs:rw"
+          - "{{ plex_movies_directory }}:/movies:{{ plex_movies_permissions }}"
+          - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
+          - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
+          - "{{ plex_podcasts_directory }}:/podcasts:{{ plex_podcasts_permissions }}"
+          - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
+          - "{{ plex_audiobooks_directory }}:/audiobooks:{{ plex_audiobooks_permissions }}"
+        network_mode: "host"
+        devices: "{{ plex_devices | default(omit) }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ plex_user_id }}"
+          PGID: "{{ plex_group_id }}"
+          VERSION: "{{ plex_version }}"
+          PLEX_CLAIM: "{{ plex_claim }}"
+        restart_policy: unless-stopped
+        memory: "{{ plex_memory }}"
+        labels:
+          traefik.enable: "{{ plex_available_externally | string }}"
+          traefik.http.routers.plex.rule: "Host(`{{ plex_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.plex.tls.certresolver: "letsencrypt"
+          traefik.http.routers.plex.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.plex.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.plex.loadbalancer.server.port: "32400"
+
+    - name: Start Plex Autoscan
+      block:
+        - name: Create config file
+          ansible.builtin.template:
+            src: autoscan_config.yml.j2
+            dest: "{{ plex_config_directory }}/autoscan/config.yml"
+            owner: "{{ plex_autoscan_user_id }}"
+            group: "{{ plex_autoscan_group_id }}"
+            mode: u=rwx,g=rx,o=r
+
+        - name: Create Plex Autoscan Docker Container
+          community.docker.docker_container:
+            container_default_behavior: no_defaults
+            name: "{{ plex_autoscan_container_name }}"
+            image: "{{ plex_autoscan_image_name }}:{{ plex_autoscan_image_version }}"
+            pull: true
+            volumes:
+              - "{{ plex_config_directory }}/autoscan:/config:rw"
+              - "{{ plex_movies_directory }}:/movies:{{ plex_movies_permissions }}"
+              - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
+              - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
+              - "{{ plex_podcasts_directory }}:/podcasts:{{ plex_podcasts_permissions }}"
+              - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
+              - "{{ plex_audiobooks_directory }}:/audiobooks:{{ plex_audiobooks_permissions }}"
+            network_mode: "host"
+            ports:
+              - "{{ plex_autoscan_port }}:3030"
+            env:
+              TZ: "{{ ansible_nas_timezone }}"
+              PUID: "{{ plex_autoscan_user_id }}"
+              PGID: "{{ plex_autoscan_group_id }}"
+              AUTOSCAN_VERBOSITY: "{{ plex_autoscan_verbosity }}"
+            restart_policy: unless-stopped
+            memory: "{{ plex_autoscan_memory }}"
+            labels:
+              traefik.enable: "false"
+      when: plex_autoscan_enabled is true
+  when: plex_enabled is true
+
+- name: Stop Plex
+  block:
+    - name: Stop Plex
+      community.docker.docker_container:
+        name: "{{ plex_container_name }}"
+        state: absent
+  when: plex_enabled is false
+
+- name: Stop Plex Autoscan
+  block:
+    - name: Stop Plex Autoscan
+      community.docker.docker_container:
+        name: "{{ plex_autoscan_container_name }}"
+        state: absent
+  when: plex_autoscan_enabled is false

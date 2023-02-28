@@ -1,6 +1,4 @@
----
-title: "Plex"
----
+# Plex
 
 Homepage: <https://www.plex.tv/>
 

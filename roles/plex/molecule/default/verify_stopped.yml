@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove plex
+      community.docker.docker_container:
+        name: "{{ plex_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove plex autoscan
+      community.docker.docker_container:
+        name: "{{ plex_autoscan_container_name }}"
+        state: absent
+      register: result_autoscan
+
+    - name: Check if plex is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_autoscan.changed

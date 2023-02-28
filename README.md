@@ -108,6 +108,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [PhpMyAdmin](https://www.phpmyadmin.net/) - a tool intended to handle the administration of MySQL over the Web
 * [Piwigo](https://piwigo.org/) - Photo Gallery Software
 * [Plex](https://www.plex.tv/) - Plex Media Server
+  * [Plex Autoscan](https://github.com/Cloudbox/autoscan) - automatic Plex library updates
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [Prometheus](https://prometheus.io/) - Time series database and monitoring system (via stats role).
 * [Prowlarr](https://github.com/Prowlarr/Prowlarr) - Indexer aggregator for Sonarr, Radarr, Lidarr, etc.
