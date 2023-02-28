@@ -109,6 +109,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Piwigo](https://piwigo.org/) - Photo Gallery Software
 * [Plex](https://www.plex.tv/) - Plex Media Server
   * [Plex Autoscan](https://github.com/Cloudbox/autoscan) - automatic Plex library updates
+  * [Plex Meta Manager](https://metamanager.wiki) - Python script to update metadata information for items in plex
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [Prometheus](https://prometheus.io/) - Time series database and monitoring system (via stats role).
 * [Prowlarr](https://github.com/Prowlarr/Prowlarr) - Indexer aggregator for Sonarr, Radarr, Lidarr, etc.
