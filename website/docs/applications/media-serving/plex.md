@@ -23,3 +23,5 @@ Optionally, after setting up Plex, you can install [Plex Autoscan](https://githu
 - set `plex_api_token`
 - edit `templates\autoscan_config.j2` to suit your needs
 - and run the playbook again.
+
+Also, you can install [Plex Meta Manager](https://metamanager.wiki/) by enabling `plex_metamanager_enabled` and setting the relevant ENV variables. Please also update the `templates/pmm_config.yml.j2` template according to your needs. Please check out [Plex Meta Manager documentation](https://metamanager.wiki/en/latest/config/configuration.html) for details.

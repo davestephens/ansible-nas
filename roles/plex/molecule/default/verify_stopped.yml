@@ -19,8 +19,15 @@
         state: absent
       register: result_autoscan
 
+    - name: Try and stop and remove plex meta manager
+      community.docker.docker_container:
+        name: "{{ plex_metamanager_container_name }}"
+        state: absent
+      register: result_metamanager
+
     - name: Check if plex is stopped
       ansible.builtin.assert:
         that:
           - not result.changed
           - not result_autoscan.changed
+          - not result_metamanager.changed

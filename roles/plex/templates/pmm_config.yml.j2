@@ -1,0 +1,285 @@
+## This file is a template remove the .template to use the file
+
+libraries:                                      # This is called out once within the config.yml file
+  Movies:                                       # Each library must match the Plex library name
+    # metadata_path:
+    #   - file: config/Movies.yml                 # This is a local file on the system
+    #   - folder: config/Movies/                  # This is a local directory on the system
+    #   - git: PMM/chart/basic                    # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+    #   - git: PMM/chart/imdb                     # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+    overlay_path:
+      - remove_overlays: false
+      - git: PMM/overlays/audio_codec
+      - git: PMM/overlays/audio_language
+      - git: PMM/overlays/direct_play
+      - git: PMM/overlays/imdb_top_250
+      - git: PMM/overlays/ratings
+      - git: PMM/overlays/resolution
+      - git: PMM/overlays/special_release
+      - git: PMM/overlays/streaming
+      - git: PMM/overlays/video_format
+  TV Shows:
+    # metadata_path:
+    #   - file: config/TVShows.yml
+    #   - folder: config/TV Shows/
+    #   - git: PMM/chart/basic                    # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+    #   - git: PMM/chart/imdb                     # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+    overlay_path:
+      - remove_overlays: false
+      - git: PMM/overlays/audio_codec
+      - git: PMM/overlays/audio_codec
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/audio_codec
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/audio_language
+      - git: PMM/overlays/audio_language
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/audio_language
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/direct_play
+      - git: PMM/overlays/direct_play
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/direct_play
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/ratings
+      - git: PMM/overlays/ratings
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/ratings
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/resolution
+      - git: PMM/overlays/resolution
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/resolution
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/special_release
+      - git: PMM/overlays/special_release
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/special_release
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/streaming
+      - git: PMM/overlays/streaming
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/streaming
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/video_format
+      - git: PMM/overlays/video_format
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/video_format
+        template_variables:
+          overlay_level: season
+  Anime Movies:
+    # metadata_path:
+    #   - file: config/Anime_Movies.yml
+    #   - git: PMM/chart/basic                    # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+    #   - git: PMM/chart/anilist                  # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+    overlay_path:
+      - remove_overlays: false
+      - git: PMM/overlays/audio_codec
+      - git: PMM/overlays/audio_language
+      - git: PMM/overlays/direct_play
+      - git: PMM/overlays/imdb_top_250
+      - git: PMM/overlays/ratings
+      - git: PMM/overlays/resolution
+      - git: PMM/overlays/special_release
+      - git: PMM/overlays/streaming
+      - git: PMM/overlays/video_format
+  Anime Series:
+    # metadata_path:
+    #   - file: config/Anime_Series.yml
+    #   - git: PMM/chart/basic                    # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+    #   - git: PMM/chart/anilist                  # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+    overlay_path:
+      - remove_overlays: false
+      - git: PMM/overlays/audio_codec
+      - git: PMM/overlays/audio_codec
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/audio_codec
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/audio_language
+      - git: PMM/overlays/audio_language
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/audio_language
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/direct_play
+      - git: PMM/overlays/direct_play
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/direct_play
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/ratings
+      - git: PMM/overlays/ratings
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/ratings
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/resolution
+      - git: PMM/overlays/resolution
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/resolution
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/special_release
+      - git: PMM/overlays/special_release
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/special_release
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/streaming
+      - git: PMM/overlays/streaming
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/streaming
+        template_variables:
+          overlay_level: season
+      - git: PMM/overlays/video_format
+      - git: PMM/overlays/video_format
+        template_variables:
+          overlay_level: episode
+      - git: PMM/overlays/video_format
+        template_variables:
+          overlay_level: season
+  Music:
+    metadata_path:
+      - file: config/Music.yml
+playlist_files:
+  - file: config/playlists.yml
+  - git: PMM/playlist                           # This is a file within the https://github.com/meisnate12/Plex-Meta-Manager-Configs Repository
+settings:
+  cache: true
+  cache_expiration: 60
+  asset_directory: config/assets
+  asset_folders: true
+  asset_depth: 0
+  create_asset_folders: false
+  prioritize_assets: false
+  dimensional_asset_rename: false
+  download_url_assets: false
+  show_missing_season_assets: false
+  show_missing_episode_assets: false
+  show_asset_not_needed: true
+  sync_mode: append
+  minimum_items: 1
+  default_collection_order:
+  delete_below_minimum: true
+  delete_not_scheduled: false
+  run_again_delay: 2
+  missing_only_released: false
+  only_filter_missing: false
+  show_unmanaged: true
+  show_filtered: false
+  show_options: false
+  show_missing: true
+  show_missing_assets: true
+  save_report: false
+  tvdb_language: eng
+  ignore_ids:
+  ignore_imdb_ids:
+  item_refresh_delay: 0
+  playlist_sync_to_user: all
+  playlist_report: false
+  verify_ssl: true
+  custom_repo:
+  check_nightly: false
+webhooks:                                       # Can be individually specified per library as well
+  error:
+  version:
+  run_start:
+  run_end:
+  changes:
+plex:                                           # Can be individually specified per library as well; REQUIRED for the script to run
+  url: {{ plex_meta_plex_url | default("") }}
+  token: {{ plex_api_token | default("") }}
+  timeout: 60
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+tmdb:                                           # REQUIRED for the script to run
+  apikey: {{ plex_meta_tmdb_api_key | default("") }}
+  language: en
+tautulli:                                       # Can be individually specified per library as well
+  url: {{ plex_meta_tautulli_url | default("") }}
+  apikey: {{ plex_meta_tautulli_api_key | default("") }}
+omdb:
+  apikey: {{ plex_meta_omdb_api_key | default("") }}
+  cache_expiration: 60
+mdblist:
+  apikey: {{ plex_meta_mdblist_api_key | default("") }}
+  cache_expiration: 60
+notifiarr:
+  apikey: {{ plex_meta_notifarr_api_key | default("") }}
+anidb:                                          # Not required for AniDB builders unless you want mature content
+  username: ######
+  password: ######
+radarr:                                         # Can be individually specified per library as well
+  url: {{ plex_meta_radarr_url | default("") }}
+  token: {{ plex_meta_radarr_api_key | default("") }}
+  add_missing: false
+  add_existing: false
+  root_folder_path: S:/Movies
+  monitor: true
+  availability: announced
+  quality_profile: HD-1080p
+  tag:
+  search: false
+  radarr_path:
+  plex_path:
+sonarr:                                         # Can be individually specified per library as well
+  url: {{ plex_meta_sonarr_url | default("") }}
+  token: {{ plex_meta_sonarr_api_key | default("") }}
+  add_missing: false
+  add_existing: false
+  root_folder_path: "S:/TV Shows"
+  monitor: all
+  quality_profile: HD-1080p
+  language_profile: English
+  series_type: standard
+  season_folder: true
+  tag:
+  search: false
+  cutoff_search: false
+  sonarr_path:
+  plex_path:
+trakt:
+  client_id: {{ plex_meta_trakt_client_id | default("") }}
+  client_secret: {{ plex_meta_trakt_client_secret | default("") }}
+  pin:
+  authorization:
+    # everything below is autofilled by the script
+    access_token:
+    token_type:
+    expires_in:
+    refresh_token:
+    scope: public
+    created_at:
+mal:
+  client_id: {{ plex_meta_mal_client_id | default("") }}
+  client_secret: {{ plex_meta_mal_client_secret | default("") }}
+  authorization:
+    # everything below is autofilled by the script
+    access_token:
+    token_type:
+    expires_in:
+    refresh_token:

@@ -9,3 +9,4 @@
       vars:
         plex_enabled: false
         plex_autoscan_enabled: false
+        plex_metamanager_enabled: false

@@ -9,6 +9,7 @@
       with_items:
         - "{{ plex_config_directory }}"
         - "{{ plex_config_directory }}/autoscan"
+        - "{{ plex_config_directory }}/metamanager"
         - "{{ plex_logs }}"
 
     - name: Create Plex Docker Container
@@ -81,6 +82,43 @@
             labels:
               traefik.enable: "false"
       when: plex_autoscan_enabled is true
+
+    - name: Start Plex Meta Manager
+      block:
+        - name: Create config file
+          ansible.builtin.template:
+            src: pmm_config.yml.j2
+            dest: "{{ plex_config_directory }}/metamanager/config.yml"
+            owner: "{{ plex_metamanager_user_id }}"
+            group: "{{ plex_metamanager_group_id }}"
+            mode: u=rwx,g=rx,o=r
+
+        - name: Create Plex Meta Manager Docker Container
+          community.docker.docker_container:
+            container_default_behavior: no_defaults
+            name: "{{ plex_metamanager_container_name }}"
+            image: "{{ plex_metamanager_image_name }}:{{ plex_metamanager_image_version }}"
+            pull: true
+            volumes:
+              - "{{ plex_config_directory }}/metamanager:/config:rw"
+              - "{{ plex_movies_directory }}:/movies:{{ plex_movies_permissions }}"
+              - "{{ plex_tv_directory }}:/tv:{{ plex_tv_permissions }}"
+              - "{{ plex_photos_directory }}:/photos:{{ plex_photos_permissions }}"
+              - "{{ plex_podcasts_directory }}:/podcasts:{{ plex_podcasts_permissions }}"
+              - "{{ plex_music_directory }}:/music:{{ plex_music_permissions }}"
+              - "{{ plex_audiobooks_directory }}:/audiobooks:{{ plex_audiobooks_permissions }}"
+            ports:
+              - "{{ plex_metamanager_port }}:3030"
+            env:
+              TZ: "{{ ansible_nas_timezone }}"
+              PUID: "{{ plex_metamanager_user_id }}"
+              PGID: "{{ plex_metamanager_group_id }}"
+              PMM_DEBUG: "True"
+            restart_policy: unless-stopped
+            memory: "{{ plex_metamanager_memory }}"
+            labels:
+              traefik.enable: "false"
+      when: plex_metamanager_enabled is true
   when: plex_enabled is true
 
 - name: Stop Plex
@@ -98,3 +136,11 @@
         name: "{{ plex_autoscan_container_name }}"
         state: absent
   when: plex_autoscan_enabled is false
+
+- name: Stop Plex Meta Manager
+  block:
+    - name: Stop Plex Meta Manager
+      community.docker.docker_container:
+        name: "{{ plex_metamanager_container_name }}"
+        state: absent
+  when: plex_metamanager_enabled is false

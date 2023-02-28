@@ -1,6 +1,7 @@
 ---
 plex_enabled: false
 plex_autoscan_enabled: false
+plex_metamanager_enabled: false
 plex_available_externally: false
 
 # directories
@@ -18,6 +19,8 @@ plex_user_id: "0"
 plex_group_id: "0"
 plex_autoscan_user_id: "1000"
 plex_autoscan_group_id: "1000"
+plex_metamanager_user_id: "1000"
+plex_metamanager_group_id: "1000"
 
 # If you're paranoid, set permissions to "ro" so Plex won't ever be able to
 # delete your files
@@ -32,6 +35,7 @@ plex_audiobooks_permissions: "rw"
 plex_hostname: "plex"
 plex_network_name: "plex"
 plex_autoscan_port: "3030"
+plex_metamanager_port: "3031"
 
 # docker
 plex_container_name: plex
@@ -40,10 +44,15 @@ plex_image_version: "latest"
 plex_autoscan_container_name: plex-autoscan
 plex_autoscan_image_name: "cloudb0x/autoscan"
 plex_autoscan_image_version: "latest"
+plex_metamanager_container_name: plex-meta-manager
+plex_metamanager_image_name: "meisnate12/plex-meta-manager"
+plex_metamanager_image_version: "latest"
+
 
 # specs
 plex_memory: "2g"
 plex_autoscan_memory: "1g"
+plex_metamanager_memory: "1g"
 
 # Device mappings for the docker container. E.g. To enable hardware transcoding:
 # plex_devices:
@@ -54,3 +63,20 @@ plex_version: "docker"
 plex_claim: ""
 plex_autoscan_verbosity: "0"
 plex_api_token: ""
+
+# meta manager
+plex_meta_plex_url: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:32400
+plex_meta_tmdb_api_key: ""
+plex_meta_tautulli_url: ""
+plex_meta_tautulli_api_key: ""
+plex_meta_omdb_api_key: ""
+plex_meta_mdblist_api_key: ""
+plex_meta_notifarr_api_key: ""
+plex_meta_radarr_url: ""
+plex_meta_radarr_api_key: ""
+plex_meta_sonarr_url: ""
+plex_meta_sonarr_api_key: ""
+plex_meta_trakt_client_id: ""
+plex_meta_trakt_client_secret: ""
+plex_meta_mal_client_id: ""
+plex_meta_mal_client_secret: ""

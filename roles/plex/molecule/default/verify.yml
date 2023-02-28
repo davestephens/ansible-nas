@@ -17,6 +17,11 @@
         name: "{{ plex_autoscan_container_name }}"
       register: result_autoscan
 
+    - name: Get plex meta manager container state
+      community.docker.docker_container:
+        name: "{{ plex_metamanager_container_name }}"
+      register: result_metamanager
+
     - name: Check if plex containers are running
       ansible.builtin.assert:
         that:
@@ -24,3 +29,5 @@
           - result.container['State']['Restarting'] == false
           - result_autoscan.container['State']['Status'] == "running"
           - result_autoscan.container['State']['Restarting'] == false
+          - result_metamanager.container['State']['Status'] == "running"
+          - result_metamanager.container['State']['Restarting'] == false
