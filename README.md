@@ -104,6 +104,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Paperless_ng](https://github.com/jonaswinkler/paperless-ng) - Scan, index and archive all your physical documents
 * [Photofield](https://github.com/SmilyOrg/photofield) - Experimental fast photo viewer
 * [Photoprism](https://www.photoprism.app/) - An AI-Powered Photos App for the Decentralized Web
+* [PhotoStructure](https://photostructure.com/) - Your new home for all your photos & videos
 * [PhpMyAdmin](https://www.phpmyadmin.net/) - a tool intended to handle the administration of MySQL over the Web
 * [Piwigo](https://piwigo.org/) - Photo Gallery Software
 * [Plex](https://www.plex.tv/) - Plex Media Server

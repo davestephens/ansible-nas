@@ -1,0 +1,29 @@
+---
+photostructure_enabled: false
+photostructure_available_externally: false
+
+# directories
+photostructure_data_directory: "{{ docker_home }}/photostructure"
+photostructure_photos_directory: ""
+
+# network
+photostructure_http_port: "1787"
+photostructure_hostname: "photostructure"
+
+# specs
+photostructure_memory: 1g
+
+# docker
+photostructure_container_name: photostructure
+photostructure_image_name: "photostructure/server"
+photostructure_image_version: stable
+photostructure_user_id: "1000"
+photostructure_group_id: "1000"
+photostructure_volumes: # do not change!
+  - "{{ photostructure_data_directory }}/library:/ps/library:rw"
+  - "{{ photostructure_data_directory }}/config:/ps/config:rw"
+  - "{{ photostructure_data_directory }}/logs:/ps/logs:rw"
+  - "{{ photostructure_data_directory }}/tmp:/ps/tmp:rw"
+
+# photostructure_optional_volumes: # add list items here to mount additional volumes
+# - "/mnt/Pictures:/var/OtherPhotos:rw"

@@ -420,6 +420,10 @@
       tags:
         - photoprism
 
+    - role: photostructure
+      tags:
+        - photostructure
+
     - role: phpmyadmin
       tags:
         - phpmyadmin
