@@ -1,0 +1,10 @@
+[
+{% for key, value in releasebell_users.items() %}
+    {
+        "username": "{{ value.username }}",
+        "password": "{{ value.password }}",
+        "email": "{{ value.email }}"
+    }{% if not loop.last %},
+{% endif %}
+{% endfor %}
+]

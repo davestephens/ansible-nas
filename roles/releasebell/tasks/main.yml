@@ -1,0 +1,102 @@
+---
+- name: Start Releasebell
+  block:
+    - name: Create Releasebell Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ releasebell_data_directory }}"
+
+    - name: Create Releasebell Network
+      community.docker.docker_network:
+        name: "{{ releasebell_network_name }}"
+
+    - name: Create Releasebell Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ releasebell_db_container_name }}"
+        image: "{{ releasebell_db_image_name }}:{{ releasebell_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ releasebell_network_name }}"
+        network_mode: "{{ releasebell_network_name }}"
+        volumes:
+          - "{{ releasebell_data_directory }}/db:/var/lib/mysql"
+        env:
+          MARIADB_AUTO_UPGRADE: "1"
+          MARIADB_INITDB_SKIP_TZINFO: "1"
+          MARIADB_DATABASE: "{{ releasebell_mysql_database }}"
+          MARIADB_USER: "{{ releasebell_mysql_username }}"
+          MARIADB_PASSWORD: "{{ releasebell_mysql_password }}"
+          MARIADB_ROOT_PASSWORD: "{{ releasebell_mysql_root_passowrd }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ releasebell_db_memory }}"
+
+    - name: Create config file
+      ansible.builtin.template:
+        src: users.json.j2
+        dest: "{{ releasebell_data_directory }}/users.json"
+        owner: "{{ releasebell_user_id }}"
+        group: "{{ releasebell_user_id }}"
+        mode: u=rwx,g=rx,o=r
+
+    - name: Create Releasebell Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ releasebell_container_name }}"
+        image: "{{ releasebell_image_name }}:{{ releasebell_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ releasebell_network_name }}"
+        network_mode: "{{ releasebell_network_name }}"
+        volumes:
+          - "{{ releasebell_data_directory }}/config:/config:rw"
+          - "{{ releasebell_data_directory }}/users.json:/app/code/users.json:ro"
+        ports:
+          - "{{ releasebell_port }}:3000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ releasebell_user_id | quote }}"
+          PGID: "{{ releasebell_group_id | quote }}"
+          CLOUDRON_LDAP_URL: "{{ releasebell_ldap_url }}"
+          CLOUDRON_LDAP_USERS_BASE_DN: "{{ releasebell_ldap_users_base_dn }}"
+          CLOUDRON_LDAP_BIND_DN: "{{ releasebell_ldap_bind_dn }}"
+          CLOUDRON_LDAP_BIND_PASSWORD: "{{ releasebell_ldap_bind_password }}"
+          CLOUDRON_MAIL_SMTP_SERVER: "{{ releasebell_mail_smtp_server }}"
+          CLOUDRON_MAIL_SMTP_PORT: "{{ releasebell_mail_smtp_port }}"
+          CLOUDRON_MAIL_SMTP_USERNAME: "{{ releasebell_mail_smtp_username }}"
+          CLOUDRON_MAIL_SMTP_PASSWORD: "{{ releasebell_mail_smtp_password }}"
+          CLOUDRON_MAIL_FROM: "{{ releasebell_mail_from }}"
+          CLOUDRON_MAIL_DOMAIN: "{{ releasebell_mail_domain }}"
+          CLOUDRON_APP_ORIGIN: "{{ releasebell_app_origin }}"
+          CLOUDRON_MYSQL_HOST: "{{ releasebell_mysql_host }}"
+          CLOUDRON_MYSQL_PORT: "{{ releasebell_mysql_port }}"
+          CLOUDRON_MYSQL_USERNAME: "{{ releasebell_mysql_username }}"
+          CLOUDRON_MYSQL_PASSWORD: "{{ releasebell_mysql_password }}"
+          CLOUDRON_MYSQL_DATABASE: "{{ releasebell_mysql_database }}"
+        restart_policy: unless-stopped
+        memory: "{{ releasebell_memory }}"
+        labels:
+          traefik.enable: "{{ releasebell_available_externally | string }}"
+          traefik.http.routers.releasebell.rule: "Host(`{{ releasebell_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.releasebell.tls.certresolver: "letsencrypt"
+          traefik.http.routers.releasebell.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.releasebell.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.releasebell.loadbalancer.server.port: "3000"
+  when: releasebell_enabled is true
+
+- name: Stop Releasebell
+  block:
+    - name: Stop Releasebell
+      community.docker.docker_container:
+        name: "{{ releasebell_container_name }}"
+        state: absent
+
+    - name: Stop Releasebell Db
+      community.docker.docker_container:
+        name: "{{ releasebell_db_container_name }}"
+        state: absent
+  when: releasebell_enabled is false

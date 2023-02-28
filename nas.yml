@@ -466,6 +466,10 @@
       tags:
         - rclone
 
+    - role: releasebell
+      tags:
+        - releasebell
+
     - role: route53_ddns
       tags:
         - route53_ddns

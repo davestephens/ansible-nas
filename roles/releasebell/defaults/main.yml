@@ -1,0 +1,57 @@
+---
+releasebell_enabled: false
+releasebell_available_externally: false
+
+# directories
+releasebell_data_directory: "{{ docker_home }}/releasebell"
+releasebell_photos_directory: ""
+
+# network
+releasebell_port: "3006"
+releasebell_hostname: "releasebell"
+releasebell_network_name: "releasebell"
+
+# specs
+releasebell_memory: 1g
+releasebell_db_memory: 1g
+
+# docker
+releasebell_container_name: releasebell
+releasebell_image_name: "anarion/releasebell"
+releasebell_image_version: latest
+releasebell_db_container_name: releasebell-db
+releasebell_db_image_name: "mariadb"
+releasebell_db_image_version: latest
+releasebell_user_id: "1000"
+releasebell_group_id: "1000"
+
+# releasebell
+releasebell_ldap_url: "" # Example: "ldap://openldap:1389"
+releasebell_ldap_users_base_dn: "" # Example: "ou=users,dc=example"
+releasebell_ldap_bind_dn: "" # Example: "CN=admin,ou=users,dc=example"
+releasebell_ldap_bind_password: "" # Example: "adminpassword"
+releasebell_mail_smtp_server: "smtp.example.com"
+releasebell_mail_smtp_port: "25"
+releasebell_mail_smtp_username: ""
+releasebell_mail_smtp_password: ""
+releasebell_mail_from: "releasebell@{{ ansible_nas_domain }}"
+releasebell_mail_domain: "example.com"
+releasebell_app_origin: "example.com"
+releasebell_mysql_host: "{{ releasebell_db_container_name }}"
+releasebell_mysql_port: "3306"
+releasebell_mysql_username: "releasebell"
+releasebell_mysql_password: "releasebell"
+releasebell_mysql_database: "releasebell"
+releasebell_mysql_root_passowrd: "supersecure"
+releasebell_username: ""
+releasebell_password: ""
+releasebell_email: ""
+releasebell_users: # a dict of users to be created
+  alice:
+    username: "alice"
+    password: "password1"
+    email: "alice@alice.org"
+  bob:
+    username: "bob"
+    password: "password2"
+    email: "bob@alice.org"
