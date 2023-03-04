@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        seafile_enabled: true
+        seafile_data_directory: "/tmp/seafile"

@@ -1,0 +1,49 @@
+---
+seafile_enabled: false
+seafile_available_externally: false
+
+# directories
+seafile_data_directory: "{{ docker_home }}/seafile"
+
+# network
+seafile_port: "8101"
+seafile_hostname: "seafile"
+seafile_network_name: "seafile"
+
+# specs
+seafile_memory: 1g
+seafile_db_memory: 1g
+seafile_memcached_memory: 1g
+
+# docker
+seafile_container_name: seafile
+seafile_image_name: "seafileltd/seafile-mc"
+seafile_image_version: latest
+seafile_db_container_name: seafile-db
+seafile_db_image_name: "mysql"
+seafile_db_image_version: latest
+seafile_memcached_container_name: seafile-memcached
+seafile_memcached_image_name: "memcached"
+seafile_memcached_image_version: latest
+seafile_user_id: "1000"
+seafile_group_id: "1000"
+
+# seafile
+seafile_database: "seafile"
+seafile_db_user: "seafile"
+seafile_db_password: "password"
+seafile_db_root_password: "supersecure"
+seafile_admin_email: "me@example.com"
+seafile_admin_password: "supersecure"
+seafile_server_letsencrypt: "false"
+seafile_server_hostname: "{{ seafile_hostname }}.{{ ansible_nas_domain }}"
+
+# main env dictionary for the container and for merging with optional environment variables
+seafile_env:
+  DB_HOST: "{{ seafile_db_container_name }}"
+  DB_ROOT_PASSWD: "{{ seafile_db_root_password }}"  # Requested, the value shuold be root's password of MySQL service.
+  SEAFILE_ADMIN_EMAIL: "{{ seafile_admin_email }}" # Specifies Seafile admin user, default is 'me@example.com'.
+  SEAFILE_ADMIN_PASSWORD: "{{ seafile_admin_password }}"     # Specifies Seafile admin password, default is 'asecret'.
+  SEAFILE_SERVER_LETSENCRYPT: "{{ seafile_server_letsencrypt }}"   # Whether to use https or not.
+  SEAFILE_SERVER_HOSTNAME: "{{ seafile_server_hostname }}" # Specifies your host name if https is enabled.
+  TIME_ZONE: "{{ ansible_nas_timezone }}"

@@ -1,0 +1,94 @@
+---
+- name: Start Seafile
+  block:
+    - name: Create Seafile Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ seafile_data_directory }}"
+
+    - name: Create Seafile Network
+      community.docker.docker_network:
+        name: "{{ seafile_network_name }}"
+
+    - name: Create Seafile Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ seafile_db_container_name }}"
+        image: "{{ seafile_db_image_name }}:{{ seafile_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ seafile_network_name }}"
+        network_mode: "{{ seafile_network_name }}"
+        volumes:
+          - "{{ seafile_data_directory }}/db:/var/lib/mysql"
+        env:
+          MYSQL_DATABASE: "{{ seafile_database }}"
+          MYSQL_USER: "{{ seafile_db_user }}"
+          MYSQL_PASSWORD: "s{{ seafile_db_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ seafile_db_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ seafile_db_memory }}"
+
+    - name: Pause for 30 seconds to wait for DB to get up
+      ansible.builtin.pause:
+        seconds: 30
+
+    - name: Create Seafile Memcached Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ seafile_memcached_container_name }}"
+        image: "{{ seafile_memcached_image_name }}:{{ seafile_memcached_image_version }}"
+        pull: true
+        entrypoint: ["memcached", "-m 256"]
+        networks:
+          - name: "{{ seafile_network_name }}"
+        network_mode: "{{ seafile_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ seafile_memcached_memory }}"
+
+    - name: Create Seafile Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ seafile_container_name }}"
+        image: "{{ seafile_image_name }}:{{ seafile_image_version }}"
+        pull: true
+        volumes:
+          - "{{ seafile_data_directory }}/seafile:/shared:rw"
+        ports:
+          - "{{ seafile_port }}:80"
+        networks:
+          - name: "{{ seafile_network_name }}"
+        network_mode: "{{ seafile_network_name }}"
+        env: "{{ seafile_optional_env | default({}) | combine(seafile_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ seafile_memory }}"
+        labels:
+          traefik.enable: "{{ seafile_available_externally | string }}"
+          traefik.http.routers.seafile.rule: "Host(`{{ seafile_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.seafile.tls.certresolver: "letsencrypt"
+          traefik.http.routers.seafile.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.seafile.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.seafile.loadbalancer.server.port: "80"
+  when: seafile_enabled is true
+
+- name: Stop Seafile
+  block:
+    - name: Stop Seafile
+      community.docker.docker_container:
+        name: "{{ seafile_container_name }}"
+        state: absent
+    - name: Stop Seafile DB
+      community.docker.docker_container:
+        name: "{{ seafile_db_container_name }}"
+        state: absent
+    - name: Stop Seafile Memcached
+      community.docker.docker_container:
+        name: "{{ seafile_memcached_container_name }}"
+        state: absent
+  when: seafile_enabled is false

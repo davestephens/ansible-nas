@@ -489,6 +489,10 @@
         - sabnzbd
       when: (sabnzbd_enabled | default(False))
 
+    - role: seafile
+      tags:
+        - seafile
+
     - role: sickchill
       tags:
         - sickchill
