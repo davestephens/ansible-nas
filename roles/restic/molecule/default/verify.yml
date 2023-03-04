@@ -1,0 +1,69 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: "Restic - retrieve information"
+      ansible.builtin.stat:
+        path: "{{ restic_install_location }}/restic"
+      register: restic_file
+
+    - name: "Restic - assert that file is created correctly"
+      ansible.builtin.assert:
+        that:
+          - "restic_file.stat.exists"
+          - "restic_file.stat.islnk"
+          - "restic_file.stat.mode == '0777'"
+
+    - name: "Restic - check version"
+      ansible.builtin.command: "/usr/local/bin/restic version"
+      changed_when: false
+      register: shell_result
+
+    - name: Reformat dict if necessary
+      ansible.builtin.set_fact:
+        restic_backups: "{{ restic_backups | dict2items | json_query('[*].value') }}"
+      when:
+        - restic_backups | type_debug == "dict"
+
+    - name: "Backup script - retrieve information"
+      ansible.builtin.stat:
+        path: "{{ restic_script_dir }}/backup-{{ item.name }}.sh"
+      with_items: '{{ restic_backups }}'
+      when:
+        - item.name is defined
+        - item.src is defined
+        - item.repo in restic_repos
+      register: backup_script
+
+    - name: "Backup script - assert that file is created correctly"
+      ansible.builtin.assert:
+        that:
+          - "item.stat.exists"
+          - "item.stat.isreg"
+          - "item.stat.mode == '0700'"
+        success_msg: "Backup script(s) is/are created!"
+        fail_msg: "Backup script(s) is/are not created!"
+      with_items: "{{ backup_script.results }}"
+
+    - name: Check cron job file
+      ansible.builtin.fetch:
+        src: /var/spool/cron/crontabs/{{ restic_service_user }}
+        dest: /tmp/fetched
+
+    - name: Check if cron job does exist
+      ansible.builtin.assert:
+        that: "lookup('file', '/tmp/fetched/instance/var/spool/cron/crontabs/{{ restic_service_user }}') is search('Ansible-NAS Restic backup {{ item.name }}')"
+        fail_msg: "Cron job 'Ansible-NAS Restic backup {{ item.name }}' does not exist for user {{ restic_service_user }}!"
+        success_msg: "Cron job 'Ansible-NAS Restic backup {{ item.name }}' exists for user {{ restic_service_user }}!"
+      with_items: '{{ restic_backups }}'
+      when:
+        - restic_create_cron_jobs
+        - item.name is defined
+        - item.scheduled | default(false)

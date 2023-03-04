@@ -1,0 +1,103 @@
+---
+restic_enabled: false
+restic_service_user: root
+restic_service_group: root
+
+restic_version_to_install: "0.15.1" # The version of Restic to install
+restic_download_location: "/opt/restic" # Download location for the restic binary
+restic_install_location: "/usr/local/bin" # Install location for the restic binary
+restic_config_folder: /root/restic # /home/{{ restic_service_user }}/restic
+
+restic_repos: # A dictionary of repositories where snapshots are stored.
+  local:
+    location: /home/{{ restic_service_user }}/backups
+    password: securepassword1
+    init: true
+  remote_aws:
+    location: s3:s3.amazonaws.com/bucket_name
+    password: securepassword2
+    restic_aws_access_key: "" # The access key for the S3 backend
+    restic_aws_secret_access_key: "" # The secret access key for the S3 backend
+    restic_aws_default_region: "" # The desired region for the S3 backend
+    init: true
+  remote_b2:
+    location: b2:bucketname:path/to/repo
+    password: securepassword2
+    restic_b2_account_id: "" # the account ID for Backblaze B2 backend
+    restic_b2_account_key: "" # The account key for Backblaze B2 backend
+    init: true
+restic_backups: # A list of dictionaries specifying the files and directories to be backed up
+  docker_remote:
+    name: docker_remote
+    repo: remote_aws
+    src: "{{ docker_home }}"
+    scheduled: true
+    schedule_minute: "5"
+    schedule_hour: "0"
+    exclude: "{{ restic_excludes }}"
+    options: rclone.args="serve restic --stdio --b2-hard-delete --drive-impersonate {{ restic_rclone_drive_impersonate_user }}"
+    keep_daily: "20"
+    backup_tag: "daily"
+  docker_local:
+    name: docker_local
+    repo: local
+    src: "{{ docker_home }}"
+    scheduled: true
+    schedule_hour: 1
+    exclude: "{{ restic_excludes }}"
+
+restic_create_cron_jobs: false # Should a cronjob be created for each backup
+restic_dir_owner: "{{ restic_service_user }}" # The owner of all created dirs
+restic_dir_group: "{{ restic_service_group }}" # The group of all created dirs
+restic_rclone_drive_impersonate_user: "ansible-nas@{{ ansible_nas_domain }}" # when you use rclone as remote
+restic_keep_days: "10" # how many days of backups to keep
+restic_send_email: false # enable to send email with results of running a backup script
+restic_from_email: "restic@{{ ansible_nas_domain }}" # set to send email with results of running a backup script
+restic_excludes:
+  exclude_caches: true
+  # exclude:
+  #   - /path/to/file
+  iexclude:
+    - "*.log"
+    - "*.swp"
+    - "*.cache"
+    - "**/.Trash"
+    - "**/.thumbnails"
+    - "**/cache"
+    - "**/logs"
+    - "**/.cache"
+    - "**.log"
+    - "**.qlog"
+    - "{{ docker_image_directory }}"
+    - sonarr/**/MediaCover
+    - radarr/**/MediaCover
+    - lidarr/**/MediaCover
+    - plex/**/Crash Reports
+    - plex/**/logs
+    - plex/**/cache
+    - plex/**
+    - mylar/**/logs
+    - mylar/**/cache
+    - "**/jellyfin"
+    - "**/organizr"
+    - ombi/**/Logs
+    # exclude_file:
+    #   - /path/to/file
+    # exclude_if_present:
+    #   - /path/to/file
+
+# arillso.restic defaults DO NOT CHANGE
+restic_url: "" # The URL to download restic from. Use this variable to overwrite the default
+restic_version: "0.15.1" # The version of Restic to install
+restic_download_path: "/opt/restic" # Download location for the restic binary
+restic_install_path: "/usr/local/bin" # Install location for the restic binary
+restic_script_dir: /root/restic # "/home/{{ restic_service_user }}/restic" # Location of the generated backup scripts
+restic_log_dir: "{{ restic_script_dir }}/log" # Location of the logs of the backup scripts
+restic_backup_script_template: restic_script_Linux.j2
+_platform_map:
+  i386: 386
+  x86_64: amd64
+  aarch64: arm64
+  armv7l: arm
+  armv6l: arm
+restic_url_to_download_from: "https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_{{ ansible_system | lower }}_{{ _platform_map[arch] | default(arch) }}.bz2" # The URL to download restic from. Use this variable to overwrite the default

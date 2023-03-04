@@ -1,0 +1,48 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Reformat dict if necessary
+      ansible.builtin.set_fact:
+        restic_backups: "{{ restic_backups | dict2items | json_query('[*].value') }}"
+      when:
+        - restic_backups | type_debug == "dict"
+
+    - name: "Backup script(s) - retrieve information"
+      ansible.builtin.stat:
+        path: "{{ restic_script_dir }}/backup-{{ item.name }}.sh"
+      with_items: '{{ restic_backups }}'
+      when:
+        - item.name is defined
+        - item.src is defined
+        - item.repo in restic_repos
+      register: backup_script
+
+    - name: "Backup script(s) - assert that file is removed"
+      ansible.builtin.assert:
+        that:
+          - "item.stat.exists is false"
+        success_msg: "Backup script file is removed!"
+        fail_msg: "Backup script file is not removed!"
+      with_items: "{{ backup_script.results }}"
+
+    - name: Check cron job file
+      ansible.builtin.fetch:
+        src: /var/spool/cron/crontabs/{{ restic_service_user }}
+        dest: /tmp/fetched
+
+    - name: Check if cron job does exist
+      ansible.builtin.assert:
+        that: "lookup('file', '/tmp/fetched/instance/var/spool/cron/crontabs/{{ restic_service_user }}') is search('Ansible-NAS Restic backup {{ item.name }}')"
+        fail_msg: "Cron job 'Ansible-NAS Restic backup {{ item.name }}' does not exist for user {{ restic_service_user }}!"
+        success_msg: "Cron job 'Ansible-NAS Restic backup {{ item.name }}' exists for user {{ restic_service_user }}!"
+      with_items: '{{ restic_backups }}'
+      when:
+        - restic_create_cron_jobs
+        - item.name is defined
+        - item.scheduled | default(false)

@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+# {{ ansible_managed }}
+# Backup script for {{ item.src|default('stdin') }}
+# Use this file to create a Backup and prune existing data with one execution.
+{% if restic_send_email is defined and restic_send_email is true %}
+FROM="{{ restic_from_email }}"
+EMAIL="{{ ansible_nas_email }}"
+notify() {
+echo -e "${1}" | mail -r "${FROM}" -s "Errors running Restic Backup on host: $(hostname)" "$1"
+}
+{% endif %}
+
+{% if item.disable_logging is defined and item.disable_logging %}
+{% set backup_result_log, backup_output_log = "/dev/null", "/dev/null" %}
+{% set forget_result_log, forget_output_log = "/dev/null", "/dev/null" %}
+{% else %}
+{% set backup_result_log, backup_output_log = restic_log_dir + "/" + item.name + "-backup-result.log", restic_log_dir + "/" + item.name + "-backup-output.log" %}
+{% set forget_result_log, forget_output_log = restic_log_dir + "/" + item.name + "-forget-result.log", restic_log_dir + "/" + item.name + "-forget-output.log" %}
+{% endif %}
+
+export RESTIC_REPOSITORY={{ restic_repos[item.repo].location }}
+export RESTIC_PASSWORD='{{ restic_repos[item.repo].password | regex_replace('\'', '\'\\\'\'') }}'
+BACKUP_NAME={{ item.name }}
+{% if restic_repos[item.repo].aws_access_key is defined %}
+export AWS_ACCESS_KEY_ID={{ restic_repos[item.repo].aws_access_key }}
+{% endif %}
+{% if restic_repos[item.repo].aws_secret_access_key is defined %}
+export AWS_SECRET_ACCESS_KEY='{{ restic_repos[item.repo].aws_secret_access_key | regex_replace('\'', '\'\\\'\'') }}'
+{% endif %}
+{% if restic_repos[item.repo].aws_default_region is defined %}
+export AWS_DEFAULT_REGION={{ restic_repos[item.repo].aws_default_region }}
+{% endif %}
+{% if restic_repos[item.repo].b2_account_id is defined %}
+export B2_ACCOUNT_ID={{ restic_repos[item.repo].b2_account_id }}
+{% endif %}
+{% if restic_repos[item.repo].b2_account_key is defined %}
+export B2_ACCOUNT_KEY={{ restic_repos[item.repo].b2_account_key }}
+{% endif %}
+{% if item.src is defined %}
+BACKUP_SOURCE={{ item.src }}
+{% endif %}
+set -uxo pipefail
+{#
+  Define Tags
+#}
+{% macro tags(tags) -%}
+  {% if tags is defined and (tags|length>0) %}{% for tag in tags %} --tag {{ tag }}{% endfor %}{% endif %}
+{%- endmacro %}
+{#
+  Define Keeped Tags
+#}
+{% macro keep_tags(tags) -%}
+  {% if tags is defined and (tags|length>0) %}{% for tag in tags %} --keep-tag {{ tag }}{% endfor %}{% endif %}
+{%- endmacro %}
+{#
+  Define Hostname
+#}
+{% macro hostname(h) -%}
+  {% if h is defined %} --hostname {{ h }}{% endif %}
+{%- endmacro %}
+{#
+  Define stdin filename
+#}
+{% macro stdin_filename(n) -%}
+  {% if n is defined %} --stdin-filename {{ n }}{% endif %}
+{%- endmacro %}
+{#
+  Define path
+#}
+{% macro path(repo) -%}
+  {% if repo.src is defined and repo.src != None and (repo.src|length>0)  %}{{ repo.src }}{% else %}{{ repo.stdin_filename }}{% endif %}
+{%- endmacro %}
+{#
+  Define retention pattern
+#}
+{% macro retention_pattern(repo) -%}
+  {% if repo.keep_last is defined and repo.keep_last != None %}--keep-last {{ item.keep_last }}{% endif %} \
+  {% if repo.keep_hourly is defined and repo.keep_hourly != None %}--keep-hourly {{ item.keep_hourly }}{% endif %} \
+  {% if repo.keep_daily is defined and repo.keep_daily != None %}--keep-daily {{ item.keep_daily }}{% endif %} \
+  {% if repo.keep_weekly is defined and repo.keep_weekly != None %}--keep-weekly {{ item.keep_weekly }}{% endif %} \
+  {% if repo.keep_monthly is defined and repo.keep_monthly != None %}--keep-monthly {{ item.keep_monthly }}{% endif %} \
+  {% if repo.keep_yearly is defined and repo.keep_yearly != None %}--keep-yearly {{ item.keep_yearly }}{% endif %} \
+  {% if repo.keep_within is defined and repo.keep_within != None %}--keep-within {{ item.keep_within }}{% endif %} \
+  {% if repo.keep_tag is defined and (repo.keep_tag|length>0) %}{{ keep_tags(repo.keep_tag) }}{% endif %}
+{%- endmacro %}
+
+{% macro exclude(exclude) %}
+    {% if exclude.exclude_cache is defined and exclude.exclude_cache == true %}
+        --exclude-cache \
+    {% endif %}
+    {% if exclude.exclude is defined %}
+        {% for path in exclude.exclude %}
+            --exclude {{ path }} \
+        {% endfor %}
+    {% endif %}
+    {% if exclude.iexclude is defined %}
+        {% for path in exclude.iexclude %}
+            --iexclude {{ path }} \
+        {% endfor %}
+    {% endif %}
+    {% if exclude.exclude_file is defined %}
+        {% for path in exclude.exclude_file %}
+            --exclude-file {{ path }} \
+        {% endfor %}
+    {% endif %}
+    {% if exclude.exclude_if_present is defined %}
+        {% for path in exclude.exclude_if_present %}
+            --exclude-if-present {{ path }} \
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+{#
+  Define backup commands
+#}
+if [[ -z ${CRON+x} ]]; then
+  MODE_TAG="--tag manual"
+else
+  MODE_TAG="--tag cron {% if item.backup_tag is defined %}--tag {{ item.backup_tag }}{% endif %}"
+fi
+
+{% if item.stdin is defined and item.stdin == true %}
+  {{ item.stdin_cmd }} | {{ restic_install_path }}/restic backup \
+    --stdin $MODE_TAG \
+    {{ tags(item.tags) }} \
+    {{ stdin_filename(item.stdin_filename) }} \
+    {% if item.exclude is defined %}{{ exclude(item.exclude) }}{% endif %} \
+    $@ \
+{% else %}
+  {{ restic_install_path }}/restic {% if item.options is defined %}-o {{ item.options }}{% endif %} backup $BACKUP_SOURCE $MODE_TAG \
+    {{ tags(item.tags) }} \
+    {% if item.exclude is defined %}{{ exclude(item.exclude) }}{% endif %} \
+    $@ \
+{% endif %} | tee {{ backup_output_log }}
+if [[ $? -eq 0 ]]
+then
+    echo "$(date -u '+%Y-%m-%d %H:%M:%S') OK" >> {{ backup_result_log }}
+else
+    echo "$(date -u '+%Y-%m-%d %H:%M:%S') ERROR" >> {{ backup_result_log }}
+    exit 1
+fi
+
+{#
+  Define stdin forget commands
+#}
+{{ restic_install_path }}/restic {% if item.options is defined %}-o {{ item.options }}{% endif %} forget --path {{ path(item) }} {{ retention_pattern(item) }} {% if item.prune is defined and item.prune == true %}--prune{% endif %} | tee {{ forget_output_log }}
+if [[ $? -eq 0 ]]
+then
+    echo "$(date -u '+%Y-%m-%d %H:%M:%S') OK" >> {{ forget_result_log }}
+else
+    echo "$(date -u '+%Y-%m-%d %H:%M:%S') ERROR" >> {{ forget_result_log }}
+    exit 1
+fi
+{% if restic_send_email is defined and restic_send_email is true %}
+# notify OK
+echo -e "Snapshot complete, snapshots older than {{ retention_pattern(item) }} deleted." | mail -r "${FROM}" -s "Restic Backup OK on: $(hostname)" ${EMAIL}
+{% endif%}

@@ -1,0 +1,132 @@
+---
+- name: Start Restic
+  block:
+    - name: Create restic group
+      ansible.builtin.group:
+        name: "{{ restic_service_group }}"
+        state: present
+
+    - name: Create restic user
+      ansible.builtin.user:
+        name: "{{ restic_service_user }}"
+        state: present
+        system: yes
+        update_password: on_create
+        create_home: yes
+        group: "{{ restic_service_group }}"
+        shell: /bin/bash
+      tags: molecule-idempotence-notest
+
+    - name: Create restic config directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ restic_service_user }}"
+        group: "{{ restic_service_group }}"
+      with_items:
+        - "{{ restic_script_dir }}"
+
+    - name: Include Restic role
+      ansible.builtin.include_role:
+        name: arillso.restic
+      vars:
+        restic_url: "{{ restic_url_to_download_from }}"
+        restic_version: "{{ restic_version_to_install }}" # The version of Restic to install
+        restic_download_path: "{{ restic_download_location }}" # Download location for the restic binary
+        restic_install_path: "{{ restic_install_location }}" # Install location for the restic binary
+        restic_script_dir: "{{ restic_config_folder }}" # "/home/{{ restic_service_user }}/restic" # Location of the generated backup scripts
+        restic_log_dir: "{{ restic_script_dir }}/log" # Location of the logs of the backup scripts
+        restic_dir_owner: "{{ restic_service_user }}" # The owner of all created dirs
+        restic_dir_group: "{{ restic_service_group }}" # The group of all created dirs
+        restic_create_cron: false
+        restic_backup_script_template: restic_script_Linux.j2
+      tags: molecule-idempotence-notest
+
+    # - name: Debug
+    #   ansible.builtin.debug:
+    #     var: restic_backups
+
+    - name: Reformat dict if necessary
+      ansible.builtin.set_fact:
+        restic_backups: "{{ restic_backups | dict2items | json_query('[*].value') }}"
+      when:
+        - restic_backups | type_debug == "dict"
+
+    - name: Create backup credentials
+      ansible.builtin.template:
+        src: restic_access_Linux.j2
+        dest: '{{ restic_script_dir }}/access-{{ item.name }}.sh'
+        mode: '0700'
+        owner: '{{ restic_dir_owner }}'
+        group: '{{ restic_dir_group }}'
+      with_items: '{{ restic_backups }}'
+      when:
+        - item.name is defined
+        - item.src is defined or item.stdin is defined
+        - item.src is defined or item.stdin and item.stdin_cmd is defined
+        - item.repo in restic_repos
+
+    - name: Create backup script
+      ansible.builtin.template:
+        src: "{{ restic_backup_script_template }}"
+        dest: '{{ restic_script_dir }}/backup-{{ item.name }}.sh'
+        mode: '0700'
+        owner: '{{ restic_dir_owner }}'
+        group: '{{ restic_dir_group }}'
+      with_items: '{{ restic_backups }}'
+      when:
+        - item.name is defined
+        - item.src is defined or item.stdin is defined
+        - item.src is defined or item.stdin and item.stdin_cmd is defined
+        - item.repo in restic_repos
+      tags: molecule-idempotence-notest
+
+    - name: Setup CRON jobs
+      cron:
+        name: 'Ansible-NAS Restic backup {{ item.name }}'
+        user: "{{ restic_service_user }}"
+        job: 'CRON=true ionice -c2 -n7 nice -n19 bash {{ restic_script_dir }}/backup-{{ item.name }}.sh'
+        minute: '{{ item.schedule_minute | default("*") }}'
+        hour: '{{ item.schedule_hour | default("*") }}'
+        weekday: '{{ item.schedule_weekday | default("*") }}'
+        month: '{{ item.schedule_month | default("*") }}'
+        state: present
+      become: true
+      with_items: '{{ restic_backups }}'
+      when:
+        - restic_create_cron_jobs
+        - item.name is defined
+        - item.scheduled | default(false)
+
+  when: restic_enabled is true
+
+- name: Stop Restic
+  block:
+    - name: Reformat dict if necessary
+      ansible.builtin.set_fact:
+        restic_backups: "{{ restic_backups | dict2items | json_query('[*].value') }}"
+      when:
+        - restic_backups | type_debug == "dict"
+
+    - name: Remove restic cron job
+      ansible.builtin.cron:
+        name: "Ansible-NAS Restic backup {{ item.name }}"
+        user: "{{ restic_service_user }}"
+        state: absent
+      become: true
+      with_items: "{{ restic_backups }}"
+
+    - name: Remove backup scripts
+      ansible.builtin.file:
+        path: '{{ restic_script_dir }}/backup-{{ item.name }}.sh'
+        state: absent
+      become: true
+      with_items: '{{ restic_backups }}'
+
+    - name: Remove access files
+      ansible.builtin.file:
+        path: '{{ restic_script_dir }}/access-{{ item.name }}.sh'
+        state: absent
+      become: true
+      with_items: '{{ restic_backups }}'
+  when: restic_enabled is false

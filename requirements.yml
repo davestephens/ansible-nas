@@ -11,3 +11,5 @@
 - name: stefangweichinger.ansible_rclone
 
 - name: tigattack.mergerfs
+
+- name: arillso.restic

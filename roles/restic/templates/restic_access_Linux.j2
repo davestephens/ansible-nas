@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# {{ ansible_managed }}
+# Backup credentials for {{ item.src|default('stdin') }}
+# Source this file to work with restic on this host
+
+export RESTIC_REPOSITORY={{ restic_repos[item.repo].location }}
+export RESTIC_PASSWORD='{{ restic_repos[item.repo].password | regex_replace('\'', '\'\\\'\'') }}'
+{% if restic_repos[item.repo].aws_access_key is defined %}
+export AWS_ACCESS_KEY_ID={{ restic_repos[item.repo].aws_access_key }}
+{% endif %}
+{% if restic_repos[item.repo].aws_secret_access_key is defined %}
+export AWS_SECRET_ACCESS_KEY='{{ restic_repos[item.repo].aws_secret_access_key | regex_replace('\'', '\'\\\'\'') }}'
+{% endif %}
+{% if restic_repos[item.repo].aws_default_region is defined %}
+export AWS_DEFAULT_REGION={{ restic_repos[item.repo].aws_default_region }}
+{% endif %}
+{% if restic_repos[item.repo].b2_account_id is defined %}
+export B2_ACCOUNT_ID={{ restic_repos[item.repo].b2_account_id }}
+{% endif %}
+{% if restic_repos[item.repo].b2_account_key is defined %}
+export B2_ACCOUNT_KEY={{ restic_repos[item.repo].b2_account_key }}
+{% endif %}
+BACKUP_NAME={{ item.name }}
+{% if item.src is defined %}
+BACKUP_SOURCE={{ item.src }}
+{% endif %}

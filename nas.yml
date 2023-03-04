@@ -470,6 +470,10 @@
       tags:
         - releasebell
 
+    - role: restic
+      tags:
+        - restic
+
     - role: route53_ddns
       tags:
         - route53_ddns

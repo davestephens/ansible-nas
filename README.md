@@ -117,6 +117,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [PyTivo](http://pytivo.org) - An HMO and GoBack server for TiVos.
 * [Radarr](https://radarr.video/) - for organising and downloading movies
 * [Releasebell](https://github.com/anarion80/releasebell) - Starred GitHub repositories notifications
+* [Restic](https://restic.net/) - A modern backup program
 * [Route53 DDNS](https://crazymax.dev/ddns-route53/) - Automatically update AWS Route53 with your IP address
 * [RSS-Bridge](https://rss-bridge.github.io/rss-bridge/) - The RSS feed for websites missing it
 * [Sabnzbd](https://sabnzbd.org/) - A powerful usenet downloader that FreeNAS provides
