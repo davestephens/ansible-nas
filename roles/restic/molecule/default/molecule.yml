@@ -15,43 +15,8 @@ provisioner:
         restic_service_user: root
         restic_service_group: root
         restic_script_dir: /root/restic
-        # restic_repos: #A dictionary of repositories where snapshots are stored.
-        #   local:
-        #     location: /home/{{ restic_service_user }}/backups
-        #     password: securepassword1
-        #     init: false
-        #   remote_aws:
-        #     location: s3:s3.amazonaws.com/bucket_name
-        #     password: securepassword2
-        #     restic_aws_access_key: "" # The access key for the S3 backend
-        #     restic_aws_secret_access_key: "" # The secret access key for the S3 backend
-        #     restic_aws_default_region: "" # The desired region for the S3 backend
-        #     init: false
-        #   remote_b2:
-        #     location: b2:bucketname:path/to/repo
-        #     password: securepassword2
-        #     restic_b2_account_id: "" # the account ID for Backblaze B2 backend
-        #     restic_b2_account_key: "" # The account key for Backblaze B2 backend
-        #     init: false
-        # restic_backups: # A list of dictionaries specifying the files and directories to be backed up
-        #   # docker_remote:
-        #   #   name: docker_remote
-        #   #   repo: remote
-        #   #   src: "{{ docker_home }}"
-        #   #   scheduled: true
-        #   #   schedule_minute: "5"
-        #   #   schedule_hour: "0"
-        #   #   exclude: "{{ restic_excludes }}"
-        #   #   options: rclone.args="serve restic --stdio --b2-hard-delete --drive-impersonate {{ restic_rclone_drive_impersonate_user }}"
-        #   #   keep_daily: "20"
-        #   #   backup_tag: "daily"
-        #   docker_local:
-        #     name: docker_local
-        #     repo: local
-        #     src: "{{ docker_home }}"
-        #     scheduled: true
-        #     schedule_hour: 1
-        #     exclude: "{{ restic_excludes }}"
+  playbooks:
+    prepare: prepare.yml
 scenario:
   test_sequence:
     - cleanup

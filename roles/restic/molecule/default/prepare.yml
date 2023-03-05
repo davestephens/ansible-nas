@@ -1,0 +1,14 @@
+---
+- name: Prepare localhost
+  hosts: localhost
+  tasks:
+    - name: Install jmespath
+      ansible.builtin.pip:
+        name: jmespath
+
+- name: Prepare instance
+  hosts: all
+  tasks:
+    - name: Install docker python module
+      ansible.builtin.pip:
+        name: docker
