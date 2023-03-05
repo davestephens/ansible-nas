@@ -493,6 +493,10 @@
       tags:
         - seafile
 
+    - role: shaarli
+      tags:
+        - shaarli
+
     - role: sickchill
       tags:
         - sickchill

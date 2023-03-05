@@ -1,0 +1,20 @@
+---
+shaarli_enabled: false
+shaarli_available_externally: false
+
+# directories
+shaarli_data_directory: "{{ docker_home }}/shaarli"
+
+# network
+shaarli_port: "8102"
+shaarli_hostname: "shaarli"
+
+# specs
+shaarli_memory: 1g
+
+# docker
+shaarli_container_name: shaarli
+shaarli_image_name: "shaarli/shaarli"
+shaarli_image_version: latest
+shaarli_user_id: "1000"
+shaarli_group_id: "1000"

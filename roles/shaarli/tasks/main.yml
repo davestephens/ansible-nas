@@ -1,0 +1,45 @@
+---
+- name: Start shaarli
+  block:
+    - name: Create shaarli Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+        owner: "100"
+        group: "100"
+      with_items:
+        - "{{ shaarli_data_directory }}"
+
+    - name: Create shaarli Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ shaarli_container_name }}"
+        image: "{{ shaarli_image_name }}:{{ shaarli_image_version }}"
+        pull: true
+        volumes:
+          - "{{ shaarli_data_directory }}:/var/www/shaarli/data:rw"
+        ports:
+          - "{{ shaarli_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ shaarli_user_id | quote }}"
+          PGID: "{{ shaarli_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ shaarli_memory }}"
+        labels:
+          traefik.enable: "{{ shaarli_available_externally | string }}"
+          traefik.http.routers.shaarli.rule: "Host(`{{ shaarli_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.shaarli.tls.certresolver: "letsencrypt"
+          traefik.http.routers.shaarli.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.shaarli.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.shaarli.loadbalancer.server.port: "80"
+  when: shaarli_enabled is true
+
+- name: Stop shaarli
+  block:
+    - name: Stop shaarli
+      community.docker.docker_container:
+        name: "{{ shaarli_container_name }}"
+        state: absent
+  when: shaarli_enabled is false
