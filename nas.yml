@@ -502,6 +502,10 @@
         - sickchill
       when: (sickchill_enabled | default(False))
 
+    - role: snipeit
+      tags:
+        - snipeit
+
     - role: sonarr
       tags:
         - sonarr

@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        snipeit_enabled: true
+        snipeit_data_directory: "/tmp/snipeit"

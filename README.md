@@ -124,6 +124,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Seafile](https://www.seafile.com/en/home/) - High performance file syncing and sharing
 * [Shaarli](https://github.com/shaarli/Shaarli) - Personal, minimalist, super-fast, database free, bookmarking service
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
+* [Snipe-IT](https://snipeitapp.com/) - A free open source IT asset/license management system
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Speedtest-Tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) - Continuously track your internet speed
 * Stats - Monitor and visualise metrics about your NAS and internet connection using Grafana, Prometheus, Telegraf and more.

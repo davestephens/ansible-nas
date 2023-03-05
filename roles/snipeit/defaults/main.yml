@@ -1,0 +1,85 @@
+---
+snipeit_enabled: false
+snipeit_available_externally: false
+
+# directories
+snipeit_data_directory: "{{ docker_home }}/snipeit"
+
+# network
+snipeit_port: "8103"
+snipeit_hostname: "snipeit"
+snipeit_network_name: "snipeit"
+
+# specs
+snipeit_memory: 1g
+snipeit_db_memory: 1g
+snipeit_memcached_memory: 1g
+
+# docker
+snipeit_container_name: snipeit
+snipeit_image_name: "snipe/snipe-it"
+snipeit_image_version: latest
+snipeit_db_container_name: snipeit-db
+snipeit_db_image_name: "mariadb"
+snipeit_db_image_version: "10.6.4-focal"
+snipeit_user_id: "1000"
+snipeit_group_id: "1000"
+
+# snipeit
+snipeit_database: "snipeit"
+snipeit_db_user: "snipeit"
+snipeit_db_password: "snipeit"
+snipeit_db_root_password: "secret"
+snipeit_mail_server: "smtp-relay.gmail.com"
+snipeit_mail_server_port: "465"
+snipeit_mail_from_address: "snipeit@{{ ansible_nas_domain }}"
+snipeit_mail_from_name: "Anisble-NAS Snipe-IT"
+snipeit_mail_encryption: "tls"
+snipeit_mail_username: ""
+snipeit_mail_password: ""
+snipeit_replyto_addr: "snipeit@{{ ansible_nas_domain }}"
+snipeit_app_key: "base64:cnhkZWg5NmpibjZveDVyN2Job3RnOGU5M3NjazVxb2w="
+snipeit_app_debug: "false"
+snipeit_app_locale: "en"
+snipeit_app_secure_cookies: "false"
+snipeit_app_trusted_proxies: "192.168.2.1,10.0.0.1"
+
+# main env dictionary for the container and for merging with optional environment variables
+snipeit_env:
+  # Mysql Parameters
+  MYSQL_DATABASE: "{{ snipeit_database }}"
+  MYSQL_USER: "{{ snipeit_db_user }}"
+  MYSQL_PASSWORD: '{{ snipeit_db_password }}'
+  MYSQL_ROOT_PASSWORD: "{{ snipeit_db_root_password }}"
+  MYSQL_PORT_3306_TCP_ADDR: "{{ snipeit_db_container_name }}"
+  MYSQL_PORT_3306_TCP_PORT: "3306"
+
+  # Email Parameters
+  # - the hostname/IP address of your mailserver
+  MAIL_PORT_587_TCP_ADDR: "{{ snipeit_mail_server }}"
+  # the port for the mailserver (probably 587, could be another)
+  MAIL_PORT_587_TCP_PORT: "{{ snipeit_mail_server_port }}"
+  # the default from address, and from name for emails
+  MAIL_ENV_FROM_ADDR: "{{ snipeit_mail_from_address }}"
+  MAIL_ENV_FROM_NAME: "{{ snipeit_mail_from_name }}"
+  # - pick 'tls' for SMTP-over-SSL, 'tcp' for unencrypted
+  MAIL_ENV_ENCRYPTION: "{{ snipeit_mail_encryption }}"
+  # SMTP username and password
+  MAIL_ENV_USERNAME: "{{ snipeit_mail_username }}"
+  MAIL_ENV_PASSWORD: "{{ snipeit_mail_password }}"
+  MAIL_REPLYTO_ADDR: "{{ snipeit_replyto_addr }}"
+
+  # Snipe-IT Settings
+  APP_ENV: "production"
+  APP_DEBUG: "{{ snipeit_app_debug }}"
+  APP_KEY: "{{ snipeit_app_key }}"
+  # APP_URL: "https://{{ snipeit_hostname }}.{{ ansible_nas_domain }}"
+  APP_URL: "http://192.168.2.165:8103"
+  APP_TIMEZONE: "{{ ansible_nas_timezone }}"
+  APP_LOCALE: "{{ snipeit_app_locale }}"
+
+  APP_TRUSTED_PROXIES: "{{ snipeit_app_trusted_proxies }}"
+  SECURE_COOKIES: "{{ snipeit_app_secure_cookies }}"
+
+  # Docker-specific variables
+  PHP_UPLOAD_LIMIT: "100"

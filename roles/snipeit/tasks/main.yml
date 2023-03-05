@@ -1,0 +1,68 @@
+---
+- name: Start Snipeit
+  block:
+    - name: Create Snipeit Network
+      community.docker.docker_network:
+        name: "{{ snipeit_network_name }}"
+
+    - name: Create Snipeit Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ snipeit_db_container_name }}"
+        image: "{{ snipeit_db_image_name }}:{{ snipeit_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ snipeit_network_name }}"
+        network_mode: "{{ snipeit_network_name }}"
+        volumes:
+          - "{{ snipeit_data_directory }}/mysql:/var/lib/mysql"
+        env:
+          MYSQL_DATABASE: "{{ snipeit_database }}"
+          MYSQL_USER: "{{ snipeit_db_user }}"
+          MYSQL_PASSWORD: "{{ snipeit_db_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ snipeit_db_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ snipeit_db_memory }}"
+
+    - name: Pause for 30 seconds to wait for DB to get up
+      ansible.builtin.pause:
+        seconds: 40
+
+    - name: Create Snipeit Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ snipeit_container_name }}"
+        image: "{{ snipeit_image_name }}:{{ snipeit_image_version }}"
+        pull: true
+        volumes:
+          - "{{ snipeit_data_directory }}/snipeit:/var/lib/snipeit:rw"
+        ports:
+          - "{{ snipeit_port }}:80"
+        networks:
+          - name: "{{ snipeit_network_name }}"
+        network_mode: "{{ snipeit_network_name }}"
+        env: "{{ snipeit_optional_env | default({}) | combine(snipeit_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ snipeit_memory }}"
+        labels:
+          traefik.enable: "{{ snipeit_available_externally | string }}"
+          traefik.http.routers.snipeit.rule: "Host(`{{ snipeit_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.snipeit.tls.certresolver: "letsencrypt"
+          traefik.http.routers.snipeit.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.snipeit.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.snipeit.loadbalancer.server.port: "80"
+  when: snipeit_enabled is true
+
+- name: Stop Snipeit
+  block:
+    - name: Stop Snipeit
+      community.docker.docker_container:
+        name: "{{ snipeit_container_name }}"
+        state: absent
+    - name: Stop Snipeit DB
+      community.docker.docker_container:
+        name: "{{ snipeit_db_container_name }}"
+        state: absent
+  when: snipeit_enabled is false
