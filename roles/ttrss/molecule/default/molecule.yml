@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        ttrss_enabled: true
+        ttrss_data_directory: "/tmp/ttrss"

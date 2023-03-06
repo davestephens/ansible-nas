@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get ttrss db container state
+      community.docker.docker_container:
+        name: "{{ ttrss_db_container_name }}"
+      register: result_db
+
+    - name: Get ttrss nginx container state
+      community.docker.docker_container:
+        name: "{{ ttrss_nginx_container_name }}"
+      register: result_nginx
+
+    - name: Get ttrss updater container state
+      community.docker.docker_container:
+        name: "{{ ttrss_updater_container_name }}"
+      register: result_updater
+
+    - name: Get ttrss backup container state
+      community.docker.docker_container:
+        name: "{{ ttrss_backup_container_name }}"
+      register: result_backup
+
+    - name: Get ttrss container state
+      community.docker.docker_container:
+        name: "{{ ttrss_container_name }}"
+      register: result
+
+    - name: Check if ttrss containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_nginx.container['State']['Status'] == "running"
+          - result_nginx.container['State']['Restarting'] == false
+          - result_updater.container['State']['Status'] == "running"
+          - result_updater.container['State']['Restarting'] == false
+          - result_backup.container['State']['Status'] == "running"
+          - result_backup.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

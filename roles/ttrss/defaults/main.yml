@@ -1,0 +1,107 @@
+---
+ttrss_enabled: false
+ttrss_available_externally: false
+ttrss_plugins_enabled: false
+
+# directories
+ttrss_data_directory: "{{ docker_home }}/ttrss"
+
+# network
+ttrss_port: "8106"
+ttrss_hostname: "ttrss"
+ttrss_network_name: "ttrss"
+
+# specs
+ttrss_memory: 1g
+ttrss_db_memory: 1g
+ttrss_nginx_memory: 1g
+ttrss_updater_memory: 1g
+ttrss_backup_memory: 1g
+
+# docker
+ttrss_container_name: ttrss
+ttrss_image_name: "cthulhoo/ttrss-fpm-pgsql-static"
+ttrss_image_version: latest
+ttrss_db_container_name: ttrss-db
+ttrss_db_image_name: "postgres"
+ttrss_db_image_version: 12-alpine
+ttrss_nginx_container_name: ttrss-nginx
+ttrss_nginx_image_name: "cthulhoo/ttrss-web-nginx"
+ttrss_nginx_image_version: latest
+ttrss_updater_container_name: ttrss-updater
+ttrss_updater_image_name: "cthulhoo/ttrss-fpm-pgsql-static"
+ttrss_updater_image_version: latest
+ttrss_backup_container_name: ttrss-backup
+ttrss_backup_image_name: "cthulhoo/ttrss-fpm-pgsql-static"
+ttrss_backup_image_version: latest
+ttrss_user_id: "1000"
+ttrss_group_id: "1000"
+
+# ttrss
+ttrss_db_host: "{{ ttrss_db_container_name }}"
+ttrss_db_name: "ttrss"
+ttrss_db_user: "ttrss"
+ttrss_db_pass: "password"
+ttrss_db_port: "5432"
+ttrss_smtp_from_name: "Tiny Tiny RSS"
+ttrss_smtp_from_address: "ttrss@{{ ansible_nas_domain }}"
+ttrss_url: "https://{{ ttrss_hostname }}.{{ ansible_nas_domain }}"
+ttrss_admin_user_pass: "secure"
+ttrss_admin_user_access_level: "10"
+ttrss_user: "ansible-nas"
+ttrss_user_pass: "password"
+ttrss_user_access_level: "0"
+
+# main env dictionary for the container and for merging with optional environment variables
+ttrss_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  OWNER_UID: "{{ ttrss_user_id }}"
+  OWNER_GID: "{{ ttrss_group_id }}"
+  SELF_URL_PATH: "{{ ttrss_url }}"
+  TTRSS_SELF_URL_PATH: "{{ ttrss_url }}"
+  TTRSS_DB_TYPE: "pgsql"
+  TTRSS_DB_HOST: "{{ ttrss_db_host }}"
+  TTRSS_DB_NAME: "{{ ttrss_db_name }}"
+  TTRSS_DB_USER: "{{ ttrss_db_user }}"
+  TTRSS_DB_PORT: "{{ ttrss_db_port }}"
+  TTRSS_DB_PASS: "{{ ttrss_db_pass }}"
+  HTTP_PORT: "{{ ttrss_port }}"
+  HTTP_HOST: "localhost"
+  TTRSS_SMTP_FROM_NAME: "{{ ttrss_smtp_from_name }}"
+  TTRSS_SMTP_FROM_ADDRESS: "{{ ttrss_smtp_from_address }}"
+  ADMIN_USER_PASS: "{{ ttrss_admin_user_pass }}"
+  ADMIN_USER_ACCESS_LEVEL: "{{ ttrss_admin_user_access_level }}"
+  AUTO_CREATE_USER: "{{ ttrss_user }}"
+  AUTO_CREATE_USER_PASS: "{{ ttrss_user_pass }}"
+  AUTO_CREATE_USER_ACCESS_LEVEL: "{{ ttrss_user_access_level }}"
+
+ttrss_updater_env: "{{ ttrss_env }}"
+ttrss_backup_env: "{{ ttrss_env }}"
+ttrss_nginx_env:
+  APP_UPSTREAM: "{{ ttrss_container_name }}"
+
+
+# ttrss plugin to install (optional)
+ttrss_plugins:
+  - repo: https://git.tt-rss.org/fox/ttrss-mailer-smtp.git # plugin repo
+    dest: mailer_smtp                                      # dir name relative to plugins.local
+    version: master
+    # - repo: https://github.com/joshp23/ttrss-to-wallabag-v2.git
+    #   dest: wallabag_v2
+
+ttrss_optional_env:
+  TTRSS_SMTP_SERVER: "localhost:587"
+  # Use this server (hostname:port). Empty value disables plugin.
+
+  TTRSS_SMTP_LOGIN: ""
+  TTRSS_SMTP_PASSWORD: ""
+  # Login/password for SMTP auth, if needed.
+
+  TTRSS_SMTP_SECURE: ""
+  # Use secure connection. Allowed values: `ssl`, `tls`, or empty.
+
+  # TTRSS_SMTP_SKIP_CERT_CHECKS=
+  # Accept all SSL certificates, use with caution.
+
+  # TTRSS_SMTP_CA_FILE=
+  # Use custom CA certificate for SSL/TLS secure connections. Only used if TTRSS_SMTP_SKIP_CERT_CHECKS is false.

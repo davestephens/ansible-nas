@@ -1,0 +1,163 @@
+---
+- name: Start Tt-rss
+  block:
+    - name: Create ttrss Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ ttrss_user_id }}"
+        group: "{{ ttrss_group_id }}"
+        # mode: 0755
+      with_items:
+        - "{{ ttrss_data_directory }}"
+
+    - name: Create Tt-rss Network
+      community.docker.docker_network:
+        name: "{{ ttrss_network_name }}"
+
+    - name: Create Tt-rss Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ttrss_db_container_name }}"
+        image: "{{ ttrss_db_image_name }}:{{ ttrss_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ ttrss_network_name }}"
+        network_mode: "{{ ttrss_network_name }}"
+        volumes:
+          - "{{ ttrss_data_directory }}/data:/var/lib/postgresql/data:rw"
+        env:
+          POSTGRES_PASSWORD: "{{ ttrss_db_pass }}"
+          POSTGRES_USER: "{{ ttrss_db_user }}"
+          POSTGRES_DB: "{{ ttrss_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ ttrss_db_memory }}"
+
+    - name: Create Tt-rss Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ttrss_container_name }}"
+        image: "{{ ttrss_image_name }}:{{ ttrss_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ttrss_data_directory }}/config:/opt/tt-rss/config.d:rw"
+          - "{{ ttrss_data_directory }}/app:/var/www/html:rw"
+          - "{{ ttrss_data_directory }}/backups:/backups:rw"
+        networks:
+          - name: "{{ ttrss_network_name }}"
+        network_mode: "{{ ttrss_network_name }}"
+        env: "{{ ttrss_optional_env | default({}) | combine(ttrss_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ ttrss_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Tt-rss Nginx Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ttrss_nginx_container_name }}"
+        image: "{{ ttrss_nginx_image_name }}:{{ ttrss_nginx_image_version }}"
+        pull: true
+        ports:
+          - "{{ ttrss_port }}:80"
+        volumes:
+          - "{{ ttrss_data_directory }}/app:/var/www/html:ro"
+        networks:
+          - name: "{{ ttrss_network_name }}"
+        network_mode: "{{ ttrss_network_name }}"
+        env: "{{ ttrss_nginx_optional_env | default({}) | combine(ttrss_nginx_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ ttrss_nginx_memory }}"
+        labels:
+          traefik.enable: "{{ ttrss_available_externally | string }}"
+          traefik.http.routers.ttrss.rule: "Host(`{{ ttrss_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.ttrss.tls.certresolver: "letsencrypt"
+          traefik.http.routers.ttrss.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.ttrss.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.ttrss.loadbalancer.server.port: "80"
+
+    - name: Create Tt-rss Updater Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ttrss_updater_container_name }}"
+        image: "{{ ttrss_updater_image_name }}:{{ ttrss_updater_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ttrss_data_directory }}/config:/opt/tt-rss/config.d:rw"
+          - "{{ ttrss_data_directory }}/app:/var/www/html:rw"
+        networks:
+          - name: "{{ ttrss_network_name }}"
+        network_mode: "{{ ttrss_network_name }}"
+        env: "{{ ttrss_updater_optional_env | default({}) | combine(ttrss_updater_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ ttrss_updater_memory }}"
+        labels:
+          traefik.enable: "false"
+        command: "/opt/tt-rss/updater.sh"
+
+    - name: Create Tt-rss Backup Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ttrss_backup_container_name }}"
+        image: "{{ ttrss_backup_image_name }}:{{ ttrss_backup_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ttrss_data_directory }}/config:/opt/tt-rss/config.d:rw"
+          - "{{ ttrss_data_directory }}/app:/var/www/html:rw"
+          - "{{ ttrss_data_directory }}/backups:/backups:rw"
+        networks:
+          - name: "{{ ttrss_network_name }}"
+        network_mode: "{{ ttrss_network_name }}"
+        env: "{{ ttrss_backup_optional_env | default({}) | combine(ttrss_backup_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ ttrss_backup_memory }}"
+        labels:
+          traefik.enable: "false"
+        command: "/opt/tt-rss/dcron.sh -f"
+
+    - name: Install plugins
+      block:
+        - name: Install plugins
+          ansible.builtin.git:
+            repo: "{{ item.repo }}"
+            dest: "{{ ttrss_data_directory }}/app/tt-rss/plugins.local/{{ item.dest | lower }}"
+            version: "{{ item.version }}"
+          with_items: "{{ ttrss_plugins | default([]) }}"
+
+        - name: Update ownership
+          ansible.builtin.file:
+            path: "{{ ttrss_data_directory }}/app/tt-rss/plugins.local/{{ item.dest | lower }}"
+            state: directory
+            owner: "{{ ttrss_user_id }}"
+            group: "{{ ttrss_group_id }}"
+            recurse: true
+          with_items: "{{ ttrss_plugins | default([]) }}"
+      when: ttrss_plugins_enabled is true
+
+  when: ttrss_enabled is true
+
+- name: Stop Tt-rss
+  block:
+    - name: Stop Tt-rss
+      community.docker.docker_container:
+        name: "{{ ttrss_container_name }}"
+        state: absent
+    - name: Stop Tt-rss DB
+      community.docker.docker_container:
+        name: "{{ ttrss_db_container_name }}"
+        state: absent
+    - name: Stop Tt-rss Nginx
+      community.docker.docker_container:
+        name: "{{ ttrss_nginx_container_name }}"
+        state: absent
+    - name: Stop Tt-rss Updater
+      community.docker.docker_container:
+        name: "{{ ttrss_updater_container_name }}"
+        state: absent
+    - name: Stop Tt-rss Backup
+      community.docker.docker_container:
+        name: "{{ ttrss_backup_container_name }}"
+        state: absent
+  when: ttrss_enabled is false

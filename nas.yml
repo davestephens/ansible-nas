@@ -568,6 +568,10 @@
       tags:
         - trilium
 
+    - role: ttrss
+      tags:
+        - ttrss
+
     - role: ubooquity
       tags:
         - ubooquity
