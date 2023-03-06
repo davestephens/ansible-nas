@@ -1,0 +1,64 @@
+---
+webtrees_enabled: false
+webtrees_available_externally: false
+
+# directories
+webtrees_data_directory: "{{ docker_home }}/webtrees"
+
+# network
+webtrees_http_port: "8107"
+webtrees_https_port: "8108"
+webtrees_hostname: "webtrees"
+webtrees_network_name: "webtrees"
+
+# specs
+webtrees_memory: 1g
+webtrees_db_memory: 1g
+
+# docker
+webtrees_container_name: webtrees
+webtrees_image_name: "ghcr.io/nathanvaughn/webtrees"
+webtrees_image_version: latest
+webtrees_db_container_name: webtrees-db
+webtrees_db_image_name: "docker.io/library/mariadb"
+webtrees_db_image_version: latest
+webtrees_user_id: "1000"
+webtrees_group_id: "1000"
+
+# webtrees
+webtrees_lang: "en-US"
+webtrees_pretty_urls: "true"
+webtrees_base_url: "https://{{ webtrees_hostname }}.{{ ansible_nas_domain }}"
+webtrees_db_type: "mysql" # or 'sqlite' => then set DB_NAME to desiredfilename. Do not include any extension
+webtrees_db_name: "webtrees"
+webtrees_db_host: "{{ webtrees_db_container_name }}"
+webtrees_db_user: "webtrees"
+webtrees_db_pass: "webtrees"
+webtrees_db_root_password: "secure"
+webtrees_db_port: "3306"
+webtrees_db_prefix: "wt_"
+webtrees_wt_user: "ansible-nas"
+webtrees_wt_name: "Ansible Nas User"
+webtrees_wt_pass: "password"
+webtrees_wt_email: "{{ ansible_nas_email }}"
+webtrees_watchtower_enable: "true"
+
+# main env dictionary for the container and for merging with optional environment variables
+webtrees_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  PUID: "{{ webtrees_user_id }}"
+  PGID: "{{ webtrees_group_id }}"
+  LANG: "{{ webtrees_lang }}"
+  PRETTY_URLS: "{{ webtrees_pretty_urls }}"
+  BASE_URL: "{{ webtrees_base_url }}"
+  DB_TYPE: "{{ webtrees_db_type }}"
+  DB_HOST: "{{ webtrees_db_host }}"
+  DB_PORT: "{{ webtrees_db_port }}"
+  DB_USER: "{{ webtrees_db_user }}"
+  DB_PASS: "{{ webtrees_db_pass }}"
+  DB_NAME: "{{ webtrees_db_name }}"
+  DB_PREFIX: "{{ webtrees_db_prefix }}"
+  WT_USER: "{{ webtrees_wt_user }}"
+  WT_NAME: "{{ webtrees_wt_name }}"
+  WT_PASS: "{{ webtrees_wt_pass }}"
+  WT_EMAIL: "{{ webtrees_wt_email }}"

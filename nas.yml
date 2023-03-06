@@ -601,6 +601,10 @@
         - watchtower
       when: (watchtower_enabled | default(False))
 
+    - role: webtrees
+      tags:
+        - webtrees
+
     - role: wireshark
       tags:
         - wireshark

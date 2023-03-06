@@ -1,0 +1,81 @@
+---
+- name: Start Webtrees
+  block:
+    - name: Create Webtrees Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ webtrees_data_directory }}"
+        # - "{{ webtrees_data_directory }}/data"
+        # - "{{ webtrees_data_directory }}/media"
+        # - "{{ webtrees_data_directory }}/modules"
+
+    - name: Create Webtrees Network
+      community.docker.docker_network:
+        name: "{{ webtrees_network_name }}"
+
+    - name: Create Webtrees Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ webtrees_db_container_name }}"
+        image: "{{ webtrees_db_image_name }}:{{ webtrees_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ webtrees_network_name }}"
+        network_mode: "{{ webtrees_network_name }}"
+        volumes:
+          - "{{ webtrees_data_directory }}/db:/var/lib/mysql"
+        env:
+          MARIADB_DATABASE: "{{ webtrees_db_name }}"
+          MARIADB_USER: "{{ webtrees_db_user }}"
+          MARIADB_ROOT_PASSWORD: "{{ webtrees_db_root_password }}"
+          MARIADB_PASSWORD: "{{ webtrees_db_pass }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ webtrees_db_memory }}"
+
+    - name: Pause for 30 seconds to wait for DB to get up
+      ansible.builtin.pause:
+        seconds: 30
+
+    - name: Create Webtrees Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ webtrees_container_name }}"
+        image: "{{ webtrees_image_name }}:{{ webtrees_image_version }}"
+        pull: true
+        volumes:
+          - "{{ webtrees_data_directory }}/data:/var/www/webtrees/data/:rw"
+          - "{{ webtrees_data_directory }}/media:/var/www/webtrees/media/:rw"
+          - "{{ webtrees_data_directory }}/modules:/var/www/webtrees/modules_v4/:rw"
+        ports:
+          - "{{ webtrees_http_port }}:80"
+          - "{{ webtrees_https_port }}:443"
+        networks:
+          - name: "{{ webtrees_network_name }}"
+        network_mode: "{{ webtrees_network_name }}"
+        env: "{{ webtrees_optional_env | default({}) | combine(webtrees_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ webtrees_memory }}"
+        labels:
+          traefik.enable: "{{ webtrees_available_externally | string }}"
+          traefik.http.routers.webtrees.rule: "Host(`{{ webtrees_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.webtrees.tls.certresolver: "letsencrypt"
+          traefik.http.routers.webtrees.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.webtrees.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.webtrees.loadbalancer.server.port: "80"
+  when: webtrees_enabled is true
+
+- name: Stop Webtrees
+  block:
+    - name: Stop Webtrees
+      community.docker.docker_container:
+        name: "{{ webtrees_container_name }}"
+        state: absent
+    - name: Stop Webtrees DB
+      community.docker.docker_container:
+        name: "{{ webtrees_db_container_name }}"
+        state: absent
+  when: webtrees_enabled is false
