@@ -14,7 +14,7 @@ You can configure Ansible-NAS to set up any (or all!) of the applications listed
 
 If you have a spare domain name you can configure applications to be accessible externally to your home LAN too; they'll be configured with a sensible hostname and DNS gets updated accordingly if your home IP address changes.
 
-## Available Applications
+## Available Applications ![Roles](https://img.shields.io/github/directory-file-count/davestephens/ansible-nas/roles?label=Roles)
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
