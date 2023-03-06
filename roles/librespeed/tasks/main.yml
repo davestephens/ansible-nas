@@ -1,0 +1,49 @@
+---
+- name: Start Librespeed
+  block:
+    - name: Create Librespeed Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ librespeed_data_directory }}"
+
+    - name: Create Librespeed Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ librespeed_container_name }}"
+        image: "{{ librespeed_image_name }}:{{ librespeed_image_version }}"
+        pull: true
+        volumes:
+          - "{{ librespeed_data_directory }}:/config:rw"
+        ports:
+          - "{{ librespeed_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ librespeed_user_id }}"
+          PGID: "{{ librespeed_group_id }}"
+          PASSWORD: "{{ librespeed_password }}"
+          CUSTOM_RESULTS: "{{ librespeed_custom_results }}"
+          DB_TYPE: "{{ librespeed_db_type }}"
+          DB_NAME: "{{ librespeed_db_name }}"
+          DB_HOSTNAME: "{{ librespeed_db_hostname }}"
+          DB_USERNAME: "{{ librespeed_db_username }}"
+          DB_PASSWORD: "{{ librespeed_db_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ librespeed_memory }}"
+        labels:
+          traefik.enable: "{{ librespeed_available_externally | string }}"
+          traefik.http.routers.librespeed.rule: "Host(`{{ librespeed_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.librespeed.tls.certresolver: "letsencrypt"
+          traefik.http.routers.librespeed.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.librespeed.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.librespeed.loadbalancer.server.port: "80"
+  when: librespeed_enabled is true
+
+- name: Stop Librespeed
+  block:
+    - name: Stop Librespeed
+      community.docker.docker_container:
+        name: "{{ librespeed_container_name }}"
+        state: absent
+  when: librespeed_enabled is false

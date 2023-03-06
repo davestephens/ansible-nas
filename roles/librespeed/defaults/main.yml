@@ -1,0 +1,28 @@
+---
+librespeed_enabled: false
+librespeed_available_externally: false
+
+# directories
+librespeed_data_directory: "{{ docker_home }}/librespeed"
+
+# network
+librespeed_port: "8104"
+librespeed_hostname: "librespeed"
+
+# specs
+librespeed_memory: 1g
+
+# docker
+librespeed_container_name: librespeed
+librespeed_image_name: "linuxserver/librespeed"
+librespeed_image_version: latest
+librespeed_user_id: "1000"
+librespeed_group_id: "1000"
+
+librespeed_password: "secure"
+librespeed_custom_results: "false"
+librespeed_db_type: ""
+librespeed_db_name: ""
+librespeed_db_hostname: ""
+librespeed_db_username: ""
+librespeed_db_password: ""

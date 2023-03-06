@@ -70,6 +70,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [LazyLibrarian](https://lazylibrarian.gitlab.io/) - LazyLibrarian is a program to follow authors and grab metadata for all your digital reading needs
 * [Libreddit](https://github.com/libreddit/libreddit) - Private front-end for Reddit
 * [Librephotos](https://github.com/LibrePhotos/librephotos) - self-hosted open source photo
+* [Librespeed](https://github.com/librespeed/speedtest) - Self-hosted Speedtest for HTML5 and more
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [Loki](https://grafana.com/oss/loki/) - multi-tenant log aggregation system (via stats role).
 * [Mattermost](https://mattermost.com/) - open source platform for secure collaboration across the entire software development lifecycle
