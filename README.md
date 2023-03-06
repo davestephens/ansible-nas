@@ -136,6 +136,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
+* [Trilium](https://github.com/zadam/trilium) - Hierarchical note taking application with focus on building large personal knowledge bases
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
 * [uTorrent](https://www.utorrent.com/) - The best torrent downloading app for beginners
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden) - Self-Hosting port of password manager

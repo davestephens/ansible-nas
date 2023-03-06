@@ -1,0 +1,42 @@
+---
+- name: Start Trilium
+  block:
+    - name: Create Trilium Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ trilium_data_directory }}"
+
+    - name: Create Trilium Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ trilium_container_name }}"
+        image: "{{ trilium_image_name }}:{{ trilium_image_version }}"
+        pull: true
+        volumes:
+          - "{{ trilium_data_directory }}/data:/data:rw"
+        ports:
+          - "{{ trilium_port }}:8080"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ trilium_user_id | quote }}"
+          PGID: "{{ trilium_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ trilium_memory }}"
+        labels:
+          traefik.enable: "{{ trilium_available_externally | string }}"
+          traefik.http.routers.trilium.rule: "Host(`{{ trilium_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.trilium.tls.certresolver: "letsencrypt"
+          traefik.http.routers.trilium.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.trilium.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.trilium.loadbalancer.server.port: "8080"
+  when: trilium_enabled is true
+
+- name: Stop Trilium
+  block:
+    - name: Stop Trilium
+      community.docker.docker_container:
+        name: "{{ trilium_container_name }}"
+        state: absent
+  when: trilium_enabled is false

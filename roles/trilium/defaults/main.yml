@@ -1,0 +1,28 @@
+---
+trilium_enabled: false
+trilium_available_externally: false
+
+# directories
+trilium_data_directory: "{{ docker_home }}/trilium"
+
+# network
+trilium_port: "8105"
+trilium_hostname: "trilium"
+
+# specs
+trilium_memory: 1g
+
+# docker
+trilium_container_name: trilium
+trilium_image_name: "zadam/trilium"
+trilium_image_version: latest
+trilium_user_id: "1000"
+trilium_group_id: "1000"
+
+trilium_password: "secure"
+trilium_custom_results: "false"
+trilium_db_type: ""
+trilium_db_name: ""
+trilium_db_hostname: ""
+trilium_db_username: ""
+trilium_db_password: ""

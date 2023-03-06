@@ -564,6 +564,10 @@
         - transmission_with_openvpn
       when: (transmission_with_openvpn_enabled | default(False))
 
+    - role: trilium
+      tags:
+        - trilium
+
     - role: ubooquity
       tags:
         - ubooquity
