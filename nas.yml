@@ -609,6 +609,10 @@
       tags:
         - wger
 
+    - role: whoogle
+      tags:
+        - whoogle
+
     - role: wireshark
       tags:
         - wireshark

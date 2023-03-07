@@ -1,0 +1,63 @@
+---
+whoogle_enabled: false
+whoogle_available_externally: false
+
+# directories
+whoogle_data_directory: "{{ docker_home }}/whoogle"
+
+# network
+whoogle_port: "5002"
+whoogle_hostname: "whoogle"
+
+# specs
+whoogle_memory: 256m
+
+# docker
+whoogle_container_name: whoogle
+whoogle_image_name: "benbusby/whoogle-search"
+whoogle_image_version: latest
+whoogle_user_id: "1000"
+whoogle_group_id: "1000"
+
+# whoogle
+whoogle_user: "whoogle"
+whoogle_pass: "insecure"
+whoogle_proxy_user: "proxy-user"
+whoogle_proxy_password: "insecure"
+whoogle_proxy_type: "" # <proxy type (http|socks4|socks5)>
+whoogle_proxy_loc: "" # <proxy host/ip>
+whoogle_alt_tw: "" # nitter.net
+whoogle_alt_yt: "" # invidious.snopyta.org
+whoogle_alt_ig: "" # bibliogram.art/u
+whoogle_alt_rd: "" # libredd.it
+whoogle_alt_md: "" # farside.link/scribe
+whoogle_alt_tl: "" # farside.link/lingva
+whoogle_alt_img: "" # farside.link/rimgo
+whoogle_alt_wiki: "" # farside.link/wikiless
+whoogle_alt_imdb: "" # farside.link/libremdb
+whoogle_alt_quora: "" # farside.link/quetre
+
+# main env dictionary for the container and for merging with optional environment variables
+whoogle_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  # Basic auth configuration, uncomment to enable
+  WHOOGLE_USER: "{{ whoogle_user }}"
+  WHOOGLE_PASS: "{{ whoogle_pass }}"
+  # Proxy configuration, uncomment to enable
+  WHOOGLE_PROXY_USER: "{{ whoogle_proxy_user }}"
+  WHOOGLE_PROXY_PASS: "{{ whoogle_proxy_password }}"
+  WHOOGLE_PROXY_TYPE: "{{ whoogle_proxy_type }}" # <proxy type (http|socks4|socks5)>
+  WHOOGLE_PROXY_LOC: "{{ whoogle_proxy_loc }}" # <proxy host/ip>
+  # Site alternative configurations, uncomment to enable
+  # Note: If not set, the feature will still be available
+  # with default values.
+  WHOOGLE_ALT_TW: "{{ whoogle_alt_tw }}" # nitter.net
+  WHOOGLE_ALT_YT: "{{ whoogle_alt_yt }}" # invidious.snopyta.org
+  WHOOGLE_ALT_IG: "{{ whoogle_alt_ig }}" # bibliogram.art/u
+  WHOOGLE_ALT_RD: "{{ whoogle_alt_rd }}" # libredd.it
+  WHOOGLE_ALT_MD: "{{ whoogle_alt_md }}" # farside.link/scribe
+  WHOOGLE_ALT_TL: "{{ whoogle_alt_tl }}" # farside.link/lingva
+  WHOOGLE_ALT_IMG: "{{ whoogle_alt_img }}" # farside.link/rimgo
+  WHOOGLE_ALT_WIKI: "{{ whoogle_alt_wiki }}" # farside.link/wikiless
+  WHOOGLE_ALT_IMDB: "{{ whoogle_alt_imdb }}" # farside.link/libremdb
+  WHOOGLE_ALT_QUORA: "{{ whoogle_alt_quora }}" # farside.link/quetre

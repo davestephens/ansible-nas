@@ -146,6 +146,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
 * [Webtrees](https://www.webtrees.net/index.php/en/) - On-line collaborative genealogy application
 * [Wger](https://wger.de) - Free, open source web application that manages your exercises, workouts and nutrition
+* [Whoogle](https://github.com/benbusby/whoogle-search) - A self-hosted, ad-free, privacy-respecting metasearch engine
 * [Wireshark](https://www.wireshark.org/) - the world’s foremost and widely-used network protocol analyzer.
 * [Woodpecker-CI](https://woodpecker-ci.org) - a simple CI engine with great extensibility, forked from Drone.
 * [YouTubeDL-Material](https://github.com/Tzahi12345/YoutubeDL-Material) - Self-hosted YouTube downloader built on Material Design
