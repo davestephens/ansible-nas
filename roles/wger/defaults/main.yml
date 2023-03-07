@@ -1,0 +1,167 @@
+---
+wger_enabled: false
+wger_available_externally: false
+
+# directories
+wger_data_directory: "{{ docker_home }}/wger"
+
+# network
+wger_port: "8108"
+wger_hostname: "wger"
+wger_network_name: "wger"
+
+# specs
+wger_memory: 1g
+wger_db_memory: 1g
+wger_nginx_memory: 1g
+wger_cache_memory: 1g
+
+# docker
+wger_container_name: wger
+wger_image_name: "wger/server"
+wger_image_version: latest
+wger_db_container_name: wger-db
+wger_db_image_name: "postgres"
+wger_db_image_version: 12-alpine
+wger_nginx_container_name: wger-nginx
+wger_nginx_image_name: "nginx"
+wger_nginx_image_version: stable
+wger_cache_container_name: wger-cache
+wger_cache_image_name: redis
+wger_cache_image_version: latest
+wger_user_id: "1000"
+wger_group_id: "1000"
+
+# wger
+wger_db_host: "{{ wger_db_container_name }}"
+wger_db_name: "wger"
+wger_db_user: "wger"
+wger_db_pass: "password"
+wger_secret_key: "wger-docker-supersecret-key-1234567890!@#$%^&*(-_)"
+wger_signing_key: "wger-docker-secret-jwtkey-1234567890!@#$%^&*(-_=+)"
+wger_email_from: "wger@{{ ansible_nas_domain }}"
+wger_email_enable: "true"
+wger_email_host: ""
+wger_email_port: "25"
+wger_email_user: ""
+wger_email_password: ""
+wger_email_use_tls: "false"
+wger_email_use_ssl: "false"
+wger_csrf_trusted_origins: "https://{{ wger_hostname }}.{{ ansible_nas_domain }}"
+wger_django_debug: "False"
+wger_site_url: "https://{{ wger_hostname }}.{{ ansible_nas_domain }}"
+
+# main env dictionary for the container and for merging with optional environment variables
+wger_env:
+  # PUID: "{{ wger_user_id }}"
+  # PGID: "{{ wger_group_id }}"
+  # Django's secret key, change to a 50 character random string if you are running
+  # this instance publicly. For an online generator, see e.g. https://djecrety.ir/
+  SECRET_KEY: "{{ wger_secret_key }}"
+
+  # Signing key used for JWT, use something different than the secret key
+  SIGNING_KEY: "{{ wger_signing_key }}"
+
+  # The 'from' address used when sending emails
+  FROM_EMAIL: "{{ wger_email_from }}"
+
+  # The server's timezone, for a list of possible names:
+  # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  TIME_ZONE: "{{ ansible_nas_timezone }}"
+
+
+  #
+  # Consult the deployment section in the readme if you are running this behind a
+  # reverse proxy with HTTPS enabled
+  #
+
+  CSRF_TRUSTED_ORIGINS: "{{ wger_csrf_trusted_origins }}"
+  X_FORWARDED_PROTO_HEADER_SET: "True"
+
+
+  #
+  # These settings usually don't need changing
+  #
+
+
+  #
+  # Application
+  ALLOW_REGISTRATION: "True"
+  ALLOW_GUEST_USERS: "True"
+  ALLOW_UPLOAD_VIDEOS: "True"
+  # Users won't be able to contribute to exercises if their account age is
+  # lower than this amount in days.
+  MIN_ACCOUNT_AGE_TO_TRUST: "21"
+  # Note that setting these to true will always perform a sync during startup,
+  # even if the data is already current and will take some time. Usually you don't
+  # need to perform these steps so often and a manual trigger (see README) is
+  # usually enough.
+  SYNC_EXERCISES_ON_STARTUP: "True"
+  DOWNLOAD_EXERCISE_IMAGES_ON_STARTUP: "True"
+
+
+  #
+  # Database
+  DJANGO_DB_ENGINE: "django.db.backends.postgresql"
+  DJANGO_DB_DATABASE: "{{ wger_db_name }}"
+  DJANGO_DB_USER: "{{ wger_db_user }}"
+  DJANGO_DB_PASSWORD: "{{ wger_db_pass }}"
+  DJANGO_DB_HOST: "{{ wger_db_host }}"
+  DJANGO_DB_PORT: "5432"
+  # Perform any new database migrations on startup
+  DJANGO_PERFORM_MIGRATIONS: "True"
+
+
+  #
+  # Cache
+  DJANGO_CACHE_BACKEND: "django_redis.cache.RedisCache"
+  DJANGO_CACHE_LOCATION: "redis://{{ wger_cache_container_name }}:6379/1"
+  # 60*60*24*15, 15 Days
+  DJANGO_CACHE_TIMEOUT: "12"
+  DJANGO_CACHE_CLIENT_CLASS: "django_redis.client.DefaultClient"
+
+  #
+  # Brute force login attacks
+  # https://django-axes.readthedocs.io/en/latest/index.html
+  AXES_ENABLED: "True"
+  AXES_FAILURE_LIMIT: "10"
+  # in minutes
+  AXES_COOLOFF_TIME: "30"
+  AXES_HANDLER: "axes.handlers.cache.AxesCacheHandler"
+
+  #
+  # Others
+  DJANGO_DEBUG: "{{ wger_django_debug | string }}"
+  WGER_USE_GUNICORN: "True"
+  EXERCISE_CACHE_TTL: "10"
+  SITE_URL: "{{ wger_site_url }}"
+
+
+  #
+  # JWT auth
+  # The lifetime duration of the access token, in minutes
+  ACCESS_TOKEN_LIFETIME: "10"
+  # The lifetime duration of the refresh token, in hours
+  REFRESH_TOKEN_LIFETIME: "24"
+
+
+  #
+  # Other possible settings
+
+  # RECAPTCHA_PUBLIC_KEY
+  # RECAPTCHA_PRIVATE_KEY
+  # NOCAPTCHA
+
+  # https://docs.djangoproject.com/en/4.1/topics/email/#smtp-backend
+  ENABLE_EMAIL: "{{ wger_email_enable }}"
+  EMAIL_HOST: "{{ wger_email_host }}"
+  EMAIL_PORT: "{{ wger_email_port }}"
+  EMAIL_HOST_USER: "{{ wger_email_user }}"
+  EMAIL_HOST_PASSWORD: "{{ wger_email_password }}"
+  EMAIL_USE_TLS: "{{ wger_email_use_tls }}"
+  EMAIL_USE_SSL: "{{ wger_email_use_ssl }}"
+
+  # DJANGO_MEDIA_ROOT
+  # DJANGO_STATIC_ROOT
+  MEDIA_URL: "{{ wger_site_url }}/media/"
+  STATIC_URL: "{{ wger_site_url }}/static/"

@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get wger db container state
+      community.docker.docker_container:
+        name: "{{ wger_db_container_name }}"
+      register: result_db
+
+    - name: Get wger nginx container state
+      community.docker.docker_container:
+        name: "{{ wger_nginx_container_name }}"
+      register: result_nginx
+
+    - name: Get wger cache container state
+      community.docker.docker_container:
+        name: "{{ wger_cache_container_name }}"
+      register: result_cache
+
+    - name: Get wger container state
+      community.docker.docker_container:
+        name: "{{ wger_container_name }}"
+      register: result
+
+    - name: Check if wger containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_nginx.container['State']['Status'] == "running"
+          - result_nginx.container['State']['Restarting'] == false
+          - result_cache.container['State']['Status'] == "running"
+          - result_cache.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

@@ -605,6 +605,10 @@
       tags:
         - webtrees
 
+    - role: wger
+      tags:
+        - wger
+
     - role: wireshark
       tags:
         - wireshark

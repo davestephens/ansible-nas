@@ -1,0 +1,156 @@
+---
+- name: Start Wger
+  block:
+    - name: Create wger Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ wger_user_id }}"
+        group: "{{ wger_group_id }}"
+        # mode: 0755
+      with_items:
+        - "{{ wger_data_directory }}"
+
+    - name: Create wger mount directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "1000"
+        group: "1000"
+        # mode: 0777
+      with_items:
+        - "{{ wger_data_directory }}/static"
+        - "{{ wger_data_directory }}/config"
+        - "{{ wger_data_directory }}/media"
+
+    - name: Copy Wger Nginx config
+      ansible.builtin.template:
+        src: nginx.conf
+        dest: "{{ wger_data_directory }}/config/nginx.conf"
+
+    - name: Create Wger Network
+      community.docker.docker_network:
+        name: "{{ wger_network_name }}"
+
+    - name: Create Wger Database Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wger_db_container_name }}"
+        image: "{{ wger_db_image_name }}:{{ wger_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ wger_network_name }}"
+        network_mode: "{{ wger_network_name }}"
+        exposed_ports:
+          - 5432
+        volumes:
+          - "{{ wger_data_directory }}/postgres-data:/var/lib/postgresql/data/:rw"
+        env:
+          POSTGRES_PASSWORD: "{{ wger_db_pass }}"
+          POSTGRES_USER: "{{ wger_db_user }}"
+          POSTGRES_DB: "{{ wger_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ wger_db_memory }}"
+        healthcheck:
+          test: "pg_isready -U {{ wger_db_user }}"
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Wger Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wger_container_name }}"
+        image: "{{ wger_image_name }}:{{ wger_image_version }}"
+        pull: true
+        volumes:
+          - "{{ wger_data_directory }}/static:/home/wger/static:rw"
+          - "{{ wger_data_directory }}/media:/home/wger/media:rw"
+        networks:
+          - name: "{{ wger_network_name }}"
+        network_mode: "{{ wger_network_name }}"
+        env: "{{ wger_optional_env | default({}) | combine(wger_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ wger_memory }}"
+        labels:
+          traefik.enable: "false"
+        healthcheck:
+          test: "wget --no-verbose --tries=1 --spider http://localhost:8000"
+          interval: 30s
+          timeout: 10s
+          retries: 5
+          start_period: 30s
+
+    - name: Create Wger Nginx Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wger_nginx_container_name }}"
+        image: "{{ wger_nginx_image_name }}:{{ wger_nginx_image_version }}"
+        pull: true
+        ports:
+          - "{{ wger_port }}:80"
+        volumes:
+          - "{{ wger_data_directory }}/config/nginx.conf:/etc/nginx/conf.d/default.conf:rw"
+          - "{{ wger_data_directory }}/static:/wger/static:ro"
+          - "{{ wger_data_directory }}/media:/wger/media:ro"
+        networks:
+          - name: "{{ wger_network_name }}"
+        network_mode: "{{ wger_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ wger_nginx_memory }}"
+        labels:
+          traefik.enable: "{{ wger_available_externally | string }}"
+          traefik.http.routers.wger.rule: "Host(`{{ wger_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.wger.tls.certresolver: "letsencrypt"
+          traefik.http.routers.wger.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.wger.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.wger.loadbalancer.server.port: "80"
+        healthcheck:
+          test: "service nginx status"
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Wger Cache Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wger_cache_container_name }}"
+        image: "{{ wger_cache_image_name }}:{{ wger_cache_image_version }}"
+        pull: true
+        exposed_ports:
+          - 6379
+        networks:
+          - name: "{{ wger_network_name }}"
+        network_mode: "{{ wger_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ wger_cache_memory }}"
+        labels:
+          traefik.enable: "false"
+        healthcheck:
+          test: "redis-cli ping"
+          interval: 10s
+          timeout: 5s
+          retries: 5
+  when: wger_enabled is true
+
+- name: Stop Wger
+  block:
+    - name: Stop Wger
+      community.docker.docker_container:
+        name: "{{ wger_container_name }}"
+        state: absent
+    - name: Stop Wger DB
+      community.docker.docker_container:
+        name: "{{ wger_db_container_name }}"
+        state: absent
+    - name: Stop Wger Nginx
+      community.docker.docker_container:
+        name: "{{ wger_nginx_container_name }}"
+        state: absent
+    - name: Stop Wger Cache
+      community.docker.docker_container:
+        name: "{{ wger_cache_container_name }}"
+        state: absent
+  when: wger_enabled is false

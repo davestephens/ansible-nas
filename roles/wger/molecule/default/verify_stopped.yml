@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove wger
+      community.docker.docker_container:
+        name: "{{ wger_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove wger db
+      community.docker.docker_container:
+        name: "{{ wger_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove wger nginx
+      community.docker.docker_container:
+        name: "{{ wger_nginx_container_name }}"
+        state: absent
+      register: result_nginx
+
+    - name: Try and stop and remove wger cache
+      community.docker.docker_container:
+        name: "{{ wger_cache_container_name }}"
+        state: absent
+      register: result_cache
+
+    - name: Check if wger is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_db.changed
+          - not result_nginx.changed
+          - not result_cache.changed
