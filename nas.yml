@@ -116,12 +116,10 @@
     - role: freshrss
       tags:
         - freshrss
-      when: (freshrss_enabled | default(False))
 
     - role: get_iplayer
       tags:
         - get_iplayer
-      when: (get_iplayer_enabled | default(False))
 
     - role: gitea
       tags:
@@ -130,27 +128,22 @@
     - role: gitlab
       tags:
         - gitlab
-      when: (gitlab_enabled | default(False))
 
     - role: glances
       tags:
         - glances
-      when: (glances_enabled | default(False))
 
     - role: gotify
       tags:
         - gotify
-      when: (gotify_enabled | default(False))
 
     - role: guacamole
       tags:
         - guacamole
-      when: (guacamole_enabled | default(False))
 
     - role: healthchecks.io
       tags:
         - healthchecks.io
-      when: (healthchecks_enabled | default(False))
 
     - role: heimdall
       tags:

@@ -1,51 +1,63 @@
 ---
-- name: Create Guacamole directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ guacamole_data_directory }}/config"
+- name: Start Guacamole
+  block:
+    - name: Create Guacamole directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ guacamole_data_directory }}/config"
 
-- name: Remove Old Guacamole Mysql Docker Container
-  docker_container:
-    name: guacamole-mysql
-    state: absent
-    keep_volumes: true
+    - name: Remove Old Guacamole Mysql Docker Container
+      docker_container:
+        name: guacamole-mysql
+        state: absent
+        keep_volumes: true
 
-- name: Remove Old Guacamole guacd Docker Container
-  docker_container:
-    name: guacamole-guacd
-    state: absent
-    keep_volumes: true
+    - name: Remove Old Guacamole guacd Docker Container
+      docker_container:
+        name: guacamole-guacd
+        state: absent
+        keep_volumes: true
 
-- name: Remove old Guacamole directories
-  file:
-    path: "{{ item }}"
-    state: absent
-  with_items:
-    - "{{ guacamole_data_directory }}/mysql"
+    - name: Remove old Guacamole directories
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ guacamole_data_directory }}/mysql"
 
-- name: Guacamole Container
-  docker_container:
-    name: guacamole
-    image: "oznu/guacamole"
-    pull: true
-    volumes:
-      - "{{ guacamole_data_directory }}/config:/config:rw"
-    ports:
-      - "{{ guacamole_port }}:8080"
-    restart_policy: unless-stopped
-    memory: "{{ guacamole_memory }}"
-    labels:
-      traefik.enable: "{{ guacamole_available_externally | string }}"
-      traefik.http.routers.guacamole.rule: "Host(`{{ guacamole_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.guacamole.tls.certresolver: "letsencrypt"
-      traefik.http.routers.guacamole.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.guacamole.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.guacamole.loadbalancer.server.port: "8080"
+    - name: Guacamole Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ guacamole_container_name }}"
+        image: "{{ guacamole_image_name }}:{{ guacamole_image_version }}"
+        pull: true
+        volumes:
+          - "{{ guacamole_data_directory }}/config:/config:rw"
+        ports:
+          - "{{ guacamole_port }}:8080"
+        restart_policy: unless-stopped
+        memory: "{{ guacamole_memory }}"
+        labels:
+          traefik.enable: "{{ guacamole_available_externally | string }}"
+          traefik.http.routers.guacamole.rule: "Host(`{{ guacamole_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.guacamole.tls.certresolver: "letsencrypt"
+          traefik.http.routers.guacamole.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.guacamole.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.guacamole.loadbalancer.server.port: "8080"
 
-- name: Restart Guacamole Container
-  docker_container:
-    name: guacamole
-    image: "oznu/guacamole"
-    restart: true
+    - name: Restart Guacamole Container
+      community.docker.docker_container:
+        name: "{{ guacamole_container_name }}"
+        image: "{{ guacamole_image_name }}:{{ guacamole_image_version }}"
+        restart: true
+  when: guacamole_enabled is true
+
+- name: Stop Guacamole
+  block:
+    - name: Stop Guacamole
+      community.docker.docker_container:
+        name: "{{ guacamole_container_name }}"
+        state: absent
+  when: guacamole_enabled is false

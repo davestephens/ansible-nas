@@ -10,5 +10,10 @@ freshrss_extensions_directory: "{{ docker_home }}/freshrss"
 freshrss_port: "8089"
 freshrss_hostname: "freshrss"
 
+# docker
+freshrss_container_name: freshrss
+freshrss_image_name: "freshrss/freshrss"
+freshrss_image_version: latest
+
 # specs
 freshrss_memory: 1g

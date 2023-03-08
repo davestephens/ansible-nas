@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"yaml.schemas": {
+			"https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks": "file:///c%3A/Users/anarion/Documents/repos/ansible-nas/roles/immich/tasks/main.yml"
+		},
+		 "files.associations": {
+			"*.yaml": "home-assistant"
+		}
+	},
+}
