@@ -1,0 +1,8 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        changedetection_enabled: true
+        changedetection_webdriver_enabled: true
+        changedetection_playwright_enabled: true

@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get changedetection webdriver container state
+      community.docker.docker_container:
+        name: "{{ changedetection_webdriver_container_name }}"
+      register: result_webdriver
+
+    - name: Get changedetection playwright container state
+      community.docker.docker_container:
+        name: "{{ changedetection_playwright_container_name }}"
+      register: result_playwright
+
+    - name: Get changedetection container state
+      community.docker.docker_container:
+        name: "{{ changedetection_container_name }}"
+      register: result
+
+    - name: Check if changedetection containers are running
+      ansible.builtin.assert:
+        that:
+          - result_webdriver.container['State']['Status'] == "running"
+          - result_webdriver.container['State']['Restarting'] == false
+          - result_playwright.container['State']['Status'] == "running"
+          - result_playwright.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

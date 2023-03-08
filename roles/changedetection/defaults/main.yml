@@ -1,0 +1,47 @@
+---
+changedetection_enabled: false
+changedetection_webdriver_enabled: false
+changedetection_playwright_enabled: false
+changedetection_available_externally: false
+
+# directories
+changedetection_data_directory: "{{ docker_home }}/changedetection"
+
+# network
+changedetection_port: "5003"
+changedetection_hostname: "changedetection"
+changedetection_network_name: "changedetection"
+
+# specs
+changedetection_memory: 1g
+changedetection_webdriver_memory: 1g
+changedetection_playwright_memory: 1g
+
+# docker
+changedetection_container_name: changedetection
+changedetection_image_name: "ghcr.io/dgtlmoon/changedetection.io"
+changedetection_image_version: latest
+
+changedetection_webdriver_container_name: changedetection-browser
+changedetection_webdriver_image_name: "selenium/standalone-chrome-debug"
+changedetection_webdriver_image_version: latest
+
+changedetection_playwright_container_name: changedetection-playwright
+changedetection_playwright_image_name: "browserless/chrome"
+changedetection_playwright_image_version: latest
+changedetection_user_id: "1000"
+changedetection_group_id: "1000"
+
+changedetection_webdriver_url: 'http://{{ changedetection_webdriver_container_name | default("changedetection-browser") }}:4444/wd/hub'
+changedetection_playwright_driver_url: 'ws://{{ changedetection_playwright_container_name | default("changedetection-playwright") }}:3000/?stealth=1&--disable-web-security=true'
+changedetection_http_proxy: "" # Example: "socks5h://10.10.1.10:1080"
+changedetection_https_proxy: "" # Example: "socks5h://10.10.1.10:1080"
+# An exclude list (useful for notification URLs above) can be specified by with
+changedetection_no_proxy: "" # Example: "localhost,192.168.0.0/24"
+# Base URL of your changedetection.io install (Added to the notification alert)
+changedetection_base_url: "https://{{ changedetection_hostname }}.{{ ansible_nas_domain }}"
+# espect proxy_pass type settings, `proxy_set_header Host "localhost";` and `proxy_set_header X-Forwarded-Prefix /app;`
+# More here https://github.com/dgtlmoon/changedetection.io/wiki/Running-changedetection.io-behind-a-reverse-proxy-sub-directory
+changedetection_use_x_settings: "1"
+# Hides the `Referer` header so that monitored websites can't see the changedetection.io hostname.
+changedetection_hide_referer: "true"

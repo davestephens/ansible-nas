@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove changedetection webdriver
+      community.docker.docker_container:
+        name: "{{ changedetection_webdriver_container_name }}"
+        state: absent
+      register: result_webdriver
+
+    - name: Try and stop and remove changedetection
+      community.docker.docker_container:
+        name: "{{ changedetection_playwright_container_name }}"
+        state: absent
+      register: result_playwright
+
+    - name: Try and stop and remove changedetection
+      community.docker.docker_container:
+        name: "{{ changedetection_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if changedetection is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_webdriver.changed
+          - not result_playwright.changed
+          - not result.changed

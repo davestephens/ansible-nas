@@ -73,6 +73,10 @@
       tags:
         - calibre
 
+    - role: changedetection
+      tags:
+        - changedetection
+
     - role: claper
       tags:
         - claper

@@ -1,0 +1,118 @@
+---
+- name: Start Changedetection.io
+  block:
+    - name: Create changedetection Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ changedetection_data_directory }}"
+
+    - name: Create Changedetection.io Network
+      community.docker.docker_network:
+        name: "{{ changedetection_network_name }}"
+
+    - name: Install Webdriver
+      block:
+        - name: Create Webdriver Docker Container
+          community.docker.docker_container:
+            container_default_behavior: no_defaults
+            name: "{{ changedetection_webdriver_container_name }}"
+            image: "{{ changedetection_webdriver_image_name }}:{{ changedetection_webdriver_image_version }}"
+            pull: true
+            networks:
+              - name: "{{ changedetection_network_name }}"
+            network_mode: "{{ changedetection_network_name }}"
+            volumes:
+              - /dev/shm:/dev/shm
+            env:
+              VNC_NO_PASSWORD: "1"
+              SCREEN_WIDTH: "1920"
+              SCREEN_HEIGHT: "1080"
+              SCREEN_DEPTH: "24"
+            restart_policy: unless-stopped
+            memory: "{{ changedetection_webdriver_memory }}"
+            labels:
+              traefik.enable: "false"
+      when: changedetection_webdriver_enabled is true
+
+    - name: Install Playwright
+      block:
+        - name: Create Playwright Docker Container
+          community.docker.docker_container:
+            container_default_behavior: no_defaults
+            name: "{{ changedetection_playwright_container_name }}"
+            image: "{{ changedetection_playwright_image_name }}:{{ changedetection_playwright_image_version }}"
+            pull: true
+            networks:
+              - name: "{{ changedetection_network_name }}"
+            network_mode: "{{ changedetection_network_name }}"
+            env:
+              SCREEN_WIDTH: "1920"
+              SCREEN_HEIGHT: "1024"
+              SCREEN_DEPTH: "16"
+              ENABLE_DEBUGGER: "false"
+              PREBOOT_CHROME: "true"
+              CONNECTION_TIMEOUT: "300000"
+              MAX_CONCURRENT_SESSIONS: "10"
+              CHROME_REFRESH_TIME: "600000"
+              DEFAULT_BLOCK_ADS: "true"
+              DEFAULT_STEALTH: "true"
+              DEFAULT_IGNORE_HTTPS_ERRORS: "true"
+            restart_policy: unless-stopped
+            memory: "{{ changedetection_playwright_memory }}"
+            labels:
+              traefik.enable: "false"
+      when: changedetection_playwright_enabled is true
+
+    - name: Create Changedetection.io Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ changedetection_container_name }}"
+        image: "{{ changedetection_image_name }}:{{ changedetection_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ changedetection_network_name }}"
+        network_mode: "{{ changedetection_network_name }}"
+        volumes:
+          - "{{ changedetection_data_directory }}/datastore:/datastore:rw"
+        ports:
+          - "{{ changedetection_port }}:5000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ changedetection_user_id | quote }}"
+          PGID: "{{ changedetection_group_id | quote }}"
+          WEBDRIVER_URL: "{{ changedetection_webdriver_url }}"
+          PLAYWRIGHT_DRIVER_URL: "{{ changedetection_playwright_driver_url }}"
+          HTTP_PROXY: "{{ changedetection_http_proxy }}"
+          HTTPS_PROXY: "{{ changedetection_https_proxy }}"
+          NO_PROXY: "{{ changedetection_no_proxy }}"
+          BASE_URL: "{{ changedetection_base_url }}"
+          USE_X_SETTINGS: "{{ changedetection_use_x_settings }}"
+          HIDE_REFERER: "{{ changedetection_hide_referer }}"
+        restart_policy: unless-stopped
+        memory: "{{ changedetection_memory }}"
+        labels:
+          traefik.enable: "{{ changedetection_available_externally | string }}"
+          traefik.http.routers.changedetection.rule: "Host(`{{ changedetection_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.changedetection.tls.certresolver: "letsencrypt"
+          traefik.http.routers.changedetection.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.changedetection.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.changedetection.loadbalancer.server.port: "5000"
+  when: changedetection_enabled is true
+
+- name: Stop Changedetection.io
+  block:
+    - name: Stop Changedetection.io
+      community.docker.docker_container:
+        name: "{{ changedetection_container_name }}"
+        state: absent
+    - name: Stop Changedetection.io Webdriver
+      community.docker.docker_container:
+        name: "{{ changedetection_webdriver_container_name }}"
+        state: absent
+    - name: Stop Changedetection.io Playwright
+      community.docker.docker_container:
+        name: "{{ changedetection_playwright_container_name }}"
+        state: absent
+  when: changedetection_enabled is false
