@@ -1,0 +1,34 @@
+---
+searxng_enabled: false
+searxng_available_externally: false
+
+# directories
+searxng_data_directory: "{{ docker_home }}/searxng"
+
+# network
+searxng_port: "8109"
+searxng_hostname: "searxng"
+searxng_network_name: "searxng"
+
+# specs
+searxng_memory: 1g
+
+# docker
+searxng_container_name: searxng
+searxng_image_name: "searxng/searxng"
+searxng_image_version: latest
+
+searxng_redis_container_name: searxng-redis
+searxng_redis_image_name: "redis"
+searxng_redis_image_version: alpine
+
+searxng_instance_name: "searxng"
+searxng_secret_key: "supersecure"
+searxng_bind_address: "0.0.0.0:8080"
+searxng_base_url: "https://{{ searxng_hostname }}.{{ ansible_nas_domain }}/"
+searxng_enable_metrics: "false"
+searxng_limiter: "false"
+searxng_image_proxy: "true"
+searxng_safe_search: "0" # Filter results. 0: None, 1: Moderate, 2: Strict
+searxng_autocomplete: ""
+searxng_default_lang: ""  # Available languages: all, en, en-US, de, it-IT, fr, fr-BE

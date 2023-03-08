@@ -1,0 +1,95 @@
+---
+- name: Start Searxng
+  block:
+    - name: Create Searxng Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ searxng_data_directory }}"
+        - "{{ searxng_data_directory }}/searxng"
+
+    - name: Create Searxng Network
+      community.docker.docker_network:
+        name: "{{ searxng_network_name }}"
+
+    - name: Copy settings.yml
+      ansible.builtin.template:
+        src: settings.yml.j2
+        dest: "{{ searxng_data_directory }}/searxng/settings.yml"
+
+    - name: Copy uwsgi.ini
+      ansible.builtin.template:
+        src: uwsgi.ini.j2
+        dest: "{{ searxng_data_directory }}/searxng/uwsgi.ini"
+
+    - name: Create Searxng Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ searxng_redis_container_name }}"
+        image: "{{ searxng_redis_image_name }}:{{ searxng_redis_image_version }}"
+        pull: true
+        cap_drop:
+          - ALL
+        capabilities:
+          - SETGID
+          - SETUID
+          - DAC_OVERRIDE
+        command: redis-server --save "" --appendonly "no"
+        networks:
+          - name: "{{ searxng_network_name }}"
+        network_mode: "{{ searxng_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+
+    - name: Create Searxng Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ searxng_container_name }}"
+        image: "{{ searxng_image_name }}:{{ searxng_image_version }}"
+        pull: true
+        cap_drop:
+          - ALL
+        capabilities:
+          - CHOWN
+          - SETGID
+          - SETUID
+        networks:
+          - name: "{{ searxng_network_name }}"
+        network_mode: "{{ searxng_network_name }}"
+        volumes:
+          - "{{ searxng_data_directory }}/searxng:/etc/searxng"
+        ports:
+          - "{{ searxng_port }}:8080"
+        env:
+          BASE_URL: "{{ searxng_base_url }}"
+          BIND_ADDRESS: "{{ searxng_bind_address }}"
+          SEARXNG_BASE_URL: "{{ searxng_base_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ searxng_memory }}"
+        labels:
+          traefik.enable: "{{ searxng_available_externally | string }}"
+          traefik.http.routers.searxng.rule: "Host(`{{ searxng_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.searxng.tls.certresolver: "letsencrypt"
+          traefik.http.routers.searxng.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.searxng.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.searxng.loadbalancer.server.port: "8080"
+        log_driver: "json-file"
+        log_options:
+          max-size: "1m"
+          max-file: "1"
+  when: searxng_enabled is true
+
+- name: Stop Searxng
+  block:
+    - name: Stop Searxng
+      community.docker.docker_container:
+        name: "{{ searxng_container_name }}"
+        state: absent
+
+    - name: Stop Searxng Redis
+      community.docker.docker_container:
+        name: "{{ searxng_redis_container_name }}"
+        state: absent
+  when: searxng_enabled is false

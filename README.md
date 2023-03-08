@@ -123,6 +123,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [RSS-Bridge](https://rss-bridge.github.io/rss-bridge/) - The RSS feed for websites missing it
 * [Sabnzbd](https://sabnzbd.org/) - A powerful usenet downloader that FreeNAS provides
 * [Seafile](https://www.seafile.com/en/home/) - High performance file syncing and sharing
+* [SearxNG](https://github.com/searxng/searxng) - Free internet metasearch engine
 * [Shaarli](https://github.com/shaarli/Shaarli) - Personal, minimalist, super-fast, database free, bookmarking service
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Snipe-IT](https://snipeitapp.com/) - A free open source IT asset/license management system
