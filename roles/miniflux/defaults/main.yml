@@ -14,6 +14,14 @@ miniflux_admin_password: supersecure
 miniflux_hostname: "miniflux"
 miniflux_port: "8070"
 
+# docker
+miniflux_container_name: "miniflux"
+miniflux_image_name: "miniflux/miniflux"
+miniflux_image_version: "latest"
+miniflux_db_container_name: "miniflux-postgres"
+miniflux_db_image_name: "postgres"
+miniflux_db_image_version: "11.1"
+
 # specs
 miniflux_memory: "1g"
 miniflux_postgres_memory: "1g"

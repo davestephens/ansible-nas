@@ -18,5 +18,10 @@ krusader_port_http: "5800"
 krusader_port_vnc: "5900"
 krusader_hostname: "krusader"
 
+# docker
+krusader_container_name: "krusader"
+krusader_image_name: "djaydev/krusader"
+krusader_image_version: "latest"
+
 # specs
 krusader_memory: 1g

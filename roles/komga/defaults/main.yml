@@ -16,5 +16,10 @@ komga_group_id: "1000"
 komga_hostname: "komga"
 komga_port_http: "8088"
 
+# docker
+komga_container_name: "komga"
+komga_image_name: "gotson/komga"
+komga_image_version: "latest"
+
 # specs
 komga_memory: "1g"

@@ -148,7 +148,6 @@
     - role: heimdall
       tags:
         - heimdall
-      when: (heimdall_enabled | default(False))
 
     - role: hello_world
       tags:
@@ -157,82 +156,66 @@
     - role: homeassistant
       tags:
         - homeassistant
-      when: (homeassistant_enabled | default(False))
 
     - role: homebridge
       tags:
         - homebridge
-      when: (homebridge_enabled | default(False))
 
     - role: jackett
       tags:
         - jackett
-      when: (jackett_enabled | default(False))
 
     - role: jellyfin
       tags:
         - jellyfin
-      when: (jellyfin_enabled | default(False))
 
     - role: joomla
       tags:
         - joomla
-      when: (joomla_enabled | default(False))
 
     - role: komga
       tags:
         - komga
-      when: (komga_enabled | default(False))
 
     - role: krusader
       tags:
         - krusader
-      when: (krusader_enabled | default(False))
 
     - role: lidarr
       tags:
         - lidarr
-      when: (lidarr_enabled | default(False))
 
     - role: mealie
       tags:
         - mealie
-      when: (mealie_enabled | default(False))
 
     - role: minecraft-server
       tags:
         - minecraft-server
-      when: (minecraft_server_enabled | default(False))
 
     - role: minidlna
       tags:
         - minidlna
-      when: (minidlna_enabled | default(False))
 
     - role: miniflux
       tags:
         - miniflux
-      when: (miniflux_enabled | default(False))
 
     - role: mosquitto
       tags:
         - mosquitto
-      when: (mosquitto_enabled | default(False))
 
     - role: mylar
       tags:
         - mylar
-      when: (mylar_enabled | default(False))
 
     - role: mymediaforalexa
       tags:
         - mymediaforalexa
-      when: (mymediaforalexa_enabled | default(False))
 
     - role: n8n
       tags:
         - n8n
-      when: (n8n_enabled | default(False))
 
     - role: navidrome
       tags:

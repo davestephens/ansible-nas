@@ -12,5 +12,10 @@ mosquitto_group_id: "0"
 mosquitto_port_a: "1883"
 mosquitto_port_b: "9001"
 
+# docker
+mosquitto_container_name: "mosquitto"
+mosquitto_image_name: "eclipse-mosquitto"
+mosquitto_image_version: "latest"
+
 # specs
 mosquitto_memory: 1g

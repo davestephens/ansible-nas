@@ -1,37 +1,50 @@
 ---
-- name: Create Mealie Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ mealie_data_directory }}/data"
+- name: Start Mealie
+  block:
+    - name: Create Mealie Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ mealie_data_directory }}/data"
 
-- name: Mealie Docker Container
-  docker_container:
-    name: mealie
-    image: hkotel/mealie:latest
-    pull: true
-    volumes:
-      - "{{ mealie_data_directory }}:/app/data:rw"
-    ports:
-      - "{{ mealie_port }}:80"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ mealie_user_id }}"
-      PGID: "{{ mealie_group_id }}"
-      RECIPE_PUBLIC: "true"
-      RECIPE_SHOW_NUTRITION: "true"
-      RECIPE_SHOW_ASSETS: "true"
-      RECIPE_LANDSCAPE_VIEW: "true"
-      RECIPE_DISABLE_COMMENTS: "false"
-      RECIPE_DISABLE_AMOUNT: "false"
-      BASE_URL: "{{ ansible_nas_domain }}:{{ mealie_port }}"
-    restart_policy: unless-stopped
-    memory: "{{ mealie_memory }}"
-    labels:
-      traefik.enable: "{{ mealie_available_externally | string }}"
-      traefik.http.routers.mealie.rule: "Host(`{{ mealie_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.mealie.tls.certresolver: "letsencrypt"
-      traefik.http.routers.mealie.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.mealie.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.mealie.loadbalancer.server.port: "80"
+    - name: Mealie Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ mealie_container_name }}"
+        image: "{{ mealie_image_name }}:{{ mealie_image_version }}"
+        pull: true
+        volumes:
+          - "{{ mealie_data_directory }}:/app/data:rw"
+        ports:
+          - "{{ mealie_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ mealie_user_id }}"
+          PGID: "{{ mealie_group_id }}"
+          RECIPE_PUBLIC: "true"
+          RECIPE_SHOW_NUTRITION: "true"
+          RECIPE_SHOW_ASSETS: "true"
+          RECIPE_LANDSCAPE_VIEW: "true"
+          RECIPE_DISABLE_COMMENTS: "false"
+          RECIPE_DISABLE_AMOUNT: "false"
+          BASE_URL: "{{ ansible_nas_domain }}:{{ mealie_port }}"
+        restart_policy: unless-stopped
+        memory: "{{ mealie_memory }}"
+        labels:
+          traefik.enable: "{{ mealie_available_externally | string }}"
+          traefik.http.routers.mealie.rule: "Host(`{{ mealie_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.mealie.tls.certresolver: "letsencrypt"
+          traefik.http.routers.mealie.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.mealie.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.mealie.loadbalancer.server.port: "80"
+  when: mealie_enabled is true
+
+- name: Stop Mealie
+  block:
+    - name: Stop Mealie
+      community.docker.docker_container:
+        name: "{{ mealie_container_name }}"
+        state: absent
+  when: mealie_enabled is false
+

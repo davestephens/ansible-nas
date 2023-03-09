@@ -14,5 +14,10 @@ homebridge_group_id: "0"
 homebridge_hostname: "homebridge"
 homebridge_port: "8087"
 
+# docker
+homebridge_container_name: "homebridge"
+homebridge_image_name: "oznu/homebridge"
+homebridge_image_version: "latest"
+
 # specs
 homebridge_memory: "1g"
