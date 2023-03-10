@@ -7,13 +7,20 @@
       ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove trilium
+    - name: Try and stop and remove piwigo
       community.docker.docker_container:
-        name: "{{ trilium_container_name }}"
+        name: "{{ piwigo_container_name }}"
         state: absent
       register: result
 
-    - name: Check if trilium is stopped
+    - name: Try and stop and remove piwigo db
+      community.docker.docker_container:
+        name: "{{ piwigo_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Check if piwigo is stopped
       ansible.builtin.assert:
         that:
           - not result.changed
+          - not result_db.changed

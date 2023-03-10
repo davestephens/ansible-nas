@@ -7,13 +7,13 @@
       ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove trilium
+    - name: Try and stop and remove plex
       community.docker.docker_container:
-        name: "{{ trilium_container_name }}"
+        name: "{{ plex_container_name }}"
         state: absent
       register: result
 
-    - name: Check if trilium is stopped
+    - name: Check if plex is stopped
       ansible.builtin.assert:
         that:
           - not result.changed

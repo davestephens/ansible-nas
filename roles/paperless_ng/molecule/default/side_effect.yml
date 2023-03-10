@@ -7,4 +7,4 @@
       ansible.builtin.include_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
       vars:
-        trilium_enabled: false
+        paperless_ng_enabled: false

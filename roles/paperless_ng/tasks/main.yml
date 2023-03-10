@@ -1,67 +1,96 @@
 ---
-- name: Create paperless_ng directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ paperless_ng_config_directory }}"
-    - "{{ paperless_ng_files_directory }}"
-    - "{{ paperless_ng_postgres_directory }}"
-    - "{{ paperless_ng_data_directory }}"
-    - "{{ paperless_ng_export_directory }}"
-    - "{{ paperless_ng_media_directory }}"
-    - "{{ paperless_ng_consume_directory }}"
+- name: Start paperless_ng
+  block:
+    - name: Create paperless_ng directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ paperless_ng_config_directory }}"
+        - "{{ paperless_ng_files_directory }}"
+        - "{{ paperless_ng_postgres_directory }}"
+        - "{{ paperless_ng_data_directory }}"
+        - "{{ paperless_ng_export_directory }}"
+        - "{{ paperless_ng_media_directory }}"
+        - "{{ paperless_ng_consume_directory }}"
 
+    - name: Create paperless_ng network
+      community.docker.docker_network:
+        name: "{{ paperless_ng_network_name }}"
 
-- name: Create paperless_ng network
-  docker_network:
-    name: "{{ paperless_ng_container_network_name }}"
+    - name: Create paperless_ng redis broker
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ paperless_ng_redis_container_name }}"
+        image: "{{ paperless_ng_redis_image_name }}:{{ paperless_ng_redis_image_version }}"
+        pull: true
+        restart_policy: unless-stopped
+        memory: "{{ paperless_ng_redis_memory }}"
+        networks:
+          - name: "{{ paperless_ng_network_name }}"
+        network_mode: "{{ paperless_ng_network_name }}"
 
-- name: Create paperless_ng redis broker
-  docker_container:
-    name: "{{ paperless_ng_container_name_redis }}"
-    image: redis:6.0
-    pull: true
-    restart_policy: unless-stopped
-    memory: "{{ paperless_ng_redis_memory }}"
-    networks:
-      - name: "{{ paperless_ng_container_network_name }}"
+    - name: Create paperless_ng postgres Docker Container
+      community.docker.docker_container:
+        name: "{{ paperless_ng_db_container_name }}"
+        image: "{{ paperless_ng_db_image_name }}:{{ paperless_ng_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ paperless_ng_postgres_directory }}:/var/lib/postgresql/data"
+        env:
+          POSTGRES_DB: "{{ paperless_ng_postgres_db }}"
+          POSTGRES_USER: "{{ paperless_ng_postgres_user }}"
+          POSTGRES_PASSWORD: "{{ paperless_ng_postgres_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ paperless_ng_postgres_memory }}"
+        networks:
+          - name: "{{ paperless_ng_network_name }}"
+        network_mode: "{{ paperless_ng_network_name }}"
 
-- name: Create paperless_ng postgres Docker Container
-  docker_container:
-    name: "{{ paperless_ng_container_name_postgres }}"
-    image: postgres:13
-    pull: true
-    volumes:
-      - "{{ paperless_ng_postgres_directory }}:/var/lib/postgresql/data"
-    env:
-      POSTGRES_DB: "{{ paperless_ng_postgres_db }}"
-      POSTGRES_USER: "{{ paperless_ng_postgres_user }}"
-      POSTGRES_PASSWORD: "{{ paperless_ng_postgres_password }}"
-    restart_policy: unless-stopped
-    memory: "{{ paperless_ng_postgres_memory }}"
-    networks:
-      - name: "{{ paperless_ng_container_network_name }}"
+    - name: Create paperless_ng UI Docker Container
+      community.docker.docker_container:
+        name: "{{ paperless_ng_uiserver_container_name }}"
+        image: "{{ paperless_ng_uiserver_image_name }}:{{ paperless_ng_uiserver_image_version }}"
+        pull: true
+        volumes:
+          - "{{ paperless_ng_data_directory }}:/usr/src/paperless/data"
+          - "{{ paperless_ng_media_directory }}:/usr/src/paperless/media"
+          - "{{ paperless_ng_export_directory }}:/usr/src/paperless/export"
+          - "{{ paperless_ng_consume_directory }}:/usr/src/paperless/consume"
+        ports:
+          - "{{ paperless_ng_port }}:8000"
+        env:
+          PAPERLESS_REDIS: "redis://{{ paperless_ng_redis_container_name | string }}:6379"
+          PAPERLESS_DBHOST: "{{ paperless_ng_db_container_name | string }}"
+          USERMAP_UID: "{{ paperless_ng_user_id }}"
+          USERMAP_GID: "{{ paperless_ng_group_id }}"
+          PAPERLESS_OCR_LANGUAGES: "{{ paperless_ng_languages }}"
+        restart_policy: unless-stopped
+        memory: "{{ paperless_ng_ui_memory }}"
+        networks:
+          - name: "{{ paperless_ng_network_name }}"
+        network_mode: "{{ paperless_ng_network_name }}"
+        labels:
+          traefik.enable: "{{ paperless_ng_available_externally | string }}"
+          traefik.http.routers.paperless_ng.rule: "Host(`{{ paperless_ng_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.paperless_ng.tls.certresolver: "letsencrypt"
+          traefik.http.routers.paperless_ng.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.paperless_ng.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.paperless_ng.loadbalancer.server.port: "8080"
+  when: paperless_ng_enabled is true
 
-- name: Create paperless_ng UI Docker Container
-  docker_container:
-    name: "{{ paperless_ng_container_name_uiserver }}"
-    image: jonaswinkler/paperless-ng:latest
-    pull: true
-    volumes:
-      - "{{ paperless_ng_data_directory }}:/usr/src/paperless/data"
-      - "{{ paperless_ng_media_directory }}:/usr/src/paperless/media"
-      - "{{ paperless_ng_export_directory }}:/usr/src/paperless/export"
-      - "{{ paperless_ng_consume_directory }}:/usr/src/paperless/consume"
-    ports:
-      - "{{ paperless_ng_port }}:8000"
-    env:
-      PAPERLESS_REDIS: "redis://{{ paperless_ng_container_name_redis | string }}:6379"
-      PAPERLESS_DBHOST: "{{ paperless_ng_container_name_postgres | string }}"
-      USERMAP_UID: "{{ paperless_ng_user_id }}"
-      USERMAP_GID: "{{ paperless_ng_group_id }}"
-      PAPERLESS_OCR_LANGUAGES: "{{ paperless_ng_languages }}"
-    restart_policy: unless-stopped
-    memory: "{{ paperless_ng_ui_memory }}"
-    networks:
-      - name: "{{ paperless_ng_container_network_name }}"
+- name: Stop paperless_ng
+  block:
+    - name: Stop paperless_ng
+      community.docker.docker_container:
+        name: "{{ paperless_ng_uiserver_container_name }}"
+        state: absent
+    - name: Stop paperless_ng redis
+      community.docker.docker_container:
+        name: "{{ paperless_ng_redis_container_name }}"
+        state: absent
+    - name: Stop paperless_ng db
+      community.docker.docker_container:
+        name: "{{ paperless_ng_db_container_name }}"
+        state: absent
+  when: paperless_ng_enabled is false

@@ -7,12 +7,12 @@
       ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get trilium container state
+    - name: Get portainer container state
       community.docker.docker_container:
-        name: "{{ trilium_container_name }}"
+        name: "{{ portainer_container_name }}"
       register: result
 
-    - name: Check if trilium containers are running
+    - name: Check if portainer containers are running
       ansible.builtin.assert:
         that:
           - result.container['State']['Status'] == "running"

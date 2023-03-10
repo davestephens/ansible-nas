@@ -7,13 +7,20 @@
       ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get trilium container state
+    - name: Get piwigo db container state
       community.docker.docker_container:
-        name: "{{ trilium_container_name }}"
+        name: "{{ piwigo_db_container_name }}"
+      register: result_db
+
+    - name: Get piwigo container state
+      community.docker.docker_container:
+        name: "{{ piwigo_container_name }}"
       register: result
 
-    - name: Check if trilium containers are running
+    - name: Check if piwigo containers are running
       ansible.builtin.assert:
         that:
           - result.container['State']['Status'] == "running"
           - result.container['State']['Restarting'] == false
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false

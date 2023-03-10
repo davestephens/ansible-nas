@@ -1,28 +1,40 @@
 ---
-- name: Create Portainer Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ portainer_data_directory }}"
+- name: Start Portainer
+  block:
+    - name: Create Portainer Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ portainer_data_directory }}"
 
-- name: Portainer Docker Container
-  docker_container:
-    name: portainer
-    image: portainer/portainer-ce
-    pull: true
-    volumes:
-      - "{{ portainer_data_directory }}:/data:rw"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/etc/timezone:/etc/timezone:ro"
-    ports:
-      - "{{ portainer_port }}:9000"
-    restart_policy: unless-stopped
-    memory: "{{ portainer_memory }}"
-    labels:
-      traefik.enable: "{{ portainer_available_externally | string }}"
-      traefik.http.routers.portainer.rule: "Host(`{{ portainer_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.portainer.tls.certresolver: "letsencrypt"
-      traefik.http.routers.portainer.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.portainer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.portainer.loadbalancer.server.port: "9000"
+    - name: Portainer Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ portainer_container_name }}"
+        image: "{{ portainer_image_name }}:{{ portainer_image_version }}"
+        pull: true
+        volumes:
+          - "{{ portainer_data_directory }}:/data:rw"
+          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+          - "/etc/timezone:/etc/timezone:ro"
+        ports:
+          - "{{ portainer_port }}:9000"
+        restart_policy: unless-stopped
+        memory: "{{ portainer_memory }}"
+        labels:
+          traefik.enable: "{{ portainer_available_externally | string }}"
+          traefik.http.routers.portainer.rule: "Host(`{{ portainer_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.portainer.tls.certresolver: "letsencrypt"
+          traefik.http.routers.portainer.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.portainer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.portainer.loadbalancer.server.port: "9000"
+  when: portainer_enabled is true
+
+- name: Stop Portainer
+  block:
+    - name: Stop Portainer
+      community.docker.docker_container:
+        name: "{{ portainer_container_name }}"
+        state: absent
+  when: portainer_enabled is false

@@ -3,4 +3,4 @@ provisioner:
   inventory:
     group_vars:
       all:
-        trilium_enabled: true
+        paperless_ng_enabled: true
