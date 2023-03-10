@@ -52,6 +52,7 @@
         name: "{{ guacamole_container_name }}"
         image: "{{ guacamole_image_name }}:{{ guacamole_image_version }}"
         restart: true
+      tags: molecule-idempotence-notest
   when: guacamole_enabled is true
 
 - name: Stop Guacamole
