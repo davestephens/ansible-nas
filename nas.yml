@@ -220,22 +220,18 @@
     - role: navidrome
       tags:
         - navidrome
-      when: (navidrome_enabled | default(False))
 
     - role: netbootxyz
       tags:
         - netbootxyz
-      when: (netbootxyz_enabled | default(False))
 
     - role: netdata
       tags:
         - netdata
-      when: (netdata_enabled | default(False))
 
     - role: nextcloud
       tags:
         - nextcloud
-      when: (nextcloud_enabled | default(False))
 
     - role: nomad
       tags:
@@ -244,82 +240,66 @@
     - role: nzbget
       tags:
         - nzbget
-      when: (nzbget_enabled | default(False))
 
     - role: octoprint
       tags:
         - octoprint
-      when: (octoprint_enabled | default(False))
 
     - role: ombi
       tags:
         - ombi
-      when: (ombi_enabled | default(False))
 
     - role: openhab
       tags:
         - openhab
-      when: (openhab_enabled | default(False))
 
     - role: organizr
       tags:
         - organizr
-      when: (organizr_enabled | default(False))
 
     - role: overseerr
       tags:
         - overseerr
-      when: (overseerr_enabled | default(False))
 
     - role: paperless_ng
       tags:
         - paperless_ng
-      when: (paperless_ng_enabled | default(False))
 
     - role: piwigo
       tags:
         - piwigo
-      when: (piwigo_enabled | default(False))
 
     - role: plex
       tags:
         - plex
-      when: (plex_enabled | default(False))
 
     - role: portainer
       tags:
         - portainer
-      when: (portainer_enabled | default(False))
 
     - role: prowlarr
       tags:
         - prowlarr
-      when: (prowlarr_enabled | default(False))
 
     - role: pyload
       tags:
         - pyload
-      when: (pyload_enabled | default(False))
 
     - role: pytivo
       tags:
         - pytivo
-      when: (pytivo_enabled | default(False))
 
     - role: radarr
       tags:
         - radarr
-      when: (radarr_enabled | default(False))
 
     - role: route53_ddns
       tags:
         - route53_ddns
-      when: (route53_ddns_enabled | default(False))
 
     - role: rssbridge
       tags:
         - rssbridge
-      when: (rssbridge_enabled | default(False))
 
     - role: sabnzbd
       tags:
