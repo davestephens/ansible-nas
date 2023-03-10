@@ -14,18 +14,20 @@
         name: "{{ krusader_container_name }}"
         image: "{{ krusader_image_name }}:{{ krusader_image_version }}"
         pull: true
+        privileged: true
         volumes:
           - "{{ krusader_config_directory }}:/config:rw"
           - "{{ krusader_browse_directory }}:/mnt/fs"
         ports:
-          - "{{ krusader_port_http }}:5800"
+          - "{{ krusader_port_http }}:6080"
           - "{{ krusader_port_vnc }}:5900"
         env:
-          USER_ID: "{{ krusader_user_id }}"
-          GROUP_ID: "{{ krusader_group_id }}"
-          SECURE_CONNECTION: "{{ krusader_secure_connection }}"
-          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ krusader_user_id }}"
+          PGID: "{{ krusader_group_id }}"
           VNC_PASSWORD: "{{ krusader_vnc_password }}"
+          TEMP_FOLDER: "{{ krusader_temp_folder }}"
+          WEBPAGE_TITLE: "{{ krusader_webpage_title }}"
+          UMASK: "{{ krusader_umask }}"
         restart_policy: unless-stopped
         memory: "{{ krusader_memory }}"
         labels:
@@ -34,7 +36,7 @@
           traefik.http.routers.krusader.tls.certresolver: "letsencrypt"
           traefik.http.routers.krusader.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.krusader.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.krusader.loadbalancer.server.port: "5800"
+          traefik.http.services.krusader.loadbalancer.server.port: "6080"
   when: krusader_enabled is true
 
 - name: Stop Krusader

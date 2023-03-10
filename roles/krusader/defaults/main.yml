@@ -1,9 +1,6 @@
 ---
 krusader_enabled: false
-krusader_available_externally: false
-
-krusader_secure_connection: "0"
-krusader_vnc_password: "topsecret"
+krusader_available_externally: "false"
 
 # uid / gid
 krusader_user_id: "0"
@@ -14,14 +11,20 @@ krusader_config_directory: "{{ docker_home }}/krusader/config"
 krusader_browse_directory: "/"
 
 # network
-krusader_port_http: "5800"
+krusader_port_http: "6080"
 krusader_port_vnc: "5900"
 krusader_hostname: "krusader"
 
 # docker
 krusader_container_name: "krusader"
-krusader_image_name: "djaydev/krusader"
+krusader_image_name: "binhex/arch-krusader"
 krusader_image_version: "latest"
 
 # specs
 krusader_memory: 1g
+
+# krusader
+krusader_umask: "000"
+krusader_webpage_title: "Tower"
+krusader_temp_folder: "/config/krusader/tmp"
+krusader_vnc_password: "topsecret"
