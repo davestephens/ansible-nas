@@ -30,6 +30,7 @@
       ansible.builtin.apt:
         name: "avahi-daemon"
         state: present
+        update_cache: yes
       register: result
       until: result is succeeded
 
@@ -37,11 +38,7 @@
       ansible.builtin.template:
         src: timemachine.service
         dest: "/etc/avahi/services/timemachine.service"
-
-    - name: Reload avahi configuration
-      ansible.builtin.service:
-        name: avahi-daemon
-        state: reloaded
+      notify: reload avahi configuration
   when: timemachine_enabled is true
 
 - name: Stop Time Machine
