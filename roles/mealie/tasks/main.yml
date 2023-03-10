@@ -47,4 +47,3 @@
         name: "{{ mealie_container_name }}"
         state: absent
   when: mealie_enabled is false
-

@@ -5,7 +5,8 @@
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - name: Include vars
+      include_vars:
         file: ../../defaults/main.yml
 
     - name: Get container state
