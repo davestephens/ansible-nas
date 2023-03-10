@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        virtual_desktop_enabled: true
+        ansible_nas_user: ansible-nas

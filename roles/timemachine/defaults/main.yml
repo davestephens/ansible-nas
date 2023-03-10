@@ -14,3 +14,6 @@ timemachine_port: "10445"
 
 # Container
 timemachine_memory: 1g
+timemachine_container_name: "timemachine"
+timemachine_image_name: "awlnx/samba-timemachine"
+timemachine_image_version: "latest"

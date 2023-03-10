@@ -1,57 +1,69 @@
 ---
-- name: Create Transmission Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ transmission_config_directory }}"
-    - "{{ transmission_download_directory }}"
-    - "{{ transmission_watch_directory }}"
+- name: Start Transmission with OpenVPM
+  block:
+    - name: Create Transmission Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ transmission_config_directory }}"
+        - "{{ transmission_download_directory }}"
+        - "{{ transmission_watch_directory }}"
 
-- name: Transmission with VPN
-  docker_container:
-    name: transmission-openvpn
-    image: haugene/transmission-openvpn
-    pull: true
-    volumes:
-      - "/etc/localtime:/etc/localtime:ro"
-      - "{{ transmission_download_directory }}:/downloads:rw"
-      - "{{ transmission_config_directory }}:/config:rw"
-      - "{{ transmission_watch_directory }}:/watch:rw"
-      - "/etc/timezone:/etc/timezone:ro"
-    ports:
-      - "{{ transmission_openvpn_webui_port }}:9091"
-      - "{{ transmission_openvpn_external_port }}:51413"
-      - "{{ transmission_openvpn_external_port }}:51413/udp"
-      - "{{ transmission_openvpn_proxy_port }}:3128"
-    env:
-      TRANSMISSION_HOME: "/config"
-      TRANSMISSION_DOWNLOAD_DIR: "/downloads"
-      TRANSMISSION_INCOMPLETE_DIR: "/downloads/.incomplete"
-      TRANSMISSION_WATCH_DIR: "/watch"
-      TRANSMISSION_RATIO_LIMIT: "{{ transmission_openvpn_ratio_limit }}"
-      TRANSMISSION_RATIO_LIMIT_ENABLED: "{{ transmission_openvpn_ratio_limit_enabled | string }}"
-      OPENVPN_PROVIDER: "{{ openvpn_provider }}"
-      OPENVPN_USERNAME: "{{ openvpn_username }}"
-      OPENVPN_PASSWORD: "{{ openvpn_password }}"
-      OPENVPN_CONFIG: "{{ openvpn_config }}"
-      WEBPROXY_ENABLED: "true"
-      WEBPROXY_PORT: "3128"
-      PUID: "{{ transmission_openvpn_user_id }}"
-      PGID: "{{ transmission_openvpn_group_id }}"
-      LOCAL_NETWORK: "{{ transmission_openvpn_local_network }}"
-      ENABLE_UFW: "false"
-    devices:
-      - /dev/net/tun
-    capabilities:
-      - NET_ADMIN
-    restart_policy: unless-stopped
-    memory: "{{ transmission_openvpn_memory }}"
-    labels:
-      traefik.enable: "{{ transmission_openvpn_available_externally | string }}"
-      traefik.http.routers.transmission_openvpn.rule: "Host(`{{ transmission_openvpn_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.transmission_openvpn.tls.certresolver: "letsencrypt"
-      traefik.http.routers.transmission_openvpn.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.transmission_openvpn.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.transmission_openvpn.loadbalancer.server.port: "9091"
+    - name: Transmission with VPN
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ transmission_openvpn_container_name }}"
+        image: "{{ transmission_openvpn_image_name }}:{{ transmission_openvpn_image_version }}"
+        pull: true
+        volumes:
+          - "/etc/localtime:/etc/localtime:ro"
+          - "{{ transmission_download_directory }}:/downloads:rw"
+          - "{{ transmission_config_directory }}:/config:rw"
+          - "{{ transmission_watch_directory }}:/watch:rw"
+          - "/etc/timezone:/etc/timezone:ro"
+        ports:
+          - "{{ transmission_openvpn_webui_port }}:9091"
+          - "{{ transmission_openvpn_external_port }}:51413"
+          - "{{ transmission_openvpn_external_port }}:51413/udp"
+          - "{{ transmission_openvpn_proxy_port }}:3128"
+        env:
+          TRANSMISSION_HOME: "/config"
+          TRANSMISSION_DOWNLOAD_DIR: "/downloads"
+          TRANSMISSION_INCOMPLETE_DIR: "/downloads/.incomplete"
+          TRANSMISSION_WATCH_DIR: "/watch"
+          TRANSMISSION_RATIO_LIMIT: "{{ transmission_openvpn_ratio_limit }}"
+          TRANSMISSION_RATIO_LIMIT_ENABLED: "{{ transmission_openvpn_ratio_limit_enabled | string }}"
+          OPENVPN_PROVIDER: "{{ openvpn_provider }}"
+          OPENVPN_USERNAME: "{{ openvpn_username }}"
+          OPENVPN_PASSWORD: "{{ openvpn_password }}"
+          OPENVPN_CONFIG: "{{ openvpn_config }}"
+          WEBPROXY_ENABLED: "true"
+          WEBPROXY_PORT: "3128"
+          PUID: "{{ transmission_openvpn_user_id }}"
+          PGID: "{{ transmission_openvpn_group_id }}"
+          LOCAL_NETWORK: "{{ transmission_openvpn_local_network }}"
+          ENABLE_UFW: "false"
+        devices:
+          - /dev/net/tun
+        capabilities:
+          - NET_ADMIN
+        restart_policy: unless-stopped
+        memory: "{{ transmission_openvpn_memory }}"
+        labels:
+          traefik.enable: "{{ transmission_with_openvpn_available_externally | string }}"
+          traefik.http.routers.transmission_openvpn.rule: "Host(`{{ transmission_openvpn_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.transmission_openvpn.tls.certresolver: "letsencrypt"
+          traefik.http.routers.transmission_openvpn.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.transmission_openvpn.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.transmission_openvpn.loadbalancer.server.port: "9091"
+  when: transmission_with_openvpn_enabled is true
+
+- name: Stop Transmission with OpenVPM
+  block:
+    - name: Stop Transmission with OpenVPM
+      community.docker.docker_container:
+        name: "{{ transmission_openvpn_container_name }}"
+        state: absent
+  when: transmission_with_openvpn_enabled is false

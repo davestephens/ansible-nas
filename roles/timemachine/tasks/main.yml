@@ -1,41 +1,53 @@
 ---
-- name: Time Machine Directories
-  file:
-    path: "{{ timemachine_data_directory }}"
-    state: directory
+- name: Start Time Machine
+  block:
+    - name: Time Machine Directories
+      ansible.builtin.file:
+        path: "{{ timemachine_data_directory }}"
+        state: directory
 
-- name: Time Machine Docker Container
-  docker_container:
-    name: timemachine
-    image: awlnx/samba-timemachine:latest
-    pull: true
-    ports:
-      - "{{ timemachine_port }}:445"
-    env:
-      TMSIZE: "{{ timemachine_volume_size_limit }}"
-      PASS: "{{ timemachine_password }}"
-      SHARENAME: "{{ timemachine_share_name }}"
-    volumes:
-      - "{{ timemachine_data_directory }}/data:/backups"
-    ulimits:
-      - "nofile:1048576:1048576"
-    network_mode: bridge
-    restart_policy: unless-stopped
-    memory: "{{ timemachine_memory }}"
+    - name: Time Machine Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ timemachine_container_name }}"
+        image: "{{ timemachine_image_name }}:{{ timemachine_image_version }}"
+        pull: true
+        ports:
+          - "{{ timemachine_port }}:445"
+        env:
+          TMSIZE: "{{ timemachine_volume_size_limit }}"
+          PASS: "{{ timemachine_password }}"
+          SHARENAME: "{{ timemachine_share_name }}"
+        volumes:
+          - "{{ timemachine_data_directory }}/data:/backups"
+        ulimits:
+          - "nofile:1048576:1048576"
+        network_mode: bridge
+        restart_policy: unless-stopped
+        memory: "{{ timemachine_memory }}"
 
-- name: Install avahi
-  apt:
-    name: "avahi-daemon"
-    state: present
-  register: result
-  until: result is succeeded
+    - name: Install avahi
+      ansible.builtin.apt:
+        name: "avahi-daemon"
+        state: present
+      register: result
+      until: result is succeeded
 
-- name: Setup timemachine service for avahi
-  template:
-    src: timemachine.service
-    dest: "/etc/avahi/services/timemachine.service"
+    - name: Setup timemachine service for avahi
+      ansible.builtin.template:
+        src: timemachine.service
+        dest: "/etc/avahi/services/timemachine.service"
 
-- name: Reload avahi configuration
-  service:
-    name: avahi-daemon
-    state: reloaded
+    - name: Reload avahi configuration
+      ansible.builtin.service:
+        name: avahi-daemon
+        state: reloaded
+  when: timemachine_enabled is true
+
+- name: Stop Time Machine
+  block:
+    - name: Stop Time Machine
+      community.docker.docker_container:
+        name: "{{ timemachine_container_name }}"
+        state: absent
+  when: timemachine_enabled is false

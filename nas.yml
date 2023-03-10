@@ -304,109 +304,87 @@
     - role: sabnzbd
       tags:
         - sabnzbd
-      when: (sabnzbd_enabled | default(False))
 
     - role: sickchill
       tags:
         - sickchill
-      when: (sickchill_enabled | default(False))
 
     - role: sonarr
       tags:
         - sonarr
-      when: (sonarr_enabled | default(False))
 
     - role: speedtest-tracker
       tags:
         - speedtest-tracker
-      when: (speedtest_tracker_enabled | default(False))
 
     - role: stats
       tags:
         - stats
-      when: (stats_enabled | default(False))
 
     - role: syncthing
       tags:
         - syncthing
-      when: (syncthing_enabled | default(False))
 
     - role: tautulli
       tags:
         - tautulli
-      when: (tautulli_enabled | default(False))
 
     - role: thelounge
       tags:
         - thelounge
-      when: (thelounge_enabled | default(False))
 
     - role: tiddlywiki
       tags:
         - tiddlywiki
-      when: (tiddlywiki_enabled | default(False))
 
     - role: timemachine
       tags:
         - timemachine
-      when: (timemachine_enabled | default(False))
 
     - role: traefik
       tags:
         - traefik
-      when: (traefik_enabled | default(False))
 
     - role: transmission
       tags:
         - transmission
-      when: (transmission_enabled | default(False))
 
     - role: transmission-with-openvpn
       tags:
         - transmission_with_openvpn
-      when: (transmission_with_openvpn_enabled | default(False))
 
     - role: ubooquity
       tags:
         - ubooquity
-      when: (ubooquity_enabled | default(False))
 
     - role: utorrent
       tags:
         - utorrent
-      when: (utorrent_enabled | default(False))
 
     - role: virtual_desktop
       tags:
         - virtual_desktop
-      when: (virtual_desktop_enabled | default(False))
 
     - role: wallabag
       tags:
         - wallabag
-      when: (wallabag_enabled | default(False))
 
     - role: watchtower
       tags:
         - watchtower
-      when: (watchtower_enabled | default(False))
 
     - role: wireshark
       tags:
         - wireshark
-      when: (wireshark_enabled | default(False))
 
     - role: woodpecker-ci
       tags:
         - woodpecker_ci
-      when: (woodpecker_ci_enabled | default(False))
 
     - role: youtubedlmaterial
       tags:
         - youtubedlmaterial
-      when: (youtubedlmaterial_enabled | default(False))
 
     - role: znc
       tags:
         - znc
-      when: (znc_enabled | default(False))
