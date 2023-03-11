@@ -1,6 +1,5 @@
 # Time Machine
 
-
 Apple docs: <https://support.apple.com/en-us/HT201250>
 
 Docker image: <https://github.com/awlx/samba-timemachine>

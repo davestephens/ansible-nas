@@ -1,6 +1,5 @@
 # The Lounge"
 
-
 Homepage: <https://thelounge.chat/>
 
 The Lounge is a self-hosted web IRC client.
