@@ -5,18 +5,12 @@
       ansible.builtin.get_url:
         url: https://apt.releases.hashicorp.com/gpg
         dest: /etc/apt/trusted.gpg.d/hashicorp.asc
-        # dest: /usr/share/keyrings/hashicorp-nomad-keyring.gpg
         mode: '0644'
         force: true
-    # - name: Add Hashicorp GPG key
-    #   ansible.builtin.apt_key:
-    #     url: https://apt.releases.hashicorp.com/gpg
-    #     state: present
 
     - name: Add Hashicorp apt repository
       ansible.builtin.apt_repository:
         repo: "deb https://apt.releases.hashicorp.com {{ ansible_facts['lsb']['codename'] }} main"
-        # repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp-nomad-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_facts['lsb']['codename'] }} main"
         state: present
         filename: hashicorp
 
