@@ -12,6 +12,7 @@ miniflux_admin_password: supersecure
 
 # network
 miniflux_hostname: "miniflux"
+miniflux_network_name: "miniflux"
 miniflux_port: "8070"
 
 # docker

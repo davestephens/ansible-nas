@@ -8,12 +8,19 @@
       with_items:
         - "{{ miniflux_data_directory }}/postgres"
 
+    - name: Create Miniflux network
+      community.docker.docker_network:
+        name: "{{ miniflux_network_name }}"
+
     - name: Create Postgres for Miniflux
       community.docker.docker_container:
         container_default_behavior: no_defaults
         name: "{{ miniflux_db_container_name }}"
         image: "{{ miniflux_db_image_name }}:{{ miniflux_db_image_version }}"
         pull: true
+        networks:
+          - name: "{{ miniflux_network_name }}"
+        network_mode: "{{ miniflux_network_name }}"
         volumes:
           - "{{ miniflux_data_directory }}/postgres:/var/lib/postgresql/data:rw"
         env:
@@ -28,12 +35,13 @@
         name: "{{ miniflux_container_name }}"
         image: "{{ miniflux_image_name }}:{{ miniflux_image_version }}"
         pull: true
-        links:
-          - miniflux-postgres:db
+        networks:
+          - name: "{{ miniflux_network_name }}"
+        network_mode: "{{ miniflux_network_name }}"
         ports:
           - "{{ miniflux_port }}:8080"
         env:
-          DATABASE_URL: "postgres://miniflux:supersecure@db/miniflux?sslmode=disable"
+          DATABASE_URL: "postgres://miniflux:supersecure@{{ miniflux_db_container_name }}/miniflux?sslmode=disable"
           RUN_MIGRATIONS: "1"
           CREATE_ADMIN: "1"
           ADMIN_USERNAME: "{{ miniflux_admin_username }}"
