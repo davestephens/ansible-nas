@@ -1,0 +1,20 @@
+---
+huntly_enabled: false
+huntly_available_externally: false
+
+# directories
+huntly_data_directory: "{{ docker_home }}/huntly"
+
+# network
+huntly_port: "8110"
+huntly_hostname: "huntly"
+
+# specs
+huntly_memory: 1g
+
+# docker
+huntly_container_name: huntly
+huntly_image_name: "lcomplete/huntly"
+huntly_image_version: latest
+huntly_user_id: "1000"
+huntly_group_id: "1000"

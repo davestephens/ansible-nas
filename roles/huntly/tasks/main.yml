@@ -1,0 +1,42 @@
+---
+- name: Start Huntly
+  block:
+    - name: Create Huntly Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ huntly_data_directory }}"
+
+    - name: Create Huntly Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huntly_container_name }}"
+        image: "{{ huntly_image_name }}:{{ huntly_image_version }}"
+        pull: true
+        volumes:
+          - "{{ huntly_data_directory }}/data:/data:rw"
+        ports:
+          - "{{ huntly_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ huntly_user_id | quote }}"
+          PGID: "{{ huntly_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ huntly_memory }}"
+        labels:
+          traefik.enable: "{{ huntly_available_externally | string }}"
+          traefik.http.routers.huntly.rule: "Host(`{{ huntly_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.huntly.tls.certresolver: "letsencrypt"
+          traefik.http.routers.huntly.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.huntly.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.huntly.loadbalancer.server.port: "80"
+  when: huntly_enabled is true
+
+- name: Stop Huntly
+  block:
+    - name: Stop Huntly
+      community.docker.docker_container:
+        name: "{{ huntly_container_name }}"
+        state: absent
+  when: huntly_enabled is false

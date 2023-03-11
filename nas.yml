@@ -223,6 +223,10 @@
       tags:
         - huginn
 
+    - role: huntly
+      tags:
+        - huntly
+
     - role: immich
       tags:
         - immich
