@@ -34,7 +34,6 @@
           traefik.http.services.freshrss.loadbalancer.server.port: "80"
   when: freshrss_enabled is true
 
-
 - name: Stop FreshRSS
   block:
     - name: Stop FreshRSS

@@ -1,15 +1,16 @@
 ---
-- name: geerlingguy.docker
-  version: 6.0.0
+roles:
+  - name: geerlingguy.docker
+    version: 2.8.2
 
-- name: bertvv.samba
-  version: v2.7.1
+  - name: bertvv.samba
+    version: v2.7.1
 
-- name: geerlingguy.nfs
-  version: 2.0.0
+  - name: geerlingguy.nfs
+    version: 2.0.0
 
-- name: stefangweichinger.ansible_rclone
+  - name: stefangweichinger.ansible_rclone
 
-- name: tigattack.mergerfs
+  - name: tigattack.mergerfs
 
-- name: arillso.restic
+  - name: arillso.restic

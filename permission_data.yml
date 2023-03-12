@@ -6,11 +6,11 @@
         msg: "This playbook will repermission ALL existing data in the shares defined in group_vars/all.yml to be owned by the ansible-nas user and group. If this is not what you want, exit now."
 
     - name: 20s to change your mind...
-      pause:
+      ansible.builtin.pause:
         seconds: 20
 
     - name: "Permission share data"
-      file:
+      ansible.builtin.file:
         path: "{{ item.path }}"
         owner: ansible-nas
         group: ansible-nas

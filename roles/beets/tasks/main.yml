@@ -2,14 +2,14 @@
 - name: Start Beets
   block:
     - name: Create Beets Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ beets_data_directory }}/config"
 
     - name: Template Beets config
-      template:
+      ansible.builtin.template:
         src: config.yaml.j2
         dest: "{{ beets_data_directory }}/config/config.yaml"
       register: beets_config
@@ -44,7 +44,7 @@
 - name: Stop Beets
   block:
     - name: Stop Beets
-      docker_container:
+      community.docker.docker_container:
         name: "{{ beets_container_name }}"
         state: absent
   when: beets_enabled is false

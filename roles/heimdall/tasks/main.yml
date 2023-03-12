@@ -2,13 +2,13 @@
 - name: Start Heimdall
   block:
     - name: Create Heimdall group
-      group:
+      ansible.builtin.group:
         name: heimdall
         gid: "{{ heimdall_group_id }}"
         state: present
 
     - name: Create Heimdall user
-      user:
+      ansible.builtin.user:
         name: heimdall
         uid: "{{ heimdall_user_id }}"
         state: present
@@ -18,7 +18,7 @@
         group: heimdall
 
     - name: Create Heimdall Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: heimdall
@@ -27,7 +27,7 @@
         - "{{ heimdall_data_directory }}"
 
     - name: Create Heimdall container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ heimdall_container_name }}"
         image: "{{ heimdall_docker_image }}"
         pull: true
@@ -54,7 +54,7 @@
 - name: Stop Heimdall
   block:
     - name: Stop Heimdall
-      docker_container:
+      community.docker.docker_container:
         name: "{{ heimdall_container_name }}"
         state: absent
   when: heimdall_enabled is false

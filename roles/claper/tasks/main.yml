@@ -2,7 +2,7 @@
 - name: Start Claper
   block:
     - name: Create Claper Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: "{{ claper_user_id }}"
@@ -83,12 +83,12 @@
 - name: Stop Claper
   block:
     - name: Stop Claper Database
-      docker_container:
+      community.docker.docker_container:
         name: "{{ claper_db_container_name }}"
         state: absent
 
     - name: Stop Claper
-      docker_container:
+      community.docker.docker_container:
         name: "{{ claper_container_name }}"
         state: absent
   when: claper_enabled is false

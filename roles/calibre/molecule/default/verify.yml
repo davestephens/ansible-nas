@@ -4,16 +4,16 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Get container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ calibre_container_name }}"
       register: result
 
     - name: Check Calibre is running
-      assert:
+      ansible.builtin.assert:
         that:
           - result.container['State']['Status'] == "running"
           - result.container['State']['Restarting'] == false

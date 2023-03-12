@@ -38,7 +38,7 @@
 - name: Stop and uninstall Nomad
   block:
     - name: Check if Nomad is installed
-      stat:
+      ansible.builtin.stat:
         path: /usr/bin/nomad
       register: nomad_install
 

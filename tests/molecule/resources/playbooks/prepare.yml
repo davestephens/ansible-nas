@@ -3,5 +3,5 @@
   hosts: all
   tasks:
     - name: Install docker python module
-      pip:
+      ansible.builtin.pip:
         name: docker

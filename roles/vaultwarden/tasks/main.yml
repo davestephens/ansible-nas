@@ -2,7 +2,7 @@
 - name: Start Vaultwarden
   block:
     - name: Create Vaultwarden Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         mode: "0755"
@@ -10,7 +10,7 @@
         - "{{ vaultwarden_data_directory }}"
 
     - name: Vaultwarden Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ vaultwarden_container_name }}"
         image: vaultwarden/server:latest
         pull: true
@@ -45,7 +45,7 @@
         memory: "{{ vaultwarden_memory }}"
 
     - name: Vaultwarden Backup Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ vaultwarden_backup_container_name }}"
         image: bruceforce/vaultwarden-backup:latest
         pull: true
@@ -57,12 +57,12 @@
 - name: Stop Vaultwarden
   block:
     - name: Stop Vaultwarden
-      docker_container:
+      community.docker.docker_container:
         name: "{{ vaultwarden_container_name }}"
         state: absent
 
     - name: Stop Vaultwarden Backup
-      docker_container:
+      community.docker.docker_container:
         name: "{{ vaultwarden_backup_container_name }}"
         state: absent
   when: vaultwarden_enabled is false

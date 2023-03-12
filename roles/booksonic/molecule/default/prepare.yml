@@ -3,11 +3,11 @@
   hosts: all
   tasks:
     - name: Install docker python module
-      pip:
+      ansible.builtin.pip:
         name: docker
 
     - name: Create a dummy booksonic onfig directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         recurse: yes
@@ -15,6 +15,6 @@
         - "{{ booksonic_data_directory }}/config"
 
     - name: Create a dummy booksonic config file
-      file:
+      ansible.builtin.file:
         path: "{{ booksonic_data_directory }}/config/airsonic.properties"
         state: touch

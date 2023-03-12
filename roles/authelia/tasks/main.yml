@@ -2,14 +2,14 @@
 - name: Start Authelia
   block:
     - name: Create Authelia Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ authelia_data_directory }}"
 
     - name: Create Authelia config file
-      template:
+      ansible.builtin.template:
         src: configuration.yml
         dest: "{{ authelia_data_directory }}/configuration.yml"
         owner: "root"

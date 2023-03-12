@@ -2,14 +2,14 @@
 - name: Start Authentik
   block:
     - name: Create Authentik Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ authentik_data_directory }}"
 
     - name: Create Authentik mount directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: "1000"

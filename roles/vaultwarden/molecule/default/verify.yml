@@ -4,21 +4,21 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Get container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ vaultwarden_container_name }}"
       register: result
 
     - name: Get container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ vaultwarden_backup_container_name }}"
       register: result_backup
 
     - name: Check Vaultwarden is running
-      assert:
+      ansible.builtin.assert:
         that:
           - result.container['State']['Status'] == "running"
           - result.container['State']['Restarting'] == false

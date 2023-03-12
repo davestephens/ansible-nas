@@ -2,12 +2,12 @@
 - name: Start Barcodebuddy
   block:
     - name: Check for Grocy installation
-      fail:
+      ansible.builtin.fail:
         msg: "Barcodebuddy is an extension to Grocy, therefore is requires Grocy enabled, please set it up first."
       when: grocy_enabled is false
 
     - name: Create Barcodebuddy Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:

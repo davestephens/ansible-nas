@@ -4,31 +4,31 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Get authelia container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ authelia_container_name }}"
       register: result
 
     - name: Get authelia redis container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ authelia_redis_container_name }}"
       register: result_redis
 
     - name: Get authelia secure example container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "authelia_secure"
       register: result_secure
 
     - name: Get authelia public example container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "authelia_public"
       register: result_public
 
     - name: Check if authelia docker containers are running
-      assert:
+      ansible.builtin.assert:
         that:
           - result.container['State']['Status'] == "running"
           - result.container['State']['Restarting'] == false

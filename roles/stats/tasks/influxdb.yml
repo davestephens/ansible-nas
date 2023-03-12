@@ -2,7 +2,7 @@
 - name: Start Influxdb
   block:
     - name: Create Influxdb Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: "472"
@@ -11,7 +11,7 @@
         - "{{ stats_influxdb_data_directory }}"
 
     - name: Influxdb Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_influxdb_container_name }}"
         image: "{{ stats_influxdb_docker_image_name }}:{{ stats_influxdb_docker_image_version }}"
         pull: true
@@ -53,7 +53,7 @@
 - name: Stop Influxdb
   block:
     - name: Stop Influxdb
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_influxdb_container_name }}"
         state: absent
   when: stats_enabled is false

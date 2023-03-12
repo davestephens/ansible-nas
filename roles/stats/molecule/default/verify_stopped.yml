@@ -4,23 +4,23 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Grafana
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_grafana_container_name }}"
         state: absent
       register: result_grafana
 
     - name: Try and stop and remove Prometheus
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_prometheus_container_name }}"
         state: absent
       register: result_prometheus
 
     - name: Try and stop and remove Influxdb
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_influxdb_container_name }}"
         state: absent
       register: result_influxdb
@@ -38,25 +38,25 @@
       register: result_promtail
 
     - name: Try and stop and remove Telegraf
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_telegraf_container_name }}"
         state: absent
       register: result_telegraf
 
     - name: Try and stop and remove Smartctl
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_smartctl_container_name }}"
         state: absent
       register: result_smartctl
 
     - name: Try and stop and remove Speedtest
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_speedtest_container_name }}"
         state: absent
       register: result_speedtest
 
     - name: Check if stats containers are stopped
-      assert:
+      ansible.builtin.assert:
         that:
           - not result_grafana.changed
           - not result_prometheus.changed

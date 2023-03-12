@@ -2,7 +2,7 @@
 - name: Start Grocy
   block:
     - name: Create Grocy Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:

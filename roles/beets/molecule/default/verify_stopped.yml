@@ -4,16 +4,16 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Hello World
-      docker_container:
+      community.docker.docker_container:
         name: "{{ beets_container_name }}"
         state: absent
       register: result
 
     - name: Check if Beets is stopped
-      assert:
+      ansible.builtin.assert:
         that:
           - not result.changed

@@ -6,16 +6,16 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Hello World
-      docker_container:
+      community.docker.docker_container:
         name: "{{ hello_world_container_name }}"
         state: absent
       register: result
 
     - name: Check Hello World is stopped
-      assert:
+      ansible.builtin.assert:
         that:
           - not result.changed
