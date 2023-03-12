@@ -48,7 +48,6 @@ plex_metamanager_container_name: plex-meta-manager
 plex_metamanager_image_name: "meisnate12/plex-meta-manager"
 plex_metamanager_image_version: "latest"
 
-
 # specs
 plex_memory: "2g"
 plex_autoscan_memory: "1g"

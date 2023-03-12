@@ -2,7 +2,7 @@
 - name: Start Plex
   block:
     - name: Create Plex Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         # mode: 0755

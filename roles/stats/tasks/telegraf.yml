@@ -2,25 +2,25 @@
 - name: Start Telegraf
   block:
     - name: Create Telegraf Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ stats_telegraf_config_directory }}"
 
     - name: Template telegraf.conf
-      template:
+      ansible.builtin.template:
         src: telegraf.conf.j2
         dest: "{{ stats_telegraf_config_directory }}/telegraf.conf"
       register: telegraf_config
 
     - name: Get Docker daemon uid
-      command: stat -c '%g' /var/run/docker.sock
+      ansible.builtin.command: stat -c '%g' /var/run/docker.sock
       register: docker_uid
       changed_when: false
 
     - name: Telegraf Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_telegraf_container_name }}"
         image: "{{ stats_telegraf_docker_image_name }}:{{ stats_telegraf_docker_image_version }}"
         pull: true
@@ -61,7 +61,7 @@
 - name: Stop Telegraf
   block:
     - name: Stop Telegraf
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_telegraf_container_name }}"
         state: absent
   when: stats_enabled is false

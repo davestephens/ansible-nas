@@ -8,7 +8,6 @@ platforms:
       - /tmp:/tmp:rw
     privileged: true
     pre_build_image: true
-
 provisioner:
   inventory:
     group_vars:

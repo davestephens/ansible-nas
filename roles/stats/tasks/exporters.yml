@@ -22,7 +22,6 @@
         image: "{{ stats_speedtest_docker_image_name }}:{{ stats_speedtest_docker_image_version }}"
         networks:
           - name: "{{ stats_network_name }}"
-        network_mode: "{{ stats_network_name }}"
         container_default_behavior: no_defaults
         pull: true
         ports:

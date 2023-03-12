@@ -2,28 +2,29 @@
 - name: Start Prometheus
   block:
     - name: Create Prometheus Config Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ stats_prometheus_config_directory }}"
 
     - name: Create Prometheus Data Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         mode: 0777
       with_items:
         - "{{ stats_prometheus_data_directory }}"
+        - "{{ stats_prometheus_config_directory }}"
 
     - name: Template Prometheus config
-      template:
+      ansible.builtin.template:
         src: prometheus.yml
         dest: "{{ stats_prometheus_config_directory }}/prometheus.yml"
       register: prometheus_config
 
     - name: Prometheus Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_prometheus_container_name }}"
         image: "{{ stats_prometheus_docker_image_name }}:{{ stats_prometheus_docker_image_version }}"
         pull: true
@@ -53,7 +54,7 @@
 - name: Stop Prometheus
   block:
     - name: Stop Prometheus
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_prometheus_container_name }}"
         state: absent
   when: stats_enabled is false

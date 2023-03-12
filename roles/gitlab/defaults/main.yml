@@ -12,5 +12,12 @@ gitlab_port_http: "4080"
 gitlab_port_https: "4443"
 gitlab_port_ssh: "422"
 
+# docker
+gitlab_container_name: "gitlab"
+gitlab_image_name: "gitlab/gitlab-ce"
+gitlab_image_version: "latest"
+gitlab_user_id: "1000"
+gitlab_group_id: "1000"
+
 # specs
 gitlab_memory: "4g"

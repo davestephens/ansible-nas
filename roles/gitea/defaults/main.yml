@@ -7,6 +7,7 @@ gitea_data_directory: "{{ docker_home }}/gitea"
 
 # network
 gitea_hostname: "gitea"
+gitea_network_name: "gitea"
 gitea_port_http: "3001"
 gitea_port_ssh: "222"
 
@@ -16,4 +17,8 @@ gitea_mysql_memory: 1g
 
 # docker
 gitea_container_name: gitea
+gitea_image_name: gitea/gitea
+gitea_image_version: latest
 gitea_mysql_container_name: gitea-mysql
+gitea_mysql_image_name: mysql
+gitea_mysql_image_version: "5.7"

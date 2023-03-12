@@ -1,20 +1,32 @@
 ---
-- name: Create Minecraft Server Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ minecraft_server_data_directory }}"
+- name: Start Minecraft Server
+  block:
+    - name: Create Minecraft Server Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ minecraft_server_data_directory }}"
 
-- name: Minecraft Server Docker Container
-  docker_container:
-    name: minecraft-server
-    image: itzg/minecraft-server:latest
-    pull: true
-    volumes:
-      - "{{ minecraft_server_data_directory }}:/data:rw"
-    ports:
-      - "{{ minecraft_server_port }}:25565"
-    env:
-      EULA: "TRUE"
-    restart_policy: unless-stopped
+    - name: Minecraft Server Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ minecraft_server_container_name }}"
+        image: "{{ minecraft_server_image_name }}:{{ minecraft_server_image_version }}"
+        pull: true
+        volumes:
+          - "{{ minecraft_server_data_directory }}:/data:rw"
+        ports:
+          - "{{ minecraft_server_port }}:25565"
+        env:
+          EULA: "TRUE"
+        restart_policy: unless-stopped
+  when: minecraft_server_enabled is true
+
+- name: Stop Minecraft Server
+  block:
+    - name: Stop Minecraft Server
+      community.docker.docker_container:
+        name: "{{ minecraft_server_container_name }}"
+        state: absent
+  when: minecraft_server_enabled is false

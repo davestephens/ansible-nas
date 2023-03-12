@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get komga container state
+      docker_container_info:
+        name: "{{ komga_container_name }}"
+      register: result
+
+    - name: Check if komga docker container is running
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

@@ -13,5 +13,10 @@ prowlarr_group_id: "0"
 prowlarr_port: "9696"
 prowlarr_hostname: "prowlarr"
 
+# docker
+prowlarr_container_name: "prowlarr"
+prowlarr_image_name: "ghcr.io/linuxserver/prowlarr"
+prowlarr_image_version: "develop"
+
 # specs
 prowlarr_memory: 1g

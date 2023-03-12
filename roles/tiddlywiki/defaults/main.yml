@@ -21,3 +21,6 @@ tiddlywiki_hostname: tiddlywiki
 
 # Container
 tiddlywiki_memory: 512MB
+tiddlywiki_container_name: "tiddlywiki"
+tiddlywiki_image_name: "wmudge/tiddlywiki"
+tiddlywiki_image_version: "latest"

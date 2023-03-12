@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove tautulli
+      community.docker.docker_container:
+        name: "{{ tautulli_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if tautulli is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed

@@ -22,6 +22,10 @@ transmission_openvpn_external_port: "51415"
 transmission_openvpn_proxy_port: "3128"
 transmission_openvpn_hostname: "transmission_openvpn"
 
+transmission_openvpn_container_name: "transmission-openvpn"
+transmission_openvpn_image_name: "haugene/transmission-openvpn"
+transmission_openvpn_image_version: "latest"
+
 # Transmission VPN Credentials
 # If you're using Transmission with a VPN, you'll need to set these credentials.
 # See https://github.com/haugene/docker-transmission-openvpn/ for supported VPN providers.

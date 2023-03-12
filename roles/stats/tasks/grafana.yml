@@ -2,13 +2,11 @@
 - name: Start Grafana
   block:
     - name: Create Grafana Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: "472"
-        group: root
         recurse: yes
-        # mode: 0777
       changed_when: false
       with_items:
         - "{{ stats_grafana_data_directory }}"
@@ -18,17 +16,17 @@
         - "{{ stats_grafana_config_directory }}/provisioning/dashboards"
 
     - name: Template Grafana data source
-      template:
+      ansible.builtin.template:
         src: datasources/ansible-nas.yml.j2
         dest: "{{ stats_grafana_config_directory }}/provisioning/datasources/ansible-nas.yml"
 
     - name: Copy Grafana dashboards configuration
-      copy:
+      ansible.builtin.copy:
         src: dashboards/ansible-nas.yml
         dest: "{{ stats_grafana_config_directory }}/provisioning/dashboards/ansible-nas.yml"
 
     - name: Copy Grafana Ansible-NAS dashboard
-      copy:
+      ansible.builtin.copy:
         src: dashboards/ansible-nas-overview.json
         dest: "{{ stats_grafana_config_directory }}/dashboards/ansible-nas-overview.json"
 
@@ -37,7 +35,7 @@
         name: "{{ stats_network_name }}"
 
     - name: Grafana Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_grafana_container_name }}"
         image: "{{ stats_grafana_docker_image_name }}:{{ stats_grafana_docker_image_version }}"
         pull: true
@@ -68,7 +66,7 @@
 - name: Stop Grafana
   block:
     - name: Stop Grafana
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_grafana_container_name }}"
         state: absent
   when: stats_enabled is false
