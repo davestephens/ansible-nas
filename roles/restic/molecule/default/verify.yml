@@ -1,13 +1,8 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
   gather_facts: false
   tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
-        file: ../../defaults/main.yml
 
     - name: "Restic - retrieve information"
       ansible.builtin.stat:
@@ -35,7 +30,7 @@
     - name: "Backup script - retrieve information"
       ansible.builtin.stat:
         path: "{{ restic_script_dir }}/backup-{{ item.name }}.sh"
-      with_items: '{{ restic_backups }}'
+      with_items: "{{ restic_backups }}"
       when:
         - item.name is defined
         - item.src is defined
@@ -57,13 +52,10 @@
         src: /var/spool/cron/crontabs/{{ restic_service_user }}
         dest: /tmp/fetched
 
-    - name: Check if cron job does exist
+    - name: Check if cron job exists
       ansible.builtin.assert:
-        that: "lookup('file', '/tmp/fetched/instance/var/spool/cron/crontabs/{{ restic_service_user }}') is search('Ansible-NAS Restic backup {{ item.name }}')"
-        fail_msg: "Cron job 'Ansible-NAS Restic backup {{ item.name }}' does not exist for user {{ restic_service_user }}!"
-        success_msg: "Cron job 'Ansible-NAS Restic backup {{ item.name }}' exists for user {{ restic_service_user }}!"
-      with_items: '{{ restic_backups }}'
+        that: "lookup('file', '/tmp/fetched/instance/var/spool/cron/crontabs/root') is search('Ansible-NAS Restic backup docker_remote')"
+        fail_msg: "Cron job does not exist!"
+        success_msg: "Cron job exists!"
       when:
         - restic_create_cron_jobs
-        - item.name is defined
-        - item.scheduled | default(false)

@@ -42,10 +42,6 @@
         restic_backup_script_template: restic_script_Linux.j2
       tags: molecule-idempotence-notest
 
-    # - name: Debug
-    #   ansible.builtin.debug:
-    #     var: restic_backups
-
     - name: Reformat dict if necessary
       ansible.builtin.set_fact:
         restic_backups: "{{ restic_backups | dict2items | json_query('[*].value') }}"

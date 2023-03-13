@@ -3,10 +3,6 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
-        file: ../../defaults/main.yml
-
     - name: Reformat dict if necessary
       ansible.builtin.set_fact:
         restic_backups: "{{ restic_backups | dict2items | json_query('[*].value') }}"
@@ -36,13 +32,11 @@
         src: /var/spool/cron/crontabs/{{ restic_service_user }}
         dest: /tmp/fetched
 
-    - name: Check if cron job does exist
+    - name: Check if cron job does not exist
       ansible.builtin.assert:
-        that: "lookup('file', '/tmp/fetched/instance/var/spool/cron/crontabs/{{ restic_service_user }}') is search('Ansible-NAS Restic backup {{ item.name }}')"
-        fail_msg: "Cron job 'Ansible-NAS Restic backup {{ item.name }}' does not exist for user {{ restic_service_user }}!"
-        success_msg: "Cron job 'Ansible-NAS Restic backup {{ item.name }}' exists for user {{ restic_service_user }}!"
+        that: "not lookup('file', '/tmp/fetched/instance/var/spool/cron/crontabs/root') is search('Ansible-NAS Restic backup docker_remote')"
+        fail_msg: "Cron job still exists!"
+        success_msg: "Cron job does not exist!"
       with_items: '{{ restic_backups }}'
       when:
         - restic_create_cron_jobs
-        - item.name is defined
-        - item.scheduled | default(false)

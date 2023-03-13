@@ -27,8 +27,7 @@ restic_repos: # A dictionary of repositories where snapshots are stored.
     restic_b2_account_key: "" # The account key for Backblaze B2 backend
     init: true
 restic_backups: # A list of dictionaries specifying the files and directories to be backed up
-  docker_remote:
-    name: docker_remote
+  - name: docker_remote
     repo: remote_aws
     src: "{{ docker_home }}"
     scheduled: true
@@ -38,15 +37,14 @@ restic_backups: # A list of dictionaries specifying the files and directories to
     options: rclone.args="serve restic --stdio --b2-hard-delete --drive-impersonate {{ restic_rclone_drive_impersonate_user }}"
     keep_daily: "20"
     backup_tag: "daily"
-  docker_local:
-    name: docker_local
+  - name: docker_local
     repo: local
     src: "{{ docker_home }}"
     scheduled: true
     schedule_hour: 1
     exclude: "{{ restic_excludes }}"
 
-restic_create_cron_jobs: false # Should a cronjob be created for each backup
+restic_create_cron_jobs: true # Should a cronjob be created for each backup
 restic_dir_owner: "{{ restic_service_user }}" # The owner of all created dirs
 restic_dir_group: "{{ restic_service_group }}" # The group of all created dirs
 restic_rclone_drive_impersonate_user: "ansible-nas@{{ ansible_nas_domain }}" # when you use rclone as remote

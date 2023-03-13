@@ -10,11 +10,34 @@ provisioner:
     group_vars:
       all:
         restic_enabled: true
+        restic_install_location: "/usr/local/bin"
         restic_create_cron_jobs: true
         docker_image_directory: "/tmp"
         restic_service_user: root
         restic_service_group: root
         restic_script_dir: /root/restic
+        restic_repos: # A dictionary of repositories where snapshots are stored.
+          local:
+            location: /home/root/backups
+            password: securepassword1
+            init: false
+          remote_aws:
+            location: s3:s3.amazonaws.com/bucket_name
+            password: securepassword2
+            restic_aws_access_key: "" # The access key for the S3 backend
+            restic_aws_secret_access_key: "" # The secret access key for the S3 backend
+            restic_aws_default_region: "" # The desired region for the S3 backend
+            init: false
+        restic_backups: # A list of dictionaries specifying the files and directories to be backed up
+          - name: docker_remote
+            repo: remote_aws
+            src: "{{ docker_home }}"
+            scheduled: true
+            schedule_minute: "5"
+            schedule_hour: "0"
+            options: rclone.args="serve restic --stdio --b2-hard-delete"
+            keep_daily: "20"
+            backup_tag: "daily"
   playbooks:
     prepare: prepare.yml
 scenario:
