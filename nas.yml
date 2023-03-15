@@ -569,6 +569,10 @@
       tags:
         - wireshark
 
+    - role: wishthis
+      tags:
+        - wishthis
+
     - role: woodpecker-ci
       tags:
         - woodpecker_ci

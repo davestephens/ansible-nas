@@ -151,6 +151,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Wger](https://wger.de) - Free, open source web application that manages your exercises, workouts and nutrition
 * [Whoogle](https://github.com/benbusby/whoogle-search) - A self-hosted, ad-free, privacy-respecting metasearch engine
 * [Wireshark](https://www.wireshark.org/) - the world’s foremost and widely-used network protocol analyzer.
+* [Wishthis](https://github.com/grandeljay/wishthis) - simple, intuitive and modern wishlist platform
 * [Woodpecker-CI](https://woodpecker-ci.org) - a simple CI engine with great extensibility, forked from Drone.
 * [YouTubeDL-Material](https://github.com/Tzahi12345/YoutubeDL-Material) - Self-hosted YouTube downloader built on Material Design
 * [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels

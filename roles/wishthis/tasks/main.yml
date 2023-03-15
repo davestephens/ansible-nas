@@ -1,0 +1,87 @@
+---
+- name: Start Wishthis
+  block:
+    - name: Create Wishthis Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "33"
+        group: "33"
+      with_items:
+        - "{{ wishthis_data_directory }}"
+        - "{{ wishthis_data_directory }}/config"
+
+    - name: Create Wishthis network
+      community.docker.docker_network:
+        name: "{{ wishthis_network_name }}"
+
+    - name: Wishthis Mysql Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wishthis_db_container_name }}"
+        image: "{{ wishthis_db_image_name }}:{{ wishthis_db_image_version }}"
+        networks:
+          - name: "{{ wishthis_network_name }}"
+        network_mode: "{{ wishthis_network_name }}"
+        pull: true
+        volumes:
+          - "{{ wishthis_data_directory }}/mysql:/var/lib/mysql:rw"
+        env:
+          MYSQL_DATABASE: "{{ wishthis_db_name }}"
+          MYSQL_USER: "{{ wishthis_db_user }}"
+          MYSQL_PASSWORD: "{{ wishthis_db_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ wishthis_db_root_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ wishthis_db_memory }}"
+
+    - name: Create config file
+      ansible.builtin.template:
+        src: config.php.j2
+        dest: "{{ wishthis_data_directory }}/config/config.php"
+        owner: "33"
+        group: "33"
+      tags: molecule-idempotence-notest
+
+    - name: Copy sample copnfig
+      ansible.builtin.copy:
+        src: config-sample.php
+        dest: "{{ wishthis_data_directory }}/config/config-sample.php"
+        owner: "33"
+        group: "33"
+      tags: molecule-idempotence-notest
+
+    - name: Create Wishthis Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wishthis_container_name }}"
+        image: "{{ wishthis_image_name }}:{{ wishthis_image_version }}"
+        networks:
+          - name: "{{ wishthis_network_name }}"
+        network_mode: "{{ wishthis_network_name }}"
+        ports:
+          - "{{ wishthis_port }}:80"
+        volumes:
+          - "{{ wishthis_data_directory }}/config:/var/www/html/src/config"
+        pull: true
+        restart_policy: unless-stopped
+        memory: "{{ wishthis_memory }}"
+        labels:
+          traefik.enable: "{{ wishthis_available_externally | string }}"
+          traefik.http.routers.wishthis.rule: "Host(`{{ wishthis_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.wishthis.tls.certresolver: "letsencrypt"
+          traefik.http.routers.wishthis.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.wishthis.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.wishthis.loadbalancer.server.port: "80"
+  when: wishthis_enabled is true
+
+- name: Stop Wishthis
+  block:
+    - name: Stop Wishthis
+      community.docker.docker_container:
+        name: "{{ wishthis_container_name }}"
+        state: absent
+    - name: Stop Wishthis db
+      community.docker.docker_container:
+        name: "{{ wishthis_db_container_name }}"
+        state: absent
+  when: wishthis_enabled is false

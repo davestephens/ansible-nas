@@ -1,0 +1,30 @@
+---
+wishthis_enabled: false
+wishthis_available_externally: false
+
+# Data directory for config file
+wishthis_data_directory: "{{ docker_home }}/wishthis"
+
+# Networking
+wishthis_port: "8113"
+wishthis_hostname: wishthis
+wishthis_network_name: wishthis
+
+# Container
+wishthis_memory: 512MB
+wishthis_db_memory: 512MB
+wishthis_container_name: "wishthis"
+wishthis_image_name: "hiob/wishthis"
+wishthis_image_version: "stable"
+wishthis_db_container_name: "wishthis-db"
+wishthis_db_image_name: "mysql"
+wishthis_db_image_version: "5.7"
+wishthis_user_id: "1000"
+wishthis_group_id: "1000"
+
+# Wishthis
+wishthis_db_host: "{{ wishthis_db_container_name }}"
+wishthis_db_name: "wishthis"
+wishthis_db_user: "wishthis"
+wishthis_db_password: "wishthis"
+wishthis_db_root_password: "secure"

@@ -1,0 +1,25 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove wishthis
+      community.docker.docker_container:
+        name: "{{ wishthis_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove wishthis db
+      community.docker.docker_container:
+        name: "{{ wishthis_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Check if wishthis is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
