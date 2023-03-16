@@ -17,8 +17,8 @@
         image: "{{ pyload_image_name }}:{{ pyload_image_version }}"
         pull: true
         volumes:
-          - "{{ pyload_config_directory }}:/opt/pyload/pyload-config:rw"
-          - "{{ pyload_download_directory }}:/opt/pyload/Downloads:rw"
+          - "{{ pyload_config_directory }}:/config:rw"
+          - "{{ pyload_download_directory }}:/downloads:rw"
         ports:
           - "{{ pyload_port }}:8000"
         env:

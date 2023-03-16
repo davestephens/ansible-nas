@@ -16,7 +16,7 @@ pyload_port: "8000"
 
 # docker
 pyload_container_name: "pyload"
-pyload_image_name: "writl/pyload"
+pyload_image_name: "lscr.io/linuxserver/pyload-ng"
 pyload_image_version: "latest"
 
 # specs
