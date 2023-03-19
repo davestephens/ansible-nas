@@ -41,10 +41,10 @@
       block:
         - name: Make sure fuse is installed
           ansible.builtin.apt:
-            name: fuse
+            name: fuse3
             state: present
-          register: fuse
-          until: fuse is succeeded
+          register: fuse3
+          until: fuse3 is succeeded
 
         - name: Create rclone mount directories
           ansible.builtin.file:
