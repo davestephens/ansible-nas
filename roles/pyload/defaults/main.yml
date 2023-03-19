@@ -16,8 +16,8 @@ pyload_port: "8000"
 
 # docker
 pyload_container_name: "pyload"
-pyload_image_name: "lscr.io/linuxserver/pyload-ng"
-pyload_image_version: "latest"
+pyload_image_name: "anarion/pyload-ng"
+pyload_image_version: "develop"
 
 # specs
 pyload_memory: "1g"

@@ -23,8 +23,8 @@
           - "{{ pyload_port }}:8000"
         env:
           TZ: "{{ ansible_nas_timezone }}"
-          UID: "{{ pyload_user_id }}"
-          GID: "{{ pyload_group_id }}"
+          PUID: "{{ pyload_user_id }}"
+          PGID: "{{ pyload_group_id }}"
         restart_policy: unless-stopped
         memory: "{{ pyload_memory }}"
         labels:
