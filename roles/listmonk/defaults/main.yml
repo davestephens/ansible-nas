@@ -1,0 +1,31 @@
+---
+listmonk_enabled: false
+listmonk_available_externally: false
+
+# directories
+listmonk_data_directory: "{{ docker_home }}/listmonk"
+
+# network
+listmonk_port: "9005"
+listmonk_hostname: "listmonk"
+listmonk_network_name: "listmonk"
+
+# specs
+listmonk_memory: 1g
+listmonk_db_memory: 1g
+
+# docker
+listmonk_container_name: listmonk
+listmonk_image_name: "listmonk/listmonk"
+listmonk_image_version: latest
+listmonk_db_container_name: listmonk-db
+listmonk_db_image_name: "postgres"
+listmonk_db_image_version: "13"
+listmonk_user_id: "1000"
+listmonk_group_id: "1000"
+
+listmonk_admin_username: "admin"
+listmonk_admin_password: "admin"
+listmonk_db_name: "listmonk"
+listmonk_db_user: "listmonk"
+listmonk_db_pass: "listmonk"

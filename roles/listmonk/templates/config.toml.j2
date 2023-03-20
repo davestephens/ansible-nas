@@ -1,0 +1,31 @@
+[app]
+# Interface and port where the app will run its webserver.  The default value
+# of localhost will only listen to connections from the current machine. To
+# listen on all interfaces use '0.0.0.0'. To listen on the default web address
+# port, use port 80 (this will require running with elevated permissions).
+address = "0.0.0.0:9000"
+
+# BasicAuth authentication for the admin dashboard. This will eventually
+# be replaced with a better multi-user, role-based authentication system.
+# IMPORTANT: Leave both values empty to disable authentication on admin
+# only where an external authentication is already setup.
+admin_username = "{{ listmonk_admin_username }}"
+admin_password = "{{ listmonk_admin_password }}"
+
+# Database.
+[db]
+host = "{{ listmonk_db_container_name }}"
+port = 5432
+user = "{{ listmonk_db_user }}"
+password = "{{ listmonk_db_pass }}"
+
+# Ensure that this database has been created in Postgres.
+database = "{{ listmonk_db_name }}"
+
+ssl_mode = "disable"
+max_open = 25
+max_idle = 25
+max_lifetime = "300s"
+
+# Optional space separated Postgres DSN params. eg: "application_name=listmonk gssencmode=disable"
+params = ""

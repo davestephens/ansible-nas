@@ -1,0 +1,86 @@
+---
+- name: Start Listmonk
+  block:
+    - name: Create Listmonk Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ listmonk_data_directory }}"
+        - "{{ listmonk_data_directory }}/config"
+
+    - name: Template Listmonk config.toml
+      ansible.builtin.template:
+        src: config.toml.j2
+        dest: "{{ listmonk_data_directory }}/config/config.toml"
+
+    - name: Create Listmonk network
+      community.docker.docker_network:
+        name: "{{ listmonk_network_name }}"
+
+    - name: Listmonk Postgress Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ listmonk_db_container_name }}"
+        image: "{{ listmonk_db_image_name }}:{{ listmonk_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ listmonk_data_directory }}/db:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ listmonk_network_name }}"
+        network_mode: "{{ listmonk_network_name }}"
+        env:
+          POSTGRES_PASSWORD: "{{ listmonk_db_pass }}"
+          POSTGRES_USER: "{{ listmonk_db_user }}"
+          POSTGRES_DB: "{{ listmonk_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ listmonk_db_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U listmonk"]
+          start_period: 20s
+          interval: 5s
+          retries: 12
+          timeout: 5s
+
+    - name: Create Listmonk Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ listmonk_container_name }}"
+        image: "{{ listmonk_image_name }}:{{ listmonk_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ listmonk_network_name }}"
+        network_mode: "{{ listmonk_network_name }}"
+        volumes:
+          - "{{ listmonk_data_directory }}/config/config.toml:/listmonk/config.toml"
+        ports:
+          - "{{ listmonk_port }}:9000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ listmonk_user_id | quote }}"
+          PGID: "{{ listmonk_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ listmonk_memory }}"
+        command: [sh, -c, "yes | ./listmonk --install --config config.toml && ./listmonk --config config.toml"]
+        labels:
+          traefik.enable: "{{ listmonk_available_externally | string }}"
+          traefik.http.routers.listmonk.rule: "Host(`{{ listmonk_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.listmonk.tls.certresolver: "letsencrypt"
+          traefik.http.routers.listmonk.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.listmonk.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.listmonk.loadbalancer.server.port: "9000"
+  when: listmonk_enabled is true
+
+- name: Stop Listmonk
+  block:
+    - name: Stop Listmonk
+      community.docker.docker_container:
+        name: "{{ listmonk_container_name }}"
+        state: absent
+    - name: Stop Listmonk DB
+      community.docker.docker_container:
+        name: "{{ listmonk_db_container_name }}"
+        state: absent
+  when: listmonk_enabled is false

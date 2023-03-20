@@ -269,6 +269,10 @@
       tags:
         - lidarr
 
+    - role: listmonk
+      tags:
+        - listmonk
+
     - role: mattermost
       tags:
         - mattermost
