@@ -1,0 +1,39 @@
+---
+- name: Start littlelink
+  block:
+    - name: Create littlelink Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ littlelink_data_directory }}"
+
+    - name: Create littlelink Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ littlelink_container_name }}"
+        image: "{{ littlelink_image_name }}:{{ littlelink_image_version }}"
+        pull: true
+        volumes:
+          - "{{ littlelink_data_directory }}/data:/data:rw"
+        ports:
+          - "{{ littlelink_port }}:3000"
+        env: "{{ littlelink_optional_env | default({}) | combine(littlelink_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ littlelink_memory }}"
+        labels:
+          traefik.enable: "{{ littlelink_available_externally | string }}"
+          traefik.http.routers.littlelink.rule: "Host(`{{ littlelink_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.littlelink.tls.certresolver: "letsencrypt"
+          traefik.http.routers.littlelink.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.littlelink.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.littlelink.loadbalancer.server.port: "3000"
+  when: littlelink_enabled is true
+
+- name: Stop littlelink
+  block:
+    - name: Stop littlelink
+      community.docker.docker_container:
+        name: "{{ littlelink_container_name }}"
+        state: absent
+  when: littlelink_enabled is false

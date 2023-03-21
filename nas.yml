@@ -273,6 +273,10 @@
       tags:
         - listmonk
 
+    - role: littlelink
+      tags:
+        - littlelink
+
     - role: mattermost
       tags:
         - mattermost

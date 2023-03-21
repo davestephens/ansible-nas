@@ -1,0 +1,108 @@
+---
+littlelink_enabled: false
+littlelink_available_externally: false
+
+# directories
+littlelink_data_directory: "{{ docker_home }}/littlelink"
+
+# network
+littlelink_port: "8114"
+littlelink_hostname: "littlelink"
+
+# specs
+littlelink_memory: 1g
+
+# docker
+littlelink_container_name: littlelink
+littlelink_image_name: "ghcr.io/techno-tim/littlelink-server"
+littlelink_image_version: latest
+littlelink_user_id: "1000"
+littlelink_group_id: "1000"
+
+# littlelink
+linktree_meta_title: "Techno Tim"
+linktree_meta_description: "Software Engineer | Gamer | Twitch Streamer | Content Creator on YouTube | Homelab | 🇺🇸 🇯🇵  | Full Nerd"
+linktree_meta_author: "Techno Tim"
+linktree_meta_keywords: "HomeLab, HTML, CSS, Engineering"
+linktree_lang: "en"
+linktree_meta_index_status: "all"
+linktree_og_site_name: "Techno Tim"
+linktree_og_title: "Techno Tim"
+linktree_og_description: "The home of Techno Tim"
+linktree_og_url: "https://technotim.live"
+linktree_og_image: "https://pbs.twimg.com/profile_images/1286144221217316864/qIAsKOpB_400x400.jpg"
+linktree_og_image_width: "400"
+linktree_og_image_height: "400"
+linktree_ga_tracking_id: "G-XXXXXXXXXX"
+linktree_theme: "Dark"
+linktree_favicon_url: "https://pbs.twimg.com/profile_images/1286144221217316864/qIAsKOpB_200x200.jpg"
+linktree_avatar_url: "https://pbs.twimg.com/profile_images/1286144221217316864/qIAsKOpB_200x200.jpg"
+linktree_avatar_2x_url: "https://pbs.twimg.com/profile_images/1286144221217316864/qIAsKOpB_400x400.jpg"
+linktree_avatar_alt: "Techno Tim Profile Pic"
+linktree_name: "TechnoTim"
+linktree_bio: "Software Engineer | Gamer | Twitch Streamer | Content Creator on YouTube | Homelab | 🇺🇸 🇯🇵 | Full Nerd"
+# use ENV variable names for order, listed buttons will be boosted to the top
+linktree_button_order: "YOUTUBE,TWITCH,TWITTER,GITHUB,INSTAGRAM,LINKED_IN,DISCORD,FACEBOOK,TIKTOK,PATREON,GEAR,DOCUMENTATION"
+linktree_custom_button_text: "Documentation,Recommended Gear"
+linktree_custom_button_url: "https://l.technotim.live/docs,https://l.technotim.live/gear"
+linktree_custom_button_color: "#000000,#000000"
+linktree_custom_button_text_color: "#ffffff,#ffffff"
+linktree_custom_button_alt_text: "Tech documentation site for my videos and more,Recommended Gear"
+linktree_custom_button_name: "DOCUMENTATION,GEAR"
+linktree_custom_button_icon: "fas file-alt,fas fa-cog"
+linktree_github: "https://l.technotim.live/github"
+linktree_twitter: "https://l.technotim.live/twitter"
+linktree_instagram: "https://l.technotim.live/instagram"
+linktree_linked_in: "https://l.technotim.live/linkedin"
+linktree_youtube: "https://l.technotim.live/subscribe"
+linktree_twitch: "https://l.technotim.live/twitch"
+linktree_discord: "https://l.technotim.live/discord"
+linktree_tiktok: "https://l.technotim.live/tiktok"
+linktree_facebook: "https://l.technotim.live/facebook"
+linktree_patreon: "https://l.technotim.live/patreon"
+linktree_footer: "Techno Tim © 2023"
+
+littlelink_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  META_TITLE: "{{ linktree_meta_title }}"
+  META_DESCRIPTION: "{{ linktree_meta_description }}"
+  META_AUTHOR: "{{ linktree_meta_author }}"
+  META_KEYWORDS: "{{ linktree_meta_keywords }}"
+  LANG: "{{ linktree_lang }}"
+  META_INDEX_STATUS: "{{ linktree_meta_index_status }}"
+  OG_SITE_NAME: "{{ linktree_og_site_name }}"
+  OG_TITLE: "{{ linktree_og_title }}"
+  OG_DESCRIPTION: "{{ linktree_og_description }}"
+  OG_URL: "{{ linktree_og_url }}"
+  OG_IMAGE: "{{ linktree_og_image }}"
+  OG_IMAGE_WIDTH: "{{ linktree_og_image_width }}"
+  OG_IMAGE_HEIGHT: "{{ linktree_og_image_height }}"
+  GA_TRACKING_ID: "{{ linktree_ga_tracking_id }}"
+  THEME: "{{ linktree_theme }}"
+  FAVICON_URL: "{{ linktree_favicon_url }}"
+  AVATAR_URL: "{{ linktree_avatar_url }}"
+  AVATAR_2X_URL: "{{ linktree_avatar_2x_url }}"
+  AVATAR_ALT: "{{ linktree_avatar_alt }}"
+  NAME: "{{ linktree_name }}"
+  BIO: "{{ linktree_bio }}"
+  BUTTON_ORDER: "{{ linktree_button_order }}"
+  # you can render an unlimited amount of custom buttons by adding
+  # the CUSTOM_BUTTON_* variables and by using a comma as a separator.
+  CUSTOM_BUTTON_TEXT: "{{ linktree_custom_button_text }}"
+  CUSTOM_BUTTON_URL: "{{ linktree_custom_button_url }}"
+  CUSTOM_BUTTON_COLOR: "{{ linktree_custom_button_color }}"
+  CUSTOM_BUTTON_TEXT_COLOR: "{{ linktree_custom_button_text_color }}"
+  CUSTOM_BUTTON_ALT_TEXT: "{{ linktree_custom_button_alt_text }}"
+  CUSTOM_BUTTON_NAME: "{{ linktree_custom_button_name }}"
+  CUSTOM_BUTTON_ICON: "{{ linktree_custom_button_icon }}"
+  GITHUB: "{{ linktree_github }}"
+  TWITTER: "{{ linktree_twitter }}"
+  INSTAGRAM: "{{ linktree_instagram }}"
+  LINKED_IN: "{{ linktree_linked_in }}"
+  YOUTUBE: "{{ linktree_youtube }}"
+  TWITCH: "{{ linktree_twitch }}"
+  DISCORD: "{{ linktree_discord }}"
+  TIKTOK: "{{ linktree_tiktok }}"
+  FACEBOOK: "{{ linktree_facebook }}"
+  PATREON: "{{ linktree_patreon }}"
+  FOOTER: "{{ linktree_footer }}"
