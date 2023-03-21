@@ -569,6 +569,10 @@
       tags:
         - wger
 
+    - role: whatsupdocker
+      tags:
+        - whatsupdocker
+
     - role: whoogle
       tags:
         - whoogle

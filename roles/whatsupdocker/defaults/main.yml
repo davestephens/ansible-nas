@@ -1,0 +1,20 @@
+---
+whatsupdocker_enabled: false
+whatsupdocker_available_externally: false
+
+# directories
+whatsupdocker_data_directory: "{{ docker_home }}/whatsupdocker"
+
+# network
+whatsupdocker_port: "3007"
+whatsupdocker_hostname: "whatsupdocker"
+
+# specs
+whatsupdocker_memory: 1g
+
+# docker
+whatsupdocker_container_name: whatsupdocker
+whatsupdocker_image_name: "fmartinou/whats-up-docker"
+whatsupdocker_image_version: latest
+whatsupdocker_user_id: "1000"
+whatsupdocker_group_id: "1000"

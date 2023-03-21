@@ -151,6 +151,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
 * [Webtrees](https://www.webtrees.net/index.php/en/) - On-line collaborative genealogy application
 * [Wger](https://wger.de) - Free, open source web application that manages your exercises, workouts and nutrition
+* [Whats-Up-Docker](https://github.com/fmartinou/whats-up-docker) - Docker container update notifier
 * [Whoogle](https://github.com/benbusby/whoogle-search) - A self-hosted, ad-free, privacy-respecting metasearch engine
 * [Wireshark](https://www.wireshark.org/) - the world’s foremost and widely-used network protocol analyzer.
 * [Wishthis](https://github.com/grandeljay/wishthis) - simple, intuitive and modern wishlist platform
