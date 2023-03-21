@@ -1,0 +1,49 @@
+---
+- name: Start Flatnotes
+  block:
+    - name: Create flatnotes Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 1000
+        group: 1000
+      with_items:
+        - "{{ flatnotes_data_directory }}"
+        - "{{ flatnotes_data_directory }}/data"
+        - "{{ flatnotes_data_directory }}/index"
+
+    - name: Create Flatnotes Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ flatnotes_container_name }}"
+        image: "{{ flatnotes_image_name }}:{{ flatnotes_image_version }}"
+        pull: true
+        volumes:
+          - "{{ flatnotes_data_directory }}/data:/app/data"
+          - "{{ flatnotes_data_directory }}/index:/app/data/.flatnotes"
+        ports:
+          - "{{ flatnotes_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          FLATNOTES_AUTH_TYPE: "{{ flatnotes_auth_type }}"
+          FLATNOTES_USERNAME: "{{ flatnotes_username }}"
+          FLATNOTES_PASSWORD: "{{ flatnotes_password }}"
+          FLATNOTES_SECRET_KEY: "{{ flatnotes_secret_key }}"
+        restart_policy: unless-stopped
+        memory: "{{ flatnotes_memory }}"
+        labels:
+          traefik.enable: "{{ flatnotes_available_externally | string }}"
+          traefik.http.routers.flatnotes.rule: "Host(`{{ flatnotes_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.flatnotes.tls.certresolver: "letsencrypt"
+          traefik.http.routers.flatnotes.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.flatnotes.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.flatnotes.loadbalancer.server.port: "80"
+  when: flatnotes_enabled is true
+
+- name: Stop Flatnotes
+  block:
+    - name: Stop Flatnotes
+      community.docker.docker_container:
+        name: "{{ flatnotes_container_name }}"
+        state: absent
+  when: flatnotes_enabled is false

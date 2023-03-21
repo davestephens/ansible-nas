@@ -41,6 +41,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
 * [Flame](https://github.com/pawelmalak/flame/) - Flarum is a delightfully simple discussion platform for your website
 * [Flarum](https://flarum.org/) - Self-hosted startpage for your server
+* [Flatnotes](https://flatnotes.io/) - Self-hosted, database-less note taking web app
 * [Fresh RSS](https://freshrss.org/) - Self-hosted RSS feed aggregator like Leed or Kriss Feed
 * [Frigate](https://frigate.video/) - Frigate is an open source NVR built around real-time AI object detection
 * [Gaps](https://github.com/JasonHHouse/gaps) - Find the missing movies in your Plex Server

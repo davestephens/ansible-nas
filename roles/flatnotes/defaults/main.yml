@@ -1,0 +1,25 @@
+---
+flatnotes_enabled: false
+flatnotes_available_externally: false
+
+# directories
+flatnotes_data_directory: "{{ docker_home }}/flatnotes"
+
+# network
+flatnotes_port: "8105"
+flatnotes_hostname: "flatnotes"
+
+# specs
+flatnotes_memory: 1g
+
+# docker
+flatnotes_container_name: flatnotes
+flatnotes_image_name: "dullage/flatnotes"
+flatnotes_image_version: latest
+flatnotes_user_id: "1000"
+flatnotes_group_id: "1000"
+
+flatnotes_auth_type: "password"
+flatnotes_username: "flatnotes"
+flatnotes_password: "flatnotes"
+flatnotes_secret_key: "supersecure"

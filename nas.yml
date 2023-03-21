@@ -141,6 +141,10 @@
       tags:
         - flarum
 
+    - role: flatnotes
+      tags:
+        - flatnotes
+
     - role: freshrss
       tags:
         - freshrss
