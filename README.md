@@ -38,6 +38,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
 * [ESPHome](https://esphome.io/) - ESP8266/ESP32 programming and management for home automation
+* [Excalidraw](https://excalidraw.com/) - Virtual whiteboard for sketching hand-drawn like diagrams
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
 * [Flame](https://github.com/pawelmalak/flame/) - Flarum is a delightfully simple discussion platform for your website
 * [Flarum](https://flarum.org/) - Self-hosted startpage for your server

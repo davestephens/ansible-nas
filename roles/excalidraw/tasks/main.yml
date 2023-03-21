@@ -1,0 +1,38 @@
+---
+- name: Start excalidraw
+  block:
+    - name: Create excalidraw Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ excalidraw_data_directory }}"
+
+    - name: Create excalidraw Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ excalidraw_container_name }}"
+        image: "{{ excalidraw_image_name }}:{{ excalidraw_image_version }}"
+        pull: true
+        ports:
+          - "{{ excalidraw_port }}:80"
+        env:
+          NODE_ENV: "development"
+        restart_policy: unless-stopped
+        memory: "{{ excalidraw_memory }}"
+        labels:
+          traefik.enable: "{{ excalidraw_available_externally | string }}"
+          traefik.http.routers.excalidraw.rule: "Host(`{{ excalidraw_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.excalidraw.tls.certresolver: "letsencrypt"
+          traefik.http.routers.excalidraw.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.excalidraw.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.excalidraw.loadbalancer.server.port: "80"
+  when: excalidraw_enabled is true
+
+- name: Stop excalidraw
+  block:
+    - name: Stop excalidraw
+      community.docker.docker_container:
+        name: "{{ excalidraw_container_name }}"
+        state: absent
+  when: excalidraw_enabled is false

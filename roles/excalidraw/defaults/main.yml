@@ -1,0 +1,20 @@
+---
+excalidraw_enabled: false
+excalidraw_available_externally: false
+
+# directories
+excalidraw_data_directory: "{{ docker_home }}/excalidraw"
+
+# network
+excalidraw_port: "3008"
+excalidraw_hostname: "excalidraw"
+
+# specs
+excalidraw_memory: 1g
+
+# docker
+excalidraw_container_name: excalidraw
+excalidraw_image_name: "excalidraw/excalidraw"
+excalidraw_image_version: latest
+excalidraw_user_id: "1000"
+excalidraw_group_id: "1000"

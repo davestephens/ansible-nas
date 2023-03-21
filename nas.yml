@@ -129,6 +129,10 @@
       tags:
         - esphome
 
+    - role: excalidraw
+      tags:
+        - excalidraw
+
     - role: firefly
       tags:
         - firefly
