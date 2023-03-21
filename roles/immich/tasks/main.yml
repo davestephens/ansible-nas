@@ -61,6 +61,23 @@
           retries: 5
           timeout: 3s
 
+    - name: Immich Typesense Docker Container
+      community.docker.docker_container:
+        name: "{{ immich_typesense_container_name }}"
+        image: "{{ immich_typesense_image }}:{{ immich_typesense_tag }}"
+        pull: true
+        volumes:
+          - "{{ immich_data_directory }}/tsdata:/data:rw"
+        networks:
+          - name: "{{ immich_network_name }}"
+        env:
+          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
+          TYPESENSE_DATA_DIR: "/data"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ immich_typesense_memory }}"
+
     - name: Immich Server Docker Container
       community.docker.docker_container:
         name: "{{ immich_server_container_name }}"
@@ -88,6 +105,7 @@
           MAPBOX_KEY: "{{ immich_mapbox_key }}"
           UPLOAD_LOCATION: "./upload"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
@@ -120,6 +138,7 @@
           MAPBOX_KEY: "{{ immich_mapbox_key }}"
           UPLOAD_LOCATION: "./upload"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
@@ -153,6 +172,7 @@
           MAPBOX_KEY: "{{ immich_mapbox_key }}"
           UPLOAD_LOCATION: "./upload"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
@@ -184,6 +204,7 @@
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
           PUBLIC_IMMICH_SERVER_URL: "http://{{ immich_server_container_name }}:3001"
           IMMICH_SERVER_URL: "http://{{ immich_server_container_name }}:3001"
+          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
@@ -227,6 +248,11 @@
     - name: Stop Immich Redis
       community.docker.docker_container:
         name: "{{ immich_redis_container_name }}"
+        state: absent
+
+    - name: Stop Immich Typesense
+      community.docker.docker_container:
+        name: "{{ immich_typesense_container_name }}"
         state: absent
 
     - name: Stop Immich Server

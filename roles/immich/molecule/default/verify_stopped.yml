@@ -19,6 +19,12 @@
         state: absent
       register: result_redis
 
+    - name: Try and stop and remove Immich Typesense
+      community.docker.docker_container:
+        name: "{{ immich_typesense_container_name }}"
+        state: absent
+      register: result_typsense
+
     - name: Try and stop and remove Immich Server
       community.docker.docker_container:
         name: "{{ immich_server_container_name }}"
@@ -54,6 +60,7 @@
         that:
           - not result_postgres.changed
           - not result_redis.changed
+          - not result_typsense.changed
           - not result_server.changed
           - not result_microservices.changed
           - not result_machinelearning.changed

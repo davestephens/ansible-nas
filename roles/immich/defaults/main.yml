@@ -14,6 +14,7 @@ immich_network_name: "immich"
 # specs
 immich_postgres_memory: 1g
 immich_redis_memory: 1g
+immich_typesense_memory: 1g
 immich_server_memory: 1g
 immich_microservices_memory: 1g
 immich_machinelearning_memory: 1g
@@ -23,6 +24,7 @@ immich_proxy_memory: 1g
 # docker
 immich_postgres_container_name: "immich_postgres"
 immich_redis_container_name: "immich_redis"
+immich_typesense_container_name: "typesense"
 immich_server_container_name: "immich_server"
 immich_microservices_container_name: "immich_microservices"
 immich_machinelearning_container_name: "immich_machine_learning"
@@ -33,6 +35,8 @@ immich_postgres_image: "postgres"
 immich_postgres_tag: "14"
 immich_redis_image: "redis"
 immich_redis_tag: "6.2"
+immich_typesense_image: "typesense/typesense"
+immich_typesense_tag: "0.24.0"
 immich_server_image: "altran1502/immich-server"
 immich_server_tag: "release"
 immich_microservices_image: "altran1502/immich-server"
@@ -57,3 +61,5 @@ immich_jwt_secret: "verylongandsecrettext"
 immich_enable_mapbox: "false"
 immich_mapbox_key: ""
 immich_public_login_page_message: "Welcome to Immich!"
+
+immich_typesense_api_key: "1234567890"

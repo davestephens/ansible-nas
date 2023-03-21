@@ -17,6 +17,11 @@
         name: "{{ immich_redis_container_name }}"
       register: result_redis
 
+    - name: Get Immich Typesense container state
+      community.docker.docker_container_info:
+        name: "{{ immich_typesense_container_name }}"
+      register: result_typsense
+
     - name: Get Immich Server container state
       community.docker.docker_container_info:
         name: "{{ immich_server_container_name }}"
@@ -49,6 +54,8 @@
           - result_postgres.container['State']['Restarting'] == false
           - result_redis.container['State']['Status'] == "running"
           - result_redis.container['State']['Restarting'] == false
+          - result_typsense.container['State']['Status'] == "running"
+          - result_typsense.container['State']['Restarting'] == false
           - result_server.container['State']['Status'] == "running"
           - result_server.container['State']['Restarting'] == false
           - result_microservices.container['State']['Status'] == "running"
