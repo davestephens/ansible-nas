@@ -1,0 +1,18 @@
+---
+chatpad_enabled: false
+chatpad_available_externally: false
+
+# directories
+chatpad_data_directory: "{{ docker_home }}/chatpad"
+
+# network
+chatpad_port: "8116"
+chatpad_hostname: "chatpad"
+
+# specs
+chatpad_memory: 1g
+
+# docker
+chatpad_container_name: chatpad
+chatpad_image_name: "itsnoted/chatpad"
+chatpad_image_version: latest

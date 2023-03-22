@@ -1,0 +1,36 @@
+---
+- name: Start Chatpad
+  block:
+    - name: Create Chatpad Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ chatpad_data_directory }}"
+
+    - name: Create Chatpad Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ chatpad_container_name }}"
+        image: "{{ chatpad_image_name }}:{{ chatpad_image_version }}"
+        pull: true
+        ports:
+          - "{{ chatpad_port }}:80"
+        restart_policy: unless-stopped
+        memory: "{{ chatpad_memory }}"
+        labels:
+          traefik.enable: "{{ chatpad_available_externally | string }}"
+          traefik.http.routers.chatpad.rule: "Host(`{{ chatpad_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.chatpad.tls.certresolver: "letsencrypt"
+          traefik.http.routers.chatpad.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.chatpad.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.chatpad.loadbalancer.server.port: "80"
+  when: chatpad_enabled is true
+
+- name: Stop chaChatpadtpad
+  block:
+    - name: Stop Chatpad
+      community.docker.docker_container:
+        name: "{{ chatpad_container_name }}"
+        state: absent
+  when: chatpad_enabled is false

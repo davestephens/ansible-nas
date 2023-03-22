@@ -77,6 +77,10 @@
       tags:
         - changedetection
 
+    - role: chatpad
+      tags:
+        - chatpad
+
     - role: claper
       tags:
         - claper
