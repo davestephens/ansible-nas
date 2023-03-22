@@ -1,7 +1,7 @@
 ---
 - name: Start Flatnotes
   block:
-    - name: Create flatnotes Directories
+    - name: Create Flatnotes Directories
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory

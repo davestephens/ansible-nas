@@ -4,3 +4,13 @@ provisioner:
     group_vars:
       all:
         flatnotes_enabled: true
+        flatnotes_data_directory: /tmp/flatnotes
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp:rw
+    privileged: true
+    pre_build_image: true
