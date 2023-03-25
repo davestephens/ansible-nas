@@ -60,7 +60,7 @@
         networks:
           - name: "{{ graylog_network_name }}"
         volumes:
-          - "{{ graylog_data_directory }}/elastic:/usr/share/elasticsearch/data:rw"
+          - "{{ graylog_data_directory }}/elastic:/var/lib/elasticsearch/data:rw"
         env:
           http.host: "0.0.0.0"
           transport.host: "localhost"
