@@ -1,0 +1,7 @@
+{
+  "label": "Gaming",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the gaming applications available for installation with Ansible-NAS."
+  }
+}

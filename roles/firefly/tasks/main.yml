@@ -6,18 +6,17 @@
         path: "{{ item }}"
         state: directory
       with_items:
-        - "{{ firefly_data_directory }}/postgresql"
-        - "{{ firefly_data_directory }}/mysql"
+        - "{{ firefly_data_directory }}/mariadb"
         - "{{ firefly_data_directory }}/upload"
         - "{{ firefly_data_directory }}/export"
 
     - name: Create MySQL container for Firefly
       docker_container:
         name: "{{ firefly_mysql_container_name }}"
-        image: mysql:5.7
+        image: mariadb:10.9
         pull: true
         volumes:
-          - "{{ firefly_data_directory }}/mysql:/var/lib/mysql:rw"
+          - "{{ firefly_data_directory }}/mariadb:/var/lib/mysql:rw"
         env:
           MYSQL_DATABASE: "firefly"
           MYSQL_USER: "firefly"
@@ -43,6 +42,8 @@
         ports:
           - "{{ firefly_port }}:8080"
         env:
+          APP_URL: "https://{{ firefly_hostname }}.{{ ansible_nas_domain }}"
+          TRUSTED_PROXIES: "**"
           APP_ENV: "local"
           APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
           DB_CONNECTION: "mysql"

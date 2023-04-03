@@ -1,0 +1,8 @@
+{
+  "label": "Further Configuration",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "How to contribute to Ansible-NAS."
+  }
+}

@@ -1,5 +1,5 @@
 ---
-- name: Start Docuwiki
+- name: Start Dokuwiki
   block:
     - name: Create DokuWiki Directories
       file:
@@ -10,7 +10,7 @@
 
     - name: DokuWiki Docker Container
       docker_container:
-        name: "{{ docuwiki_container_name }}"
+        name: "{{ dokuwiki_container_name }}"
         image: linuxserver/dokuwiki:latest
         pull: true
         volumes:
@@ -30,12 +30,12 @@
           traefik.http.routers.dokuwiki.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.dokuwiki.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.dokuwiki.loadbalancer.server.port: "80"
-  when: docuwiki_enabled is true
+  when: dokuwiki_enabled is true
 
-- name: Stop Docuwiki
+- name: Stop Dokuwiki
   block:
-    - name: Stop Docuwiki
+    - name: Stop Dokuwiki
       docker_container:
-        name: "{{ docuwiki_container_name }}"
+        name: "{{ dokuwiki_container_name }}"
         state: absent
-  when: docuwiki_enabled is false
+  when: dokuwiki_enabled is false
