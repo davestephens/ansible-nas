@@ -14,11 +14,11 @@ You can configure Ansible-NAS to set up any (or all!) of the applications listed
 
 If you have a spare domain name you can configure applications to be accessible externally to your home LAN too; they'll be configured with a sensible hostname and DNS gets updated accordingly if your home IP address changes.
 
-### Available Applications
+## Available Applications
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
-* [Bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - Self-Hosting port of password manager
+* [Bitwarden](https://github.com/dani-garcia/vaultwarden) - Password Manger (Technically Vaultwarden, a lightweight implementation in Rust)
 * [Booksonic](https://booksonic.org/) - The selfhosted audiobook server
 * [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 * [Code Server](https://code.visualstudio.com/) - Powerful IDE from Microsoft accessible through the browser
@@ -29,6 +29,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
 * [Dashy](https://dashy.to/) - A self-hosted startpage for your server. Easy to use visual editor, status checking, widgets, themes and tons more!
 * [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
+* [Drone CI](https://drone.io) - A self-service Continuous Integration platform for busy development teams.
 * [Duplicacy](https://duplicacy.com/) - A web UI for the Duplicacy cloud backup program, which provides lock-free deduplication backups to multiple providers
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
@@ -64,6 +65,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [netboot.xyz](https://netboot.xyz/) - a PXE boot server
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
+* [Nomad](https://www.nomadproject.io/) - A simple and flexible scheduler and software orchestrator
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
@@ -117,22 +119,15 @@ Ansible NAS doesn't set up your disk partitions, primarily because getting it wr
 
 ## Installation
 
-See [Installation](https://davestephens.github.io/ansible-nas/installation/).
+See [Installation](https://ansible-nas.io/docs/getting-started/installation/).
 
 ## Documentation
 
-You can read the docs [here](https://davestephens.github.io/ansible-nas). PRs for more documentation always welcome!
+You can read the docs [here](https://ansible-nas.io). PRs for more documentation always welcome!
 
 ## Migrating from FreeNAS
 
-Assuming that your Ubuntu system disk is separate from your storage (it should be!):
-
-1. Ensure you have a working backup of your data.
-2. Check that the working backup you think you have actually works.
-3. SSH to the server and run `zpool list` to determine available ZFS pools.
-4. `zpool import <pool_name>` against each of the pools you want to attach.
-5. `chown -R root:root /mnt/<pool_name>` to fix the ownership of the data.
-6. Follow the Quick Start instructions above.
+Read the [migrating from FreeNAS](https://ansible-nas.io/docs/further-configuration/migrating-from-freenas/) docs.
 
 ## Requirements
 

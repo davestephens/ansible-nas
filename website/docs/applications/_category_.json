@@ -1,0 +1,8 @@
+{
+  "label": "Applications",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "All of the applications available for installation with Ansible-NAS."
+  }
+}

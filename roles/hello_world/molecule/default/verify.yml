@@ -5,9 +5,12 @@
   hosts: all
   gather_facts: false
   tasks:
+    - include_vars:
+        file: ../../defaults/main.yml
+
     - name: Get container state
       docker_container_info:
-        name: hello_world
+        name: "{{ hello_world_container_name }}"
       register: result
 
     - name: Check Hello World is running

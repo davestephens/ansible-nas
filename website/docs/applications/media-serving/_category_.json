@@ -1,0 +1,7 @@
+{
+  "label": "Media Serving",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the media applications available for installation with Ansible-NAS."
+  }
+}

@@ -1,0 +1,43 @@
+---
+drone_ci_enabled: false
+drone_ci_available_externally: false
+
+# directories
+drone_ci_data_directory: "{{ docker_home }}/drone-ci"
+
+# network
+drone_ci_port_http: 8001
+drone_ci_runner_port_http: 8002
+drone_ci_address: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ drone_ci_port_http }}"
+drone_ci_hostname: drone-ci
+
+# memory
+drone_ci_memory: 1g
+drone_ci_agent_memory: 1g
+
+# docker
+drone_ci_container_name: drone-ci
+drone_ci_runner_container_name: drone-ci-runner
+
+# Drone-CI Application Config
+# the users that'll be granted admin, comma separated. Should match a gitea user.
+drone_ci_admin_user: david
+
+# shared secret - use openssl rand -hex 16 to generate your own
+drone_ci_agent_secret: d052ab29a86a02c6b6ff1e5851ee15e1
+
+# debug logging
+drone_ci_debug_logging: false
+
+# the url to your gitea server
+drone_ci_gitea_url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ gitea_port_http }}"
+
+# gitea auth credentials. see https://drone-ci.org/docs/administration/forges/gitea for more info
+drone_ci_gitea_client_id: notset
+drone_ci_gitea_client_secret: notset
+
+# how many drone runners to run
+drone_ci_runner_capacity: 2
+
+# name of the Drone runner
+drone_ci_runner_name: "{{ ansible_nas_hostname }}"

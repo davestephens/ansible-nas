@@ -5,9 +5,12 @@
   hosts: all
   gather_facts: false
   tasks:
+    - include_vars:
+        file: ../../defaults/main.yml
+
     - name: Try and stop and remove Heimdall
       docker_container:
-        name: heimdall
+        name: "{{ heimdall_container_name }}"
         state: absent
       register: result
 

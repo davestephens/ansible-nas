@@ -18,7 +18,7 @@
 
 - name: Template Prometheus config
   template:
-    src: prometheus.yml
+    src: prometheus.yml.j2
     dest: "{{ stats_prometheus_config_directory }}/prometheus.yml"
   register: prometheus_config
 
