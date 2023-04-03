@@ -3,7 +3,7 @@ global:
   scrape_interval: {{ stats_collection_interval }} # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
- 
+
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
   # - "first_rules.yml"
@@ -43,3 +43,15 @@ scrape_configs:
                     "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ stats_speedtest_exporter_port }}"
                  ]
 
+{% if stats_prometheus_additional_hosts is defined %}
+  - job_name: "additional_hosts"
+    static_configs:
+      - targets: [
+{% for host in stats_prometheus_additional_hosts %}
+    {{ host }}
+    {% if not loop.last %}
+        ,
+    {% endif %}
+                 ]
+{% endfor %}
+{% endif %}
