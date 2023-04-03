@@ -24,12 +24,14 @@
       - "{{ plex_video_directory }}:/video:{{ plex_video_permissions }}"
       - "{{ plex_audiobooks_directory }}:/audiobooks:{{ plex_audiobooks_permissions }}"
     network_mode: "host"
+    runtime: "nvidia"
     devices: "{{ plex_devices | default(omit) }}"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ plex_user_id }}"
       PGID: "{{ plex_group_id }}"
       VERSION: "{{ plex_version }}"
+      NVIDIA_VISIBLE_DEVICES: "all"
     restart_policy: unless-stopped
     memory: "{{ plex_memory }}"
     labels:
