@@ -65,6 +65,11 @@
       tags:
         - cloudcmd
 
+    - role: cloudflared
+      tags:
+        - cloudflared
+      when: (cloudflared_enabled | default(False))
+
     - role: cloudflare_ddns
       tags:
         - cloudflare_ddns

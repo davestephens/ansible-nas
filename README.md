@@ -23,6 +23,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 * [Code Server](https://code.visualstudio.com/) - Powerful IDE from Microsoft accessible through the browser
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
+* [Cloudflared (Cloudflare tunnel)](https://github.com/cloudflare/cloudflared) - Create a private and secure tunnel from your NAS to the Cloudflare network, without needing a public ip. This also allows to bypass Carrier Grade NAT (CGNAT) restrictions, ensuring your applications are reachable from the internet
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Dashy](https://dashy.to/) - A self-hosted startpage for your server. Easy to use visual editor, status checking, widgets, themes and tons more!

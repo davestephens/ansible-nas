@@ -1,0 +1,4 @@
+---
+cloudflared_enabled: false
+
+cloudflared_token: ""
