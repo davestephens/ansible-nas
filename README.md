@@ -1,5 +1,6 @@
 # Ansible NAS
 
+![Available Applications](https://img.shields.io/github/directory-file-count/anarion80/ansible-nas/roles?label=Available%20Applications&style=flat-square)
 [![CI](https://github.com/anarion80/ansible-nas/workflows/CI/badge.svg)](https://github.com/anarion80/ansible-nas/actions?query=workflow%3ACI)
 [![Integration](https://github.com/anarion80/ansible-nas/workflows/Integration/badge.svg)](https://github.com/anarion80/ansible-nas/actions?query=workflow%3AIntegration)
 [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat)
@@ -14,7 +15,7 @@ You can configure Ansible-NAS to set up any (or all!) of the applications listed
 
 If you have a spare domain name you can configure applications to be accessible externally to your home LAN too; they'll be configured with a sensible hostname and DNS gets updated accordingly if your home IP address changes.
 
-## Available Applications ![Roles](https://img.shields.io/github/directory-file-count/anarion80/ansible-nas/roles?label=Roles)
+## Available Applications
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Authelia](https://www.authelia.com/) - The Single Sign-On Multi-Factor portal for web apps
