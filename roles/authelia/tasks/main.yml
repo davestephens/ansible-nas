@@ -41,9 +41,7 @@
           traefik.http.routers.authelia.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.authelia.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.routers.authelia.middlewares: "authelia-whitelist"
-          traefik.http.middlewares.authelia-whitelist.ipwhitelist.ipstrategy.depth: "1"
-          traefik.http.middlewares.authelia-whitelist.ipwhitelist.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
-          traefik.http.middlewares.authelia.forwardauth.address: "http://authelia:9091/api/verify?rd=https://{{ authelia_hostname }}.{{ ansible_nas_domain }}"  # yamllint disable-line rule:line-length
+          traefik.http.middlewares.authelia.forwardauth.address: "http://{{ authelia_container_name }}:9091/api/verify?rd=https://{{ authelia_hostname }}.{{ ansible_nas_domain }}"  # yamllint disable-line rule:line-length
           traefik.http.middlewares.authelia.forwardauth.trustForwardHeader: "true"
           traefik.http.middlewares.authelia.forwardauth.authResponseHeaders: "Remote-User,Remote-Groups,Remote-Name,Remote-Email"  # yamllint disable-line rule:line-length
           traefik.http.services.authelia.loadbalancer.server.port: "9091"
