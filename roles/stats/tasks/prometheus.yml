@@ -20,7 +20,7 @@
 
     - name: Template Prometheus config
       ansible.builtin.template:
-        src: prometheus.yml
+        src: prometheus.yml.j2
         dest: "{{ stats_prometheus_config_directory }}/prometheus.yml"
       register: prometheus_config
 
