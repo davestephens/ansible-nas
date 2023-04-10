@@ -13,7 +13,14 @@
         state: absent
       register: result
 
+    - name: Try and stop and remove barcodebuddy
+      docker_container:
+        name: "{{ grocy_bbuddy_container_name }}"
+        state: absent
+      register: result_bbuddy
+
     - name: Check if grocy containers are stopped
       assert:
         that:
           - not result.changed
+          - not result_bbuddy.changed

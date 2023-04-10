@@ -8,3 +8,4 @@
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
       vars:
         grocy_enabled: false
+        grocy_bbuddy_enabled: false

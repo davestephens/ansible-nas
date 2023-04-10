@@ -33,6 +33,43 @@
           traefik.http.services.grocy.loadbalancer.server.port: "80"
         restart_policy: unless-stopped
         memory: "{{ grocy_memory }}"
+
+    - block:
+        - name: Create Barcodebuddy Directory
+          file:
+            path: "{{ item }}"
+            state: directory
+          with_items:
+            - "{{ grocy_data_directory }}/barcodebuddy"
+
+        - name: Barcodebuddy Docker Container
+          community.docker.docker_container:
+            name: "{{ grocy_bbuddy_container_name }}"
+            image: "{{ grocy_bbuddy_image }}:{{ grocy_bbuddy_tag }}"
+            pull: true
+            volumes:
+              - "{{ grocy_data_directory }}/barcodebuddy:/config:rw"
+            ports:
+              - "{{ grocy_bbuddy_http_port }}:80"
+              - "{{ grocy_bbuddy_https_port }}:443"
+            env:
+              TZ: "{{ ansible_nas_timezone }}"
+              PUID: "{{ grocy_bbuddy_user_id }}"
+              PGID: "{{ grocy_bbuddy_group_id }}"
+              ATTACH_BARCODESCANNER: "{{ grocy_bbuddy_scanner | string }}"
+              IGNORE_SSL_CA: "{{ grocy_bbuddy_ignore_ssl_ca | string }}"
+              IGNORE_SSL_HOST: "{{ grocy_bbuddy_ignore_ssl_host | string }}"
+              BBUDDY_EXTERNAL_GROCY_URL: "{{ grocy_bbuddy_grocy_url }}"
+            labels:
+              traefik.enable: "{{ grocy_bbuddy_available_externally | string }}"
+              traefik.http.routers.barcodebuddy.rule: "Host(`{{ grocy_bbuddy_hostname }}.{{ ansible_nas_domain }}`)"
+              traefik.http.routers.barcodebuddy.tls.certresolver: "letsencrypt"
+              traefik.http.routers.barcodebuddy.tls.domains[0].main: "{{ ansible_nas_domain }}"
+              traefik.http.routers.barcodebuddy.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+              traefik.http.services.barcodebuddy.loadbalancer.server.port: "80"
+            restart_policy: unless-stopped
+            memory: "{{ grocy_bbuddy_memory }}"
+      when: grocy_bbuddy_enabled is true
   when: grocy_enabled is true
 
 - name: Stop grocy
@@ -41,5 +78,11 @@
       community.docker.docker_container:
         name: "{{ grocy_container_name }}"
         state: absent
+
+    - name: Stop Barcodebuddy
+      community.docker.docker_container:
+        name: "{{ grocy_bbuddy_container_name }}"
+        state: absent
+      when: grocy_bbuddy_enabled is false
 
   when: grocy_enabled is false
