@@ -34,7 +34,8 @@
         restart_policy: unless-stopped
         memory: "{{ grocy_memory }}"
 
-    - block:
+    - name: Install Barcodebuddy
+      block:
         - name: Create Barcodebuddy Directory
           file:
             path: "{{ item }}"
