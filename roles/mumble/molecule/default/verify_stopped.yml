@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove Mumble
+      docker_container:
+        name: "{{ mumble_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check Mumble is stopped
+      assert:
+        that:
+          - not result.changed

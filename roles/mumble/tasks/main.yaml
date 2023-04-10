@@ -1,0 +1,44 @@
+---
+- name: Start Mumble
+  block:
+    - name: Create Mumble Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        # The mumble image gets uid/gid at build time, and uses 1000 for both, by default.
+        # This ends up with permission denied on the data directory, unless we change ownership or fully open the permissions.
+        owner: 1000
+        group: 1000
+      with_items:
+        - "{{ mumble_data_directory }}"
+
+    - name: Create Mumble Docker Container
+      docker_container:
+        name: "{{ mumble_container_name }}"
+        image: mumblevoip/mumble-server:latest
+        pull: true
+        volumes:
+          - "{{ mumble_data_directory }}:/data:rw"
+        ports:
+          - "{{ mumble_tcp_port }}:64738/tcp"
+          - "{{ mumble_udp_port }}:64738/udp"
+        env:
+          # Setting the password prevents unwanted users from connecting to the instance, especially if publicly available.
+          MUMBLE_CONFIG_SERVER_PASSWORD: "{{ mumble_server_password }}"
+        restart_policy: unless-stopped
+        labels:
+          traefik.enable: "{{ mumble_available_externally | string }}"
+          traefik.http.routers.mumble.rule: "Host(`{{ mumble_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.mumble.tls.certresolver: "letsencrypt"
+          traefik.http.routers.mumble.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.mumble.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.mumble.loadbalancer.server.port: "64738"
+  when: mumble_enabled is true
+
+- name: Stop Mumble
+  block:
+    - name: Stop Mumble
+      docker_container:
+        name: "{{ mumble_container_name }}"
+        state: absent
+  when: mumble_enabled is false
