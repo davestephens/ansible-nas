@@ -132,6 +132,10 @@
       tags:
         - duplicati
 
+    - role: dufs
+      tags:
+        - dufs
+
     - role: emby
       tags:
         - emby
