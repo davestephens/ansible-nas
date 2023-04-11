@@ -89,6 +89,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Minetest Server](https://www.minetest.net/) - An open source voxel game engine server
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
+* [Miniserve](https://github.com/svenstaro/miniserve) - a CLI tool to serve files and dirs over HTTP
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [Moviematch](https://github.com/LukeChannings/moviematch) - MovieMatch for Plex
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents

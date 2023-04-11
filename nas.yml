@@ -328,6 +328,10 @@
       tags:
         - miniflux
 
+    - role: miniserve
+      tags:
+        - miniserve
+
     - role: mosquitto
       tags:
         - mosquitto

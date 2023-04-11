@@ -1,0 +1,23 @@
+---
+miniserve_enabled: false
+miniserve_available_externally: false
+
+# directories
+miniserve_data_directory: "{{ docker_home }}/miniserve"
+
+# network
+miniserve_port: "8117"
+miniserve_hostname: "miniserve"
+
+# specs
+miniserve_memory: 1g
+
+# docker
+miniserve_container_name: miniserve
+miniserve_image_name: "docker.io/svenstaro/miniserve"
+miniserve_image_version: latest
+miniserve_user_id: "1000"
+miniserve_group_id: "1000"
+
+# miniserve
+miniserve_options: "-W -z -r -g -t \"Ansible-NAS\""

@@ -1,0 +1,43 @@
+---
+- name: Start Miniserve
+  block:
+    - name: Create Miniserve Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ miniserve_data_directory }}"
+
+    - name: Create Miniserve Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ miniserve_container_name }}"
+        image: "{{ miniserve_image_name }}:{{ miniserve_image_version }}"
+        pull: true
+        volumes:
+          - "{{ miniserve_data_directory }}:/srv:rw"
+        ports:
+          - "{{ miniserve_port }}:8080"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ miniserve_user_id | quote }}"
+          PGID: "{{ miniserve_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ miniserve_memory }}"
+        labels:
+          traefik.enable: "{{ miniserve_available_externally | string }}"
+          traefik.http.routers.miniserve.rule: "Host(`{{ miniserve_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.miniserve.tls.certresolver: "letsencrypt"
+          traefik.http.routers.miniserve.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.miniserve.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.miniserve.loadbalancer.server.port: "8080"
+        command: "{{ miniserve_options }} /srv"
+  when: miniserve_enabled is true
+
+- name: Stop Miniserve
+  block:
+    - name: Stop Miniserve
+      community.docker.docker_container:
+        name: "{{ miniserve_container_name }}"
+        state: absent
+  when: miniserve_enabled is false
