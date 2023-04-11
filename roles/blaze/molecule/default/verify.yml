@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get blaze server container state
+      community.docker.docker_container:
+        name: "{{ blaze_server_container_name }}"
+      register: result_server
+
+    - name: Get blaze client container state
+      community.docker.docker_container:
+        name: "{{ blaze_client_container_name }}"
+      register: result_client
+
+    - name: Check if blaze containers are running
+      ansible.builtin.assert:
+        that:
+          - result_server.container['State']['Status'] == "running"
+          - result_server.container['State']['Restarting'] == false
+          - result_client.container['State']['Status'] == "running"
+          - result_client.container['State']['Restarting'] == false

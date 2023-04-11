@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove blaze server
+      community.docker.docker_container:
+        name: "{{ blaze_server_container_name }}"
+        state: absent
+      register: result_server
+
+    - name: Try and stop and remove blaze client
+      community.docker.docker_container:
+        name: "{{ blaze_client_container_name }}"
+        state: absent
+      register: result_client
+
+    - name: Check if blaze is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_server.changed
+          - not result_client.changed

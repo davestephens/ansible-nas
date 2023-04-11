@@ -72,6 +72,10 @@
       tags:
         - beets
 
+    - role: blaze
+      tags:
+        - blaze
+
     - role: booksonic
       tags:
         - booksonic
