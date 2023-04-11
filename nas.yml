@@ -233,6 +233,10 @@
         - mosquitto
       when: (mosquitto_enabled | default(False))
 
+    - role: mumble
+      tags:
+        - mumble
+
     - role: mylar
       tags:
         - mylar
