@@ -26,9 +26,6 @@
           traefik.http.routers.flame.tls.certresolver: "letsencrypt"
           traefik.http.routers.flame.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.flame.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.middlewares.flame-whitelist.ipwhitelist.ipstrategy.depth: "1"
-          traefik.http.middlewares.flame-whitelist.ipwhitelist.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
-          traefik.http.routers.flame.middlewares: "flame-whitelist"
           traefik.http.services.flame.loadbalancer.server.port: "5005"
         restart_policy: unless-stopped
         memory: "{{ flame_memory }}"
