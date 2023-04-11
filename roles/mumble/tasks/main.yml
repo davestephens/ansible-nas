@@ -23,7 +23,6 @@
           - "{{ mumble_tcp_port }}:64738/tcp"
           - "{{ mumble_udp_port }}:64738/udp"
         env:
-          # Setting the password prevents unwanted users from connecting to the instance, especially if publicly available.
           MUMBLE_CONFIG_SERVER_PASSWORD: "{{ mumble_server_password }}"
         restart_policy: unless-stopped
         labels:
