@@ -292,6 +292,10 @@
       tags:
         - lidarr
 
+    - role: linkding
+      tags:
+        - linkding
+
     - role: listmonk
       tags:
         - listmonk
