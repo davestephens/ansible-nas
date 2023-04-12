@@ -56,3 +56,12 @@ scrape_configs:
 {% endfor %}
 {% endif %}
 
+
+  - job_name: "homeassistant"
+    metrics_path: /api/prometheus
+    authorization:
+      credentials: "{{ stats_hass_long_lived_access_token | default("abcd") }}"
+    static_configs:
+      - targets: [
+                    "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8123"
+                 ]
