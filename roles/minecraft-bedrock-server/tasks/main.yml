@@ -1,0 +1,35 @@
+---
+- name: Create Minecraft Bedrock Server Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ minecraft_bedrock_server_data_directory }}"
+
+- name: Start Minecraft Bedrock Server
+  block:
+    - name: Minecraft Bedrock Server Docker Container
+      docker_container:
+        name: "{{ minecraft_bedrock_server_container_name }}"
+        image: itzg/minecraft-bedrock-server
+        pull: true
+        volumes:
+          - "{{ minecraft_bedrock_server_data_directory }}:/data:rw"
+        ports:
+          - "{{ minecraft_bedrock_server_port }}:19132/udp"
+        env:
+          EULA: "TRUE"
+          SERVER_NAME: "{{ minecraft_bedrock_server_name }}"
+          GAMEMODE: "{{ minecraft_bedrock_server_game_mode }}"
+          DIFFICULTY: "{{ minecraft_bedrock_server_difficulty }}"
+          ONLINE_MODE: "{{ minecraft_bedrock_server_online_mode }}"
+        restart_policy: unless-stopped
+  when: minecraft_bedrock_server_enabled is true
+
+- name: Stop Minecraft Bedrock Server
+  block:
+    - name: Stop Minecraft Bedrock Server
+      docker_container:
+        name: "{{ minecraft_bedrock_server_container_name }}"
+        state: absent
+  when: minecraft_bedrock_server_enabled is false

@@ -3,8 +3,7 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
+    - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Get timemachine container state
