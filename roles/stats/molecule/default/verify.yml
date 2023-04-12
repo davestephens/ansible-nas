@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Get Grafana container state
@@ -32,7 +32,7 @@
       register: result_speedtest
 
     - name: Check if stats docker containers are running
-      assert:
+      ansible.builtin.assert:
         that:
           - result_grafana.container['State']['Status'] == "running"
           - result_grafana.container['State']['Restarting'] == false
