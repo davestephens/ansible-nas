@@ -14,5 +14,10 @@ nzbget_group_id: "0"
 nzbget_port: "6789"
 nzbget_hostname: "nzbget"
 
+# docker
+nzbget_container_name: "nzbget"
+nzbget_image_name: "linuxserver/nzbget"
+nzbget_image_version: "latest"
+
 # specs
 nzbget_memory: "1g"

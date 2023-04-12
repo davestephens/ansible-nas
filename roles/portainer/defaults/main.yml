@@ -9,5 +9,10 @@ portainer_data_directory: "{{ docker_home }}/portainer/config"
 portainer_port: "9000"
 portainer_hostname: "portainer"
 
+# docker
+portainer_container_name: "portainer"
+portainer_image_name: "portainer/portainer-ce"
+portainer_image_version: "latest"
+
 # specs
 portainer_memory: 1g

@@ -1,53 +1,65 @@
 ---
-- name: Create openHAB group
-  group:
-    name: openhab
-    gid: 9001
-    state: present
+- name: Start openHAB
+  block:
+    - name: Create openHAB group
+      ansible.builtin.group:
+        name: openhab
+        gid: 9001
+        state: present
 
-- name: Create openHAB user
-  user:
-    name: openhab
-    uid: 9001
-    state: present
-    system: yes
-    update_password: on_create
-    create_home: no
-    group: openhab
+    - name: Create openHAB user
+      ansible.builtin.user:
+        name: openhab
+        uid: 9001
+        state: present
+        system: yes
+        update_password: on_create
+        create_home: no
+        group: openhab
 
-- name: Create openHAB Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: openhab
-    group: openhab
-  with_items:
-    - "{{ openhab_data_directory }}"
-    - "{{ openhab_data_directory }}/conf"
-    - "{{ openhab_data_directory }}/userdata"
-    - "{{ openhab_data_directory }}/addons"
+    - name: Create openHAB Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: openhab
+        group: openhab
+      with_items:
+        - "{{ openhab_data_directory }}"
+        - "{{ openhab_data_directory }}/conf"
+        - "{{ openhab_data_directory }}/userdata"
+        - "{{ openhab_data_directory }}/addons"
 
-- name: Create openHAB container
-  docker_container:
-    name: openHAB
-    image: openhab/openhab
-    pull: true
-    network_mode: "host"
-    volumes:
-      - "{{ openhab_data_directory }}/conf:/openhab/conf:rw"
-      - "{{ openhab_data_directory }}/userdata:/openhab/userdata:rw"
-      - "{{ openhab_data_directory }}/addons:/openhab/addons:rw"
-      - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/timezone:/etc/timezone:ro"
-    env:
-      OPENHAB_HTTP_PORT: "{{ openhab_port_http }}"
-      OPENHAB_HTTPS_PORT: "{{ openhab_port_https }}"
-    restart_policy: unless-stopped
-    memory: "{{ openhab_memory }}"
-    labels:
-      traefik.enable: "{{ openhab_available_externally | string }}"
-      traefik.http.routers.openhab.rule: "Host(`{{ openhab_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.openhab.tls.certresolver: "letsencrypt"
-      traefik.http.routers.openhab.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.openhab.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.openhab.loadbalancer.server.port: "7777"
+    - name: Create openHAB container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ openhab_container_name }}"
+        image: "{{ openhab_image_name }}:{{ openhab_image_version }}"
+        pull: true
+        network_mode: "host"
+        volumes:
+          - "{{ openhab_data_directory }}/conf:/openhab/conf:rw"
+          - "{{ openhab_data_directory }}/userdata:/openhab/userdata:rw"
+          - "{{ openhab_data_directory }}/addons:/openhab/addons:rw"
+          - "/etc/localtime:/etc/localtime:ro"
+          - "/etc/timezone:/etc/timezone:ro"
+        env:
+          OPENHAB_HTTP_PORT: "{{ openhab_port_http }}"
+          OPENHAB_HTTPS_PORT: "{{ openhab_port_https }}"
+        restart_policy: unless-stopped
+        memory: "{{ openhab_memory }}"
+        labels:
+          traefik.enable: "{{ openhab_available_externally | string }}"
+          traefik.http.routers.openhab.rule: "Host(`{{ openhab_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.openhab.tls.certresolver: "letsencrypt"
+          traefik.http.routers.openhab.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.openhab.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.openhab.loadbalancer.server.port: "7777"
+  when: openhab_enabled is true
+
+- name: Stop openHAB
+  block:
+    - name: Stop openHAB
+      community.docker.docker_container:
+        name: "{{ openhab_container_name }}"
+        state: absent
+  when: openhab_enabled is false

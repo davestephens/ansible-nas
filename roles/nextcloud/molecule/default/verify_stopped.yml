@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove nextcloud
+      community.docker.docker_container:
+        name: "{{ nextcloud_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove nextcloud db
+      community.docker.docker_container:
+        name: "{{ nextcloud_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Check if nextcloud is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_db.changed

@@ -9,5 +9,10 @@ rssbridge_data_directory: "{{ docker_home }}/rssbridge"
 rssbridge_port: "8091"
 rssbridge_hostname: "rssbridge"
 
+# docker
+rssbridge_container_name: "rssbridge"
+rssbridge_image_name: "rssbridge/rss-bridge"
+rssbridge_image_version: "latest"
+
 # specs
 rssbridge_memory: 1g

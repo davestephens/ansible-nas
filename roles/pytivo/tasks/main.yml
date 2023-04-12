@@ -1,38 +1,50 @@
 ---
-- name: Create Pytivo Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0777
-  with_items:
-    - "{{ pytivo_config_directory }}"
+- name: Start Pytivo
+  block:
+    - name: Create Pytivo Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ pytivo_config_directory }}"
 
-- name: Pytivo
-  docker_container:
-    name: pytivo
-    image: pinion/docker-pytivo
-    pull: true
-    volumes:
-      - "/etc/localtime:/etc/localtime:ro"
-      - "{{ pytivo_config_directory }}:/config:rw"
-      - "{{ pytivo_movies_directory }}:/movies:ro"
-      - "{{ pytivo_tv_directory }}:/tv:ro"
-      - "{{ pytivo_photos_directory }}:/photos:ro"
-      - "{{ pytivo_music_directory }}:/music:ro"
-      - "{{ pytivo_podcasts_directory }}:/podcasts:ro"
-    ports:
-      - "9032:9032"
-      - "2190:2190/udp"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ pytivo_user_id }}"
-      PGID: "{{ pytivo_group_id }}"
-    restart_policy: unless-stopped
-    memory: 1g
-    labels:
-      traefik.enable: "{{ pytivo_available_externally | string }}"
-      traefik.http.routers.pytivo.rule: "Host(`{{ pytivo_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.pytivo.tls.certresolver: "letsencrypt"
-      traefik.http.routers.pytivo.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.pytivo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.pytivo.loadbalancer.server.port: "9032"
+    - name: Pytivo
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ pytivo_container_name }}"
+        image: "{{ pytivo_image_name }}:{{ pytivo_image_version }}"
+        pull: true
+        volumes:
+          - "/etc/localtime:/etc/localtime:ro"
+          - "{{ pytivo_config_directory }}:/config:rw"
+          - "{{ pytivo_movies_directory }}:/movies:ro"
+          - "{{ pytivo_tv_directory }}:/tv:ro"
+          - "{{ pytivo_photos_directory }}:/photos:ro"
+          - "{{ pytivo_music_directory }}:/music:ro"
+          - "{{ pytivo_podcasts_directory }}:/podcasts:ro"
+        ports:
+          - "9032:9032"
+          - "2190:2190/udp"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ pytivo_user_id }}"
+          PGID: "{{ pytivo_group_id }}"
+        restart_policy: unless-stopped
+        memory: 1g
+        labels:
+          traefik.enable: "{{ pytivo_available_externally | string }}"
+          traefik.http.routers.pytivo.rule: "Host(`{{ pytivo_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.pytivo.tls.certresolver: "letsencrypt"
+          traefik.http.routers.pytivo.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.pytivo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.pytivo.loadbalancer.server.port: "9032"
+  when: pytivo_enabled is true
+
+- name: Stop Pytivo
+  block:
+    - name: Stop Pytivo
+      community.docker.docker_container:
+        name: "{{ pytivo_container_name }}"
+        state: absent
+  when: pytivo_enabled is false

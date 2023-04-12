@@ -1,31 +1,43 @@
 ---
-- name: Create n8n Directory
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ n8n_data_directory }}"
+- name: Start n8n
+  block:
+    - name: Create n8n Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ n8n_data_directory }}"
 
-- name: Create n8n Docker Container
-  docker_container:
-    name: n8n
-    image: n8nio/n8n
-    pull: true
-    ports:
-      - "{{ n8n_port }}:5678"
-    volumes:
-      - "{{ n8n_data_directory }}:/home/node/.n8n:rw"
-      - "/etc/timezone:/etc/timezone:ro"
-    restart_policy: unless-stopped
-    memory: "{{ n8n_memory }}"
-    env:
-      N8N_BASIC_AUTH_ACTIVE: "true"
-      N8N_BASIC_AUTH_USER: "{{ n8n_basic_auth_user }}"
-      N8N_BASIC_AUTH_PASSWORD: "{{ n8n_basic_auth_password }}"
-    labels:
-      traefik.enable: "{{ n8n_available_externally | string }}"
-      traefik.http.routers.n8n.rule: "Host(`{{ n8n_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.n8n.tls.certresolver: "letsencrypt"
-      traefik.http.routers.n8n.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.n8n.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.n8n.loadbalancer.server.port: "5678"
+    - name: Create n8n Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ n8n_container_name }}"
+        image: "{{ n8n_image_name }}:{{ n8n_image_version }}"
+        pull: true
+        ports:
+          - "{{ n8n_port }}:5678"
+        volumes:
+          - "{{ n8n_data_directory }}:/home/node/.n8n:rw"
+          - "/etc/timezone:/etc/timezone:ro"
+        restart_policy: unless-stopped
+        memory: "{{ n8n_memory }}"
+        env:
+          N8N_BASIC_AUTH_ACTIVE: "true"
+          N8N_BASIC_AUTH_USER: "{{ n8n_basic_auth_user }}"
+          N8N_BASIC_AUTH_PASSWORD: "{{ n8n_basic_auth_password }}"
+        labels:
+          traefik.enable: "{{ n8n_available_externally | string }}"
+          traefik.http.routers.n8n.rule: "Host(`{{ n8n_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.n8n.tls.certresolver: "letsencrypt"
+          traefik.http.routers.n8n.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.n8n.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.n8n.loadbalancer.server.port: "5678"
+  when: n8n_enabled is true
+
+- name: Stop n8n
+  block:
+    - name: Stop n8n
+      community.docker.docker_container:
+        name: "{{ n8n_container_name }}"
+        state: absent
+  when: n8n_enabled is false

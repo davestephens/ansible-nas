@@ -15,5 +15,10 @@ lidarr_group_id: "0"
 lidarr_port: "8686"
 lidarr_hostname: "lidarr"
 
+# docker
+lidarr_container_name: "lidarr"
+lidarr_image_name: "linuxserver/lidarr"
+lidarr_image_version: "latest"
+
 # specs
 lidarr_memory: 1g

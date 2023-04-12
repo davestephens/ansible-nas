@@ -15,5 +15,10 @@ sickchill_group_id: "0"
 sickchill_port: "8081"
 sickchill_hostname: "sickchill"
 
+# docker
+sickchill_container_name: "sickchill"
+sickchill_image_name: "linuxserver/sickchill"
+sickchill_image_version: "latest"
+
 # specs
 sickchill_memory: 1g

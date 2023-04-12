@@ -1,28 +1,40 @@
 ---
-- name: Create Ombi Directories
-  file:
-    path: "{{ ombi_config_directory }}"
-    state: directory
+- name: Start Ombi
+  block:
+    - name: Create Ombi Directories
+      ansible.builtin.file:
+        path: "{{ ombi_config_directory }}"
+        state: directory
 
-- name: Ombi Docker Container
-  docker_container:
-    name: ombi
-    image: linuxserver/ombi
-    pull: true
-    volumes:
-      - "{{ ombi_config_directory }}:/config:rw"
-    ports:
-      - "{{ ombi_port }}:3579"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ ombi_user_id }}"
-      PGID: "{{ ombi_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ ombi_memory }}"
-    labels:
-      traefik.enable: "{{ ombi_available_externally | string }}"
-      traefik.http.routers.ombi.rule: "Host(`{{ ombi_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.ombi.tls.certresolver: "letsencrypt"
-      traefik.http.routers.ombi.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.ombi.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.ombi.loadbalancer.server.port: "3579"
+    - name: Ombi Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ombi_container_name }}"
+        image: "{{ ombi_image_name }}:{{ ombi_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ombi_config_directory }}:/config:rw"
+        ports:
+          - "{{ ombi_port }}:3579"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ ombi_user_id }}"
+          PGID: "{{ ombi_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ ombi_memory }}"
+        labels:
+          traefik.enable: "{{ ombi_available_externally | string }}"
+          traefik.http.routers.ombi.rule: "Host(`{{ ombi_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.ombi.tls.certresolver: "letsencrypt"
+          traefik.http.routers.ombi.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.ombi.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.ombi.loadbalancer.server.port: "3579"
+  when: ombi_enabled is true
+
+- name: Stop Ombi
+  block:
+    - name: Stop Ombi
+      community.docker.docker_container:
+        name: "{{ ombi_container_name }}"
+        state: absent
+  when: ombi_enabled is false

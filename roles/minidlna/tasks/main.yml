@@ -1,17 +1,29 @@
 ---
-- name: MiniDLNA Docker Container
-  docker_container:
-    name: minidlna
-    image: vladgh/minidlna
-    pull: true
-    volumes:
-      - "{{ minidlna_media_directory1 }}:/media1:rw"
-      - "{{ minidlna_media_directory2 }}:/media2:rw"
-    env:
-      MINIDLNA_MEDIA_DIR1: "/media1"
-      MINIDLNA_MEDIA_DIR2: "/media2"
-      MINIDLNA_FRIENDLY_NAME: "{{ minidlna_friendly_name }}"
-      MINIDLNA_PORT: "{{ minidlna_port }}"
-    restart_policy: unless-stopped
-    network_mode: host
-    memory: "{{ minidlna_memory }}"
+- name: Start MiniDLNA
+  block:
+    - name: MiniDLNA Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ minidlna_container_name }}"
+        image: "{{ minidlna_image_name }}:{{ minidlna_image_version }}"
+        pull: true
+        volumes:
+          - "{{ minidlna_media_directory1 }}:/media1:rw"
+          - "{{ minidlna_media_directory2 }}:/media2:rw"
+        env:
+          MINIDLNA_MEDIA_DIR1: "/media1"
+          MINIDLNA_MEDIA_DIR2: "/media2"
+          MINIDLNA_FRIENDLY_NAME: "{{ minidlna_friendly_name }}"
+          MINIDLNA_PORT: "{{ minidlna_port }}"
+        restart_policy: unless-stopped
+        network_mode: host
+        memory: "{{ minidlna_memory }}"
+  when: minidlna_enabled is true
+
+- name: Stop MiniDLNA
+  block:
+    - name: Stop MiniDLNA
+      community.docker.docker_container:
+        name: "{{ minidlna_container_name }}"
+        state: absent
+  when: minidlna_enabled is false

@@ -12,3 +12,6 @@ thelounge_hostname: thelounge
 
 # Container
 thelounge_memory: 1g
+thelounge_container_name: "thelounge"
+thelounge_image_name: "thelounge/thelounge"
+thelounge_image_version: "latest"

@@ -21,6 +21,23 @@ stats_prometheus_hostname: "prometheus"
 stats_grafana_port: "3000"
 stats_grafana_hostname: "grafana"
 
+# docker:
+stats_grafana_container_name: "stats-grafana"
+stats_grafana_image_name: "grafana/grafana"
+stats_grafana_image_version: "latest"
+stats_prometheus_container_name: "stats-prometheus"
+stats_prometheus_image_name: "prom/prometheus"
+stats_prometheus_image_version: "latest"
+stats_telegraf_container_name: "stats-telegraf"
+stats_telegraf_image_name: "telegraf"
+stats_telegraf_image_version: "latest"
+stats_smartctl_container_name: "stats-smartctl"
+stats_smartctl_docker_image_name: "matusnovak/prometheus-smartctl"
+stats_smartctl_docker_image_version: "latest"
+stats_speedtest_container_name: "stats-speedtest"
+stats_speedtest_docker_image_name: "miguelndecarvalho/speedtest-exporter"
+stats_speedtest_docker_image_version: "latest"
+
 # specs
 stats_telegraf_memory: 1g
 stats_prometheus_memory: 1g

@@ -1,31 +1,43 @@
 ---
-- name: Create overseerr Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ overseerr_data_directory }}"
-    - "{{ overseerr_data_directory }}/config"
+- name: Start Overseerr
+  block:
+    - name: Create Overseerr Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ overseerr_data_directory }}"
+        - "{{ overseerr_data_directory }}/config"
 
-- name: Overseerr
-  docker_container:
-    name: overseerr
-    image: sctx/overseerr:latest
-    pull: true
-    volumes:
-      - "{{ overseerr_data_directory }}/config:/app/config:rw"
-    ports:
-      - "{{ overseerr_webui_port }}:5055"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ overseerr_user_id }}"
-      PGID: "{{ overseerr_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ overseerr_memory }}"
-    labels:
-      traefik.enable: "{{ overseerr_available_externally | string }}"
-      traefik.http.routers.overseerr.rule: "Host(`{{ overseerr_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.overseerr.tls.certresolver: "letsencrypt"
-      traefik.http.routers.overseerr.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.overseerr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.overseerr.loadbalancer.server.port: "5055"
+    - name: Overseerr
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ overseerr_container_name }}"
+        image: "{{ overseerr_image_name }}:{{ overseerr_image_version }}"
+        pull: true
+        volumes:
+          - "{{ overseerr_data_directory }}/config:/app/config:rw"
+        ports:
+          - "{{ overseerr_webui_port }}:5055"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ overseerr_user_id }}"
+          PGID: "{{ overseerr_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ overseerr_memory }}"
+        labels:
+          traefik.enable: "{{ overseerr_available_externally | string }}"
+          traefik.http.routers.overseerr.rule: "Host(`{{ overseerr_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.overseerr.tls.certresolver: "letsencrypt"
+          traefik.http.routers.overseerr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.overseerr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.overseerr.loadbalancer.server.port: "5055"
+  when: overseerr_enabled is true
+
+- name: Stop Overseerr
+  block:
+    - name: Stop Overseerr
+      community.docker.docker_container:
+        name: "{{ overseerr_container_name }}"
+        state: absent
+  when: overseerr_enabled is false

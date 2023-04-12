@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove komga
+      docker_container:
+        name: "{{ komga_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if komga container is stopped
+      assert:
+        that:
+          - not result.changed
