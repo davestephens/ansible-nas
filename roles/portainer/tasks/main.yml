@@ -16,7 +16,7 @@
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/timezone:/etc/timezone:ro"
     ports:
-      - "{{ portainer_port }}:9000"
+      - "{{ portainer_port }}:9443"
     restart_policy: unless-stopped
     memory: "{{ portainer_memory }}"
     labels:
@@ -25,4 +25,4 @@
       traefik.http.routers.portainer.tls.certresolver: "letsencrypt"
       traefik.http.routers.portainer.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.portainer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.portainer.loadbalancer.server.port: "9000"
+      traefik.http.services.portainer.loadbalancer.server.port: "9443"
