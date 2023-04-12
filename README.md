@@ -94,7 +94,6 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Miniserve](https://github.com/svenstaro/miniserve) - a CLI tool to serve files and dirs over HTTP
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
-* [Moviematch](https://github.com/LukeChannings/moviematch) - MovieMatch for Plex
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
 * [MySql](https://www.mysql.com/) - The world's most popular open source database

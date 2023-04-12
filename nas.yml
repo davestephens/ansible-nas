@@ -352,6 +352,10 @@
       tags:
         - moviematch
 
+    - role: mumble
+      tags:
+        - mumble
+
     - role: mylar
       tags:
         - mylar
