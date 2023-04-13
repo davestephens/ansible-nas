@@ -9,6 +9,7 @@
         recurse: yes
       with_items:
         - "{{ stats_influxdb_data_directory }}"
+      tags: molecule-idempotence-notest
 
     - name: Influxdb Docker Container
       community.docker.docker_container:
