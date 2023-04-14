@@ -1,12 +1,12 @@
 ---
-title: "Paperless-ng"
+title: "Paperless-ngx"
 ---
 
-Homepage: <https://github.com/jonaswinkler/paperless-ng>
+Homepage: <https://github.com/paperless-ngx/paperless-ngx>
 
 Paperless is an application by Daniel Quinn and contributors that indexes your scanned documents and allows you to easily search for documents and store metadata alongside your documents.
 
-Paperless-ng is a fork of the original project, adding a new interface and many other changes under the hood
+Paperless-ngx is a fork of fork of the original project, adding a new interface and many other changes under the hood
 
 ## Usage
 
