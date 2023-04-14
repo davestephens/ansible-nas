@@ -28,6 +28,8 @@
       - "{{ youtubedlmaterial_port_http }}:17442"
     env:
       ALLOW_CONFIG_MUTATIONS: "true"
+      UID: " {{ youtubedlmaterial_user_id }}"
+      GID: " {{ youtubedlmaterial_group_id }}"
       TZ: "{{ ansible_nas_timezone }}"
     restart_policy: unless-stopped
     memory: "{{ youtubedlmaterial_memory }}"

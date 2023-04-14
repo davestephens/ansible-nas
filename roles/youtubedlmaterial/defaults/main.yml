@@ -9,6 +9,10 @@ youtubedlmaterial_dl_audio_directory: "{{ downloads_root }}/youtube/audio"
 youtubedlmaterial_dl_video_directory: "{{ downloads_root }}/youtube/video"
 youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subscriptions"
 
+# uid / gid
+youtubedlmaterial_user_id: "1000"
+youtubedlmaterial_group_id: "1000"
+
 # network
 youtubedlmaterial_hostname: "youtubedlmaterial"
 youtubedlmaterial_port_http: "8998"
