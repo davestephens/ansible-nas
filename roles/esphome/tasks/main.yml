@@ -2,14 +2,14 @@
 - name: Start EspHome
   block:
     - name: Create EspHome Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ esphome_data_directory }}/data"
 
     - name: EspHome Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ esphome_container_name }}"
         image: esphome/esphome:latest
         pull: true
@@ -36,7 +36,7 @@
 - name: Stop EspHome
   block:
     - name: Stop EspHome
-      docker_container:
+      community.docker.docker_container:
         name: "{{ esphome_container_name }}"
         state: absent
   when: esphome_enabled is false

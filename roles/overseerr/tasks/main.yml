@@ -11,7 +11,6 @@
 
     - name: Overseerr
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ overseerr_container_name }}"
         image: "{{ overseerr_image_name }}:{{ overseerr_image_version }}"
         pull: true

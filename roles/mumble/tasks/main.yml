@@ -2,7 +2,7 @@
 - name: Start Mumble
   block:
     - name: Create Mumble Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         # The mumble image gets uid/gid at build time, and uses 1000 for both, by default.
@@ -13,7 +13,7 @@
         - "{{ mumble_data_directory }}"
 
     - name: Create Mumble Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ mumble_container_name }}"
         image: mumblevoip/mumble-server:latest
         pull: true
@@ -37,7 +37,7 @@
 - name: Stop Mumble
   block:
     - name: Stop Mumble
-      docker_container:
+      community.docker.docker_container:
         name: "{{ mumble_container_name }}"
         state: absent
   when: mumble_enabled is false

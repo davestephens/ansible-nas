@@ -10,7 +10,6 @@
 
     - name: Syncthing Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ syncthing_container_name }}"
         image: "{{ syncthing_image_name }}:{{ syncthing_image_version }}"
         pull: true

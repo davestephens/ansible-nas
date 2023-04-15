@@ -12,7 +12,6 @@
 
     - name: Create pyLoad Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ pyload_container_name }}"
         image: "{{ pyload_image_name }}:{{ pyload_image_version }}"
         pull: true

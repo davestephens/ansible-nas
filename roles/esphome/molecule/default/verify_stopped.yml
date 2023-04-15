@@ -7,7 +7,7 @@
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove EspHome
-      docker_container:
+      community.docker.docker_container:
         name: "{{ esphome_container_name }}"
         state: absent
       register: result

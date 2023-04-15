@@ -21,7 +21,6 @@
 
     - name: Telegraf Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ stats_telegraf_container_name }}"
         image: "{{ stats_telegraf_image_name }}:{{ stats_telegraf_image_version }}"
         pull: true

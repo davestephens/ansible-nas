@@ -7,31 +7,31 @@
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Grafana
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_grafana_container_name }}"
         state: absent
       register: result_grafana
 
     - name: Try and stop and remove Prometheus
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_prometheus_container_name }}"
         state: absent
       register: result_prometheus
 
     - name: Try and stop and remove Telegraf
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_telegraf_container_name }}"
         state: absent
       register: result_telegraf
 
     - name: Try and stop and remove Smartctl
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_smartctl_container_name }}"
         state: absent
       register: result_smartctl
 
     - name: Try and stop and remove Speedtest
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_speedtest_container_name }}"
         state: absent
       register: result_speedtest

@@ -7,13 +7,13 @@
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Firefly
-      docker_container:
+      community.docker.docker_container:
         name: "{{ firefly_container_name }}"
         state: absent
       register: result
 
     - name: Try and stop and remove Firefly MySql
-      docker_container:
+      community.docker.docker_container:
         name: "{{ firefly_mysql_container_name }}"
         state: absent
       register: result_mysql

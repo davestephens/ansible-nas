@@ -7,27 +7,27 @@
         file: ../../defaults/main.yml
 
     - name: Get Grafana container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ stats_grafana_container_name }}"
       register: result_grafana
 
     - name: Get Prometheus container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ stats_prometheus_container_name }}"
       register: result_prometheus
 
     - name: Get Telegraf container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ stats_telegraf_container_name }}"
       register: result_telegraf
 
     - name: Get Smartctl container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ stats_smartctl_container_name }}"
       register: result_smartctl
 
     - name: Get Speedtest container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ stats_speedtest_container_name }}"
       register: result_speedtest
 

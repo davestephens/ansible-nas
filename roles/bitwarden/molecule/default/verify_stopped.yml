@@ -7,13 +7,13 @@
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Bitwarden
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bitwarden_container_name }}"
         state: absent
       register: result
 
     - name: Try and stop and remove Bitwarden Backup
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bitwarden_backup_container_name }}"
         state: absent
       register: result_backup

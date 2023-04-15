@@ -13,7 +13,6 @@
 
     - name: Transmission with VPN
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ transmission_openvpn_container_name }}"
         image: "{{ transmission_openvpn_image_name }}:{{ transmission_openvpn_image_version }}"
         pull: true

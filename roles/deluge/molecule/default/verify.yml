@@ -7,7 +7,7 @@
         file: ../../defaults/main.yml
 
     - name: Get container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ deluge_container_name }}"
       register: result
 

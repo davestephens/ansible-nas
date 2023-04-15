@@ -12,7 +12,6 @@
 
     - name: Create uTorrent Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ utorrent_container_name }}"
         image: "{{ utorrent_image_name }}:{{ utorrent_image_version }}"
         pull: true

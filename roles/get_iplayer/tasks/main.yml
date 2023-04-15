@@ -11,7 +11,6 @@
 
     - name: Create get_iplayer Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ get_iplayer_container_name }}"
         image: "{{ get_iplayer_image_name }}:{{ get_iplayer_image_version }}"
         pull: true

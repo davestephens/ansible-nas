@@ -7,12 +7,12 @@
         file: ../../defaults/main.yml
 
     - name: Get container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ bitwarden_container_name }}"
       register: result
 
     - name: Get container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ bitwarden_backup_container_name }}"
       register: result_backup
 

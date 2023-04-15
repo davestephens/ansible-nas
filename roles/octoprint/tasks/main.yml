@@ -10,7 +10,6 @@
 
     - name: Octoprint Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ octoprint_container_name }}"
         image: "{{ octoprint_image_name }}:{{ octoprint_image_version }}"
         pull: true

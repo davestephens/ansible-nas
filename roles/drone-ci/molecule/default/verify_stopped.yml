@@ -7,13 +7,13 @@
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Drone CI
-      docker_container:
+      community.docker.docker_container:
         name: "{{ drone_ci_container_name }}"
         state: absent
       register: result
 
     - name: Try and stop and remove Drone CI runner
-      docker_container:
+      community.docker.docker_container:
         name: "{{ drone_ci_runner_container_name }}"
         state: absent
       register: result_runner

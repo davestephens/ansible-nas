@@ -17,7 +17,6 @@
 
     - name: Create Youtubedlmaterial Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ youtubedlmaterial_container_name }}"
         image: "{{ youtubedlmaterial_image_name }}:{{ youtubedlmaterial_image_version }}"
         pull: true

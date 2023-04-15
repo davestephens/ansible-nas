@@ -14,7 +14,6 @@
 
     - name: Create Postgres for Miniflux
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ miniflux_db_container_name }}"
         image: "{{ miniflux_db_image_name }}:{{ miniflux_db_image_version }}"
         pull: true
@@ -31,7 +30,6 @@
 
     - name: Create Miniflux Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ miniflux_container_name }}"
         image: "{{ miniflux_image_name }}:{{ miniflux_image_version }}"
         pull: true

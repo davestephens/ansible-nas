@@ -11,7 +11,6 @@
 
     - name: Sickchill Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ sickchill_container_name }}"
         image: "{{ sickchill_image_name }}:{{ sickchill_image_version }}"
         pull: true

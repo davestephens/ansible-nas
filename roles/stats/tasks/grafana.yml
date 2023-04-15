@@ -32,7 +32,6 @@
 
     - name: Grafana Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ stats_grafana_container_name }}"
         image: "{{ stats_grafana_image_name }}:{{ stats_grafana_image_version }}"
         pull: true

@@ -11,7 +11,6 @@
 
     - name: FreshRSS Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ freshrss_container_name }}"
         image: "{{ freshrss_image_name }}:{{ freshrss_image_version }}"
         pull: true
@@ -33,7 +32,6 @@
           traefik.http.routers.freshrss.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.freshrss.loadbalancer.server.port: "80"
   when: freshrss_enabled is true
-
 
 - name: Stop FreshRSS
   block:

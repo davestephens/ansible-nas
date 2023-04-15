@@ -20,7 +20,6 @@
 
     - name: Create paperless_ng redis broker
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ paperless_ng_redis_container_name }}"
         image: "{{ paperless_ng_redis_image_name }}:{{ paperless_ng_redis_image_version }}"
         pull: true

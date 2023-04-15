@@ -10,7 +10,6 @@
 
     - name: Home Assistant Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ homeassistant_container_name }}"
         image: "{{ homeassistant_image_name }}:{{ homeassistant_image_version }}"
         pull: true

@@ -10,7 +10,6 @@
 
     - name: Radarr
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ radarr_container_name }}"
         image: "{{ radarr_image_name }}:{{ radarr_image_version }}"
         pull: true

@@ -8,7 +8,6 @@
 
     - name: Time Machine Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ timemachine_container_name }}"
         image: "{{ timemachine_image_name }}:{{ timemachine_image_version }}"
         pull: true

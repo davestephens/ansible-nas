@@ -31,7 +31,6 @@
 
     - name: Create openHAB container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ openhab_container_name }}"
         image: "{{ openhab_image_name }}:{{ openhab_image_version }}"
         pull: true

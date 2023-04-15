@@ -2,7 +2,7 @@
 - name: Start Duplicacy
   block:
     - name: Create Duplicacy Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
@@ -11,7 +11,7 @@
         - "{{ duplicacy_cache_directory }}"
 
     - name: Duplicacy Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ duplicacy_container_name }}"
         image: saspus/duplicacy-web:mini
         hostname: "{{ duplicacy_hostname }}"
@@ -42,7 +42,7 @@
 - name: Stop Duplicacy
   block:
     - name: Stop Duplicacy
-      docker_container:
+      community.docker.docker_container:
         name: "{{ duplicacy_container_name }}"
         state: absent
   when: duplicacy_enabled is false

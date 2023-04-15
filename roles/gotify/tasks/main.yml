@@ -10,7 +10,6 @@
 
     - name: Gotify Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ gotify_container_name }}"
         image: "{{ gotify_image_name }}:{{ gotify_image_version }}"
         pull: true
