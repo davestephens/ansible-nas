@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/ansible-community/ansible-lint.git
-    rev: v6.5.0
+    rev: v6.14.6
     hooks:
       - id: ansible-lint
   - repo: https://github.com/adrienverge/yamllint.git
