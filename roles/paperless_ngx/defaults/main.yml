@@ -1,0 +1,69 @@
+---
+paperless_ngx_enabled: false
+paperless_ngx_available_externally: false
+# !!IMPORTANT!!
+# when **enabling** traefik set the secret key to a long random string; you don't have to remember it.
+# If not set, default value(which is well known) will be used
+# user for example https://numbergenerator.org/randomnumbergenerator/ascii
+# or
+# https://numbergenerator.org/hex-code-generator#!numbers=1&length=128&addfilters=
+paperless_secret_key: "very_long-string!-09skjlOJIOKSN-ofrandonm-charcters!_?"
+
+# admin user: override these values to automatically create an admin user
+# This will not change an existing [super]user's password, nor will it recreate a user that already exists.
+# You can leave this throughout the lifecycle of the containers.
+paperless_admin_user: ""
+paperless_admin_password: ""
+paperless_admin_mail: ""
+
+
+# directories
+paperless_ng_config_directory: "{{ docker_home }}/paperless_ngx"
+paperless_ng_files_directory: "{{ documents_root }}/paperless"
+paperless_ng_postgres_directory: "{{ paperless_ng_config_directory }}/postgres"
+paperless_ng_data_directory: "{{ paperless_ng_config_directory }}/data"
+paperless_ng_export_directory: "{{ paperless_ng_config_directory }}/export"
+paperless_ng_media_directory: "{{ paperless_ng_files_directory }}/media"
+paperless_ng_consume_directory: "{{ paperless_ng_files_directory }}/consume"
+
+# network
+paperless_ng_port: "16922"
+paperless_ng_hostname: "paperless"
+
+# postgres
+paperless_ng_postgres_db: "paperless"
+paperless_ng_postgres_user: "paperless"
+paperless_ng_postgres_password: "paperless"
+
+# mariadb
+# mariadb is not an option yet
+# MARIADB_HOST: paperless
+# MARIADB_DATABASE: paperless
+# MARIADB_USER: paperless
+# MARIADB_PASSWORD: paperless
+# MARIADB_ROOT_PASSWORD: paperless
+
+# container names
+paperless_ng_container_network_name: "paperless_ng_network"
+paperless_ng_container_name_redis: "paperless_ng_redis"
+paperless_ng_container_name_postgres: "paperless_ng_postgres"
+paperless_ng_container_name_gotenberg: "paperless_ng_gotenberg"
+paperless_ng_container_name_tika: "paperless_ng_tika"
+paperless_ng_container_name_uiserver: "paperless_ng_uiserver"
+
+paperless_tika_gotenberg_name: "gotenberg"
+paperless_tika_name: "tika"
+
+# uid/guid
+paperless_ng_user_id: "1000"
+paperless_ng_group_id: "1000"
+
+# settings
+paperless_ng_languages: "eng"
+
+# specs
+paperless_ng_ui_memory: 1g
+paperless_ng_postgres_memory: 1g
+paperless_ng_redis_memory: 1g
+paperless_ng_tika_memory: 0
+paperless_ng_gotenberg_memory: 1g

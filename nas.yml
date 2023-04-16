@@ -306,10 +306,10 @@
         - overseerr
       when: (overseerr_enabled | default(False))
 
-    - role: paperless_ng
+    - role: paperless_ngx
       tags:
-        - paperless_ng
-      when: (paperless_ng_enabled | default(False))
+        - paperless_ngx
+
 
     - role: piwigo
       tags:
