@@ -43,3 +43,25 @@ scrape_configs:
                     "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ stats_speedtest_exporter_port }}"
                  ]
 
+{% if stats_prometheus_additional_hosts is defined %}
+  - job_name: "additional_hosts"
+    static_configs:
+      - targets: [
+{% for host in stats_prometheus_additional_hosts %}
+    {{ host }}
+    {% if not loop.last %}
+        ,
+    {% endif %}
+                 ]
+{% endfor %}
+{% endif %}
+
+
+  - job_name: "homeassistant"
+    metrics_path: /api/prometheus
+    authorization:
+      credentials: "{{ stats_hass_long_lived_access_token | default("abcd") }}"
+    static_configs:
+      - targets: [
+                    "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8123"
+                 ]
