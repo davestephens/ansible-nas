@@ -21,8 +21,15 @@
         - skip_ansible_lint
 
     - role: geerlingguy.docker
+      when: ansible_architecture == "x86_64"
       tags:
         - docker
+        - skip_ansible_lint
+
+    - role: geerlingguy.docker_arm
+      when: ansible_architecture == "aarch64"
+      tags:
+        - docker_arm
         - skip_ansible_lint
 
     ###
@@ -225,6 +232,10 @@
       tags:
         - mosquitto
       when: (mosquitto_enabled | default(False))
+
+    - role: mumble
+      tags:
+        - mumble
 
     - role: mylar
       tags:

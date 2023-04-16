@@ -1,0 +1,8 @@
+---
+- name: Restart gitea
+  community.docker.docker_container:
+    name: gitea
+    image: gitea/gitea:latest
+    state: started
+    restart: true
+  listen: "restart gitea"
