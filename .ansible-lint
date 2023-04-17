@@ -2,13 +2,11 @@
 skip_list:
  - risky-file-permissions
  - role-name
- - fqcn-builtins
+ - name[missing]
 
 exclude_paths:
  - roles/bertvv.samba
  - roles/geerlingguy.docker
+ - roles/geerlingguy.docker_arm
  - roles/geerlingguy.nfs
 
-mock_modules:
- - docker_container
- - docker_container_info
