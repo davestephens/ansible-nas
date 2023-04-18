@@ -65,7 +65,7 @@
         memory: "{{ drone_ci_agent_memory }}"
 
     - name: Add webhook allowed hosts to Gitea
-      blockinfile:
+      ansible.builtin.blockinfile:
         path: "{{ gitea_data_directory }}/gitea/gitea/conf/app.ini"
         block: |
           [webhook]

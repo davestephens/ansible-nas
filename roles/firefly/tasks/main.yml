@@ -26,7 +26,7 @@
         memory: "{{ firefly_mysql_memory }}"
 
     - name: Wait for MySQL to init
-      pause:
+      ansible.builtin.pause:
         seconds: 30
 
     - name: Create Firefly III container

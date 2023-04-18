@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Ansible-NAS
+  hosts: all
 
   roles:
     ###

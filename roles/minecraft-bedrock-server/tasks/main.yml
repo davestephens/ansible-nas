@@ -1,6 +1,6 @@
 ---
 - name: Create Minecraft Bedrock Server Directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
   with_items:
@@ -9,7 +9,7 @@
 - name: Start Minecraft Bedrock Server
   block:
     - name: Minecraft Bedrock Server Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ minecraft_bedrock_server_container_name }}"
         image: itzg/minecraft-bedrock-server
         pull: true
@@ -29,7 +29,7 @@
 - name: Stop Minecraft Bedrock Server
   block:
     - name: Stop Minecraft Bedrock Server
-      docker_container:
+      community.docker.docker_container:
         name: "{{ minecraft_bedrock_server_container_name }}"
         state: absent
   when: minecraft_bedrock_server_enabled is false
