@@ -2,7 +2,7 @@
 - name: Start Flarum
   block:
     - name: Create Flarum Directories
-      ansible_builtin.file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: "{{ flarum_user_id }}"
