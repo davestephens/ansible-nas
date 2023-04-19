@@ -4,41 +4,41 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Librephotos Postgres
-      docker_container:
+      community.docker.docker_container:
         name: "{{ librephotos_postgres_container_name }}"
         state: absent
       register: result_postgres
 
     - name: Try and stop and remove Librephotos Redis
-      docker_container:
+      community.docker.docker_container:
         name: "{{ librephotos_redis_container_name }}"
         state: absent
       register: result_redis
 
     - name: Try and stop and remove Librephotos Frontend
-      docker_container:
+      community.docker.docker_container:
         name: "{{ librephotos_frontend_container_name }}"
         state: absent
       register: result_frontend
 
     - name: Try and stop and remove Librephotos Backend
-      docker_container:
+      community.docker.docker_container:
         name: "{{ librephotos_backend_container_name }}"
         state: absent
       register: result_backend
 
     - name: Try and stop and remove Librephotos Proxy
-      docker_container:
+      community.docker.docker_container:
         name: "{{ librephotos_proxy_container_name }}"
         state: absent
       register: result_proxy
 
     - name: Check if Librephotos containers are stopped
-      assert:
+      ansible.builtin.assert:
         that:
           - not result_postgres.changed
           - not result_redis.changed

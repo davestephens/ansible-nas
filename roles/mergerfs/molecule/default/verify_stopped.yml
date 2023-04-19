@@ -4,11 +4,11 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Stop Mergerfs service state
-      systemd:
+      ansible.builtin.systemd:
         name: mergerfs
         enabled: false
         masked: true
@@ -19,7 +19,7 @@
       delay: 5
 
     - name: Check that Mergerfs service is stopped
-      assert:
+      ansible.builtin.assert:
         that:
           - stop_service.status['Result'] == "success"
           - stop_service.status['ActiveState'] == "inactive"

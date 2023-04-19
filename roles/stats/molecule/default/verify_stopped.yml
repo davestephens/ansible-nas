@@ -26,13 +26,13 @@
       register: result_influxdb
 
     - name: Try and stop and remove Loki
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_loki_container_name }}"
         state: absent
       register: result_loki
 
     - name: Try and stop and remove Promtail
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_promtail_container_name }}"
         state: absent
       register: result_promtail

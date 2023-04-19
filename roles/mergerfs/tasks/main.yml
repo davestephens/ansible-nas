@@ -64,7 +64,7 @@
         masked: no
         state: started
 
-    - name: Restart the service if config changed
+    - name: Restart the service if config changed # noqa no-handler
       ansible.builtin.systemd:
         name: mergerfs
         enabled: yes

@@ -23,12 +23,12 @@
       register: result_influxdb
 
     - name: Get Loki container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ stats_loki_container_name }}"
       register: result_loki
 
     - name: Get Promtail container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ stats_promtail_container_name }}"
       register: result_promtail
 

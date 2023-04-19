@@ -6,16 +6,16 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: "Mergerfs - retrieve information"
-      stat:
+      ansible.builtin.stat:
         path: "/usr/bin/mergerfs"
       register: remote_file
 
     - name: "Mergerfs - assert that file is created correctly"
-      assert:
+      ansible.builtin.assert:
         that:
           - "remote_file.stat.exists"
           - "remote_file.stat.isreg"
@@ -28,7 +28,7 @@
       register: service_result
 
     - name: Check that Mergerfs service is running
-      assert:
+      ansible.builtin.assert:
         that:
           - service_result.status['ActiveState'] == "active"
           - service_result.status['Result'] == "success"
