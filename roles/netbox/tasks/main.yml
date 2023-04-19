@@ -15,18 +15,18 @@
         - "{{ netbox_data_directory }}/initializers"
 
     - name: Create ansible-nas group
-      ansible_builtin.group:
+      ansible.builtin.group:
         name: ansible-nas
         state: present
 
     # for backup script
     - name: Create docker group
-      ansible_builtin.group:
+      ansible.builtin.group:
         name: docker
         state: present
 
     - name: Ensure user ansible-nas exists and is in group docker
-      ansible_builtin.user:
+      ansible.builtin.user:
         name: ansible-nas
         state: present
         system: yes

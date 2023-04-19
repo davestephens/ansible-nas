@@ -1,6 +1,6 @@
 ---
 - name: Get the list of services
-  ansible_builtin.service_facts:
+  ansible.builtin.service_facts:
 
 - name: Install and start Nomad
   block:
