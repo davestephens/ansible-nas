@@ -12,7 +12,6 @@
 
     - name: Komga Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ komga_container_name }}"
         image: "{{ komga_image_name }}:{{ komga_image_version }}"
         pull: true

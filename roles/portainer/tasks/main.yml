@@ -10,7 +10,6 @@
 
     - name: Portainer Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ portainer_container_name }}"
         image: "{{ portainer_image_name }}:{{ portainer_image_version }}"
         pull: true

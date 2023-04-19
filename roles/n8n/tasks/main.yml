@@ -10,7 +10,6 @@
 
     - name: Create n8n Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ n8n_container_name }}"
         image: "{{ n8n_image_name }}:{{ n8n_image_version }}"
         pull: true

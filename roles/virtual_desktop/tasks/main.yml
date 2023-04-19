@@ -16,7 +16,6 @@
 
     - name: Virtual Desktop Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ virtual_desktop_container_name }}"
         image: "{{ virtual_desktop_image_name }}:{{ virtual_desktop_image_version }}"
         pull: true

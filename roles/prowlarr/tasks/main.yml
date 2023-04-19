@@ -10,7 +10,6 @@
 
     - name: Create Prowlarr Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ prowlarr_container_name }}"
         image: "{{ prowlarr_image_name }}:{{ prowlarr_image_version }}"
         pull: true

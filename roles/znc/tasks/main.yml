@@ -18,7 +18,6 @@
 
     - name: Create ZNC Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ znc_container_name }}"
         image: "{{ znc_image_name }}:{{ znc_image_version }}"
         pull: true

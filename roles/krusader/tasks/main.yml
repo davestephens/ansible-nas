@@ -10,7 +10,6 @@
 
     - name: Krusader Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ krusader_container_name }}"
         image: "{{ krusader_image_name }}:{{ krusader_image_version }}"
         pull: true

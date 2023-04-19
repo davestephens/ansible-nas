@@ -17,7 +17,6 @@
 
     - name: Traefik Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ traefik_container_name }}"
         image: "{{ traefik_image_name }}:{{ traefik_image_version }}"
         pull: true

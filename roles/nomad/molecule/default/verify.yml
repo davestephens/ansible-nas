@@ -9,7 +9,7 @@
 
     - name: Get Nomad service state
       ansible.builtin.systemd:
-        name: nomad
+        name: "{{ nomad_service_name }}"
         state: started
       register: service_result
 

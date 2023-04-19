@@ -3,7 +3,6 @@
   block:
     - name: Watchtower Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ watchtower_container_name }}"
         image: "{{ watchtower_image_name }}:{{ watchtower_image_version }}"
         pull: true

@@ -10,14 +10,12 @@
 
     - name: Remove old Speedtest-Tracker Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ speedtest_container_name }}"
         state: absent
       tags: molecule-idempotence-notest
 
     - name: Speedtest-Tracker Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ speedtest_container_name }}"
         image: "{{ speedtest_image_name }}:{{ speedtest_image_version }}"
         pull: true
