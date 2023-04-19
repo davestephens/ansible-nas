@@ -17,3 +17,8 @@ roles:
   - name: tigattack.mergerfs
 
   - name: arillso.restic
+
+collections:
+  - name: ansible.posix
+  - name: community.docker
+  - name: community.general
