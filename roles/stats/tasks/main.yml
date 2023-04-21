@@ -1,9 +1,9 @@
 ---
+- ansible.builtin.import_tasks: grafana.yml
 - ansible.builtin.import_tasks: prometheus.yml
   when: stats_prometheus_enabled | bool
 - ansible.builtin.import_tasks: telegraf.yml
 - ansible.builtin.import_tasks: exporters.yml
-- ansible.builtin.import_tasks: grafana.yml
 - ansible.builtin.import_tasks: influxdb.yml
   when: stats_influxdb_enabled | bool
 - ansible.builtin.import_tasks: loki.yml
