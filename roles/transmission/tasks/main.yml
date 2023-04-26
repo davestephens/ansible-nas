@@ -13,7 +13,6 @@
 
     - name: Transmission Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ transmission_container_name }}"
         image: "{{ transmission_image_name }}:{{ transmission_image_version }}"
         pull: true

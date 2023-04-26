@@ -78,7 +78,7 @@
       tags: molecule-idempotence-notest
 
     - name: Setup CRON jobs
-      cron:
+      ansible.builtin.cron:
         name: 'Ansible-NAS Restic backup {{ item.name }}'
         user: "{{ restic_service_user }}"
         job: 'CRON=true ionice -c2 -n7 nice -n19 bash {{ restic_script_dir }}/backup-{{ item.name }}.sh'

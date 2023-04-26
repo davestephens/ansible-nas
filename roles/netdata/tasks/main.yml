@@ -8,7 +8,6 @@
 
     - name: Netdata Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ netdata_container_name }}"
         image: "{{ netdata_image_name }}:{{ netdata_image_version }}"
         hostname: "{{ ansible_nas_hostname }}.{{ ansible_nas_domain }}"

@@ -15,7 +15,6 @@
 
     - name: MySQL Docker Container for Joomla
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ joomla_db_container_name }}"
         image: "{{ joomla_db_image_name }}:{{ joomla_db_image_version }}"
         pull: true
@@ -33,7 +32,6 @@
 
     - name: Joomla Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ joomla_container_name }}"
         image: "{{ joomla_image_name }}:{{ joomla_image_version }}"
         pull: true

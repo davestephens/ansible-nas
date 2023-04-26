@@ -9,19 +9,19 @@
         - "{{ guacamole_data_directory }}/config"
 
     - name: Remove Old Guacamole Mysql Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: guacamole-mysql
         state: absent
         keep_volumes: true
 
     - name: Remove Old Guacamole guacd Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: guacamole-guacd
         state: absent
         keep_volumes: true
 
     - name: Remove old Guacamole directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: absent
       with_items:
@@ -29,7 +29,6 @@
 
     - name: Guacamole Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ guacamole_container_name }}"
         image: "{{ guacamole_image_name }}:{{ guacamole_image_version }}"
         pull: true

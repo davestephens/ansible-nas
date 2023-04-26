@@ -10,7 +10,6 @@
 
     - name: Sonarr
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ sonarr_container_name }}"
         image: "{{ sonarr_image_name }}:{{ sonarr_image_version }}"
         pull: true

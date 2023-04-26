@@ -10,7 +10,6 @@
 
     - name: Jackett Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ jackett_container_name }}"
         image: "{{ jackett_image_name }}:{{ jackett_image_version }}"
         volumes:

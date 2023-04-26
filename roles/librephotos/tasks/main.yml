@@ -2,7 +2,7 @@
 - name: Start Librephotos
   block:
     - name: Create Librephotos Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: "{{ librephotos_user_id }}"

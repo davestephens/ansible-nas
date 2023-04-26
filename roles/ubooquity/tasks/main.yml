@@ -10,7 +10,6 @@
 
     - name: Ubooquity Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ ubooquity_container_name }}"
         image: "{{ ubooquity_image_name }}:{{ ubooquity_image_version }}"
         pull: true

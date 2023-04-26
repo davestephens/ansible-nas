@@ -4,41 +4,41 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Get Netbox Postgres container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ netbox_postgres_container_name }}"
       register: result_postgres
 
     - name: Get Netbox Redis container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ netbox_redis_container_name }}"
       register: result_redis
 
     - name: Get Netbox Redis container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ netbox_redis_cache_container_name }}"
       register: result_redis_cache
 
     - name: Get Netbox container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ netbox_container_name }}"
       register: result_netbox
 
     - name: Get Netbox Worker container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ netbox_worker_container_name }}"
       register: result_worker
 
     - name: Get Netbox Housekeeping container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ netbox_housekeeping_container_name }}"
       register: result_housekeeping
 
     - name: Check if Netbox docker containers are running
-      assert:
+      ansible.builtin.assert:
         that:
           - result_postgres.container['State']['Status'] == "running"
           - result_postgres.container['State']['Restarting'] == false

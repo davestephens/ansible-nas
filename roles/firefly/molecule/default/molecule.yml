@@ -4,3 +4,4 @@ provisioner:
     group_vars:
       all:
         firefly_enabled: true
+        firefly_importer_enabled: true

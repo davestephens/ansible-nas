@@ -12,7 +12,6 @@
 
     - name: Tautulli Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ tautulli_container_name }}"
         image: "{{ tautulli_image_name }}:{{ tautulli_image_version }}"
         pull: true

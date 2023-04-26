@@ -82,12 +82,12 @@
 - name: Stop Loki
   block:
     - name: Stop Loki
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_loki_container_name }}"
         state: absent
 
     - name: Stop Promtail
-      docker_container:
+      community.docker.docker_container:
         name: "{{ stats_promtail_container_name }}"
         state: absent
   when: stats_enabled is false

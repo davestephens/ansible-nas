@@ -10,7 +10,6 @@
 
     - name: Minecraft Server Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ minecraft_server_container_name }}"
         image: "{{ minecraft_server_image_name }}:{{ minecraft_server_image_version }}"
         pull: true

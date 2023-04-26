@@ -11,7 +11,6 @@
 
     - name: Netbootxyz Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ netbootxyz_container_name }}"
         image: "{{ netbootxyz_image_name }}:{{ netbootxyz_image_version }}"
         pull: true

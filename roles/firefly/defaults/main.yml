@@ -2,18 +2,86 @@
 # enable or disable the application
 firefly_enabled: false
 firefly_available_externally: false
+firefly_importer_enabled: false
 
 # directories
 firefly_data_directory: "{{ docker_home }}/firefly"
 
 # network
 firefly_hostname: "firefly"
+firefly_importer_hostname: "firefly-importer"
 firefly_port: "8066"
+firefly_importer_port: "8067"
+firefly_network_name: "firefly"
 
 # specs
 firefly_memory: "1g"
 firefly_mysql_memory: "1g"
+firefly_importer_memory: "1g"
 
 # docker
 firefly_container_name: firefly
+firefly_image_name: fireflyiii/core
+firefly_image_tag: latest
 firefly_mysql_container_name: firefly-mysql
+firefly_mysql_image_name: mariadb
+firefly_mysql_image_tag: "10.9"
+firefly_importer_container_name: firefly-importer
+firefly_importer_image_name: fireflyiii/data-importer
+firefly_importer_image_tag: latest
+
+# firefly
+firefly_mysql_database: "firefly"
+firefly_mysql_user: "firefly"
+firefly_mysql_password: "firefly"
+firefly_mysql_root_password: "supersecure"
+firefly_db_connection: "mysql"
+firefly_db_port: "3306"
+
+firefly_access_token: "token"
+firefly_nordigen_id: "nordigen_id"
+firefly_nordigen_key: "nordigen_key"
+firefly_spectre_app_id: "spectre_app_id"
+firefly_spectre_secret: "spectre_secret"
+
+firefly_mail_mailer: "log"
+firefly_mail_host: "null"
+firefly_mail_port: "2525"
+firefly_mail_from: "changeme@example.com"
+firefly_mail_username: "null"
+firefly_mail_password: "null"
+firefly_mail_encryption: "null"
+firefly_mail_destination: ""
+
+firefly_env:
+  APP_URL: "https://{{ firefly_hostname }}.{{ ansible_nas_domain }}"
+  TRUSTED_PROXIES: "**"
+  APP_ENV: "local"
+  APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
+  DB_CONNECTION: "{{ firefly_db_connection }}"
+  DB_HOST: "{{ firefly_mysql_container_name }}"
+  DB_PORT: "{{ firefly_db_port }}"
+  DB_DATABASE: "{{ firefly_mysql_database}}"
+  DB_USERNAME: "{{ firefly_mysql_user }}"
+  DB_PASSWORD: "{{ firefly_mysql_password }}"
+  TZ: "{{ ansible_nas_timezone }}"
+  MAIL_MAILER: "{{ firefly_mail_mailer }}"
+  MAIL_HOST: "{{ firefly_mail_host }}"
+  MAIL_PORT: "{{ firefly_mail_port }}"
+  MAIL_FROM: "{{ firefly_mail_from }}"
+  MAIL_USERNAME: "{{ firefly_mail_username }}"
+  MAIL_PASSWORD: "{{ firefly_mail_password }}"
+  MAIL_ENCRYPTION: "{{ firefly_mail_encryption }}"
+firefly_importer_env:
+  FIREFLY_III_ACCESS_TOKEN: "{{ firefly_access_token }}"
+  FIREFLY_III_URL: "http://{{ firefly_container_name }}:8080"
+  VANITY_URL: "https://{{ firefly_hostname }}.{{ ansible_nas_domain }}"
+  NORDIGEN_ID: "{{ firefly_nordigen_id }}"
+  NORDIGEN_KEY: "{{ firefly_nordigen_key }}"
+  SPECTRE_APP_ID: "{{ firefly_spectre_app_id }}"
+  SPECTRE_SECRET: "{{ firefly_spectre_secret }}"
+  MYSQL_DATABASE: "{{ firefly_mysql_database }}"
+  MYSQL_USER: "{{ firefly_mysql_user }}"
+  MYSQL_PASSWORD: "{{ firefly_mysql_password}}"
+  MYSQL_ROOT_PASSWORD: "{{ firefly_mysql_root_password }}"
+  MAIL_DESTINATION: "{{ firefly_mail_destination }}"

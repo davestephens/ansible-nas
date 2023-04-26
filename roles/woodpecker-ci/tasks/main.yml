@@ -20,7 +20,6 @@
 
     - name: Create Woodpecker-CI container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ woodpecker_ci_container_name }}"
         image: "{{ woodpecker_ci_image_name }}:{{ woodpecker_ci_image_version }}"
         pull: true
@@ -51,7 +50,6 @@
 
     - name: Create Woodpecker-CI agent container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ woodpecker_ci_agent_container_name }}"
         image: "{{ woodpecker_ci_agent_image_name }}:{{ woodpecker_ci_agent_image_version }}"
         pull: true

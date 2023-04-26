@@ -14,7 +14,6 @@
 
     - name: Create Plex Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ plex_container_name }}"
         image: "{{ plex_image_name }}:{{ plex_image_version }}"
         pull: true
