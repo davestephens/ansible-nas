@@ -7,15 +7,20 @@
       ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get container state
+    - name: Get firefly container state
       community.docker.docker_container_info:
         name: "{{ firefly_container_name }}"
       register: result
 
-    - name: Get container state
+    - name: Get firefly mysql container state
       community.docker.docker_container_info:
         name: "{{ firefly_mysql_container_name }}"
       register: result_mysql
+
+    - name: Get firefly importer container state
+      community.docker.docker_container_info:
+        name: "{{ firefly_importer_container_name }}"
+      register: result_importer
 
     - name: Check Firefly is running
       ansible.builtin.assert:
@@ -24,3 +29,5 @@
           - result.container['State']['Restarting'] == false
           - result_mysql.container['State']['Status'] == "running"
           - result_mysql.container['State']['Restarting'] == false
+          - result_importer.container['State']['Status'] == "running"
+          - result_importer.container['State']['Restarting'] == false
