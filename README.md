@@ -17,6 +17,7 @@ If you have a spare domain name you can configure applications to be accessible 
 
 ## Available Applications
 
+* [Admidio](https://www.admidio.org/) - a free online membership management
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Authelia](https://www.authelia.com/) - The Single Sign-On Multi-Factor portal for web apps
 * [Authentik](https://goauthentik.io/) - an open-source Identity Provider focused on flexibility and versatility
