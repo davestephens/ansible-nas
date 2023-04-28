@@ -17,7 +17,7 @@ huginn_db_memory: 1g
 # docker
 huginn_container_name: huginn
 huginn_db_container_name: huginn-db
-huginn_image_name: "huginn/huginn"
+huginn_image_name: "ghcr.io/huginn/huginn"
 huginn_image_version: latest
 huginn_db_image_name: "mysql"
 huginn_db_image_version: "5.7"
