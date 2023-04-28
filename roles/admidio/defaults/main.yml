@@ -1,0 +1,38 @@
+---
+admidio_enabled: false
+admidio_available_externally: false
+
+# directories
+admidio_data_directory: "{{ docker_home }}/admidio"
+
+# network
+admidio_port: "8120"
+admidio_hostname: "admidio"
+admidio_network_name: "admidio"
+
+# specs
+admidio_memory: 1g
+admidio_mysql_memory: 1g
+
+# docker
+admidio_container_name: admidio
+admidio_mysql_container_name: admidio-db
+admidio_image_name: "admidio/admidio"
+admidio_image_version: "v4.2.4"
+admidio_mysql_image_name: "mariadb"
+admidio_mysql_image_version: latest
+admidio_user_id: "1000"
+admidio_group_id: "1000"
+
+admidio_mysql_database: "admidio"
+admidio_mysql_user: "admidio"
+admidio_mysql_password: "my_VerySecureAdmidioUserPassword.01"
+admidio_mysql_root_password: "my_VerySecureRootUserPassword.01"
+admidio_db_type: "mysql"
+admidio_db_port: "3306"
+
+admidio_mail_relayhost: "hostname.domain.at:25"
+admidio_login_for_update: "1"
+admidio_organisation: "ADMIDIO"
+admidio_password_hash_algorithm: "DEFAULT"
+admidio_root_path: "https://{{ admidio_hostname }}.{{ ansible_nas_domain }}"

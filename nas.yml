@@ -49,6 +49,10 @@
     ###
     ### Applications
     ###
+    - role: admidio
+      tags:
+        - admidio
+
     - role: airsonic
       tags:
         - airsonic
