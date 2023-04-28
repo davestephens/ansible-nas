@@ -5,9 +5,8 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: 0755
-        # owner: "{{ admidio_user_id }}"
-        # group: "{{ admidio_group_id }}"
+        owner: "www-data"
+        group: "root"
       with_items:
         - "{{ admidio_data_directory }}"
         - "{{ admidio_data_directory }}/data"
@@ -26,8 +25,6 @@
         networks:
           - name: "{{ admidio_network_name }}"
         network_mode: "{{ admidio_network_name }}"
-        # exposed_ports:
-        #   - 3306
         pull: true
         volumes:
           - "{{ admidio_data_directory }}/mariadb_confd:/etc/mysql/conf.d"
@@ -51,7 +48,6 @@
         network_mode: "{{ admidio_network_name }}"
         pull: true
         volumes:
-          - "{{ admidio_data_directory }}/data:/data:rw"
           - "{{ admidio_data_directory }}/data/files:/opt/app-root/src/adm_my_files"
           - "{{ admidio_data_directory }}/data/themes:/opt/app-root/src/adm_themes"
           - "{{ admidio_data_directory }}/data/plugins:/opt/app-root/src/adm_plugins"
