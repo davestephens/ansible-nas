@@ -12,40 +12,40 @@
     # 1. webserver
     - name: Get container state for paperless_ngx webserver
       docker_container:
-        name: "{{ paperless_ng_container_name_uiserver }}"
+        name: "{{ paperless_ngx_container_name_uiserver }}"
       register: result_webserver
 
     # 2. tika
     - name: Get container state for paperless_ngx tika
       docker_container:
-        name: "{{ paperless_ng_container_name_tika }}"
+        name: "{{ paperless_ngx_container_name_tika }}"
       register: result_tika
 
     # 3. gotenberg
     - name: Get container state for paperless_ngx gotenberg
       docker_container:
-        name: "{{ paperless_ng_container_name_gotenberg }}"
+        name: "{{ paperless_ngx_container_name_gotenberg }}"
       register: result_gotenberg
 
     # 4. Postgres database
     - name: Get container state for paperless_ngx postgres
       docker_container:
-        name: "{{ paperless_ng_container_name_postgres }}"
+        name: "{{ paperless_ngx_container_name_postgres }}"
       register: result_postgres
 
     # 5. paperless_ngx redis broker
     - name: Get container state for paperless_ngx redis broker
       docker_container:
-        name: "{{ paperless_ng_container_name_redis }}"
+        name: "{{ paperless_ngx_container_name_redis }}"
       register: result_redis
 
     # 6. Docker network for paperless_ngx
     - name: Get paperless_ngx network status
       docker_network_info:
-        name: "{{ paperless_ng_container_network_name }}"
+        name: "{{ paperless_ngx_container_network_name }}"
       register: result_network
 
-    - name: Check if all paperless_ngx containers are running and network was created webserver is stopped
+    - name: Check if all paperless_ngx containers are running and network was created
       assert:
         that:
           - result_webserver.container['State']['Status'] == "running"

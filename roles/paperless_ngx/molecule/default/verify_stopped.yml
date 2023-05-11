@@ -12,42 +12,42 @@
     # 1. webserver
     - name: Try and stop paperless_ngx webserver
       docker_container:
-        name: "{{ paperless_ng_container_name_uiserver }}"
+        name: "{{ paperless_ngx_container_name_uiserver }}"
         state: absent
       register: result_webserver
 
     # 2. tika
     - name: Try and stop paperless_ngx tika Docker container
       docker_container:
-        name: "{{ paperless_ng_container_name_tika }}"
+        name: "{{ paperless_ngx_container_name_tika }}"
         state: absent
       register: result_tika
 
     # 3. gotenberg
     - name: Try and stop paperless_ngx gotenberg Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_gotenberg }}"
+        name: "{{ paperless_ngx_container_name_gotenberg }}"
         state: absent
       register: result_gotenberg
 
     # 4. Postgres database
     - name: Try and stop paperless_ngx postgres Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_postgres }}"
+        name: "{{ paperless_ngx_container_name_postgres }}"
         state: absent
       register: result_postgres
 
     # 5. paperless_ngx redis broker
     - name: Try and stop paperless_ngx redis broker
       docker_container:
-        name: "{{ paperless_ng_container_name_redis }}"
+        name: "{{ paperless_ngx_container_name_redis }}"
         state: absent
       register: result_redis
 
     # 6. Docker network for paperless_ngx
     - name: Try and remove paperless_ngx network
       docker_network_info:
-        name: "{{ paperless_ng_container_network_name }}"
+        name: "{{ paperless_ngx_container_network_name }}"
       register: result_network
 
     - name: Check paperless_ngx containers and network are stopped

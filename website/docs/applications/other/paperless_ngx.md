@@ -18,10 +18,10 @@ The paperless-ngx web interface can be found at <http://ansible_nas_host_or_ip:1
 
 - Set `paperless_ngx_available_externally: true` and
 
-- Set `paperless_secret_key: "to a very_long  string!-09skjlOJIOKSN-of randonm-charcters !_?"`
+- Set `paperless_ngx_secret_key: "to a very_long  string!-09skjlOJIOKSN-of randonm-charcters !_?"`
 in your `inventories/<your_inventory>/nas.yml` file.
 
-You don't have to remember `paperless_secret_key` and you can leave it set if you run the playbook again. **Don't** leave it empty, because this value is known from the source code. You can use <https://numbergenerator.org/hex-code-generator#!numbers=1&length=128&addfilters=> to generate a long random string
+You don't have to remember `paperless_ngx_secret_key` and you can leave it set if you run the playbook again. **Don't** leave it empty, because this value is known from the source code. You can use <https://numbergenerator.org/hex-code-generator#!numbers=1&length=128&addfilters=> to generate a long random string
 
 **Exposing paperless with sensible data to the Internet is dangerous. Use strong passwords.**
 
@@ -34,9 +34,9 @@ To be able to login, you will need a super user.
 - override these values in your `inventories/<your_inventory>/nas.yml` file to automatically create an admin user
 
 ```yml
-paperless_admin_user: ""
-paperless_admin_password: ""
-paperless_admin_mail: ""
+paperless_ngx_admin_user: ""
+paperless_ngx_admin_password: ""
+paperless_ngx_admin_mail: ""
 ```
 
 - This will not change an existing [super]user's password, nor will it recreate a user that already exists.

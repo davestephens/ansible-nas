@@ -6,50 +6,50 @@
         path: "{{ item }}"
         state: directory
       with_items:
-        - "{{ paperless_ng_postgres_directory }}"
-        - "{{ paperless_ng_data_directory }}"
-        - "{{ paperless_ng_export_directory }}"
-        - "{{ paperless_ng_media_directory }}"
-        - "{{ paperless_ng_consume_directory }}"
+        - "{{ paperless_ngx_postgres_directory }}"
+        - "{{ paperless_ngx_data_directory }}"
+        - "{{ paperless_ngx_export_directory }}"
+        - "{{ paperless_ngx_media_directory }}"
+        - "{{ paperless_ngx_consume_directory }}"
     # 1. create paperless_ngx network
     - name: Create paperless_ngx network
       docker_network:
-        name: "{{ paperless_ng_container_network_name }}"
+        name: "{{ paperless_ngx_container_network_name }}"
 
     # 2. paperless_ngx redis broker:
     - name: Create paperless_ngx redis broker
       docker_container:
-        name: "{{ paperless_ng_container_name_redis }}"
+        name: "{{ paperless_ngx_container_name_redis }}"
         container_default_behavior: compatibility
         image: redis:7.0
         pull: true
         restart_policy: unless-stopped
-        memory: "{{ paperless_ng_redis_memory }}"
+        memory: "{{ paperless_ngx_redis_memory }}"
         networks:
-          - name: "{{ paperless_ng_container_network_name }}"
+          - name: "{{ paperless_ngx_container_network_name }}"
 
     # 3. Postgres database
     - name: Create paperless_ngx postgres Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_postgres }}"
+        name: "{{ paperless_ngx_container_name_postgres }}"
         image: postgres:13
         container_default_behavior: compatibility
         pull: true
         volumes:
-          - "{{ paperless_ng_postgres_directory }}:/var/lib/postgresql/data"
+          - "{{ paperless_ngx_postgres_directory }}:/var/lib/postgresql/data"
         env:
-          POSTGRES_DB: "{{ paperless_ng_postgres_db }}"
-          POSTGRES_USER: "{{ paperless_ng_postgres_user }}"
-          POSTGRES_PASSWORD: "{{ paperless_ng_postgres_password }}"
+          POSTGRES_DB: "{{ paperless_ngx_postgres_db }}"
+          POSTGRES_USER: "{{ paperless_ngx_postgres_user }}"
+          POSTGRES_PASSWORD: "{{ paperless_ngx_postgres_password }}"
         restart_policy: unless-stopped
-        memory: "{{ paperless_ng_postgres_memory }}"
+        memory: "{{ paperless_ngx_postgres_memory }}"
         networks:
-          - name: "{{ paperless_ng_container_network_name }}"
+          - name: "{{ paperless_ngx_container_network_name }}"
 
     # 4. gotenberg
     - name: Create paperless_ngx gotenberg Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_gotenberg }}"
+        name: "{{ paperless_ngx_container_name_gotenberg }}"
         image: docker.io/gotenberg/gotenberg:7.8
         restart_policy: unless-stopped
         container_default_behavior: compatibility
@@ -59,25 +59,25 @@
           - "gotenberg"
           - "--chromium-disable-javascript=true"
           - "--chromium-allow-list=file:///tmp/.*"
-        memory: "{{ paperless_ng_gotenberg_memory }}"
+        memory: "{{ paperless_ngx_gotenberg_memory }}"
         networks:
-          - name: "{{ paperless_ng_container_network_name }}"
+          - name: "{{ paperless_ngx_container_network_name }}"
 
     # 5. tika
     - name: Create paperless_ngx tika Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_tika }}"
+        name: "{{ paperless_ngx_container_name_tika }}"
         image: ghcr.io/paperless-ngx/tika:latest
         restart_policy: unless-stopped
         container_default_behavior: compatibility
-        memory: "{{ paperless_ng_tika_memory }}"
+        memory: "{{ paperless_ngx_tika_memory }}"
         networks:
-          - name: "{{ paperless_ng_container_network_name }}"
+          - name: "{{ paperless_ngx_container_network_name }}"
 
     # 6. webserver
     - name: Create paperless_ngx UI Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_uiserver }}"
+        name: "{{ paperless_ngx_container_name_uiserver }}"
         image: ghcr.io/paperless-ngx/paperless-ngx:latest
         pull: true
         container_default_behavior: compatibility
@@ -87,36 +87,37 @@
           timeout: 10s
           retries: 5
         volumes:
-          - "{{ paperless_ng_data_directory }}:/usr/src/paperless/data"
-          - "{{ paperless_ng_media_directory }}:/usr/src/paperless/media"
-          - "{{ paperless_ng_export_directory }}:/usr/src/paperless/export"
-          - "{{ paperless_ng_consume_directory }}:/usr/src/paperless/consume"
+          - "{{ paperless_ngx_data_directory }}:/usr/src/paperless/data"
+          - "{{ paperless_ngx_media_directory }}:/usr/src/paperless/media"
+          - "{{ paperless_ngx_export_directory }}:/usr/src/paperless/export"
+          - "{{ paperless_ngx_consume_directory }}:/usr/src/paperless/consume"
         ports:
-          - "{{ paperless_ng_port }}:8000"
+          - "{{ paperless_ngx_port }}:8000"
         env:
-          PAPERLESS_REDIS: "redis://{{ paperless_ng_container_name_redis | string }}:6379"
-          PAPERLESS_DBHOST: "{{ paperless_ng_container_name_postgres | string }}"
-          USERMAP_UID: "{{ paperless_ng_user_id }}"
-          USERMAP_GID: "{{ paperless_ng_group_id }}"
+          PAPERLESS_REDIS: "redis://{{ paperless_ngx_container_name_redis | string }}:6379"
+          PAPERLESS_DBHOST: "{{ paperless_ngx_container_name_postgres | string }}"
+          USERMAP_UID: "{{ paperless_ngx_user_id }}"
+          USERMAP_GID: "{{ paperless_ngx_group_id }}"
           PAPERLESS_TIKA_ENABLED: "1"
-          PAPERLESS_TIKA_GOTENBERG_ENDPOINT: "http://{{ paperless_tika_gotenberg_name }}:3000"
-          PAPERLESS_TIKA_ENDPOINT: "http://{{ paperless_tika_name }}:9998"
-          PAPERLESS_OCR_LANGUAGES: "{{ paperless_ng_languages }}"
+          PAPERLESS_TIKA_GOTENBERG_ENDPOINT: "http://{{ paperless_ngx_container_name_gotenberg }}:3000"
+          PAPERLESS_TIKA_ENDPOINT: "http://{{ paperless_ngx_container_name_tika }}:9998"
+
+          PAPERLESS_OCR_LANGUAGES: "{{ paperless_ngx_languages }}"
           # needed when exposing through traefik, or else CSRF will trigger
-          PAPERLESS_URL: "https://{{ paperless_ng_hostname }}.{{ ansible_nas_domain }}"
-          PAPERLESS_SECRET_KEY: "{{ paperless_secret_key }}"
+          PAPERLESS_URL: "https://{{ paperless_ngx_hostname }}.{{ ansible_nas_domain }}"
+          PAPERLESS_SECRET_KEY: "{{ paperless_ngx_secret_key }}"
           # when set allows automatically creating admin user
-          PAPERLESS_ADMIN_USER: "{{ paperless_admin_user }}"
-          PAPERLESS_ADMIN_PASSWORD: "{{ paperless_admin_password }}"
-          PAPERLESS_ADMIN_MAIL: "{{ paperless_admin_mail }}"
+          PAPERLESS_ADMIN_USER: "{{ paperless_ngx_admin_user }}"
+          PAPERLESS_ADMIN_PASSWORD: "{{ paperless_ngx_admin_password }}"
+          PAPERLESS_ADMIN_MAIL: "{{ paperless_ngx_admin_mail }}"
 
         restart_policy: unless-stopped
-        memory: "{{ paperless_ng_ui_memory }}"
+        memory: "{{ paperless_ngx_ui_memory }}"
         networks:
-          - name: "{{ paperless_ng_container_network_name }}"
+          - name: "{{ paperless_ngx_container_network_name }}"
         labels:
           traefik.enable: "{{ paperless_ngx_available_externally | string }}"
-          traefik.http.routers.paperlessngx.rule: "Host(`{{ paperless_ng_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.paperlessngx.rule: "Host(`{{ paperless_ngx_hostname }}.{{ ansible_nas_domain }}`)"
           traefik.http.routers.paperlessngx.tls.certresolver: "letsencrypt"
           traefik.http.routers.paperlessngx.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.paperlessngx.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
@@ -128,31 +129,31 @@
     # 1. webserver
     - name: Stop paperless_ngx UI Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_uiserver }}"
+        name: "{{ paperless_ngx_container_name_uiserver }}"
         state: absent
     # 2. tika
     - name: Stop paperless_ngx tika Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_tika }}"
+        name: "{{ paperless_ngx_container_name_tika }}"
         state: absent
     # 3. gotenberg
     - name: Stop paperless_ngx gotenberg Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_gotenberg }}"
+        name: "{{ paperless_ngx_container_name_gotenberg }}"
         state: absent
     # 4. Postgres database
     - name: Stop paperless_ngx postgres Docker Container
       docker_container:
-        name: "{{ paperless_ng_container_name_postgres }}"
+        name: "{{ paperless_ngx_container_name_postgres }}"
         state: absent
     # 5. paperless_ngx redis broker
     - name: Stop paperless_ngx redis broker
       docker_container:
-        name: "{{ paperless_ng_container_name_redis }}"
+        name: "{{ paperless_ngx_container_name_redis }}"
         state: absent
     # 6. Docker network for paperless_ngx
     - name: Remove paperless_ngx network
       docker_network:
-        name: "{{ paperless_ng_container_network_name }}"
+        name: "{{ paperless_ngx_container_network_name }}"
         state: absent
   when: paperless_ngx_enabled is false
