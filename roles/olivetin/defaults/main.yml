@@ -1,0 +1,18 @@
+---
+olivetin_enabled: false
+olivetin_available_externally: false
+
+# directories
+olivetin_data_directory: "{{ docker_home }}/olivetin"
+
+# network
+olivetin_port: "1337"
+olivetin_hostname: "olivetin"
+
+# specs
+olivetin_memory: 1g
+
+# docker
+olivetin_container_name: olivetin
+olivetin_image_name: "jamesread/olivetin"
+olivetin_image_version: latest

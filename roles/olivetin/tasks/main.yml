@@ -1,0 +1,51 @@
+---
+- name: Start Olivetin
+  block:
+    - name: Create Olivetin Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 1000
+        group: 996
+      with_items:
+        - "{{ olivetin_data_directory }}"
+
+    - name: Copy config
+      ansible.builtin.copy:
+        src: config.yaml
+        dest: "{{ olivetin_data_directory }}/config.yaml"
+        # owner: "33"
+        # group: "33"
+      tags: molecule-idempotence-notest
+
+    - name: Create Olivetin Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ olivetin_container_name }}"
+        image: "{{ olivetin_image_name }}:{{ olivetin_image_version }}"
+        pull: true
+        privileged: true
+        user: "0:0"
+        volumes:
+          - "{{ olivetin_data_directory }}:/config"
+          - /var/run/docker.sock:/var/run/docker.sock
+        ports:
+          - "{{ olivetin_port }}:1337"
+        restart_policy: unless-stopped
+        memory: "{{ olivetin_memory }}"
+        labels:
+          traefik.enable: "{{ olivetin_available_externally | string }}"
+          traefik.http.routers.olivetin.rule: "Host(`{{ olivetin_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.olivetin.tls.certresolver: "letsencrypt"
+          traefik.http.routers.olivetin.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.olivetin.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.olivetin.loadbalancer.server.port: "1337"
+  when: olivetin_enabled is true
+
+- name: Stop Olivetin
+  block:
+    - name: Stop Olivetin
+      community.docker.docker_container:
+        name: "{{ olivetin_container_name }}"
+        state: absent
+  when: olivetin_enabled is false

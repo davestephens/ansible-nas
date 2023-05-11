@@ -417,6 +417,10 @@
       tags:
         - octoprint
 
+    - role: olivetin
+      tags:
+        - olivetin
+
     - role: ombi
       tags:
         - ombi
