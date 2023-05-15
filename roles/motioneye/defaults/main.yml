@@ -1,0 +1,17 @@
+---
+motioneye_enabled: false
+
+# directories
+motioneye_config_directory: "{{ docker_home }}/motioneye/config"
+motioneye_media_directory: "{{ docker_home }}/motioneye/media"
+
+# network
+motioneye_port: "8765"
+motioneye_streaming_port: "8081"
+
+# video from host
+motioneye_device: "/dev/video0"
+
+# specs
+motioneye_memory: "1g"
+
