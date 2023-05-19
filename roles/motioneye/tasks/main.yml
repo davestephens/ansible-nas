@@ -23,4 +23,3 @@
       - "{{ (motioneye_device != None) | ternary(motioneye_device, '/dev/null') }}"
     restart_policy: unless-stopped
     memory: "{{ motioneye_memory }}"
-    
