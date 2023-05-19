@@ -14,4 +14,3 @@ motioneye_device: "/dev/video0"
 
 # specs
 motioneye_memory: "1g"
-

@@ -1,25 +1,25 @@
 ---
-- name: Create motioneye Directories
-  file:
+- name: Create Motioneye Directories
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ motioneye_config_directory }}"
     - "{{ motioneye_media_directory }}"
 
-- name: motioneye Docker Container
-  docker_container:
+- name: Motioneye Docker Container
+  community.docker.docker_container:
     name: motioneye
     image: ccrisan/motioneye:master-amd64
     pull: true
     volumes:
-      - "/etc/localtime:/etc/localtime:ro" 
+      - "/etc/localtime:/etc/localtime:ro"
       - "{{ motioneye_config_directory }}:/etc/motioneye:rw"
       - "{{ motioneye_media_directory }}:/var/lib/motioneye:rw"
     ports:
       - "{{ motioneye_port }}:8765"
       - "{{ motioneye_streaming_port }}:8181"
     devices:
-      - "{{ (motioneye_device != None) | ternary( motioneye_device, '/dev/null' ) }}"
+      - "{{ (motioneye_device != None) | ternary(motioneye_device, '/dev/null') }}"
     restart_policy: unless-stopped
     memory: "{{ motioneye_memory }}"
