@@ -4,4 +4,6 @@
   tasks:
     - name: Install docker python module
       ansible.builtin.pip:
-        name: docker
+        name:
+          - docker
+          - urllib3<2
