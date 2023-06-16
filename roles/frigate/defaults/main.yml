@@ -15,7 +15,7 @@ frigate_memory: 1g
 
 # docker
 frigate_container_name: frigate
-frigate_docker_image: blakeblackshear/frigate
+frigate_docker_image: ghcr.io/blakeblackshear/frigate
 frigate_docker_image_version: stable
 frigate_user_id: "1000"
 frigate_group_id: "1000"
