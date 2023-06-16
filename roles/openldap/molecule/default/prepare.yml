@@ -4,7 +4,9 @@
   tasks:
     - name: Install docker python module
       ansible.builtin.pip:
-        name: docker
+        name:
+          - docker
+          - urllib3<2
 
     - name: Update repositories cache and install "gnupg" package
       ansible.builtin.apt:
