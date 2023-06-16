@@ -15,13 +15,14 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        owner: "1000"
-        group: "1000"
+        owner: "{{ wger_user_id }}"
+        group: "{{ wger_group_id }}"
         # mode: 0777
       with_items:
         - "{{ wger_data_directory }}/static"
         - "{{ wger_data_directory }}/config"
         - "{{ wger_data_directory }}/media"
+        - "{{ wger_data_directory }}/beat"
 
     - name: Copy Wger Nginx config
       ansible.builtin.template:
@@ -103,9 +104,9 @@
         labels:
           traefik.enable: "{{ wger_available_externally | string }}"
           traefik.http.routers.wger.rule: "Host(`{{ wger_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.wger.tls.certresolver: "letsencrypt"
-          traefik.http.routers.wger.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.wger.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          # traefik.http.routers.wger.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.wger.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.wger.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.wger.loadbalancer.server.port: "80"
         healthcheck:
           test: "service nginx status"
@@ -133,6 +134,45 @@
           interval: 10s
           timeout: 5s
           retries: 5
+
+    - name: Create Wger Celery Worker Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wger_celery_worker_container_name }}"
+        image: "{{ wger_celery_worker_image_name }}:{{ wger_celery_worker_image_version }}"
+        pull: true
+        command: /start-worker
+        env: "{{ wger_optional_env | default({}) | combine(wger_env) }}"
+        networks:
+          - name: "{{ wger_network_name }}"
+        network_mode: "{{ wger_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ wger_celery_worker_memory }}"
+        labels:
+          traefik.enable: "false"
+        healthcheck:
+          test: celery -A {{ wger_container_name }} inspect ping
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Wger Celery Beat Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wger_celery_beat_container_name }}"
+        image: "{{ wger_celery_beat_image_name }}:{{ wger_celery_beat_image_version }}"
+        pull: true
+        command: /start-beat
+        env: "{{ wger_optional_env | default({}) | combine(wger_env) }}"
+        volumes:
+          - "{{ wger_data_directory }}/beat:/home/wger/beat/"
+        networks:
+          - name: "{{ wger_network_name }}"
+        network_mode: "{{ wger_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ wger_celery_beat_memory }}"
+        labels:
+          traefik.enable: "false"
   when: wger_enabled is true
 
 - name: Stop Wger
@@ -152,5 +192,13 @@
     - name: Stop Wger Cache
       community.docker.docker_container:
         name: "{{ wger_cache_container_name }}"
+        state: absent
+    - name: Stop Wger Celery Worker
+      community.docker.docker_container:
+        name: "{{ wger_celery_worker_container_name }}"
+        state: absent
+    - name: Stop Wger Celery Beat
+      community.docker.docker_container:
+        name: "{{ wger_celery_beat_container_name }}"
         state: absent
   when: wger_enabled is false

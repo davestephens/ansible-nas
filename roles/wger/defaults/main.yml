@@ -15,6 +15,8 @@ wger_memory: 1g
 wger_db_memory: 1g
 wger_nginx_memory: 1g
 wger_cache_memory: 1g
+wger_celery_worker_memory: 1g
+wger_celery_beat_memory: 1g
 
 # docker
 wger_container_name: wger
@@ -29,6 +31,12 @@ wger_nginx_image_version: stable
 wger_cache_container_name: wger-cache
 wger_cache_image_name: redis
 wger_cache_image_version: latest
+wger_celery_worker_container_name: wger-celery-worker
+wger_celery_worker_image_name: "wger/server"
+wger_celery_worker_image_version: latest
+wger_celery_beat_container_name: wger-celery-beat
+wger_celery_beat_image_name: "wger/server"
+wger_celery_beat_image_version: latest
 wger_user_id: "1000"
 wger_group_id: "1000"
 
@@ -86,6 +94,7 @@ wger_env:
 
   #
   # Application
+  WGER_INSTANCE: "https://{{ wger_hostname }}.{{ ansible_nas_domain }}" # Wger instance from which to sync exercises, images, etc.
   ALLOW_REGISTRATION: "True"
   ALLOW_GUEST_USERS: "True"
   ALLOW_UPLOAD_VIDEOS: "True"
@@ -96,9 +105,20 @@ wger_env:
   # even if the data is already current and will take some time. Usually you don't
   # need to perform these steps so often and a manual trigger (see README) is
   # usually enough.
+  SYNC_EXERCISES_CELERY: "True"
+  SYNC_EXERCISE_IMAGES_CELERY: "True"
+  SYNC_EXERCISE_VIDEOS_CELERY: "True"
   SYNC_EXERCISES_ON_STARTUP: "True"
   DOWNLOAD_EXERCISE_IMAGES_ON_STARTUP: "True"
+  DOWNLOAD_INGREDIENTS_FROM: "WGER"
 
+  USE_CELERY: "True"
+
+  #
+  # Celery
+  CELERY_BROKER: "redis://{{ wger_cache_container_name }}:6379/2"
+  CELERY_BACKEND: "redis://{{ wger_cache_container_name }}:6379/2"
+  CELERY_FLOWER_PASSWORD: "adminadmin"
 
   #
   # Database
@@ -133,7 +153,7 @@ wger_env:
   # Others
   DJANGO_DEBUG: "{{ wger_django_debug | string }}"
   WGER_USE_GUNICORN: "True"
-  EXERCISE_CACHE_TTL: "10"
+  EXERCISE_CACHE_TTL: "18000"
   SITE_URL: "{{ wger_site_url }}"
 
 

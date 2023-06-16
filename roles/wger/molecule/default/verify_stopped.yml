@@ -31,6 +31,18 @@
         state: absent
       register: result_cache
 
+    - name: Try and stop and remove wger celery worker
+      community.docker.docker_container:
+        name: "{{ wger_celery_worker_container_name }}"
+        state: absent
+      register: result_celery_worker
+
+    - name: Try and stop and remove wger celery beat
+      community.docker.docker_container:
+        name: "{{ wger_celery_beat_container_name }}"
+        state: absent
+      register: result_celery_beat
+
     - name: Check if wger is stopped
       ansible.builtin.assert:
         that:
@@ -38,3 +50,5 @@
           - not result_db.changed
           - not result_nginx.changed
           - not result_cache.changed
+          - not result_celery_worker.changed
+          - not result_celery_beat.changed

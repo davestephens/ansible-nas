@@ -22,6 +22,16 @@
         name: "{{ wger_cache_container_name }}"
       register: result_cache
 
+    - name: Get wger celery worker container state
+      community.docker.docker_container:
+        name: "{{ wger_celery_worker_container_name }}"
+      register: result_celery_worker
+
+    - name: Get wger celery beat container state
+      community.docker.docker_container:
+        name: "{{ wger_celery_beat_container_name }}"
+      register: result_celery_beat
+
     - name: Get wger container state
       community.docker.docker_container:
         name: "{{ wger_container_name }}"
@@ -36,5 +46,9 @@
           - result_nginx.container['State']['Restarting'] == false
           - result_cache.container['State']['Status'] == "running"
           - result_cache.container['State']['Restarting'] == false
+          - result_celery_worker.container['State']['Status'] == "running"
+          - result_celery_worker.container['State']['Restarting'] == false
+          - result_celery_beat.container['State']['Status'] == "running"
+          - result_celery_beat.container['State']['Restarting'] == false
           - result.container['State']['Status'] == "running"
           - result.container['State']['Restarting'] == false
