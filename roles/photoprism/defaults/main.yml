@@ -23,7 +23,7 @@ photoprism_image_name: "photoprism/photoprism"
 photoprism_image_version: latest
 photoprism_db_container_name: photoprism-db
 photoprism_db_image_name: "mariadb"
-photoprism_db_image_version: latest
+photoprism_db_image_version: "10.11"
 photoprism_user_id: "1000"
 photoprism_group_id: "1000"
 
