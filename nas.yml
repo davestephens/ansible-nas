@@ -313,6 +313,10 @@
       tags:
         - rssbridge
 
+    - role: rustdesk
+      tags:
+        - rustdesk
+
     - role: sabnzbd
       tags:
         - sabnzbd

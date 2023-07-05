@@ -1,0 +1,64 @@
+---
+- name: Start rustdesk
+  block:
+    - name: Create rustdesk Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        recurse: yes
+      with_items:
+        - "{{ rustdesk_data_directory }}/rustdesk"
+
+    - name: Create rustdesk network
+      community.docker.docker_network:
+        name: "{{ rustdesk_network_name }}"
+
+    - name: Create container for rustdesk-hbbr
+      community.docker.docker_container:
+        name: "{{ rustdesk_container_name }}-hbbr"
+        image: "{{ rustdesk_image_name }}:{{ rustdesk_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ rustdesk_network_name }}"
+        network_mode: "{{ rustdesk_network_name }}"
+        ports:
+          - "21117:21117"
+          - "21119:21119"
+        volumes:
+          - "{{ rustdesk_data_directory }}:/root:rw"
+        command: hbbr
+        restart_policy: unless-stopped
+        memory: "{{ rustdesk_memory }}"
+
+    - name: Create rustdesk container
+      community.docker.docker_container:
+        name: "{{ rustdesk_container_name }}"
+        image: "{{ rustdesk_image_name }}:{{ rustdesk_image_version }}"
+        pull: true
+        command: hbbs -r rd.nenpo.gr:21117
+        networks:
+          - name: "{{ rustdesk_network_name }}"
+        network_mode: "{{ rustdesk_network_name }}"
+        volumes:
+          - "{{ rustdesk_data_directory }}:/root:rw"
+        ports:
+          - "21115:21115"
+          - "21116:21116"
+          - "21116:21116/udp"
+          - "21118:21118"
+        restart_policy: unless-stopped
+        memory: "{{ rustdesk_memory }}"
+  when: rustdesk_enabled is true
+
+- name: Stop rustdesk
+  block:
+    - name: Stop rustdesk
+      community.docker.docker_container:
+        name: "{{ rustdesk_container_name }}"
+        state: absent
+
+    - name: Stop rustdesk hbbr
+      community.docker.docker_container:
+        name: "{{ rustdesk_container_name }}-hbbr"
+        state: absent
+  when: rustdesk_enabled is false

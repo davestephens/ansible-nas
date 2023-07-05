@@ -1,0 +1,6 @@
+---
+- name: Restart rustdesk
+  community.docker.docker_container:
+    name: "{{ rustdesk_container_name }}"
+    restart: true
+  listen: "restart rustdesk"
