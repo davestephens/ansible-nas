@@ -84,6 +84,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Radarr](https://radarr.video/) - for organising and downloading movies
 * [Route53 DDNS](https://crazymax.dev/ddns-route53/) - Automatically update AWS Route53 with your IP address
 * [RSS-Bridge](https://rss-bridge.github.io/rss-bridge/) - The RSS feed for websites missing it
+* [RustDesk](https://rustdesk.com) - RustDesk is a full-featured remote desktop app. Works on Windows, macOS, Linux, iOS, Android, Web. Own your data, easily set up self-hosting solution on your infrastructure.
 * [Sabnzbd](https://sabnzbd.org/) - A powerful usenet downloader that FreeNAS provides
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
