@@ -18,6 +18,8 @@
           - "{{ minio_api_port }}:9000"
           - "{{ minio_console_port }}:{{ minio_console_port }}"
         command: 'server /data --console-address ":{{ minio_console_port }}"'
+        volumes:
+          - "{{ minio_data_directory }}/data:/data"
         env:
           MINIO_ROOT_USER: "{{ minio_admin_username }}"
           MINIO_ROOT_PASSWORD: "{{ minio_admin_password }}"
