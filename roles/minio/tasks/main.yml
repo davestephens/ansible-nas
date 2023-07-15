@@ -1,0 +1,42 @@
+---
+- name: Start Minio
+  block:
+    - name: Create Minio Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ minio_data_directory }}/data"
+
+
+    - name: Create minio Docker Container
+      community.docker.docker_container:
+        name: "{{ minio_container_name }}"
+        image: "{{ minio_image_name }}:{{ minio_image_version }}"
+        pull: true
+        ports:
+          - "{{ minio_api_port }}:9000"
+          - "{{ minio_console_port }}:{{ minio_console_port }}"
+        command: 'server /data --console-address ":{{ minio_console_port }}"'
+        env:
+          MINIO_ROOT_USER: "{{ minio_admin_username }}"
+          MINIO_ROOT_PASSWORD: "{{ minio_admin_password }}"
+          MINIO_PROMETHEUS_AUTH_TYPE: public
+        restart_policy: unless-stopped
+        memory: "{{ minio_memory }}"
+        labels:
+          traefik.enable: "{{ minio_available_externally | string }}"
+          traefik.http.routers.minio.rule: "Host(`{{ minio_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.minio.tls.certresolver: "letsencrypt"
+          traefik.http.routers.minio.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.minio.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.minio.loadbalancer.server.port: "9000"
+  when: minio_enabled is true
+
+- name: Stop minio
+  block:
+    - name: Stop minio
+      community.docker.docker_container:
+        name: "{{ minio_container_name }}"
+        state: absent
+  when: minio_enabled is false

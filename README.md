@@ -57,6 +57,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Minecraft Server](https://www.minecraft.net/) - Server edition of the popular building and exploring game
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
+* [Minio](https://min.io/) - MinIO is a high-performance, S3 compatible object store
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
 * [Mumble](https://www.mumble.info) - Open source, low latency, high quality voice chat
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
