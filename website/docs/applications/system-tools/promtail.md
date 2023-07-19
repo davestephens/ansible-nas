@@ -10,9 +10,9 @@ Promtail is an agent which ships the contents of local logs to a private Grafana
 
 It primarily:
 
- - Discovers targets
- - Attaches labels to log streams
- - Pushes them to the Loki instance.
+- Discovers targets
+- Attaches labels to log streams
+- Pushes them to the Loki instance.
 
 ## Usage
 

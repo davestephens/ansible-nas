@@ -14,6 +14,6 @@ Set `loki_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 Loki doesn't have a web interface. To see what it's doing look at the container logs from your Ansible-NAS shell:
 
-```
+```bash
 docker logs loki -f
 ```
