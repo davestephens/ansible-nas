@@ -1,0 +1,29 @@
+---
+- name: Start logging stack
+  block:
+    - name: Enable logging roles
+      ansible.builtin.set_fact:
+        grafana_enabled: true
+        minio_enabled: true
+        loki_enabled: true
+        promtail_enabled: true
+  when: logging_stack_enabled is true
+  # vars:
+  #   minio_enabled: true
+  #   loki_enabled: true
+  #   promtail_enabled: true
+
+
+- name: Stop logging stack
+  block:
+    - name: Disable logging roles
+      ansible.builtin.set_fact:
+        grafana_enabled: false
+        minio_enabled: false
+        loki_enabled: false
+        promtail_enabled: false
+  when: logging_stack_enabled is false
+  # vars:
+  #   minio_enabled: false
+  #   loki_enabled: false
+  #   promtail_enabled: false

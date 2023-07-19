@@ -1,0 +1,54 @@
+---
+- name: Start Promtail
+  block:
+    - name: Check for Loki installation
+      ansible.builtin.fail:
+        msg: "Promtail requires Loki enabled and running as a write target, please set that up first."
+      when: loki_enabled is false
+
+    - name: Include Loki variables
+      ansible.builtin.include_vars: ../../loki/defaults/main.yml
+
+    - name: Create Promtail Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ promtail_data_directory }}/config"
+        - "{{ promtail_data_directory }}/data"
+
+    - name: Template Promtail config
+      ansible.builtin.template:
+        src: config.yml
+        dest: "{{ promtail_data_directory }}/config/config.yml"
+
+    - name: Create Promtail Docker Container
+      community.docker.docker_container:
+        name: "{{ promtail_container_name }}"
+        image: "{{ promtail_image_name }}:{{ promtail_image_version }}"
+        pull: true
+        command: "-config.file=/etc/promtail/config.yml"
+        ports:
+          - "{{ promtail_port }}:9080"
+        volumes:
+          - "{{ promtail_data_directory }}/config/config.yml:/etc/promtail/config.yml"
+          - "{{ promtail_data_directory }}/data/:/data"
+          - "/var/run/docker.sock:/var/run/docker.sock"
+        restart_policy: unless-stopped
+        memory: "{{ promtail_memory }}"
+        labels:
+          traefik.enable: "{{ promtail_available_externally | string }}"
+          traefik.http.routers.promtail.rule: "Host(`{{ promtail_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.promtail.tls.certresolver: "letsencrypt"
+          traefik.http.routers.promtail.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.promtail.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.promtail.loadbalancer.server.port: "9080"
+  when: promtail_enabled is true
+
+- name: Stop promtail
+  block:
+    - name: Stop promtail
+      community.docker.docker_container:
+        name: "{{ promtail_container_name }}"
+        state: absent
+  when: promtail_enabled is false

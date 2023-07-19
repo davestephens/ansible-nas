@@ -1,5 +1,5 @@
 ---
-title: "Minioo"
+title: "Minio"
 ---
 
 Homepage: <https://min.io/>

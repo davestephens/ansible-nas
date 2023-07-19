@@ -47,6 +47,15 @@
         - ansible-nas
 
     ###
+    ### Stacks
+    ###
+
+    - role: logging
+      tags:
+        - logging
+
+
+    ###
     ### Applications
     ###
     - role: airsonic
@@ -193,6 +202,10 @@
       tags:
         - lidarr
 
+    - role: loki
+      tags:
+        - loki
+
     - role: mealie
       tags:
         - mealie
@@ -296,6 +309,10 @@
     - role: prowlarr
       tags:
         - prowlarr
+
+    - role: promtail
+      tags:
+        - promtail
 
     - role: pyload
       tags:
