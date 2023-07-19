@@ -11,7 +11,7 @@
         <item>
             <title><![CDATA[Welcome]]></title>
             <link>https://ansible-nas.io/blog/welcome</link>
-            <guid>welcome</guid>
+            <guid>https://ansible-nas.io/blog/welcome</guid>
             <pubDate>Mon, 19 Sep 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[It's about time Ansible-NAS had a proper website and domain name. This new Docusaurus based site is moving closer to that goal, served from  via Github Pages.]]></description>
             <content:encoded><![CDATA[<p>It's about time Ansible-NAS had a proper website and domain name. This new <a href="https://docusaurus.io" target="_blank" rel="noopener noreferrer">Docusaurus</a> based site is moving closer to that goal, served from <a href="https://ansible-nas.io" target="_blank" rel="noopener noreferrer">https://ansible-nas.io</a> via Github Pages.</p>]]></content:encoded>
