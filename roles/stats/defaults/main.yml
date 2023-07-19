@@ -49,6 +49,7 @@ stats_grafana_memory: 1g
 stats_prometheus_retention_time: 365d
 stats_prometheus_retention_size: 30GB
 stats_collection_interval: 15s
+stats_speedtest_collection_interval: 1h
 
 # uncomment to scrape more hosts
 # stats_prometheus_additional_hosts:
