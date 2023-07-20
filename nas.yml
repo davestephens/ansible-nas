@@ -98,6 +98,10 @@
       tags:
         - dashy
 
+    - role: ddns_updater
+      tags:
+        - ddns_updater
+
     - role: deluge
       tags:
         - deluge
