@@ -1,0 +1,30 @@
+---
+# Basic options
+photoprism_enabled: false
+photoprism_site_caption: "AI-Powered Photos App"
+
+# Directories
+photoprism_data_directory: "{{ docker_home }}/photoprism"
+photoprism_photos_directory: "{{ photos_root }}"
+
+# External configuration
+photoprism_available_externally: false
+photoprism_hostname: photoprism
+photoprism_port: 2342
+
+# Admin configs
+photoprism_admin_user: admin
+photoprism_admin_password: insecure
+
+# Database configs
+# You must have the database already running.
+# If you don't know how to do it, just leave as it is.
+photoprism_database_driver: sqlite
+photoprism_database_server: ""
+photoprism_database_name: ""
+photoprism_database_user: ""
+photoprism_database_password: ""
+
+# Specs
+photoprism_memory: 4g
+photoprism_container_name: photoprism
