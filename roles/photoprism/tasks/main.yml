@@ -37,7 +37,7 @@
           traefik.http.routers.photoprism.tls.certresolver: "letsencrypt"
           traefik.http.routers.photoprism.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.photoprism.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.photoprism.loadbalancer.server.port: "{{ photoprism_port }}"
+          traefik.http.services.photoprism.loadbalancer.server.port: "{{ photoprism_port | string }}"
   when: photoprism_enabled is true
 
 - name: Stop Photoprism
