@@ -10,18 +10,11 @@
         - "{{ gitea_data_directory }}/gitea"
         - "{{ gitea_data_directory }}/mysql"
 
-    - name: Create gitea network
-      community.docker.docker_network:
-        name: "{{ gitea_network_name }}"
-
     - name: Create MySQL container for Gitea
       community.docker.docker_container:
         name: "{{ gitea_mysql_container_name }}"
         image: "{{ gitea_mysql_image_name }}:{{ gitea_mysql_image_version }}"
         pull: true
-        networks:
-          - name: "{{ gitea_network_name }}"
-        network_mode: "{{ gitea_network_name }}"
         volumes:
           - "{{ gitea_data_directory }}/mysql:/var/lib/mysql:rw"
         env:
@@ -37,17 +30,16 @@
         name: "{{ gitea_container_name }}"
         image: "{{ gitea_image_name }}:{{ gitea_image_version }}"
         pull: true
-        networks:
-          - name: "{{ gitea_network_name }}"
-        network_mode: "{{ gitea_network_name }}"
         volumes:
           - "{{ gitea_data_directory }}/gitea:/data:rw"
         ports:
           - "{{ gitea_port_http }}:3000"
           - "{{ gitea_port_ssh }}:22"
+        links:
+          - gitea-mysql:db
         env:
           DB_TYPE: "mysql"
-          DB_HOST: "{{ gitea_mysql_container_name }}:3306"
+          DB_HOST: "db:3306"
           DB_NAME: "gitea"
           DB_USER: "gitea"
           DB_PASSWD: "gitea"
