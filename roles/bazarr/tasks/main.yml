@@ -2,14 +2,14 @@
 - name: Start Bazarr
   block:
     - name: Create Bazarr Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ bazarr_data_directory }}"
 
     - name: Bazarr
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bazarr_container_name }}"
         image: linuxserver/bazarr
         pull: true
@@ -39,7 +39,7 @@
 - name: Stop Bazarr
   block:
     - name: Stop Bazarr
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bazarr_container_name }}"
         state: absent
   when: bazarr_enabled is false

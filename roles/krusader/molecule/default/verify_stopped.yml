@@ -1,0 +1,18 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove krusader
+      community.docker.docker_container:
+        name: "{{ krusader_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if krusader container is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed

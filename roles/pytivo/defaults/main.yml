@@ -16,3 +16,8 @@ pytivo_group_id: "0"
 
 # network
 pytivo_hostname: "pytivo"
+
+# docker
+pytivo_container_name: "pytivo"
+pytivo_image_name: "pinion/docker-pytivo"
+pytivo_image_version: "latest"

@@ -1,0 +1,18 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Check cron job file
+      ansible.builtin.fetch:
+        src: /var/spool/cron/crontabs/root
+        dest: /tmp/fetched
+
+    - name: Check if cron job does not exist
+      ansible.builtin.assert:
+        that: "not lookup('file', '/tmp/fetched/instance/var/spool/cron/crontabs/root') is search('healthchecks.io')"
+        fail_msg: "Cron job 'healthchecks.io' still exists!"
+        success_msg: "Cron job 'healthchecks.io' does not exist!"

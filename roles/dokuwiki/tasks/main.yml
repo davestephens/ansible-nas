@@ -2,14 +2,14 @@
 - name: Start Dokuwiki
   block:
     - name: Create DokuWiki Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ dokuwiki_data_directory }}/data"
 
     - name: DokuWiki Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ dokuwiki_container_name }}"
         image: linuxserver/dokuwiki:latest
         pull: true
@@ -35,7 +35,7 @@
 - name: Stop Dokuwiki
   block:
     - name: Stop Dokuwiki
-      docker_container:
+      community.docker.docker_container:
         name: "{{ dokuwiki_container_name }}"
         state: absent
   when: dokuwiki_enabled is false

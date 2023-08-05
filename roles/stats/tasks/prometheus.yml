@@ -1,46 +1,57 @@
 ---
-- name: Create Prometheus Config Directory
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ stats_prometheus_data_directory }}"
-    - "{{ stats_prometheus_config_directory }}"
+- name: Start Prometheus
+  block:
+    - name: Create Prometheus Config Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ stats_prometheus_data_directory }}"
+        - "{{ stats_prometheus_config_directory }}"
 
-- name: Create Prometheus Data Directory
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0777
-  with_items:
-    - "{{ stats_prometheus_data_directory }}"
-    - "{{ stats_prometheus_config_directory }}"
+    - name: Create Prometheus Data Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ stats_prometheus_data_directory }}"
+        - "{{ stats_prometheus_config_directory }}"
 
-- name: Template Prometheus config
-  template:
-    src: prometheus.yml.j2
-    dest: "{{ stats_prometheus_config_directory }}/prometheus.yml"
-  register: prometheus_config
+    - name: Template Prometheus config
+      ansible.builtin.template:
+        src: prometheus.yml.j2
+        dest: "{{ stats_prometheus_config_directory }}/prometheus.yml"
+      register: prometheus_config
 
-- name: Prometheus Docker Container
-  docker_container:
-    name: stats-prometheus
-    image: prom/prometheus
-    pull: true
-    volumes:
-      - "{{ stats_prometheus_config_directory }}/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
-      - "{{ stats_prometheus_data_directory }}:/prometheus:rw"
-      - "/etc/timezone:/etc/timezone:ro"
-    ports:
-      - "{{ stats_prometheus_port }}:9090"
-    restart_policy: unless-stopped
-    memory: "{{ stats_prometheus_memory }}"
-    restart: "{{ prometheus_config is changed }}"
-    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.retention.size={{ stats_prometheus_retention_size }} --storage.tsdb.retention.time={{ stats_prometheus_retention_time }}"
-    labels:
-      traefik.enable: "{{ stats_prometheus_available_externally | string }}"
-      traefik.http.routers.prometheus.rule: "Host(`{{ stats_prometheus_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.prometheus.tls.certresolver: "letsencrypt"
-      traefik.http.routers.prometheus.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.prometheus.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.prometheus.loadbalancer.server.port: "9090"
+    - name: Prometheus Docker Container
+      community.docker.docker_container:
+        name: "{{ stats_prometheus_container_name }}"
+        image: "{{ stats_prometheus_image_name }}:{{ stats_prometheus_image_version }}"
+        pull: true
+        volumes:
+          - "{{ stats_prometheus_config_directory }}/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
+          - "{{ stats_prometheus_data_directory }}:/prometheus:rw"
+          - "/etc/timezone:/etc/timezone:ro"
+        ports:
+          - "{{ stats_prometheus_port }}:9090"
+        restart_policy: unless-stopped
+        memory: "{{ stats_prometheus_memory }}"
+        restart: "{{ prometheus_config is changed }}"
+        command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.retention.size={{ stats_prometheus_retention_size }} --storage.tsdb.retention.time={{ stats_prometheus_retention_time }}"
+        labels:
+          traefik.enable: "{{ stats_prometheus_available_externally | string }}"
+          traefik.http.routers.prometheus.rule: "Host(`{{ stats_prometheus_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.prometheus.tls.certresolver: "letsencrypt"
+          traefik.http.routers.prometheus.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.prometheus.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.prometheus.loadbalancer.server.port: "9090"
+  when: stats_enabled is true
+
+- name: Stop Prometheus
+  block:
+    - name: Stop Prometheus
+      community.docker.docker_container:
+        name: "{{ stats_prometheus_container_name }}"
+        state: absent
+  when: stats_enabled is false

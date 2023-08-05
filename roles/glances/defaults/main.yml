@@ -12,5 +12,10 @@ glances_port_two: "61209"
 glances_security_options:
   - "apparmor=unconfined"
 
+# docker
+glances_container_name: "glances"
+glances_image_name: "nicolargo/glances"
+glances_image_version: "latest"
+
 # specs
 glances_memory: 1g

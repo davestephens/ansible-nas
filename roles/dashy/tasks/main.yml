@@ -2,7 +2,7 @@
 - name: Start Dashy
   block:
     - name: Dashy Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ dashy_container_name }}"
         image: lissy93/dashy:latest
         pull: true
@@ -22,7 +22,7 @@
 - name: Stop Dashy
   block:
     - name: Stop Dashy
-      docker_container:
+      community.docker.docker_container:
         name: "{{ dashy_container_name }}"
         state: absent
   when: dashy_enabled is false

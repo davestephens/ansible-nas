@@ -1,0 +1,19 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        route53_enabled: true
+        route53_key_id: "abcdef"
+        route53_secret_key: "ghijkl"
+        route53_hosted_zone_id: "1000"
+        route53_data_directory: "/tmp/route53"
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp:rw
+    privileged: true
+    pre_build_image: true

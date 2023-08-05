@@ -1,5 +1,5 @@
 ---
-- import_tasks: prometheus.yml
-- import_tasks: telegraf.yml
-- import_tasks: exporters.yml
-- import_tasks: grafana.yml
+- ansible.builtin.import_tasks: prometheus.yml
+- ansible.builtin.import_tasks: telegraf.yml
+- ansible.builtin.import_tasks: exporters.yml
+- ansible.builtin.import_tasks: grafana.yml

@@ -7,5 +7,10 @@ netdata_data_directory: "{{ docker_home }}/netdata"
 netdata_hostname: "netdata"
 netdata_port: "19999"
 
+# docker
+netdata_container_name: "netdata"
+netdata_image_name: "netdata/netdata"
+netdata_image_version: "latest"
+
 # specs
 netdata_memory: 1g

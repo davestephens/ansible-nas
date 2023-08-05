@@ -2,24 +2,24 @@
 - name: Start Drone-CI
   block:
     - name: Check for Gitea installation
-      fail:
+      ansible.builtin.fail:
         msg: "Drone-CI requires Gitea enabled and running for authentication, please set that up first."
       when: gitea_enabled is false
 
     - name: Check for Gitea config
-      fail:
+      ansible.builtin.fail:
         msg: "Missing Gitea Oauth2 config! Read https://docs.drone.io/server/provider/gitea/ and set drone_ci_gitea_client_id and drone_ci_gitea_client_secret."
       when: drone_ci_gitea_client_id == "notset"
 
     - name: Create Drone-CI Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ drone_ci_data_directory }}"
 
     - name: Create Drone-CI container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ drone_ci_container_name }}"
         image: drone/drone:2
         pull: true
@@ -47,7 +47,7 @@
           traefik.http.services.drone_ci.loadbalancer.server.port: "80"
 
     - name: Create Drone-CI Runner container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ drone_ci_runner_container_name }}"
         image: drone/drone-runner-docker:1
         pull: true
@@ -65,7 +65,7 @@
         memory: "{{ drone_ci_agent_memory }}"
 
     - name: Add webhook allowed hosts to Gitea
-      blockinfile:
+      ansible.builtin.blockinfile:
         path: "{{ gitea_data_directory }}/gitea/gitea/conf/app.ini"
         block: |
           [webhook]
@@ -77,12 +77,12 @@
 - name: Stop Drone-CI
   block:
     - name: Stop Drone-CI
-      docker_container:
+      community.docker.docker_container:
         name: "{{ drone_ci_container_name }}"
         state: absent
 
     - name: Stop Drone-CI Runner
-      docker_container:
+      community.docker.docker_container:
         name: "{{ drone_ci_runner_container_name }}"
         state: absent
   when: drone_ci_enabled is false

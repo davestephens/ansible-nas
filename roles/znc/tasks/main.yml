@@ -1,31 +1,49 @@
 ---
-- name: Create ZNC Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ znc_data_directory }}"
+- name: Start ZNC
+  block:
+    - name: Create ZNC Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ znc_data_directory }}"
+        - "{{ znc_data_directory }}/configs"
 
-- name: Create ZNC Docker Container
-  docker_container:
-    name: znc
-    image: znc
-    pull: true
-    volumes:
-      - "{{ znc_data_directory }}:/znc-data:rw"
-      - "/etc/timezone:/etc/timezone:ro"
-    ports:
-      - "{{ znc_port }}:6677"
-    env:
-      PUID: "{{ znc_user_id }}"
-      PGID: "{{ znc_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ znc_memory }}"
-    labels:
-      traefik.enable: "{{ znc_available_externally | string }}"
-      traefik.http.routers.znc.rule: "Host(`{{ znc_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.znc.tls.certresolver: "letsencrypt"
-      traefik.http.routers.znc.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.znc.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.znc.loadbalancer.server.port: "6677"
+    - name: Template Znc config
+      ansible.builtin.template:
+        src: znc.conf.j2
+        dest: "{{ znc_data_directory }}/configs/znc.conf"
+      register: template_config
+
+    - name: Create ZNC Docker Container
+      community.docker.docker_container:
+        name: "{{ znc_container_name }}"
+        image: "{{ znc_image_name }}:{{ znc_image_version }}"
+        pull: true
+        volumes:
+          - "{{ znc_data_directory }}:/znc-data:rw"
+          - "/etc/timezone:/etc/timezone:ro"
+        ports:
+          - "{{ znc_port }}:6677"
+        env:
+          PUID: "{{ znc_user_id }}"
+          PGID: "{{ znc_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ znc_memory }}"
+        labels:
+          traefik.enable: "{{ znc_available_externally | string }}"
+          traefik.http.routers.znc.rule: "Host(`{{ znc_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.znc.tls.certresolver: "letsencrypt"
+          traefik.http.routers.znc.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.znc.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.znc.loadbalancer.server.port: "6677"
+  when: znc_enabled is true
+
+- name: Stop ZNC
+  block:
+    - name: Stop ZNC
+      community.docker.docker_container:
+        name: "{{ znc_container_name }}"
+        state: absent
+  when: znc_enabled is false

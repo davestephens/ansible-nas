@@ -2,14 +2,14 @@
 - name: Start Cloudcmd
   block:
     - name: Create Cloudcmd Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ cloudcmd_data_directory }}"
 
     - name: Create Cloudcmd Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ cloudcmd_container_name }}"
         image: coderaiser/cloudcmd
         pull: true
@@ -36,7 +36,7 @@
 - name: Stop Cloudcmd
   block:
     - name: Stop Cloudcmd
-      docker_container:
+      community.docker.docker_container:
         name: "{{ cloudcmd_container_name }}"
         state: absent
   when: cloudcmd_enabled is false

@@ -1,35 +1,46 @@
 ---
-- name: Create Navidrome Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ navidrome_data_directory }}/data"
-    - "{{ navidrome_data_directory }}/playlists"
+- name: Start Navidrome
+  block:
+    - name: Create Navidrome Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ navidrome_data_directory }}/data"
+        - "{{ navidrome_data_directory }}/playlists"
 
-- name: Navidrome Docker Container
-  docker_container:
-    name: navidrome
-    image: deluan/navidrome:latest
-    pull: true
-    volumes:
-      - "{{ navidrome_data_directory }}/data:/navidrome/data:rw"
-      - "{{ navidrome_music_directory }}:/navidrome/music:rw"
-    ports:
-      - "{{ navidrome_port }}:4533"
-    env:
-      ND_MUSICFOLDER: "/navidrome/music"
-      ND_DATAFOLDER: "/navidrome/data"
-      ND_SCANSCHEDULE: "{{ navidrome_scan_schedule }}"
-      ND_LOGLEVEL: "{{ navidrome_log_level }}"
-      ND_SESSIONTIMEOUT: "{{ navidrome_session_timeout }}"
-    restart_policy: unless-stopped
-    memory: "{{ navidrome_memory }}"
-    labels:
-      traefik.enable: "{{ navidrome_available_externally | string }}"
-      traefik.http.routers.navidrome.rule: "Host(`{{ navidrome_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.navidrome.tls.certresolver: "letsencrypt"
-      traefik.http.routers.navidrome.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.navidrome.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.navidrome.loadbalancer.server.port: "4533"
+    - name: Navidrome Docker Container
+      community.docker.docker_container:
+        name: "{{ navidrome_container_name }}"
+        image: "{{ navidrome_image_name }}:{{ navidrome_image_version }}"
+        pull: true
+        volumes:
+          - "{{ navidrome_data_directory }}/data:/navidrome/data:rw"
+          - "{{ navidrome_music_directory }}:/navidrome/music:rw"
+        ports:
+          - "{{ navidrome_port }}:4533"
+        env:
+          ND_MUSICFOLDER: "/navidrome/music"
+          ND_DATAFOLDER: "/navidrome/data"
+          ND_SCANSCHEDULE: "{{ navidrome_scan_schedule }}"
+          ND_LOGLEVEL: "{{ navidrome_log_level }}"
+          ND_SESSIONTIMEOUT: "{{ navidrome_session_timeout }}"
+        restart_policy: unless-stopped
+        memory: "{{ navidrome_memory }}"
+        labels:
+          traefik.enable: "{{ navidrome_available_externally | string }}"
+          traefik.http.routers.navidrome.rule: "Host(`{{ navidrome_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.navidrome.tls.certresolver: "letsencrypt"
+          traefik.http.routers.navidrome.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.navidrome.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.navidrome.loadbalancer.server.port: "4533"
+  when: navidrome_enabled is true
+
+- name: Stop Navidrome
+  block:
+    - name: Stop Navidrome
+      community.docker.docker_container:
+        name: "{{ navidrome_container_name }}"
+        state: absent
+  when: navidrome_enabled is false

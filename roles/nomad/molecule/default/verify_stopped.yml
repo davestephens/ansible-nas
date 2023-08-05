@@ -1,0 +1,17 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Nomad - retrieve information
+      ansible.builtin.stat:
+        path: /usr/bin/nomad
+      register: nomad_file
+
+    - name: Nomad - assert that file is removed
+      ansible.builtin.assert:
+        that: not nomad_file.stat.exists
+        fail_msg: "The file /usr/bin/nomad still exists!"

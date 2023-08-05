@@ -1,35 +1,46 @@
 ---
-- name: Create Ubooquity Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ ubooquity_data_directory }}"
+- name: Start Ubooquity
+  block:
+    - name: Create Ubooquity Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ ubooquity_data_directory }}"
 
-- name: Ubooquity Docker Container
-  docker_container:
-    name: ubooquity
-    image: linuxserver/ubooquity:latest
-    pull: true
-    volumes:
-      - "{{ ubooquity_data_directory }}/config:/config:rw"
-      - "{{ ubooquity_data_directory }}/files:/files:rw"
-      - "{{ comics_root }}:/comics"
-      - "{{ books_root }}:/books"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ ubooquity_user_id }}"
-      PGID: "{{ ubooquity_group_id }}"
-      MAXMEM: "1024"
-    ports:
-      - "{{ ubooquity_port_webui }}:2202"
-      - "{{ ubooquity_port_admin }}:2203"
-    restart_policy: unless-stopped
-    memory: "{{ ubooquity_memory }}"
-    labels:
-      traefik.enable: "{{ ubooquity_available_externally | string }}"
-      traefik.http.routers.ubooquity.rule: "Host(`{{ ubooquity_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.ubooquity.tls.certresolver: "letsencrypt"
-      traefik.http.routers.ubooquity.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.ubooquity.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.ubooquity.loadbalancer.server.port: "2202"
+    - name: Ubooquity Docker Container
+      community.docker.docker_container:
+        name: "{{ ubooquity_container_name }}"
+        image: "{{ ubooquity_image_name }}:{{ ubooquity_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ubooquity_data_directory }}/config:/config:rw"
+          - "{{ ubooquity_data_directory }}/files:/files:rw"
+          - "{{ comics_root }}:/comics"
+          - "{{ books_root }}:/books"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ ubooquity_user_id }}"
+          PGID: "{{ ubooquity_group_id }}"
+          MAXMEM: "1024"
+        ports:
+          - "{{ ubooquity_port_webui }}:2202"
+          - "{{ ubooquity_port_admin }}:2203"
+        restart_policy: unless-stopped
+        memory: "{{ ubooquity_memory }}"
+        labels:
+          traefik.enable: "{{ ubooquity_available_externally | string }}"
+          traefik.http.routers.ubooquity.rule: "Host(`{{ ubooquity_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.ubooquity.tls.certresolver: "letsencrypt"
+          traefik.http.routers.ubooquity.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.ubooquity.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.ubooquity.loadbalancer.server.port: "2202"
+  when: ubooquity_enabled is true
+
+- name: Stop Ubooquity
+  block:
+    - name: Stop Ubooquity
+      community.docker.docker_container:
+        name: "{{ ubooquity_container_name }}"
+        state: absent
+  when: ubooquity_enabled is false

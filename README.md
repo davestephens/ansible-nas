@@ -1,5 +1,6 @@
 # Ansible NAS
 
+![Available Applications](https://img.shields.io/github/directory-file-count/davestephens/ansible-nas/roles?label=Available%20Applications&style=flat-square)
 [![CI](https://github.com/davestephens/ansible-nas/workflows/CI/badge.svg)](https://github.com/davestephens/ansible-nas/actions?query=workflow%3ACI)
 [![Integration](https://github.com/davestephens/ansible-nas/workflows/Integration/badge.svg)](https://github.com/davestephens/ansible-nas/actions?query=workflow%3AIntegration)
 [![Gitter chat](https://img.shields.io/gitter/room/ansible-nas/chat.svg?logo=gitter&style=flat-square)](https://gitter.im/Ansible-NAS/Chat)
@@ -26,6 +27,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies
 * [Dashy](https://dashy.to/) - A self-hosted startpage for your server. Easy to use visual editor, status checking, widgets, themes and tons more!
+* [DDNS Updater](https://github.com/qdm12/ddns-updater) - dynamic dns updater for serveral providers
 * [Deluge](https://dev.deluge-torrent.org/) - A lightweight, Free Software, cross-platform BitTorrent client.
 * [Dashy](https://dashy.to/) - A self-hosted startpage for your server. Easy to use visual editor, status checking, widgets, themes and tons more!
 * [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
@@ -53,11 +55,14 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Komga](https://komga.org/) - a media server for your comics, mangas, BDs and magazines
 * [Krusader](https://krusader.org/) - Twin panel file management for your desktop
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
+* [Loki](https://grafana.com/oss/loki/) - Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus.
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
 * [Minecraft Server](https://www.minecraft.net/) - Server edition of the popular building and exploring game
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
+* [Minio](https://min.io/) - MinIO is a high-performance, S3 compatible object store
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
+* [Mumble](https://www.mumble.info) - Open source, low latency, high quality voice chat
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
 * [n8n](https://n8n.io/) - Nodemation, a node based workflow and automation service like IFTTT.
@@ -79,6 +84,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Plex](https://www.plex.tv/) - Plex Media Server
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [Prometheus](https://prometheus.io/) - Time series database and monitoring system (via stats role).
+* [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/) - Promtail is an agent which ships the contents of local logs to a private Grafana Loki instance
 * [Prowlarr](https://github.com/Prowlarr/Prowlarr) - Indexer aggregator for Sonarr, Radarr, Lidarr, etc.
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [PyTivo](http://pytivo.org) - An HMO and GoBack server for TiVos.
@@ -107,6 +113,12 @@ If you have a spare domain name you can configure applications to be accessible 
 * [YouTubeDL-Material](https://github.com/Tzahi12345/YoutubeDL-Material) - Self-hosted YouTube downloader built on Material Design
 * [ZNC](https://wiki.znc.in/ZNC) - IRC bouncer to stay connected to favourite IRC networks and channels
 
+## Preconfigured Application Stacks
+
+Ansible-NAS application [stacks](https://ansible-nas.io/docs/category/stacks/) are a number of applications deployed together and preconfigured to perform a common goal.
+
+* [Logging](https://ansible-nas.io/docs/applications/stacks/logging/) - application logging capture and search service based on Grafana Loki.
+
 ## What This Could Do
 
 Ansible-NAS can run anything that's in a Docker image, which is why Portainer is included. A NAS configuration is a pretty personal thing based on what you download, what media you view, how many photos you take...so it's difficult to please everyone.
@@ -115,7 +127,7 @@ That said, if specific functionality you want isn't included and you think other
 
 ## What This Doesn't Do
 
-Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive. That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be gained by automating it. Check out the [docs](https://davestephens.github.io/ansible-nas) for recommended setups.
+Ansible NAS doesn't set up your disk partitions, primarily because getting it wrong can be incredibly destructive. That aside, configuring partitions is usually a one-time (or very infrequent) event, so there's not much to be gained by automating it. Check out the [docs](https://ansible-nas.io/docs/) for recommended setups.
 
 ## Installation
 
@@ -138,7 +150,7 @@ Read the [migrating from FreeNAS](https://ansible-nas.io/docs/further-configurat
 
 Getting help is easy! You can:
 
-* Read the [docs](https://davestephens.github.io/ansible-nas)
+* Read the [docs](https://ansible-nas.io/docs/)
 * Start a [discussion](https://github.com/davestephens/ansible-nas/discussions)
 * Raise an [issue](https://github.com/davestephens/ansible-nas/issues) if you think you've found a bug
 * Chat on [Gitter](https://gitter.im/Ansible-NAS/Chat)

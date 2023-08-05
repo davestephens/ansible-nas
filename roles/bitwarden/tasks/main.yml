@@ -2,7 +2,7 @@
 - name: Start Bitwarden
   block:
     - name: Create Bitwarden Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         mode: "0755"
@@ -10,7 +10,7 @@
         - "{{ bitwarden_data_directory }}"
 
     - name: Bitwarden Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bitwarden_container_name }}"
         image: vaultwarden/server:latest
         pull: true
@@ -45,7 +45,7 @@
         restart_policy: unless-stopped
 
     - name: Bitwarden Backup Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bitwarden_backup_container_name }}"
         image: bruceforce/bw_backup:latest
         pull: true
@@ -57,12 +57,12 @@
 - name: Stop Bitwarden
   block:
     - name: Stop Bitwarden
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bitwarden_container_name }}"
         state: absent
 
     - name: Stop Bitwarden Backup
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bitwarden_backup_container_name }}"
         state: absent
   when: bitwarden_enabled is false

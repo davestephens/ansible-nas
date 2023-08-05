@@ -1,11 +1,11 @@
 ---
 - name: Create ansible-nas group
-  group:
+  ansible.builtin.group:
     name: ansible-nas
     state: present
 
 - name: Create ansible-nas user
-  user:
+  ansible.builtin.user:
     name: ansible-nas
     state: present
     system: yes

@@ -30,6 +30,11 @@ plex_audiobooks_permissions: "rw"
 # network
 plex_hostname: "plex"
 
+# docker
+plex_container_name: "plex"
+plex_image_name: "linuxserver/plex"
+plex_image_version: "latest"
+
 # specs
 plex_memory: "2g"
 

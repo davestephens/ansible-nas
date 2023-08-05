@@ -10,6 +10,11 @@ navidrome_music_directory: "{{ music_root }}"
 navidrome_port: "4533"
 navidrome_hostname: "navidrome"
 
+# docker
+navidrome_container_name: "navidrome"
+navidrome_image_name: "deluan/navidrome"
+navidrome_image_version: "latest"
+
 # specs
 navidrome_memory: 1g
 

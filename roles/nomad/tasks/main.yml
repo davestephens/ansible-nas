@@ -2,9 +2,11 @@
 - name: Install and start Nomad
   block:
     - name: Add Hashicorp GPG key
-      ansible.builtin.apt_key:
+      ansible.builtin.get_url:
         url: https://apt.releases.hashicorp.com/gpg
-        state: present
+        dest: /etc/apt/trusted.gpg.d/hashicorp.asc
+        mode: '0644'
+        force: true
 
     - name: Add Hashicorp apt repository
       ansible.builtin.apt_repository:
@@ -33,7 +35,7 @@
 - name: Stop Nomad
   block:
     - name: Check if Nomad is installed
-      stat:
+      ansible.builtin.stat:
         path: /usr/bin/nomad
       register: nomad_install
 

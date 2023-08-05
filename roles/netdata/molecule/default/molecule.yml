@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        netdata_enabled: true
+        ansible_nas_hostname: ansible-nas

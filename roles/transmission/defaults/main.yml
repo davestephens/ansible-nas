@@ -18,5 +18,9 @@ transmission_hostname: "transmission"
 
 transmission_timezone: "{{ ansible_nas_timezone }}"
 
+transmission_container_name: "transmission"
+transmission_image_name: "linuxserver/transmission"
+transmission_image_version: "latest"
+
 # specs
 transmission_memory: 1g
