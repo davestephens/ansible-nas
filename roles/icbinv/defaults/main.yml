@@ -1,0 +1,45 @@
+---
+icbinv_enabled: false
+icbinv_available_externally: false
+
+# directories
+icbinv_data_directory: "{{ docker_home }}/icbinv"
+
+# network
+icbinv_hostname: "icbinv"
+
+# specs
+icbinv_memory: 1g
+
+# docker
+icbinv_container_name: icbinv
+icbinv_image_name: icbinv
+icbinv_docker_image: ghcr.io/anarion80/icbinv
+icbinv_docker_image_version: latest
+icbinv_user_id: "1000"
+icbinv_group_id: "1000"
+
+# environment variables
+icbinv_port: "3001"
+
+# icbinv
+icbinv_draw_path: "true"
+icbinv_draw_charger: "true"
+icbinv_draw_robot: "true"
+icbinv_scale: "3"
+icbinv_rotate: "0"
+icbinv_colors_floor: "#0076ff"
+icbinv_colors_obstacle: "#52aeff"
+icbinv_colors_path: "#ffffff"
+icbinv_mqtt_identifier: "dreame1"
+icbinv_mqtt_topic_prefix: "valetudo"
+icbinv_mqtt_autoconf_prefix: "homeassistant"
+icbinv_mqtt_broker_url: "mqtt://user:pass@ip_address:port"
+icbinv_mqtt_ca_path: ""
+icbinv_mqtt_map_data_topic: "valetudo/dreame1/MapData/map-data"
+icbinv_mqtt_min_milliseconds_between_map_updates: "10000"
+icbinv_mqtt_publish_map_image: "true"
+icbinv_mqtt_publish_as_base64: "false"
+icbinv_webserver_enabled: "true"
+icbinv_webserver_port: "3000"
+icbinv_log_level: "info"

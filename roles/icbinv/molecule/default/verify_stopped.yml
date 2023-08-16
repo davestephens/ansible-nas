@@ -1,0 +1,21 @@
+---
+# This is a Hello World playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove icbinv
+      community.docker.docker_container:
+        name: "{{ icbinv_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if icbinv is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed

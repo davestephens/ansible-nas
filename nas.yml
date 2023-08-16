@@ -249,6 +249,10 @@
       tags:
         - huntly
 
+    - role: icbinv
+      tags:
+        - icbinv
+
     - role: immich
       tags:
         - immich

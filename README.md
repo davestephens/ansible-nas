@@ -67,6 +67,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API
 * [Huginn](https://github.com/huginn/huginn) - Create agents that monitor and act on your behalf. Your agents are standing by!
 * [Huntly](https://github.com/lcomplete/huntly) - Self-hosted information management tool
+* [ICantBelieveItsNotValetudo](https://github.com/Hypfer/ICantBelieveItsNotValetudo) - companion service for Valetudo that renders ValetudoMap map data to raster graphics.
 * [Immich](https://immich.app/) - Self-hosted photo and video backup solution directly from your mobile phone.
 * [Influxdb](https://github.com/influxdata/influxdb) - Time series database used for stats collection
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
