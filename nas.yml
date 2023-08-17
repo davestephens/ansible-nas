@@ -257,6 +257,10 @@
       tags:
         - immich
 
+    - role: invidious
+      tags:
+        - invidious
+
     - role: jackett
       tags:
         - jackett

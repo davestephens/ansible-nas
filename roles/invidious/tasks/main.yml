@@ -1,0 +1,113 @@
+---
+- name: Start Invidious
+  block:
+    - name: Create Invidious Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ invidious_data_directory }}"
+        - "{{ invidious_data_directory }}/config"
+        - "{{ invidious_data_directory }}/config/sql"
+
+    - name: Download init-invidious-db.sh
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/iv-org/invidious/master/docker/init-invidious-db.sh
+        dest: "{{ invidious_data_directory }}/config/init-invidious-db.sh"
+        mode: '0775'
+
+    - name: Download sql files
+      ansible.builtin.get_url:
+        url: "https://raw.githubusercontent.com/iv-org/invidious/master/config/sql/{{ item }}"
+        dest: "{{ invidious_data_directory }}/config/sql/{{ item }}"
+        mode: '0664'
+      with_items:
+        - "annotations.sql"
+        - "channel_videos.sql"
+        - "channels.sql"
+        - "nonces.sql"
+        - "playlist_videos.sql"
+        - "playlists.sql"
+        - "session_ids.sql"
+        - "users.sql"
+        - "videos.sql"
+
+    - name: Create Invidious network
+      community.docker.docker_network:
+        name: "{{ invidious_network_name }}"
+
+    - name: Create Invidious Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ invidious_postgres_container_name }}"
+        image: "{{ invidious_postgres_image_name }}:{{ invidious_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ invidious_data_directory }}/database:/var/lib/postgresql/data:rw"
+          - "{{ invidious_data_directory }}/config/sql:/config/sql"
+          - "{{ invidious_data_directory }}/config/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh"
+        networks:
+          - name: "{{ invidious_network_name }}"
+        network_mode: "{{ invidious_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ invidious_db_password }}"
+          POSTGRES_USER: "{{ invidious_db_username }}"
+          POSTGRES_DB: "{{ invidious_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ invidious_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ invidious_db_name }} -U {{ invidious_db_username }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Create Invidious Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ invidious_container_name }}"
+        image: "{{ invidious_image_name }}:{{ invidious_image_version }}"
+        pull: true
+        volumes:
+          - "{{ invidious_data_directory }}/data:/data:rw"
+        networks:
+          - name: "{{ invidious_network_name }}"
+        network_mode: "{{ invidious_network_name }}"
+        ports:
+          - "{{ invidious_port }}:3000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ invidious_user_id | quote }}"
+          PGID: "{{ invidious_group_id | quote }}"
+          INVIDIOUS_CONFIG: "{{ invidious_config }}"
+        restart_policy: unless-stopped
+        memory: "{{ invidious_memory }}"
+        labels:
+          traefik.enable: "{{ invidious_available_externally | string }}"
+          traefik.http.routers.invidious.rule: "Host(`{{ invidious_hostname }}.{{ ansible_nas_domain }}`)"
+          # traefik.http.routers.invidious.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.invidious.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.invidious.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.invidious.loadbalancer.server.port: "3000"
+        healthcheck:
+          test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/comments/jNQXAC9IVRw || exit 1
+          interval: 30s
+          timeout: 5s
+          retries: 2
+  when: invidious_enabled is true
+
+- name: Stop Invidious
+  block:
+    - name: Stop invidious postgres
+      community.docker.docker_container:
+        name: "{{ invidious_postgres_container_name }}"
+        state: absent
+
+    - name: Stop invidious
+      community.docker.docker_container:
+        name: "{{ invidious_container_name }}"
+        state: absent
+  when: invidious_enabled is false

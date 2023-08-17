@@ -70,6 +70,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [ICantBelieveItsNotValetudo](https://github.com/Hypfer/ICantBelieveItsNotValetudo) - companion service for Valetudo that renders ValetudoMap map data to raster graphics.
 * [Immich](https://immich.app/) - Self-hosted photo and video backup solution directly from your mobile phone.
 * [Influxdb](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+* [Invidious](https://invidious.io/) - An open source alternative front-end to YouTube
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [Joomla](https://www.joomla.org/) - Open source content management system
