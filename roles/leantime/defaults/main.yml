@@ -1,0 +1,123 @@
+---
+leantime_enabled: false
+leantime_available_externally: false
+
+# directories
+leantime_data_directory: "{{ docker_home }}/leantime"
+
+# network
+leantime_port: "8121"
+leantime_hostname: "leantime"
+leantime_network_name: "leantime"
+
+# specs
+leantime_memory: 1g
+leantime_db_memory: 1g
+
+# docker
+leantime_container_name: leantime
+leantime_db_container_name: leantime-db
+leantime_image_name: "docker.io/leantime/leantime"
+leantime_image_version: latest
+leantime_db_image_name: "docker.io/library/mysql"
+leantime_db_image_version: "8.0"
+leantime_user_id: "1000"
+leantime_group_id: "1000"
+
+# leantime
+leantime_db_name: "leantime"
+leantime_db_username: "leantime"
+leantime_db_password: "secure"
+leantime_db_root_password: "supersecure"
+leantime_db_port: "3306"
+leantime_app_url: ""
+leantime_app_url_root: ""
+leantime_debug: "0"
+leantime_sitename: "Leantime"
+leantime_language: "en-US"
+leantime_timezone: "America/Los_Angeles"
+leantime_enable_menu_type: "false"
+leantime_sessions_password: "3evBlq9zdUEuzKvVJHWWx3QzsQhturBApxwcws2m"  # Salting sessions. Replace with a strong password
+leantime_sessions_expiration: 28800
+leantime_log_path: "null"
+leantime_logo_path: "/images/logo.svg"
+leantime_print_logo_url: "/images/logo.jpg"
+leantime_default_theme: "default"
+leantime_primary_color: "#1b75bb"
+leantime_secondary_color: "#81B1A8"
+leantime_keepo_themer: "true"
+leantime_user_file_path: "userfiles/"
+leantime_db_backup_path: "backupdb/"
+leantime_email_return: ""                        # Return email address, needs to be valid email address format
+leantime_email_use_smtp: "false"                 # Use SMTP? If set to false, the default php mail() function will be used
+leantime_email_smtp_hosts: ""                    # SMTP host
+leantime_email_smtp_auth: "true"                 # SMTP authentication required
+leantime_email_smtp_username: ""                 # SMTP username
+leantime_email_smtp_password: ""                 # SMTP password
+leantime_email_smtp_auto_tls: "true"             # SMTP Enable TLS encryption automatically if a server supports it
+leantime_email_smtp_secure: ""                   # SMTP Security protocol (usually one of: TLS, SSL, STARTTLS)
+leantime_email_smtp_sslnoverify: "false"         # SMTP Allow insecure SSL: Don't verify certificate, accept self-signed, etc.
+leantime_email_smtp_port: ""
+
+
+leantime_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  PUID: "{{ leantime_user_id | quote }}"
+  PGID: "{{ leantime_group_id | quote }}"
+  ## Minimum Configuration, these are required for installation
+
+  LEAN_APP_URL: "{{ leantime_app_url }}"                          # Base URL, only needed for subfolder installation
+  LEAN_APP_URL_ROOT: "{{ leantime_app_url_root }}"                # Base of application withotu trailing slash (used for cookies), e.g, /leantime
+
+  LEAN_DEBUG: "{{ leantime_debug }}"                              # Debug flag
+
+  # Database - MySQL container
+  MYSQL_ROOT_PASSWORD: "{{ leantime_db_root_password }}"          # Database password
+  MYSQL_DATABASE: "{{ leantime_db_name }}"                        # Database name
+  MYSQL_USER: "{{ leantime_db_username }}"                        # Database username
+  MYSQL_PASSWORD: "{{ leantime_db_password }}"                    # Database password
+
+  # Database - leantime container
+  LEAN_DB_HOST: "{{ leantime_db_container_name }}"                # Database host
+  LEAN_DB_USER: "{{ leantime_db_username }}"                      # Database username
+  LEAN_DB_PASSWORD: "{{ leantime_db_password }}"                  # Database password
+  LEAN_DB_DATABASE: "{{ leantime_db_name }}"                      # Database name
+  LEAN_DB_PORT: "{{ leantime_db_port }}"                          # Database port
+
+leantime_optional_env:
+  ## Optional Configuraiton, you may ommit these from your .env file
+
+  ## Default Settings
+  LEAN_SITENAME: "{{ leantime_sitename }}"                      # Name of your site, can be changed later
+  LEAN_LANGUAGE: "{{ leantime_language }}"                      # Default language
+  LEAN_DEFAULT_TIMEZONE: "{{ leantime_default_timezone }}"      # Set default timezone
+  LEAN_ENABLE_MENU_TYPE: "{{ leantime_enable_menu_type }}"      # Enable to specifiy menu on aproject by project basis
+  LEAN_SESSION_PASSWORD: "{{ leantime_session_password }}"      # Salting sessions. Replace with a strong password
+  LEAN_SESSION_EXPIRATION: "{{ leantime_session_expiration }}"  # How many seconds after inactivity should we logout?  28800seconds = 8hours
+  LEAN_LOG_PATH: "{{ leantime_log_path }}"                      # Default Log Path (including filename), if not set /logs/error.log will be used
+
+  ## Look & Feel, these settings are available in the UI and can be overwritten there.
+  LEAN_LOGO_PATH: "{{ leantime_logo_path }}"                    # Default logo path, can be changed later
+  LEAN_PRINT_LOGO_URL: "{{ leantime_print_logo_url }}"          # Default logo URL use for printing (must be jpg or png format)
+  LEAN_DEFAULT_THEME: "{{ leantime_default_theme }}"            # Default theme
+  LEAN_PRIMARY_COLOR: "{{ leantime_primary_color }}"            # Primary Theme color
+  LEAN_SECONDARY_COLOR: "{{ leantime_secondary_color }}"        # Secondary Theme Color
+  LEAN_KEEP_THEME: "{{ leantime_keep_theme }}"                  # Keep theme and language from previous user for login screen
+
+  ## Fileuploads
+
+  # Local File Uploads
+  LEAN_USER_FILE_PATH: "{{ leantime_user_file_path }}"          # Local relative path to store uploaded files (if not using S3)
+  LEAN_DB_BACKUP_PATH: "{{ leantime_db_backup_path }}"          # Local relative path to store backup files, need permission to write
+
+  ## Email
+  LEAN_EMAIL_RETURN: "{{ leantime_email_return }}"              # Return email address, needs to be valid email address format
+  LEAN_EMAIL_USE_SMTP: "{{ leantime_email_use_smtp }}"          # Use SMTP? If set to false, the default php mail() function will be used
+  LEAN_EMAIL_SMTP_HOSTS: "{{ leantime_email_smtp_hosts }}"      # SMTP host
+  LEAN_EMAIL_SMTP_AUTH: "{{ leantime_email_smtp_auth }}"        # SMTP authentication required
+  LEAN_EMAIL_SMTP_USERNAME: "{{ leantime_email_smtp_username }}" # SMTP username
+  LEAN_EMAIL_SMTP_PASSWORD: "{{ leantime_email_smtp_password }}" # SMTP password
+  LEAN_EMAIL_SMTP_AUTO_TLS: "{{ leantime_email_smtp_auto_tls }}" # SMTP Enable TLS encryption automatically if a server supports it
+  LEAN_EMAIL_SMTP_SECURE: "{{ leantime_email_smtp_secure }}"     # SMTP Security protocol (usually one of: TLS, SSL, STARTTLS)
+  LEAN_EMAIL_SMTP_SSLNOVERIFY: "{{ leantime_email_smtp_sslnoverify }}" # SMTP Allow insecure SSL: Don't verify certificate, accept self-signed, etc.
+  LEAN_EMAIL_SMTP_PORT: "{{ leantime_email_smtp_port }}"         # Port (usually one of 25, 465, 587, 2526)

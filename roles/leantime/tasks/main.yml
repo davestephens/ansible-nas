@@ -1,0 +1,74 @@
+---
+- name: Start Leantime
+  block:
+    - name: Create Leantime Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ leantime_data_directory }}"
+
+    - name: Create Leantime network
+      community.docker.docker_network:
+        name: "{{ leantime_network_name }}"
+
+    - name: Create Leantime Db Docker Container
+      community.docker.docker_container:
+        name: "{{ leantime_db_container_name }}"
+        image: "{{ leantime_db_image_name }}:{{ leantime_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ leantime_data_directory }}/database:/var/lib/mysql"
+        networks:
+          - name: "{{ leantime_network_name }}"
+        network_mode: "{{ leantime_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          MYSQL_ROOT_PASSWORD: "{{ leantime_db_root_password }}"
+          MYSQL_DATABASE: "{{ leantime_db_name }}"
+          MYSQL_USER: "{{ leantime_db_username }}"
+          MYSQL_PASSWORD: "{{ leantime_db_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ leantime_db_memory }}"
+        command: --character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci
+
+    - name: Create Leantime Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ leantime_container_name }}"
+        image: "{{ leantime_image_name }}:{{ leantime_image_version }}"
+        pull: true
+        volumes:
+          - "{{ leantime_data_directory }}/public_userfiles:/var/www/html/public/userfiles"   # Volume to store public files, logo etc
+          - "{{ leantime_data_directory }}/userfiles:/var/www/html/userfiles"                 # Volume to store private user uploaded files
+        networks:
+          - name: "{{ leantime_network_name }}"
+        network_mode: "{{ leantime_network_name }}"
+        ports:
+          - "{{ leantime_port }}:80"
+        env: "{{ leantime_optional_env | default({}) | combine(leantime_env) }}"
+        restart_policy: unless-stopped
+        memory: "{{ leantime_memory }}"
+        labels:
+          traefik.enable: "{{ leantime_available_externally | string }}"
+          traefik.http.routers.leantime.rule: "Host(`{{ leantime_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.leantime.tls.certresolver: "letsencrypt"
+          traefik.http.routers.leantime.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.leantime.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.leantime.loadbalancer.server.port: "80"
+  when: leantime_enabled is true
+
+- name: Stop Leantime
+  block:
+    - name: Stop Leantime db
+      community.docker.docker_container:
+        name: "{{ leantime_db_container_name }}"
+        state: absent
+
+    - name: Stop Leantime
+      community.docker.docker_container:
+        name: "{{ leantime_container_name }}"
+        state: absent
+  when: leantime_enabled is false

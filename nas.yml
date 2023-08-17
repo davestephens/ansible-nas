@@ -293,6 +293,10 @@
       tags:
         - lazylibrarian
 
+    - role: leantime
+      tags:
+        - leantime
+
     - role: libreddit
       tags:
         - libreddit
