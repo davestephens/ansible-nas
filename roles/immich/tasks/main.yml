@@ -108,6 +108,7 @@
           TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "false"
+        command: [ "start.sh", "immich" ]
         restart_policy: unless-stopped
         memory: "{{ immich_server_memory }}"
 
@@ -116,7 +117,7 @@
         name: "{{ immich_microservices_container_name }}"
         image: "{{ immich_microservices_image }}:{{ immich_microservices_tag }}"
         pull: true
-        entrypoint: ["/bin/sh", "./start-microservices.sh"]
+        command: [ "start.sh", "microservices" ]
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
@@ -149,7 +150,6 @@
         name: "{{ immich_machinelearning_container_name }}"
         image: "{{ immich_machinelearning_image }}:{{ immich_machinelearning_tag }}"
         pull: true
-        command: ["python", "src/main.py"]
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
@@ -183,7 +183,6 @@
         name: "{{ immich_web_container_name }}"
         image: "{{ immich_web_image }}:{{ immich_web_tag }}"
         pull: true
-        entrypoint: ["/bin/sh", "./entrypoint.sh"]
         networks:
           - name: "{{ immich_network_name }}"
         env:
