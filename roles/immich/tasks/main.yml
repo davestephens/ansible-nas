@@ -108,7 +108,7 @@
           TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "false"
-        command: [ "start.sh", "immich" ]
+        command: ["start.sh", "immich"]
         restart_policy: unless-stopped
         memory: "{{ immich_server_memory }}"
 
@@ -117,7 +117,7 @@
         name: "{{ immich_microservices_container_name }}"
         image: "{{ immich_microservices_image }}:{{ immich_microservices_tag }}"
         pull: true
-        command: [ "start.sh", "microservices" ]
+        command: ["start.sh", "microservices"]
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
