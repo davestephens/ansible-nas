@@ -88,9 +88,9 @@
         labels:
           traefik.enable: "{{ invidious_available_externally | string }}"
           traefik.http.routers.invidious.rule: "Host(`{{ invidious_hostname }}.{{ ansible_nas_domain }}`)"
-          # traefik.http.routers.invidious.tls.certresolver: "letsencrypt"
-          # traefik.http.routers.invidious.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          # traefik.http.routers.invidious.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.invidious.tls.certresolver: "letsencrypt"
+          traefik.http.routers.invidious.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.invidious.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.invidious.loadbalancer.server.port: "3000"
         healthcheck:
           test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/comments/jNQXAC9IVRw || exit 1
