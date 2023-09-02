@@ -17,12 +17,14 @@ If you have a spare domain name you can configure applications to be accessible 
 
 ## Available Applications
 
+* [Admidio](https://www.admidio.org/) - a free online membership management
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Authelia](https://www.authelia.com/) - The Single Sign-On Multi-Factor portal for web apps
 * [Authentik](https://goauthentik.io/) - an open-source Identity Provider focused on flexibility and versatility
 * [Barcode Buddy](https://github.com/Forceu/barcodebuddy/) - Barcode system for Grocy
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Beets](https://beets.io/) - media library management system for obsessive music geeks
+* [Blaze](https://github.com/blenderskool/blaze) - File sharing progressive web app
 * [Booksonic](https://booksonic.org/) - The selfhosted audiobook server
 * [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 * [Changedetection.io](https://github.com/dgtlmoon/changedetection.io) - Free open source website change detection, monitor and notification service
@@ -37,6 +39,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
 * [Drone CI](https://drone.io) - A self-service Continuous Integration platform for busy development teams.
 * [Duplicacy](https://duplicacy.com/) - A web UI for the Duplicacy cloud backup program, which provides lock-free deduplication backups to multiple providers
+* [Dufs](https://github.com/sigoden/dufs) - distinctive utility file server
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
 * [ESPHome](https://esphome.io/) - ESP8266/ESP32 programming and management for home automation
@@ -64,8 +67,10 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API
 * [Huginn](https://github.com/huginn/huginn) - Create agents that monitor and act on your behalf. Your agents are standing by!
 * [Huntly](https://github.com/lcomplete/huntly) - Self-hosted information management tool
+* [ICantBelieveItsNotValetudo](https://github.com/Hypfer/ICantBelieveItsNotValetudo) - companion service for Valetudo that renders ValetudoMap map data to raster graphics.
 * [Immich](https://immich.app/) - Self-hosted photo and video backup solution directly from your mobile phone.
 * [Influxdb](https://github.com/influxdata/influxdb) - Time series database used for stats collection
+* [Invidious](https://invidious.io/) - An open source alternative front-end to YouTube
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [Joomla](https://www.joomla.org/) - Open source content management system
@@ -74,10 +79,12 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Komga](https://komga.org/) - a media server for your comics, mangas, BDs and magazines
 * [Krusader](https://krusader.org/) - Twin panel file management for your desktop
 * [LazyLibrarian](https://lazylibrarian.gitlab.io/) - LazyLibrarian is a program to follow authors and grab metadata for all your digital reading needs
+* [Leantime](https://leantime.io/) - strategic project management system for non-project managers
 * [Libreddit](https://github.com/libreddit/libreddit) - Private front-end for Reddit
 * [Librephotos](https://github.com/LibrePhotos/librephotos) - self-hosted open source photo
 * [Librespeed](https://github.com/librespeed/speedtest) - Self-hosted Speedtest for HTML5 and more
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
+* [Linkding](https://github.com/sissbruecker/linkding) - Self-hosted bookmark service
 * [Listmonk](https://listmonk.app/) - High performance, self-hosted, newsletter and mailing list manager
 * [Littlelink](https://github.com/techno-tim/littlelink-server) - Self-hosted alternative to linktree
 * [Loki](https://grafana.com/oss/loki/) - multi-tenant log aggregation system (via stats role).
@@ -89,8 +96,9 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Minetest Server](https://www.minetest.net/) - An open source voxel game engine server
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
+* [Miniserve](https://github.com/svenstaro/miniserve) - a CLI tool to serve files and dirs over HTTP
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
-* [Moviematch](https://github.com/LukeChannings/moviematch) - MovieMatch for Plex
+* [Mumble](https://www.mumble.info) - Open source, low latency, high quality voice chat
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
 * [MySql](https://www.mysql.com/) - The world's most popular open source database
@@ -105,6 +113,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Nzbhydra2](https://github.com/theotherp/nzbhydra2) - Usenet meta search
 * [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer
+* [OliveTin](https://github.com/OliveTin/OliveTin) -  safe and simple access to predefined shell commands
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [openLDAP](https://www.openldap.org/) - An open source implementation of the Lightweight Directory Access Protocol

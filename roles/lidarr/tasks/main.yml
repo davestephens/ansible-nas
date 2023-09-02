@@ -8,7 +8,6 @@
 
     - name: Lidarr Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ lidarr_container_name }}"
         image: "{{ lidarr_image_name }}:{{ lidarr_image_version }}"
         pull: true

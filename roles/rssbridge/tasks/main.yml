@@ -11,7 +11,6 @@
 
     - name: RSSBridge Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ rssbridge_container_name }}"
         image: "{{ rssbridge_image_name }}:{{ rssbridge_image_version }}"
         pull: true

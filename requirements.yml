@@ -1,7 +1,7 @@
 ---
 roles:
   - name: geerlingguy.docker
-    version: 2.8.2
+    version: 6.0.0
 
   - name: geerlingguy.docker_arm
     version: 5.0.0
@@ -17,3 +17,8 @@ roles:
   - name: tigattack.mergerfs
 
   - name: arillso.restic
+
+collections:
+  - name: ansible.posix
+  - name: community.docker
+  - name: community.general

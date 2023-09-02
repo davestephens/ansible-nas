@@ -1,0 +1,66 @@
+---
+invidious_enabled: false
+invidious_available_externally: false
+
+# directories
+invidious_data_directory: "{{ docker_home }}/invidious"
+
+# network
+invidious_port: "3002"
+invidious_hostname: "invidious"
+invidious_network_name: "invidious"
+
+# specs
+invidious_memory: 1g
+invidious_postgres_memory: 1g
+
+# docker
+invidious_container_name: invidious
+invidious_postgres_container_name: invidious-db
+invidious_image_name: "quay.io/invidious/invidious"
+invidious_image_version: latest
+invidious_postgres_image_name: "docker.io/library/postgres"
+invidious_postgres_image_version: "13"
+invidious_user_id: "1000"
+invidious_group_id: "1000"
+
+# invidious
+invidious_db_name: "invidious"
+invidious_db_username: "invidious"
+invidious_db_password: "secure"
+invidious_hmac_key: "CHANGE ME!!!"
+invidious_config: |
+  channel_threads: 1
+  check_tables: true
+  feed_threads: 1
+  db:
+    dbname: {{ invidious_db_name }}
+    user: {{ invidious_db_username }}
+    password: {{ invidious_db_password }}
+    host: {{ invidious_postgres_container_name }}
+    port: 5432
+  full_refresh: false
+  https_only: true
+  popular_enabled: true
+  statistics_enabled: false
+  domain: {{ invidious_hostname }}.{{ ansible_nas_domain }}
+  external_port: 443
+  registration_enabled: true
+  captcha_enabled: false
+  admins: ["anarion"]
+  disable_proxy: false
+  geo_bypass: false
+  hmac_key: {{ invidious_hmac_key }}
+  enable_user_notifications: false
+  banner: "Welcome to <b>Youtube!</b>"
+  use_pubsub_feeds: false
+  autoplay: false
+  continue_autoplay: false
+  quality: dash
+  quality_dash: best
+  save_player_pos: true
+  latest_only: true
+  notifications_only: false
+  unseen_only: false
+  sort: published
+  show_nick: true

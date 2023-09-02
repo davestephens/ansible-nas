@@ -10,7 +10,6 @@
 
     - name: Jellyfin Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ jellyfin_container_name }}"
         image: "{{ jellyfin_image_name }}:{{ jellyfin_image_version }}"
         pull: true

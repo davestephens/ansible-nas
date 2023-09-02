@@ -12,7 +12,6 @@
 
     - name: Navidrome Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ navidrome_container_name }}"
         image: "{{ navidrome_image_name }}:{{ navidrome_image_version }}"
         pull: true

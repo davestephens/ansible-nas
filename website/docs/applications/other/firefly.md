@@ -11,3 +11,5 @@ Firefly III is a self-hosted financial manager. It can help you keep track of ex
 Set `firefly_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 The Firefly III web interface can be found at <http://ansible_nas_host_or_ip:8066>.
+
+Optionally, you can install [Firefly Data Importer](https://github.com/firefly-iii/data-importer) by creating a Personal Access Token in Firefly, copying it into `firefly_access_token` variable, setting `firefly_importer_enabled` to `true` and re-running the playbook.

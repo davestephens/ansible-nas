@@ -8,7 +8,6 @@
 
     - name: Ombi Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ ombi_container_name }}"
         image: "{{ ombi_image_name }}:{{ ombi_image_version }}"
         pull: true

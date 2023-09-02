@@ -4,36 +4,36 @@
   gather_facts: false
   tasks:
     - name: Include vars
-      include_vars:
+      ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Get Librephotos Postgres container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ librephotos_postgres_container_name }}"
       register: result_postgres
 
     - name: Get Librephotos Redis container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ librephotos_redis_container_name }}"
       register: result_redis
 
     - name: Get Llibrephotos Frontend container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ librephotos_frontend_container_name }}"
       register: result_frontend
 
     - name: Get Librephotos Backend container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ librephotos_backend_container_name }}"
       register: result_backend
 
     - name: Get Librephotos Proxy container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ librephotos_proxy_container_name }}"
       register: result_proxy
 
     - name: Check if Librephotos docker containers are running
-      assert:
+      ansible.builtin.assert:
         that:
           - result_postgres.container['State']['Status'] == "running"
           - result_postgres.container['State']['Restarting'] == false

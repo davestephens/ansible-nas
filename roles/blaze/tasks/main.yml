@@ -1,0 +1,88 @@
+---
+- name: Start Blaze
+  block:
+    - name: Create Blaze Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ blaze_data_directory }}"
+        - "{{ blaze_data_directory }}/nginx"
+
+    - name: Create Blaze network
+      community.docker.docker_network:
+        name: "{{ blaze_network_name }}"
+
+    - name: Template Blaze config
+      ansible.builtin.template:
+        src: nginx.conf.j2
+        dest: "{{ blaze_data_directory }}/nginx/nginx.conf"
+      register: template_config
+
+    - name: Create Blaze Server Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ blaze_server_container_name }}"
+        image: "{{ blaze_server_image_name }}:{{ blaze_server_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ blaze_network_name }}"
+        network_mode: "{{ blaze_network_name }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ blaze_user_id | quote }}"
+          PGID: "{{ blaze_group_id | quote }}"
+          TRUST_PROXY: "{{ blaze_trust_proxy }}"
+          ORIGIN: "{{ blaze_cors_origin }}"
+          PORT: "3030"
+          WS_SIZE_LIMIT: "{{ blaze_ws_size_limit }}"
+          DISABLE_SSE_EVENTS: "{{ blaze_disable_sse_events }}"
+        restart_policy: unless-stopped
+        memory: "{{ blaze_server_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Blaze Client Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ blaze_client_container_name }}"
+        image: "{{ blaze_client_image_name }}:{{ blaze_client_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ blaze_network_name }}"
+        network_mode: "{{ blaze_network_name }}"
+        volumes:
+          - "{{ blaze_data_directory }}/nginx/nginx.conf:/etc/nginx/nginx.conf"
+        ports:
+          - "{{ blaze_client_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ blaze_user_id | quote }}"
+          PGID: "{{ blaze_group_id | quote }}"
+          WS_HOST: "{{ blaze_ws_host }}"
+          SERVER_HOST: "{{ blaze_server_host }}"
+          WS_SIZE_LIMIT: "{{ blaze_ws_size_limit }}"
+          TORRENT_SIZE_LIMIT: "{{ blaze_torrent_size_limit }}"
+        restart_policy: unless-stopped
+        memory: "{{ blaze_client_memory }}"
+        labels:
+          traefik.enable: "{{ blaze_available_externally | string }}"
+          traefik.http.routers.blaze.rule: "Host(`{{ blaze_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.blaze.tls.certresolver: "letsencrypt"
+          traefik.http.routers.blaze.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.blaze.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.blaze.loadbalancer.server.port: "80"
+  when: blaze_enabled is true
+
+- name: Stop Blaze
+  block:
+    - name: Stop Blaze Client
+      community.docker.docker_container:
+        name: "{{ blaze_client_container_name }}"
+        state: absent
+
+    - name: Stop Blaze Server
+      community.docker.docker_container:
+        name: "{{ blaze_server_container_name }}"
+        state: absent
+  when: blaze_enabled is false

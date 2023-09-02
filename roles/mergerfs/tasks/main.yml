@@ -6,12 +6,12 @@
         name: tigattack.mergerfs
 
     - name: Create {{ mergerfs_service_user }} group
-      group:
+      ansible.builtin.group:
         name: "{{ mergerfs_service_group }}"
         state: present
 
     - name: Create {{ mergerfs_service_user }} user
-      user:
+      ansible.builtin.user:
         name: "{{ mergerfs_service_user }}"
         state: present
         system: yes
@@ -64,7 +64,7 @@
         masked: no
         state: started
 
-    - name: Restart the service if config changed
+    - name: Restart the service if config changed # noqa no-handler
       ansible.builtin.systemd:
         name: mergerfs
         enabled: yes
@@ -76,7 +76,7 @@
 - name: Stop Mergerfs
   block:
     - name: Stop Mergerfs
-      systemd:
+      ansible.builtin.systemd:
         name: mergerfs
         enabled: false
         masked: true

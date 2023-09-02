@@ -10,7 +10,6 @@
 
     - name: Mealie Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ mealie_container_name }}"
         image: "{{ mealie_image_name }}:{{ mealie_image_version }}"
         pull: true

@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Ansible-NAS
+  hosts: all
 
   roles:
     ###
@@ -48,6 +49,10 @@
     ###
     ### Applications
     ###
+    - role: admidio
+      tags:
+        - admidio
+
     - role: airsonic
       tags:
         - airsonic
@@ -71,6 +76,10 @@
     - role: beets
       tags:
         - beets
+
+    - role: blaze
+      tags:
+        - blaze
 
     - role: booksonic
       tags:
@@ -131,6 +140,10 @@
     - role: duplicati
       tags:
         - duplicati
+
+    - role: dufs
+      tags:
+        - dufs
 
     - role: emby
       tags:
@@ -236,9 +249,17 @@
       tags:
         - huntly
 
+    - role: icbinv
+      tags:
+        - icbinv
+
     - role: immich
       tags:
         - immich
+
+    - role: invidious
+      tags:
+        - invidious
 
     - role: jackett
       tags:
@@ -272,6 +293,10 @@
       tags:
         - lazylibrarian
 
+    - role: leantime
+      tags:
+        - leantime
+
     - role: libreddit
       tags:
         - libreddit
@@ -287,6 +312,10 @@
     - role: lidarr
       tags:
         - lidarr
+
+    - role: linkding
+      tags:
+        - linkding
 
     - role: listmonk
       tags:
@@ -328,6 +357,10 @@
       tags:
         - miniflux
 
+    - role: miniserve
+      tags:
+        - miniserve
+
     - role: mosquitto
       tags:
         - mosquitto
@@ -335,6 +368,10 @@
     - role: moviematch
       tags:
         - moviematch
+
+    - role: mumble
+      tags:
+        - mumble
 
     - role: mylar
       tags:
@@ -391,6 +428,10 @@
     - role: octoprint
       tags:
         - octoprint
+
+    - role: olivetin
+      tags:
+        - olivetin
 
     - role: ombi
       tags:

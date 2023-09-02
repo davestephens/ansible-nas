@@ -1,0 +1,15 @@
+---
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp
+    privileged: true
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        olivetin_enabled: true
+        olivetin_data_directory: /tmp/olivetin

@@ -1,0 +1,34 @@
+---
+blaze_enabled: false
+blaze_available_externally: false
+
+# directories
+blaze_data_directory: "{{ docker_home }}/blaze"
+
+# network
+blaze_client_port: "8119"
+blaze_hostname: "blaze"
+blaze_network_name: "blaze"
+
+# specs
+blaze_server_memory: 1g
+blaze_client_memory: 1g
+
+# docker
+blaze_server_container_name: blaze-server
+blaze_server_image_name: "akashhamirwasia/blaze-server"
+blaze_server_image_version: latest
+blaze_client_container_name: blaze-client
+blaze_client_image_name: "akashhamirwasia/blaze-client"
+blaze_client_image_version: latest
+blaze_user_id: "1000"
+blaze_group_id: "1000"
+
+# blaze
+blaze_trust_proxy: "1"
+blaze_cors_origin: "\"*\""
+blaze_ws_size_limit: "100000000"
+blaze_disable_sse_events: "false"
+blaze_ws_host: "ws://{{ blaze_server_container_name }}:3030"
+blaze_server_host: "http://{{ blaze_server_container_name }}:3030"
+blaze_torrent_size_limit: "700000000"

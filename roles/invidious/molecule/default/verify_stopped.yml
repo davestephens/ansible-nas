@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove invidious postgres
+      community.docker.docker_container:
+        name: "{{ invidious_postgres_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove invidious
+      community.docker.docker_container:
+        name: "{{ invidious_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if invidious is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result.changed

@@ -18,7 +18,6 @@
 
     - name: Create Mosquitto container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ mosquitto_container_name }}"
         image: "{{ mosquitto_image_name }}:{{ mosquitto_image_version }}"
         pull: true

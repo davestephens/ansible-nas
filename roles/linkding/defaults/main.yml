@@ -1,0 +1,62 @@
+---
+linkding_enabled: false
+linkding_available_externally: false
+
+# directories
+linkding_data_directory: "{{ docker_home }}/linkding"
+
+# network
+linkding_port: "9094"
+linkding_hostname: "linkding"
+
+# specs
+linkding_memory: 1g
+
+# docker
+linkding_container_name: linkding
+linkding_image_name: "sissbruecker/linkding"
+linkding_image_version: latest
+linkding_user_id: "1000"
+linkding_group_id: "1000"
+
+# linkding
+# Can be used to run linkding under a context path, for example: linkding/
+# Must end with a slash `/`
+linkding_context_path: ""
+# Username of the initial superuser to create, leave empty to not create one
+linkding_superuser_name: "superuser"
+# Password for the initial superuser, leave empty to disable credentials authentication and rely on proxy authentication instead
+linkding_superuser_password: "supersecure"
+# Option to disable background tasks
+linkding_disable_background_tasks: "false"
+# Option to disable URL validation for bookmarks completely
+linkding_disable_url_validation: "false"
+# Enables support for authentication proxies such as Authelia
+linkding_enable_auth_proxy: ""
+# Name of the request header that the auth proxy passes to the application to identify the user
+# See docs/Options.md for more details
+linkding_auth_proxy_username_header: ""
+# The URL that linkding should redirect to after a logout, when using an auth proxy
+# See docs/Options.md for more details
+linkding_auth_proxy_logout_url: ""
+# List of trusted origins from which to accept POST requests
+# See docs/Options.md for more details
+linkding_csrf_trusted_origins: ""
+
+# Database settings
+# These are currently only required for configuring PostreSQL.
+# By default, linkding uses SQLite for which you don't need to configure anything.
+
+# Database engine, can be sqlite (default) or postgres
+linkding_db_engine: "sqlite"
+# Database name (default: linkding)
+linkding_db_database: "linkding"
+# Username to connect to the database server  (default: linkding)
+linkding_db_user: "linkding"
+# Password to connect to the database server
+linkding_db_password: "linkding"
+# The hostname where the database is hosted (default: localhost)
+linkding_db_host: ""
+# Port use to connect to the database server
+# Should use the default port if not set
+linkding_db_port: ""

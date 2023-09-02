@@ -19,8 +19,15 @@
         state: absent
       register: result_mysql
 
+    - name: Try and stop and remove Firefly Importer
+      community.docker.docker_container:
+        name: "{{ firefly_importer_container_name }}"
+        state: absent
+      register: result_importer
+
     - name: Check Firefly is stopped
       ansible.builtin.assert:
         that:
           - not result.changed
           - not result_mysql.changed
+          - not result_importer.changed

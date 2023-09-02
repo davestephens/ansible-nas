@@ -11,7 +11,7 @@ calibre_data_directory: "{{ docker_home }}/calibre"
 calibre_books_root: "{{ books_root }}"
 
 # other
-calibre_ebook_conversion: "linuxserver/calibre-web:calibre"
+calibre_ebook_conversion: "linuxserver/mods:universal-calibre"
 
 # network
 calibre_port: "8084"

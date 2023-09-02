@@ -17,7 +17,6 @@
 
     - name: The Lounge Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ thelounge_container_name }}"
         image: "{{ thelounge_image_name }}:{{ thelounge_image_version }}"
         pull: true

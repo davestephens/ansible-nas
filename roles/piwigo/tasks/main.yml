@@ -16,7 +16,6 @@
 
     - name: Create MySQL container for Piwigo
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ piwigo_db_container_name }}"
         image: "{{ piwigo_db_image_name }}:{{ piwigo_db_image_version }}"
         pull: true
@@ -35,7 +34,6 @@
 
     - name: Piwigo Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ piwigo_container_name }}"
         image: "{{ piwigo_image_name }}:{{ piwigo_image_version }}"
         pull: true

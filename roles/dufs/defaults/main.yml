@@ -1,0 +1,23 @@
+---
+dufs_enabled: false
+dufs_available_externally: false
+
+# directories
+dufs_data_directory: "{{ docker_home }}/dufs"
+
+# network
+dufs_port: "8118"
+dufs_hostname: "dufs"
+
+# specs
+dufs_memory: 1g
+
+# docker
+dufs_container_name: dufs
+dufs_image_name: "sigoden/dufs"
+dufs_image_version: latest
+dufs_user_id: "1000"
+dufs_group_id: "1000"
+
+# dufs
+dufs_options: "-A"

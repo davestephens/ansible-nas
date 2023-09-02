@@ -3,13 +3,13 @@
   block:
     # The gitlab uid/gid matches 'git:git' in the Gitlab Docker image.
     - name: Create Gitlab group account
-      group:
+      ansible.builtin.group:
         name: gitlab
         gid: 998
         state: present
 
     - name: Create Gitlab user account
-      user:
+      ansible.builtin.user:
         name: gitlab
         uid: 998
         state: present
@@ -19,7 +19,7 @@
         group: gitlab
 
     - name: Create Gitlab Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: gitlab
@@ -31,7 +31,6 @@
 
     - name: Create Gitlab Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ gitlab_container_name }}"
         image: "{{ gitlab_image_name }}:{{ gitlab_image_version }}"
         pull: true

@@ -15,7 +15,6 @@
 
     - name: Nextcloud Mysql Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ nextcloud_db_container_name }}"
         image: "{{ nextcloud_db_image_name }}:{{ nextcloud_db_image_version }}"
         networks:
@@ -34,7 +33,6 @@
 
     - name: Nextcloud Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ nextcloud_container_name }}"
         image: "{{ nextcloud_image_name }}:{{ nextcloud_image_version }}"
         networks:

@@ -1,0 +1,89 @@
+---
+- name: Start Linkding
+  block:
+    - name: Create Linkding Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ linkding_data_directory }}"
+
+    - name: Create Linkding Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ linkding_container_name }}"
+        image: "{{ linkding_image_name }}:{{ linkding_image_version }}"
+        pull: true
+        volumes:
+          - "{{ linkding_data_directory }}/data:/etc/linkding/data"
+        ports:
+          - "{{ linkding_port }}:9090"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ linkding_user_id | quote }}"
+          PGID: "{{ linkding_group_id | quote }}"
+          # Docker container name
+          LD_CONTAINER_NAME: "{{ linkding_container_name }}"
+          # Port on the host system that the application should be published on
+          LD_HOST_PORT: "{{ linkding_port }}"
+          # Directory on the host system that should be mounted as data dir into the Docker container
+          LD_HOST_DATA_DIR: "{{ linkding_data_directory }}/data"
+
+          # Can be used to run linkding under a context path, for example: linkding/
+          # Must end with a slash `/`
+          LD_CONTEXT_PATH: "{{ linkding_context_path }}"
+          # Username of the initial superuser to create, leave empty to not create one
+          LD_SUPERUSER_NAME: "{{ linkding_superuser_name }}"
+          # Password for the initial superuser, leave empty to disable credentials authentication and rely on proxy authentication instead
+          LD_SUPERUSER_PASSWORD: "{{ linkding_superuser_password }}"
+          # Option to disable background tasks
+          LD_DISABLE_BACKGROUND_TASKS: "{{ linkding_disable_background_tasks }}"
+          # Option to disable URL validation for bookmarks completely
+          LD_DISABLE_URL_VALIDATION: "{{ linkding_disable_url_validation }}"
+          # Enables support for authentication proxies such as Authelia
+          LD_ENABLE_AUTH_PROXY: "{{ linkding_enable_auth_proxy }}"
+          # Name of the request header that the auth proxy passes to the application to identify the user
+          # See docs/Options.md for more details
+          LD_AUTH_PROXY_USERNAME_HEADER: "{{ linkding_auth_proxy_username_header }}"
+          # The URL that linkding should redirect to after a logout, when using an auth proxy
+          # See docs/Options.md for more details
+          LD_AUTH_PROXY_LOGOUT_URL: "{{ linkding_auth_proxy_logout_url }}"
+          # List of trusted origins from which to accept POST requests
+          # See docs/Options.md for more details
+          LD_CSRF_TRUSTED_ORIGINS: "{{ linkding_csrf_trusted_origins }}"
+
+          # Database settings
+          # These are currently only required for configuring PostreSQL.
+          # By default, linkding uses SQLite for which you don't need to configure anything.
+
+          # Database engine, can be sqlite (default) or postgres
+          LD_DB_ENGINE: "{{ linkding_db_engine }}"
+          # Database name (default: linkding)
+          LD_DB_DATABASE: "{{ linkding_db_database }}"
+          # Username to connect to the database server  (default: linkding)
+          LD_DB_USER: "{{ linkding_db_user }}"
+          # Password to connect to the database server
+          LD_DB_PASSWORD: "{{ linkding_db_password }}"
+          # The hostname where the database is hosted (default: localhost)
+          LD_DB_HOST: "{{ linkding_db_host }}"
+          # Port use to connect to the database server
+          # Should use the default port if not set
+          LD_DB_PORT: "{{ linkding_db_port }}"
+        restart_policy: unless-stopped
+        memory: "{{ linkding_memory }}"
+        labels:
+          traefik.enable: "{{ linkding_available_externally | string }}"
+          traefik.http.routers.linkding.rule: "Host(`{{ linkding_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.linkding.tls.certresolver: "letsencrypt"
+          traefik.http.routers.linkding.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.linkding.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.linkding.loadbalancer.server.port: "9090"
+  when: linkding_enabled is true
+
+- name: Stop Linkding
+  block:
+    - name: Stop Linkding
+      community.docker.docker_container:
+        name: "{{ linkding_container_name }}"
+        state: absent
+  when: linkding_enabled is false

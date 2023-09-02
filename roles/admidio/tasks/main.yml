@@ -1,0 +1,93 @@
+---
+- name: Start Admidio
+  block:
+    - name: Create Admidio Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "www-data"
+        group: "root"
+      with_items:
+        - "{{ admidio_data_directory }}"
+        - "{{ admidio_data_directory }}/data"
+        - "{{ admidio_data_directory }}/data/files"
+        - "{{ admidio_data_directory }}/data/themes"
+        - "{{ admidio_data_directory }}/data/plugins"
+
+    - name: Create Admidio network
+      community.docker.docker_network:
+        name: "{{ admidio_network_name }}"
+
+    - name: Create Admidio database container
+      community.docker.docker_container:
+        name: "{{ admidio_mysql_container_name }}"
+        image: "{{ admidio_mysql_image_name }}:{{ admidio_mysql_image_version }}"
+        networks:
+          - name: "{{ admidio_network_name }}"
+        network_mode: "{{ admidio_network_name }}"
+        pull: true
+        volumes:
+          - "{{ admidio_data_directory }}/mariadb_confd:/etc/mysql/conf.d"
+          - "{{ admidio_data_directory }}/mariadb:/var/lib/mysql:rw"
+        env:
+          MYSQL_DATABASE: "{{ admidio_mysql_database }}"
+          MYSQL_USER: "{{ admidio_mysql_user }}"
+          MYSQL_PASSWORD: "{{ admidio_mysql_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ admidio_mysql_root_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ admidio_mysql_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Admidio Docker Container
+      community.docker.docker_container:
+        name: "{{ admidio_container_name }}"
+        image: "{{ admidio_image_name }}:{{ admidio_image_version }}"
+        networks:
+          - name: "{{ admidio_network_name }}"
+        network_mode: "{{ admidio_network_name }}"
+        pull: true
+        volumes:
+          - "{{ admidio_data_directory }}/data/files:/opt/app-root/src/adm_my_files"
+          - "{{ admidio_data_directory }}/data/themes:/opt/app-root/src/adm_themes"
+          - "{{ admidio_data_directory }}/data/plugins:/opt/app-root/src/adm_plugins"
+        ports:
+          - "{{ admidio_port }}:8080"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ admidio_user_id | quote }}"
+          PGID: "{{ admidio_group_id | quote }}"
+          ADMIDIO_DB_TYPE: "{{ admidio_db_type }}"
+          ADMIDIO_DB_HOST: "{{ admidio_mysql_container_name }}:{{ admidio_db_port }}"
+          ADMIDIO_DB_NAME: "{{ admidio_mysql_database }}"
+          ADMIDIO_DB_TABLE_PRAEFIX: "adm"
+          ADMIDIO_DB_USER: "{{ admidio_mysql_user }}"
+          ADMIDIO_DB_PASSWORD: "{{ admidio_mysql_password }}"
+          ADMIDIO_MAIL_RELAYHOST: "{{ admidio_mail_relayhost }}"
+          ADMIDIO_LOGIN_FOR_UPDATE: "{{ admidio_login_for_update }}"
+          ADMIDIO_ORGANISATION: "{{ admidio_organisation }}"
+          ADMIDIO_PASSWORD_HASH_ALGORITHM: "{{ admidio_password_hash_algorithm }}"
+          ADMIDIO_ROOT_PATH: "{{ admidio_root_path }}"
+        restart_policy: unless-stopped
+        memory: "{{ admidio_memory }}"
+        labels:
+          traefik.enable: "{{ admidio_available_externally | string }}"
+          traefik.http.routers.admidio.rule: "Host(`{{ admidio_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.admidio.tls.certresolver: "letsencrypt"
+          traefik.http.routers.admidio.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.admidio.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.admidio.loadbalancer.server.port: "8080"
+  when: admidio_enabled is true
+
+- name: Stop Admidio
+  block:
+    - name: Stop Admidio
+      community.docker.docker_container:
+        name: "{{ admidio_container_name }}"
+        state: absent
+
+    - name: Stop Admidio DB
+      community.docker.docker_container:
+        name: "{{ admidio_mysql_container_name }}"
+        state: absent
+  when: admidio_enabled is false

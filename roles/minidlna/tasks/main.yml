@@ -3,7 +3,6 @@
   block:
     - name: MiniDLNA Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ minidlna_container_name }}"
         image: "{{ minidlna_image_name }}:{{ minidlna_image_version }}"
         pull: true

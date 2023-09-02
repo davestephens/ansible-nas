@@ -8,7 +8,6 @@
 
     - name: Create Tiddlywiki Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ tiddlywiki_container_name }}"
         image: "{{ tiddlywiki_image_name }}:{{ tiddlywiki_image_version }}"
         ports:

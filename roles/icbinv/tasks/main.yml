@@ -1,0 +1,53 @@
+---
+- name: Start Icbinv
+  block:
+    - name: Create Icbinv Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ icbinv_user_id }}"
+        group: "{{ icbinv_group_id }}"
+      with_items:
+        - "{{ icbinv_data_directory }}"
+        - "{{ icbinv_data_directory }}/config"
+
+    - name: Template Icbinv config.json
+      ansible.builtin.template:
+        src: config.json.j2
+        dest: "{{ icbinv_data_directory }}/config/config.json"
+        owner: "{{ icbinv_user_id }}"
+        group: "{{ icbinv_group_id }}"
+        mode: "664"
+
+    - name: Create Icbinv Docker Container
+      community.docker.docker_container:
+        name: "{{ icbinv_container_name }}"
+        image: "{{ icbinv_docker_image }}:{{ icbinv_docker_image_version }}"
+        pull: true
+        tty: true
+        volumes:
+          - "{{ icbinv_data_directory }}/config/config.json:/app/config.json"
+        ports:
+          - "{{ icbinv_port }}:3000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ icbinv_user_id }}"
+          PGID: "{{ icbinv_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ icbinv_memory }}"
+        labels:
+          traefik.enable: "{{ icbinv_available_externally | string }}"
+          traefik.http.routers.icbinv.rule: "Host(`{{ icbinv_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.icbinv.tls.certresolver: "letsencrypt"
+          traefik.http.routers.icbinv.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.icbinv.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.icbinv.loadbalancer.server.port: "3000"
+  when: icbinv_enabled is true
+
+- name: Stop Icbinv
+  block:
+    - name: Stop icbinv
+      community.docker.docker_container:
+        name: "{{ icbinv_container_name }}"
+        state: absent
+  when: icbinv_enabled is false

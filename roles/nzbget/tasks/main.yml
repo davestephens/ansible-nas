@@ -10,7 +10,6 @@
 
     - name: NZBGet
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ nzbget_container_name }}"
         image: "{{ nzbget_image_name }}:{{ nzbget_image_version }}"
         pull: true

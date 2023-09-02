@@ -3,7 +3,6 @@
   block:
     - name: Create Glances Docker Container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ glances_container_name }}"
         image: "{{ glances_image_name }}:{{ glances_image_version }}"
         pull: true

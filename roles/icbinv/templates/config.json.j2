@@ -1,0 +1,30 @@
+{
+  "mapSettings": {
+    "drawPath": {{ icbinv_draw_path }},
+    "drawCharger": {{ icbinv_draw_charger }},
+    "drawRobot": {{ icbinv_draw_robot }},
+    "scale": {{ icbinv_scale }},
+    "rotate": {{ icbinv_rotate }},
+    "colors": {
+      "floor": "{{ icbinv_colors_floor }}",
+      "obstacle": "{{ icbinv_colors_obstacle }}",
+      "path": "{{ icbinv_colors_path }}"
+    }
+  },
+  "mqtt": {
+    "identifier": "{{ icbinv_mqtt_identifier }}",
+    "topicPrefix": "{{ icbinv_mqtt_topic_prefix }}",
+    "autoconfPrefix": "{{ icbinv_mqtt_autoconf_prefix }}",
+    "broker_url": "{{ icbinv_mqtt_broker_url }}",
+    "caPath": "",
+    "mapDataTopic": "{{ icbinv_mqtt_map_data_topic }}",
+    "minMillisecondsBetweenMapUpdates": {{ icbinv_mqtt_min_milliseconds_between_map_updates }},
+    "publishMapImage": {{ icbinv_mqtt_publish_map_image }},
+    "publishAsBase64" : {{ icbinv_mqtt_publish_as_base64 }}
+  },
+  "webserver": {
+    "enabled": {{ icbinv_webserver_enabled }},
+    "port": {{ icbinv_webserver_port }}
+  },
+  "logLevel": "{{ icbinv_log_level }}"
+}

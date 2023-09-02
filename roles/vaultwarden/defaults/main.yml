@@ -17,7 +17,11 @@ vaultwarden_backup_memory: 1g
 
 # docker
 vaultwarden_container_name: vaultwarden
+vaultwarden_image_name: "docker.io/vaultwarden/server"
+vaultwarden_image_tag: "latest"
 vaultwarden_backup_container_name: vaultwarden-backup
+vaultwarden_backup_image_name: "docker.io/bruceforce/vaultwarden-backup"
+vaultwarden_backup_image_tag: "latest"
 
 # Keep this token secret, this is password to access admin area of your server!
 # This token can be anything, but it's recommended to use a long, randomly generated string of characters,

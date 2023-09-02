@@ -10,7 +10,6 @@
 
     - name: Create Organizr container
       community.docker.docker_container:
-        container_default_behavior: no_defaults
         name: "{{ organizr_container_name }}"
         image: "{{ organizr_image_name }}:{{ organizr_image_version }}"
         pull: true

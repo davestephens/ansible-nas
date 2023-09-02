@@ -15,18 +15,18 @@
         - "{{ netbox_data_directory }}/initializers"
 
     - name: Create ansible-nas group
-      group:
+      ansible.builtin.group:
         name: ansible-nas
         state: present
 
     # for backup script
     - name: Create docker group
-      group:
+      ansible.builtin.group:
         name: docker
         state: present
 
     - name: Ensure user ansible-nas exists and is in group docker
-      user:
+      ansible.builtin.user:
         name: ansible-nas
         state: present
         system: yes
@@ -123,9 +123,9 @@
           - "{{ netbox_data_directory }}/startup_scripts:/opt/netbox/startup_scripts:z,ro"
           - "{{ netbox_data_directory }}/initializers:/opt/netbox/initializers:z,ro"
           # - configuration:/etc/netbox/config:z,ro
-          - "{{ netbox_data_directory }}/reports:/etc/netbox/reports"
-          - "{{ netbox_data_directory }}/scripts:/etc/netbox/scripts"
-          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z"
+          - "{{ netbox_data_directory }}/reports:/opt/netbox/netbox/reports:z,rw"
+          - "{{ netbox_data_directory }}/scripts:/opt/netbox/netbox/scripts:z,rw"
+          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z,rw"
         networks:
           - name: "{{ netbox_network_name }}"
         ports:
@@ -155,9 +155,6 @@
           MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
           MEDIA_ROOT: "{{ netbox_media_root }}"
           METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
-          NAPALM_PASSWORD: "{{ netbox_napalm_password }}"
-          NAPALM_TIMEOUT: "{{ netbox_napalm_timeout }}"
-          NAPALM_USERNAME: "{{ netbox_napalm_username }}"
           REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
           REDIS_CACHE_HOST: "{{ netbox_redis_cache_host }}"
           REDIS_CACHE_PASSWORD: "{{ netbox_redis_cache_password }}"
@@ -180,9 +177,9 @@
         labels:
           traefik.enable: "{{ netbox_available_externally | string }}"
           traefik.http.routers.netbox.rule: "Host(`{{ netbox_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.netbox.tls.certresolver: "letsencrypt"
-          traefik.http.routers.netbox.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.netbox.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          # traefik.http.routers.netbox.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.netbox.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.netbox.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.netbox.loadbalancer.server.port: "8080"
         restart_policy: unless-stopped
         memory: "{{ netbox_memory }}"
@@ -201,9 +198,9 @@
           - "{{ netbox_data_directory }}/startup_scripts:/opt/netbox/startup_scripts:z,ro"
           - "{{ netbox_data_directory }}/initializers:/opt/netbox/initializers:z,ro"
           # - configuration:/etc/netbox/config:z,ro
-          - "{{ netbox_data_directory }}/reports:/etc/netbox/reports"
-          - "{{ netbox_data_directory }}/scripts:/etc/netbox/scripts"
-          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z"
+          - "{{ netbox_data_directory }}/reports:/opt/netbox/netbox/reports:z,rw"
+          - "{{ netbox_data_directory }}/scripts:/opt/netbox/netbox/scripts:z,rw"
+          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z,rw"
         networks:
           - name: "{{ netbox_network_name }}"
         user: 'unit:root'
@@ -232,9 +229,6 @@
           MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
           MEDIA_ROOT: "{{ netbox_media_root }}"
           METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
-          NAPALM_PASSWORD: "{{ netbox_napalm_password }}"
-          NAPALM_TIMEOUT: "{{ netbox_napalm_timeout }}"
-          NAPALM_USERNAME: "{{ netbox_napalm_username }}"
           REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
           REDIS_CACHE_HOST: "{{ netbox_redis_cache_host }}"
           REDIS_CACHE_PASSWORD: "{{ netbox_redis_cache_password }}"
@@ -285,9 +279,9 @@
           - "{{ netbox_data_directory }}/startup_scripts:/opt/netbox/startup_scripts:z,ro"
           - "{{ netbox_data_directory }}/initializers:/opt/netbox/initializers:z,ro"
           # - configuration:/etc/netbox/config:z,ro
-          - "{{ netbox_data_directory }}/reports:/etc/netbox/reports"
-          - "{{ netbox_data_directory }}/scripts:/etc/netbox/scripts"
-          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z"
+          - "{{ netbox_data_directory }}/reports:/opt/netbox/netbox/reports:z,rw"
+          - "{{ netbox_data_directory }}/scripts:/opt/netbox/netbox/scripts:z,rw"
+          - "{{ netbox_data_directory }}/netbox-media-files:/opt/netbox/netbox/media:z,rw"
         networks:
           - name: "{{ netbox_network_name }}"
         user: 'unit:root'
@@ -318,9 +312,6 @@
           MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
           MEDIA_ROOT: "{{ netbox_media_root }}"
           METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
-          NAPALM_PASSWORD: "{{ netbox_napalm_password }}"
-          NAPALM_TIMEOUT: "{{ netbox_napalm_timeout }}"
-          NAPALM_USERNAME: "{{ netbox_napalm_username }}"
           REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
           REDIS_CACHE_HOST: "{{ netbox_redis_cache_host }}"
           REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY: "{{ netbox_redis_cache_insecure_skip_tls_verify }}"
