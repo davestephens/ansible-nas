@@ -1,0 +1,7 @@
+{
+  "label": "Observability",
+  "link": {
+    "type": "generated-index",
+    "description": "All of the observability tooling available for installation with Ansible-NAS."
+  }
+}

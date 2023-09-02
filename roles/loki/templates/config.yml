@@ -1,0 +1,43 @@
+---
+server:
+  http_listen_port: {{ loki_http_port }}
+  log_level: {{ loki_log_level }}
+
+memberlist:
+
+schema_config:
+  configs:
+    - from: 2021-08-01
+      store: boltdb-shipper
+      object_store: s3
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+
+common:
+  path_prefix: /loki
+  replication_factor: 1
+  storage:
+    s3:
+      endpoint: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ minio_api_port }}"
+      insecure: true
+      bucketnames: loki-data
+      access_key_id: "{{ minio_admin_username }}"
+      secret_access_key: "{{ minio_admin_password }}"
+      s3forcepathstyle: true
+  ring:
+    kvstore:
+      store: memberlist
+
+ruler:
+  storage:
+    s3:
+      bucketnames: loki-ruler
+
+chunk_store_config:
+  max_look_back_period: {{ loki_log_retention }}
+
+table_manager:
+  retention_deletes_enabled: true
+  retention_period: {{ loki_log_retention }}
