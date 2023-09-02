@@ -47,6 +47,7 @@ stats_promtail_memory: 1g
 stats_prometheus_retention_time: 365d
 stats_prometheus_retention_size: 30GB
 stats_collection_interval: 15s
+stats_speedtest_collection_interval: 1h
 
 # influxdb
 stats_influxdb_init_mode: "setup"

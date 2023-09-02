@@ -25,7 +25,7 @@
           traefik.http.routers.hello_world.tls.certresolver: "letsencrypt"
           traefik.http.routers.hello_world.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.hello_world.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.hello_world.loadbalancer.server.port: "4040"
+          traefik.http.services.hello_world.loadbalancer.server.port: "8000"
   when: hello_world_enabled is true
 
 - name: Stop Hello World

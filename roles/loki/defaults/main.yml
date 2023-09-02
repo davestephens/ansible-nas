@@ -1,0 +1,24 @@
+---
+# enable or disable the application
+loki_enabled: false
+loki_available_externally: false
+
+# directories
+loki_data_directory: "{{ docker_home }}/loki"
+
+# network
+loki_hostname: "loki"
+loki_network_name: "loki"
+loki_http_port: "3100"
+
+# docker
+loki_container_name: "loki"
+loki_image_name: "grafana/loki"
+loki_image_version: "latest"
+
+# specs
+loki_memory: "1g"
+
+# config
+loki_log_retention: 672h
+loki_log_level: warn

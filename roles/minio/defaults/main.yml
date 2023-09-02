@@ -1,0 +1,25 @@
+---
+# enable or disable the application
+minio_enabled: false
+minio_available_externally: false
+
+# directories
+minio_data_directory: "{{ docker_home }}/minio"
+
+# env
+minio_admin_username: admin
+minio_admin_password: supersecure
+
+# network
+minio_hostname: "minio"
+minio_network_name: "minio"
+minio_api_port: "9000"
+minio_console_port: "9009"
+
+# docker
+minio_container_name: "minio"
+minio_image_name: "minio/minio"
+minio_image_version: "latest"
+
+# specs
+minio_memory: "1g"

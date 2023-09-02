@@ -2,7 +2,7 @@
     "recommendations": [
         "redhat.ansible",
         "redhat.vscode-yaml",
-        "ybaumes.highlight-trailing-white-spaces",
-        "bungcip.better-toml"
+        "tamasfe.even-better-toml",
+        "ybaumes.highlight-trailing-white-spaces"
     ]
 }

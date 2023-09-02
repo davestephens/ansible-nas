@@ -1,0 +1,54 @@
+---
+- name: Start DDNS Updater
+  block:
+    - name: Create DDNS Updater Directories
+      ansible.builtin.file:
+        path: "{{ ddns_updater_data_directory }}"
+        state: directory
+
+    - name: Check config is defined
+      ansible.builtin.fail:
+        msg: "Please configure DDNS Updater by setting ddns_updater_config in your inventory nas.yml."
+      when: ddns_updater_config is not defined
+
+    - name: Generate config.json
+      ansible.builtin.copy:
+        content: "{{ ddns_updater_config | to_nice_json }}"
+        dest: "{{ ddns_updater_data_directory }}/config.json"
+      register: ddns_updater_config
+
+    - name: DDNS Updater Container
+      community.docker.docker_container:
+        name: "{{ ddns_updater_container_name }}"
+        image: qmcgaw/ddns-updater:latest
+        pull: true
+        ports:
+          - "{{ ddns_updater_port }}:8000"
+        volumes:
+          - "{{ ddns_updater_data_directory }}:/updater/data:rw"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          GOTIFY_TOKEN: "{{ ddns_updater_gotify_token | default('') }}"
+          GOTIFY_URL: "{{ gotify_url | default('') }}"
+          PERIOD: "{{ ddns_updater_period }}"
+          UPDATE_COOLDOWN_PERIOD: "{{ ddns_updater_cooldown_period }}"
+          HTTP_TIMEOUT: "{{ ddns_updater_http_timeout }}"
+        restart_policy: unless-stopped
+        restart: "{{ ddns_updater_config is changed }}"
+        memory: "{{ ddns_updater_memory }}"
+        labels:
+          traefik.enable: "{{ ddns_updater_available_externally }}"
+          traefik.http.routers.airsonic.rule: "Host(`{{ ddns_updater_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.airsonic.tls.certresolver: "letsencrypt"
+          traefik.http.routers.airsonic.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.airsonic.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.airsonic.loadbalancer.server.port: "8000"
+  when: ddns_updater_enabled is true
+
+- name: Stop DDNS Updater
+  block:
+    - name: Stop DDNS Updater
+      community.docker.docker_container:
+        name: "{{ ddns_updater_container_name }}"
+        state: absent
+  when: ddns_updater_enabled is false

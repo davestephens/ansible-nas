@@ -1,0 +1,23 @@
+---
+# enable or disable the application
+promtail_enabled: false
+promtail_available_externally: false
+
+# directories
+promtail_data_directory: "{{ docker_home }}/promtail"
+
+# network
+promtail_hostname: "promtail"
+promtail_network_name: "promtail"
+promtail_port: "9080"
+
+# docker
+promtail_container_name: "promtail"
+promtail_image_name: "grafana/promtail"
+promtail_image_version: "latest"
+
+# specs
+promtail_memory: "1g"
+
+# config
+promtail_loki_url: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ loki_http_port }}/loki/api/v1/push
