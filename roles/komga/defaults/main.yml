@@ -14,7 +14,7 @@ komga_group_id: "1000"
 
 # network
 komga_hostname: "komga"
-komga_port_http: "8088"
+komga_port_http: "25600"
 
 # docker
 komga_container_name: "komga"
