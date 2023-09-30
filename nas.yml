@@ -122,6 +122,10 @@
       tags:
         - code-server
 
+    - role: commafeed
+      tags:
+        - commafeed
+
     - role: couchpotato
       tags:
         - couchpotato

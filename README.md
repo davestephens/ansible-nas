@@ -31,6 +31,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Chatpad](https://chatpad.ai/) - Not just another ChatGPT user-interface!
 * [Claper](https://claper.co/) - The ultimate tool to interact with your audience
 * [Code Server](https://code.visualstudio.com/) - Powerful IDE from Microsoft accessible through the browser
+* [CommaFeed](https://www.commafeed.com/) - Google Reader inspired self-hosted RSS reader
 * [Cloud Commander](https://cloudcmd.io/) - A dual panel file manager with integrated web console and text editor
 * [Cloudflare DDNS](https://hub.docker.com/r/joshuaavalon/cloudflare-ddns/) - automatically update Cloudflare with your IP address
 * [CouchPotato](https://couchpota.to/) - for downloading and managing movies

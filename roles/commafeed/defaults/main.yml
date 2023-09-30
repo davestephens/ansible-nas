@@ -1,0 +1,32 @@
+---
+commafeed_enabled: false
+commafeed_available_externally: false
+
+# directories
+commafeed_data_directory: "{{ docker_home }}/commafeed"
+
+# network
+commafeed_port: "8122"
+commafeed_hostname: "commafeed"
+commafeed_network_name: "commafeed"
+
+# specs
+commafeed_memory: 1g
+commafeed_postgres_memory: 1g
+
+# docker
+commafeed_container_name: commafeed
+commafeed_postgres_container_name: commafeed-db
+commafeed_image_name: "athou/commafeed"
+commafeed_postgres_image_name: "docker.io/library/postgres"
+commafeed_image_version: latest
+commafeed_postgres_image_version: "13"
+commafeed_user_id: "1000"
+commafeed_group_id: "1000"
+
+# commafeed
+commafeed_db_name: "commafeed"
+commafeed_db_driverclass: "org.postgresql.Driver"
+commafeed_db_url: "jdbc:postgresql://{{ commafeed_postgres_container_name }}:5432/commafeed"
+commafeed_db_user: "commafeed"
+commafeed_db_password: "commafeed"

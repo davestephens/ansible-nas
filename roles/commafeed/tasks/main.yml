@@ -1,0 +1,84 @@
+---
+- name: Start CommaFeed
+  block:
+    - name: Create CommaFeed Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ commafeed_data_directory }}"
+
+    - name: Create CommaFeed network
+      community.docker.docker_network:
+        name: "{{ commafeed_network_name }}"
+
+    - name: Create CommaFeed Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ commafeed_postgres_container_name }}"
+        image: "{{ commafeed_postgres_image_name }}:{{ commafeed_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ commafeed_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ commafeed_network_name }}"
+        network_mode: "{{ commafeed_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ commafeed_db_password }}"
+          POSTGRES_USER: "{{ commafeed_db_user }}"
+          POSTGRES_DB: "{{ commafeed_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ commafeed_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ commafeed_db_name }} -U {{ commafeed_db_user }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Create CommaFeed Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ commafeed_container_name }}"
+        image: "{{ commafeed_image_name }}:{{ commafeed_image_version }}"
+        pull: true
+        volumes:
+          - "{{ commafeed_data_directory }}/data:/commafeed/data:rw"
+        networks:
+          - name: "{{ commafeed_network_name }}"
+        network_mode: "{{ commafeed_network_name }}"
+        ports:
+          - "{{ commafeed_port }}:8082"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ commafeed_user_id | quote }}"
+          PGID: "{{ commafeed_group_id | quote }}"
+          CF_DATABASE_DRIVERCLASS: "{{ commafeed_db_driverclass }}"
+          CF_DATABASE_URL: "{{ commafeed_db_url }}"
+          CF_DATABASE_USER: "{{ commafeed_db_user }}"
+          CF_DATABASE_PASSWORD: "{{ commafeed_db_password}}"
+        restart_policy: unless-stopped
+        memory: "{{ commafeed_memory }}"
+        labels:
+          traefik.enable: "{{ commafeed_available_externally | string }}"
+          traefik.http.routers.commafeed.rule: "Host(`{{ commafeed_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.commafeed.tls.certresolver: "letsencrypt"
+          traefik.http.routers.commafeed.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.commafeed.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.commafeed.loadbalancer.server.port: "8082"
+  when: commafeed_enabled is true
+
+- name: Stop CommaFeed
+  block:
+    - name: Stop CommaFeed
+      community.docker.docker_container:
+        name: "{{ commafeed_container_name }}"
+        state: absent
+    - name: Stop CommaFeed Db
+      community.docker.docker_container:
+        name: "{{ commafeed_postgres_container_name }}"
+        state: absent
+  when: commafeed_enabled is false
