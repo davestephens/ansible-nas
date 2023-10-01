@@ -1,0 +1,182 @@
+---
+ebusd_enabled: false
+ebusd_available_externally: false
+
+# directories
+ebusd_data_directory: "{{ docker_home }}/ebusd"
+
+# network
+ebusd_port: "8123"
+ebusd_hostname: "ebusd"
+
+# specs
+ebusd_memory: 1g
+
+# docker
+ebusd_container_name: ebusd
+ebusd_image_name: "john30/ebusd"
+ebusd_image_version: latest
+ebusd_user_id: "1000"
+ebusd_group_id: "1000"
+
+# ebusd
+ebusd_devices:
+# - /dev/ttyUSB0:/dev/ttyUSB0
+ebusd_device: "/dev/ttyUSB0"
+# ebusd_nodevicecheck: ""
+# Only read from device, never write to it
+ebusd_readonly: "" # "1"
+# Send an initial escape symbol after connecting device
+# ebusd_initsend: ""
+# Extra transfer latency in ms
+# ebusd_latency: "40"
+
+# Message configuration options:
+
+# Read CSV config files from PATH (local folder or HTTPS URL)
+# ebusd_configpath: "" # "/path/to/local/configs"
+# Pick CSV config files matching initial scan (ADDR="none" or empty for no initial scan message, "full" for full
+# scan, or a single hex address to scan, default is broadcast ident message).
+ebusd_scanconfig: ""
+# Prefer LANG in multilingual configuration files
+# ebusd_configlang: "en"
+# Poll for data every SEC seconds (0=disable)
+# ebusd_pollinterval: "10"
+# Use CA FILE for checking certificates (uses defaults, "#" for insecure)
+# ebusd_cafile: "#" # "/path/to/cafile"
+# Use CA PATH for checking certificates (uses defaults)
+# ebusd_capath: "#" # "/path/to/cafiles"
+
+# eBUS options:
+
+# Use ADDR as own bus address
+# ebusd_address: "" # "ff"
+# Actively answer to requests from other masters
+# ebusd_answer: ""
+# Stop bus acquisition after MSEC ms
+# ebusd_acquiretimeout: "10"
+# Retry bus acquisition COUNT times
+# ebusd_acquireretries: "3"
+# Repeat failed sends COUNT times
+# ebusd_sendretries: "2"
+# Expect a slave to answer within MSEC ms
+# ebusd_receivetimeout: "50"
+# Expect COUNT masters on the bus, 0 for auto detection
+# ebusd_numbermasters: "0"
+# Enable AUTO-SYN symbol generation
+# ebusd_generatesyn: ""
+
+# Daemon options:
+
+# Set default access level to LEVEL ("*" for everything)
+# ebusd_accesslevel: "*"
+# Read access control list from FILE
+# ebusd_aclfile: "" # "/path/to/aclfile"
+# Enable hex command
+# ebusd_enablehex: ""
+# Enable define command
+# ebusd_enabledefine: ""
+# PID file name (only for daemon)
+# ebusd_pidfile: "/var/run/ebusd.pid"
+# Listen for command line connections on PORT
+# ebusd_env_port: "8888"
+# Listen for command line connections on 127.0.0.1 interface only
+# ebusd_localhost: ""
+# Listen for HTTP connections on PORT, 0 to disable
+# ebusd_httpport: "8080"
+# Path for HTML files served by HTTP port
+# ebusd_htmlpath: "/var/ebusd/html"
+# Set automatic update check to MODE (on|off)
+# ebusd_updatecheck: "on"
+
+# Log options:
+
+# Write log to FILE (only for daemon, empty string for using syslog)
+# ebusd_logfile: "/var/log/ebusd.log"
+# Only write log for matching AREA(S) below or equal to LEVEL (alternative to EBUSD_LOGAREAS/EBUSD_LOGLEVEL, may
+# be used multiple times)
+# ebusd_log: "all:notice"
+# Only write log for matching AREA(S): main|network|bus|update|other|all
+# ebusd_logareas: "all"
+# Only write log below or equal to LEVEL: error|notice|info|debug
+# ebusd_loglevel: "notice"
+
+# Raw logging options:
+
+# Log messages or all received/sent bytes on the bus
+# ebusd_lograwdata: ""
+# Write raw log to FILE
+# ebusd_lograwdatafile: "/var/log/ebusd.log"
+# Make raw log file no larger than SIZE kB
+# ebusd_lograwdatasize: "100"
+
+# Binary dump options:
+
+# Enable binary dump of received bytes
+# ebusd_dump: ""
+# Dump received bytes to FILE
+# ebusd_dumpfile: "/tmp/ebusd_dump.bin"
+# Make dump file no larger than SIZE kB
+# ebusd_dumpsize: "100"
+# Flush each byte
+# ebusd_dumpflush: ""
+
+# MQTT options:
+
+# Connect to MQTT broker on HOST
+ebusd_mqtthost: "localhost"
+# Connect to MQTT broker on PORT (usually 1883), 0 to disable
+ebusd_mqttport: "1883"
+# Set client ID for connection to MQTT broker
+ebusd_mqttclientid: "ebusd"
+# Connect as USER to MQTT broker (no default)
+ebusd_mqttuser: "some-user"
+# Use PASSWORD when connecting to MQTT broker (no default)
+ebusd_mqttpass: "some-password"
+# Use MQTT TOPIC (prefix before /%circuit/%name or complete format)
+ebusd_mqtttopic: "ebusd"
+# Use TOPIC for global data (default is "global/" suffix to mqtttopic prefix)
+# ebusd_mqttglobal: "ebusd/global/"
+# Retain all topics instead of only selected global ones
+# ebusd_mqttretain: ""
+# Set the QoS value for all topics (0-2)
+# ebusd_mqttqos: "0"
+# Read MQTT integration settings from FILE (no default)
+# ebusd_mqttint: "/etc/ebusd/mqtt-hassio.cfg"
+# Add variable(s) to the read MQTT integration settings
+# ebusd_mqttvar: "key=value"
+# Publish in JSON format instead of strings, optionally in short (value directly below field key)
+# ebusd_mqttjson: ""
+# Publish all available attributes
+# ebusd_mqttverbose: ""
+# Log library events
+# ebusd_mqttlog: ""
+# Use protocol VERSION
+# ebusd_mqttversion: "3.1"
+# Ignore invalid parameters during init (e.g. for DNS not resolvable yet)
+# ebusd_mqttignoreinvalid: ""
+# Whether to only publish changed messages instead of all received
+# ebusd_mqttchanges: ""
+# Use CA file or dir (ending with '/') for MQTT TLS (no default)
+# ebusd_mqttca: "" # "/path/to/cafile"
+# Use CERTFILE for MQTT TLS client certificate (no default)
+# ebusd_mqttcert: "" # "/path/to/certfile"
+# Use KEYFILE for MQTT TLS client certificate (no default)
+# ebusd_mqttkey: "" # "/path/to/keyfile"
+# Use PASSWORD for the encrypted KEYFILE (no default)
+# ebusd_mqttkeypass: "" # "some-passwort"
+# Allow insecure TLS connection (e.g. using a self signed certificate)
+# ebusd_mqttinsecure: ""
+
+# KNX options:
+
+# URL to open (i.e. "[multicast][@interface]" for KNXnet/IP)
+# ebusd_knxurl: ""
+# Maximum age in seconds for using the last value of read messages (0=disable)
+# ebusd_knxrage: "30"
+# Maximum age in seconds for using the last value for reads on write messages (0=disable),
+# ebusd_knxwage: "7200"
+# Read KNX integration settings from FILE
+# ebusd_knxint: "" # "/etc/ebusd/knx.cfg"
+# Add variable(s) to the read KNX integration settings
+# ebusd_knxvar: "" # "address=1.1.1"

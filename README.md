@@ -44,6 +44,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Dufs](https://github.com/sigoden/dufs) - distinctive utility file server
 * [Duplicati](https://www.duplicati.com/) - for backing up your stuff
 * [Emby](https://emby.media/) - Media streaming and management
+* [ebusd](https://github.com/john30/ebusd) - daemon for communication with eBUS heating systems
 * [ESPHome](https://esphome.io/) - ESP8266/ESP32 programming and management for home automation
 * [Excalidraw](https://excalidraw.com/) - Virtual whiteboard for sketching hand-drawn like diagrams
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager

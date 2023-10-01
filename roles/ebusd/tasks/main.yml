@@ -1,0 +1,207 @@
+---
+- name: Start ebusd
+  block:
+    - name: Create ebusd Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ ebusd_data_directory }}"
+
+    - name: Create ebusd Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ebusd_container_name }}"
+        image: "{{ ebusd_image_name }}:{{ ebusd_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ebusd_data_directory }}/data:/data:rw"
+        ports:
+          - "{{ ebusd_port }}:8080"
+        devices: "{{ ebusd_devices }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ ebusd_user_id | quote }}"
+          PGID: "{{ ebusd_group_id | quote }}"
+          # Device options:
+
+          # Use DEV as eBUS device ("enh:DEVICE" or "enh:IP:PORT" for enhanced device, "ens:DEVICE" for enhanced high speed
+          # serial device, "DEVICE" for serial device, or "[udp:]IP:PORT" for network device)
+          EBUSD_DEVICE: "{{ ebusd_device | default(omit) }}"
+          # Skip serial eBUS device test
+          EBUSD_NODEVICECHECK: "{{ ebusd_nodevicecheck | default(omit) }}"
+          # Only read from device, never write to it
+          EBUSD_READONLY: "{{ ebusd_readonly | default(omit) }}"
+          # Send an initial escape symbol after connecting device
+          EBUSD_INITSEND: "{{ ebusd_initsend | default(omit) }}"
+          # EBUSD_INITSEND: "{{ ((ebusd_initsend is defined) and (ebusd_initsend != None)) | ebusd_initsend }}"
+          # Extra transfer latency in ms
+          EBUSD_LATENCY: "{{ ebusd_latency | default(omit) }}"
+
+          # Message configuration options:
+
+          # Read CSV config files from PATH (local folder or HTTPS URL)
+          EBUSD_CONFIGPATH: "{{ ebusd_configpath | default(omit) }}"
+          # Pick CSV config files matching initial scan (ADDR="none" or empty for no initial scan message, "full" for full
+          # scan, or a single hex address to scan, default is broadcast ident message).
+          EBUSD_SCANCONFIG: "{{ ebusd_scanconfig | default(omit) }}"
+          # Prefer LANG in multilingual configuration files
+          EBUSD_CONFIGLANG: "{{ ebusd_configlang | default(omit) }}"
+          # Poll for data every SEC seconds (0=disable)
+          EBUSD_POLLINTERVAL: "{{ ebusd_pollinterval | default(omit) }}"
+          # Use CA FILE for checking certificates (uses defaults, "#" for insecure)
+          EBUSD_CAFILE: "{{ ebusd_cafile | default(omit) }}"
+          # Use CA PATH for checking certificates (uses defaults)
+          EBUSD_CAPATH: "{{ ebusd_capath | default(omit) }}"
+
+          # eBUS options:
+
+          # Use ADDR as own bus address
+          EBUSD_ADDRESS: "{{ ebusd_address | default(omit) }}"
+          # Actively answer to requests from other masters
+          EBUSD_ANSWER: "{{ ebusd_answer | default(omit) }}"
+          # Stop bus acquisition after MSEC ms
+          EBUSD_ACQUIRETIMEOUT: "{{ ebusd_acquiretimeout | default(omit) }}"
+          # Retry bus acquisition COUNT times
+          EBUSD_ACQUIRERETRIES: "{{ ebusd_acquireretries | default(omit) }}"
+          # Repeat failed sends COUNT times
+          EBUSD_SENDRETRIES: "{{ ebusd_sendretries | default(omit) }}"
+          # Expect a slave to answer within MSEC ms
+          EBUSD_RECEIVETIMEOUT: "{{ ebusd_receivetimeout | default(omit) }}"
+          # Expect COUNT masters on the bus, 0 for auto detection
+          EBUSD_NUMBERMASTERS: "{{ ebusd_numbermasters | default(omit) }}"
+          # Enable AUTO-SYN symbol generation
+          EBUSD_GENERATESYN: "{{ ebusd_generatesyn | default(omit) }}"
+
+          # Daemon options:
+
+          # Set default access level to LEVEL ("*" for everything)
+          EBUSD_ACCESSLEVEL: "{{ ebusd_accesslevel | default(omit) }}"
+          # Read access control list from FILE
+          EBUSD_ACLFILE: "{{ ebusd_aclfile | default(omit) }}"
+          # Enable hex command
+          EBUSD_ENABLEHEX: "{{ ebusd_enablehex | default(omit) }}"
+          # Enable define command
+          EBUSD_ENABLEDEFINE: "{{ ebusd_enabledefine | default(omit) }}"
+          # PID file name (only for daemon)
+          EBUSD_PIDFILE: "{{ ebusd_pidfile | default(omit) }}"
+          # Listen for command line connections on PORT
+          EBUSD_PORT: "{{ ebusd_env_port | default(omit) }}"
+          # Listen for command line connections on 127.0.0.1 interface only
+          EBUSD_LOCALHOST: "{{ ebusd_localhost | default(omit) }}"
+          # Listen for HTTP connections on PORT, 0 to disable
+          EBUSD_HTTPPORT: "{{ ebusd_httpport | default(omit) }}"
+          # Path for HTML files served by HTTP port
+          EBUSD_HTMLPATH: "{{ ebusd_htmlpath | default(omit) }}"
+          # Set automatic update check to MODE (on|off)
+          EBUSD_UPDATECHECK: "{{ ebusd_updatecheck | default(omit) }}"
+
+          # Log options:
+
+          # Write log to FILE (only for daemon, empty string for using syslog)
+          EBUSD_LOGFILE: "{{ ebusd_logfile | default(omit) }}"
+          # Only write log for matching AREA(S) below or equal to LEVEL (alternative to EBUSD_LOGAREAS/EBUSD_LOGLEVEL, may
+          # be used multiple times)
+          EBUSD_LOG: "{{ ebusd_log | default(omit) }}"
+          # Only write log for matching AREA(S): main|network|bus|update|other|all
+          EBUSD_LOGAREAS: "{{ ebusd_logareas | default(omit) }}"
+          # Only write log below or equal to LEVEL: error|notice|info|debug
+          EBUSD_LOGLEVEL: "{{ ebusd_loglevel | default(omit) }}"
+
+          # Raw logging options:
+
+          # Log messages or all received/sent bytes on the bus
+          EBUSD_LOGRAWDATA: "{{ ebusd_lograwdata | default(omit) }}"
+          # Write raw log to FILE
+          EBUSD_LOGRAWDATAFILE: "{{ ebusd_lograwdatafile | default(omit) }}"
+          # Make raw log file no larger than SIZE kB
+          EBUSD_LOGRAWDATASIZE: "{{ ebusd_lograwdatasize | default(omit) }}"
+
+          # Binary dump options:
+
+          # Enable binary dump of received bytes
+          EBUSD_DUMP: "{{ ebusd_dump | default(omit) }}"
+          # Dump received bytes to FILE
+          EBUSD_DUMPFILE: "{{ ebusd_dumpfile | default(omit) }}"
+          # Make dump file no larger than SIZE kB
+          EBUSD_DUMPSIZE: "{{ ebusd_dumpsize | default(omit) }}"
+          # Flush each byte
+          EBUSD_DUMPFLUSH: "{{ ebusd_dumpflush | default(omit) }}"
+
+          # MQTT options:
+
+          # Connect to MQTT broker on HOST
+          EBUSD_MQTTHOST: "{{ ebusd_mqtthost | default(omit) }}"
+          # Connect to MQTT broker on PORT (usually 1883), 0 to disable
+          EBUSD_MQTTPORT: "{{ ebusd_mqttport | default(omit) }}"
+          # Set client ID for connection to MQTT broker
+          EBUSD_MQTTCLIENTID: "{{ ebusd_mqttclientid | default(omit) }}"
+          # Connect as USER to MQTT broker (no default)
+          EBUSD_MQTTUSER: "{{ ebusd_mqttuser | default(omit) }}"
+          # Use PASSWORD when connecting to MQTT broker (no default)
+          EBUSD_MQTTPASS: "{{ ebusd_mqttpass | default(omit) }}"
+          # Use MQTT TOPIC (prefix before /%circuit/%name or complete format)
+          EBUSD_MQTTTOPIC: "{{ ebusd_mqtttopic | default(omit) }}"
+          # Use TOPIC for global data (default is "global/" suffix to mqtttopic prefix)
+          EBUSD_MQTTGLOBAL: "{{ ebusd_mqttglobal | default(omit) }}"
+          # Retain all topics instead of only selected global ones
+          EBUSD_MQTTRETAIN: "{{ ebusd_mqttretain | default(omit) }}"
+          # Set the QoS value for all topics (0-2)
+          EBUSD_MQTTQOS: "{{ ebusd_mqttqos | default(omit) }}"
+          # Read MQTT integration settings from FILE (no default)
+          EBUSD_MQTTINT: "{{ ebusd_mqttint | default(omit) }}"
+          # Add variable(s) to the read MQTT integration settings
+          EBUSD_MQTTVAR: "{{ ebusd_mqttvar | default(omit) }}"
+          # Publish in JSON format instead of strings, optionally in short (value directly below field key)
+          EBUSD_MQTTJSON: "{{ ebusd_mqttjson | default(omit) }}"
+          # Publish all available attributes
+          EBUSD_MQTTVERBOSE: "{{ ebusd_mqttverbose | default(omit) }}"
+          # Log library events
+          EBUSD_MQTTLOG: "{{ ebusd_mqttlog | default(omit) }}"
+          # Use protocol VERSION
+          EBUSD_MQTTVERSION: "{{ ebusd_mqttversion | default(omit) }}"
+          # Ignore invalid parameters during init (e.g. for DNS not resolvable yet)
+          EBUSD_MQTTIGNOREINVALID: "{{ ebusd_mqttignoreinvalid | default(omit) }}"
+          # Whether to only publish changed messages instead of all received
+          EBUSD_MQTTCHANGES: "{{ ebusd_mqttchanges | default(omit) }}"
+          # Use CA file or dir (ending with '/') for MQTT TLS (no default)
+          EBUSD_MQTTCA: "{{ ebusd_mqttca | default(omit) }}"
+          # Use CERTFILE for MQTT TLS client certificate (no default)
+          EBUSD_MQTTCERT: "{{ ebusd_mqttcert | default(omit) }}"
+          # Use KEYFILE for MQTT TLS client certificate (no default)
+          EBUSD_MQTTKEY: "{{ ebusd_mqttkey | default(omit) }}"
+          # Use PASSWORD for the encrypted KEYFILE (no default)
+          EBUSD_MQTTKEYPASS: "{{ ebusd_mqttkeypass | default(omit) }}"
+          # Allow insecure TLS connection (e.g. using a self signed certificate)
+          EBUSD_MQTTINSECURE: "{{ ebusd_mqttinsecure | default(omit) }}"
+
+          # KNX options:
+
+          # URL to open (i.e. "[multicast][@interface]" for KNXnet/IP)
+          EBUSD_KNXURL: "{{ ebusd_knxurl | default(omit) }}"
+          # Maximum age in seconds for using the last value of read messages (0=disable)
+          EBUSD_KNXRAGE: "{{ ebusd_knxrage | default(omit) }}"
+          # Maximum age in seconds for using the last value for reads on write messages (0=disable),
+          EBUSD_KNXWAGE: "{{ ebusd_knxwage | default(omit) }}"
+          # Read KNX integration settings from FILE
+          EBUSD_KNXINT: "{{ ebusd_knxint | default(omit) }}"
+          # Add variable(s) to the read KNX integration settings
+          EBUSD_KNXVAR: "{{ ebusd_knxvar | default(omit) }}"
+        restart_policy: unless-stopped
+        memory: "{{ ebusd_memory }}"
+        labels:
+          traefik.enable: "{{ ebusd_available_externally | string }}"
+          traefik.http.routers.ebusd.rule: "Host(`{{ ebusd_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.ebusd.tls.certresolver: "letsencrypt"
+          traefik.http.routers.ebusd.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.ebusd.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.ebusd.loadbalancer.server.port: "8080"
+  when: ebusd_enabled is true
+
+- name: Stop ebusd
+  block:
+    - name: Stop ebusd
+      community.docker.docker_container:
+        name: "{{ ebusd_container_name }}"
+        state: absent
+  when: ebusd_enabled is false

@@ -166,6 +166,10 @@
       tags:
         - emby
 
+    - role: ebusd
+      tags:
+        - ebusd
+
     - role: esphome
       tags:
         - esphome
