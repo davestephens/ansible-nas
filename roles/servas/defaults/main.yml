@@ -1,0 +1,40 @@
+---
+servas_enabled: false
+servas_available_externally: false
+
+# directories
+servas_data_directory: "{{ docker_home }}/servas"
+
+# network
+servas_port: "8126"
+servas_hostname: "servas"
+servas_network_name: "servas"
+
+# specs
+servas_memory: 1g
+servas_db_memory: 1g
+
+# docker
+servas_container_name: servas
+servas_db_container_name: servas-db
+servas_image_name: "beromir/servas"
+servas_image_version: latest
+servas_db_image_name: "docker.io/library/mariadb"
+servas_db_image_version: "10.7.3"
+servas_user_id: "1000"
+servas_group_id: "1000"
+
+# servas
+servas_db_connection: "mysql"
+servas_db_host: "{{ servas_db_container_name }}"
+servas_db_port: "3306"
+servas_db_name: "servas"
+servas_db_username: "servas"
+servas_db_password: "secure"
+servas_db_root_password: "super_secure"
+servas_app_name: "Servas"
+servas_env: "producton"
+servas_key: "base64:HDPkzI0w1PmLoWgB/77mNBD2/m9Wt/BS1hQ7xHCuEiI="
+servas_debug: "false"
+servas_app_url: "https://{{ servas_hostname }}.{{ ansible_nas_domain }}"
+servas_enable_registration: "true"

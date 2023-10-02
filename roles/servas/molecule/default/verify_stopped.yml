@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove servas db
+      community.docker.docker_container:
+        name: "{{ servas_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove servas
+      community.docker.docker_container:
+        name: "{{ servas_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if servas is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result.changed

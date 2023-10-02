@@ -1,0 +1,90 @@
+---
+- name: Start Servas
+  block:
+    - name: Create servas Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ servas_data_directory }}"
+
+    - name: Create Servas network
+      community.docker.docker_network:
+        name: "{{ servas_network_name }}"
+
+    - name: Create Servas Db Docker Container
+      community.docker.docker_container:
+        name: "{{ servas_db_container_name }}"
+        image: "{{ servas_db_image_name }}:{{ servas_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ servas_data_directory }}/database:/var/lib/mysql:rw"
+        networks:
+          - name: "{{ servas_network_name }}"
+        network_mode: "{{ servas_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          MARIADB_ROOT_PASSWORD: "{{ servas_db_root_password }}"
+          MARIADB_USER: "{{ servas_db_username }}"
+          MARIADB_PASSWORD: "{{ servas_db_password }}"
+          MARIADB_DATABASE: "{{ servas_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ servas_db_memory }}"
+
+    - name: Create Servas Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ servas_container_name }}"
+        image: "{{ servas_image_name }}:{{ servas_image_version }}"
+        pull: true
+        volumes:
+          - "{{ servas_data_directory }}/data:/data:rw"
+        networks:
+          - name: "{{ servas_network_name }}"
+        network_mode: "{{ servas_network_name }}"
+        ports:
+          - "{{ servas_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ servas_user_id | quote }}"
+          PGID: "{{ servas_group_id | quote }}"
+          APP_NAME: "{{ servas_app_name }}"
+          APP_ENV: "{{ servas_env }}"
+          APP_KEY: "{{ servas_key }}"
+          APP_DEBUG: "{{ servas_debug }}"
+          APP_URL: "{{ servas_app_url }}"
+
+          SERVAS_ENABLE_REGISTRATION: "{{ servas_enable_registration }}"
+
+          # MySQL
+          DB_CONNECTION: "{{ servas_db_connection }}"
+          DB_HOST: "{{ servas_db_host }}"
+          DB_PORT: "{{ servas_db_port }}"
+          DB_DATABASE: "{{ servas_db_name }}"
+          DB_USERNAME: "{{ servas_db_username }}"
+          DB_PASSWORD: "{{ servas_db_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ servas_memory }}"
+        labels:
+          traefik.enable: "{{ servas_available_externally | string }}"
+          traefik.http.routers.servas.rule: "Host(`{{ servas_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.servas.tls.certresolver: "letsencrypt"
+          traefik.http.routers.servas.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.servas.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.servas.loadbalancer.server.port: "80"
+  when: servas_enabled is true
+
+- name: Stop Servas
+  block:
+    - name: Stop Servas db
+      community.docker.docker_container:
+        name: "{{ servas_db_container_name }}"
+        state: absent
+
+    - name: Stop servas
+      community.docker.docker_container:
+        name: "{{ servas_container_name }}"
+        state: absent
+  when: servas_enabled is false

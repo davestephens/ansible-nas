@@ -574,6 +574,10 @@
       tags:
         - shaarli
 
+    - role: servas
+      tags:
+        - servas
+
     - role: sickchill
       tags:
         - sickchill
