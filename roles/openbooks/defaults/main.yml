@@ -1,0 +1,24 @@
+---
+openbooks_enabled: false
+openbooks_available_externally: false
+
+# directories
+openbooks_data_directory: "{{ docker_home }}/openbooks"
+
+# network
+openbooks_port: "8125"
+openbooks_hostname: "openbooks"
+
+# specs
+openbooks_memory: 1g
+
+# docker
+openbooks_container_name: openbooks
+openbooks_image_name: "evanbuss/openbooks"
+openbooks_image_version: latest
+openbooks_user_id: "1000"
+openbooks_group_id: "1000"
+
+# openbooks
+openbooks_irc_username: "s0m3_rAndom_UsErNaMe"
+openbooks_base_path: "/"

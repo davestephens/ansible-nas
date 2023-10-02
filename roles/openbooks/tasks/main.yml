@@ -1,0 +1,44 @@
+---
+- name: Start openbooks
+  block:
+    - name: Create openbooks Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ openbooks_data_directory }}"
+
+    - name: Create openbooks Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ openbooks_container_name }}"
+        image: "{{ openbooks_image_name }}:{{ openbooks_image_version }}"
+        pull: true
+        volumes:
+          - "{{ openbooks_data_directory }}/books:rw"
+        ports:
+          - "{{ openbooks_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ openbooks_user_id | quote }}"
+          PGID: "{{ openbooks_group_id | quote }}"
+          BASE_PATH: "{{ openbooks_base_path }}"
+        restart_policy: unless-stopped
+        memory: "{{ openbooks_memory }}"
+        command: "--name {{ openbooks_irc_username }}"
+        labels:
+          traefik.enable: "{{ openbooks_available_externally | string }}"
+          traefik.http.routers.openbooks.rule: "Host(`{{ openbooks_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.openbooks.tls.certresolver: "letsencrypt"
+          traefik.http.routers.openbooks.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.openbooks.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.openbooks.loadbalancer.server.port: "80"
+  when: openbooks_enabled is true
+
+- name: Stop openbooks
+  block:
+    - name: Stop openbooks
+      community.docker.docker_container:
+        name: "{{ openbooks_container_name }}"
+        state: absent
+  when: openbooks_enabled is false

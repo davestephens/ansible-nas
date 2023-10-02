@@ -466,6 +466,10 @@
       tags:
         - ombi
 
+    - role: openbooks
+      tags:
+        - openbooks
+
     - role: openhab
       tags:
         - openhab

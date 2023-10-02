@@ -119,6 +119,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer
 * [OliveTin](https://github.com/OliveTin/OliveTin) -  safe and simple access to predefined shell commands
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content
+* [Openbooks](https://github.com/evan-buss/openbooks) - Search and Download eBooks
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [openLDAP](https://www.openldap.org/) - An open source implementation of the Lightweight Directory Access Protocol
 * [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
