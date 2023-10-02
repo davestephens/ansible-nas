@@ -152,6 +152,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Speedtest-Tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) - Continuously track your internet speed
 * Stats - Monitor and visualise metrics about your NAS and internet connection using Grafana, Prometheus, Telegraf and more.
+* [Stirling-PDF](https://github.com/Frooodle/Stirling-PDF) - locally hosted web application that allows you to perform various operations on PDF files
 * [Syncthing](https://syncthing.net/) - sync directories with another device
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client

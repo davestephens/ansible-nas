@@ -1,0 +1,20 @@
+---
+stirlingpdf_enabled: false
+stirlingpdf_available_externally: false
+
+# directories
+stirlingpdf_data_directory: "{{ docker_home }}/stirlingpdf"
+
+# network
+stirlingpdf_port: "8124"
+stirlingpdf_hostname: "stirlingpdf"
+
+# specs
+stirlingpdf_memory: 1g
+
+# docker
+stirlingpdf_container_name: stirlingpdf
+stirlingpdf_image_name: "frooodle/s-pdf"
+stirlingpdf_image_version: latest
+stirlingpdf_user_id: "1000"
+stirlingpdf_group_id: "1000"

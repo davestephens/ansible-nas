@@ -590,6 +590,10 @@
       tags:
         - stats
 
+    - role: stirlingpdf
+      tags:
+        - stirlingpdf
+
     - role: syncthing
       tags:
         - syncthing

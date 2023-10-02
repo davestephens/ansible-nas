@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get stirlingpdf container state
+      community.docker.docker_container:
+        name: "{{ stirlingpdf_container_name }}"
+      register: result
+
+    - name: Check if stirlingpdf containers are running
+      ansible.builtin.assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

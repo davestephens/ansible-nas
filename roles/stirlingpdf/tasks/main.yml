@@ -1,0 +1,46 @@
+---
+- name: Start Stirling-PDF
+  block:
+    - name: Create stStirling-PDFirlingpdf Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ stirlingpdf_data_directory }}"
+        - "{{ stirlingpdf_data_directory }}/trainingData"
+        - "{{ stirlingpdf_data_directory }}/configs"
+
+    - name: Create Stirling-PDF Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ stirlingpdf_container_name }}"
+        image: "{{ stirlingpdf_image_name }}:{{ stirlingpdf_image_version }}"
+        pull: true
+        volumes:
+          - "{{ stirlingpdf_data_directory }}/trainingData:/usr/share/tesseract-ocr/4.00/tessdata" # Required for extra OCR languages
+          - "{{ stirlingpdf_data_directory }}/extraConfigs:/configs"
+        ports:
+          - "{{ stirlingpdf_port }}:8080"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ stirlingpdf_user_id | quote }}"
+          PGID: "{{ stirlingpdf_group_id | quote }}"
+          DOCKER_ENABLE_SECURITY: "false"
+        restart_policy: unless-stopped
+        memory: "{{ stirlingpdf_memory }}"
+        labels:
+          traefik.enable: "{{ stirlingpdf_available_externally | string }}"
+          traefik.http.routers.stirlingpdf.rule: "Host(`{{ stirlingpdf_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.stirlingpdf.tls.certresolver: "letsencrypt"
+          traefik.http.routers.stirlingpdf.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.stirlingpdf.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.stirlingpdf.loadbalancer.server.port: "8080"
+  when: stirlingpdf_enabled is true
+
+- name: Stop Stirling-PDF
+  block:
+    - name: Stop Stirling-PDF
+      community.docker.docker_container:
+        name: "{{ stirlingpdf_container_name }}"
+        state: absent
+  when: stirlingpdf_enabled is false
