@@ -1,0 +1,12 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/settings
+
+title: Ansible NAS Homepage
+startUrl: "/"
+theme: dark # or light
+
+
+providers:
+  openweathermap: openweathermapapikey
+  weatherapi: weatherapiapikey

@@ -1,0 +1,20 @@
+---
+homepage_enabled: false
+homepage_available_externally: false
+
+# directories
+homepage_data_directory: "{{ docker_home }}/homepage"
+
+# network
+homepage_port: "3010"
+homepage_hostname: "homepage"
+
+# specs
+homepage_memory: 1g
+
+# docker
+homepage_container_name: homepage
+homepage_image_name: "ghcr.io/gethomepage/homepage"
+homepage_image_version: latest
+homepage_user_id: "1000"
+homepage_group_id: "1000"

@@ -1,0 +1,51 @@
+---
+- name: Start Homepage
+  block:
+    - name: Create Homepage Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ homepage_data_directory }}"
+        - "{{ homepage_data_directory }}/config"
+        - "{{ homepage_data_directory }}/images"
+
+    - name: Copy Homepage dashboards configuration files
+      ansible.builtin.copy:
+        src: "config"
+        dest: "{{ homepage_data_directory }}"
+
+    - name: Create Homepage Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ homepage_container_name }}"
+        image: "{{ homepage_image_name }}:{{ homepage_image_version }}"
+        pull: true
+        volumes:
+          - "{{ homepage_data_directory }}/config:/app/config:rw"
+          - "{{ homepage_data_directory }}/images:/app/public/images:rw"
+          - /var/run/docker.sock:/var/run/docker.sock
+        ports:
+          - "{{ homepage_port }}:3000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ homepage_user_id | quote }}"
+          PGID: "{{ homepage_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ homepage_memory }}"
+        labels:
+          traefik.enable: "{{ homepage_available_externally | string }}"
+          traefik.http.routers.homepage.rule: "Host(`{{ homepage_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.homepage.tls.certresolver: "letsencrypt"
+          traefik.http.routers.homepage.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.homepage.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.homepage.loadbalancer.server.port: "3000"
+  when: homepage_enabled is true
+
+- name: Stop Homepage
+  block:
+    - name: Stop Homepage
+      community.docker.docker_container:
+        name: "{{ homepage_container_name }}"
+        state: absent
+  when: homepage_enabled is false
