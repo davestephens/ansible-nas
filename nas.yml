@@ -338,6 +338,10 @@
       tags:
         - linkding
 
+    - role: linkwarden
+      tags:
+        - linkwarden
+
     - role: listmonk
       tags:
         - listmonk

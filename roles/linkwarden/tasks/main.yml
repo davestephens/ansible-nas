@@ -1,0 +1,101 @@
+---
+- name: Start Linkwarden
+  block:
+    - name: Create Linkwarden Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ linkwarden_data_directory }}"
+
+    - name: Create linkwarden network
+      community.docker.docker_network:
+        name: "{{ linkwarden_network_name }}"
+
+    - name: Create Linkwarden Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ linkwarden_postgres_container_name }}"
+        image: "{{ linkwarden_postgres_image_name }}:{{ linkwarden_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ linkwarden_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ linkwarden_network_name }}"
+        network_mode: "{{ linkwarden_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ linkwarden_db_password }}"
+          POSTGRES_USER: "{{ linkwarden_db_username }}"
+          POSTGRES_DB: "{{ linkwarden_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ linkwarden_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ linkwarden_db_name }} -U {{ linkwarden_db_username }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Create Linkwarden Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ linkwarden_container_name }}"
+        image: "{{ linkwarden_image_name }}:{{ linkwarden_image_version }}"
+        pull: true
+        volumes:
+          - "{{ linkwarden_data_directory }}/data:/data/data:rw"
+        networks:
+          - name: "{{ linkwarden_network_name }}"
+        network_mode: "{{ linkwarden_network_name }}"
+        ports:
+          - "{{ linkwarden_port }}:3000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ linkwarden_user_id | quote }}"
+          PGID: "{{ linkwarden_group_id | quote }}"
+          DATABASE_URL: "{{ linkwarden_db_url }}"
+          NEXTAUTH_SECRET: "{{ linkwarden_nextauth_secret }}"
+          NEXTAUTH_URL: "{{ linkwarden_nextauth_url }}"
+
+          # Additional Optional Settings
+
+          PAGINATION_TAKE_COUNT: "{{ linkwarden_pagination_take_count }}"
+          STORAGE_FOLDER: "{{ linkwarden_storage_folder }}"
+          AUTOSCROLL_TIMEOUT: "{{ linkwarden_autoscroll_timeout }}"
+          NEXT_PUBLIC_DISABLE_REGISTRATION: "{{ linkwarden_next_public_disable_registration }}"
+
+          # AWS S3 Settings
+          SPACES_KEY: "{{ linkwarden_spaces_key }}"
+          SPACES_SECRET: "{{ linkwarden_spaces_secret }}"
+          SPACES_ENDPOINT: "{{ linkwarden_spaces_endpoint }}"
+          SPACES_REGION: "{{ linkwarden_spaces_region }}"
+
+          # SMTP Settings
+          NEXT_PUBLIC_EMAIL_PROVIDER: "{{ linkwarden_next_public_email_provider }}"
+          EMAIL_FROM: "{{ linkwarden_email_from }}"
+        restart_policy: unless-stopped
+        memory: "{{ linkwarden_memory }}"
+        labels:
+          traefik.enable: "{{ linkwarden_available_externally | string }}"
+          traefik.http.routers.linkwarden.rule: "Host(`{{ linkwarden_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.linkwarden.tls.certresolver: "letsencrypt"
+          traefik.http.routers.linkwarden.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.linkwarden.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.linkwarden.loadbalancer.server.port: "3000"
+  when: linkwarden_enabled is true
+
+- name: Stop Linkwarden
+  block:
+    - name: Stop Linkwarden postgres
+      community.docker.docker_container:
+        name: "{{ linkwarden_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Linkwarden
+      community.docker.docker_container:
+        name: "{{ linkwarden_container_name }}"
+        state: absent
+  when: linkwarden_enabled is false

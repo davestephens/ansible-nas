@@ -1,0 +1,43 @@
+---
+linkwarden_enabled: false
+linkwarden_available_externally: false
+
+# directories
+linkwarden_data_directory: "{{ docker_home }}/linkwarden"
+
+# network
+linkwarden_port: "3009"
+linkwarden_hostname: "linkwarden"
+linkwarden_network_name: "linkwarden"
+
+# specs
+linkwarden_memory: 1g
+linkwarden_postgres_memory: 1g
+
+# docker
+linkwarden_container_name: linkwarden
+linkwarden_postgres_container_name: linkwarden-db
+linkwarden_image_name: "ghcr.io/linkwarden/linkwarden"
+linkwarden_image_version: main
+linkwarden_postgres_image_name: "docker.io/library/postgres"
+linkwarden_postgres_image_version: "13"
+linkwarden_user_id: "1000"
+linkwarden_group_id: "1000"
+
+# linkwarden
+linkwarden_db_name: "linkwarden"
+linkwarden_db_username: "linkwarden"
+linkwarden_db_password: "secure"
+linkwarden_db_url: "postgresql://{{ linkwarden_db_username }}:{{ linkwarden_db_password }}@{{ linkwarden_postgres_container_name }}:5432/postgres"
+linkwarden_nextauth_secret: "very_sensitive_secret"
+linkwarden_nextauth_url: "http://localhost:3000"
+linkwarden_pagination_take_count: ""
+linkwarden_storage_folder: ""
+linkwarden_autoscroll_timeout: ""
+linkwarden_next_public_disable_registration: ""
+linkwarden_spaces_key: ""
+linkwarden_spaces_secret: ""
+linkwarden_spaces_endpoint: ""
+linkwarden_spaces_region: ""
+linkwarden_next_public_email_provider: ""
+linkwarden_email_from: ""
