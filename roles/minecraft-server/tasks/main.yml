@@ -5,21 +5,70 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
+        owner: "{{ minecraft_server_uid }}"
+        group: "{{ minecraft_server_gid }}"
       with_items:
-        - "{{ minecraft_server_data_directory }}"
+        - "{{ minecraft_server_data_directory }}/data"
+        - "{{ minecraft_server_data_directory }}/plugins"
+        - "{{ minecraft_server_data_directory }}/mods"
+        - "{{ minecraft_server_data_directory }}/config"
+        - "{{ minecraft_server_data_directory }}/downloads"
+
+    - name: Create Minecraft network
+      community.docker.docker_network:
+        name: "{{ minecraft_server_network_name }}"
 
     - name: Minecraft Server Docker Container
       community.docker.docker_container:
         name: "{{ minecraft_server_container_name }}"
         image: "{{ minecraft_server_image_name }}:{{ minecraft_server_image_version }}"
         pull: true
+        networks:
+          - name: "{{ minecraft_server_network_name }}"
+        network_mode: "{{ minecraft_server_network_name }}"
+        container_default_behavior: no_defaults
         volumes:
-          - "{{ minecraft_server_data_directory }}:/data:rw"
+          - "{{ minecraft_server_data_directory }}/data:/data:rw"
+          - "{{ minecraft_server_data_directory }}/plugins:/plugins:rw"
+          - "{{ minecraft_server_data_directory }}/mods:/mods:rw"
+          - "{{ minecraft_server_data_directory }}/config:/config:rw"
+          - "{{ minecraft_server_data_directory }}/downloads:/downloads:rw"
         ports:
           - "{{ minecraft_server_port }}:25565"
-        env:
-          EULA: "TRUE"
+        env: "{{ minecraft_server_optional_env | default({}) | combine(minecraft_server_env) }}"
         restart_policy: unless-stopped
+        stop_timeout: 60
+        healthcheck:
+          test: mc-health
+          start_period: 1m
+          interval: 5s
+          retries: 20
+
+    - name: Install RCON
+      block:
+        - name: Minecraft Server RCON Docker Container
+          community.docker.docker_container:
+            name: "{{ minecraft_server_rcon_container_name }}"
+            image: "{{ minecraft_server_rcon_image_name }}:{{ minecraft_server_rcon_image_version }}"
+            pull: true
+            networks:
+              - name: "{{ minecraft_server_network_name }}"
+            network_mode: "{{ minecraft_server_network_name }}"
+            container_default_behavior: no_defaults
+            ports:
+              - 4326:4326
+              - 4327:4327
+            env:
+              RWA_ENV: "{{ minecraft_server_rwa_env }}"
+              RWA_USERNAME: "{{ minecraft_server_rwa_username }}"
+              RWA_PASSWORD: "{{ minecraft_server_rwa_password }}"
+              RWA_ADMIN: "{{ minecraft_server_rwa_admin }}"
+              # is referring to the hostname of 'mc' compose service below
+              RWA_RCON_HOST: "{{ minecraft_server_rwa_rcon_host }}"
+              # needs to match the RCON_PASSWORD configured for the container
+              RWA_RCON_PASSWORD: "{{ minecraft_server_rwa_rcon_password }}"
+            restart_policy: unless-stopped
+      when: minecraft_server_install_rcon is true
   when: minecraft_server_enabled is true
 
 - name: Stop Minecraft Server
@@ -27,5 +76,9 @@
     - name: Stop Minecraft Server
       community.docker.docker_container:
         name: "{{ minecraft_server_container_name }}"
+        state: absent
+    - name: Stop Minecraft Rcon Server
+      community.docker.docker_container:
+        name: "{{ minecraft_server_rcon_container_name }}"
         state: absent
   when: minecraft_server_enabled is false

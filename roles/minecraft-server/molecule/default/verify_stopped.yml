@@ -13,7 +13,14 @@
         state: absent
       register: result
 
+    - name: Try and stop and remove minecraft_server_rcon
+      community.docker.docker_container:
+        name: "{{ minecraft_server_rcon_container_name }}"
+        state: absent
+      register: result_rcon
+
     - name: Check if minecraft_server is stopped
       ansible.builtin.assert:
         that:
           - not result.changed
+          - not result_rcon.changed

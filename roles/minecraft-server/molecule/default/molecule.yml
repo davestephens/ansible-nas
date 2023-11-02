@@ -4,3 +4,4 @@ provisioner:
     group_vars:
       all:
         minecraft_server_enabled: true
+        minecraft_server_install_rcon: true

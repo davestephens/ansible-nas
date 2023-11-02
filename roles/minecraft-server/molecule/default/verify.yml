@@ -12,8 +12,15 @@
         name: "{{ minecraft_server_container_name }}"
       register: result
 
+    - name: Get minecraft_server_rcon container state
+      community.docker.docker_container:
+        name: "{{ minecraft_server_rcon_container_name }}"
+      register: result_rcon
+
     - name: Check if minecraft_server containers are running
       ansible.builtin.assert:
         that:
           - result.container['State']['Status'] == "running"
           - result.container['State']['Restarting'] == false
+          - result_rcon.container['State']['Status'] == "running"
+          - result_rcon.container['State']['Restarting'] == false
