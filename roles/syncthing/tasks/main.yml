@@ -15,8 +15,9 @@
         pull: true
         ports:
           - "{{ syncthing_port }}:8384"
-          - "22000:22000/tcp"
+          - "21027:21027/udp"
           - "22000:22000/udp"
+          - "22000:22000/tcp"
         env:
           PUID: "{{ syncthing_user_id }}"
           PGID: "{{ syncthing_group_id }}"
