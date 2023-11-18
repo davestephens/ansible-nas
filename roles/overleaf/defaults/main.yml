@@ -1,0 +1,92 @@
+---
+overleaf_enabled: false
+overleaf_available_externally: false
+
+# directories
+overleaf_data_directory: "{{ docker_home }}/overleaf"
+
+# network
+overleaf_port: "8127"
+overleaf_hostname: "overleaf"
+overleaf_network_name: "overleaf"
+
+# specs
+overleaf_memory: 1g
+overleaf_mongo_memory: 1g
+overleaf_redis_memory: 1g
+
+# docker
+overleaf_container_name: overleaf
+overleaf_image_name: "sharelatex/sharelatex"
+overleaf_image_version: latest
+
+overleaf_mongo_container_name: overleaf-mongo
+overleaf_mongo_image_name: "mongo"
+overleaf_mongo_image_version: "4.4"
+
+overleaf_redis_container_name: overleaf-redis
+overleaf_redis_image_name: "redis"
+overleaf_redis_image_version: "6.2"
+overleaf_user_id: "1000"
+overleaf_group_id: "1000"
+
+# overleaf
+overleaf_app_name: "Ansible-NAS Overleaf"
+overleaf_mongo_url: "mongodb://{{ overleaf_mongo_container_name }}/sharelatex"
+# Same property, unfortunately with different names in
+# different locations
+overleaf_redis_host: "{{ overleaf_redis_container_name }}"
+overleaf_enabled_linked_file_types: "'project_file,project_output_file'"
+# Enables Thumbnail generation using ImageMagick
+overleaf_enabled_conversions: "true"
+# Disables email confirmation requirement
+overleaf_email_confirmation_disabled: "true"
+# temporary fix for LuaLaTex compiles
+# see https://github.com/overleaf/overleaf/issues/695
+overleaf_texmfvar: "/var/lib/sharelatex/tmp/texmf-var"
+## Set for SSL via nginx-proxy
+# overleaf_virtual_host: "103.112.212.22"
+overleaf_site_url: "https://{{ overleaf_hostname }}.{{ ansible_nas_domain }}"
+overleaf_nav_title: "Ansible-NAS ShareLaTeX Instance"
+overleaf_header_image_url: "http://somewhere.com/mylogo.png"
+overleaf_admin_email: "overleaf@{{ ansible_nas_domain }}"
+
+overleaf_left_footer: "[{\"text\": \"Powered by <a href=\\\"https://www.sharelatex.com\\\">ShareLaTeX</a> 2016\"},{\"text\": \"Another page I want to link to can be found <a href=\\\"here\\\">here</a>\"} ]"
+overleaf_right_footer: "[{\"text\": \"Hello I am on the Right\"} ]"
+
+overleaf_email_from_address: "overleaf@{{ ansible_nas_domain }}"
+
+overleaf_email_aws_ses_access_key_id: ""
+overleaf_email_aws_ses_secret_key: ""
+
+overleaf_email_smtp_host: "smtp.mydomain.com"
+overleaf_email_smtp_port: "587"
+overleaf_email_smtp_secure: "false"
+overleaf_email_smtp_user: ""
+overleaf_email_smtp_pass: ""
+overleaf_email_smtp_tls_reject_unauth: "true"
+overleaf_email_smtp_ignore_tls: "false"
+overleaf_email_smtp_name: "'127.0.0.1'"
+overleaf_email_smtp_logger: "true"
+overleaf_custom_email_footer: "This system is run by Ansible-NAS"
+
+overleaf_enable_cron_resource_deletion: "true"
+
+
+# Database settings
+# These are currently only required for configuring PostreSQL.
+# By default, overleaf uses SQLite for which you don't need to configure anything.
+
+# Database engine, can be sqlite (default) or postgres
+overleaf_db_engine: "sqlite"
+# Database name (default: overleaf)
+overleaf_db_database: "overleaf"
+# Username to connect to the database server  (default: overleaf)
+overleaf_db_user: "overleaf"
+# Password to connect to the database server
+overleaf_db_password: "overleaf"
+# The hostname where the database is hosted (default: localhost)
+overleaf_db_host: ""
+# Port use to connect to the database server
+# Should use the default port if not set
+overleaf_db_port: ""

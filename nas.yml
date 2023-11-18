@@ -490,6 +490,10 @@
       tags:
         - organizr
 
+    - role: overleaf
+      tags:
+        - overleaf
+
     - role: overseerr
       tags:
         - overseerr

@@ -1,0 +1,143 @@
+---
+- name: Start Overleaf
+  block:
+    - name: Create overleaf Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ overleaf_data_directory }}"
+        - "{{ overleaf_data_directory }}/data"
+        - "{{ overleaf_data_directory }}/mongo_data"
+        - "{{ overleaf_data_directory }}/redis_data"
+
+    - name: Create Overleaf Network
+      community.docker.docker_network:
+        name: "{{ overleaf_network_name }}"
+
+    - name: Create Overleaf Mongo Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ overleaf_mongo_container_name }}"
+        image: "{{ overleaf_mongo_image_name }}:{{ overleaf_mongo_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ overleaf_network_name }}"
+        network_mode: "{{ overleaf_network_name }}"
+        exposed_ports:
+          - 27017
+        volumes:
+          - "{{ overleaf_data_directory }}/mongo_data:/data/db"
+        env:
+          MONGODB_REPLICA_SET_MODE: primary
+          ALLOW_EMPTY_PASSWORD: 'yes'
+        command: "--replSet overleaf"
+        healthcheck:
+          test: "mongo --quiet --eval 'rs.hello().setName ? rs.hello().setName : rs.initiate({_id: \"overleaf\",members:[{_id: 0, host:\"{{ overleaf_mongo_container_name }}:27017\"}]})'"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ overleaf_mongo_memory }}"
+
+    - name: Create Overleaf Redis Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ overleaf_redis_container_name }}"
+        image: "{{ overleaf_redis_image_name }}:{{ overleaf_redis_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ overleaf_network_name }}"
+        network_mode: "{{ overleaf_network_name }}"
+        exposed_ports:
+          - 6379
+        volumes:
+          - "{{ overleaf_data_directory }}/redis_data:/data"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ overleaf_redis_memory }}"
+
+    - name: Create Overleaf Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ overleaf_container_name }}"
+        image: "{{ overleaf_image_name }}:{{ overleaf_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ overleaf_network_name }}"
+        network_mode: "{{ overleaf_network_name }}"
+        volumes:
+          - "{{ overleaf_data_directory }}/data:/var/lib/sharelatex"
+        ports:
+          - "{{ overleaf_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ overleaf_user_id | quote }}"
+          PGID: "{{ overleaf_group_id | quote }}"
+          SHARELATEX_APP_NAME: "{{ overleaf_app_name }}"
+          SHARELATEX_MONGO_URL: "{{ overleaf_mongo_url }}"
+          # Same property, unfortunately with different names in
+          # different locations
+          SHARELATEX_REDIS_HOST: "{{ overleaf_redis_host }}"
+          REDIS_HOST: "{{ overleaf_redis_host }}"
+          ENABLED_LINKED_FILE_TYPES: "{{ overleaf_enabled_linked_file_types }}"
+          # Enables Thumbnail generation using ImageMagick
+          ENABLE_CONVERSIONS: "{{ overleaf_enabled_conversions }}"
+          # Disables email confirmation requirement
+          EMAIL_CONFIRMATION_DISABLED: "{{ overleaf_email_confirmation_disabled }}"
+          # temporary fix for LuaLaTex compiles
+          # see https://github.com/overleaf/overleaf/issues/695
+          TEXMFVAR: "{{ overleaf_texmfvar }}"
+          ## Set for SSL via nginx-proxy
+          # VIRTUAL_HOST: "{{ overleaf_virtual_host }}"
+          SHARELATEX_SITE_URL: "{{ overleaf_site_url }}"
+          SHARELATEX_NAV_TITLE: "{{ overleaf_nav_title }}"
+          SHARELATEX_HEADER_IMAGE_URL: "{{ overleaf_header_image_url }}"
+          SHARELATEX_ADMIN_EMAIL: "{{ overleaf_admin_email }}"
+
+          SHARELATEX_LEFT_FOOTER: "{{ overleaf_left_footer | string }}"
+          SHARELATEX_RIGHT_FOOTER: "{{ overleaf_right_footer | string }}"
+
+          SHARELATEX_EMAIL_FROM_ADDRESS: "{{ overleaf_email_from_address }}"
+
+          SHARELATEX_EMAIL_AWS_SES_ACCESS_KEY_ID: "{{ overleaf_email_aws_ses_access_key_id }}"
+          SHARELATEX_EMAIL_AWS_SES_SECRET_KEY: "{{ overleaf_email_aws_ses_secret_key }}"
+
+          SHARELATEX_EMAIL_SMTP_HOST: "{{ overleaf_email_smtp_host }}"
+          SHARELATEX_EMAIL_SMTP_PORT: "{{ overleaf_email_smtp_port }}"
+          SHARELATEX_EMAIL_SMTP_SECURE: "{{ overleaf_email_smtp_secure }}"
+          SHARELATEX_EMAIL_SMTP_USER: "{{ overleaf_email_smtp_user }}"
+          SHARELATEX_EMAIL_SMTP_PASS: "{{ overleaf_email_smtp_pass }}"
+          SHARELATEX_EMAIL_SMTP_TLS_REJECT_UNAUTH: "{{ overleaf_email_smtp_tls_reject_unauth }}"
+          SHARELATEX_EMAIL_SMTP_IGNORE_TLS: "{{ overleaf_email_smtp_ignore_tls }}"
+          SHARELATEX_EMAIL_SMTP_NAME: "{{ overleaf_email_smtp_name }}"
+          SHARELATEX_EMAIL_SMTP_LOGGER: "{{ overleaf_email_smtp_logger }}"
+          SHARELATEX_CUSTOM_EMAIL_FOOTER: "{{ overleaf_custom_email_footer }}"
+
+          ENABLE_CRON_RESOURCE_DELETION: "{{ overleaf_enable_cron_resource_deletion }}"
+        restart_policy: unless-stopped
+        memory: "{{ overleaf_memory }}"
+        labels:
+          traefik.enable: "{{ overleaf_available_externally | string }}"
+          traefik.http.routers.overleaf.rule: "Host(`{{ overleaf_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.overleaf.tls.certresolver: "letsencrypt"
+          traefik.http.routers.overleaf.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.overleaf.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.overleaf.loadbalancer.server.port: "80"
+  when: overleaf_enabled is true
+
+- name: Stop Overleaf
+  block:
+    - name: Stop Overleaf
+      community.docker.docker_container:
+        name: "{{ overleaf_container_name }}"
+        state: absent
+    - name: Stop Overleaf Redis
+      community.docker.docker_container:
+        name: "{{ overleaf_redis_container_name }}"
+        state: absent
+    - name: Stop Overleaf Mongo
+      community.docker.docker_container:
+        name: "{{ overleaf_mongo_container_name }}"
+        state: absent
+  when: overleaf_enabled is false
