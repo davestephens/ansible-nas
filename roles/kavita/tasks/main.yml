@@ -31,7 +31,7 @@
           traefik.http.routers.kavita.tls.certresolver: "letsencrypt"
           traefik.http.routers.kavita.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.kavita.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.kavita.loadbalancer.server.port: "5002"
+          traefik.http.services.kavita.loadbalancer.server.port: "5000"
   when: kavita_enabled is true
 
 - name: Stop Kavita
