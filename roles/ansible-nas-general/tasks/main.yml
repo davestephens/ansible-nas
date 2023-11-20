@@ -26,7 +26,13 @@
   register: result
   until: result is succeeded
 
-#  - name: Configure smartmontools
+- name: Install LazyDocker
+  ansible.builtin.shell:
+    cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+  args:
+    creates: /usr/local/bin/lazydocker
+  environment:
+    DIR: /usr/local/bin
 
 - name: "Set hostname to {{ ansible_nas_hostname }}"
   ansible.builtin.hostname:
