@@ -76,18 +76,15 @@
           - "{{ standardnotes_data_directory }}/mysql:/var/lib/mysql"
           - "{{ standardnotes_data_directory }}/import:/docker-entrypoint-initdb.d"
         env:
-          # LANG: "{{ standardnotes_db_lang }}"
           MYSQL_DATABASE: "{{ standardnotes_db_database }}"
           MYSQL_USER: "{{ standardnotes_db_user }}"
           MYSQL_ROOT_PASSWORD: "{{ standardnotes_db_root_password }}"
           MYSQL_PASSWORD: "{{ standardnotes_db_password }}"
-          # MYSQL_INITDB_CHARSET: "{{ standardnotes_db_charset }}"
         command: --default-authentication-plugin=caching_sha2_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
         memory: "{{ standardnotes_db_memory }}"
-        # user: "{{ standardnotes_user_id | quote }}:{{ standardnotes_group_id | quote }}"
         healthcheck:
           test: [
             "CMD",
@@ -191,17 +188,16 @@
           traefik.enable: "{{ standardnotes_available_externally | string }}"
           traefik.http.routers.standardnotes-server.rule: "Host(`{{ standardnotes_server_hostname }}.{{ ansible_nas_domain }}`)"
           traefik.http.routers.standardnotes-server.service: "standardnotes-server"
-          # traefik.http.routers.standardnotes-server.tls.certresolver: "letsencrypt"
-          # traefik.http.routers.standardnotes-server.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          # traefik.http.routers.standardnotes-server.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.standardnotes-server.tls.certresolver: "letsencrypt"
+          traefik.http.routers.standardnotes-server.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.standardnotes-server.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.standardnotes-server.loadbalancer.server.port: "3000"
           traefik.http.routers.standardnotes-files.rule: "Host(`{{ standardnotes_files_hostname }}.{{ ansible_nas_domain }}`)"
           traefik.http.routers.standardnotes-files.service: "standardnotes-files"
-          # traefik.http.routers.standardnotes-files.tls.certresolver: "letsencrypt"
-          # traefik.http.routers.standardnotes-files.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          # traefik.http.routers.standardnotes-files.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.standardnotes-files.tls.certresolver: "letsencrypt"
+          traefik.http.routers.standardnotes-files.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.standardnotes-files.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.standardnotes-files.loadbalancer.server.port: "3104"
-        # user: "{{ standardnotes_user_id | quote }}:{{ standardnotes_group_id | quote }}"
         healthcheck:
           test: curl -s http://localhost:3000
           timeout: 10s
@@ -244,9 +240,9 @@
             labels:
               traefik.enable: "{{ standardnotes_available_externally | string }}"
               traefik.http.routers.standardnotes-app.rule: "Host(`{{ standardnotes_app_hostname }}.{{ ansible_nas_domain }}`)"
-              # traefik.http.routers.standardnotes-app.tls.certresolver: "letsencrypt"
-              # traefik.http.routers.standardnotes-app.tls.domains[0].main: "{{ ansible_nas_domain }}"
-              # traefik.http.routers.standardnotes-app.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+              traefik.http.routers.standardnotes-app.tls.certresolver: "letsencrypt"
+              traefik.http.routers.standardnotes-app.tls.domains[0].main: "{{ ansible_nas_domain }}"
+              traefik.http.routers.standardnotes-app.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
               traefik.http.services.standardnotes-app.loadbalancer.server.port: "80"
             healthcheck:
               test: curl -s http://localhost
