@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        standardnotes_enabled: true
+        standardnotes_app_client_enabled: true

@@ -1,0 +1,304 @@
+---
+- name: Start Standard Notes
+  block:
+    - name: Create Standard Notes Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ standardnotes_data_directory }}"
+        - "{{ standardnotes_data_directory }}/import"
+        - "{{ standardnotes_data_directory }}/redis_data"
+        - "{{ standardnotes_data_directory }}/logs"
+        - "{{ standardnotes_data_directory }}/mysql"
+
+    - name: Create Standard Notes Upload Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ standardnotes_user_id | quote }}"
+        group: "{{ standardnotes_group_id | quote }}"
+        mode: 0775
+      with_items:
+        - "{{ standardnotes_data_directory }}/uploads"
+
+    - name: Create Standard Notes Network
+      community.docker.docker_network:
+        name: "{{ standardnotes_network_name }}"
+
+    - name: Download localstack bootstrap file
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/standardnotes/server/main/docker/localstack_bootstrap.sh
+        dest: "{{ standardnotes_data_directory }}/localstack_bootstrap.sh"
+        owner: "{{ standardnotes_user_id | quote }}"
+        group: "{{ standardnotes_group_id | quote }}"
+        mode: '0755'
+
+    - name: Create Standard Notes Localstack Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ standardnotes_localstack_container_name }}"
+        image: "{{ standardnotes_localstack_image_name }}:{{ standardnotes_localstack_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ standardnotes_network_name }}"
+        network_mode: "{{ standardnotes_network_name }}"
+        env:
+          SERVICES: "sns,sqs"
+          HOSTNAME_EXTERNAL: "localstack"
+          LS_LOG: "warn"
+        exposed_ports:
+          - 4566
+        volumes:
+          - "{{ standardnotes_data_directory }}/localstack_bootstrap.sh:/etc/localstack/init/ready.d/localstack_bootstrap.sh"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ standardnotes_localstack_memory }}"
+        healthcheck:
+          test: curl -s http://localhost:4566/_localstack/health
+          timeout: 10s
+          interval: 5s
+          start_period: 60s
+
+    - name: Create Standard Notes Db Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ standardnotes_db_container_name }}"
+        image: "{{ standardnotes_db_image_name }}:{{ standardnotes_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ standardnotes_network_name }}"
+        network_mode: "{{ standardnotes_network_name }}"
+        exposed_ports:
+          - 3306
+        volumes:
+          - "{{ standardnotes_data_directory }}/mysql:/var/lib/mysql"
+          - "{{ standardnotes_data_directory }}/import:/docker-entrypoint-initdb.d"
+        env:
+          # LANG: "{{ standardnotes_db_lang }}"
+          MYSQL_DATABASE: "{{ standardnotes_db_database }}"
+          MYSQL_USER: "{{ standardnotes_db_user }}"
+          MYSQL_ROOT_PASSWORD: "{{ standardnotes_db_root_password }}"
+          MYSQL_PASSWORD: "{{ standardnotes_db_password }}"
+          # MYSQL_INITDB_CHARSET: "{{ standardnotes_db_charset }}"
+        command: --default-authentication-plugin=caching_sha2_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ standardnotes_db_memory }}"
+        # user: "{{ standardnotes_user_id | quote }}:{{ standardnotes_group_id | quote }}"
+        healthcheck:
+          test: [
+            "CMD",
+            "mysqladmin",
+            "ping",
+            "-h", "localhost",
+            '-u', 'root',
+            '-p{{ standardnotes_db_root_password }}'
+          ]
+          timeout: 20s
+          retries: 10
+          start_period: 10s
+
+    - name: Create Standard Notes Redis Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ standardnotes_redis_container_name }}"
+        image: "{{ standardnotes_redis_image_name }}:{{ standardnotes_redis_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ standardnotes_network_name }}"
+        network_mode: "{{ standardnotes_network_name }}"
+        exposed_ports:
+          - 6379
+        volumes:
+          - "{{ standardnotes_data_directory }}/redis_data:/data"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ standardnotes_redis_memory }}"
+        user: "{{ standardnotes_user_id | quote }}:{{ standardnotes_group_id | quote }}"
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
+          interval: 20s
+          timeout: 3s
+
+    - name: Create Standard Notes Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ standardnotes_container_name }}"
+        image: "{{ standardnotes_image_name }}:{{ standardnotes_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ standardnotes_network_name }}"
+        network_mode: "{{ standardnotes_network_name }}"
+        volumes:
+          - "{{ standardnotes_data_directory }}/logs:/var/lib/server/logs"
+          - "{{ standardnotes_data_directory }}/uploads:/opt/server/packages/files/dist/uploads"
+        ports:
+          - "{{ standardnotes_port }}:3000"
+          - "{{ standardnotes_files_port }}:3104"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ standardnotes_user_id | quote }}"
+          PGID: "{{ standardnotes_group_id | quote }}"
+          ######
+          # DB #
+          ######
+
+          DB_HOST: "{{ standardnotes_db_host }}"
+          DB_PORT: "{{ standardnotes_db_port }}"
+          DB_USERNAME: "{{ standardnotes_db_user }}"
+          DB_PASSWORD: "{{ standardnotes_db_password }}"
+          DB_DATABASE: "{{ standardnotes_db_database }}"
+          DB_TYPE: "{{ standardnotes_db_type }}"
+
+          #########
+          # CACHE #
+          #########
+
+          REDIS_PORT: "{{ standardnotes_redis_port }}"
+          REDIS_HOST: "{{ standardnotes_redis_host }}"
+          CACHE_TYPE: "{{ standardnotes_cache_type }}"
+
+          ########
+          # KEYS #
+          ########
+
+          AUTH_JWT_SECRET: "{{ standardnotes_jwt_secret }}"
+          AUTH_SERVER_ENCRYPTION_SERVER_KEY: "{{ standardnotes_encryption_server_key }}"
+          VALET_TOKEN_SECRET: "{{ standardnotes_valet_token_secret }}"
+
+          AUTH_SERVER_SNS_ENDPOINT: "http://{{ standardnotes_localstack_container_name }}:4566"
+          AUTH_SERVER_SQS_QUEUE_URL: "http://{{ standardnotes_localstack_container_name }}:4566/000000000000/auth-local-queue"
+          AUTH_SERVER_SQS_ENDPOINT: "http://{{ standardnotes_localstack_container_name }}:4566"
+          SYNCING_SERVER_SNS_ENDPOINT: "http://{{ standardnotes_localstack_container_name }}:4566"
+          SYNCING_SERVER_SQS_QUEUE_URL: "http://{{ standardnotes_localstack_container_name }}:4566/000000000000/syncing-server-local-queue"
+          SYNCING_SERVER_SQS_ENDPOINT: "http://{{ standardnotes_localstack_container_name }}:4566"
+          FILES_SERVER_SNS_ENDPOINT: "http://{{ standardnotes_localstack_container_name }}:4566"
+          FILES_SERVER_SQS_QUEUE_URL: "http://{{ standardnotes_localstack_container_name }}:4566/000000000000/files-local-queue"
+          FILES_SERVER_SQS_ENDPOINT: "http://{{ standardnotes_localstack_container_name }}:4566"
+          REVISIONS_SERVER_SNS_ENDPOINT: "http://{{ standardnotes_localstack_container_name }}:4566"
+          REVISIONS_SERVER_SQS_QUEUE_URL: "http://{{ standardnotes_localstack_container_name }}:4566/000000000000/revisions-server-local-queue"
+          REVISIONS_SERVER_SQS_ENDPOINT: "http://{{ standardnotes_localstack_container_name }}:4566"
+
+          PUBLIC_FILES_SERVER_URL: "{{ standardnotes_public_files_server_url }}"
+
+        restart_policy: unless-stopped
+        memory: "{{ standardnotes_memory }}"
+        labels:
+          traefik.enable: "{{ standardnotes_available_externally | string }}"
+          traefik.http.routers.standardnotes-server.rule: "Host(`{{ standardnotes_server_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.standardnotes-server.service: "standardnotes-server"
+          # traefik.http.routers.standardnotes-server.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.standardnotes-server.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.standardnotes-server.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.standardnotes-server.loadbalancer.server.port: "3000"
+          traefik.http.routers.standardnotes-files.rule: "Host(`{{ standardnotes_files_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.standardnotes-files.service: "standardnotes-files"
+          # traefik.http.routers.standardnotes-files.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.standardnotes-files.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.standardnotes-files.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.standardnotes-files.loadbalancer.server.port: "3104"
+        # user: "{{ standardnotes_user_id | quote }}:{{ standardnotes_group_id | quote }}"
+        healthcheck:
+          test: curl -s http://localhost:3000
+          timeout: 10s
+          interval: 5s
+          start_period: 60s
+
+    - name: Install Web Client
+      block:
+        - name: Create Standard Notes Web Client
+          community.docker.docker_container:
+            container_default_behavior: no_defaults
+            name: "{{ standardnotes_app_container_name }}"
+            image: "{{ standardnotes_app_image_name }}:{{ standardnotes_app_image_version }}"
+            pull: true
+            networks:
+              - name: "{{ standardnotes_network_name }}"
+            network_mode: "{{ standardnotes_network_name }}"
+            volumes:
+              - "{{ standardnotes_data_directory }}/logs:/var/lib/server/logs"
+              - "{{ standardnotes_data_directory }}/uploads:/opt/server/packages/files/dist/uploads"
+            ports:
+              - "{{ standardnotes_app_port }}:80"
+            env:
+              TZ: "{{ ansible_nas_timezone }}"
+              PUID: "{{ standardnotes_user_id | quote }}"
+              PGID: "{{ standardnotes_group_id | quote }}"
+              APP_HOST: "{{ standardnotes_app_host }}"
+              SF_DEFAULT_SERVER: "{{ standardnotes_sf_default_server }}"
+              PORT: "{{ standardnotes_app_env_port }}"
+
+              DEFAULT_SYNC_SERVER: "{{ standardnotes_sf_default_server }}"
+
+              # Subscription related endpoints
+              DASHBOARD_URL: "{{ standardnotes_app_dashboard_url }}"
+              PLANS_URL: "{{ standardnotes_app_plans_url }}"
+              PURCHASE_URL: "{{ standardnotes_app_purchase_url }}"
+
+            restart_policy: unless-stopped
+            memory: "{{ standardnotes_app_memory }}"
+            labels:
+              traefik.enable: "{{ standardnotes_available_externally | string }}"
+              traefik.http.routers.standardnotes-app.rule: "Host(`{{ standardnotes_app_hostname }}.{{ ansible_nas_domain }}`)"
+              # traefik.http.routers.standardnotes-app.tls.certresolver: "letsencrypt"
+              # traefik.http.routers.standardnotes-app.tls.domains[0].main: "{{ ansible_nas_domain }}"
+              # traefik.http.routers.standardnotes-app.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+              traefik.http.services.standardnotes-app.loadbalancer.server.port: "80"
+            healthcheck:
+              test: curl -s http://localhost
+              timeout: 10s
+              interval: 5s
+
+      when: standardnotes_app_client_enabled is true
+
+    - name: Enable subscription
+      block:
+        - name: Check if db container exists and is running
+          ansible.builtin.command: "docker inspect --format=\"{{ '{{' }} .State.Running {{ '}}' }}\" {{ standardnotes_db_container_name }}"
+          register: container_running
+          changed_when: false
+          ignore_errors: true
+
+        - name: Update user roles
+          ansible.builtin.command: "docker exec {{ standardnotes_db_container_name }} sh -c \"MYSQL_PWD={{ standardnotes_db_root_password }} mysql {{ standardnotes_db_database }} -e 'INSERT INTO user_roles (role_uuid , user_uuid) VALUES ((SELECT uuid FROM roles WHERE name=\\\"PRO_USER\\\" ORDER BY version DESC limit 1) ,(SELECT uuid FROM users WHERE email=\\\"{{ standardnotes_subscription_email }}\\\")) ON DUPLICATE KEY UPDATE role_uuid = VALUES(role_uuid);'\""
+          changed_when: false
+          when: container_running.stdout == "true"
+
+        - name: Update user subscriptions
+          ansible.builtin.command: "docker exec {{ standardnotes_db_container_name }} sh -c \"MYSQL_PWD={{ standardnotes_db_root_password }} mysql {{ standardnotes_db_database }} -e 'INSERT INTO user_subscriptions SET uuid=UUID(), plan_name=\\\"PRO_PLAN\\\", ends_at=8640000000000000, created_at=0, updated_at=0, user_uuid=(SELECT uuid FROM users WHERE email=\\\"{{ standardnotes_subscription_email }}\\\"), subscription_id=1, subscription_type=\\\"regular\\\";'\""
+          changed_when: false
+          when: container_running.stdout == "true"
+
+      when: standardnotes_enable_subscription is true
+  when: standardnotes_enabled is true
+
+- name: Stop Standard Notes
+  block:
+    - name: Stop Standard Notes
+      community.docker.docker_container:
+        name: "{{ standardnotes_container_name }}"
+        state: absent
+    - name: Stop Standard Notes Redis
+      community.docker.docker_container:
+        name: "{{ standardnotes_redis_container_name }}"
+        state: absent
+    - name: Stop Standard Notes Db
+      community.docker.docker_container:
+        name: "{{ standardnotes_db_container_name }}"
+        state: absent
+    - name: Stop Standard Notes Localstack
+      community.docker.docker_container:
+        name: "{{ standardnotes_localstack_container_name }}"
+        state: absent
+    - name: Uninstall Web Client
+      block:
+        - name: Delete Web Client Container
+          community.docker.docker_container:
+            name: "{{ standardnotes_app_container_name }}"
+            state: absent
+      when: standardnotes_app_client_enabled is true
+  when: standardnotes_enabled is false

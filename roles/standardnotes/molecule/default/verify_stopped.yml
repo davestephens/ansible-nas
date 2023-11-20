@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove standardnotes
+      community.docker.docker_container:
+        name: "{{ standardnotes_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove standardnotes redis
+      community.docker.docker_container:
+        name: "{{ standardnotes_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove standardnotes db
+      community.docker.docker_container:
+        name: "{{ standardnotes_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove standardnotes localstack
+      community.docker.docker_container:
+        name: "{{ standardnotes_localstack_container_name }}"
+        state: absent
+      register: result_localstack
+
+    - name: Try and stop and remove standardnotes web app
+      community.docker.docker_container:
+        name: "{{ standardnotes_app_container_name }}"
+        state: absent
+      register: result_app
+
+    - name: Check if standardnotes is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_redis.changed
+          - not result_db.changed
+          - not result_localstack.changed
+          - not result_app.changed

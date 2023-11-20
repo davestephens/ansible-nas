@@ -606,6 +606,10 @@
       tags:
         - speedtest-tracker
 
+    - role: standardnotes
+      tags:
+        - standardnotes
+
     - role: stats
       tags:
         - stats

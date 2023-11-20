@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get standardnotes localstack container state
+      community.docker.docker_container:
+        name: "{{ standardnotes_localstack_container_name }}"
+      register: result_localstack
+
+    - name: Get standardnotes db container state
+      community.docker.docker_container:
+        name: "{{ standardnotes_db_container_name }}"
+      register: result_db
+
+    - name: Get standardnotes redis container state
+      community.docker.docker_container:
+        name: "{{ standardnotes_redis_container_name }}"
+      register: result_redis
+
+    - name: Get standardnotes container state
+      community.docker.docker_container:
+        name: "{{ standardnotes_container_name }}"
+      register: result
+
+    - name: Get standardnotes web app container state
+      community.docker.docker_container:
+        name: "{{ standardnotes_app_container_name }}"
+      register: result_app
+
+    - name: Check if standardnotes containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_localstack.container['State']['Status'] == "running"
+          - result_localstack.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+          - result_app.container['State']['Status'] == "running"
+          - result_app.container['State']['Restarting'] == false

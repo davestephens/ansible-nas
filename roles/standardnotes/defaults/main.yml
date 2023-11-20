@@ -1,0 +1,88 @@
+---
+standardnotes_enabled: false
+standardnotes_available_externally: false
+standardnotes_app_client_enabled: false
+standardnotes_enable_subscription: false
+
+# directories
+standardnotes_data_directory: "{{ docker_home }}/standardnotes"
+
+# network
+standardnotes_port: "3011"
+standardnotes_files_port: "3013"
+standardnotes_app_port: "8128"
+standardnotes_app_hostname: "standardnotes"
+standardnotes_server_hostname: "standardnotes-server"
+standardnotes_files_hostname: "standardnotes-files"
+standardnotes_network_name: "standardnotes"
+
+# specs
+standardnotes_memory: 1g
+standardnotes_localstack_memory: 1g
+standardnotes_db_memory: 1g
+standardnotes_redis_memory: 1g
+standardnotes_app_memory: 4g
+
+# docker
+standardnotes_container_name: standardnotes
+standardnotes_image_name: "standardnotes/server"
+standardnotes_image_version: latest
+
+standardnotes_app_container_name: standardnotes-app
+standardnotes_app_image_name: "ghcr.io/jackyzy823/standardnotes-web"
+standardnotes_app_image_version: latest
+
+standardnotes_localstack_container_name: standardnotes-localstack
+standardnotes_localstack_image_name: "localstack/localstack"
+standardnotes_localstack_image_version: "1.4"
+
+standardnotes_db_container_name: standardnotes-db
+standardnotes_db_image_name: "mysql"
+standardnotes_db_image_version: "8"
+
+standardnotes_redis_container_name: standardnotes-redis
+standardnotes_redis_image_name: "redis"
+standardnotes_redis_image_version: "6.0-alpine"
+standardnotes_user_id: "1000"
+standardnotes_group_id: "1000"
+
+# standardnotes
+standardnotes_db_database: "standardnotes"
+standardnotes_db_user: "standardnotes"
+standardnotes_db_root_password: "supersecure"
+standardnotes_db_password: "changeme"
+standardnotes_db_host: "{{ standardnotes_db_container_name }}"
+standardnotes_db_port: "3306"
+standardnotes_db_type: "mysql"
+standardnotes_db_charset: "utf8mb4"
+standardnotes_db_lang: "C.UTF-8"
+
+#########
+# CACHE #
+#########
+
+standardnotes_redis_port: "6379"
+standardnotes_redis_host: "{{ standardnotes_redis_container_name }}"
+standardnotes_cache_type: "redis"
+
+########
+# KEYS #
+########
+
+standardnotes_jwt_secret: "change_me1"
+standardnotes_encryption_server_key: "change_me2"
+standardnotes_valet_token_secret: "change_me3"
+
+#######
+# APP #
+#######
+standardnotes_sf_default_server: "https://{{ standardnotes_server_hostname }}.{{ ansible_nas_domain }}"
+standardnotes_app_env_port: "3001"
+standardnotes_app_host: "https://{{ standardnotes_app_hostname }}.{{ ansible_nas_domain }}"
+# Subscription related endpoints
+standardnotes_app_dashboard_url: "http://standardnotes.com/dashboard"
+standardnotes_app_plans_url: "https://standardnotes.com/plans"
+standardnotes_app_purchase_url: "https://standardnotes.com/purchase"
+
+standardnotes_subscription_email: ""
+standardnotes_public_files_server_url: "https://{{ standardnotes_files_hostname }}.{{ ansible_nas_domain }}"
