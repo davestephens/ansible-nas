@@ -37,16 +37,6 @@
         name: "{{ immich_machinelearning_container_name }}"
       register: result_machinelearning
 
-    - name: Get Immich Web container state
-      community.docker.docker_container_info:
-        name: "{{ immich_web_container_name }}"
-      register: result_web
-
-    - name: Get Immich Proxy container state
-      community.docker.docker_container_info:
-        name: "{{ immich_proxy_container_name }}"
-      register: result_proxy
-
     - name: Check if Immich docker containers are running
       ansible.builtin.assert:
         that:
@@ -62,7 +52,3 @@
           - result_microservices.container['State']['Restarting'] == false
           - result_machinelearning.container['State']['Status'] == "running"
           - result_machinelearning.container['State']['Restarting'] == false
-          - result_web.container['State']['Status'] == "running"
-          - result_web.container['State']['Restarting'] == false
-          - result_proxy.container['State']['Status'] == "running"
-          - result_proxy.container['State']['Restarting'] == false

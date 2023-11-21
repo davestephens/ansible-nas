@@ -45,7 +45,6 @@
         name: "{{ immich_redis_container_name }}"
         image: "{{ immich_redis_image }}:{{ immich_redis_tag }}"
         pull: true
-        command: --save 60 1 --loglevel warning
         volumes:
           - "{{ immich_data_directory }}/redis:/data:rw"
         networks:
@@ -73,6 +72,8 @@
         env:
           TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
           TYPESENSE_DATA_DIR: "/data"
+          # remove this to get debug messages
+          GLOG_minloglevel: "1"
         labels:
           traefik.enable: "false"
         restart_policy: always
@@ -87,8 +88,11 @@
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
+          - /etc/localtime:/etc/localtime:ro
         networks:
           - name: "{{ immich_network_name }}"
+        exposed:
+          - "{{ immich_port }}:3001"
         env:
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ immich_user_id | quote }}"
@@ -107,7 +111,12 @@
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
           TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
-          traefik.enable: "false"
+          traefik.enable: "{{ immich_available_externally | string }}"
+          traefik.http.routers.immich.rule: "Host(`{{ immich_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.immich.tls.certresolver: "letsencrypt"
+          traefik.http.routers.immich.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.immich.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.immich.loadbalancer.server.port: "3001"
         command: ["start.sh", "immich"]
         restart_policy: unless-stopped
         memory: "{{ immich_server_memory }}"
@@ -121,6 +130,7 @@
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
+          - /etc/localtime:/etc/localtime:ro
         networks:
           - name: "{{ immich_network_name }}"
         env:
@@ -177,64 +187,6 @@
           traefik.enable: "false"
         restart_policy: unless-stopped
         memory: "{{ immich_machinelearning_memory }}"
-
-    - name: Immich Web Docker Container
-      community.docker.docker_container:
-        name: "{{ immich_web_container_name }}"
-        image: "{{ immich_web_image }}:{{ immich_web_tag }}"
-        pull: true
-        networks:
-          - name: "{{ immich_network_name }}"
-        env:
-          TZ: "{{ ansible_nas_timezone }}"
-          PUID: "{{ immich_user_id | quote }}"
-          PGID: "{{ immich_group_id | quote }}"
-          NODE_ENV: "production"
-          REDIS_HOSTNAME: "{{ immich_redis_container_name }}"
-          DB_HOSTNAME: "{{ immich_postgres_container_name }}"
-          DB_USERNAME: "{{ immich_db_username }}"
-          DB_PASSWORD: "{{ immich_db_password }}"
-          DB_DATABASE_NAME: "{{ immich_db_name }}"
-          DB_PORT: "{{ immich_db_port }}"
-          JWT_SECRET: "{{ immich_jwt_secret }}"
-          ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
-          MAPBOX_KEY: "{{ immich_mapbox_key }}"
-          UPLOAD_LOCATION: "./upload"
-          PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
-          PUBLIC_IMMICH_SERVER_URL: "http://{{ immich_server_container_name }}:3001"
-          IMMICH_SERVER_URL: "http://{{ immich_server_container_name }}:3001"
-          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
-        labels:
-          traefik.enable: "false"
-        restart_policy: unless-stopped
-        memory: "{{ immich_web_memory }}"
-
-    - name: Immich Proxy Docker Container
-      community.docker.docker_container:
-        name: "{{ immich_proxy_container_name }}"
-        image: "{{ immich_proxy_image }}:{{ immich_proxy_tag }}"
-        pull: true
-        log_driver: "none"
-        networks:
-          - name: "{{ immich_network_name }}"
-        ports:
-          - "{{ immich_port }}:8080"
-        env:
-          TZ: "{{ ansible_nas_timezone }}"
-          PUID: "{{ immich_user_id | quote }}"
-          PGID: "{{ immich_group_id | quote }}"
-          NODE_ENV: "production"
-          IMMICH_SERVER_URL: "http://{{ immich_server_container_name }}:3001"
-          IMMICH_WEB_URL: "http://{{ immich_web_container_name }}:3000"
-        labels:
-          traefik.enable: "{{ immich_available_externally | string }}"
-          traefik.http.routers.immich.rule: "Host(`{{ immich_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.immich.tls.certresolver: "letsencrypt"
-          traefik.http.routers.immich.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.immich.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.immich.loadbalancer.server.port: "8080"
-        restart_policy: unless-stopped
-        memory: "{{ immich_proxy_memory }}"
   when: immich_enabled is true
 
 - name: Stop Immich
@@ -267,16 +219,6 @@
     - name: Stop Immich Machine Learning
       community.docker.docker_container:
         name: "{{ immich_machinelearning_container_name }}"
-        state: absent
-
-    - name: Stop Immich Web
-      community.docker.docker_container:
-        name: "{{ immich_web_container_name }}"
-        state: absent
-
-    - name: Stop Immich Proxy
-      community.docker.docker_container:
-        name: "{{ immich_proxy_container_name }}"
         state: absent
 
     - name: Delete Immich Network
