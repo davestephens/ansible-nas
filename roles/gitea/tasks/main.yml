@@ -5,25 +5,38 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
+        owner: "{{ gitea_user_id }}"
+        group: "{{ gitea_group_id }}"
+        mode: 0755
         recurse: yes
       with_items:
-        - "{{ gitea_data_directory }}/gitea"
+        - "{{ gitea_data_directory }}/data"
+        - "{{ gitea_data_directory }}/config"
         - "{{ gitea_data_directory }}/mysql"
+
+    - name: Create Gitea Network
+      community.docker.docker_network:
+        name: "{{ gitea_network_name }}"
 
     - name: Create MySQL container for Gitea
       community.docker.docker_container:
         name: "{{ gitea_mysql_container_name }}"
         image: "{{ gitea_mysql_image_name }}:{{ gitea_mysql_image_version }}"
         pull: true
+        networks:
+          - name: "{{ gitea_network_name }}"
+        network_mode: "{{ gitea_network_name }}"
         volumes:
           - "{{ gitea_data_directory }}/mysql:/var/lib/mysql:rw"
         env:
-          MYSQL_DATABASE: "gitea"
-          MYSQL_USER: "gitea"
-          MYSQL_PASSWORD: "gitea"
-          MYSQL_ROOT_PASSWORD: "gitea"
+          MYSQL_DATABASE: "{{ gitea_db_name }}"
+          MYSQL_USER: "{{ gitea_db_user }}"
+          MYSQL_PASSWORD: "{{ gitea_db_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ gitea_db_root_password }}"
         restart_policy: unless-stopped
         memory: "{{ gitea_mysql_memory }}"
+        labels:
+          traefik.enable: "false"
 
     - name: Create Gitea container
       community.docker.docker_container:
@@ -31,26 +44,39 @@
         image: "{{ gitea_image_name }}:{{ gitea_image_version }}"
         pull: true
         volumes:
-          - "{{ gitea_data_directory }}/gitea:/data:rw"
+          - "{{ gitea_data_directory }}/data:/var/lib/gitea"
+          - "{{ gitea_data_directory }}/config:/etc/gitea"
+          - /etc/timezone:/etc/timezone:ro
+          - /etc/localtime:/etc/localtime:ro
         ports:
           - "{{ gitea_port_http }}:3000"
           - "{{ gitea_port_ssh }}:22"
-        links:
-          - gitea-mysql:db
         env:
-          DB_TYPE: "mysql"
-          DB_HOST: "db:3306"
-          DB_NAME: "gitea"
-          DB_USER: "gitea"
-          DB_PASSWD: "gitea"
-          RUN_MODE: "prod"
-          SSH_DOMAIN: "{{ ansible_nas_hostname }}"
-          SSH_PORT: "22"
-          ROOT_URL: "http://{{ gitea_hostname }}:{{ gitea_port_http }}/"
-          USER_UID: "1000"
-          USER_GID: "1000"
+          GITEA__database__DB_TYPE: "{{ gitea_db_type }}"
+          GITEA__database__HOST: "{{ gitea_db_host }}"
+          GITEA__database__NAME: "{{ gitea_db_name }}"
+          GITEA__database__USER: "{{ gitea_db_user }}"
+          GITEA__database__PASSWD: "{{ gitea_db_password }}"
+          GITEA__mailer__ENABLED: "{{ gitea_mailer_enabled }}"
+          GITEA__mailer__FROM: "{{ gitea_mailer_from}}"
+          GITEA__mailer__PROTOCOL: "{{ gitea_mailer_protocol}}"
+          GITEA__mailer__HOST: "{{ gitea_mailer_host }}"
+          GITEA__mailer__IS_TLS_ENABLED: "{{ gitea_mailer_tls_enabled }}"
+          GITEA__mailer__USER: "{{ gitea_mailer_user }}"
+          GITEA__mailer__PASSWD: "{{ gitea_mailer_password }}"
+          GITEA__security__SECRET_KEY: "{{ gitea_security_secret_key }}"
+          GITEA__security__INTERNAL_TOKEN: "{{ gitea_security_internal_token }}"
+          RUN_MODE: "{{ gitea_run_mode }}"
+          SSH_DOMAIN: "{{ gitea_ssh_domain }}"
+          SSH_PORT: "{{ gitea_ssh_port }}"
+          ROOT_URL: "{{ gitea_root_url }}"
+          USER_UID: "{{ gitea_user_id }}"
+          USER_GID: "{{ gitea_group_id }}"
         restart_policy: unless-stopped
         memory: "{{ gitea_memory }}"
+        networks:
+          - name: "{{ gitea_network_name }}"
+        network_mode: "{{ gitea_network_name }}"
         labels:
           traefik.enable: "{{ gitea_available_externally | string }}"
           traefik.http.routers.gitea.rule: "Host(`{{ gitea_hostname }}.{{ ansible_nas_domain }}`)"

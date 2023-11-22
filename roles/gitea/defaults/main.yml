@@ -18,7 +18,30 @@ gitea_mysql_memory: 1g
 # docker
 gitea_container_name: gitea
 gitea_image_name: gitea/gitea
-gitea_image_version: latest
+gitea_image_version: latest-rootless
 gitea_mysql_container_name: gitea-mysql
 gitea_mysql_image_name: mysql
 gitea_mysql_image_version: "5.7"
+
+# gitea
+gitea_db_type: "mysql"
+gitea_db_host: "{{ gitea_mysql_container_name }}:3306"
+gitea_db_name: "gitea"
+gitea_db_user: "gitea"
+gitea_db_password: "gitea"
+gitea_db_root_password: "secure"
+gitea_run_mode: "prod"
+gitea_ssh_domain: "{{ ansible_nas_hostname }}"
+gitea_ssh_port: "2222"
+gitea_root_url: "https://{{ gitea_hostname }}.{{ ansible_nas_domain }}/"
+gitea_user_id: "1000"
+gitea_group_id: "1000"
+gitea_mailer_enabled: "false"
+gitea_mailer_from: "gitea@{{ ansible_nas_domain }}"
+gitea_mailer_protocol: "smtp"
+gitea_mailer_host: ""
+gitea_mailer_tls_enabled: "false"
+gitea_mailer_user: ""
+gitea_mailer_password: ""
+gitea_security_secret_key: "pA8MRByhHjx2JmDL3Ek5Xwgjjfw6JpgUBWuzscbpYMAJw0R78JCCMAXNu4djmCby"
+gitea_security_internal_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE3MDA2NDk4NTV9.iLIdZfS4ZyM6GH7GP1DSFQmoy2kOvukWGyqS6LTll2g"
