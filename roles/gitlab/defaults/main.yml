@@ -21,3 +21,26 @@ gitlab_group_id: "1000"
 
 # specs
 gitlab_memory: "4g"
+
+# gitlab
+gitlab_database_url: ""
+gitlab_enable_bootsnap: "1"
+gitlab_external_url: "https://{{ gitlab_hostname }}.{{ ansible_nas_domain }}"
+gitlab_external_validation_service_timeout: "5"
+gitlab_external_validation_service_url: ""
+gitlab_external_validation_service_token: ""
+gitlab_cdn_host: ""
+gitlab_email_display_name: ""
+gitlab_email_from: ""
+gitlab_email_reply_to: ""
+gitlab_email_subject_suffix: ""
+gitlab_host: "https://{{ gitlab_hostname }}.{{ ansible_nas_domain }}"
+gitlab_markup_timeout: "10"
+gitlab_root_password: "supersecure"
+gitlab_shared_runners_registration_token: ""
+gitlab_rails_env: "production"
+gitlab_rails_cache_default_ttl_seconds: "28800"
+gitlab_ci_config_fetch_timeout_seconds: "30"
+gitlab_omnibus_config: |
+        external_url 'https://{{ gitlab_hostname }}.{{ ansible_nas_domain }}''
+        # Add any other gitlab.rb configuration here, each on its own line

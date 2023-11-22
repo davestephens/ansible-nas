@@ -1,29 +1,10 @@
 ---
 - name: Start Gitlab
   block:
-    # The gitlab uid/gid matches 'git:git' in the Gitlab Docker image.
-    - name: Create Gitlab group account
-      ansible.builtin.group:
-        name: gitlab
-        gid: 998
-        state: present
-
-    - name: Create Gitlab user account
-      ansible.builtin.user:
-        name: gitlab
-        uid: 998
-        state: present
-        system: yes
-        update_password: on_create
-        create_home: no
-        group: gitlab
-
     - name: Create Gitlab Directories
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        owner: gitlab
-        group: gitlab
       with_items:
         - "{{ gitlab_data_directory }}/config"
         - "{{ gitlab_data_directory }}/log"
@@ -47,6 +28,25 @@
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ gitlab_user_id }}"
           PGID: "{{ gitlab_group_id }}"
+          # DATABASE_URL: "{{ gitlab_database_url }}" # enable if using external DB
+          ENABLE_BOOTSNAP: "{{ gitlab_enable_bootsnap }}"
+          EXTERNAL_URL: "{{ gitlab_external_url }}"
+          EXTERNAL_VALIDATION_SERVICE_TIMEOUT: "{{ gitlab_external_validation_service_timeout }}"
+          EXTERNAL_VALIDATION_SERVICE_URL: "{{ gitlab_external_validation_service_url }}"
+          EXTERNAL_VALIDATION_SERVICE_TOKEN: "{{ gitlab_external_validation_service_token }}"
+          GITLAB_CDN_HOST: "{{ gitlab_cdn_host }}"
+          GITLAB_EMAIL_DISPLAY_NAME: "{{ gitlab_email_display_name }}"
+          GITLAB_EMAIL_FROM: "{{ gitlab_email_from }}"
+          GITLAB_EMAIL_REPLY_TO: "{{ gitlab_email_reply_to }}"
+          GITLAB_EMAIL_SUBJECT_SUFFIX: "{{ gitlab_email_subject_suffix }}"
+          GITLAB_HOST: "{{ gitlab_host }}"
+          GITLAB_MARKUP_TIMEOUT: "{{ gitlab_markup_timeout }}"
+          GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password }}"
+          GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN: "{{ gitlab_shared_runners_registration_token }}"
+          RAILS_ENV: "{{ gitlab_rails_env }}"
+          GITLAB_RAILS_CACHE_DEFAULT_TTL_SECONDS: "{{ gitlab_rails_cache_default_ttl_seconds }}"
+          GITLAB_CI_CONFIG_FETCH_TIMEOUT_SECONDS: "{{ gitlab_ci_config_fetch_timeout_seconds }}"
+          GITLAB_OMNIBUS_CONFIG: "{{ gitlab_omnibus_config | to_nice_yaml }}"
         restart_policy: unless-stopped
         hostname: "{{ gitlab_hostname }}.{{ ansible_nas_domain }}"
         memory: "{{ gitlab_memory }}"

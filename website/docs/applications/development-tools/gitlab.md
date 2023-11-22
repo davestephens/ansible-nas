@@ -12,4 +12,4 @@ Set `gitlab_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 To make GitLab available externally via Traefik set `gitlab_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
 
-The first time you run GitLab you'll be prompted for an account's password. The password is for GitLab's `root` administrator account. From there you can log in to create additional users and further configure the application.
+Set `gitlab_root_password` to initial root password. The after container creation and start-up login with user `root` and `gitlab_root_password` password. From there you can proceed to create additional users and further configure the application.
