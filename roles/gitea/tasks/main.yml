@@ -7,11 +7,18 @@
         state: directory
         owner: "{{ gitea_user_id }}"
         group: "{{ gitea_group_id }}"
-        mode: 0755
         recurse: yes
       with_items:
         - "{{ gitea_data_directory }}/data"
+        - "{{ gitea_data_directory }}/data/git"
         - "{{ gitea_data_directory }}/config"
+
+    - name: Create MySQL Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        owner: "999"
+        state: directory
+      with_items:
         - "{{ gitea_data_directory }}/mysql"
 
     - name: Create Gitea Network
@@ -44,7 +51,7 @@
         image: "{{ gitea_image_name }}:{{ gitea_image_version }}"
         pull: true
         volumes:
-          - "{{ gitea_data_directory }}/data:/var/lib/gitea"
+          - "{{ gitea_data_directory }}/data:/var/lib/gitea:rw"
           - "{{ gitea_data_directory }}/config:/etc/gitea"
           - /etc/timezone:/etc/timezone:ro
           - /etc/localtime:/etc/localtime:ro

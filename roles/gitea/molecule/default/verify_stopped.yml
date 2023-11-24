@@ -13,7 +13,14 @@
         state: absent
       register: result
 
+    - name: Try and stop and remove gitea mysql
+      community.docker.docker_container:
+        name: "{{ gitea_mysql_container_name }}"
+        state: absent
+      register: result_mysql
+
     - name: Check if gitea is stopped
       ansible.builtin.assert:
         that:
           - not result.changed
+          - not result_mysql.changed
