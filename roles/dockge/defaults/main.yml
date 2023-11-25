@@ -1,0 +1,23 @@
+---
+dockge_enabled: false
+dockge_available_externally: false
+
+# directories
+dockge_data_directory: "{{ docker_home }}/dockge"
+
+# network
+dockge_port: "5004"
+dockge_hostname: "dockge"
+
+# specs
+dockge_memory: 1g
+
+# docker
+dockge_container_name: dockge
+dockge_image_name: "louislam/dockge"
+dockge_image_version: "1"
+dockge_user_id: "1000"
+dockge_group_id: "1000"
+
+# dockge
+dockge_stacks_dir: "{{ dockge_data_directory }}/stacks"
