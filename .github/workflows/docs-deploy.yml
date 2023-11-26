@@ -11,9 +11,9 @@ jobs:
     name: Lint Docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Lint docs
-        uses: articulate/actions-markdownlint@v1
+        uses: articulate/actions-markdownlint@v1.1.0
         with:
           version: 0.32.2
 
@@ -24,9 +24,9 @@ jobs:
       run:
         working-directory: website
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: npm
