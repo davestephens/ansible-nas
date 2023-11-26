@@ -16,7 +16,6 @@ Set `ddns_updater_enabled: true` in your `inventories/<your_inventory>/group_var
 
 Ensure that the `ddns_updater_config` variable is set with your DDNS Updater configuration. The configuration is converted from YAML into JSON, required by the DDNS Updater application. Use [json2yaml](https://www.json2yaml.com/) to check your configuration format.
 
-
 The following configuration:
 
 ```yaml
