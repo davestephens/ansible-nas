@@ -4,7 +4,7 @@ name: Test Website Deployment
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   lint:
