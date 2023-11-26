@@ -5,6 +5,8 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
+        owner: 1000
+        group: 1000
       with_items:
         - "{{ n8n_data_directory }}"
 
