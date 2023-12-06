@@ -14,7 +14,7 @@
         image: "{{ kavita_image }}"
         pull: true
         volumes:
-          - "{{ kavita_data_directory }}/config:/kavita/config"
+          - "{{ kavita_data_directory }}/config:/config"
           - "{{ kavita_comics_directory }}:/comics"
           - "{{ kavita_books_directory }}:/books"
         env:
