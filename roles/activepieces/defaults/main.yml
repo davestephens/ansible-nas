@@ -1,0 +1,56 @@
+---
+activepieces_enabled: false
+activepieces_available_externally: false
+
+# directories
+activepieces_data_directory: "{{ docker_home }}/activepieces"
+
+# network
+activepieces_port: "8129"
+activepieces_hostname: "activepieces"
+activepieces_network_name: "activepieces"
+
+# specs
+activepieces_memory: 1g
+activepieces_db_memory: 1g
+activepieces_redis_memory: 1g
+
+# docker
+activepieces_container_name: activepieces
+activepieces_image_name: "activepieces/activepieces"
+activepieces_image_version: "0.14.3"
+activepieces_db_container_name: activepieces-db
+activepieces_db_image_name: "postgres"
+activepieces_db_image_version: "14.4"
+activepieces_redis_container_name: activepieces-redis
+activepieces_redis_image_name: "redis"
+activepieces_redis_image_version: "7.0.7"
+activepieces_user_id: "1000"
+activepieces_group_id: "1000"
+
+activepieces_admin_username: "admin"
+activepieces_admin_password: "admin"
+activepieces_db_name: "activepieces"
+activepieces_db_user: "activepieces"
+activepieces_db_pass: "activepieces"
+
+# activepieces
+activepieces_engine_executable_path: "dist/packages/engine/main.js"
+activepieces_api_key: ""
+activepieces_encryption_key: "7e19fad4c13eaea8f757afb12e8f9c41"
+activepieces_jwt_secret: "super-secret"
+activepieces_environment: "prod"
+activepieces_frontend_url: "https://{{ activepieces_hostname }}.{{ ansible_nas_domain }}"
+activepieces_webhook_timeout_seconds: "30"
+activepieces_trigger_default_poll_interval: "5"
+activepieces_postgres_database: "{{ activepieces_db_name }}"
+activepieces_postgres_host: "{{ activepieces_db_container_name }}"
+activepieces_postgres_port: "5432"
+activepieces_postgres_username: "{{ activepieces_db_user }}"
+activepieces_postgres_password: "{{ activepieces_db_pass }}"
+activepieces_execution_mode: "UNSANDBOXED"
+activepieces_redis_host: "{{ activepieces_redis_container_name }}"
+activepieces_redis_port: "6379"
+activepieces_sandbox_run_time_seconds: "600"
+activepieces_telemetry_enabled: "false"
+activepieces_templates_source_url: "https://cloud.activepieces.com/api/v1/flow-templates"
