@@ -58,6 +58,10 @@
     ###
     ### Applications
     ###
+    - role: activepieces
+      tags:
+        - activepieces
+
     - role: admidio
       tags:
         - admidio

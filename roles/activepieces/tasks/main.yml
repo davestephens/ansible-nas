@@ -1,0 +1,128 @@
+---
+- name: Start Activepieces
+  block:
+    - name: Create Activepieces Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ activepieces_data_directory }}"
+        - "{{ activepieces_data_directory }}/config"
+
+    - name: Create Activepieces network
+      community.docker.docker_network:
+        name: "{{ activepieces_network_name }}"
+
+    - name: Create Activepieces Postgress Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ activepieces_db_container_name }}"
+        image: "{{ activepieces_db_image_name }}:{{ activepieces_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ activepieces_data_directory }}/db:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ activepieces_network_name }}"
+        network_mode: "{{ activepieces_network_name }}"
+        env:
+          POSTGRES_PASSWORD: "{{ activepieces_db_pass }}"
+          POSTGRES_USER: "{{ activepieces_db_user }}"
+          POSTGRES_DB: "{{ activepieces_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ activepieces_db_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U activepieces"]
+          start_period: 20s
+          interval: 5s
+          retries: 12
+          timeout: 5s
+
+    - name: Create Activepieces Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ activepieces_redis_container_name }}"
+        image: "{{ activepieces_redis_image_name }}:{{ activepieces_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ activepieces_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ activepieces_network_name }}"
+        network_mode: "{{ activepieces_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ activepieces_redis_memory }}"
+
+    - name: Create Activepieces Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ activepieces_container_name }}"
+        image: "{{ activepieces_image_name }}:{{ activepieces_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ activepieces_network_name }}"
+        network_mode: "{{ activepieces_network_name }}"
+        volumes:
+          - "{{ activepieces_data_directory }}/config/config.toml:/activepieces/config.toml"
+        ports:
+          - "{{ activepieces_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ activepieces_user_id | quote }}"
+          PGID: "{{ activepieces_group_id | quote }}"
+          ## It's advisable to consult the documentation and use the tools/deploy.sh to generate the passwords, keys, instead of manually filling them.
+
+          AP_ENGINE_EXECUTABLE_PATH: "{{ activepieces_engine_executable_path }}"
+
+          ## Random Long Password (Optional for community edition)
+          AP_API_KEY: "{{ activepieces_api_key }}"
+
+          ## 256 bit encryption key, 32 hex character
+          AP_ENCRYPTION_KEY: "{{ activepieces_encryption_key }}"
+
+          ## JWT Secret
+          AP_JWT_SECRET: "{{ activepieces_jwt_secret }}"
+
+          AP_ENVIRONMENT: "{{ activepieces_environment }}"
+          AP_FRONTEND_URL: "{{ activepieces_frontend_url }}"
+          AP_WEBHOOK_TIMEOUT_SECONDS: "{{ activepieces_webhook_timeout_seconds }}"
+          AP_TRIGGER_DEFAULT_POLL_INTERVAL: "{{ activepieces_trigger_default_poll_interval }}"
+          AP_POSTGRES_DATABASE: "{{ activepieces_postgres_database }}"
+          AP_POSTGRES_HOST: "{{ activepieces_postgres_host }}"
+          AP_POSTGRES_PORT: "{{ activepieces_postgres_port }}"
+          AP_POSTGRES_USERNAME: "{{ activepieces_postgres_username }}"
+          AP_POSTGRES_PASSWORD: "{{ activepieces_postgres_password }}"
+          AP_EXECUTION_MODE: "{{ activepieces_execution_mode }}"
+          AP_REDIS_HOST: "{{ activepieces_redis_host }}"
+          AP_REDIS_PORT: "{{ activepieces_redis_port }}"
+          AP_SANDBOX_RUN_TIME_SECONDS: "{{ activepieces_sandbox_run_time_seconds }}"
+          AP_TELEMETRY_ENABLED: "{{ activepieces_telemetry_enabled }}"
+          AP_TEMPLATES_SOURCE_URL: "{{ activepieces_templates_source_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ activepieces_memory }}"
+        labels:
+          traefik.enable: "{{ activepieces_available_externally | string }}"
+          traefik.http.routers.activepieces.rule: "Host(`{{ activepieces_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.activepieces.tls.certresolver: "letsencrypt"
+          traefik.http.routers.activepieces.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.activepieces.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.activepieces.loadbalancer.server.port: "80"
+  when: activepieces_enabled is true
+
+- name: Stop Activepieces
+  block:
+    - name: Stop Activepieces
+      community.docker.docker_container:
+        name: "{{ activepieces_container_name }}"
+        state: absent
+    - name: Stop Activepieces Redis
+      community.docker.docker_container:
+        name: "{{ activepieces_redis_container_name }}"
+        state: absent
+    - name: Stop Activepieces DB
+      community.docker.docker_container:
+        name: "{{ activepieces_db_container_name }}"
+        state: absent
+  when: activepieces_enabled is false
