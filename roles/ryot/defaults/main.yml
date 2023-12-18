@@ -1,0 +1,36 @@
+---
+ryot_enabled: false
+ryot_available_externally: false
+
+# directories
+ryot_data_directory: "{{ docker_home }}/ryot"
+
+# network
+ryot_port: "8130"
+ryot_hostname: "ryot"
+ryot_network_name: "ryot"
+
+# specs
+ryot_memory: 1g
+ryot_db_memory: 1g
+ryot_redis_memory: 1g
+
+# docker
+ryot_container_name: ryot
+ryot_image_name: "ghcr.io/ignisda/ryot"
+ryot_image_version: "latest"
+ryot_db_container_name: ryot-db
+ryot_db_image_name: "postgres"
+ryot_db_image_version: "16-alpine"
+ryot_user_id: "1000"
+ryot_group_id: "1000"
+
+ryot_admin_username: "admin"
+ryot_admin_password: "admin"
+ryot_db_name: "ryot"
+ryot_db_user: "ryot"
+ryot_db_pass: "ryot"
+
+# ryot
+ryot_database_url: postgres://{{ ryot_db_user }}:{{ ryot_db_pass }}@{{ ryot_db_container_name }}:5432/postgres
+ryot_server_insecure_cookie: "false"  # only needed in localhost or non-https

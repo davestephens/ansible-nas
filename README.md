@@ -149,6 +149,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Restic](https://restic.net/) - A modern backup program
 * [Route53 DDNS](https://crazymax.dev/ddns-route53/) - Automatically update AWS Route53 with your IP address
 * [RSS-Bridge](https://rss-bridge.github.io/rss-bridge/) - The RSS feed for websites missing it
+* [Ryot](https://github.com/ignisda/ryot) - A self hosted platform for tracking various facets of your life - media, fitness etc.
 * [Sabnzbd](https://sabnzbd.org/) - A powerful usenet downloader that FreeNAS provides
 * [Seafile](https://www.seafile.com/en/home/) - High performance file syncing and sharing
 * [SearxNG](https://github.com/searxng/searxng) - Free internet metasearch engine

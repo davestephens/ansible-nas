@@ -1,0 +1,80 @@
+---
+- name: Start Ryot
+  block:
+    - name: Create Ryot Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ ryot_data_directory }}"
+        - "{{ ryot_data_directory }}/config"
+
+    - name: Create Ryot network
+      community.docker.docker_network:
+        name: "{{ ryot_network_name }}"
+
+    - name: Create Ryot Postgress Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ryot_db_container_name }}"
+        image: "{{ ryot_db_image_name }}:{{ ryot_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ryot_data_directory }}/db:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ ryot_network_name }}"
+        network_mode: "{{ ryot_network_name }}"
+        env:
+          POSTGRES_PASSWORD: "{{ ryot_db_pass }}"
+          POSTGRES_USER: "{{ ryot_db_user }}"
+          POSTGRES_DB: "{{ ryot_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ ryot_db_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U ryot"]
+          start_period: 20s
+          interval: 5s
+          retries: 12
+          timeout: 5s
+
+    - name: Create Ryot Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ryot_container_name }}"
+        image: "{{ ryot_image_name }}:{{ ryot_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ ryot_network_name }}"
+        network_mode: "{{ ryot_network_name }}"
+        ports:
+          - "{{ ryot_port }}:8000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ ryot_user_id | quote }}"
+          PGID: "{{ ryot_group_id | quote }}"
+          DATABASE_URL: "{{ ryot_database_url }}"
+          SERVER_INSECURE_COOKIE: "{{ ryot_server_insecure_cookie }}"  # only needed in localhost or non-https
+        restart_policy: unless-stopped
+        memory: "{{ ryot_memory }}"
+        labels:
+          traefik.enable: "{{ ryot_available_externally | string }}"
+          traefik.http.routers.ryot.rule: "Host(`{{ ryot_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.ryot.tls.certresolver: "letsencrypt"
+          traefik.http.routers.ryot.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.ryot.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.ryot.loadbalancer.server.port: "8000"
+  when: ryot_enabled is true
+
+- name: Stop Ryot
+  block:
+    - name: Stop Ryot
+      community.docker.docker_container:
+        name: "{{ ryot_container_name }}"
+        state: absent
+    - name: Stop Ryot DB
+      community.docker.docker_container:
+        name: "{{ ryot_db_container_name }}"
+        state: absent
+  when: ryot_enabled is false
