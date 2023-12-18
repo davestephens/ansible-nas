@@ -578,6 +578,10 @@
       tags:
         - rssbridge
 
+    - role: ryot
+      tags:
+        - ryot
+
     - role: sabnzbd
       tags:
         - sabnzbd
