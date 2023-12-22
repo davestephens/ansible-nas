@@ -1,0 +1,16 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        nomad_enabled: true
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+    cgroupns_mode: host
+    command: "/usr/sbin/init"
+    privileged: true
+    pre_build_image: true

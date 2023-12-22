@@ -14,5 +14,17 @@ znc_group_id: "0"
 znc_hostname: "znc"
 znc_port: "6677"
 
+# docker
+znc_container_name: "znc"
+znc_image_name: "znc"
+znc_image_version: "latest"
+
 # specs
 znc_memory: "1g"
+
+# znc
+znc_user_password: "password"
+znc_user_nick: "user"
+znc_user_altnick: "user_"
+znc_user_ident: "user"
+znc_user_real_name: "User Name"

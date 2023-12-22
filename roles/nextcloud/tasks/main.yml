@@ -1,50 +1,73 @@
 ---
-- name: Create Nextcloud directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ nextcloud_data_directory }}/nextcloud"
-    - "{{ nextcloud_data_directory }}/mysql"
+- name: Start Nextcloud
+  block:
+    - name: Create Nextcloud directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ nextcloud_data_directory }}/nextcloud"
+        - "{{ nextcloud_data_directory }}/mysql"
 
-- name: Nextcloud Mysql Docker Container
-  docker_container:
-    name: nextcloud-mysql
-    image: "{{ nextcloud_mysql_image }}"
-    pull: true
-    volumes:
-      - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
-    env:
-      MYSQL_DATABASE: "nextcloud"
-      MYSQL_USER: "{{ nextcloud_sql_user }}"
-      MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
-      MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_root_password }}"
-    restart_policy: unless-stopped
-    memory: "{{ nextcloud_mysql_memory }}"
+    - name: Create Nextcloud network
+      community.docker.docker_network:
+        name: "{{ nextcloud_network_name }}"
 
-- name: Nextcloud Docker Container
-  docker_container:
-    name: nextcloud
-    image: "{{ nextcloud_image }}"
-    pull: true
-    links:
-      - nextcloud-mysql:mysql
-    volumes:
-      - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
-    ports:
-      - "{{ nextcloud_port }}:80"
-    env:
-      MYSQL_HOST: "mysql"
-      MYSQL_DATABASE: "nextcloud"
-      MYSQL_USER: "{{ nextcloud_sql_user }}"
-      MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
-      NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ ansible_nas_domain }}"
-    restart_policy: unless-stopped
-    memory: "{{ nextcloud_memory }}"
-    labels:
-      traefik.enable: "{{ nextcloud_available_externally | string }}"
-      traefik.http.routers.nextcloud.rule: "Host(`{{ nextcloud_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.nextcloud.tls.certresolver: "letsencrypt"
-      traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+    - name: Nextcloud Mysql Docker Container
+      community.docker.docker_container:
+        name: "{{ nextcloud_db_container_name }}"
+        image: "{{ nextcloud_db_image_name }}:{{ nextcloud_db_image_version }}"
+        networks:
+          - name: "{{ nextcloud_network_name }}"
+        network_mode: "{{ nextcloud_network_name }}"
+        pull: true
+        volumes:
+          - "{{ nextcloud_data_directory }}/mysql:/var/lib/mysql:rw"
+        env:
+          MYSQL_DATABASE: "nextcloud"
+          MYSQL_USER: "{{ nextcloud_sql_user }}"
+          MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_root_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ nextcloud_db_memory }}"
+
+    - name: Nextcloud Docker Container
+      community.docker.docker_container:
+        name: "{{ nextcloud_container_name }}"
+        image: "{{ nextcloud_image_name }}:{{ nextcloud_image_version }}"
+        networks:
+          - name: "{{ nextcloud_network_name }}"
+        network_mode: "{{ nextcloud_network_name }}"
+        pull: true
+        volumes:
+          - "{{ nextcloud_data_directory }}/nextcloud:/var/www/html:rw"
+        ports:
+          - "{{ nextcloud_port }}:80"
+        env:
+          MYSQL_HOST: "{{ nextcloud_db_container_name }}"
+          MYSQL_DATABASE: "nextcloud"
+          MYSQL_USER: "{{ nextcloud_sql_user }}"
+          MYSQL_PASSWORD: "{{ nextcloud_sql_password }}"
+          NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_hostname }}.{{ ansible_nas_domain }}"
+        restart_policy: unless-stopped
+        memory: "{{ nextcloud_memory }}"
+        labels:
+          traefik.enable: "{{ nextcloud_available_externally | string }}"
+          traefik.http.routers.nextcloud.rule: "Host(`{{ nextcloud_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.nextcloud.tls.certresolver: "letsencrypt"
+          traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+  when: nextcloud_enabled is true
+
+- name: Stop Nextcloud
+  block:
+    - name: Stop Nextcloud
+      community.docker.docker_container:
+        name: "{{ nextcloud_container_name }}"
+        state: absent
+    - name: Stop Nextcloud DB
+      community.docker.docker_container:
+        name: "{{ nextcloud_db_container_name }}"
+        state: absent
+  when: nextcloud_enabled is false

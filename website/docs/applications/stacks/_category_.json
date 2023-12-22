@@ -1,0 +1,7 @@
+{
+  "label": "Stacks",
+  "link": {
+    "type": "generated-index",
+    "description": "Application stacks install a number of different apps together to perform a common goal. There are all of the application stacks available for installation with Ansible-NAS."
+  }
+}

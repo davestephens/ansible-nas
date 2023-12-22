@@ -1,29 +1,40 @@
 ---
-- name: Create Tiddlywiki Directory
-  file:
-    path: "{{ tiddlywiki_data_directory }}"
-    state: directory
+- name: Start Tiddlywiki
+  block:
+    - name: Create Tiddlywiki Directory
+      ansible.builtin.file:
+        path: "{{ tiddlywiki_data_directory }}"
+        state: directory
 
-- name: Create Tiddlywiki Container
-  docker_container:
-    name: tiddlywiki
-    image: wmudge/tiddlywiki:latest
-    ports:
-      - "{{ tiddlywiki_port }}:8080"
-    volumes:
-      - "{{ tiddlywiki_data_directory }}:/var/lib/tiddlywiki"
-    env:
-      NODE_MEM: "{{ tiddlywiki_node_memory | default(omit) }}"
-      USERNAME: "{{ tiddlywiki_username | default(omit) }}"
-      PASSWORD: "{{ tiddlywiki_password | default(omit) }}"
-      DEBUG: "{{ tiddlywiki_debug_level | default(omit) }}"
-    pull: true
-    restart_policy: unless-stopped
-    memory: "{{ tiddlywiki_memory }}"
-    labels:
-      traefik.enable: "{{ tiddlywiki_available_externally | string }}"
-      traefik.http.routers.tiddlywiki.rule: "Host(`{{ tiddlywiki_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.tiddlywiki.tls.certresolver: "letsencrypt"
-      traefik.http.routers.tiddlywiki.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.tiddlywiki.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.tiddlywiki.loadbalancer.server.port: "8080"
+    - name: Create Tiddlywiki Container
+      community.docker.docker_container:
+        name: "{{ tiddlywiki_container_name }}"
+        image: "{{ tiddlywiki_image_name }}:{{ tiddlywiki_image_version }}"
+        ports:
+          - "{{ tiddlywiki_port }}:8080"
+        volumes:
+          - "{{ tiddlywiki_data_directory }}:/var/lib/tiddlywiki"
+        env:
+          NODE_MEM: "{{ tiddlywiki_node_memory | default(omit) }}"
+          USERNAME: "{{ tiddlywiki_username | default(omit) }}"
+          PASSWORD: "{{ tiddlywiki_password | default(omit) }}"
+          DEBUG: "{{ tiddlywiki_debug_level | default(omit) }}"
+        pull: true
+        restart_policy: unless-stopped
+        memory: "{{ tiddlywiki_memory }}"
+        labels:
+          traefik.enable: "{{ tiddlywiki_available_externally | string }}"
+          traefik.http.routers.tiddlywiki.rule: "Host(`{{ tiddlywiki_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.tiddlywiki.tls.certresolver: "letsencrypt"
+          traefik.http.routers.tiddlywiki.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.tiddlywiki.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.tiddlywiki.loadbalancer.server.port: "8080"
+  when: tiddlywiki_enabled is true
+
+- name: Stop Tiddlywiki
+  block:
+    - name: Stop Tiddlywiki
+      community.docker.docker_container:
+        name: "{{ tiddlywiki_container_name }}"
+        state: absent
+  when: tiddlywiki_enabled is false

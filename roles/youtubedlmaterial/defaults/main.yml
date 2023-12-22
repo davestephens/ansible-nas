@@ -13,5 +13,10 @@ youtubedlmaterial_dl_subscriptions_directory: "{{ downloads_root }}/youtube/subs
 youtubedlmaterial_hostname: "youtubedlmaterial"
 youtubedlmaterial_port_http: "8998"
 
+# docker
+youtubedlmaterial_container_name: "youtubedlmaterial"
+youtubedlmaterial_image_name: "tzahi12345/youtubedl-material"
+youtubedlmaterial_image_version: "latest"
+
 # specs
 youtubedlmaterial_memory: "1g"

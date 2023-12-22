@@ -2,14 +2,14 @@
 - name: Start Emby
   block:
     - name: Create Emby Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ emby_config_directory }}"
 
     - name: Emby Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ emby_container_name }}"
         image: emby/embyserver
         pull: true
@@ -38,7 +38,7 @@
 - name: Stop Emby
   block:
     - name: Stop Emby
-      docker_container:
+      community.docker.docker_container:
         name: "{{ emby_container_name }}"
         state: absent
   when: emby_enabled is false

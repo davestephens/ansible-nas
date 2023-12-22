@@ -10,6 +10,16 @@ joomla_data_directory: "{{ docker_home }}/joomla"
 # network
 joomla_port: "8181"
 joomla_hostname: "joomla"
+joomla_network_name: "joomla"
+
+# docker
+joomla_container_name: "joomla"
+joomla_image_name: "joomla"
+joomla_image_version: "latest"
+joomla_db_container_name: "joomla-db"
+joomla_db_image_name: "mysql"
+joomla_db_image_version: "5.7"
 
 # specs
 joomla_memory: 1g
+joomla_db_memory: 1g

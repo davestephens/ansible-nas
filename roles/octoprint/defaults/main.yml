@@ -9,6 +9,11 @@ octoprint_data_directory: "{{ docker_home }}/octoprint"
 octoprint_port: "8095"
 octoprint_hostname: "octoprint"
 
+# docker
+octoprint_container_name: "octoprint"
+octoprint_image_name: "octoprint/octoprint"
+octoprint_image_version: "latest"
+
 # devices
 octoprint_printer_mountpoint: "/dev/ttyUSB0"
 

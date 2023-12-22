@@ -1,18 +1,18 @@
 ---
 - name: Set login banner
-  copy:
+  ansible.builtin.copy:
     src: motd.txt
     dest: /etc/motd
 
 - name: Update apt-cache
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
     cache_valid_time: 3600
   register: result
   until: result is succeeded
 
 - name: Upgrade all packages # noqa package-latest
-  apt:
+  ansible.builtin.apt:
     upgrade: yes
     state: latest
   when: keep_packages_updated
@@ -20,24 +20,30 @@
     - skip_ansible_lint
 
 - name: Install some packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ ansible_nas_extra_packages }}"
     state: present
   register: result
   until: result is succeeded
 
-#  - name: Configure smartmontools
+- name: Install LazyDocker
+  ansible.builtin.shell:
+    cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+  args:
+    creates: /usr/local/bin/lazydocker
+  environment:
+    DIR: /usr/local/bin
 
 - name: "Set hostname to {{ ansible_nas_hostname }}"
-  hostname:
+  ansible.builtin.hostname:
     name: "{{ ansible_nas_hostname }}"
 
 - name: "Set timezone to {{ ansible_nas_timezone }}"
-  timezone:
+  community.general.timezone:
     name: "{{ ansible_nas_timezone }}"
 
 - name: "Permission share directories"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     owner: ansible-nas

@@ -1,32 +1,42 @@
 ---
-- name: Create FreshRSS Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ freshrss_data_directory }}/data"
-    - "{{ freshrss_extensions_directory }}/extensions"
+- name: Start FreshRSS
+  block:
+    - name: Create FreshRSS Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ freshrss_data_directory }}/data"
+        - "{{ freshrss_extensions_directory }}/extensions"
 
-- name: FreshRSS Docker Container
-  docker_container:
-    name: freshrss
-    image: freshrss/freshrss
-    pull: true
-    volumes:
-      - "{{ freshrss_data_directory }}/data:/var/www/FreshRSS/data:rw"
-      - "{{ freshrss_extensions_directory }}/extensions:/var/www/FreshRSS/extensions:rw"
-    ports:
-      - "{{ freshrss_port }}:80"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      CRON_MIN: "1,31"
-    restart_policy: unless-stopped
-    memory: "{{ freshrss_memory }}"
-    labels:
-      traefik.enable: "{{ freshrss_available_externally | string }}"
-      traefik.http.routers.freshrss.rule: "Host(`{{ freshrss_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.freshrss.tls.certresolver: "letsencrypt"
-      traefik.http.routers.freshrss.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.freshrss.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.freshrss.loadbalancer.server.port: "80"
+    - name: FreshRSS Docker Container
+      community.docker.docker_container:
+        name: "{{ freshrss_container_name }}"
+        image: "{{ freshrss_image_name }}:{{ freshrss_image_version }}"
+        pull: true
+        volumes:
+          - "{{ freshrss_data_directory }}/data:/var/www/FreshRSS/data:rw"
+          - "{{ freshrss_extensions_directory }}/extensions:/var/www/FreshRSS/extensions:rw"
+        ports:
+          - "{{ freshrss_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          CRON_MIN: "1,31"
+        restart_policy: unless-stopped
+        memory: "{{ freshrss_memory }}"
+        labels:
+          traefik.enable: "{{ freshrss_available_externally | string }}"
+          traefik.http.routers.freshrss.rule: "Host(`{{ freshrss_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.freshrss.tls.certresolver: "letsencrypt"
+          traefik.http.routers.freshrss.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.freshrss.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.freshrss.loadbalancer.server.port: "80"
+  when: freshrss_enabled is true
+
+- name: Stop FreshRSS
+  block:
+    - name: Stop FreshRSS
+      community.docker.docker_container:
+        name: "{{ freshrss_container_name }}"
+        state: absent
+  when: freshrss_enabled is false

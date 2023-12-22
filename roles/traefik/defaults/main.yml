@@ -14,7 +14,9 @@ traefik_port_http: "80"
 traefik_port_https: "443"
 traefik_port_ui: "8083"
 
-traefik_docker_image: traefik:latest
+traefik_container_name: "traefik"
+traefik_image_name: "traefik"
+traefik_image_version: "latest"
 traefik_log_level: "INFO"
 
 # find the relevant name and environment variables for your DNS provider at https://go-acme.github.io/lego/dns/

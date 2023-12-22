@@ -1,13 +1,24 @@
 ---
-- name: Watchtower Docker Container
-  docker_container:
-    name: watchtower
-    image: containrrr/watchtower
-    pull: true
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-    command: "{{ watchtower_command }}"
-    restart_policy: unless-stopped
-    memory: "{{ watchtower_memory }}"
+- name: Start Watchtower
+  block:
+    - name: Watchtower Docker Container
+      community.docker.docker_container:
+        name: "{{ watchtower_container_name }}"
+        image: "{{ watchtower_image_name }}:{{ watchtower_image_version }}"
+        pull: true
+        volumes:
+          - "/var/run/docker.sock:/var/run/docker.sock"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+        command: "{{ watchtower_command }}"
+        restart_policy: unless-stopped
+        memory: "{{ watchtower_memory }}"
+  when: watchtower_enabled is true
+
+- name: Stop Watchtower
+  block:
+    - name: Stop Watchtower
+      community.docker.docker_container:
+        name: "{{ watchtower_container_name }}"
+        state: absent
+  when: watchtower_enabled is false

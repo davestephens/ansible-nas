@@ -2,7 +2,7 @@
 - name: Start Firefly
   block:
     - name: Create Firefly III Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
@@ -11,7 +11,7 @@
         - "{{ firefly_data_directory }}/export"
 
     - name: Create MySQL container for Firefly
-      docker_container:
+      community.docker.docker_container:
         name: "{{ firefly_mysql_container_name }}"
         image: mariadb:10.9
         pull: true
@@ -26,11 +26,11 @@
         memory: "{{ firefly_mysql_memory }}"
 
     - name: Wait for MySQL to init
-      pause:
+      ansible.builtin.pause:
         seconds: 30
 
     - name: Create Firefly III container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ firefly_container_name }}"
         image: fireflyiii/core:latest
         pull: true
@@ -42,6 +42,8 @@
         ports:
           - "{{ firefly_port }}:8080"
         env:
+          APP_URL: "https://{{ firefly_hostname }}.{{ ansible_nas_domain }}"
+          TRUSTED_PROXIES: "**"
           APP_ENV: "local"
           APP_KEY: "S0m3R@nd0mString0f32Ch@rsEx@ct1y"
           DB_CONNECTION: "mysql"
@@ -64,12 +66,12 @@
 - name: Stop Firefly
   block:
     - name: Stop Firefly
-      docker_container:
+      community.docker.docker_container:
         name: "{{ firefly_container_name }}"
         state: absent
 
     - name: Stop Firefly MySQL
-      docker_container:
+      community.docker.docker_container:
         name: "{{ firefly_mysql_container_name }}"
         state: absent
   when: firefly_enabled is false

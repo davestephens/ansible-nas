@@ -16,5 +16,10 @@ utorrent_port_http: "8111"
 utorrent_port_bt: "6881"
 utorrent_hostname: "utorrent"
 
+# docker
+utorrent_container_name: "utorrent"
+utorrent_image_name: "ekho/utorrent"
+utorrent_image_version: "latest"
+
 # specs
 utorrent_memory: 1g

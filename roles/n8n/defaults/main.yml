@@ -13,5 +13,10 @@ n8n_data_directory: "{{ docker_home }}/n8n"
 n8n_basic_auth_user: "n8n_user"
 n8n_basic_auth_password: "n8n_change_me"
 
+# docker
+n8n_container_name: "n8n"
+n8n_image_name: "n8nio/n8n"
+n8n_image_version: "latest"
+
 # specs
 n8n_memory: 1g

@@ -1,0 +1,46 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove Grafana
+      community.docker.docker_container:
+        name: "{{ stats_grafana_container_name }}"
+        state: absent
+      register: result_grafana
+
+    - name: Try and stop and remove Prometheus
+      community.docker.docker_container:
+        name: "{{ stats_prometheus_container_name }}"
+        state: absent
+      register: result_prometheus
+
+    - name: Try and stop and remove Telegraf
+      community.docker.docker_container:
+        name: "{{ stats_telegraf_container_name }}"
+        state: absent
+      register: result_telegraf
+
+    - name: Try and stop and remove Smartctl
+      community.docker.docker_container:
+        name: "{{ stats_smartctl_container_name }}"
+        state: absent
+      register: result_smartctl
+
+    - name: Try and stop and remove Speedtest
+      community.docker.docker_container:
+        name: "{{ stats_speedtest_container_name }}"
+        state: absent
+      register: result_speedtest
+
+    - name: Check if stats containers are stopped
+      ansible.builtin.assert:
+        that:
+          - not result_grafana.changed
+          - not result_prometheus.changed
+          - not result_telegraf.changed
+          - not result_smartctl.changed
+          - not result_speedtest.changed

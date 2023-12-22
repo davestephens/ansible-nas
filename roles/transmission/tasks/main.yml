@@ -1,37 +1,48 @@
 ---
-- name: Create Transmission Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ transmission_config_directory }}"
-    - "{{ transmission_download_directory }}"
-    - "{{ transmission_watch_directory }}"
+- name: Start Transmission
+  block:
+    - name: Create Transmission Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ transmission_config_directory }}"
+        - "{{ transmission_download_directory }}"
+        - "{{ transmission_watch_directory }}"
 
-- name: Transmission Docker Container
-  docker_container:
-    name: transmission
-    image: linuxserver/transmission
-    pull: true
-    volumes:
-      - "{{ transmission_config_directory }}:/config:rw"
-      - "{{ transmission_download_directory }}:/downloads:rw"
-      - "{{ transmission_watch_directory }}:/watch:rw"
-    ports:
-      - "{{ transmission_webui_port }}:9091"
-      - "{{ transmission_external_port }}:51413"
-      - "{{ transmission_external_port }}:51413/udp"
-    env:
-      TZ: "{{ transmission_timezone }}"
-      PUID: "{{ transmission_user_id }}"
-      PGID: "{{ transmission_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ transmission_memory }}"
-    labels:
-      traefik.enable: "{{ transmission_available_externally | string }}"
-      traefik.http.routers.transmission.rule: "Host(`{{ transmission_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.transmission.tls.certresolver: "letsencrypt"
-      traefik.http.routers.transmission.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.transmission.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.transmission.loadbalancer.server.port: "9091"
+    - name: Transmission Docker Container
+      community.docker.docker_container:
+        name: "{{ transmission_container_name }}"
+        image: "{{ transmission_image_name }}:{{ transmission_image_version }}"
+        pull: true
+        volumes:
+          - "{{ transmission_config_directory }}:/config:rw"
+          - "{{ transmission_download_directory }}:/downloads:rw"
+          - "{{ transmission_watch_directory }}:/watch:rw"
+        ports:
+          - "{{ transmission_webui_port }}:9091"
+          - "{{ transmission_external_port }}:51413"
+          - "{{ transmission_external_port }}:51413/udp"
+        env:
+          TZ: "{{ transmission_timezone }}"
+          PUID: "{{ transmission_user_id }}"
+          PGID: "{{ transmission_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ transmission_memory }}"
+        labels:
+          traefik.enable: "{{ transmission_available_externally | string }}"
+          traefik.http.routers.transmission.rule: "Host(`{{ transmission_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.transmission.tls.certresolver: "letsencrypt"
+          traefik.http.routers.transmission.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.transmission.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.transmission.loadbalancer.server.port: "9091"
+  when: transmission_enabled is true
+
+- name: Stop Transmission
+  block:
+    - name: Stop Transmission
+      community.docker.docker_container:
+        name: "{{ transmission_container_name }}"
+        state: absent
+  when: transmission_enabled is false

@@ -2,14 +2,14 @@
 - name: Start Hello World
   block:
     - name: Create Hello World Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ hello_world_data_directory }}"
 
     - name: Hello World Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ hello_world_container_name }}"
         image: crccheck/hello-world
         pull: true
@@ -25,13 +25,13 @@
           traefik.http.routers.hello_world.tls.certresolver: "letsencrypt"
           traefik.http.routers.hello_world.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.hello_world.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.hello_world.loadbalancer.server.port: "4040"
+          traefik.http.services.hello_world.loadbalancer.server.port: "8000"
   when: hello_world_enabled is true
 
 - name: Stop Hello World
   block:
     - name: Stop Hello World
-      docker_container:
+      community.docker.docker_container:
         name: "{{ hello_world_container_name }}"
         state: absent
   when: hello_world_enabled is false

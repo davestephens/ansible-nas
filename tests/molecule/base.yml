@@ -16,22 +16,22 @@ provisioner:
   inventory:
     group_vars:
       all:
-        samba_shares_root: /shares
+        samba_shares_root: /tmp/ansible-nas/shares
         ansible_nas_domain: ansible-nas.io
         ansible_nas_timezone: Europe/London
-        audiobooks_root: /audiobooks
-        books_root: /books
-        code_root: /code
-        comics_root: /comics
-        docker_home: /ansible-nas
-        documents_root: /documents
-        downloads_root: /downloads
-        movies_root: /movies
-        music_root: /music
-        photos_root: /photos
-        podcasts_root: /podcasts
-        torrents_root: /torrents
-        tv_root: /tv
+        audiobooks_root: /tmp/ansible-nas/shares/audiobooks
+        books_root: /tmp/ansible-nas/shares/books
+        code_root: /tmp/ansible-nas/shares/code
+        comics_root: /tmp/ansible-nas/shares/comics
+        docker_home: /tmp/ansible-nas/docker
+        documents_root: /tmp/ansible-nas/shares/documents
+        downloads_root: /tmp/ansible-nas/shares/downloads
+        movies_root: /tmp/ansible-nas/shares/movies
+        music_root: /tmp/ansible-nas/shares/music
+        photos_root: /tmp/ansible-nas/shares/photos
+        podcasts_root: /tmp/ansible-nas/shares/podcasts
+        torrents_root: /tmp/ansible-nas/shares/torrents
+        tv_root: /tmp/ansible-nas/shares/tv
   playbooks:
     prepare: ../../../../tests/molecule/resources/playbooks/prepare.yml
     converge: ../../../../tests/molecule/resources/playbooks/converge.yml

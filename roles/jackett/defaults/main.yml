@@ -11,5 +11,10 @@ jackett_torrents_root: "{{ torrents_root }}"
 jackett_hostname: "jackett"
 jackett_port: "9117"
 
+# docker
+jackett_container_name: "jackett"
+jackett_image_name: "linuxserver/jackett"
+jackett_image_version: "latest"
+
 # specs
 jackett_memory: "1g"

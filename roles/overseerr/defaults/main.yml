@@ -5,7 +5,10 @@ overseerr_available_externally: false
 # directories
 overseerr_data_directory: "{{ docker_home }}/overseerr"
 
-# uid / gid
+# docker
+overseerr_container_name: "overseerr"
+overseerr_image_name: "sctx/overseerr"
+overseerr_image_version: "latest"
 overseerr_user_id: "1000"
 overseerr_group_id: "1000"
 

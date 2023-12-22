@@ -1,47 +1,70 @@
 ---
-- name: Create Joomla Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ joomla_data_directory }}"
-    - "{{ joomla_data_directory }}/db"
+- name: Start Joomla
+  block:
+    - name: Create Joomla Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ joomla_data_directory }}"
+        - "{{ joomla_data_directory }}/db"
 
-- name: MySQL Docker Container for Joomla
-  docker_container:
-    name: joomla_mysql
-    image: mysql:5.7
-    pull: true
-    volumes:
-      - "{{ joomla_data_directory }}/db:/var/lib/mysql"
-    env:
-      MYSQL_DATABASE: "joomla"
-      MYSQL_USER: "joomla"
-      MYSQL_ROOT_PASSWORD: "{{ joomla_database_password }}"
-    restart_policy: unless-stopped
-    memory: 1g
+    - name: Create Joomla network
+      community.docker.docker_network:
+        name: "{{ joomla_network_name }}"
 
-- name: Joomla Docker Container
-  docker_container:
-    name: joomla
-    image: joomla
-    pull: true
-    volumes:
-      - "{{ joomla_data_directory }}:/var/www/html:rw"
-    ports:
-      - "{{ joomla_port }}:80"
-    links:
-      - "joomla_mysql:mysql"
-    env:
-      JOOMLA_DB_HOST: "mysql"
-      JOOMLA_DB_USER: "root"
-      JOOMLA_DB_PASSWORD: "{{ joomla_database_password }}"
-    restart_policy: unless-stopped
-    memory: "{{ joomla_memory }}"
-    labels:
-      traefik.enable: "{{ joomla_available_externally | string }}"
-      traefik.http.routers.joomla.rule: "Host(`{{ joomla_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.joomla.tls.certresolver: "letsencrypt"
-      traefik.http.routers.joomla.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.joomla.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.joomla.loadbalancer.server.port: "80"
+    - name: MySQL Docker Container for Joomla
+      community.docker.docker_container:
+        name: "{{ joomla_db_container_name }}"
+        image: "{{ joomla_db_image_name }}:{{ joomla_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ joomla_network_name }}"
+        network_mode: "{{ joomla_network_name }}"
+        volumes:
+          - "{{ joomla_data_directory }}/db:/var/lib/mysql"
+        env:
+          MYSQL_DATABASE: "joomla"
+          MYSQL_USER: "joomla"
+          MYSQL_ROOT_PASSWORD: "{{ joomla_database_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ joomla_db_memory }}"
+
+    - name: Joomla Docker Container
+      community.docker.docker_container:
+        name: "{{ joomla_container_name }}"
+        image: "{{ joomla_image_name }}:{{ joomla_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ joomla_network_name }}"
+        network_mode: "{{ joomla_network_name }}"
+        volumes:
+          - "{{ joomla_data_directory }}:/var/www/html:rw"
+        ports:
+          - "{{ joomla_port }}:80"
+        env:
+          JOOMLA_DB_HOST: "{{ joomla_db_container_name }}"
+          JOOMLA_DB_USER: "root"
+          JOOMLA_DB_PASSWORD: "{{ joomla_database_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ joomla_memory }}"
+        labels:
+          traefik.enable: "{{ joomla_available_externally | string }}"
+          traefik.http.routers.joomla.rule: "Host(`{{ joomla_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.joomla.tls.certresolver: "letsencrypt"
+          traefik.http.routers.joomla.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.joomla.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.joomla.loadbalancer.server.port: "80"
+  when: joomla_enabled is true
+
+- name: Stop Joomla
+  block:
+    - name: Stop Joomla
+      community.docker.docker_container:
+        name: "{{ joomla_container_name }}"
+        state: absent
+    - name: Stop Joomla DB
+      community.docker.docker_container:
+        name: "{{ joomla_db_container_name }}"
+        state: absent
+  when: joomla_enabled is false
