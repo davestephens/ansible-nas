@@ -158,6 +158,10 @@
       tags:
         - gotify
 
+    - role: grocy
+      tags:
+        - grocy
+
     - role: guacamole
       tags:
         - guacamole

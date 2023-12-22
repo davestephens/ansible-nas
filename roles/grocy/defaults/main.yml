@@ -1,0 +1,22 @@
+---
+grocy_enabled: false
+grocy_available_externally: false
+
+# directories
+grocy_data_directory: "{{ docker_home }}/grocy"
+
+# uid / gid
+grocy_user_id: "1000"
+grocy_group_id: "1000"
+
+# network
+grocy_port: "9283"
+grocy_hostname: "grocy"
+
+# specs
+grocy_memory: 1g
+
+# docker
+grocy_container_name: grocy
+grocy_image_name: "linuxserver/grocy"
+grocy_image_version: "latest"

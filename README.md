@@ -43,6 +43,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
 * [Gotify](https://gotify.net/) - Self-hosted server for sending push notifications
 * [Grafana](https://grafana.com/) - Query, visualize, alert on, and understand your data no matter where it’s stored (via stats role).
+* [Grocy](https://grocy.info/) - self-hosted groceries & household management solution
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [healthchecks.io](https://healthchecks.io/) - Ensure your NAS is online and get notified otherwise
 * [Heimdall](https://heimdall.site/) - Home server dashboard
