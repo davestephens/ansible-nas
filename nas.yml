@@ -362,6 +362,10 @@
       tags:
         - littlelink
 
+    - role: lldap
+      tags:
+        - lldap
+
     - role: loki
       tags:
         - loki

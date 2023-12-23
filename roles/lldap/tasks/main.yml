@@ -1,0 +1,73 @@
+---
+- name: Start Lldap
+  block:
+    - name: Create Lldap Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ lldap_data_directory }}"
+        - "{{ lldap_data_directory }}/data"
+
+    - name: Create Lldap Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ lldap_container_name }}"
+        image: "{{ lldap_image_name }}:{{ lldap_image_version }}"
+        pull: true
+        volumes:
+          - "{{ lldap_data_directory }}/data:/data:rw"
+        ports:
+          # For LDAP
+          - "{{ lldap_port }}:3890"
+          # For LDAPS (LDAP Over SSL), enable port if LLDAP_LDAPS_OPTIONS__ENABLED set true, look env below
+          # - "{{ lldaps_port }}:6360"
+          # For the web front-end
+          - "{{ lldap_ui_port }}:17170"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ lldap_user_id | quote }}"
+          PGID: "{{ lldap_group_id | quote }}"
+          LLDAP_JWT_SECRET: "{{ lldap_jwt_secret }}"
+          LLDAP_LDAP_USER_PASS: "{{ lldap_ldap_user_pass }}"
+          LLDAP_LDAP_USER_EMAIL: "{{ lldap_ldap_user_email }}"
+          LLDAP_LDAP_BASE_DN: "{{ lldap_ldap_base_dn }}"
+          LLDAP_LDAP_USER_DN: "{{ lldap_ldap_user_dn }}"
+          LLDAP_HTTP_URL: "{{ lldap_http_url }}"
+          LLDAP_HTTP_PORT: "{{ lldap_http_port }}"
+          LLDAP_SMTP_OPTIONS__SERVER: "{{ lldap_smtp_options__server }}"
+          LLDAP_SMTP_OPTIONS__PORT: "{{ lldap_smtp_options__port }}"
+          LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET: "{{ lldap_smtp_options__enable_password_reset }}"
+          LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION: "{{ lldap_smtp_options__smtp_encryption }}"
+          LLDAP_SMTP_OPTIONS__USER: "{{ lldap_smtp_options__user }}"
+          LLDAP_SMTP_OPTIONS__PASSWORD: "{{ lldap_smtp_options__password }}"
+          LLDAP_SMTP_OPTIONS__FROM: "{{ lldap_smtp_options__from }}"
+          LLDAP_SMTP_OPTIONS__REPLY_TO: "{{ lldap_smtp_options__reply_to }}"
+          LLDAP_LDAPS_OPTIONS__PORT: "{{ lldap_ldaps_options__port }}"
+          LLDAP_LDAPS_OPTIONS__ENABLED: "{{ lldap_ldaps_options__enabled }}"
+          LLDAP_LDAPS_OPTIONS__CERT_FILE: "{{ lldap_ldaps_options__cert_file }}"
+          LLDAP_LDAPS_OPTIONS__KEY_FILE: "{{ lldap_ldaps_options__key_file }}"
+          LLDAP_KEY_SEED: "{{ lldap_key_seed }}"
+          LLDAP_KEY_FILE: "{{ lldap_key_file }}"
+          LLDAP_DATABASE_URL: "{{ lldap_database_url }}"
+          LLDAP_FORCE_RESET_ADMIN_PASSWORD: "{{ lldap_force_reset_admin_password }}"
+          LLDAP_VERBOSE: "{{ lldap_verbose }}"
+
+        restart_policy: unless-stopped
+        memory: "{{ lldap_memory }}"
+        labels:
+          traefik.enable: "{{ lldap_available_externally | string }}"
+          traefik.http.routers.lldap.rule: "Host(`{{ lldap_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.lldap.tls.certresolver: "letsencrypt"
+          traefik.http.routers.lldap.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.lldap.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.lldap.loadbalancer.server.port: "17170"
+  when: lldap_enabled is true
+
+- name: Stop Lldap
+  block:
+    - name: Stop Lldap
+      community.docker.docker_container:
+        name: "{{ lldap_container_name }}"
+        state: absent
+  when: lldap_enabled is false
