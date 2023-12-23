@@ -90,6 +90,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Librephotos](https://github.com/LibrePhotos/librephotos) - self-hosted open source photo
 * [Librespeed](https://github.com/librespeed/speedtest) - Self-hosted Speedtest for HTML5 and more
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
+* [Light LDAP](https://github.com/lldap/lldap) - Light LDAP implementation
 * [Linkding](https://github.com/sissbruecker/linkding) - Self-hosted bookmark service
 * [Linkwarden](https://linkwarden.app/) - Open-source collaborative bookmark manager to collect, organize and archive webpages
 * [Listmonk](https://listmonk.app/) - High performance, self-hosted, newsletter and mailing list manager

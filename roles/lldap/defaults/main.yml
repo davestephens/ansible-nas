@@ -1,0 +1,49 @@
+---
+lldap_enabled: false
+lldap_available_externally: false
+
+# directories
+lldap_data_directory: "{{ docker_home }}/lldap"
+
+# network
+lldap_ui_port: "17170"
+lldap_port: "3890"
+lldapsport: "6360"
+lldap_hostname: "lldap"
+
+# specs
+lldap_memory: 1g
+
+# docker
+lldap_container_name: lldap
+lldap_image_name: "lldap/lldap"
+lldap_image_version: stable
+lldap_user_id: "1000"
+lldap_group_id: "1000"
+
+# lldap
+lldap_jwt_secret: "supersecret"
+lldap_ldap_user_pass: "password"
+lldap_ldap_base_dn: "dc=example,dc=com"
+lldap_ldap_user_email: "admin@{{ ansible_nas_domain }}"
+lldap_ldap_user_dn: "admin"
+lldap_http_url: "https://{{ lldap_hostname }}.{{ ansible_nas_domain }}"
+lldap_http_port: "443"
+lldap_smtp_options__server: "smtp.gmail.com"
+lldap_smtp_options__port: "587"
+lldap_smtp_options__enable_password_reset: "true"
+lldap_smtp_options__smtp_encryption: "NONE"
+lldap_smtp_options__user: "user"
+lldap_smtp_options__password: "password"
+lldap_smtp_options__from: "LLDAP Admin <{{ lldap_ldap_user_email }}>"
+lldap_smtp_options__reply_to: "Do not reply <noreply@localhost>"
+lldap_key_seed: "RanD0m STR1ng"
+lldap_key_file: "/data/private_key"
+lldap_force_reset_admin_password: "false"
+lldap_verbose: "false"
+lldap_ldaps_options__enabled: "false"
+lldap_ldaps_options__port: "6360"
+lldap_ldaps_options__cert_file: "/path/to/certfile.crt"
+lldap_ldaps_options__key_file: "/path/to/keyfile.key"
+# You can also set a different database:
+lldap_database_url: "sqlite:///data/users.db?mode=rwc" # or "mysql://mysql-user:password@mysql-server/my-database" # or postgres://postgres-user:password@postgres-server/my-database
