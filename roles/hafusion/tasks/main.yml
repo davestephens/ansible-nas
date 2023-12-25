@@ -1,0 +1,43 @@
+---
+- name: Start HA Fusion
+  block:
+    - name: Create HA Fusion Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ hafusion_data_directory }}"
+
+    - name: Create HA Fusion Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hafusion_container_name }}"
+        image: "{{ hafusion_image_name }}:{{ hafusion_image_version }}"
+        pull: true
+        volumes:
+          - "{{ hafusion_data_directory }}/data:/app/data"
+        ports:
+          - "{{ hafusion_port }}:5050"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ hafusion_user_id | quote }}"
+          PGID: "{{ hafusion_group_id | quote }}"
+          HASS_URL: "{{ hafusion_hass_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ hafusion_memory }}"
+        labels:
+          traefik.enable: "{{ hafusion_available_externally | string }}"
+          traefik.http.routers.hafusion.rule: "Host(`{{ hafusion_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hafusion.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hafusion.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hafusion.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hafusion.loadbalancer.server.port: "5050"
+  when: hafusion_enabled is true
+
+- name: Stop HA Fusion
+  block:
+    - name: Stop HA Fusion
+      community.docker.docker_container:
+        name: "{{ hafusion_container_name }}"
+        state: absent
+  when: hafusion_enabled is false

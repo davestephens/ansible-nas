@@ -250,6 +250,10 @@
       tags:
         - guacamole
 
+    - role: hafusion
+      tags:
+        - hafusion
+
     - role: healthchecks.io
       tags:
         - healthchecks.io

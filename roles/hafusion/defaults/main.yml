@@ -1,0 +1,23 @@
+---
+hafusion_enabled: false
+hafusion_available_externally: false
+
+# directories
+hafusion_data_directory: "{{ docker_home }}/hafusion"
+
+# network
+hafusion_port: "5051"
+hafusion_hostname: "hafusion"
+
+# specs
+hafusion_memory: 1g
+
+# docker
+hafusion_container_name: hafusion
+hafusion_image_name: "ghcr.io/matt8707/ha-fusion"
+hafusion_image_version: latest
+hafusion_user_id: "1000"
+hafusion_group_id: "1000"
+
+# hafusion
+hafusion_hass_url: "http://192.168.1.241:8123"
