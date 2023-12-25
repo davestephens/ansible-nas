@@ -66,6 +66,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Graylog](https://www.graylog.org/) - Free and open source log management
 * [Grocy](https://grocy.info/) - web-based self-hosted groceries & household management solution for your home
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
+* [HA Fusion](https://github.com/matt8707/ha-fusion) - A modern, easy-to-use and performant custom Home Assistant dashboard
 * [healthchecks.io](https://healthchecks.io/) - Ensure your NAS is online and get notified otherwise
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
