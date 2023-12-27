@@ -90,6 +90,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Libreddit](https://github.com/libreddit/libreddit) - Private front-end for Reddit
 * [Librephotos](https://github.com/LibrePhotos/librephotos) - self-hosted open source photo
 * [Librespeed](https://github.com/librespeed/speedtest) - Self-hosted Speedtest for HTML5 and more
+* [LibreTranslate](https://libretranslate.com/) - Free and Open Source Machine Translation API
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [Light LDAP](https://github.com/lldap/lldap) - Light LDAP implementation
 * [Linkding](https://github.com/sissbruecker/linkding) - Self-hosted bookmark service
