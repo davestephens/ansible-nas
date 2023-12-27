@@ -94,6 +94,10 @@
       tags:
         - blaze
 
+    - role: blocky
+      tags:
+        - blocky
+
     - role: booksonic
       tags:
         - booksonic

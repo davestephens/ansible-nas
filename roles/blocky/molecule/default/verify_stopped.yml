@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove blocky frontend
+      community.docker.docker_container:
+        name: "{{ blocky_frontend_container_name }}"
+        state: absent
+      register: result_frontend
+
+    - name: Try and stop and remove blocky
+      community.docker.docker_container:
+        name: "{{ blocky_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if blocky is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_frontend.changed
+          - not result.changed

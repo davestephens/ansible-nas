@@ -1,0 +1,32 @@
+---
+blocky_enabled: false
+blocky_available_externally: false
+
+# directories
+blocky_data_directory: "{{ docker_home }}/blocky"
+
+# network
+blocky_dns_tcp_port: "53"
+blocky_dns_udp_port: "53"
+blocky_dot_port: "853"
+blocky_prometheus_stats_http_port: "4001"
+blocky_prometheus_stats_https_port: "4002"
+blocky_frontend_port: "8004"
+blocky_hostname: "blocky"
+blocky_network_name: "blocky"
+
+# specs
+blocky_memory: 1g
+blocky_frontend_memory: 1g
+
+# docker
+blocky_container_name: blocky
+blocky_image_name: "spx01/blocky"
+blocky_image_version: latest
+blocky_frontend_container_name: blocky-frontend
+blocky_frontend_image_name: "ghcr.io/mozart409/blocky-frontend"
+blocky_frontend_image_version: latest
+blocky_user_id: "1000"
+blocky_group_id: "1000"
+
+# blocky
