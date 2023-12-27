@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get blocky container state
+      community.docker.docker_container:
+        name: "{{ blocky_container_name }}"
+      register: result
+
+    - name: Get blocky frontend container state
+      community.docker.docker_container:
+        name: "{{ blocky_frontend_container_name }}"
+      register: result_frontend
+
+    - name: Check if blocky containers are running
+      ansible.builtin.assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+          - result_frontend.container['State']['Status'] == "running"
+          - result_frontend.container['State']['Restarting'] == false

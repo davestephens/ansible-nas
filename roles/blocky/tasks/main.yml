@@ -1,0 +1,89 @@
+---
+- name: Start Blocky
+  block:
+    - name: Create Blocky Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ blocky_data_directory }}/config"
+        - "{{ blocky_data_directory }}/logs"
+        - "{{ blocky_data_directory }}/blacklists"
+        - "{{ blocky_data_directory }}/whitelists"
+
+    - name: Create Blocky Network
+      community.docker.docker_network:
+        name: "{{ blocky_network_name }}"
+
+    - name: Copy config file
+      ansible.builtin.copy:
+        src: config.yml
+        dest: "{{ blocky_data_directory }}/config/config.yml"
+
+    - name: Create Blocky Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ blocky_container_name }}"
+        image: "{{ blocky_image_name }}:{{ blocky_image_version }}"
+        pull: true
+        volumes:
+          - "/etc/localtime:/etc/localtime:ro"
+          - "{{ blocky_data_directory }}/config/config.yml:/app/config.yml"
+          - "{{ blocky_data_directory }}/logs:/logs"
+          - "{{ blocky_data_directory }}/blacklists:/app/blacklists"
+          - "{{ blocky_data_directory }}/whitelists:/app/whitelists"
+        ports:
+          - "{{ blocky_dns_tcp_port }}:53/tcp"
+          - "{{ blocky_dns_udp_port }}:53/udp"
+          - "{{ blocky_prometheus_stats_http_port }}:4000/tcp"
+          - "{{ blocky_prometheus_stats_https_port }}:4000/tcp"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ blocky_user_id }}"
+          PGID: "{{ blocky_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ blocky_memory }}"
+        networks:
+          - name: "{{ blocky_network_name }}"
+        network_mode: "{{ blocky_network_name }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Blocky Frontend Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ blocky_frontend_container_name }}"
+        image: "{{ blocky_frontend_image_name }}:{{ blocky_frontend_image_version }}"
+        pull: true
+        ports:
+          - "{{ blocky_frontend_port }}:8002"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ blocky_user_id }}"
+          PGID: "{{ blocky_group_id }}"
+          API_URL: "http://{{ blocky_container_name }}:4000"
+        restart_policy: unless-stopped
+        memory: "{{ blocky_frontend_memory }}"
+        networks:
+          - name: "{{ blocky_network_name }}"
+        network_mode: "{{ blocky_network_name }}"
+        labels:
+          traefik.enable: "{{ blocky_available_externally | string }}"
+          traefik.http.routers.blocky.rule: "Host(`{{ blocky_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.blocky.tls.certresolver: "letsencrypt"
+          traefik.http.routers.blocky.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.blocky.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.blocky.loadbalancer.server.port: "8002"
+  when: blocky_enabled is true
+
+- name: Stop Blocky
+  block:
+    - name: Stop Blocky Frontend
+      community.docker.docker_container:
+        name: "{{ blocky_frontend_container_name }}"
+        state: absent
+    - name: Stop Blocky
+      community.docker.docker_container:
+        name: "{{ blocky_container_name }}"
+        state: absent
+  when: blocky_enabled is false
