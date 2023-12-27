@@ -1,3 +1,4 @@
+---
 # REVIEW: manual changelog entry
 
 upstreams:
@@ -234,8 +235,8 @@ prometheus:
 minTlsServeVersion: 1.3
 
 # if https port > 0: path to cert and key file for SSL encryption. if not set, self-signed certificate will be generated
-#certFile: server.crt
-#keyFile: server.key
+# certFile: server.crt
+# keyFile: server.key
 
 # optional: use these DNS servers to resolve blacklist urls and upstream DNS servers. It is useful if no system DNS resolver is configured, and/or to encrypt the bootstrap queries.
 bootstrapDns:
