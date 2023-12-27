@@ -1,0 +1,59 @@
+---
+- name: Start LibreTranslate
+  block:
+    - name: Create LibreTranslate Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ libretranslate_data_directory }}"
+
+    - name: Create LibreTranslate Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ libretranslate_container_name }}"
+        image: "{{ libretranslate_image_name }}:{{ libretranslate_image_version }}"
+        pull: true
+        volumes:
+          - "{{ libretranslate_data_directory }}/data:/app/data"
+        ports:
+          - "{{ libretranslate_port }}:5000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ libretranslate_user_id }}"
+          PGID: "{{ libretranslate_group_id }}"
+          LT_HOST: "{{ libretranslate_lt_host }}"
+          LT_PORT: "{{ libretranslate_lt_port }}"
+          LT_CHAR_LIMIT: "{{ libretranslate_lt_char_limit }}"
+          LT_REQ_LIMIT: "{{ libretranslate_lt_req_limit }}"
+          LT_BATCH_LIMIT: "{{ libretranslate_lt_batch_limit }}"
+          LT_GA_ID: "{{ libretranslate_lt_ga_id }}"
+          LT_DEBUG: "{{ libretranslate_lt_debug }}"
+          LT_SSL: "{{ libretranslate_lt_ssl }}"
+          LT_FRONTEND_LANGUAGE_SOURCE: "{{ libretranslate_lt_frontend_language_source }}"
+          LT_FRONTEND_LANGUAGE_TARGET: "{{ libretranslate_lt_frontend_language_target }}"
+          LT_FRONTEND_TIMEOUT: "{{ libretranslate_lt_frontend_timeout }}"
+          LT_API_KEYS: "{{ libretranslate_lt_api_keys }}"
+          LT_REQUIRE_API_KEY_ORIGIN: "{{ libretranslate_lt_require_api_key_origin }}"
+          # LT_LOAD_ONLY: "{{ libretranslate_lt_load_only }}"
+          LT_UPDATE_MODELS: ""
+        restart_policy: unless-stopped
+        memory: "{{ libretranslate_memory }}"
+        labels:
+          traefik.enable: "{{ libretranslate_available_externally | string }}"
+          traefik.http.routers.libretranslate.rule: "Host(`{{ libretranslate_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.libretranslate.tls.certresolver: "letsencrypt"
+          traefik.http.routers.libretranslate.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.libretranslate.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.libretranslate.loadbalancer.server.port: "5000"
+        healthcheck:
+          test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
+  when: libretranslate_enabled is true
+
+- name: Stop LibreTranslate
+  block:
+    - name: Stop LibreTranslate
+      community.docker.docker_container:
+        name: "{{ libretranslate_container_name }}"
+        state: absent
+  when: libretranslate_enabled is false

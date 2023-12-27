@@ -1,0 +1,36 @@
+---
+libretranslate_enabled: false
+libretranslate_available_externally: false
+
+# directories
+libretranslate_data_directory: "{{ docker_home }}/libretranslate"
+
+# network
+libretranslate_port: "5006"
+libretranslate_hostname: "libretranslate"
+
+# specs
+libretranslate_memory: 1g
+
+# docker
+libretranslate_container_name: libretranslate
+libretranslate_image_name: "libretranslate/libretranslate"
+libretranslate_image_version: latest
+libretranslate_user_id: "1000"
+libretranslate_group_id: "1000"
+
+# libretranslate
+libretranslate_lt_host: "127.0.0.1"
+libretranslate_lt_port: "5000"
+libretranslate_lt_char_limit: ""
+libretranslate_lt_req_limit: ""
+libretranslate_lt_batch_limit: ""
+libretranslate_lt_ga_id: ""
+libretranslate_lt_debug: "false"
+libretranslate_lt_ssl: "false"
+libretranslate_lt_frontend_language_source: "auto"
+libretranslate_lt_frontend_language_target: "locale"
+libretranslate_lt_frontend_timeout: "500"
+libretranslate_lt_api_keys: ""
+libretranslate_lt_require_api_key_origin: ""
+libretranslate_lt_load_only: "en,pl"

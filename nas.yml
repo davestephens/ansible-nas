@@ -346,6 +346,10 @@
       tags:
         - librespeed
 
+    - role: libretranslate
+      tags:
+        - libretranslate
+
     - role: lidarr
       tags:
         - lidarr
