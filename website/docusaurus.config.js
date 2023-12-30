@@ -38,7 +38,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/davestephens/ansible-nas/tree/master/website',
+            'https://github.com/davestephens/ansible-nas/tree/main/website',
         },
         blog: {
           showReadingTime: true,

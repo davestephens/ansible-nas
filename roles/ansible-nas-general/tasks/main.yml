@@ -28,7 +28,7 @@
 
 - name: Install LazyDocker
   ansible.builtin.shell:
-    cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+    cmd: set -o pipefail && curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
   args:
     creates: /usr/local/bin/lazydocker
   environment:
