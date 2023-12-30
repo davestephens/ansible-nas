@@ -4,7 +4,7 @@ title: "Organizr"
 
 Homepage: [https://organizr.app](https://organizr.app)
 
-HTPC/Homelab services organizer written in PHP. 
+HTPC/Homelab services organizer written in PHP.
 
 ## Usage
 

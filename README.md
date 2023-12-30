@@ -96,7 +96,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Syncthing](https://syncthing.net/) - sync directories with another device
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client
-* [Threadfin](https://github.com/Threadfin/Threadfin) - M3U Proxy for Plex DVR and Emby/Jellyfin Live TV. Based on xTeVe. 
+* [Threadfin](https://github.com/Threadfin/Threadfin) - M3U Proxy for Plex DVR and Emby/Jellyfin Live TV. Based on xTeVe.
 * [TiddlyWiki](https://tiddlywiki.com) - A unique non-linear notebook/wiki for capturing, organizing, and sharing complex information
 * [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager

@@ -10,7 +10,7 @@ Docker Image: [https://hub.docker.com/r/fyb3roptik/threadfin](https://hub.docker
 
 Threadfin is a M3U proxy server for Plex, Emby, Jellyfin and any client and provider which supports the .TS and .M3U8 (HLS) streaming formats.
 
-Threadfin emulates a SiliconDust HDHomeRun OTA tuner, which allows it to expose IPTV style channels to software, which would not normally support it. 
+Threadfin emulates a SiliconDust HDHomeRun OTA tuner, which allows it to expose IPTV style channels to software, which would not normally support it.
 
 ## Usage
 
