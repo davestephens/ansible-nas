@@ -1,0 +1,30 @@
+---
+- name: Start Threadfin
+  block:
+    - name: Create Threadfin Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ threadfin_data_directory }}"
+
+    - name: Threadfin Docker Container
+      community.docker.docker_container:
+        name: "{{ threadfin_container_name }}"
+        image: "{{ threadfin_image_name }}:{{ threadfin_image_version }}"
+        pull: true
+        ports:
+          - "{{ threadfin_port }}:34400"
+        volumes:
+          - "{{ threadfin_data_directory }}:/home/threadfin/conf"
+        restart_policy: unless-stopped
+        memory: "{{ threadfin_memory }}"
+  when: threadfin_enabled is true
+
+- name: Stop Threadfin
+  block:
+    - name: Stop Threadfin
+      community.docker.docker_container:
+        name: "{{ threadfin_container_name }}"
+        state: absent
+  when: threadfin_enabled is false
