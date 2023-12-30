@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkansible_nas=self.webpackChunkansible_nas||[]).push([[2535],{5641:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome","permalink":"/blog/welcome","unlisted":false}]}')}}]);

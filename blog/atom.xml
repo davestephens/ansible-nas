@@ -12,8 +12,8 @@
         <id>https://ansible-nas.io/blog/welcome</id>
         <link href="https://ansible-nas.io/blog/welcome"/>
         <updated>2022-09-19T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[It's about time Ansible-NAS had a proper website and domain name. This new Docusaurus based site is moving closer to that goal, served from  via Github Pages.]]></summary>
-        <content type="html"><![CDATA[<p>It's about time Ansible-NAS had a proper website and domain name. This new <a href="https://docusaurus.io" target="_blank" rel="noopener noreferrer">Docusaurus</a> based site is moving closer to that goal, served from <a href="https://ansible-nas.io" target="_blank" rel="noopener noreferrer">https://ansible-nas.io</a> via Github Pages.</p>]]></content>
+        <summary type="html"><![CDATA[It's about time Ansible-NAS had a proper website and domain name. This new Docusaurus based site is moving closer to that goal, served from https://ansible-nas.io via Github Pages.]]></summary>
+        <content type="html"><![CDATA[<p>It's about time Ansible-NAS had a proper website and domain name. This new <a href="https://docusaurus.io/" target="_blank" rel="noopener noreferrer">Docusaurus</a> based site is moving closer to that goal, served from <a href="https://ansible-nas.io/" target="_blank" rel="noopener noreferrer">https://ansible-nas.io</a> via Github Pages.</p>]]></content>
         <author>
             <name>David Stephens</name>
             <uri>https://github.com/davestephens</uri>
