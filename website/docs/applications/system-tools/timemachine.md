@@ -2,9 +2,9 @@
 title: "Time Machine"
 ---
 
-Apple docs: <https://support.apple.com/en-us/HT201250>
+Apple docs: [https://support.apple.com/en-us/HT201250](https://support.apple.com/en-us/HT201250)
 
-Docker image: <https://github.com/awlx/samba-timemachine>
+Docker image: [https://github.com/awlx/samba-timemachine](https://github.com/awlx/samba-timemachine)
 
 Time Machine is an application that allows you to backup files from your Mac.
 
@@ -12,7 +12,7 @@ Older versions of Time Machine relied on AFP (netatalk) shares. Apple has deprec
 
 ## Usage
 
-Set `timemachine_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `timemachine_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Enabling Time Machine will result in the installation of Avahi on the NAS system (if it is not already installed) and a Time Machine service configuration file for Avahi will be added to the system (at `/etc/avahi/services/timemachine.service`) to allow for Time Machine discovery by Macs on the local network. Avahi runs on the system, rather than in a container, as the same Avahi instance can be used to announce any number of services.
 

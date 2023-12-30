@@ -2,17 +2,17 @@
 title: "Code Server"
 ---
 
-Homepage: <https://code.visualstudio.com/>
+Homepage: [https://code.visualstudio.com/](https://code.visualstudio.com/)
 
-Code Server: <https://docs.linuxserver.io/images/docker-code-server>
+Code Server: [https://docs.linuxserver.io/images/docker-code-server](https://docs.linuxserver.io/images/docker-code-server)
 
 Run VSCode on you NAS, accessible through the browser. This web based IDE works exactly like VSCode Desktop would, but with the freedom of using it from anywhere.
 
 ## Usage
 
-Set `code_server_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `code_server_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-Code Server's web interface can be found at <http://ansible_nas_host_or_ip:8443>
+Code Server's web interface can be found at [http://ansible_nas_host_or_ip:8443](http://ansible_nas_host_or_ip:8443)
 
 ## Specific Configuration
 

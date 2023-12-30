@@ -2,7 +2,7 @@
 title: "Sabnzbd"
 ---
 
-Homepage: <https://sabnzbd.org/>
+Homepage: [https://sabnzbd.org/](https://sabnzbd.org/)
 
 The time tested Usenet downloader provided with FreeNAS. It just works for those migrating from FreeNAS.
 
@@ -10,4 +10,4 @@ The time tested Usenet downloader provided with FreeNAS. It just works for those
 
 Set `sabnzbd_enabled: true`  in your `/inventories/[my inventory]/group_vars/nas.yml` file.
 
-The Sabnzbd web interface can be found at <http://ansible_nas_host_or_ip:18080>. Use this interface to configure the software upon first connection.
+The Sabnzbd web interface can be found at [http://ansible_nas_host_or_ip:18080](http://ansible_nas_host_or_ip:18080). Use this interface to configure the software upon first connection.
