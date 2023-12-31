@@ -2,7 +2,7 @@
 title: "Traefik"
 ---
 
-Homepage: <https://traefik.io>
+Homepage: [https://traefik.io](https://traefik.io)
 
 Traefik is a reverse proxy used to provide external access to your Ansible-NAS box. Additionally, Traefik will automatically request and renew SSL certificates for you.
 
@@ -13,9 +13,9 @@ See [External Access](../../getting-started/external-access.md) for more info.
 
 ## Usage
 
-Set `traefik_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `traefik_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-Traefik's web interface can be found at <http://ansible_nas_host_or_ip:8083>.
+Traefik's web interface can be found at [http://ansible_nas_host_or_ip:8083](http://ansible_nas_host_or_ip:8083).
 
 ## Specific Configuration
 

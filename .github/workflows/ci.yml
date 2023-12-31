@@ -35,6 +35,6 @@ jobs:
         run: yamllint .
 
       - name: Lint docs
-        uses: articulate/actions-markdownlint@v1.1.0
+        uses: articulate/actions-markdownlint@v1
         with:
           version: 0.32.2

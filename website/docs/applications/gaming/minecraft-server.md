@@ -2,7 +2,7 @@
 title: "Minecraft Server"
 ---
 
-Homepage: <https://www.minecraft.net/>
+Homepage: [https://www.minecraft.net/](https://www.minecraft.net/)
 
 The server version of the game Minecraft, running in a container. "Prepare for an adventure of limitless possibilities as you build, mine, battle mobs, and explore the ever-changing Minecraft landscape."
 

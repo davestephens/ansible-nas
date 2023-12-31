@@ -12,6 +12,7 @@ Set `stats_enabled: true` in your `inventories/<your_inventory>/nas.yml` file. I
 Set `stats_prometheus_enabled: true` and/or `stats_influxdb_enabled: true` depending on which time series db you want to use.
 Set `stats_loki_enabled: true` to install Loki and Promtail.
 
-If you want to access Grafana externally, set `stats_grafana_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file. If you want to access Promethehus externally, set `stats_prometheus_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
+If you want to access Grafana externally, set `stats_grafana_available_externally: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file. If you want to access Promethehus externally, set `stats_prometheus_available_externally: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-The Grafana web interface can be found at <http://ansible_nas_host_or_ip:3003>, Prometheus can be found at <http://ansible_nas_host_or_ip:9090>
+
+The Grafana web interface can be found at [http://ansible_nas_host_or_ip:3003](http://ansible_nas_host_or_ip:3003), Prometheus can be found at [http://ansible_nas_host_or_ip:9090](http://ansible_nas_host_or_ip:9090)
