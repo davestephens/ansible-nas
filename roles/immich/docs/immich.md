@@ -12,7 +12,7 @@ Set all `immich_*` variables in `inventories/<your_inventory>/group_vars/all.yml
 
 The immich web interface can be found at [http://ansible_nas_host_or_ip:2283](http://ansible_nas_host_or_ip:2283).
 
-Refer to <https://immich.app/docs/install/post-install> for post-install steps (Registering Admin User, adding users, etc.).
+Refer to [https://immich.app/docs/install/post-install](https://immich.app/docs/install/post-install) for post-install steps (Registering Admin User, adding users, etc.).
 
 ## Specific Configuration
 

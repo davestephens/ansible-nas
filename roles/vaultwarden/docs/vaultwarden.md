@@ -12,7 +12,7 @@ The Vaultwarden web interface can be found at [http://ansible_nas_host_or_ip:190
 
 ## Specific Configuration
 
-Make sure you set your admin token! It is `vaultwarden_admin_token` in `group_vars/all.yml` file. The string you put here will be the login to the admin section of your Vaultwarden installation (<http://ansible_nas_host_or_ip:19080/admin>). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running:
+Make sure you set your admin token! It is `vaultwarden_admin_token` in `group_vars/all.yml` file. The string you put here will be the login to the admin section of your Vaultwarden installation ([http://ansible_nas_host_or_ip:19080/admin](http://ansible_nas_host_or_ip:19080/admin)). This token can be anything, but it's recommended to use a long, randomly generated string of characters, for example running:
 `openssl rand -base64 48`.
 
 To create a user, you need to set `vaultwarden_allow_signups` to `true` in your `group_vars/all.yml`, and re-run the playbook to reprovision the

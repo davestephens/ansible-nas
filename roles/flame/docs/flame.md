@@ -14,4 +14,4 @@ The flame web interface can be found at [http://ansible_nas_host_or_ip:5005](htt
 
 ## Specific Configuration
 
-Check <https://github.com/pawelmalak/flame> for more details on using the docker integration.
+Check [https://github.com/pawelmalak/flame](https://github.com/pawelmalak/flame) for more details on using the docker integration.

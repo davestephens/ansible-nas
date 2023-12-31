@@ -10,4 +10,4 @@ Set `overleaf_enabled: true` in your `inventories/<your_inventory>/group_vars/na
 
 Overleaf web interface can be found at [http://ansible_nas_host_or_ip:8127](http://ansible_nas_host_or_ip:8127).
 
-Go to <http://ansible_nas_host_or_ip:8127/launchpad> and register an admin user.
+Go to [http://ansible_nas_host_or_ip:8127/launchpad](http://ansible_nas_host_or_ip:8127/launchpad) and register an admin user.

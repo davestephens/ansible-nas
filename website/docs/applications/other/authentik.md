@@ -14,8 +14,8 @@ Set all `authentik_*` variables in `inventories/<your_inventory>/group_vars/all.
 
 The Authentik web interface can be found at [http://ansible_nas_host_or_ip:9001](http://ansible_nas_host_or_ip:9001).
 
-To start the initial setup, navigate to <http://ansible_nas_host_or_ip:9001/if/flow/initial-setup/>. There you will be prompted to set a password for the akadmin user.
+To start the initial setup, navigate to [http://ansible_nas_host_or_ip:9001/if/flow/initial-setup/](http://ansible_nas_host_or_ip:9001/if/flow/initial-setup/). There you will be prompted to set a password for the akadmin user.
 
 ## Specific Configuration
 
-Check <https://goauthentik.io/docs/installation/configuration> for full list of configuration options.
+Check [https://goauthentik.io/docs/installation/configuration](https://goauthentik.io/docs/installation/configuration) for full list of configuration options.
