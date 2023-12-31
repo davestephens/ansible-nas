@@ -4,12 +4,12 @@ description: "Build your personal knowledge base with Trilium Notes"
 ---
 
 
-Homepage: <https://github.com/zadam/trilium>
+Homepage: [https://github.com/zadam/trilium](https://github.com/zadam/trilium)
 
 A hierarchical note taking application with focus on building large personal knowledge bases.
 
 ## Usage
 
-Set `trilium_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `trilium_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-Trilium web interface can be found at <http://ansible_nas_host_or_ip:8105>.
+Trilium web interface can be found at [http://ansible_nas_host_or_ip:8105](http://ansible_nas_host_or_ip:8105).

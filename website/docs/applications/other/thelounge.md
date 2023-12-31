@@ -2,15 +2,15 @@
 title: "The Lounge"
 ---
 
-Homepage: <https://thelounge.chat/>
+Homepage: [https://thelounge.chat/](https://thelounge.chat/)
 
 The Lounge is a self-hosted web IRC client.
 
 ## Usage
 
-Set `thelounge_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `thelounge_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-The Lounge web interface can be found at <http://ansible_nas_host_or_ip:9002>.
+The Lounge web interface can be found at [http://ansible_nas_host_or_ip:9002](http://ansible_nas_host_or_ip:9002).
 
 ## Specific Configuration
 
