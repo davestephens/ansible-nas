@@ -8,7 +8,7 @@ The server version of the game Minecraft, running in a container. "Prepare for a
 
 ## Usage
 
-Set `minecraft_server_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `minecraft_server_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 Optionally, set `minecraft_server_install_rcon: true` to also install RCON alongside Minecraft Server.
 
 Set `minecraft_server_optional_env` to a list of environment variables you need for the server. You can use many `minecraft_server_*` variables alredy defined as defaults.

@@ -1,6 +1,6 @@
 # I Can't Believe It's Not Valetudo
 
-Homepage: <https://icbinv.video/>
+Homepage: [https://icbinv.video/](https://icbinv.video/)
 
 I can't believe it's not Valetudo (Icbinv) is a companion service for Valetudo that renders ValetudoMap map data to raster graphics.
 
@@ -10,4 +10,4 @@ Please note that this service is only maintained on a very basic level.
 
 ## Usage
 
-Set `icbinv_enabled: true` in your `inventories/<your_inventory>/nas.yml` file. Set all relevant `icbinv_*` variables to be placed in the config.json file.
+Set `icbinv_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file. Set all relevant `icbinv_*` variables to be placed in the config.json file.

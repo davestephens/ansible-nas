@@ -3,7 +3,7 @@ title: "Restic"
 description: "A modern backup program"
 ---
 
-Homepage: <https://restic.net/>
+Homepage: [https://restic.net/](https://restic.net/)
 
 Restic is a modern backup program that can back up your files.
 
@@ -11,7 +11,7 @@ Restic is a modern backup program that can back up your files.
 
 ### Basic
 
-Set `restic_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `restic_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Set all the restic variables that you need (see `defaults/main.yml` for reference), especially the `restic_repos` and `restic_backups` variable to have your remotes added to restic config.
 Consult [arillso.restic](https://github.com/arillso/ansible.restic) role and [Restic documentation](https://restic.readthedocs.io/en/stable/) for details.

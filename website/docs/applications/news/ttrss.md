@@ -3,15 +3,15 @@ title: "Tt-rss"
 description: "Free and open source web-based news feed reader"
 ---
 
-Homepage: <https://tt-rss.org/>
+Homepage: [https://tt-rss.org/](https://tt-rss.org/)
 
 Tiny Tiny RSS is a free and open source web-based news feed (RSS/Atom) reader and aggregator.
 
 ## Usage
 
-Set `ttrss_enabled: true` in your `inventories/<your_inventory>/nas.yml` file. Set all relevant `ttrss_*` env variables as defined in `defaults\main.yml`.
+Set `ttrss_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file. Set all relevant `ttrss_*` env variables as defined in `defaults\main.yml`.
 
-Ttrss web interface can be found at <http://ansible_nas_host_or_ip:8106>. Login with the `ttrss_user` and `ttrss_user_pass` credentials.
+Ttrss web interface can be found at [http://ansible_nas_host_or_ip:8106](http://ansible_nas_host_or_ip:8106). Login with the `ttrss_user` and `ttrss_user_pass` credentials.
 
 ## Plugins
 

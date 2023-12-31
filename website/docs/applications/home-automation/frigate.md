@@ -2,15 +2,15 @@
 title: "Frigate"
 ---
 
-Homepage: <https://frigate.video/>
+Homepage: [https://frigate.video/](https://frigate.video/)
 
 Frigate is an open source NVR built around real-time AI object detection. All processing is performed locally on your own hardware, and your camera feeds never leave your home.
 
 ## Usage
 
-Set `frigate_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `frigate_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-Frigate web interface can be found at <http://ansible_nas_host_or_ip:5000>.
+Frigate web interface can be found at [http://ansible_nas_host_or_ip:5000](http://ansible_nas_host_or_ip:5000).
 
 ## Specific Configuration
 

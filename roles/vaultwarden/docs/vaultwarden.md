@@ -1,14 +1,14 @@
 # Vaultwarden Password Management
 
-Homepage: <https://github.com/dani-garcia/vaultwarden>
+Homepage: [https://github.com/dani-garcia/vaultwarden](https://github.com/dani-garcia/vaultwarden)
 
 This is a Bitwarden server API implementation written in Rust compatible with upstream Bitwarden clients*, perfect for self-hosted deployment where running the official resource-heavy service might not be ideal.
 
 ## Usage
 
-Set `vaultwarden_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `vaultwarden_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-The Vaultwarden web interface can be found at <http://ansible_nas_host_or_ip:19080>.
+The Vaultwarden web interface can be found at [http://ansible_nas_host_or_ip:19080](http://ansible_nas_host_or_ip:19080).
 
 ## Specific Configuration
 

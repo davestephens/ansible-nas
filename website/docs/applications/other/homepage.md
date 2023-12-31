@@ -7,7 +7,7 @@ A modern, fully static, fast, secure fully proxied, highly customizable applicat
 
 ## Usage
 
-Set `homepage_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `homepage_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 Edit all the necessary config files in `files/config` folder according to [Homepage configuration guide](https://gethomepage.dev/v0.7.2/configs/) and run the playbook.
 
-Homepage web interface can be found at <http://ansible_nas_host_or_ip:3010>.
+Homepage web interface can be found at [http://ansible_nas_host_or_ip:3010](http://ansible_nas_host_or_ip:3010).

@@ -1,6 +1,6 @@
 # CommaFeed
 
-Homepage: <https://github.com/lcomplete/commafeed>
+Homepage: [https://github.com/lcomplete/commafeed](https://github.com/lcomplete/commafeed)
 
 Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/TypeScript.
 
@@ -17,6 +17,6 @@ Google Reader inspired self-hosted RSS reader, based on Dropwizard and React/Typ
 
 ## Usage
 
-Set `commafeed_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `commafeed_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-CommaFeed web interface can be found at <http://ansible_nas_host_or_ip:8122>.
+CommaFeed web interface can be found at [http://ansible_nas_host_or_ip:8122](http://ansible_nas_host_or_ip:8122).

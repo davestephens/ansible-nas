@@ -3,13 +3,13 @@ title: "NetBox"
 description: "The source of truth for everything on your network"
 ---
 
-Homepage: <https://netbox.dev/>
+Homepage: [https://netbox.dev/](https://netbox.dev/)
 
 NetBox is the source of truth for everything on your network, from physical components like power systems and cabling to virtual assets like IP addresses and VLANs. Network automation and monitoring tools draw from this authoritative plan to push out configurations and monitor changes across the enterprise.
 
 ## Usage
 
-Set `netbox_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `netbox_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Set all relevant `netbox_*` variables in `inventories/<your_inventory>/group_vars/all.yml`.
 
