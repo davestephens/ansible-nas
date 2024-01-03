@@ -71,6 +71,9 @@ documents_root: "{{ samba_shares_root }}/documents"
 # Where personal repos and code are stored
 code_root: "{{ samba_shares_root }}/code"
 
+# Where roms are stored
+roms_root: "{{ samba_shares_root }}/roms"
+
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
 
@@ -198,7 +201,7 @@ nfs_exports:
 # Seems to break browsing of the \\server-name shares root when enabled
 samba_mitigate_cve_2017_7494: false
 
-# Enable apple exentensions for compatibility with apple clients
+# Enable apple extensions for compatibility with apple clients
 samba_apple_extensions: yes
 
 # The account used when Samba shares are accessed. Shouldn't need to change this unless you want to
