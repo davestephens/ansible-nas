@@ -12,6 +12,7 @@
       ansible.builtin.copy:
         src: conf.yml
         dest: "{{ dashy_data_directory }}/conf.yml"
+        force: no
 
     - name: Dashy Docker Container
       community.docker.docker_container:
