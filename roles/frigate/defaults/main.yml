@@ -8,6 +8,8 @@ frigate_data_directory: "{{ docker_home }}/frigate"
 # network
 frigate_port: "5000"
 frigate_rtmp_port: "1936"
+frigate_webrtc_tcp_port: "8555"
+frigate_webrtc_udp_port: "8555"
 frigate_hostname: "frigate"
 
 # specs
@@ -26,7 +28,11 @@ frigate_camera_username: "username"
 frigate_camera_password: "password"
 frigate_mqtt_host: "{{ ansible_nas_hostname }}"
 frigate_mqtt_port: "{{ mosquitto_port_a }}"
+frigate_mqtt_topic_prefix: "frigate"
+frigate_mqtt_client_id: "frigate"
+frigate_mqtt_user: "user"
+frigate_mqtt_password: "password"
 frigate_devices: # add device mapping as needed
-#   - /dev/bus/usb:/dev/bus/usb
+  - /dev/bus/usb:/dev/bus/usb
 #   - /dev/apex_0:/dev/apex_0
 #   - /dev/dri/renderD128
