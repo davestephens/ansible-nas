@@ -11,8 +11,11 @@
 
     - name: Template Traefik config.toml
       ansible.builtin.template:
-        src: traefik.toml
-        dest: "{{ traefik_data_directory }}/traefik.toml"
+        dest: "{{ item.dest }}"
+        force: "{{ item.force | default('No') }}"
+        mode: "{{ item.mode | default('0600') }}"
+        src: "{{ item.src }}"
+      with_items: "{{ traefik_template_files + traefik_template_files_custom | sort }}"
       register: template_config
 
     - name: Traefik Docker Container
@@ -21,10 +24,7 @@
         image: "{{ traefik_image_name }}:{{ traefik_image_version }}"
         pull: true
         network_mode: host
-        volumes:
-          - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
-          - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
-          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        volumes: "{{ traefik_volumes + traefik_volumes_custom | sort }}"
         env: "{{ traefik_environment_variables }}"
         restart_policy: unless-stopped
         memory: "{{ traefik_memory }}"
