@@ -2,16 +2,16 @@
 title: "Transmission"
 ---
 
-Homepage: <https://transmissionbt.com/>
+Homepage: [https://transmissionbt.com/](https://transmissionbt.com/)
 
 Transmission is a free BitTorrent client. Two versions are provided - one that tunnels through OpenVPN and one that connects
 directly.
 
 ## Usage
 
-Set `transmission_enabled: true`, or `transmission_with_openvpn_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `transmission_enabled: true`, or `transmission_with_openvpn_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-Transmission's web interface can be found at <http://ansible_nas_host_or_ip:9091> (with OpenVPN) or <http://ansible_nas_host_or_ip:9092> (without OpenVPN).
+Transmission's web interface can be found at [http://ansible_nas_host_or_ip:9091](http://ansible_nas_host_or_ip:9091) (with OpenVPN) or [http://ansible_nas_host_or_ip:9092](http://ansible_nas_host_or_ip:9092) (without OpenVPN).
 
 ## Specific Configuration
 
@@ -24,4 +24,4 @@ openvpn_provider: NORDVPN
 openvpn_config: uk686.nordvpn.com.udp
 ```
 
-See <https://hub.docker.com/r/haugene/transmission-openvpn/> for supported VPN providers.
+See [https://hub.docker.com/r/haugene/transmission-openvpn/](https://hub.docker.com/r/haugene/transmission-openvpn/) for supported VPN providers.

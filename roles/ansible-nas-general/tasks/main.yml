@@ -26,8 +26,6 @@
   register: result
   until: result is succeeded
 
-#  - name: Configure smartmontools
-
 - name: "Set hostname to {{ ansible_nas_hostname }}"
   ansible.builtin.hostname:
     name: "{{ ansible_nas_hostname }}"

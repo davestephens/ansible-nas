@@ -23,7 +23,6 @@
           - "{{ jellyfin_audiobooks_directory }}:/audiobooks:{{ jellyfin_audiobooks_permissions }}"
         ports:
           - "{{ jellyfin_port_http }}:8096"
-          - "{{ jellyfin_port_https }}:8920"
         env:
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ jellyfin_user_id }}"

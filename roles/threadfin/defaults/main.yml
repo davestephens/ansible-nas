@@ -1,0 +1,14 @@
+---
+threadfin_enabled: false
+threadfin_data_directory: "{{ docker_home }}/threadfin"
+
+# network
+threadfin_port: 34400
+
+# docker
+threadfin_container_name: "threadfin"
+threadfin_image_name: "fyb3roptik/threadfin"
+threadfin_image_version: "latest"
+
+# specs
+threadfin_memory: 1g

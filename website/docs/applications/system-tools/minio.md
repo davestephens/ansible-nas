@@ -2,7 +2,7 @@
 title: "Minio"
 ---
 
-Homepage: <https://min.io/>
+Homepage: [https://min.io/](https://min.io/)
 
 Docker Container: [Minio](https://hub.docker.com/r/minio/minio)
 
@@ -10,6 +10,6 @@ MinIO is a High Performance Object Storage released under GNU Affero General Pub
 
 ## Usage
 
-Set `minio_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `minio_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-The Minio web interface can be found at <http://ansible_nas_host_or_ip:9009>.
+The Minio web interface can be found at [http://ansible_nas_host_or_ip:9009](http://ansible_nas_host_or_ip:9009).

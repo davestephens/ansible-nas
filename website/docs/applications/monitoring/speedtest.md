@@ -2,16 +2,16 @@
 title: "Speedtest-Tracker"
 ---
 
-Homepage: <https://github.com/henrywhitaker3/Speedtest-Tracker>
+Homepage: [https://github.com/henrywhitaker3/Speedtest-Tracker](https://github.com/henrywhitaker3/Speedtest-Tracker)
 
-Docker Container: <https://hub.docker.com/r/henrywhitaker3/speedtest-tracker>
+Docker Container: [https://hub.docker.com/r/henrywhitaker3/speedtest-tracker](https://hub.docker.com/r/henrywhitaker3/speedtest-tracker)
 
 Continuously track your internet speed
 
 ## Usage
 
-Set `speedtest_tracker_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `speedtest_tracker_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-If you want to access Speedtest-Tracker externally, don't forget to set `speedtest_tracker_available_externally: true` in your `inventories/<your_inventory>/nas.yml` file.
+If you want to access Speedtest-Tracker externally, don't forget to set `speedtest_tracker_available_externally: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-The Speedtest-Tracker interface can be found at <http://ansible_nas_host_or_ip:8765>.
+The Speedtest-Tracker interface can be found at [http://ansible_nas_host_or_ip:8765](http://ansible_nas_host_or_ip:8765).
