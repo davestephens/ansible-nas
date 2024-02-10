@@ -9,22 +9,25 @@
         - "{{ traefik_data_directory }}"
         - "{{ traefik_data_directory }}/letsencrypt"
 
-    - name: Template Traefik config.toml
-      ansible.builtin.template:
-        src: traefik.toml
-        dest: "{{ traefik_data_directory }}/traefik.toml"
+    - name: Template Traefik Files
       register: template_config
+      tags:
+        - traefik
+        - traefik:template
+      template:
+        dest: "{{ item.dest }}"
+        force: "{{ item.force | default('No') }}"
+        mode: "{{ item.mode | default('0600') }}"
+        src: "{{ item.src }}"
+      with_items: "{{ traefik_template_files + traefik_template_files_custom | sort }}"
 
     - name: Traefik Docker Container
       community.docker.docker_container:
-        name: "{{ traefik_container_name }}"
-        image: "{{ traefik_image_name }}:{{ traefik_image_version }}"
+        name: traefik
+        image: "{{ traefik_image }}"
         pull: true
         network_mode: host
-        volumes:
-          - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
-          - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
-          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        volumes: "{{ traefik_volumes + traefik_volumes_custom | sort }}"
         env: "{{ traefik_environment_variables }}"
         restart_policy: unless-stopped
         memory: "{{ traefik_memory }}"
