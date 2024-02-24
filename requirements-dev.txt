@@ -1,5 +1,5 @@
 pre-commit
-molecule==4.0.1
-molecule[docker]==4.0.1
-pytest>=7.0.0
+molecule==6.0.3
+molecule[docker]==6.0.3
+pytest>=8.0.1
 pytest_molecule>=2.0.0
