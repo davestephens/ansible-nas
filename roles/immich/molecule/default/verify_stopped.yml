@@ -19,12 +19,6 @@
         state: absent
       register: result_redis
 
-    - name: Try and stop and remove Immich Typesense
-      community.docker.docker_container:
-        name: "{{ immich_typesense_container_name }}"
-        state: absent
-      register: result_typsense
-
     - name: Try and stop and remove Immich Server
       community.docker.docker_container:
         name: "{{ immich_server_container_name }}"
@@ -43,26 +37,11 @@
         state: absent
       register: result_machinelearning
 
-    - name: Try and stop and remove Immich Web
-      community.docker.docker_container:
-        name: "{{ immich_web_container_name }}"
-        state: absent
-      register: result_web
-
-    - name: Try and stop and remove Immich Proxy
-      community.docker.docker_container:
-        name: "{{ immich_proxy_container_name }}"
-        state: absent
-      register: result_proxy
-
     - name: Check if immich containers are stopped
       ansible.builtin.assert:
         that:
           - not result_postgres.changed
           - not result_redis.changed
-          - not result_typsense.changed
           - not result_server.changed
           - not result_microservices.changed
           - not result_machinelearning.changed
-          - not result_web.changed
-          - not result_proxy.changed
