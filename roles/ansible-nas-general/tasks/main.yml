@@ -26,14 +26,6 @@
   register: result
   until: result is succeeded
 
-- name: Install LazyDocker
-  ansible.builtin.shell:
-    cmd: set -o pipefail && curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
-  args:
-    creates: /usr/local/bin/lazydocker
-  environment:
-    DIR: /usr/local/bin
-
 - name: "Set hostname to {{ ansible_nas_hostname }}"
   ansible.builtin.hostname:
     name: "{{ ansible_nas_hostname }}"

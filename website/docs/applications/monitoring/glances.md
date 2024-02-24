@@ -2,15 +2,15 @@
 title: "Glances"
 ---
 
-Homepage: <https://nicolargo.github.io/glances/>
+Homepage: [https://nicolargo.github.io/glances/](https://nicolargo.github.io/glances/)
 
 Glances is a cross-platform system monitoring tool written in Python.
 
 ## Usage
 
-Set `glances_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `glances_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-The Glances web interface can be found at <http://ansible_nas_host_or_ip:61208>.
+The Glances web interface can be found at [http://ansible_nas_host_or_ip:61208](http://ansible_nas_host_or_ip:61208).
 
 ## Specific Configuration
 

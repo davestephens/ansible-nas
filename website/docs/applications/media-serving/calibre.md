@@ -2,13 +2,13 @@
 title: "Calibre-web"
 ---
 
-Homepage: <https://github.com/janeczku/calibre-web>
+Homepage: [https://github.com/janeczku/calibre-web](https://github.com/janeczku/calibre-web)
 
 Calibre-Web is a web app providing a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 
 ## Usage
 
-Set `calibre_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `calibre_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 ## Specific Configuration
 

@@ -2,11 +2,11 @@
 title: "Nextcloud"
 ---
 
-Homepage: <https://nextcloud.com>
+Homepage: [https://nextcloud.com](https://nextcloud.com)
 
 ## Usage
 
-Set `nextcloud_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `nextcloud_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 Tread carefully.
 

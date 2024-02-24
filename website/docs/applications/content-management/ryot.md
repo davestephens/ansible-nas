@@ -3,12 +3,12 @@ title: "Ryot"
 description: "A self hosted platform for tracking various facets of your life - media, fitness etc."
 ---
 
-Homepage: <https://github.com/ignisda/ryot>
+Homepage: [https://github.com/ignisda/ryot](https://github.com/ignisda/ryot)
 
 A self hosted platform for tracking various facets of your life - media, fitness etc.
 
 ## Usage
 
-Set `memos_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `memos_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-memos web interface can be found at <http://ansible_nas_host_or_ip:8130>.
+memos web interface can be found at [http://ansible_nas_host_or_ip:8130](http://ansible_nas_host_or_ip:8130).

@@ -4,7 +4,7 @@ description: "Self-hosted information management tool"
 ---
 
 
-Homepage: <https://github.com/lcomplete/huntly>
+Homepage: [https://github.com/lcomplete/huntly](https://github.com/lcomplete/huntly)
 
 Huntly is a self-hosted information management tool, in simple terms, contains the following features.
 
@@ -17,6 +17,6 @@ Huntly is a self-hosted information management tool, in simple terms, contains t
 
 ## Usage
 
-Set `huntly_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `huntly_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-huntly web interface can be found at <http://ansible_nas_host_or_ip:8110>.
+huntly web interface can be found at [http://ansible_nas_host_or_ip:8110](http://ansible_nas_host_or_ip:8110).

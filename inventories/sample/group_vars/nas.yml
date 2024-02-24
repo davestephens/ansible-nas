@@ -14,5 +14,5 @@ ansible_nas_hostname: ansible-nas
 ansible_nas_timezone: Etc/UTC
 
 ## Enable some applications
-heimdall_enabled: true
+dashy_enabled: true
 portainer_enabled: true

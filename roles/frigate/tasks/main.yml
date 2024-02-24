@@ -10,6 +10,7 @@
       with_items:
         - "{{ frigate_data_directory }}"
         - "{{ frigate_data_directory }}/config"
+        - "{{ frigate_data_directory }}/media"
 
     - name: Template Frigate config.yml
       ansible.builtin.template:
@@ -27,7 +28,7 @@
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
           - /etc/localtime:/etc/localtime:ro
-          - "{{ frigate_data_directory }}/config:/config:ro"
+          - "{{ frigate_data_directory }}/config:/config"
           - "{{ frigate_data_directory }}/media:/media/frigate"
           - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
             target: /tmp/cache
@@ -36,6 +37,8 @@
         ports:
           - "{{ frigate_port }}:5000"
           - "{{ frigate_rtmp_port }}:1935" # RTMP feeds
+          - "{{ frigate_webrtc_tcp_port }}:8555/tcp" # WebRTC TCP feeds
+          - "{{ frigate_webrtc_udp_port }}:8555/udp" # WebRTC UDP feeds
         env:
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ frigate_user_id }}"

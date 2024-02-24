@@ -2,7 +2,7 @@
 title: "Emby"
 ---
 
-Homepage: <https://emby.media/>
+Homepage: [https://emby.media/](https://emby.media/)
 
 Emby is a mostly open-source media server with a client-server model. This
 install for Ansible-NAS provides a server, which various clients can then
@@ -13,7 +13,7 @@ similar functionality.
 
 ## Usage
 
-Set `emby_enabled: true` in your `inventories/<your_inventory>/nas.yml` file. There are further
+Set `emby_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file. There are further
 parameters you can edit such as `movies_root` and `tv_root` lower down.
 
 ## Specific Configuration

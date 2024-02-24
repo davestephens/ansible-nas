@@ -2,7 +2,7 @@
 title: "Promtail"
 ---
 
-Homepage: <https://grafana.com/docs/loki/latest/clients/promtail/>
+Homepage: [https://grafana.com/docs/loki/latest/clients/promtail/](https://grafana.com/docs/loki/latest/clients/promtail/)
 
 Docker image: [Promtail](https://hub.docker.com/r/grafana/promtail)
 
@@ -16,6 +16,6 @@ It primarily:
 
 ## Usage
 
-Set `promtail_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `promtail_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-To see what Promtail is doing (and what containers it has discovered for tailing), visit the web interface at at <http://ansible_nas_host_or_ip:9080>.
+To see what Promtail is doing (and what containers it has discovered for tailing), visit the web interface at at [http://ansible_nas_host_or_ip:9080](http://ansible_nas_host_or_ip:9080).
