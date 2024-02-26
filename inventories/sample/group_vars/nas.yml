@@ -15,4 +15,3 @@ ansible_nas_timezone: Etc/UTC
 
 ## Enable some applications
 dashy_enabled: true
-portainer_enabled: true
