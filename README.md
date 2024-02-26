@@ -57,7 +57,8 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [Loki](https://grafana.com/oss/loki/) - Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus.
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
-* [Minecraft Server](https://www.minecraft.net/) - Server edition of the popular building and exploring game
+* [Minecraft Java Server](https://www.minecraft.net/) - Java server edition of the popular building and exploring game
+* [Minecraft Bedrock Server](https://www.minecraft.net/) - Bedrock server edition of the popular building and exploring game
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Minio](https://min.io/) - MinIO is a high-performance, S3 compatible object store
