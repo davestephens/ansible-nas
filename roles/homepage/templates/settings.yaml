@@ -1,0 +1,2 @@
+---
+{{ homepage_settings_yaml | to_nice_yaml }}

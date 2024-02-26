@@ -182,6 +182,10 @@
       tags:
         - homebridge
 
+    - role: homepage
+      tags:
+        - homepage
+
     - role: jackett
       tags:
         - jackett
