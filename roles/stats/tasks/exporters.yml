@@ -12,7 +12,7 @@
         restart_policy: unless-stopped
         memory: "{{ stats_prometheus_smartctl_memory }}"
 
-    - name: hddtemp Docker Container
+    - name: Hddtemp Docker Container
       community.docker.docker_container:
         name: "{{ stats_hddtemp_docker_container_name }}"
         image: "{{ stats_hddtemp_docker_image_name }}:{{ stats_hddtemp_docker_image_tag }}"
