@@ -53,6 +53,11 @@
           traefik.http.routers.grafana.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.grafana.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.grafana.loadbalancer.server.port: "3000"
+          homepage.group: Monitoring
+          homepage.name: Grafana
+          homepage.icon: grafana
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ stats_grafana_port }}"
+          homepage.description: Dashboards and centralized observability.
   when: stats_enabled is true
 
 - name: Stop Grafana
