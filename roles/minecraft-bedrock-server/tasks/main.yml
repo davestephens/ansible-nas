@@ -11,7 +11,7 @@
     - name: Minecraft Bedrock Server Docker Container
       community.docker.docker_container:
         name: "{{ minecraft_bedrock_server_container_name }}"
-        image: itzg/minecraft-bedrock-server
+        image: "{{ minecraft_bedrock_server_image }}"
         pull: true
         volumes:
           - "{{ minecraft_bedrock_server_data_directory }}:/data:rw"
@@ -23,6 +23,9 @@
           GAMEMODE: "{{ minecraft_bedrock_server_game_mode }}"
           DIFFICULTY: "{{ minecraft_bedrock_server_difficulty }}"
           ONLINE_MODE: "{{ minecraft_bedrock_server_online_mode }}"
+          OPS: "{{ minecraft_bedrock_server_ops }}"
+          MEMBERS: "{{ minecraft_bedrock_server_members }}"
+          VISITORS: "{{ minecraft_bedrock_server_visitors }}"
         restart_policy: unless-stopped
   when: minecraft_bedrock_server_enabled is true
 

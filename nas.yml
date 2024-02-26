@@ -218,6 +218,10 @@
       tags:
         - mealie
 
+    - role: minecraft-bedrock-server
+      tags:
+        - minecraft-bedrock-server
+
     - role: minecraft-server
       tags:
         - minecraft-server
