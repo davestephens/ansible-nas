@@ -31,6 +31,8 @@ Traefik routes traffic from ports 80 (HTTP) and 443 (HTTPS) on your Ansible-NAS 
 
 Simply set `traefik_enabled: true` in your `all.yml`. By default it listens on ports 80 and 443, but doesn't route any traffic.
 
+Ensure you set the relevant environment variables for your DNS provider in `traefik_environment_variables`. More info at https://doc.traefik.io/traefik/https/acme/.
+
 ## Router Configuration
 
 You need to map ports 80 and 443 from your router to your Ansible-NAS box.
