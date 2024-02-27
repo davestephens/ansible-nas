@@ -338,6 +338,10 @@
       tags:
         - radarr
 
+    - role: romm
+      tags:
+        - romm
+
     - role: route53_ddns
       tags:
         - route53_ddns
