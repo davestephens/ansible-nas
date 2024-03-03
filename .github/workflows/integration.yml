@@ -26,12 +26,12 @@ jobs:
     needs: generate-matrix
     runs-on: ubuntu-latest
     strategy:
-        matrix:
-            role: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+      matrix:
+        role: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
       - name: Molecule Test
-        uses: gofrolist/molecule-action@dfbfd1af6a77523c8a937a1532f92808065a00a4
+        uses: gofrolist/molecule-action@v2
         with:
           molecule_options: --base-config ../../tests/molecule/base.yml
           molecule_command: test
