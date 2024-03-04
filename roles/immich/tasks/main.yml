@@ -45,6 +45,7 @@
         name: "{{ immich_redis_container_name }}"
         image: "{{ immich_redis_image }}:{{ immich_redis_tag }}"
         pull: true
+        command: --save 60 1 --loglevel warning
         volumes:
           - "{{ immich_data_directory }}/redis:/data:rw"
         networks:
@@ -60,44 +61,26 @@
           retries: 5
           timeout: 3s
 
-    - name: Immich Typesense Docker Container
-      community.docker.docker_container:
-        name: "{{ immich_typesense_container_name }}"
-        image: "{{ immich_typesense_image }}:{{ immich_typesense_tag }}"
-        pull: true
-        volumes:
-          - "{{ immich_data_directory }}/tsdata:/data:rw"
-        networks:
-          - name: "{{ immich_network_name }}"
-        env:
-          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
-          TYPESENSE_DATA_DIR: "/data"
-          # remove this to get debug messages
-          GLOG_minloglevel: "1"
-        labels:
-          traefik.enable: "false"
-        restart_policy: always
-        memory: "{{ immich_typesense_memory }}"
-
     - name: Immich Server Docker Container
       community.docker.docker_container:
         name: "{{ immich_server_container_name }}"
         image: "{{ immich_server_image }}:{{ immich_server_tag }}"
         pull: true
-        entrypoint: ["/bin/sh", "./start-server.sh"]
+        command: ["start.sh", "immich"]
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
           - /etc/localtime:/etc/localtime:ro
         networks:
           - name: "{{ immich_network_name }}"
-        exposed:
+        ports:
           - "{{ immich_port }}:3001"
         env:
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ immich_user_id | quote }}"
           PGID: "{{ immich_group_id | quote }}"
           NODE_ENV: "production"
+          IMMICH_VERSION: "{{ immich_version }}"
           REDIS_HOSTNAME: "{{ immich_redis_container_name }}"
           DB_HOSTNAME: "{{ immich_postgres_container_name }}"
           DB_USERNAME: "{{ immich_db_username }}"
@@ -107,9 +90,8 @@
           JWT_SECRET: "{{ immich_jwt_secret }}"
           ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
           MAPBOX_KEY: "{{ immich_mapbox_key }}"
-          UPLOAD_LOCATION: "./upload"
+          UPLOAD_LOCATION: "{{ immich_upload_location }}"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
-          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "{{ immich_available_externally | string }}"
           traefik.http.routers.immich.rule: "Host(`{{ immich_hostname }}.{{ ansible_nas_domain }}`)"
@@ -117,7 +99,6 @@
           traefik.http.routers.immich.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.immich.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.immich.loadbalancer.server.port: "3001"
-        command: ["start.sh", "immich"]
         restart_policy: unless-stopped
         memory: "{{ immich_server_memory }}"
 
@@ -138,6 +119,7 @@
           PUID: "{{ immich_user_id | quote }}"
           PGID: "{{ immich_group_id | quote }}"
           NODE_ENV: "production"
+          IMMICH_VERSION: "{{ immich_version }}"
           REDIS_HOSTNAME: "{{ immich_redis_container_name }}"
           DB_HOSTNAME: "{{ immich_postgres_container_name }}"
           DB_USERNAME: "{{ immich_db_username }}"
@@ -147,9 +129,8 @@
           JWT_SECRET: "{{ immich_jwt_secret }}"
           ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
           MAPBOX_KEY: "{{ immich_mapbox_key }}"
-          UPLOAD_LOCATION: "./upload"
+          UPLOAD_LOCATION: "{{ immich_upload_location }}"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
-          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
@@ -171,6 +152,7 @@
           PUID: "{{ immich_user_id | quote }}"
           PGID: "{{ immich_group_id | quote }}"
           NODE_ENV: "production"
+          IMMICH_VERSION: "{{ immich_version }}"
           REDIS_HOSTNAME: "{{ immich_redis_container_name }}"
           DB_HOSTNAME: "{{ immich_postgres_container_name }}"
           DB_USERNAME: "{{ immich_db_username }}"
@@ -180,9 +162,8 @@
           JWT_SECRET: "{{ immich_jwt_secret }}"
           ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
           MAPBOX_KEY: "{{ immich_mapbox_key }}"
-          UPLOAD_LOCATION: "./upload"
+          UPLOAD_LOCATION: "{{ immich_upload_location }}"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
-          TYPESENSE_API_KEY: "{{ immich_typesense_api_key }}"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
@@ -199,11 +180,6 @@
     - name: Stop Immich Redis
       community.docker.docker_container:
         name: "{{ immich_redis_container_name }}"
-        state: absent
-
-    - name: Stop Immich Typesense
-      community.docker.docker_container:
-        name: "{{ immich_typesense_container_name }}"
         state: absent
 
     - name: Stop Immich Server
