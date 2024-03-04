@@ -28,16 +28,10 @@
             "group": "test"
         },
         {
-            "label": "Serve docs locally (mkdocs serve)",
+            "label": "Run pytest",
             "type": "shell",
-            "command": "mkdocs serve",
+            "command": "pytest --molecule-base-config=../../tests/molecule/base.yml",
             "group": "test"
-        },
-        {
-            "label": "Deploy docs to GitHub (mkdocs gh-deploy)",
-            "type": "shell",
-            "command": "mkdocs gh-deploy",
-            "group": "build"
         }
     ]
 }

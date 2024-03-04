@@ -19,7 +19,8 @@ traefik_image_name: "traefik"
 traefik_image_version: "latest"
 traefik_log_level: "INFO"
 
-# find the relevant name and environment variables for your DNS provider at https://go-acme.github.io/lego/dns/
+# find the relevant name and environment variables for your DNS provider at https://go-acme.github.io/lego/dns/.
+# More info at https://doc.traefik.io/traefik/https/acme/
 traefik_dns_provider: cloudflare
 traefik_environment_variables:
   CF_DNS_API_TOKEN: "abcdabcd123412341234"

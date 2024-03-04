@@ -27,17 +27,23 @@ stats_telegraf_port: "9273"
 stats_telegraf_influxdb_port: "8086"
 stats_prometheus_smartctl_port: "9902"
 stats_speedtest_exporter_port: "9798"
+stats_hddtemp_port: "7634"
 stats_prometheus_hostname: "prometheus"
 stats_influxdb_hostname: "influxdb"
 stats_grafana_port: "3003"
 stats_grafana_hostname: "grafana"
 stats_loki_port: "3100"
 stats_loki_hostname: "loki"
+stats_hddtemp_docker_container_name: "stats-hddtemp"
+stats_hddtemp_docker_image_name: "modem7/hddtemp-docker"
+stats_hddtemp_docker_image_tag: "latest"
+
 
 # specs
 stats_telegraf_memory: 1g
 stats_prometheus_memory: 1g
 stats_prometheus_smartctl_memory: 1g
+stats_hddtemp_memory: 128m
 stats_speedtest_exporter_memory: 256m
 stats_grafana_memory: 1g
 stats_loki_memory: 1g

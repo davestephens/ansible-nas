@@ -16,6 +16,22 @@
         restart_policy: unless-stopped
         memory: "{{ stats_prometheus_smartctl_memory }}"
 
+    - name: Hddtemp Docker Container
+      community.docker.docker_container:
+        name: "{{ stats_hddtemp_docker_container_name }}"
+        image: "{{ stats_hddtemp_docker_image_name }}:{{ stats_hddtemp_docker_image_tag }}"
+        pull: true
+        privileged: true
+        ports:
+          - "{{ stats_hddtemp_port }}:7634"
+        env:
+          HDDTEMP_ARGS: "-q -d -F /dev/sd*"
+          TZ: "{{ ansible_nas_timezone }}"
+        volumes:
+          - "/dev:/dev:ro"
+        restart_policy: unless-stopped
+        memory: "{{ stats_hddtemp_memory }}"
+
     - name: Speedtest Exporter Docker Container
       community.docker.docker_container:
         name: "{{ stats_speedtest_container_name }}"
