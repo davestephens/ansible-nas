@@ -3,26 +3,26 @@
 route53_ddns_enabled: false
 
 # Data directory for config file
-route53_data_directory: "{{ docker_home }}/route53_ddns"
+route53_ddns_data_directory: "{{ docker_home }}/route53_ddns"
 
 # AWS access credentials
-route53_key_id: "{{ mandatory }}"
-route53_secret_key: "{{ mandatory }}"
+route53_ddns_key_id: "{{ mandatory }}"
+route53_ddns_secret_key: "{{ mandatory }}"
 
 # Managed DNS zone ID
-route53_hosted_zone_id: "{{ mandatory }}"
+route53_ddns_hosted_zone_id: "{{ mandatory }}"
 
 # The hostname to update
-route53_host: "*.{{ ansible_nas_domain }}"
+route53_ddns_host: "*.{{ ansible_nas_domain }}"
 
 # The Time-To-Live for the DNS entry
-route53_ttl: 600
+route53_ddns_ttl: 600
 
 # The CRON string schedule for checking and updating
-route53_schedule: "*/30 * * * *"
+route53_ddns_schedule: "*/30 * * * *"
 
 # Container
-route53_memory: 512MB
-route53_container_name: "route53-ddns"
-route53_image_name: "crazymax/ddns-route53"
-route53_image_version: "latest"
+route53_ddns_memory: 512MB
+route53_ddns_container_name: "route53-ddns"
+route53_ddns_image_name: "crazymax/ddns-route53"
+route53_ddns_image_version: "latest"

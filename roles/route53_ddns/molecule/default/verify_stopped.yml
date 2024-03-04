@@ -9,7 +9,7 @@
 
     - name: Try and stop and remove route53
       community.docker.docker_container:
-        name: "{{ route53_container_name }}"
+        name: "{{ route53_ddns_container_name }}"
         state: absent
       register: result
 

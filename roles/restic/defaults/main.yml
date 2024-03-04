@@ -92,10 +92,4 @@ restic_install_path: "/usr/local/bin" # Install location for the restic binary
 restic_script_dir: /root/restic # "/home/{{ restic_service_user }}/restic" # Location of the generated backup scripts
 restic_log_dir: "{{ restic_script_dir }}/log" # Location of the logs of the backup scripts
 restic_backup_script_template: restic_script_Linux.j2
-_platform_map:
-  i386: 386
-  x86_64: amd64
-  aarch64: arm64
-  armv7l: arm
-  armv6l: arm
 restic_url_to_download_from: "https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_{{ ansible_system | lower }}_{{ _platform_map[arch] | default(arch) }}.bz2" # The URL to download restic from. Use this variable to overwrite the default

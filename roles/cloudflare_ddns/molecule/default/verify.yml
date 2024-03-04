@@ -9,7 +9,7 @@
 
     - name: Get container state
       community.docker.docker_container_info:
-        name: "{{ cloudflare_container_name }}"
+        name: "{{ cloudflare_ddns_container_name }}"
       register: result
 
     - name: Check Cloudflare DDNS is running

@@ -8,7 +8,7 @@ lldap_data_directory: "{{ docker_home }}/lldap"
 # network
 lldap_ui_port: "17170"
 lldap_port: "3890"
-lldapsport: "6360"
+lldaps_port: "6360"
 lldap_hostname: "lldap"
 
 # specs
