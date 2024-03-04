@@ -5,6 +5,8 @@ provisioner:
       all:
         blocky_enabled: true
         blocky_data_directory: "/tmp"
+        blocky_dns_tcp_port: "8853"
+        blocky_dns_udp_port: "8853"
 platforms:
   - name: instance
     image: geerlingguy/docker-ubuntu2204-ansible:latest
