@@ -33,6 +33,6 @@ frigate_mqtt_client_id: "frigate"
 frigate_mqtt_user: "user"
 frigate_mqtt_password: "password"
 frigate_devices: # add device mapping as needed
-  - /dev/bus/usb:/dev/bus/usb
+#- /dev/bus/usb:/dev/bus/usb
 #   - /dev/apex_0:/dev/apex_0
 #   - /dev/dri/renderD128
