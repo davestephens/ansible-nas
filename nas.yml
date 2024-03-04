@@ -398,6 +398,10 @@
       tags:
         - mergerfs
 
+    - role: minecraft-bedrock-server
+      tags:
+        - minecraft-bedrock-server
+
     - role: minecraft-server
       tags:
         - minecraft-server
@@ -585,6 +589,10 @@
     - role: restic
       tags:
         - restic
+
+    - role: romm
+      tags:
+        - romm
 
     - role: route53_ddns
       tags:

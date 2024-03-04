@@ -72,7 +72,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API
-* [Homepage](https://gethomepage.dev) - A highly customizable homepage (or startpage / application dashboard)
+* [Homepage](https://gethomepage.dev/) - Highly customizable application dashboard with integrations for over 100 services.
 * [Huginn](https://github.com/huginn/huginn) - Create agents that monitor and act on your behalf. Your agents are standing by!
 * [Huntly](https://github.com/lcomplete/huntly) - Self-hosted information management tool
 * [ICantBelieveItsNotValetudo](https://github.com/Hypfer/ICantBelieveItsNotValetudo) - companion service for Valetudo that renders ValetudoMap map data to raster graphics.
@@ -103,7 +103,8 @@ If you have a spare domain name you can configure applications to be accessible 
 * [MariaDB](https://mariadb.org/) - one of the most popular open source relational databases
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
 * [Memos](https://usememos.com/) - An open-source memo hub with knowledge management and social networking
-* [Minecraft Server](https://www.minecraft.net/) - Server edition of the popular building and exploring game
+* [Minecraft Java Server](https://www.minecraft.net/) - Java server edition of the popular building and exploring game
+* [Minecraft Bedrock Server](https://www.minecraft.net/) - Bedrock server edition of the popular building and exploring game
 * [Minetest Server](https://www.minetest.net/) - An open source voxel game engine server
 * [MiniDLNA](https://sourceforge.net/projects/minidlna/) - simple media server which is fully compliant with DLNA/UPnP-AV clients
 * [Miniflux](https://miniflux.app/) - An RSS news reader
@@ -149,6 +150,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [PyTivo](http://pytivo.org) - An HMO and GoBack server for TiVos.
 * [Radarr](https://radarr.video/) - for organising and downloading movies
+* [Romm](https://github.com/zurdi15/romm) - A game library manager focused on retro gaming
 * [Releasebell](https://github.com/anarion80/releasebell) - Starred GitHub repositories notifications
 * [Restic](https://restic.net/) - A modern backup program
 * [Route53 DDNS](https://crazymax.dev/ddns-route53/) - Automatically update AWS Route53 with your IP address

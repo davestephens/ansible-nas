@@ -19,6 +19,14 @@
           - "{{ threadfin_data_directory }}:/home/threadfin/conf"
         restart_policy: unless-stopped
         memory: "{{ threadfin_memory }}"
+        labels:
+          homepage.group: Media
+          homepage.name: Threadfin
+          homepage.icon: xteve
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ threadfin_port }}"
+          homepage.description: IPTV bridge
+          homepage.widget.type: xteve
+          homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ threadfin_port }}"
   when: threadfin_enabled is true
 
 - name: Stop Threadfin

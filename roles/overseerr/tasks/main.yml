@@ -9,7 +9,7 @@
         - "{{ overseerr_data_directory }}"
         - "{{ overseerr_data_directory }}/config"
 
-    - name: Overseerr
+    - name: Overseerr Docker Container
       community.docker.docker_container:
         name: "{{ overseerr_container_name }}"
         image: "{{ overseerr_image_name }}:{{ overseerr_image_version }}"
@@ -31,6 +31,11 @@
           traefik.http.routers.overseerr.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.overseerr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.overseerr.loadbalancer.server.port: "5055"
+          homepage.group: Media
+          homepage.name: Overseerr
+          homepage.icon: overseerr
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ overseerr_webui_port }}"
+          homepage.description: Media requests
   when: overseerr_enabled is true
 
 - name: Stop Overseerr

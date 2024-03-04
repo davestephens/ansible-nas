@@ -8,7 +8,7 @@
       with_items:
         - "{{ radarr_data_directory }}"
 
-    - name: Radarr
+    - name: Radarr Docker Container
       community.docker.docker_container:
         name: "{{ radarr_container_name }}"
         image: "{{ radarr_image_name }}:{{ radarr_image_version }}"
@@ -32,6 +32,11 @@
           traefik.http.routers.radarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.radarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.radarr.loadbalancer.server.port: "7878"
+          homepage.group: "Download Tools"
+          homepage.name: "Radarr"
+          homepage.icon: "radarr"
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ radarr_port }}"
+
   when: radarr_enabled is true
 
 - name: Stop Radarr

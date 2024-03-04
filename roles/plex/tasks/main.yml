@@ -5,7 +5,6 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        # mode: 0755
       with_items:
         - "{{ plex_config_directory }}"
         - "{{ plex_config_directory }}/autoscan"
@@ -43,6 +42,11 @@
           traefik.http.routers.plex.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.plex.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.plex.loadbalancer.server.port: "32400"
+          homepage.group: Media
+          homepage.name: Plex
+          homepage.icon: plex
+          homepage.href: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:32400
+          homepage.description: Media server
 
     - name: Start Plex Autoscan
       block:
