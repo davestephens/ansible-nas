@@ -16,7 +16,7 @@ roles:
 
   - name: tigattack.mergerfs
 
-  - name: arillso.restic
+  - name: andrewrothstein.restic
 
 collections:
   - name: ansible.posix

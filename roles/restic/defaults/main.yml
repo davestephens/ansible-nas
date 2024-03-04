@@ -3,7 +3,7 @@ restic_enabled: false
 restic_service_user: root
 restic_service_group: root
 
-restic_version_to_install: "0.15.1" # The version of Restic to install
+restic_version_to_install: "0.15.2" # The version of Restic to install
 restic_download_location: "/opt/restic" # Download location for the restic binary
 restic_install_location: "/usr/local/bin" # Install location for the restic binary
 restic_config_folder: /root/restic # /home/{{ restic_service_user }}/restic
