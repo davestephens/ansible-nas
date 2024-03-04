@@ -93,7 +93,6 @@
           UPLOAD_LOCATION: "{{ immich_upload_location }}"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
         labels:
-          labels:
           traefik.enable: "{{ immich_available_externally | string }}"
           traefik.http.routers.immich.rule: "Host(`{{ immich_hostname }}.{{ ansible_nas_domain }}`)"
           traefik.http.routers.immich.tls.certresolver: "letsencrypt"
