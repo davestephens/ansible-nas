@@ -9,6 +9,9 @@ provisioner:
   inventory:
     group_vars:
       all:
+        unarchive_deps_all_pkgs:
+          - gzip
+          - bzip2
         restic_enabled: true
         restic_install_location: "/usr/local/bin"
         restic_create_cron_jobs: true

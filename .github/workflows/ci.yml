@@ -21,12 +21,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python 3
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
       - name: Install test dependencies
-        run: pip3 install ansible yamllint==1.30.0 ansible-lint==6.14.6
+        run: pip3 install ansible yamllint==1.35.1 ansible-lint==24.2.0
 
       - name: Ansible-lint
         run: ansible-lint nas.yml
@@ -35,6 +35,6 @@ jobs:
         run: yamllint .
 
       - name: Lint docs
-        uses: articulate/actions-markdownlint@v1
+        uses: articulate/actions-markdownlint@main
         with:
           version: 0.32.2

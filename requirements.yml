@@ -1,7 +1,7 @@
 ---
 roles:
   - name: geerlingguy.docker
-    version: 6.0.0
+    version: 7.1.0
 
   - name: geerlingguy.docker_arm
     version: 5.0.0
@@ -16,9 +16,10 @@ roles:
 
   - name: tigattack.mergerfs
 
-  - name: arillso.restic
+  - name: andrewrothstein.restic
 
 collections:
   - name: ansible.posix
   - name: community.docker
   - name: community.general
+  - name: community.windows

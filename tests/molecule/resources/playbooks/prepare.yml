@@ -7,3 +7,4 @@
         name:
           - docker
           - urllib3<2
+          - molecule-plugins[docker]

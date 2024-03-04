@@ -28,12 +28,10 @@
 
     - name: Include Restic role
       ansible.builtin.include_role:
-        name: arillso.restic
+        name: andrewrothstein.restic
       vars:
-        restic_url: "{{ restic_url_to_download_from }}"
-        restic_version: "{{ restic_version_to_install }}" # The version of Restic to install
-        restic_download_path: "{{ restic_download_location }}" # Download location for the restic binary
-        restic_install_path: "{{ restic_install_location }}" # Install location for the restic binary
+        restic_ver: "{{ restic_version_to_install }}" # The version of Restic to install
+        restic_install_dir: "{{ restic_install_location }}" # Install location for the restic binary
         restic_script_dir: "{{ restic_config_folder }}" # "/home/{{ restic_service_user }}/restic" # Location of the generated backup scripts
         restic_log_dir: "{{ restic_script_dir }}/log" # Location of the logs of the backup scripts
         restic_dir_owner: "{{ restic_service_user }}" # The owner of all created dirs

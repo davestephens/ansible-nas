@@ -3,11 +3,11 @@ provisioner:
   inventory:
     group_vars:
       all:
-        route53_enabled: true
-        route53_key_id: "abcdef"
-        route53_secret_key: "ghijkl"
-        route53_hosted_zone_id: "1000"
-        route53_data_directory: "/tmp/route53"
+        route53_ddns_enabled: true
+        route53_ddns_key_id: "abcdef"
+        route53_ddns_secret_key: "ghijkl"
+        route53_ddns_hosted_zone_id: "1000"
+        route53_ddns_data_directory: "/tmp/route53"
 platforms:
   - name: instance
     image: geerlingguy/docker-ubuntu2204-ansible:latest

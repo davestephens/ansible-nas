@@ -25,7 +25,7 @@ ebusd_devices:
 ebusd_device: "/dev/ttyUSB0"
 # ebusd_nodevicecheck: ""
 # Only read from device, never write to it
-ebusd_readonly: "" # "1"
+# ebusd_readonly: "" # "1"
 # Send an initial escape symbol after connecting device
 # ebusd_initsend: ""
 # Extra transfer latency in ms

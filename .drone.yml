@@ -14,6 +14,6 @@ steps:
   - name: lint
     image: python:3
     commands:
-      - pip3 install ansible yamllint==1.27.1 ansible-lint==6.5
+      - pip3 install ansible yamllint==1.35.1 ansible-lint==24.2.0
       - ansible-lint nas.yml
       - yamllint .

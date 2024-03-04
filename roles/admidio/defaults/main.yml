@@ -18,7 +18,7 @@ admidio_mysql_memory: 1g
 admidio_container_name: admidio
 admidio_mysql_container_name: admidio-db
 admidio_image_name: "admidio/admidio"
-admidio_image_version: "v4.2.4"
+admidio_image_version: "latest"
 admidio_mysql_image_name: "mariadb"
 admidio_mysql_image_version: latest
 admidio_user_id: "1000"

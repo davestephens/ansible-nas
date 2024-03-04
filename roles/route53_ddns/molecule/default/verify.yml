@@ -9,7 +9,7 @@
 
     - name: Get route53 container state
       community.docker.docker_container:
-        name: "{{ route53_container_name }}"
+        name: "{{ route53_ddns_container_name }}"
       register: result
 
     - name: Check if route53 containers are running
