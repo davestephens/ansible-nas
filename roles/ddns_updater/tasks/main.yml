@@ -43,6 +43,10 @@
           traefik.http.routers.airsonic.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.airsonic.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.airsonic.loadbalancer.server.port: "8000"
+          homepage.group: Networking
+          homepage.name: DDNS Updater
+          homepage.icon: ddns-updater
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ ddns_updater_port }}"
   when: ddns_updater_enabled is true
 
 - name: Stop DDNS Updater
