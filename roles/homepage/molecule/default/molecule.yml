@@ -4,3 +4,4 @@ provisioner:
     group_vars:
       all:
         homepage_enabled: true
+        ansible_nas_hostname: ansible-nas
