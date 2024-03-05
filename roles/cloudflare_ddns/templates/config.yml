@@ -1,9 +1,9 @@
 ---
 auth:
-  scopedToken: "{{ cloudflare_token }}"
+  scopedToken: "{{ cloudflare_ddns_token }}"
 domains:
-  - name: "{{ cloudflare_host }}"
-    type: "{{ cloudflare_type }}"
-    proxied: {{ cloudflare_proxy | bool }}
+  - name: "{{ cloudflare_ddns_host }}"
+    type: "{{ cloudflare_ddns_type }}"
+    proxied: {{ cloudflare_ddns_proxy | bool }}
     create: true
-    zoneName: "{{ cloudflare_zone }}"
+    zoneName: "{{ cloudflare_ddns_zone }}"

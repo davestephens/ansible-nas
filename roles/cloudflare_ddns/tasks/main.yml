@@ -3,7 +3,7 @@
   block:
     - name: Check for deprecated API key
       ansible.builtin.fail:
-        msg: "Using a Cloudflare global API key is no longer supported. Please unset cloudflare_api_key and set cloudflare_token"
+        msg: "Using a Cloudflare global API key is no longer supported. Please unset cloudflare_ddns_api_key and set cloudflare_ddns_token"
       when: cloudflare_ddns_api_key is defined
 
     - name: Create cloudflare Dynamic DNS Directories
