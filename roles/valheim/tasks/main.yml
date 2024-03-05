@@ -1,0 +1,80 @@
+---
+- name: Start Valheim
+  block:
+    - name: Create Valheim Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ valheim_user_id }}"
+        group: "{{ valheim_group_id }}"
+      with_items:
+        - "{{ valheim_data_directory }}/saves"
+        - "{{ valheim_data_directory }}/server"
+        - "{{ valheim_data_directory }}/backups"
+
+    - name: Valheim Docker Container
+      community.docker.docker_container:
+        name: "{{ valheim_container_name }}"
+        image: "{{ valheim_image_name }}:{{ valheim_image_version }}"
+        pull: true
+        volumes:
+          - "{{ valheim_data_directory }}/saves:/home/steam/.config/unity3d/IronGate/Valheim"
+          - "{{ valheim_data_directory }}/server:/home/steam/valheim"
+          - "{{ valheim_data_directory }}/backups:/home/steam/backups"
+        ports:
+          - "{{ valheim_port_a }}:2456/udp"
+          - "{{ valheim_port_b }}:2457/udp"
+          - "{{ valheim_port_c }}:2458/udp"
+        env:
+          PUID: "{{ valheim_user_id }}"
+          PGID: "{{ valheim_group_id }}"
+          PORT: "{{ valheim_port_a }}"
+          NAME: "{{ valheim_name }}"
+          WORLD: "{{ valheim_world }}"
+          PASSWORD: "{{ valheim_password }}"
+          TZ: "{{ ansible_nas_timezone }}"
+          PUBLIC: "{{ valheim_public }}"
+          AUTO_UPDATE: "{{ valheim_auto_update }}"
+          AUTO_UPDATE_PAUSE_WITH_PLAYERS: "{{ valheim_auto_update_pause_with_players }}"
+          AUTO_UPDATE_SCHEDULE: "{{ valheim_auto_update_schedule }}"
+          AUTO_BACKUP: "{{ valheim_auto_backup }}"
+          AUTO_BACKUP_SCHEDULE: "{{ valheim_auto_backup_schedule }}"
+          AUTO_BACKUP_NICE_LEVEL: "{{ valheim_auto_backup_nice_level }}"
+          AUTO_BACKUP_REMOVE_OLD: "{{ valheim_auto_backup_remove_old }}"
+          AUTO_BACKUP_DAYS_TO_LIVE: "{{ valheim_auto_backup_days_to_live }}"
+          AUTO_BACKUP_ON_UPDATE: "{{ valheim_auto_backup_on_update }}"
+          AUTO_BACKUP_ON_SHUTDOWN: "{{ valheim_auto_backup_on_shutdown }}"
+          AUTO_BACKUP_PAUSE_WITH_NO_PLAYERS: "{{ valheim_auto_backup_pause_with_no_players }}"
+          # WEBHOOK_URL: "{{ valheim_webhook_url }}"
+          WEBHOOK_INCLUDE_PUBLIC_IP: "{{ valheim_webhook_include_public_ip }}"
+          UPDATE_ON_STARTUP: "{{ valheim_update_on_startup }}"
+          ENABLE_CROSSPLAY: "{{ valheim_enable_crossplay }}"
+          TYPE: "{{ valheim_type }}"
+          # PRESET: "{{ valheim_preset }}"
+          # MODIFIERS: "{{ valheim_modifiers }}"
+          # SET_KEY: "{{ valheim_set_key }}"
+          # MODS: "{{ valheim_mods }}"
+          # ADDITIONAL_STEAMCMD_ARGS: "{{ valheim_additional_steamcmd_args }}"
+          SCHEDULED_RESTART: "{{ valheim_scheduled_restart }}"
+          SCHEDULED_RESTART_SCHEDULE: "{{ valheim_scheduled_restart_schedule }}"
+        restart_policy: unless-stopped
+        memory: "{{ valheim_memory }}"
+        capabilities:
+          - SYS_NICE
+        labels:
+          traefik.enable: "{{ valheim_available_externally | string }}"
+          traefik.http.routers.valheim.rule: "Host(`{{ valheim_hostname }}.{{ ansible_nas_domain }}`)"
+          # traefik.http.routers.valheim.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.valheim.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.valheim.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.valheim.loadbalancer.server.port: "2456"
+  when: valheim_enabled is true
+
+- name: Stop Valheim
+  block:
+    - name: Stop Valheim
+      community.docker.docker_container:
+        name: "{{ valheim_container_name }}"
+        state: absent
+
+  when: valheim_enabled is false

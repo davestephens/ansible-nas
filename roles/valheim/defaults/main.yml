@@ -1,0 +1,54 @@
+---
+valheim_enabled: false
+valheim_available_externally: false
+
+# directories
+valheim_home: "{{ docker_home }}/valheim"
+valheim_data_directory: "{{ valheim_home }}/valheim"
+
+# network
+valheim_port_a: "2456"
+valheim_port_b: "2457"
+valheim_port_c: "2458"
+valheim_hostname: "valheim"
+
+# docker
+valheim_container_name: "valheim"
+valheim_image_name: "mbround18/valheim"
+valheim_image_version: "latest"
+
+# uid/gid
+valheim_user_id: "1000"
+valheim_group_id: "1000"
+
+# specs
+valheim_memory: 1g
+
+# valheim
+valheim_name: "Created With Valheim Docker"
+valheim_world: "Dedicated"
+valheim_password: "Strong! Password @ Here"
+valheim_public: "1"
+valheim_auto_update: "1"
+valheim_auto_update_pause_with_players: "0"
+valheim_auto_update_schedule: "0 1 * * *"
+valheim_auto_backup: "1"
+valheim_auto_backup_nice_level: "19"
+valheim_auto_backup_schedule: "*/15 * * * *"
+valheim_auto_backup_remove_old: "1"
+valheim_auto_backup_days_to_live: "3"
+valheim_auto_backup_on_update: "1"
+valheim_auto_backup_on_shutdown: "1"
+valheim_auto_backup_pause_with_no_players: "0"
+valheim_webhook_url: "https://discord.com/api/webhooks/IM_A_SNOWFLAKE/AND_I_AM_A_SECRET"
+valheim_webhook_include_public_ip: "1"
+valheim_update_on_startup: "0"
+valheim_enable_crossplay: "0"
+valheim_type: "Vanilla"
+valheim_preset: ""
+valheim_modifiers: ""
+valheim_set_key: ""
+valheim_mods: ""
+valheim_additional_steamcmd_args: ""
+valheim_scheduled_restart: "0"
+valheim_scheduled_restart_schedule: "0 2 * * *"

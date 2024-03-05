@@ -414,6 +414,10 @@
       tags:
         - utorrent
 
+    - role: valheim
+      tags:
+        - valheim
+
     - role: virtual_desktop
       tags:
         - virtual_desktop
