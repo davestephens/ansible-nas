@@ -1,6 +1,22 @@
 ---
 - name: Start Heimdall
   block:
+    - name: Create Heimdall group
+      ansible.builtin.group:
+        name: heimdall
+        gid: "{{ heimdall_group_id }}"
+        state: present
+
+    - name: Create Heimdall user
+      ansible.builtin.user:
+        name: heimdall
+        uid: "{{ heimdall_user_id }}"
+        state: present
+        system: yes
+        update_password: on_create
+        create_home: no
+        group: heimdall
+
     - name: Create Heimdall Directories
       ansible.builtin.file:
         path: "{{ item }}"
@@ -19,6 +35,8 @@
           - "{{ heimdall_data_directory }}:/config:rw"
         env:
           TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ heimdall_user_id }}"
+          PGID: "{{ heimdall_group_id }}"
         ports:
           - "{{ heimdall_port_http }}:80"
         restart_policy: unless-stopped

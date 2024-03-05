@@ -10,6 +10,10 @@ heimdall_data_directory: "{{ docker_home }}/heimdall"
 heimdall_port_http: "11112"
 heimdall_hostname: heimdall
 
+# uid / gid
+heimdall_user_id: "1310"
+heimdall_group_id: "1310"
+
 # specs
 heimdall_memory: 1g
 
