@@ -64,9 +64,9 @@
         labels:
           traefik.enable: "{{ valheim_available_externally | string }}"
           traefik.http.routers.valheim.rule: "Host(`{{ valheim_hostname }}.{{ ansible_nas_domain }}`)"
-          # traefik.http.routers.valheim.tls.certresolver: "letsencrypt"
-          # traefik.http.routers.valheim.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          # traefik.http.routers.valheim.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.valheim.tls.certresolver: "letsencrypt"
+          traefik.http.routers.valheim.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.valheim.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.valheim.loadbalancer.server.port: "2456"
   when: valheim_enabled is true
 

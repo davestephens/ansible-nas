@@ -3,8 +3,7 @@ valheim_enabled: false
 valheim_available_externally: false
 
 # directories
-valheim_home: "{{ docker_home }}/valheim"
-valheim_data_directory: "{{ valheim_home }}/valheim"
+valheim_data_directory: "{{ docker_home }}/valheim"
 
 # network
 valheim_port_a: "2456"

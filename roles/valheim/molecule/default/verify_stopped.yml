@@ -12,7 +12,7 @@
         state: absent
       register: result
 
-    - name: Check if joomla is stopped
+    - name: Check if Valheim is stopped
       ansible.builtin.assert:
         that:
           - not result.changed
