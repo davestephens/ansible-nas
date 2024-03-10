@@ -93,6 +93,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [RSS-Bridge](https://rss-bridge.github.io/rss-bridge/) - The RSS feed for websites missing it
 * [Sabnzbd](https://sabnzbd.org/) - A powerful usenet downloader that FreeNAS provides
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
+* [Silverbullet](https://silverbullet.md) - Note-taking application optimized for people with a hacker mindset
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Speedtest-Tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) - Continuously track your internet speed
 * Stats - Monitor and visualise metrics about your NAS and internet connection using Grafana, Prometheus, Telegraf and more.

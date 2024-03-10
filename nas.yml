@@ -358,6 +358,10 @@
       tags:
         - sickchill
 
+    - role: silverbullet
+      tags:
+        - silverbullet
+
     - role: sonarr
       tags:
         - sonarr
