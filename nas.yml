@@ -78,6 +78,10 @@
       tags:
         - calibre
 
+    - role: calibreweb
+      tags:
+        - calibreweb
+
     - role: cloudcmd
       tags:
         - cloudcmd

@@ -1,6 +1,4 @@
----
-Title: Calibre
----
+# Calibre
 
 Homepage: [https://calibre-ebook.com](https://calibre-ebook.com)
 
