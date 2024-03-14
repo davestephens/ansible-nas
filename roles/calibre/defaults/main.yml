@@ -3,8 +3,8 @@ calibre_enabled: false
 calibre_available_externally: "false"
 
 # uid / gid
-calibre_user_id: "1000"
-calibre_group_id: "1000"
+calibre_user_id: "0"
+calibre_group_id: "0"
 
 # directories
 calibre_data_directory: "{{ docker_home }}/calibre"

@@ -2,7 +2,7 @@
 title: "Calibre-web"
 ---
 
-Homepage: <https://github.com/janeczku/calibre-web>
+Homepage: [https://github.com/janeczku/calibre-web](https://github.com/janeczku/calibre-web)
 
 Calibre-Web is a web app providing a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 
@@ -12,7 +12,7 @@ Set `calibreweb_enabled: true` in your `inventories/<your_inventory>/nas.yml` fi
 
 ## Specific Configuration
 
-Requires Calibre ebook management program. Available for download [here](https://calibre-ebook.com/download).
+Requires Calibre to be set up - `calibre_enabled: true`
 
 ### Admin login
 
@@ -27,13 +27,3 @@ If you do not need eBook conversion you can disable it to save resources by sett
 - Conversion disabled: `calibreweb_ebook_conversion: ""`
 
 You can target just Calibre by appending `-t calibre` to your `ansible-playbook` command.
-
-## Use with Calibre
-
-Ansible-NAS add [../calibre](Calibre) long after Calibre-web. To allow Calibre-web direct access to the Calibre database, both applications can share a Docker data directory. To do so, include the following in your inventory `nas.yml`:
-
-```yml
-calibreweb_data_directory: "{{ docker_home }}/calibre"
-```
-
-In this case, the Calibre Database Directory is `/data/Calibre Library`.
