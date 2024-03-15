@@ -28,6 +28,11 @@
           traefik.http.routers.silverbullet.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.silverbullet.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.silverbullet.loadbalancer.server.port: "3000"
+          homepage.group: Productivity
+          homepage.name: Silverbullet
+          homepage.icon: silverbullet
+          homepage.href: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ silverbullet_port }}
+          homepage.description: Notes for developers
   when: silverbullet_enabled is true
 
 - name: Stop silverbullet
