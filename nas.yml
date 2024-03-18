@@ -138,6 +138,10 @@
       tags:
         - firefly
 
+    - role: flame
+      tags:
+        - flame
+
     - role: freshrss
       tags:
         - freshrss
