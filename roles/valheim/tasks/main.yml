@@ -25,7 +25,7 @@
           - "{{ valheim_port_a }}:2456/udp"
           - "{{ valheim_port_b }}:2457/udp"
           - "{{ valheim_port_c }}:2458/udp"
-        env: "{{ valheim_optional_env | default({}) | combine(valheim_env) }}"
+        env: "{{ valheim_env }}"
         restart_policy: unless-stopped
         memory: "{{ valheim_memory }}"
         capabilities:
