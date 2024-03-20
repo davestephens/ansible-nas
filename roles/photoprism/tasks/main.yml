@@ -1,0 +1,50 @@
+---
+- name: Start Photoprism
+  block:
+    - name: Create Photoprism Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ photoprism_data_directory }}"
+
+    - name: Photoprism Docker Container
+      community.docker.docker_container:
+        name: "{{ photoprism_container_name }}"
+        image: photoprism/photoprism
+        pull: true
+        volumes:
+          - "/etc/localtime:/etc/localtime:ro"
+          - "{{ photoprism_data_directory }}/storage:/photoprism/storage:rw"
+          - "{{ photoprism_photos_directory }}:/photoprism/originals:rw"
+        env:
+          PHOTOPRISM_SITE_CAPTION: "{{ photoprism_site_caption }}"
+          PHOTOPRISM_ADMIN_USER: "{{ photoprism_admin_user }}"
+          PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_admin_password }}"
+          PHOTOPRISM_SITE_URL: "https://{{ photoprism_hostname }}.{{ ansible_nas_domain }}"
+          PHOTOPRISM_DATABASE_DRIVER: "{{ photoprism_database_driver }}"
+          PHOTOPRISM_DATABASE_SERVER: "{{ photoprism_database_server }}"
+          PHOTOPRISM_DATABASE_NAME: "{{ photoprism_database_name }}"
+          PHOTOPRISM_DATABASE_USER: "{{ photoprism_database_user }}"
+          PHOTOPRISM_DATABASE_PASSWORD: "{{ photoprism_database_password }}"
+        ports:
+          - "{{ photoprism_port }}:2342"
+        restart_policy: unless-stopped
+        memory: "{{ photoprism_memory }}"
+        labels:
+          traefik.enable: "{{ photoprism_available_externally | string }}"
+          traefik.http.routers.photoprism.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.photoprism.tls.certresolver: "letsencrypt"
+          traefik.http.routers.photoprism.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.photoprism.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.photoprism.service: "photoprism"
+          traefik.http.services.photoprism.loadbalancer.server.port: "{{ photoprism_port | string }}"
+  when: photoprism_enabled is true
+
+- name: Stop Photoprism
+  block:
+    - name: Stop Photoprism
+      community.docker.docker_container:
+        name: "{{ photoprism_container_name }}"
+        state: absent
+  when: photoprism_enabled is false
