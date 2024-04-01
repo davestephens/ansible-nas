@@ -28,6 +28,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Blaze](https://github.com/blenderskool/blaze) - File sharing progressive web app
 * [Blocky](https://0xerr0r.github.io/blocky/) - Fast and lightweight DNS proxy as ad-blocker
 * [Booksonic](https://booksonic.org/) - The selfhosted audiobook server
+* [Calibre](https://calibre-ebook.com) - Calibre is a powerful and easy to use e-book manager.
 * [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 * [Changedetection.io](https://github.com/dgtlmoon/changedetection.io) - Free open source website change detection, monitor and notification service
 * [Chatpad](https://chatpad.ai/) - Not just another ChatGPT user-interface!
@@ -162,6 +163,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Servas](https://github.com/beromir/Servas) - A self-hosted bookmark management tool
 * [Shaarli](https://github.com/shaarli/Shaarli) - Personal, minimalist, super-fast, database free, bookmarking service
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
+* [Silverbullet](https://silverbullet.md) - Note-taking application optimized for people with a hacker mindset
 * [Snipe-IT](https://snipeitapp.com/) - A free open source IT asset/license management system
 * [Sonarr](https://sonarr.tv/) - for downloading and managing TV episodes
 * [Speedtest-Tracker](https://github.com/henrywhitaker3/Speedtest-Tracker) - Continuously track your internet speed

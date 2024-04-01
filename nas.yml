@@ -106,6 +106,10 @@
       tags:
         - calibre
 
+    - role: calibreweb
+      tags:
+        - calibreweb
+
     - role: changedetection
       tags:
         - changedetection
@@ -629,6 +633,10 @@
     - role: sickchill
       tags:
         - sickchill
+
+    - role: silverbullet
+      tags:
+        - silverbullet
 
     - role: snipeit
       tags:

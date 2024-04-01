@@ -1,0 +1,24 @@
+---
+calibreweb_enabled: false
+calibreweb_available_externally: false
+
+# uid / gid
+calibreweb_user_id: "0"
+calibreweb_group_id: "0"
+
+# directories
+calibreweb_data_directory: "{{ docker_home }}/calibreweb"
+calibreweb_books_root: "{{ books_root }}"
+
+# other
+calibreweb_ebook_conversion: "linuxserver/calibre-web:calibre"
+
+# network
+calibreweb_port: "8084"
+calibreweb_hostname: "calibreweb"
+
+# specs
+calibreweb_memory: 1g
+
+# docker
+calibreweb_container_name: calibreweb

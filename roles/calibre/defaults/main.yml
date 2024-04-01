@@ -1,6 +1,6 @@
 ---
 calibre_enabled: false
-calibre_available_externally: false
+calibre_available_externally: "false"
 
 # uid / gid
 calibre_user_id: "0"
@@ -8,14 +8,18 @@ calibre_group_id: "0"
 
 # directories
 calibre_data_directory: "{{ docker_home }}/calibre"
-calibre_books_root: "{{ books_root }}"
-
-# other
-calibre_ebook_conversion: "linuxserver/mods:universal-calibre"
+calibre_books_directory: "{{ books_root }}"
+calibre_comics_directory: "{{ comics_root }}"
 
 # network
-calibre_port: "8084"
+calibre_port: "8093"
+calibre_webserver_port: "8094"
 calibre_hostname: "calibre"
+
+# env
+calibre_password: ""
+calibre_cli_args: ""
+calibre_security_opts: "seccomp=unconfined" # For why this is here, see https://github.com/linuxserver/docker-calibre/issues/102
 
 # specs
 calibre_memory: 1g
