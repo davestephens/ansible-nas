@@ -1,0 +1,44 @@
+---
+- name: Start Silverbullet
+  block:
+    - name: Create Silverbullet Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ silverbullet_data_directory }}"
+
+    - name: Silverbullet Docker Container
+      community.docker.docker_container:
+        name: "{{ silverbullet_container_name }}"
+        image: "{{ silverbullet_image_name }}:{{ silverbullet_image_version }}"
+        pull: true
+        ports:
+          - "{{ silverbullet_port }}:3000"
+        volumes:
+          - "{{ silverbullet_data_directory }}:/space"
+        restart_policy: unless-stopped
+        memory: "{{ silverbullet_memory }}"
+        env:
+          SB_USER: "{{ silverbullet_username }}:{{ silverbullet_password }}"
+        labels:
+          traefik.enable: "{{ silverbullet_available_externally | string }}"
+          traefik.http.routers.silverbullet.rule: "Host(`{{ silverbullet_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.silverbullet.tls.certresolver: "letsencrypt"
+          traefik.http.routers.silverbullet.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.silverbullet.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.silverbullet.loadbalancer.server.port: "3000"
+          homepage.group: Productivity
+          homepage.name: Silverbullet
+          homepage.icon: silverbullet
+          homepage.href: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ silverbullet_port }}
+          homepage.description: Notes for developers
+  when: silverbullet_enabled is true
+
+- name: Stop silverbullet
+  block:
+    - name: Stop silverbullet
+      community.docker.docker_container:
+        name: "{{ silverbullet_container_name }}"
+        state: absent
+  when: silverbullet_enabled is false

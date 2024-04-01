@@ -1,29 +1,26 @@
 ---
-title: "Calibre-web"
+Title: Calibre
 ---
 
-Homepage: [https://github.com/janeczku/calibre-web](https://github.com/janeczku/calibre-web)
+Homepage: [https://calibre-ebook.com](https://calibre-ebook.com)
 
-Calibre-Web is a web app providing a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
+Calibre is a powerful and easy to use e-book manager.
 
 ## Usage
 
-Set `calibre_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `calibre_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
 
 ## Specific Configuration
 
-Requires Calibre ebook management program. Available for download [here](https://calibre-ebook.com/download).
+By default, there is no password set for the main gui. Optional `calibre_password` will allow setting a password for the user `abc`.
 
-### Admin login
+Optionally, cli start arguments can be passed to calibre using `calibre_cli_args`.
 
-**Default admin login:** Username: admin Password: admin123
+The Calibre webserver must be turned on in the Calibre manager to make it available at the selected port (8094 by default).
 
-### eBook Conversion
+## Ports
 
-If you do not need eBook conversion you can disable it to save resources by setting the `calibre_ebook_conversion` variable in `group_vars/all.yml` file to be empty.
-
-- Conversion enabled: `calibre_ebook_conversion: "linuxserver/calibre-web:calibre"`
-
-- Conversion disabled: `calibre_ebook_conversion: ""`
-
-You can target just Calibre by appending `-t calibre` to your `ansible-playbook` command.
+```yml
+calibre_port: "8093"
+calibre_webserver_port: "8094"
+```

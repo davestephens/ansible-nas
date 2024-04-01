@@ -3,4 +3,4 @@ provisioner:
   inventory:
     group_vars:
       all:
-        calibre_enabled: true
+        silverbullet_enabled: true
