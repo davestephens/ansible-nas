@@ -8,7 +8,7 @@
       with_items:
         - "{{ silverbullet_data_directory }}"
 
-    - name: silverbullet Docker Container
+    - name: Silverbullet Docker Container
       community.docker.docker_container:
         name: "{{ silverbullet_container_name }}"
         image: "{{ silverbullet_image_name }}:{{ silverbullet_image_version }}"

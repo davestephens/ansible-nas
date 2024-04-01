@@ -2,7 +2,7 @@
 - name: Start Calibre-web
   block:
     - name: Create Calibre-web Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
@@ -10,7 +10,7 @@
         - "{{ calibreweb_data_directory }}/data"
 
     - name: Calibre-web Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ calibreweb_container_name }}"
         image: linuxserver/calibre-web:latest
         pull: true
@@ -39,7 +39,7 @@
 - name: Stop Calibre-web
   block:
     - name: Stop Calibre-web
-      docker_container:
+      community.docker.docker_container:
         name: "{{ calibreweb_container_name }}"
         state: absent
   when: calibreweb_enabled is false
