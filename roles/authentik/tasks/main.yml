@@ -29,7 +29,7 @@
     - name: Authentik Database Docker Container
       community.docker.docker_container:
         name: "{{ authentik_database_container_name }}"
-        image: docker.io/library/postgres:12-alpine
+        image: "{{ authentik_database_image_name }}:{{ authentik_database_image_tag }}"
         pull: true
         volumes:
           - "{{ authentik_data_directory }}/database:/var/lib/postgresql/data:rw"
@@ -42,7 +42,7 @@
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
-        memory: "{{ authentik_memory }}"
+        memory: "{{ authentik_database_memory }}"
         healthcheck:
           test: ["CMD-SHELL", "pg_isready -d {{ authentik_pg_db }} -U {{ authentik_pg_user }}"]
           start_period: 20s
@@ -53,7 +53,7 @@
     - name: Authentik Redis Docker Container
       community.docker.docker_container:
         name: "{{ authentik_redis_container_name }}"
-        image: docker.io/library/redis:alpine
+        image: "{{ authentik_redis_image_name }}:{{ authentik_redis_image_tag }}"
         pull: true
         command: --save 60 1 --loglevel warning
         volumes:
@@ -63,7 +63,7 @@
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
-        memory: "{{ authentik_memory }}"
+        memory: "{{ authentik_redis_memory }}"
         healthcheck:
           test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
           start_period: 20s
@@ -74,7 +74,7 @@
     - name: Authentik Server Docker Container
       community.docker.docker_container:
         name: "{{ authentik_server_container_name }}"
-        image: "{{ authentik_image }}:{{ authentik_tag }}"
+        image: "{{ authentik_server_image_name }}:{{ authentik_server_image_tag }}"
         pull: true
         command: server
         volumes:
@@ -121,12 +121,12 @@
           traefik.http.routers.authentik.middlewares: "authentik-whitelist"
           traefik.http.services.authentik.loadbalancer.server.port: "9000"
         restart_policy: unless-stopped
-        memory: "{{ authentik_memory }}"
+        memory: "{{ authentik_server_memory }}"
 
     - name: Authentik Worker Docker Container
       community.docker.docker_container:
         name: "{{ authentik_worker_container_name }}"
-        image: "{{ authentik_image }}:{{ authentik_tag }}"
+        image: "{{ authentik_worker_image_name }}:{{ authentik_worker_image_tag }}"
         pull: true
         command: worker
         volumes:
@@ -168,7 +168,7 @@
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
-        memory: "{{ authentik_memory }}"
+        memory: "{{ authentik_worker_memory }}"
   when: authentik_enabled is true
 
 - name: Stop Authentik

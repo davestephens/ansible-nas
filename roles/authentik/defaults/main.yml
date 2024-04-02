@@ -12,15 +12,24 @@ authentik_hostname: "authentik"
 authentik_network_name: "authentik"
 
 # specs
-authentik_memory: 1g
+authentik_database_memory: 1g
+authentik_redis_memory: 1g
+authentik_server_memory: 1g
+authentik_worker_memory: 1g
 
 # docker
 authentik_database_container_name: "authentik_postgres"
 authentik_redis_container_name: "authentik_redis"
 authentik_server_container_name: "authentik_server"
 authentik_worker_container_name: "authentik_worker"
-authentik_image: "ghcr.io/goauthentik/server"
-authentik_tag: "2022.12.1"
+authentik_server_image_name: "ghcr.io/goauthentik/server"
+authentik_server_image_tag: "latest"
+authentik_worker_image_name: "ghcr.io/goauthentik/server"
+authentik_worker_image_tag: "latest"
+authentik_database_image_name: "docker.io/library/postgres"
+authentik_database_image_tag: "12-alpine"
+authentik_redis_image_name: "docker.io/library/redis"
+authentik_redis_image_tag: "alpine"
 authentik_user_id: "1000"
 authentik_group_id: "1000"
 
