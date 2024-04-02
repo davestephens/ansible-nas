@@ -133,6 +133,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [openLDAP](https://www.openldap.org/) - An open source implementation of the Lightweight Directory Access Protocol
 * [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
+* [Outline](https://github.com/outline/outline) - The fastest knowledge base for growing teams.
 * [Overleaf](https://github.com/overleaf/overleaf) - A web-based collaborative LaTeX editor
 * [overseerr](https://docs.overseerr.dev) - open source software application for managing requests for your media library
 * [Paperless_ng](https://github.com/jonaswinkler/paperless-ng) - Scan, index and archive all your physical documents

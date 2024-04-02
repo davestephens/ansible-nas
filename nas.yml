@@ -522,6 +522,10 @@
       tags:
         - organizr
 
+    - role: outline
+      tags:
+        - outline
+
     - role: overleaf
       tags:
         - overleaf

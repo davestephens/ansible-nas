@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove outline
+      community.docker.docker_container:
+        name: "{{ outline_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove outline db
+      community.docker.docker_container:
+        name: "{{ outline_postgres_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove outline redis
+      community.docker.docker_container:
+        name: "{{ outline_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Check if outline is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_db.changed
+          - not result_redis.changed

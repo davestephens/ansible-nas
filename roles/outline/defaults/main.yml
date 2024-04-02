@@ -1,0 +1,312 @@
+---
+outline_enabled: false
+outline_available_externally: false
+
+# directories
+outline_data_directory: "{{ docker_home }}/outline"
+
+# network
+outline_port: "8131"
+outline_hostname: "outline"
+outline_network_name: "outline"
+
+# specs
+outline_memory: 1g
+outline_postgres_memory: 1g
+outline_redis_memory: 1g
+
+# docker
+outline_container_name: outline
+outline_postgres_container_name: outline-db
+outline_redis_container_name: outline-redis
+outline_portal_container_name: outline-portal
+outline_image_name: "docker.getoutline.com/outlinewiki/outline"
+outline_postgres_image_name: "docker.io/library/postgres"
+outline_redis_image_name: "redis"
+outline_portal_image_name: "steveltn/https-portal"
+outline_image_version: latest
+outline_postgres_image_version: latest
+outline_redis_image_version: latest
+outline_portal_image_version: latest
+outline_user_id: "1000"
+outline_group_id: "1000"
+
+# outline
+outline_db_name: "outline"
+outline_db_user: "outline"
+outline_db_password: "outline"
+outline_node_env: production
+outline_secret_key: a_secret_key # Generate a hex-encoded 32-byte random key
+outline_utils_secret: a_unique_secret # Generate a unique random key
+outline_database_url: postgres://{{ outline_db_user }}:{{ outline_db_password }}@{{ outline_postgres_container_name }}:5432/{{ outline_db_name }}
+outline_database_connection_pool_min: ""
+outline_database_connection_pool_max: ""
+outline_pgsslmode: disable
+outline_redis_url: redis://{{ outline_redis_container_name }}:6379
+outline_url: https://{{ outline_hostname }}.{{ ansible_nas_domain }}
+outline_env_port: "3000"
+outline_collaboration_url: ""
+outline_file_storage: local
+outline_file_storage_local_root_dir: /var/lib/outline/data
+outline_file_storage_upload_max_size: "262144000"
+outline_file_storage_import_max_size: ""
+outline_file_storage_workspace_import_max_size: ""
+outline_aws_access_key_id: get_a_key_from_aws
+outline_aws_secret_access_key: get_the_secret_of_above_key
+outline_aws_region: xx-xxxx-x
+outline_aws_s3_accelerate_url: ""
+outline_aws_s3_upload_bucket_url: http://s3:4569
+outline_aws_s3_upload_bucket_name: bucket_name
+outline_aws_s3_force_path_style: "true"
+outline_aws_s3_acl: private
+outline_slack_client_id: get_a_key_from_slack
+outline_slack_client_secret: get_the_secret_of_above_key
+outline_google_client_id: ""
+outline_google_client_secret: ""
+outline_azure_client_id: ""
+outline_azure_client_secret: ""
+outline_azure_resource_app_id: ""
+outline_oidc_client_id: ""
+outline_oidc_client_secret: ""
+outline_oidc_auth_uri: ""
+outline_oidc_token_uri: ""
+outline_oidc_userinfo_uri: ""
+outline_oidc_logout_uri: ""
+outline_oidc_username_claim: preferred_username
+outline_oidc_display_name: OpenID Connect
+outline_oidc_scopes: openid profile email
+outline_github_client_id: ""
+outline_github_client_secret: ""
+outline_github_app_name: ""
+outline_github_app_id: ""
+outline_github_app_private_key: ""
+outline_ssl_key: ""
+outline_ssl_cert: ""
+outline_cdn_url: ""
+outline_force_https: "true"
+outline_enable_updates: "true"
+outline_web_concurrency: "1"
+outline_debug: http
+outline_log_level: info
+outline_slack_verification_token: your_token
+outline_slack_app_id: A0XXXXXXX
+outline_slack_message_actions: "true"
+outline_sentry_dsn: ""
+outline_sentry_tunnel: ""
+outline_smtp_host: "host_ip"
+outline_smtp_port: "25"
+outline_smtp_username: ""
+outline_smtp_password: ""
+outline_smtp_from_email: "outline@{{ ansible_nas_domain }}"
+outline_smtp_reply_email: "outline@{{ ansible_nas_domain }}"
+outline_smtp_tls_ciphers: ""
+outline_smtp_secure: "false"
+outline_default_language: en_US
+outline_rate_limiter_enabled: "true"
+outline_rate_limiter_requests: "1000"
+outline_rate_limiter_duration_window: "60"
+outline_iframely_url: ""
+outline_iframely_api_key: ""
+
+
+outline_env:
+  # –––––––––––––––– REQUIRED ––––––––––––––––
+  NODE_ENV: "{{ outline_node_env }}"
+  # Generate a hex-encoded 32-byte random key. You should use `openssl rand -hex 32`
+  # in your terminal to generate a random value.
+  SECRET_KEY: "{{ outline_secret_key }}"
+
+  # Generate a unique random key. The format is not important but you could still use
+  # `openssl rand -hex 32` in your terminal to produce this.
+  UTILS_SECRET: "{{ outline_utils_secret }}"
+
+  # For production point these at your databases, in development the default
+  # should work out of the box.
+  DATABASE_URL: "{{ outline_database_url }}"
+  DATABASE_CONNECTION_POOL_MIN: "{{ outline_database_connection_pool_min }}"
+  DATABASE_CONNECTION_POOL_MAX: "{{ outline_database_connection_pool_max }}"
+  # Uncomment this to disable SSL for connecting to Postgres
+  PGSSLMODE: "{{ outline_pgsslmode }}"
+
+  # For redis you can either specify an ioredis compatible url like this
+  REDIS_URL: "{{ outline_redis_url }}"
+  # or alternatively, if you would like to provide additional connection options,
+  # use a base64 encoded JSON connection option object. Refer to the ioredis documentation
+  # for a list of available options.
+  # Example: Use Redis Sentinel for high availability
+  # {"sentinels":[{"host":"sentinel-0","port":26379},{"host":"sentinel-1","port":26379}],"name":"mymaster"}
+  # REDIS_URL: ioredis://eyJzZW50aW5lbHMiOlt7Imhvc3QiOiJzZW50aW5lbC0wIiwicG9ydCI6MjYzNzl9LHsiaG9zdCI6InNlbnRpbmVsLTEiLCJwb3J0IjoyNjM3OX1dLCJuYW1lIjoibXltYXN0ZXIifQ: :
+
+  # URL should point to the fully qualified, publicly accessible URL. If using a
+  # proxy the port in URL and PORT may be different.
+  URL: "{{ outline_url }}"
+  PORT: "{{ outline_env_port }}"
+
+  # See [documentation](docs/SERVICES.md) on running a separate collaboration
+  # server, for normal operation this does not need to be set.
+  COLLABORATION_URL: "{{ outline_collaboration_url }}"
+
+  # Specify what storage system to use. Possible value is one of "s3" or "local".
+  # For "local", the avatar images and document attachments will be saved on local disk.
+  FILE_STORAGE: "{{ outline_file_storage }}"
+
+  # If "local" is configured for FILE_STORAGE above, then this sets the parent directory under
+  # which all attachments/images go. Make sure that the process has permissions to create
+  # this path and also to write files to it.
+  FILE_STORAGE_LOCAL_ROOT_DIR: "{{ outline_file_storage_local_root_dir }}"
+
+  # Maximum allowed size for the uploaded attachment.
+  FILE_STORAGE_UPLOAD_MAX_SIZE: "{{ outline_file_storage_upload_max_size }}"
+
+  # Override the maximum size of document imports, generally this should be lower
+  # than the document attachment maximum size.
+  FILE_STORAGE_IMPORT_MAX_SIZE: "{{ outline_file_storage_import_max_size }}"
+
+  # Override the maximum size of workspace imports, these can be especially large
+  # and the files are temporary being automatically deleted after a period of time.
+  FILE_STORAGE_WORKSPACE_IMPORT_MAX_SIZE: "{{ outline_file_storage_workspace_import_max_size }}"
+
+  # To support uploading of images for avatars and document attachments in a distributed
+  # architecture an s3-compatible storage can be configured if FILE_STORAGE: s3 above.
+  AWS_ACCESS_KEY_ID: "{{ outline_aws_access_key_id }}"
+  AWS_SECRET_ACCESS_KEY: "{{ outline_aws_secret_access_key }}"
+  AWS_REGION: "{{ outline_aws_region }}"
+  AWS_S3_ACCELERATE_URL: "{{ outline_aws_s3_accelerate_url }}"
+  AWS_S3_UPLOAD_BUCKET_URL: "{{ outline_aws_s3_upload_bucket_url }}"
+  AWS_S3_UPLOAD_BUCKET_NAME: "{{ outline_aws_s3_upload_bucket_name }}"
+  AWS_S3_FORCE_PATH_STYLE: "{{ outline_aws_s3_force_path_style }}"
+  AWS_S3_ACL: "{{ outline_aws_s3_acl }}"
+
+  # –––––––––––––– AUTHENTICATION ––––––––––––––
+
+  # Third party signin credentials, at least ONE OF EITHER Google, Slack,
+  # or Microsoft is required for a working installation or you'll have no sign-in
+  # options.
+
+  # To configure Slack auth, you'll need to create an Application at
+  # : > https://api.slack.com/apps
+  #
+  # When configuring the Client ID, add a redirect URL under "OAuth & Permissions":
+  # https://<URL>/auth/slack.callback
+  SLACK_CLIENT_ID: "{{ outline_slack_client_id }}"
+  SLACK_CLIENT_SECRET: "{{ outline_slack_client_secret }}"
+
+  # To configure Google auth, you'll need to create an OAuth Client ID at
+  # : > https://console.cloud.google.com/apis/credentials
+  #
+  # When configuring the Client ID, add an Authorized redirect URI:
+  # https://<URL>/auth/google.callback
+  GOOGLE_CLIENT_ID: "{{ outline_google_client_id }}"
+  GOOGLE_CLIENT_SECRET: "{{ outline_google_client_secret }}"
+
+  # To configure Microsoft/Azure auth, you'll need to create an OAuth Client. See
+  # the guide for details on setting up your Azure App:
+  # : > https://wiki.generaloutline.com/share/dfa77e56-d4d2-4b51-8ff8-84ea6608faa4
+  AZURE_CLIENT_ID: "{{ outline_azure_client_id }}"
+  AZURE_CLIENT_SECRET: "{{ outline_azure_client_secret }}"
+  AZURE_RESOURCE_APP_ID: "{{ outline_azure_resource_app_id }}"
+
+  # To configure generic OIDC auth, you'll need some kind of identity provider.
+  # See documentation for whichever IdP you use to acquire the following info:
+  # Redirect URI is https://<URL>/auth/oidc.callback
+  OIDC_CLIENT_ID: "{{ outline_oidc_client_id }}"
+  OIDC_CLIENT_SECRET: "{{ outline_oidc_client_secret }}"
+  OIDC_AUTH_URI: "{{ outline_oidc_auth_uri }}"
+  OIDC_TOKEN_URI: "{{ outline_oidc_token_uri }}"
+  OIDC_USERINFO_URI: "{{ outline_oidc_userinfo_uri }}"
+  OIDC_LOGOUT_URI: "{{ outline_oidc_logout_uri }}"
+
+  # Specify which claims to derive user information from
+  # Supports any valid JSON path with the JWT payload
+  OIDC_USERNAME_CLAIM: "{{ outline_oidc_username_claim }}"
+
+  # Display name for OIDC authentication
+  OIDC_DISPLAY_NAME: "{{ outline_oidc_display_name }}"
+
+  # Space separated auth scopes.
+  OIDC_SCOPES: "{{ outline_oidc_scopes }}"
+
+  # To configure the GitHub integration, you'll need to create a GitHub App at
+  # : > https://github.com/settings/apps
+  #
+  # When configuring the Client ID, add a redirect URL under "Permissions & events":
+  # https://<URL>/api/github.callback
+  GITHUB_CLIENT_ID: "{{ outline_github_client_id }}"
+  GITHUB_CLIENT_SECRET: "{{ outline_github_client_secret }}"
+  GITHUB_APP_NAME: "{{ outline_github_app_name }}"
+  GITHUB_APP_ID: "{{ outline_github_app_id }}"
+  GITHUB_APP_PRIVATE_KEY: "{{ outline_github_app_private_key }}"
+
+  # –––––––––––––––– OPTIONAL ––––––––––––––––
+
+  # Base64 encoded private key and certificate for HTTPS termination. This is only
+  # required if you do not use an external reverse proxy. See documentation:
+  # https://wiki.generaloutline.com/share/1c922644-40d8-41fe-98f9-df2b67239d45
+  SSL_KEY: "{{ outline_ssl_key }}"
+  SSL_CERT: "{{ outline_ssl_cert }}"
+
+  # If using a Cloudfront/Cloudflare distribution or similar it can be set below.
+  # This will cause paths to javascript, stylesheets, and images to be updated to
+  # the hostname defined in CDN_URL. In your CDN configuration the origin server
+  # should be set to the same as URL.
+  CDN_URL: "{{ outline_cdn_url }}"
+
+  # Auto-redirect to https in production. The default is true but you may set to
+  # false if you can be sure that SSL is terminated at an external loadbalancer.
+  FORCE_HTTPS: "{{ outline_force_https }}"
+
+  # Have the installation check for updates by sending anonymized statistics to
+  # the maintainers
+  ENABLE_UPDATES: "{{ outline_enable_updates }}"
+
+  # How many processes should be spawned. As a reasonable rule divide your servers
+  # available memory by 512 for a rough estimate
+  WEB_CONCURRENCY: "{{ outline_web_concurrency }}"
+
+  # You can remove this line if your reverse proxy already logs incoming http
+  # requests and this ends up being duplicative
+  DEBUG: "{{ outline_debug }}"
+
+  # Configure lowest severity level for server logs. Should be one of
+  # error, warn, info, http, verbose, debug and silly
+  LOG_LEVEL: "{{ outline_log_level }}"
+
+  # For a complete Slack integration with search and posting to channels the
+  # following configs are also needed, some more details
+  # : > https://wiki.generaloutline.com/share/be25efd1-b3ef-4450-b8e5-c4a4fc11e02a
+  #
+  SLACK_VERIFICATION_TOKEN: "{{ outline_slack_verification_token }}"
+  SLACK_APP_ID: "{{ outline_slack_app_id }}"
+  SLACK_MESSAGE_ACTIONS: "{{ outline_slack_message_actions }}"
+
+  # Optionally enable Sentry (sentry.io) to track errors and performance,
+  # and optionally add a Sentry proxy tunnel for bypassing ad blockers in the UI:
+  # https://docs.sentry.io/platforms/javascript/troubleshooting/#using-the-tunnel-option)
+  SENTRY_DSN: "{{ outline_sentry_dsn }}"
+  SENTRY_TUNNEL: "{{ outline_sentry_tunnel }}"
+
+  # To support sending outgoing transactional emails such as "document updated" or
+  # "you've been invited" you'll need to provide authentication for an SMTP server
+  SMTP_HOST: "{{ outline_smtp_host }}"
+  SMTP_PORT: "{{ outline_smtp_port }}"
+  SMTP_USERNAME: "{{ outline_smtp_username }}"
+  SMTP_PASSWORD: "{{ outline_smtp_password }}"
+  SMTP_FROM_EMAIL: "{{ outline_smtp_from_email }}"
+  SMTP_REPLY_EMAIL: "{{ outline_smtp_reply_email }}"
+  SMTP_TLS_CIPHERS: "{{ outline_smtp_tls_ciphers }}"
+  SMTP_SECURE: "{{ outline_smtp_secure }}"
+
+  # The default interface language. See translate.getoutline.com for a list of
+  # available language codes and their rough percentage translated.
+  DEFAULT_LANGUAGE: "{{ outline_default_language }}"
+
+  # Optionally enable rate limiter at application web server
+  RATE_LIMITER_ENABLED: "{{ outline_rate_limiter_enabled }}"
+
+  # Configure default throttling parameters for rate limiter
+  RATE_LIMITER_REQUESTS: "{{ outline_rate_limiter_requests }}"
+  RATE_LIMITER_DURATION_WINDOW: "{{ outline_rate_limiter_duration_window }}"
+
+  # Iframely API config
+  # IFRAMELY_URL: "{{ outline_iframely_url }}"
+  # IFRAMELY_API_KEY: "{{ outline_iframely_api_key }}"

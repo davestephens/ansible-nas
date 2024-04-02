@@ -1,0 +1,10 @@
+---
+- name: Stop
+  hosts: all
+  become: true
+  tasks:
+    - name: "Include {{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }} role"
+      ansible.builtin.include_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+      vars:
+        outline_enabled: false

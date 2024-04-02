@@ -1,0 +1,110 @@
+---
+- name: Start Outline
+  block:
+    - name: Create Outline Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ outline_data_directory }}"
+
+    - name: Create Outline network
+      community.docker.docker_network:
+        name: "{{ outline_network_name }}"
+
+    - name: Create outline Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ outline_postgres_container_name }}"
+        image: "{{ outline_postgres_image_name }}:{{ outline_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ outline_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ outline_network_name }}"
+        network_mode: "{{ outline_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ outline_db_password }}"
+          POSTGRES_USER: "{{ outline_db_user }}"
+          POSTGRES_DB: "{{ outline_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+          PGSSLMODE: disable
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ outline_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ outline_db_name }} -U {{ outline_db_user }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 3
+          timeout: 20s
+
+    - name: Create Outline Redis Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ outline_redis_container_name }}"
+        image: "{{ outline_redis_image_name }}:{{ outline_redis_image_version }}"
+        pull: true
+        volumes:
+          - ./redis.conf:/redis.conf
+        networks:
+          - name: "{{ outline_network_name }}"
+        network_mode: "{{ outline_network_name }}"
+        ports:
+          - "6379:6379"
+        command: ["redis-server", "/redis.conf"]
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ outline_user_id | quote }}"
+          PGID: "{{ outline_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ outline_redis_memory }}"
+        labels:
+          traefik.enable: "false"
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
+          interval: 10s
+          timeout: 30s
+          retries: 3
+
+    - name: Create Outline Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ outline_container_name }}"
+        image: "{{ outline_image_name }}:{{ outline_image_version }}"
+        pull: true
+        volumes:
+          - "{{ outline_data_directory }}/data:/var/lib/outline/data:rw"
+        networks:
+          - name: "{{ outline_network_name }}"
+        network_mode: "{{ outline_network_name }}"
+        ports:
+          - "{{ outline_port }}:3000"
+        env: "{{ outline_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ outline_memory }}"
+        labels:
+          traefik.enable: "{{ outline_available_externally | string }}"
+          traefik.http.routers.outline.rule: "Host(`{{ outline_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.outline.tls.certresolver: "letsencrypt"
+          traefik.http.routers.outline.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.outline.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.outline.loadbalancer.server.port: "3000"
+  when: outline_enabled is true
+
+- name: Stop Outline
+  block:
+    - name: Stop Outline
+      community.docker.docker_container:
+        name: "{{ outline_container_name }}"
+        state: absent
+    - name: Stop Outline Db
+      community.docker.docker_container:
+        name: "{{ outline_postgres_container_name }}"
+        state: absent
+    - name: Stop Outline Redis
+      community.docker.docker_container:
+        name: "{{ outline_redis_container_name }}"
+        state: absent
+  when: outline_enabled is false
