@@ -494,6 +494,10 @@
       tags:
         - nzbhydra2
 
+    - role: obsidian
+      tags:
+        - obsidian
+
     - role: octoprint
       tags:
         - octoprint
