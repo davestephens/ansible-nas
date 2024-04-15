@@ -126,6 +126,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Nomad](https://www.nomadproject.io/) - A simple and flexible scheduler and software orchestrator
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Nzbhydra2](https://github.com/theotherp/nzbhydra2) - Usenet meta search
+* [Obsidian](https://obsidian.md/) - Obsidian is the private and flexible writing app
 * [Octoprint](https://octoprint.org/) - Control and monitor your 3D printer
 * [OliveTin](https://github.com/OliveTin/OliveTin) -  safe and simple access to predefined shell commands
 * [Ombi](https://ombi.io/) - web application that automatically gives your users the ability to request content

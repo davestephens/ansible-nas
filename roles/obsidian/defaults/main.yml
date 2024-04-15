@@ -1,0 +1,52 @@
+---
+obsidian_enabled: false
+obsidian_available_externally: false
+
+# directories
+obsidian_data_directory: "{{ docker_home }}/obsidian"
+
+# network
+obsidian_port_http: "8132"
+obsidian_port_https: "8133"
+obsidian_hostname: "obsidian"
+
+# specs
+obsidian_memory: 1g
+
+# docker
+obsidian_container_name: obsidian
+obsidian_image_name: "lscr.io/linuxserver/obsidian"
+obsidian_image_version: latest
+obsidian_user_id: "1000"
+obsidian_group_id: "1000"
+
+# obsidian
+obsidian_custom_port: "3000"
+obsidian_custom_https_port: "3001"
+obsidian_custom_user: "abc"
+obsidian_password: "abc"
+obsidian_subfolder: "/subfolder/"
+obsidian_title: "Obsidian"
+obsidian_fm_home: "/config"
+obsidian_start_docker: "false"
+obsidian_drinode: "/dev/dri/renderD128"
+obsidian_lc_all: "en_US.UTF-8"
+obsidian_no_decor: "false"
+obsidian_no_full: "true"
+
+obsidian_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  PUID: "{{ obsidian_user_id }}"
+  PGID: "{{ obsidian_group_id }}"
+  CUSTOM_PORT: "{{ obsidian_custom_port }}"
+  CUSTOM_HTTPS_PORT: "{{ obsidian_custom_https_port }}"
+  CUSTOM_USER: "{{ obsidian_custom_user }}"
+  PASSWORD: "{{ obsidian_password }}"
+  # SUBFOLDER: "{{ obsidian_subfolder }}"
+  TITLE: "{{ obsidian_title }}"
+  FM_HOME: "{{ obsidian_fm_home }}"
+  START_DOCKER: "{{ obsidian_start_docker }}"
+  # DRINODE: "{{ obsidian_drinode }}"
+  LC_ALL: "{{ obsidian_lc_all }}"
+  NO_DECOR: "{{ obsidian_no_decor }}"
+  NO_FULL: "{{ obsidian_no_full }}"

@@ -1,0 +1,42 @@
+---
+- name: Start Obsidian
+  block:
+    - name: Create obsidian Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ obsidian_data_directory }}"
+
+    - name: Create Obsidian Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ obsidian_container_name }}"
+        image: "{{ obsidian_image_name }}:{{ obsidian_image_version }}"
+        pull: true
+        volumes:
+          - "{{ obsidian_data_directory }}/config:/config:rw"
+        ports:
+          - "{{ obsidian_port_http }}:3000"
+          - "{{ obsidian_port_https }}:3001"
+        env: "{{ obsidian_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ obsidian_memory }}"
+        security_opts:
+          - seccomp:unconfined
+        labels:
+          traefik.enable: "{{ obsidian_available_externally | string }}"
+          traefik.http.routers.obsidian.rule: "Host(`{{ obsidian_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.obsidian.tls.certresolver: "letsencrypt"
+          traefik.http.routers.obsidian.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.obsidian.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.obsidian.loadbalancer.server.port: "3000"
+  when: obsidian_enabled is true
+
+- name: Stop Obsidian
+  block:
+    - name: Stop Obsidian
+      community.docker.docker_container:
+        name: "{{ obsidian_container_name }}"
+        state: absent
+  when: obsidian_enabled is false
