@@ -1,0 +1,88 @@
+---
+- name: Start Twenty
+  block:
+    - name: Create Twenty Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "1000"
+        group: "1000"
+      with_items:
+        - "{{ twenty_data_directory }}"
+        - "{{ twenty_data_directory }}/data"
+
+    - name: Create Twenty DB Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "1001"
+        group: "1001"
+      with_items:
+        - "{{ twenty_data_directory }}/db-data"
+
+    - name: Create Twenty Network
+      community.docker.docker_network:
+        name: "{{ twenty_network_name }}"
+
+    - name: Create Twenty Db Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ twenty_db_container_name }}"
+        image: "{{ twenty_db_image_name }}:{{ twenty_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ twenty_network_name }}"
+        network_mode: "{{ twenty_network_name }}"
+        volumes:
+          - "{{ twenty_data_directory }}/db-data:/bitnami/postgresql"
+        env:
+          POSTGRES_PASSWORD: "{{ twenty_db_password }}"
+        healthcheck:
+          test: pg_isready -U twenty -d default
+          interval: 5s
+          timeout: 5s
+          retries: 10
+        restart_policy: always
+        memory: "{{ twenty_db_memory }}"
+
+    - name: Create Twenty Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ twenty_container_name }}"
+        image: "{{ twenty_image_name }}:{{ twenty_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ twenty_network_name }}"
+        network_mode: "{{ twenty_network_name }}"
+        volumes:
+          - "{{ twenty_data_directory }}/data:/app/.local-storage"
+        ports:
+          - "{{ twenty_port }}:3000"
+        env: "{{ twenty_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ twenty_memory }}"
+        labels:
+          traefik.enable: "{{ twenty_available_externally | string }}"
+          traefik.http.routers.twenty.rule: "Host(`{{ twenty_hostname }}.{{ ansible_nas_domain }}`)"
+          # traefik.http.routers.twenty.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.twenty.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.twenty.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.twenty.loadbalancer.server.port: "3000"
+        healthcheck:
+          test: curl --fail http://localhost:3000/healthz
+          interval: 5s
+          timeout: 5s
+          retries: 10
+  when: twenty_enabled is true
+
+- name: Stop Twenty
+  block:
+    - name: Stop Twenty
+      community.docker.docker_container:
+        name: "{{ twenty_container_name }}"
+        state: absent
+    - name: Stop Twenty Db
+      community.docker.docker_container:
+        name: "{{ twenty_db_container_name }}"
+        state: absent
+  when: twenty_enabled is false

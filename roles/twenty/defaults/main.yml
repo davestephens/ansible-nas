@@ -1,0 +1,67 @@
+---
+twenty_enabled: false
+twenty_available_externally: false
+
+# directories
+twenty_data_directory: "{{ docker_home }}/twenty"
+
+# network
+twenty_port: "3014"
+twenty_hostname: "twenty"
+twenty_network_name: "twenty"
+
+# specs
+twenty_memory: 4g
+twenty_db_memory: 1g
+
+# docker
+twenty_container_name: twenty
+twenty_image_name: "twentycrm/twenty"
+twenty_image_version: latest
+
+twenty_db_container_name: twenty-db
+twenty_db_image_name: "twentycrm/twenty-postgres"
+twenty_db_image_version: latest
+
+twenty_user_id: "1000"
+twenty_group_id: "1000"
+
+# twenty
+twenty_pg_database_url: "postgres://{{ twenty_db_user }}:{{ twenty_db_password }}@{{ twenty_db_container_name }}:{{ twenty_db_port }}/default"
+twenty_db_user: "twenty"
+twenty_db_password: "twenty"
+twenty_db_port: "5432"
+twenty_server_url: "https://{{ twenty_hostname }}.{{ ansible_nas_domain }}"
+twenty_front_base_url: "https://{{ twenty_hostname }}.{{ ansible_nas_domain }}"
+
+twenty_enable_db_migrations: "true"
+
+twenty_sign_in_prefilled: "true"
+twenty_storage_type: "local"
+twenty_storage_s3_region: "eu-west3"
+twenty_storage_s3_name: "my-bucket"
+twenty_storage_s3_endpoint: ""
+# Use openssl rand -base64 32 for each secret
+twenty_access_token_secret: "replace_me_with_a_random_string_access"
+twenty_login_token_secret: "replace_me_with_a_random_string_access"
+twenty_refresh_token_secret: "replace_me_with_a_random_string_access"
+twenty_file_token_secret: "replace_me_with_a_random_string_access"
+
+
+twenty_env:
+  PORT: "3000"
+  PG_DATABASE_URL: "{{ twenty_pg_database_url }}"
+  SERVER_URL: "{{ twenty_server_url }}"
+  FRONT_BASE_URL: "{{ twenty_front_base_url }}"
+
+  ENABLE_DB_MIGRATIONS: "{{ twenty_enable_db_migrations }}"
+
+  SIGN_IN_PREFILLED: "{{ twenty_sign_in_prefilled }}"
+  STORAGE_TYPE: "{{ twenty_storage_type }}"
+  # STORAGE_S3_REGION: "{{ twenty_storage_s3_region }}"
+  # STORAGE_S3_NAME: "{{ twenty_storage_s3_name }}"
+  # STORAGE_S3_ENDPOINT: "{{ twenty_storage_s3_endpoint }}"
+  ACCESS_TOKEN_SECRET: "{{ twenty_access_token_secret }}"
+  LOGIN_TOKEN_SECRET: "{{ twenty_login_token_secret }}"
+  REFRESH_TOKEN_SECRET: "{{ twenty_refresh_token_secret }}"
+  FILE_TOKEN_SECRET: "{{ twenty_file_token_secret }}"
