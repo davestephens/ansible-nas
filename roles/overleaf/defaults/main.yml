@@ -18,7 +18,7 @@ overleaf_redis_memory: 1g
 # docker
 overleaf_container_name: overleaf
 overleaf_image_name: "sharelatex/sharelatex"
-overleaf_image_version: latest
+overleaf_image_version: "4.2"
 
 overleaf_mongo_container_name: overleaf-mongo
 overleaf_mongo_image_name: "mongo"
