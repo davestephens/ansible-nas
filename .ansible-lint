@@ -9,5 +9,4 @@ skip_list:
 exclude_paths:
  - roles/bertvv.samba
  - roles/geerlingguy.docker
- - roles/geerlingguy.docker_arm
  - roles/geerlingguy.nfs

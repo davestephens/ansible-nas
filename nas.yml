@@ -27,12 +27,6 @@
         - docker
         - skip_ansible_lint
 
-    - role: geerlingguy.docker_arm
-      when: ansible_architecture == "aarch64"
-      tags:
-        - docker_arm
-        - skip_ansible_lint
-
     ###
     ### Ansible-NAS Roles
     ###
