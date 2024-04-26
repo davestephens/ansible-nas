@@ -58,6 +58,13 @@
           traefik.http.routers.nextcloud.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.nextcloud.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+          homepage.group: Media
+          homepage.name: Nextcloud
+          homepage.icon: nextcloud.png
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ nextcloud_port }}"
+          homepage.description: Open source dropbox alternative
+          homepage.widget.type: nextcloud
+          homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ nextcloud_port }}"
   when: nextcloud_enabled is true
 
 - name: Stop Nextcloud
