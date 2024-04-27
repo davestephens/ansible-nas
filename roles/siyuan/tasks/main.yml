@@ -1,0 +1,48 @@
+---
+- name: Start Siyuan
+  block:
+    - name: Create Siyuan Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ siyuan_user_id }}"
+        group: "{{ siyuan_group_id }}"
+      with_items:
+        - "{{ siyuan_data_directory }}"
+        - "{{ siyuan_data_directory }}/workspace"
+
+    - name: Create Siyuan Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ siyuan_container_name }}"
+        image: "{{ siyuan_image_name }}:{{ siyuan_image_version }}"
+        pull: true
+        command: ['--workspace=/siyuan/workspace/', '--accessAuthCode={{ siyuan_access_auth_code }}']
+        user: "{{ siyuan_user_id | quote }}:{{ siyuan_group_id | quote }}"
+        volumes:
+          - "{{ siyuan_data_directory }}/workspace:/siyuan/workspace/"
+        ports:
+          - "{{ siyuan_port }}:6806"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ siyuan_user_id | quote }}"
+          PGID: "{{ siyuan_group_id | quote }}"
+          DOCKER_ENABLE_SECURITY: "false"
+        restart_policy: unless-stopped
+        memory: "{{ siyuan_memory }}"
+        labels:
+          traefik.enable: "{{ siyuan_available_externally | string }}"
+          traefik.http.routers.siyuan.rule: "Host(`{{ siyuan_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.siyuan.tls.certresolver: "letsencrypt"
+          traefik.http.routers.siyuan.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.siyuan.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.siyuan.loadbalancer.server.port: "6806"
+  when: siyuan_enabled is true
+
+- name: Stop Siyuan
+  block:
+    - name: Stop Stirling-PDF
+      community.docker.docker_container:
+        name: "{{ siyuan_container_name }}"
+        state: absent
+  when: siyuan_enabled is false

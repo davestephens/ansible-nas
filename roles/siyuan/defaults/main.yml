@@ -1,0 +1,23 @@
+---
+siyuan_enabled: false
+siyuan_available_externally: false
+
+# directories
+siyuan_data_directory: "{{ docker_home }}/siyuan"
+
+# network
+siyuan_port: "8134"
+siyuan_hostname: "siyuan"
+
+# specs
+siyuan_memory: 1g
+
+# docker
+siyuan_container_name: siyuan
+siyuan_image_name: "b3log/siyuan"
+siyuan_image_version: latest
+siyuan_user_id: "1000"
+siyuan_group_id: "1000"
+
+# siyuan
+siyuan_access_auth_code: "change_me"

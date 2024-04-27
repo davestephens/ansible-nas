@@ -646,6 +646,10 @@
       tags:
         - silverbullet
 
+    - role: siyuan
+      tags:
+        - siyuan
+
     - role: snipeit
       tags:
         - snipeit
