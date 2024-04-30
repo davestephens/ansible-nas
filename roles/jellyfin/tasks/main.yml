@@ -36,6 +36,15 @@
           traefik.http.routers.jellyfin.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.jellyfin.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.jellyfin.loadbalancer.server.port: "8096"
+          homepage.group: Media
+          homepage.name: Jellyfin
+          homepage.icon: jellyfin.png
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyfin_port_http }}"
+          homepage.description: Media server
+          homepage.widget.type: jellyfin
+          homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyfin_port_http }}"
+          homepage.widget.enableBlocks: "true"
+          homepage.widget.enableNowPlaying: "true"
   when: jellyfin_enabled is true
 
 - name: Stop jellyfin
