@@ -43,12 +43,14 @@
         tty: true
         volumes:
           - "{{ claper_data_directory }}/data:/data:ro"
+          - "{{ claper_data_directory }}/uploads:/app/uploads:rw"
         ports:
           - "{{ claper_port }}:4000"
         networks:
           - name: "{{ claper_network_name }}"
         env:
           DATABASE_URL: postgres://{{ claper_db_user }}:{{ claper_db_pass }}@{{ claper_db_container_name }}:5432/{{ claper_db_name }}
+          BASE_URL: "{{ claper_base_url }}"
           SECRET_KEY_BASE: "{{ claper_secret_key_base }}"
           MAIL_TRANSPORT: "{{ claper_mail_transport }}"
           MAIL_FROM: "{{ claper_mail_from }}"
@@ -61,14 +63,17 @@
           SMTP_AUTH: "{{ claper_smtp_auth }}"
           SMTP_SSL: "{{ claper_smtp_ssl }}"
           PRESENTATION_STORAGE: "{{ claper_presentation_storage }}"
+          PRESENTATION_STORAGE_DIR: "{{ claper_presentation_storage_dir }}"
           AWS_ACCESS_KEY_ID: "{{ claper_aws_access_key_id }}"
           AWS_SECRET_ACCESS_KEY: "{{ claper_aws_secret_access_key }}"
           AWS_S3_BUCKET: "{{ claper_aws_s3_bucket }}"
           AWS_S3_REGION: "{{ claper_aws_s3_region }}"
-          ENDPOINT_HOST: "{{ claper_endpoint_host }}"
-          ENDPOINT_PORT: "{{ claper_endpoint_port }}"
+          ENABLE_MAILBOX_ROUTE: "{{ claper_enable_mailbox_route }}"
+          MAILBOX_USER: "{{ claper_mailbox_user }}"
+          MAILBOX_PASSWORD: "{{ claper_mailbox_password }}"
           ENABLE_ACCOUNT_CREATION: "{{ claper_account_creation }}"
           PORT: "{{ claper_port }}"
+          GS_JPG_RESOLUTION: "{{ claper_gs_jpg_resolution }}"
         restart_policy: unless-stopped
         memory: "{{ claper_memory }}"
         labels:
