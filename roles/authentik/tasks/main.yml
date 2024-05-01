@@ -116,9 +116,9 @@
           traefik.http.routers.authentik.tls.certresolver: "letsencrypt"
           traefik.http.routers.authentik.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.authentik.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.middlewares.authentik-whitelist.ipwhitelist.ipstrategy.depth: "1"
-          traefik.http.middlewares.authentik-whitelist.ipwhitelist.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
-          traefik.http.routers.authentik.middlewares: "authentik-whitelist"
+          traefik.http.middlewares.authentik-allowlist.IPAllowList.ipstrategy.depth: "1"
+          traefik.http.middlewares.authentik-allowlist.IPAllowList.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
+          traefik.http.routers.authentik.middlewares: "authentik-allowlist"
           traefik.http.services.authentik.loadbalancer.server.port: "9000"
         restart_policy: unless-stopped
         memory: "{{ authentik_server_memory }}"

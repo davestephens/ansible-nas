@@ -27,9 +27,9 @@
           traefik.http.routers.grocy.tls.certresolver: "letsencrypt"
           traefik.http.routers.grocy.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.grocy.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.middlewares.grocy-whitelist.ipwhitelist.ipstrategy.depth: "1"
-          traefik.http.middlewares.grocy-whitelist.ipwhitelist.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
-          traefik.http.routers.grocy.middlewares: "grocy-whitelist"
+          traefik.http.middlewares.grocy-allowlist.IPAllowList.ipstrategy.depth: "1"
+          traefik.http.middlewares.grocy-allowlist.IPAllowList.sourcerange: "127.0.0.1/32, 192.168.0.0/16"
+          traefik.http.routers.grocy.middlewares: "grocy-allowlist"
           traefik.http.services.grocy.loadbalancer.server.port: "80"
         restart_policy: unless-stopped
         memory: "{{ grocy_memory }}"

@@ -9,7 +9,7 @@ vaultwarden_data_directory: "{{ docker_home }}/vaultwarden"
 vaultwarden_port_a: "19080"
 vaultwarden_port_b: "3012"
 vaultwarden_hostname: "vaultwarden"
-vaultwarden_ip_whitelist: "0.0.0.0/0"
+vaultwarden_ip_allowlist: "0.0.0.0/0"
 
 # specs
 vaultwarden_memory: 1g
