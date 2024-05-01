@@ -11,3 +11,6 @@ exclude_paths:
  - roles/geerlingguy.docker
  - roles/geerlingguy.docker_arm
  - roles/geerlingguy.nfs
+ - roles/geerlingguy.nfs
+ - website/node_modules
+ - roles/dashy/files/conf.yml
