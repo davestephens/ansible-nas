@@ -100,6 +100,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Listmonk](https://listmonk.app/) - High performance, self-hosted, newsletter and mailing list manager
 * [Littlelink](https://github.com/techno-tim/littlelink-server) - Self-hosted alternative to linktree
 * [Loki](https://grafana.com/oss/loki/) - Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus.
+* [LubeLogger](https://github.com/hargata/lubelog) - LubeLogger is a web-based vehicle maintenance and fuel mileage tracker.
 * [Mattermost](https://mattermost.com/) - open source platform for secure collaboration across the entire software development lifecycle
 * [MariaDB](https://mariadb.org/) - one of the most popular open source relational databases
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner

@@ -386,6 +386,10 @@
       tags:
         - loki
 
+    - role: lubelogger
+      tags:
+        - lubelogger
+
     - role: mattermost
       tags:
         - mattermost

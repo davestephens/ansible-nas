@@ -1,0 +1,76 @@
+---
+- name: Start Lubelogger
+  block:
+    - name: Create Lubelogger Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ lubelogger_data_directory }}"
+        - "{{ lubelogger_data_directory }}/config"
+        - "{{ lubelogger_data_directory }}/data"
+        - "{{ lubelogger_data_directory }}/translations"
+        - "{{ lubelogger_data_directory }}/documents"
+        - "{{ lubelogger_data_directory }}/images"
+        - "{{ lubelogger_data_directory }}/temp"
+        - "{{ lubelogger_data_directory }}/log"
+        - "{{ lubelogger_data_directory }}/keys"
+
+    - name: Create Lubelogger Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ lubelogger_container_name }}"
+        image: "{{ lubelogger_image_name }}:{{ lubelogger_image_version }}"
+        pull: true
+        volumes:
+          - "{{ lubelogger_data_directory }}/config:/App/config"
+          - "{{ lubelogger_data_directory }}/data:/App/data"
+          - "{{ lubelogger_data_directory }}/translations:/App/wwwroot/translations"
+          - "{{ lubelogger_data_directory }}/documents:/App/wwwroot/documents"
+          - "{{ lubelogger_data_directory }}/images:/App/wwwroot/images"
+          - "{{ lubelogger_data_directory }}/temp:/App/wwwroot/temp"
+          - "{{ lubelogger_data_directory }}/log:/App/log"
+          - "{{ lubelogger_data_directory }}/keys:/root/.aspnet/DataProtection-Keys"
+        ports:
+          - "{{ lubelogger_port }}:8080"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ lubelogger_user_id | quote }}"
+          PGID: "{{ lubelogger_group_id | quote }}"
+          LC_ALL: "{{ lubelogger_lc_all }}"
+          LANG: "{{ lubelogger_lang }}"
+          MailConfig__EmailServer: "{{ lubelogger_email_server }}"
+          MailConfig__EmailFrom: "{{ lubelogger_email_from }}"
+          MailConfig__UseSSL: "{{ lubelogger_email_use_ssl }}"
+          MailConfig__Port: "{{ lubelogger_email_port }}"
+          MailConfig__Username: "{{ lubelogger_email_username }}"
+          MailConfig__Password: "{{ lubelogger_email_password }}"
+          LOGGING__LOGLEVEL__DEFAULT: "{{ lubelogger_log_level }}"
+          OpenIDConfig__Name: "{{ lubelogger_openidconfig_name }}"
+          OpenIDConfig__ClientId: "{{ lubelogger_openidconfig_clientid }}"
+          OpenIDConfig__ClientSecret: "{{ lubelogger_openidconfig_clientsecret }}"
+          OpenIDConfig__AuthURL: "{{ lubelogger_openidconfig_authurl }}"
+          OpenIDConfig__TokenURL: "{{ lubelogger_openidconfig_tokenurl }}"
+          OpenIDConfig__RedirectURL: "{{ lubelogger_openidconfig_redirecturl }}"
+          OpenIDConfig__Scope: "{{ lubelogger_openidconfig_scope }}"
+          OpenIDConfig__ValidateState: "{{ lubelogger_openidconfig_validatestate }}"
+          OpenIDConfig__DisableRegularLogin: "{{ lubelogger_openidconfig_disableregularlogin }}"
+          OpenIDConfig__LogOutURL: "{{ lubelogger_openidconfig_logouturl }}"
+        restart_policy: unless-stopped
+        memory: "{{ lubelogger_memory }}"
+        labels:
+          traefik.enable: "{{ lubelogger_available_externally | string }}"
+          traefik.http.routers.lubelogger.rule: "Host(`{{ lubelogger_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.lubelogger.tls.certresolver: "letsencrypt"
+          traefik.http.routers.lubelogger.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.lubelogger.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.lubelogger.loadbalancer.server.port: "8080"
+  when: lubelogger_enabled is true
+
+- name: Stop Lubelogger
+  block:
+    - name: Stop Lubelogger
+      community.docker.docker_container:
+        name: "{{ lubelogger_container_name }}"
+        state: absent
+  when: lubelogger_enabled is false

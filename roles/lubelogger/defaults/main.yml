@@ -1,0 +1,41 @@
+---
+lubelogger_enabled: false
+lubelogger_available_externally: false
+
+# directories
+lubelogger_data_directory: "{{ docker_home }}/lubelogger"
+
+# network
+lubelogger_port: "8135"
+lubelogger_hostname: "lubelogger"
+
+# specs
+lubelogger_memory: 1g
+
+# docker
+lubelogger_container_name: lubelogger
+lubelogger_image_name: "ghcr.io/hargata/lubelogger"
+lubelogger_image_version: latest
+lubelogger_user_id: "1000"
+lubelogger_group_id: "1000"
+
+# lubelogger
+lubelogger_lc_all: "en_US.UTF-8"
+lubelogger_lang: "en_US.UTF-8"
+lubelogger_email_server: ""
+lubelogger_email_from: ""
+lubelogger_email_use_ssl: "false"
+lubelogger_email_port: "587"
+lubelogger_email_username: ""
+lubelogger_email_password: ""
+lubelogger_log_level: "ERROR"
+lubelogger_openidconfig_name: "" # Name of the OpenID Connect Provider
+lubelogger_openidconfig_clientid: "" # Client Id to Authenticate with the Provider
+lubelogger_openidconfig_clientsecret: "" # Client Secret to Authenticate with the Provider
+lubelogger_openidconfig_authurl: "" # Authorization URL to the Provider's Login Page
+lubelogger_openidconfig_tokenurl: "" # URL to retrieve user JWT from the Provider
+lubelogger_openidconfig_redirecturl: "" # https://<yourlubeloggerdomain.com>/Login/RemoteAuth(must be HTTPS)
+lubelogger_openidconfig_scope: "" # The scope for retrieving the user's email claim(usually it's just 'email')
+lubelogger_openidconfig_validatestate: "false" # true/false(default: false) - whether LubeLogger should validate state.
+lubelogger_openidconfig_disableregularlogin: "false" # true/false(default: false) - auto re-direct user to OIDC login.
+lubelogger_openidconfig_logouturl: "" # Log Out URL for OIDC Provider, required if DisableRegularLogin=true.
