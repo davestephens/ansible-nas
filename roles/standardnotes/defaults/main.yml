@@ -47,10 +47,10 @@ standardnotes_user_id: "1000"
 standardnotes_group_id: "1000"
 
 # standardnotes
-standardnotes_db_database: "standardnotes"
-standardnotes_db_user: "standardnotes"
+standardnotes_db_database: "standard_notes_db"
+standardnotes_db_user: "std_notes_user"
 standardnotes_db_root_password: "supersecure"
-standardnotes_db_password: "changeme"
+standardnotes_db_password: "changeme123"
 standardnotes_db_host: "{{ standardnotes_db_container_name }}"
 standardnotes_db_port: "3306"
 standardnotes_db_type: "mysql"

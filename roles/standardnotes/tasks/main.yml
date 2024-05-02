@@ -80,7 +80,7 @@
           MYSQL_USER: "{{ standardnotes_db_user }}"
           MYSQL_ROOT_PASSWORD: "{{ standardnotes_db_root_password }}"
           MYSQL_PASSWORD: "{{ standardnotes_db_password }}"
-        command: --default-authentication-plugin=caching_sha2_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+        command: --mysql-native-password=ON --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
