@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove wanderer search
+      community.docker.docker_container:
+        name: "{{ wanderer_db_container_name }}"
+        state: absent
+      register: result_search
+
+    - name: Try and stop and remove wanderer db
+      community.docker.docker_container:
+        name: "{{ wanderer_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove wanderer
+      community.docker.docker_container:
+        name: "{{ wanderer_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if wanderer is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_search.changed
+          - not result_db.changed
+          - not result.changed

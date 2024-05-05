@@ -1,0 +1,45 @@
+---
+wanderer_enabled: false
+wanderer_available_externally: false
+
+# directories
+wanderer_data_directory: "{{ docker_home }}/wanderer"
+
+# network
+wanderer_port: "3015"
+wanderer_db_port: "8090"
+wanderer_search_port: "7700"
+wanderer_hostname: "wanderer"
+wanderer_network_name: "wanderer"
+
+# specs
+wanderer_memory: 1g
+wanderer_db_memory: 1g
+wanderer_search_memory: 1g
+wanderer_valhalla_memory: 1g
+
+# docker
+wanderer_container_name: wanderer
+wanderer_image_name: "flomp/wanderer-web"
+wanderer_image_version: latest
+wanderer_db_container_name: wanderer-db
+wanderer_db_image_name: "flomp/wanderer-db"
+wanderer_db_image_version: "latest"
+wanderer_search_container_name: wanderer-search
+wanderer_search_image_name: "flomp/wanderer-search"
+wanderer_search_image_version: "latest"
+wanderer_user_id: "1000"
+wanderer_group_id: "1000"
+
+# wanderer
+wanderer_meili_url: "http://{{ wanderer_search_container_name }}:7700"
+wanderer_meili_master_key: "vODkljPcfFANYNepCHyDyGjzAMPcdHnrb6X5KyXQPWo"
+wanderer_meili_no_analytics: "true"
+wanderer_origin: "https://{{ wanderer_hostname }}.{{ ansible_nas_domain }}"
+wanderer_body_size_limit: "Infinity"
+wanderer_public_pocketbase_url: "http://{{ wanderer_db_container_name }}:{{ wanderer_db_port }}"
+wanderer_public_disable_signup: "false"
+wanderer_upload_folder: "/app/uploads"
+wanderer_upload_user: ""
+wanderer_upload_password: ""
+wanderer_public_valhalla_url: "https://valhalla1.openstreetmap.de"

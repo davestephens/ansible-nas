@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get wanderer search container state
+      community.docker.docker_container:
+        name: "{{ wanderer_search_container_name }}"
+      register: result_search
+
+    - name: Get wanderer db container state
+      community.docker.docker_container:
+        name: "{{ wanderer_db_container_name }}"
+      register: result_db
+
+    - name: Get wanderer container state
+      community.docker.docker_container:
+        name: "{{ wanderer_container_name }}"
+      register: result
+
+    - name: Check if wanderer containers are running
+      ansible.builtin.assert:
+        that:
+          - result_search.container['State']['Status'] == "running"
+          - result_search.container['State']['Restarting'] == false
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

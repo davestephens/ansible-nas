@@ -1,0 +1,142 @@
+---
+- name: Start Wanderer
+  block:
+    - name: Create Wanderer Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ wanderer_data_directory }}"
+
+    - name: Create Wanderer network
+      community.docker.docker_network:
+        name: "{{ wanderer_network_name }}"
+
+    - name: Create Wanderer Search Docker Container
+      community.docker.docker_container:
+        name: "{{ wanderer_search_container_name }}"
+        image: "{{ wanderer_search_image_name }}:{{ wanderer_search_image_version }}"
+        pull: true
+        volumes:
+          - "{{ wanderer_data_directory }}/data/data.ms:/meili_data/data.ms:rw"
+        networks:
+          - name: "{{ wanderer_network_name }}"
+        network_mode: "{{ wanderer_network_name }}"
+        container_default_behavior: no_defaults
+        ports:
+          - "{{ wanderer_search_port }}:7700"
+        env:
+          MEILI_URL: "{{ wanderer_meili_url }}"
+          MEILI_MASTER_KEY: "{{ wanderer_meili_master_key }}"
+          MEILI_NO_ANALYTICS: "{{ wanderer_meili_no_analytics }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ wanderer_search_memory }}"
+        healthcheck:
+          test: curl --fail http://localhost:7700/health || exit 1
+          interval: 15s
+          retries: 10
+          start_period: 20s
+          timeout: 10s
+
+    - name: Wait until Wanderer Search initializes and is healthy
+      community.docker.docker_container_info:
+        name: "{{ wanderer_search_container_name }}"
+      register: result
+      until: result.container.State.Health.Status == "healthy"
+      retries: 20
+      delay: 30
+
+    - name: Create Wanderer Db Docker Container
+      community.docker.docker_container:
+        name: "{{ wanderer_db_container_name }}"
+        image: "{{ wanderer_db_image_name }}:{{ wanderer_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ wanderer_data_directory }}/data/pb_data:/pb_data:rw"
+        networks:
+          - name: "{{ wanderer_network_name }}"
+        network_mode: "{{ wanderer_network_name }}"
+        container_default_behavior: no_defaults
+        ports:
+          - "{{ wanderer_db_port }}:8090"
+        env:
+          MEILI_URL: "{{ wanderer_meili_url }}"
+          MEILI_MASTER_KEY: "{{ wanderer_meili_master_key }}"
+          MEILI_NO_ANALYTICS: "{{ wanderer_meili_no_analytics }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ wanderer_db_memory }}"
+
+
+    - name: Wait until Wanderer DB is running
+      community.docker.docker_container_info:
+        name: "{{ wanderer_db_container_name }}"
+      register: result
+      until: result.container.State.Status == "running"
+      retries: 20
+      delay: 30
+
+    - name: Create Wanderer Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wanderer_container_name }}"
+        image: "{{ wanderer_image_name }}:{{ wanderer_image_version }}"
+        pull: true
+        volumes:
+          - "{{ wanderer_data_directory }}/data/uploads:/app/uploads:rw"
+        networks:
+          - name: "{{ wanderer_network_name }}"
+        network_mode: "{{ wanderer_network_name }}"
+        ports:
+          - "{{ wanderer_port }}:3000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ wanderer_user_id | quote }}"
+          PGID: "{{ wanderer_group_id | quote }}"
+          MEILI_URL: "{{ wanderer_meili_url }}"
+          MEILI_MASTER_KEY: "{{ wanderer_meili_master_key }}"
+          MEILI_NO_ANALYTICS: "{{ wanderer_meili_no_analytics }}"
+          ORIGIN: "{{ wanderer_origin }}"
+          PUBLIC_POCKETBASE_URL: "{{ wanderer_public_pocketbase_url }}"
+          PUBLIC_DISABLE_SIGNUP: "{{ wanderer_public_disable_signup }}"
+          UPLOAD_FOLDER: "{{ wanderer_upload_folder }}"
+          UPLOAD_USER: "{{ wanderer_upload_user }}"
+          UPLOAD_PASSWORD: "{{ wanderer_upload_password }}"
+          PUBLIC_VALHALLA_URL: "{{ wanderer_public_valhalla_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ wanderer_memory }}"
+        labels:
+          traefik.enable: "{{ wanderer_available_externally | string }}"
+          traefik.http.routers.wanderer.rule: "Host(`{{ wanderer_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.wanderer.tls.certresolver: "letsencrypt"
+          traefik.http.routers.wanderer.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.wanderer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.wanderer.loadbalancer.server.port: "3000"
+        healthcheck:
+          test: curl -ILfSs http://localhost:3000 > /dev/null || exit 1
+          interval: 30s
+          timeout: 15s
+          retries: 3
+          start_period: 30s
+  when: wanderer_enabled is true
+
+- name: Stop Wanderer
+  block:
+    - name: Stop Wanderer search
+      community.docker.docker_container:
+        name: "{{ wanderer_search_container_name }}"
+        state: absent
+
+    - name: Stop Wanderer db
+      community.docker.docker_container:
+        name: "{{ wanderer_db_container_name }}"
+        state: absent
+
+    - name: Stop Wanderer
+      community.docker.docker_container:
+        name: "{{ wanderer_container_name }}"
+        state: absent
+  when: wanderer_enabled is false
