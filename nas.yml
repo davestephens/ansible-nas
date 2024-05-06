@@ -530,6 +530,10 @@
       tags:
         - openldap
 
+    - role: open-resume
+      tags:
+        - openresume
+
     - role: organizr
       tags:
         - organizr

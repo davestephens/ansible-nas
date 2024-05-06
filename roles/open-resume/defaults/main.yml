@@ -1,0 +1,20 @@
+---
+openresume_enabled: false
+openresume_available_externally: false
+
+# directories
+openresume_data_directory: "{{ docker_home }}/openresume"
+
+# network
+openresume_port: "3017"
+openresume_hostname: "openresume"
+
+# specs
+openresume_memory: 1g
+
+# docker
+openresume_container_name: openresume
+openresume_image_name: zottelchen/open-resume
+openresume_image_version: latest
+openresume_user_id: "1000"
+openresume_group_id: "1000"

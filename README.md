@@ -135,6 +135,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Openbooks](https://github.com/evan-buss/openbooks) - Search and Download eBooks
 * [openHAB](https://www.openhab.org/) - A vendor and technology agnostic open source automation software for your home
 * [openLDAP](https://www.openldap.org/) - An open source implementation of the Lightweight Directory Access Protocol
+* [Open-resume](https://github.com/xitanggg/open-resume) - A powerful open-source resume builder and resume parser
 * [Organizr](https://organizr.app/) - ORGANIZR aims to be your one stop shop for your Servers Frontend.
 * [Outline](https://github.com/outline/outline) - The fastest knowledge base for growing teams.
 * [Overleaf](https://github.com/overleaf/overleaf) - A web-based collaborative LaTeX editor

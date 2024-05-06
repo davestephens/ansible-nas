@@ -1,0 +1,42 @@
+---
+- name: Start Open-resume
+  block:
+    - name: Create Open-resume Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ openresume_data_directory }}"
+
+    - name: Create Open-resume Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ openresume_container_name }}"
+        image: "{{ openresume_image_name }}:{{ openresume_image_version }}"
+        pull: true
+        volumes:
+          - "{{ openresume_data_directory }}/data:/data:rw"
+        ports:
+          - "{{ openresume_port }}:3000"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ openresume_user_id | quote }}"
+          PGID: "{{ openresume_group_id | quote }}"
+        restart_policy: unless-stopped
+        memory: "{{ openresume_memory }}"
+        labels:
+          traefik.enable: "{{ openresume_available_externally | string }}"
+          traefik.http.routers.openresume.rule: "Host(`{{ openresume_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.openresume.tls.certresolver: "letsencrypt"
+          traefik.http.routers.openresume.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.openresume.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.openresume.loadbalancer.server.port: "3000"
+  when: openresume_enabled is true
+
+- name: Stop Open-resume
+  block:
+    - name: Stop Open-resume
+      community.docker.docker_container:
+        name: "{{ openresume_container_name }}"
+        state: absent
+  when: openresume_enabled is false
