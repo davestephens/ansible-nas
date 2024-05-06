@@ -19,6 +19,7 @@ If you have a spare domain name you can configure applications to be accessible 
 
 * [Activepieces](https://www.activepieces.com/) - an open source all-in-one automation tool
 * [Admidio](https://www.admidio.org/) - a free online membership management
+* [Affine](https://github.com/toeverything/AFFiNE) - a next-gen knowledge base that brings planning, sorting and creating all together
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Authelia](https://www.authelia.com/) - The Single Sign-On Multi-Factor portal for web apps
 * [Authentik](https://goauthentik.io/) - an open-source Identity Provider focused on flexibility and versatility

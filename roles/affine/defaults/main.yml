@@ -1,0 +1,53 @@
+---
+affine_enabled: false
+affine_available_externally: false
+
+# directories
+affine_data_directory: "{{ docker_home }}/affine"
+
+# network
+affine_port_a: "3016"
+affine_port_b: "5555"
+affine_hostname: "affine"
+affine_network_name: "affine"
+
+# specs
+affine_memory: 1g
+affine_db_memory: 1g
+affine_redis_memory: 1g
+
+# docker
+affine_container_name: affine
+affine_image_name: "ghcr.io/toeverything/affine-graphql"
+affine_image_version: stable
+affine_db_container_name: affine-db
+affine_db_image_name: postgres
+affine_db_image_version: latest
+affine_redis_container_name: affine-redis
+affine_redis_image_name: redis
+affine_redis_image_version: latest
+affine_user_id: "1000"
+affine_group_id: "1000"
+
+# affine
+affine_postgres_user: affine
+affine_postgres_password: affine
+affine_postgres_db: "affine"
+affine_node_options: "--import=./scripts/register.js"
+affine_config_path: "/root/.affine/config"
+affine_admin_email: "affine@{{ ansible_nas_domain }}"
+affine_admin_password: "changeme"
+affine_telemetry_enable: "false"
+affine_redis_server_host: "{{ affine_redis_container_name }}"
+affine_redis_server_port: "6379"
+affine_redis_server_user: "redis"
+affine_redis_server_password: "redis"
+affine_redis_server_database: "0" # Redis server database (0-20 number only)
+affine_server_host: "{{ affine_hostname }}.{{ ansible_nas_domain }}"
+affine_server_port: "3010"
+affine_server_https: "true"
+affine_mailer_host: ""
+affine_mailer_port: ""
+affine_mailer_user: ""
+affine_mailer_password: ""
+affine_mailer_sender: ""
