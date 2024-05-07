@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove rallly db
+      community.docker.docker_container:
+        name: "{{ rallly_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove rallly
+      community.docker.docker_container:
+        name: "{{ rallly_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if rallly is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result.changed

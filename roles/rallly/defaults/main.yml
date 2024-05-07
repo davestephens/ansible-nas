@@ -1,0 +1,57 @@
+---
+rallly_enabled: false
+rallly_available_externally: false
+
+# directories
+rallly_data_directory: "{{ docker_home }}/rallly"
+
+# network
+rallly_port: "3018"
+rallly_hostname: "rallly"
+rallly_network_name: "rallly"
+
+# specs
+rallly_memory: 1g
+rallly_db_memory: 1g
+
+# docker
+rallly_container_name: rallly
+rallly_image_name: "lukevella/rallly"
+rallly_image_version: latest
+rallly_db_container_name: rallly-db
+rallly_db_image_name: postgres
+rallly_db_image_version: 14.2
+rallly_user_id: "1000"
+rallly_group_id: "1000"
+
+# rallly
+rallly_postgres_user: rallly
+rallly_postgres_password: rallly
+rallly_postgres_db: "rallly"
+rallly_secret_password: abcdefghijklmnopqrstuvwxyz1234567890
+rallly_next_public_base_url: "https://{{ rallly_hostname }}.{{ ansible_nas_domain }}"
+rallly_next_public_app_base_url: "https://{{ rallly_hostname }}.{{ ansible_nas_domain }}"
+# A connection string to your Postgres database
+rallly_database_url: postgres://{{ rallly_postgres_user }}:{{ rallly_postgres_password }}@{{ rallly_db_container_name }}:5432/{{ rallly_postgres_db }}
+
+# EMAIL CONFIG (required for sending emails)
+
+# All outgoing emails will show this email as the sender's email address, which also serves as the support email.
+rallly_support_email: "rallly@{{ ansible_nas_domain }}"
+# The host address of your SMTP server
+rallly_smtp_host: "localhost"
+# The port of your SMTP server
+rallly_smtp_port: "25"
+# Set to "true" if SSL is enabled for your SMTP connection
+rallly_smtp_secure: "false"
+# The username (if auth is enabled on your SMTP server)
+rallly_smtp_user: ""
+# The password (if auth is enabled on your SMTP server)
+rallly_smtp_pwd: ""
+
+# OPTIONAL CONFIG
+
+# Comma separated list of email addresses that are allowed to register and login.
+# You can use wildcard syntax to match a range of email addresses.
+# Example: "john@example.com,jane@example.com" or "*@example.com"
+rallly_allowed_emails: ""

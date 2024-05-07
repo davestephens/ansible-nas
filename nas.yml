@@ -602,6 +602,10 @@
       tags:
         - radarr
 
+    - role: rallly
+      tags:
+        - rallly
+
     - role: rclone
       tags:
         - rclone

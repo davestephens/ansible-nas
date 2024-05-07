@@ -156,6 +156,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [pyLoad](https://pyload.net/) - A download manager with a friendly web-interface
 * [PyTivo](http://pytivo.org) - An HMO and GoBack server for TiVos.
 * [Radarr](https://radarr.video/) - for organising and downloading movies
+* [Rallly](https://github.com/lukevella/rallly/) - an open-source scheduling and collaboration tool
 * [Romm](https://github.com/zurdi15/romm) - A game library manager focused on retro gaming
 * [Releasebell](https://github.com/anarion80/releasebell) - Starred GitHub repositories notifications
 * [Restic](https://restic.net/) - A modern backup program
