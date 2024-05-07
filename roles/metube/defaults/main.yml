@@ -1,0 +1,40 @@
+---
+metube_enabled: false
+metube_available_externally: false
+
+# directories
+metube_data_directory: "{{ docker_home }}/metube"
+
+# network
+metube_port: "8136"
+metube_hostname: "metube"
+
+# specs
+metube_memory: 1g
+
+# docker
+metube_container_name: metube
+metube_image_name: "ghcr.io/alexta69/metube"
+metube_image_version: latest
+metube_user_id: "1000"
+metube_group_id: "1000"
+
+# metube
+metube_umask: "022" # umask value used by MeTube. Defaults to 022.
+metube_default_theme: "auto" # default theme to use for the ui, can be set to light, dark or auto. Defaults to auto.
+metube_download_dir: "/downloads" # path to where the downloads will be saved. Defaults to /downloads in the docker image, and . otherwise.
+metube_audio_download_dir: "{{ metube_download_dir }}" # path to where audio-only downloads will be saved, if you wish to separate them from the video downloads. Defaults to the value of DOWNLOAD_DIR.
+metube_download_dirs_indexable: "false" # if true, the download dirs (DOWNLOAD_DIR and AUDIO_DOWNLOAD_DIR) are indexable on the webserver. Defaults to false.
+metube_custom_dirs: "true" # whether to enable downloading videos into custom directories within the DOWNLOAD_DIR (or AUDIO_DOWNLOAD_DIR). When enabled, a drop-down appears next to the Add button to specify the download directory. Defaults to true.
+metube_create_custom_dirs: "true" # whether to support automatically creating directories within the DOWNLOAD_DIR (or AUDIO_DOWNLOAD_DIR) if they do not exist. When enabled, the download directory selector becomes supports free-text input, and the specified directory will be created recursively. Defaults to true.
+metube_state_dir: "/downloads/.metube" # path to where the queue persistence files will be saved. Defaults to /downloads/.metube in the docker image, and . otherwise.
+metube_temp_dir: "/downloads" # path where intermediary download files will be saved. Defaults to /downloads in the docker image, and . otherwise.
+metube_delete_file_on_trashcan: "false" # if true, downloaded files are deleted on the server, when they are trashed from the "Completed" section of the UI. Defaults to false.
+metube_url_prefix: "/" # base path for the web server (for use when hosting behind a reverse proxy). Defaults to /.
+metube_public_host_url: "" # base URL for the download links shown in the UI for completed files. By default MeTube serves them under its own URL. If your download directory is accessible on another URL and you want the download links to be based there, use this variable to set it.
+metube_public_host_audio_url: "" # same as PUBLIC_HOST_URL but for audio downloads.
+metube_output_template: "%(title)s.%(ext)s" # the template for the filenames of the downloaded videos, formatted according to this spec. Defaults to %(title)s.%(ext)s.
+metube_output_template_chapter: "%(title)s - %(section_number)s %(section_title)s.%(ext)s" # the template for the filenames of the downloaded videos, when split into chapters via postprocessors. Defaults to %(title)s - %(section_number)s %(section_title)s.%(ext)s.
+metube_ytdl_options: # Additional options to pass to youtube-dl, a dictionary. See available options here. They roughly correspond to command-line options, though some do not have exact equivalents here, for example --recode-video has to be specified via postprocessors. Also note that dashes are replaced with underscores.
+  "updatetime": false
+metube_ytdl_options_file: "" # A path to a JSON file that will be loaded and used for populating YTDL_OPTIONS above. Please note that if both YTDL_OPTIONS_FILE and YTDL_OPTIONS are specified, the options in YTDL_OPTIONS take precedence.

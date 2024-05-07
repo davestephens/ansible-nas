@@ -1,0 +1,59 @@
+---
+- name: Start MeTube
+  block:
+    - name: Create MeTube Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ metube_data_directory }}"
+
+    - name: Create MeTube Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ metube_container_name }}"
+        image: "{{ metube_image_name }}:{{ metube_image_version }}"
+        pull: true
+        volumes:
+          - "{{ metube_data_directory }}/downloads:/downloads:rw"
+        ports:
+          - "{{ metube_port }}:8081"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          UID: "{{ metube_user_id | quote }}"
+          GID: "{{ metube_group_id | quote }}"
+          UMASK: "{{ metube_umask }}"
+          DEFAULT_THEME: "{{ metube_default_theme }}"
+          DOWNLOAD_DIR: "{{ metube_download_dir }}"
+          AUDIO_DOWNLOAD_DIR: "{{ metube_audio_download_dir }}"
+          DOWNLOAD_DIRS_INDEXABLE: "{{ metube_download_dirs_indexable }}"
+          CUSTOM_DIRS: "{{ metube_custom_dirs }}"
+          CREATE_CUSTOM_DIRS: "{{ metube_create_custom_dirs }}"
+          STATE_DIR: "{{ metube_state_dir }}"
+          TEMP_DIR: "{{ metube_temp_dir }}"
+          DELETE_FILE_ON_TRASHCAN: "{{ metube_delete_file_on_trashcan }}"
+          URL_PREFIX: "{{ metube_url_prefix }}"
+          PUBLIC_HOST_URL: "{{ metube_public_host_url }}"
+          PUBLIC_HOST_AUDIO_URL: "{{ metube_public_host_audio_url }}"
+          OUTPUT_TEMPLATE: "{{ metube_output_template }}"
+          OUTPUT_TEMPLATE_CHAPTER: "{{ metube_output_template_chapter }}"
+          YTDL_OPTIONS: "{{ metube_ytdl_options | to_json }}"
+          YTDL_OPTIONS_FILE: "{{ metube_ytdl_options_file }}"
+        restart_policy: unless-stopped
+        memory: "{{ metube_memory }}"
+        labels:
+          traefik.enable: "{{ metube_available_externally | string }}"
+          traefik.http.routers.metube.rule: "Host(`{{ metube_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.metube.tls.certresolver: "letsencrypt"
+          traefik.http.routers.metube.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.metube.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.metube.loadbalancer.server.port: "8081"
+  when: metube_enabled is true
+
+- name: Stop MeTube
+  block:
+    - name: Stop MeTube
+      community.docker.docker_container:
+        name: "{{ metube_container_name }}"
+        state: absent
+  when: metube_enabled is false

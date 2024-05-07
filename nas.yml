@@ -410,6 +410,10 @@
       tags:
         - mergerfs
 
+    - role: metube
+      tags:
+        - metube
+
     - role: minecraft-bedrock-server
       tags:
         - minecraft-bedrock-server
