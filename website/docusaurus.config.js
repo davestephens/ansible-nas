@@ -8,15 +8,15 @@ const darkCodeTheme = require('prism-react-renderer').themes.dracula;
 const config = {
   title: 'Ansible-NAS',
   tagline: 'Easily build a homelab or NAS replacement with an Ubuntu server and some basic hardware',
-  url: 'https://ansible-nas.io',
-  baseUrl: '/',
+  url: 'https://anarion80.github.io/',
+  baseUrl: '/ansible-nas',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'davestephens', // Usually your GitHub org/user name.
+  organizationName: 'anarion80', // Usually your GitHub org/user name.
   projectName: 'ansible-nas', // Usually your repo name.
   trailingSlash: true,
 
@@ -38,7 +38,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/davestephens/ansible-nas/tree/main/website',
+            'https://github.com/anarion80/ansible-nas/tree/main/website',
         },
         blog: {
           showReadingTime: true,
@@ -80,7 +80,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/davestephens/ansible-nas',
+            href: 'https://github.com/anarion80/ansible-nas',
             label: 'GitHub',
             position: 'right',
           },
