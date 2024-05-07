@@ -1,0 +1,109 @@
+---
+- name: Start Rallly
+  block:
+    - name: Create Rallly Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ rallly_data_directory }}"
+
+    - name: Create Rallly network
+      community.docker.docker_network:
+        name: "{{ rallly_network_name }}"
+
+    - name: Create Rallly Db Docker Container
+      community.docker.docker_container:
+        name: "{{ rallly_db_container_name }}"
+        image: "{{ rallly_db_image_name }}:{{ rallly_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ rallly_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ rallly_network_name }}"
+        network_mode: "{{ rallly_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_USER: "{{ rallly_postgres_user }}"
+          POSTGRES_PASSWORD: "{{ rallly_postgres_password }}"
+          POSTGRES_DB: "{{ rallly_postgres_db }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ rallly_db_memory }}"
+        healthcheck:
+          test: ['CMD-SHELL', 'pg_isready -U {{ rallly_postgres_user }}']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Rallly Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ rallly_container_name }}"
+        image: "{{ rallly_image_name }}:{{ rallly_image_version }}"
+        pull: true
+        volumes:
+          - "{{ rallly_data_directory }}/config:/root/.rallly/config:rw"
+          - "{{ rallly_data_directory }}/storage:/root/.rallly/storage:rw"
+        networks:
+          - name: "{{ rallly_network_name }}"
+        network_mode: "{{ rallly_network_name }}"
+        ports:
+          - "{{ rallly_port }}:3000"
+        env:
+          NODE_ENV: "production"
+          SELF_HOSTED: "true"
+          # A random 32-character secret key used to encrypt user sessions
+          SECRET_PASSWORD: "{{ rallly_secret_password }}"
+          # The base url where this instance is accessible, including the scheme.
+          # Example: https://example.com
+          NEXT_PUBLIC_BASE_URL: "{{ rallly_next_public_base_url }}"
+          NEXT_PUBLIC_APP_BASE_URL: "{{ rallly_next_public_app_base_url }}"
+          # A connection string to your Postgres database
+          DATABASE_URL: "{{ rallly_database_url }}"
+
+          # EMAIL CONFIG (required for sending emails)
+
+          # All outgoing emails will show this email as the sender's email address, which also serves as the support email.
+          SUPPORT_EMAIL: "{{ rallly_support_email }}"
+          # The host address of your SMTP server
+          SMTP_HOST: "{{ rallly_smtp_host }}"
+          # The port of your SMTP server
+          SMTP_PORT: "{{ rallly_smtp_port }}"
+          # Set to "true" if SSL is enabled for your SMTP connection
+          SMTP_SECURE: "{{ rallly_smtp_secure }}"
+          # The username (if auth is enabled on your SMTP server)
+          SMTP_USER: "{{ rallly_smtp_user }}"
+          # The password (if auth is enabled on your SMTP server)
+          SMTP_PWD: "{{ rallly_smtp_pwd }}"
+
+          # OPTIONAL CONFIG
+
+          # Comma separated list of email addresses that are allowed to register and login.
+          # You can use wildcard syntax to match a range of email addresses.
+          # Example: "john@example.com,jane@example.com" or "*@example.com"
+          ALLOWED_EMAILS: "{{ rallly_allowed_emails }}"
+        restart_policy: unless-stopped
+        memory: "{{ rallly_memory }}"
+        labels:
+          traefik.enable: "{{ rallly_available_externally | string }}"
+          traefik.http.routers.rallly.rule: "Host(`{{ rallly_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.rallly.tls.certresolver: "letsencrypt"
+          traefik.http.routers.rallly.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.rallly.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.rallly.loadbalancer.server.port: "3000"
+  when: rallly_enabled is true
+
+- name: Stop Rallly
+  block:
+    - name: Stop Rallly db
+      community.docker.docker_container:
+        name: "{{ rallly_db_container_name }}"
+        state: absent
+
+    - name: Stop Rallly
+      community.docker.docker_container:
+        name: "{{ rallly_container_name }}"
+        state: absent
+  when: rallly_enabled is false
