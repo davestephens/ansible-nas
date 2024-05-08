@@ -122,6 +122,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [MySql](https://www.mysql.com/) - The world's most popular open source database
 * [n8n](https://n8n.io/) - Nodemation, a node based workflow and automation service like IFTTT.
 * [navidrome](https://www.navidrome.org/) - Modern Music Server and Streamer compatible with Subsonic/Airsonic
+* [n.eko](https://github.com/m1k1o/neko/) - A self hosted virtual browser that runs in docker and uses WebRTC.
 * [netboot.xyz](https://netboot.xyz/) - a PXE boot server
 * [Netbox](https://netbox.dev/) - The premiere source of truth powering network automation
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution

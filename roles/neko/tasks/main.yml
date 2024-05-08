@@ -1,0 +1,59 @@
+---
+- name: Start neko
+  block:
+    - name: Create neko Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ neko_data_directory }}"
+
+    - name: Create neko Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ neko_container_name }}"
+        image: "{{ neko_image_name }}:{{ neko_image_version }}"
+        pull: true
+        capabilities: SYS_ADMIN
+        volumes:
+          - "{{ neko_data_directory }}/data:/home/neko/Downloads"
+          - "{{ neko_data_directory }}/media:/media"
+        ports:
+          - "{{ neko_port }}:8080"
+          - "{{ neko_port_epr }}:52000-52100/udp"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          UID: "{{ neko_user_id | quote }}"
+          GID: "{{ neko_group_id | quote }}"
+          NEKO_SCREEN: "{{ neko_screen }}"
+          NEKO_PASSWORD: "{{ neko_password }}"
+          NEKO_PASSWORD_ADMIN: "{{ neko_password_admin }}"
+          NEKO_EPR: "{{ neko_epr }}"
+          NEKO_ICELITE: "{{ neko_icelite }}"
+          NEKO_FILE_TRANSFER_ENABLED: "{{ neko_file_transfer_enabled }}"
+          NEKO_CONTROL_PROTECTION: "{{ neko_control_protection }}"
+          NEKO_IMPLICIT_CONTROL: "{{ neko_implicit_control }}"
+          NEKO_LOCKS: "{{ neko_locks }}"
+          NEKO_VIDEO_CODEC: "{{ neko_video_codec }}"
+          NEKO_AUDIO_CODEC: "{{ neko_audio_codec }}"
+          NEKO_BROADCAST_PIPELINE: "{{ neko_broadcast_pipeline }}"
+          NEKO_NAT1TO1: "{{ neko_nat1to1 }}"
+        restart_policy: unless-stopped
+        memory: "{{ neko_memory }}"
+        shm_size: "{{ neko_shm_size }}"
+        labels:
+          traefik.enable: "{{ neko_available_externally | string }}"
+          traefik.http.routers.neko.rule: "Host(`{{ neko_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.neko.tls.certresolver: "letsencrypt"
+          traefik.http.routers.neko.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.neko.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.neko.loadbalancer.server.port: "8080"
+  when: neko_enabled is true
+
+- name: Stop neko
+  block:
+    - name: Stop neko
+      community.docker.docker_container:
+        name: "{{ neko_container_name }}"
+        state: absent
+  when: neko_enabled is false

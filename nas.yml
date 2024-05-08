@@ -478,6 +478,10 @@
       tags:
         - navidrome
 
+    - role: neko
+      tags:
+        - neko
+
     - role: netbootxyz
       tags:
         - netbootxyz

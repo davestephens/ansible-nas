@@ -1,0 +1,37 @@
+---
+neko_enabled: false
+neko_available_externally: false
+
+# directories
+neko_data_directory: "{{ docker_home }}/neko"
+
+# network
+neko_port: "8137"
+neko_port_epr: "52000-52100"
+neko_hostname: "neko"
+
+# specs
+neko_memory: 1g
+neko_shm_size: 2G
+
+# docker
+neko_container_name: neko
+neko_image_name: "m1k1o/neko"
+neko_image_version: chromium
+neko_user_id: "1000"
+neko_group_id: "1000"
+
+# neko
+neko_screen: "1920x1080@30"
+neko_password: neko
+neko_password_admin: admin
+neko_epr: "52000-52100"
+neko_icelite: "true"
+neko_file_transfer_enabled: "true"
+neko_control_protection: "false"
+neko_implicit_control: "false"
+neko_locks: "control"
+neko_video_codec: "vp8"
+neko_audio_codec: "opus"
+neko_broadcast_pipeline: ""
+neko_nat1to1: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
