@@ -1,0 +1,36 @@
+---
+homarr_enabled: false
+homarr_available_externally: false
+
+# directories
+homarr_data_directory: "{{ docker_home }}/homarr"
+
+# network
+homarr_port: "7575"
+homarr_hostname: "homarr"
+
+# specs
+homarr_memory: 1g
+
+# docker
+homarr_container_name: homarr
+homarr_image_name: "ghcr.io/ajnart/homarr"
+homarr_image_version: latest
+homarr_user_id: "1000"
+homarr_group_id: "1000"
+
+# homarr
+homarr_database_url: "file:/data/db.sqlite"
+
+# Next Auth
+# You can generate a new secret on the command line with:
+# openssl rand -base64 32
+# https://next-auth.js.org/configuration/options#secret
+homarr_nextauth_url: "http://localhost:7575"
+
+homarr_nextauth_secret: "anything"
+
+# Disable analytics
+homarr_next_public_disable_analytics: "true"
+
+homarr_default_color_scheme: "light"
