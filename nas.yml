@@ -278,6 +278,10 @@
       tags:
         - hello_world
 
+    - role: homarr
+      tags:
+        - homarr
+
     - role: homeassistant
       tags:
         - homeassistant

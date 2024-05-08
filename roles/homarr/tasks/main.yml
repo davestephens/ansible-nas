@@ -1,0 +1,56 @@
+---
+- name: Start Homarr
+  block:
+    - name: Create Homarr Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ homarr_data_directory }}"
+
+    - name: Create Homarr Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ homarr_container_name }}"
+        image: "{{ homarr_image_name }}:{{ homarr_image_version }}"
+        pull: true
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+          - "{{ homarr_data_directory }}/configs:/app/data/configs"
+          - "{{ homarr_data_directory }}/icons:/app/public/icons"
+          - "{{ homarr_data_directory }}/data:/data"
+        ports:
+          - "{{ homarr_port }}:7575"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          UID: "{{ homarr_user_id | quote }}"
+          GID: "{{ homarr_group_id | quote }}"
+          DATABASE_URL: "{{ homarr_database_url }}"
+
+          # Next Auth
+          # You can generate a new secret on the command line with:
+          # openssl rand -base64 32
+          # https://next-auth.js.org/configuration/options#secret
+          NEXTAUTH_URL: "{{ homarr_nextauth_url }}"
+          NEXTAUTH_SECRET: "{{ homarr_nextauth_secret }}"
+          # Disable analytics
+          NEXT_PUBLIC_DISABLE_ANALYTICS: "{{ homarr_next_public_disable_analytics }}"
+          DEFAULT_COLOR_SCHEME: "{{ homarr_default_color_scheme }}"
+        restart_policy: unless-stopped
+        memory: "{{ homarr_memory }}"
+        labels:
+          traefik.enable: "{{ homarr_available_externally | string }}"
+          traefik.http.routers.homarr.rule: "Host(`{{ homarr_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.homarr.tls.certresolver: "letsencrypt"
+          traefik.http.routers.homarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.homarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.homarr.loadbalancer.server.port: "7575"
+  when: homarr_enabled is true
+
+- name: Stop Homarr
+  block:
+    - name: Stop Homarr
+      community.docker.docker_container:
+        name: "{{ homarr_container_name }}"
+        state: absent
+  when: homarr_enabled is false
