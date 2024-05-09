@@ -726,6 +726,10 @@
       tags:
         - timemachine
 
+    - role: tooljet
+      tags:
+        - tooljet
+
     - role: traefik
       tags:
         - traefik

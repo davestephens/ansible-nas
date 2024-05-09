@@ -186,6 +186,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Threadfin](https://github.com/Threadfin/Threadfin) - M3U Proxy for Plex DVR and Emby/Jellyfin Live TV. Based on xTeVe.
 * [TiddlyWiki](https://tiddlywiki.com) - A unique non-linear notebook/wiki for capturing, organizing, and sharing complex information
 * [TimeMachine](https://github.com/awlx/samba-timemachine) - Samba-based mac backup server
+* [ToolJet](https://github.com/ToolJet/ToolJet) - Low-code platform for building business applications
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Trilium](https://github.com/zadam/trilium) - Hierarchical note taking application with focus on building large personal knowledge bases

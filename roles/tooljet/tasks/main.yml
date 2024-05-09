@@ -1,0 +1,121 @@
+---
+- name: Start ToolJet
+  block:
+    - name: Create ToolJet Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ tooljet_data_directory }}"
+
+    - name: Create ToolJet network
+      community.docker.docker_network:
+        name: "{{ tooljet_network_name }}"
+
+    - name: Create ToolJet Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ tooljet_redis_container_name }}"
+        image: "{{ tooljet_redis_image_name }}:{{ tooljet_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ tooljet_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ tooljet_network_name }}"
+        network_mode: "{{ tooljet_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ tooljet_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ tooljet_redis_memory }}"
+        healthcheck:
+          test: ['CMD', 'redis-cli', '--raw', 'incr', 'ping']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create ToolJet Db Docker Container
+      community.docker.docker_container:
+        name: "{{ tooljet_db_container_name }}"
+        image: "{{ tooljet_db_image_name }}:{{ tooljet_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ tooljet_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ tooljet_network_name }}"
+        network_mode: "{{ tooljet_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ tooljet_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ tooljet_db_memory }}"
+        healthcheck:
+          test: ['CMD-SHELL', 'pg_isready -U tooljet']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create ToolJet Postgrest Docker Container
+      community.docker.docker_container:
+        name: "{{ tooljet_postgrest_container_name }}"
+        image: "{{ tooljet_postgrest_image_name }}:{{ tooljet_postgrest_image_version }}"
+        pull: true
+        volumes:
+          - "{{ tooljet_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ tooljet_network_name }}"
+        network_mode: "{{ tooljet_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ tooljet_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ tooljet_postgrest_memory }}"
+
+    - name: Create ToolJet Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ tooljet_container_name }}"
+        image: "{{ tooljet_image_name }}:{{ tooljet_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ tooljet_network_name }}"
+        network_mode: "{{ tooljet_network_name }}"
+        ports:
+          - "{{ tooljet_port }}:80"
+        command: npm run start:prod
+        env: "{{ tooljet_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ tooljet_memory }}"
+        labels:
+          traefik.enable: "{{ tooljet_available_externally | string }}"
+          traefik.http.routers.tooljet.rule: "Host(`{{ tooljet_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.tooljet.tls.certresolver: "letsencrypt"
+          traefik.http.routers.tooljet.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.tooljet.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.tooljet.loadbalancer.server.port: "80"
+  when: tooljet_enabled is true
+
+- name: Stop ToolJet
+  block:
+    - name: Stop ToolJet redis
+      community.docker.docker_container:
+        name: "{{ tooljet_redis_container_name }}"
+        state: absent
+
+    - name: Stop ToolJet db
+      community.docker.docker_container:
+        name: "{{ tooljet_db_container_name }}"
+        state: absent
+
+    - name: Stop ToolJet Postgrest
+      community.docker.docker_container:
+        name: "{{ tooljet_postgrest_container_name }}"
+        state: absent
+
+    - name: Stop ToolJet
+      community.docker.docker_container:
+        name: "{{ tooljet_container_name }}"
+        state: absent
+  when: tooljet_enabled is false

@@ -1,0 +1,209 @@
+---
+tooljet_enabled: false
+tooljet_available_externally: false
+
+# directories
+tooljet_data_directory: "{{ docker_home }}/tooljet"
+
+# network
+tooljet_port: "8138"
+tooljet_hostname: "tooljet"
+tooljet_network_name: "tooljet"
+
+# specs
+tooljet_memory: 1g
+tooljet_db_memory: 1g
+tooljet_postgrest_memory: 1g
+tooljet_redis_memory: 1g
+
+# docker
+tooljet_container_name: tooljet
+tooljet_image_name: "tooljet/tooljet-ce"
+tooljet_image_version: latest
+tooljet_db_container_name: tooljet-postgres
+tooljet_db_image_name: postgres
+tooljet_db_image_version: 13
+tooljet_postgrest_container_name: tooljet-postgrest
+tooljet_postgrest_image_name: postgrest/postgrest
+tooljet_postgrest_image_version: v12.0.2
+tooljet_redis_container_name: tooljet-redis
+tooljet_redis_image_name: redis
+tooljet_redis_image_version: 6.2
+tooljet_user_id: "1000"
+tooljet_group_id: "1000"
+
+# tooljet
+tooljet_host: "https://{{ tooljet_hostname }}.{{ ansible_nas_domain }}"
+tooljet_lockbox_master_key: "e95386d3e3e1f13022e15efc90ad25a0abcf055bdb098120bb67bbf6a9f16697" # replace with openssl rand -hex 32
+tooljet_secret_key_base: "7a082bf038fc8253f640651f3883ac1254f858a9e263f54d010e242a1f49afe8d3f4d8fe2b568b80999e8266305e7c9234ea020723f234ff070692ebba3a3df7" # replace with openssl rand -hex 64
+
+# DATABASE CONFIG
+tooljet_orm_logging: "all"
+tooljet_pg_db: "tooljet_production"
+tooljet_pg_user: "postgres"
+tooljet_pg_host: "{{ tooljet_db_container_name }}"
+tooljet_pg_pass: "password" # postgres database password
+
+# The above postgres values is set to its default state. If necessary, kindly modify it according to your personal preference.
+
+# TOOLJET DATABASE
+tooljet_enable_tooljet_db: "true"
+tooljet_tooljet_db: "{{ tooljet_pg_db }}"
+tooljet_tooljet_db_user: "{{ tooljet_pg_user }}"
+tooljet_tooljet_db_host: "{{ tooljet_pg_host }}"
+tooljet_tooljet_db_pass: "{{ tooljet_pg_pass }}"
+
+tooljet_pgrst_db_uri: "postgres://{{ tooljet_pg_user }}:{{ tooljet_pg_pass }}@{{ tooljet_db_container_name }}/{{ tooljet_pg_db }}"
+tooljet_pgrst_host: "{{ tooljet_postgrest_container_name }}"
+tooljet_pgrst_jwt_secret: "2ff157f1ac62c11fb485b545279085b8e23ef47cd0299558dcf21d91a66ea6be" # If you have openssl installed, you can run the following command openssl rand -hex 32 to generate the value for PGRST_JWT_SECRET.
+
+# Redis
+tooljet_redis_master: ""
+tooljet_redis_host: "{{ tooljet_redis_container_name }}"
+tooljet_redis_port: "6379"
+tooljet_redis_user: "default"
+tooljet_redis_password: ""
+tooljet_serve_client: "true"
+
+
+# Checks every 24 hours to see if a new version of ToolJet is available
+# (Enabled by default. Set false to disable)
+tooljet_check_for_updates: "true"
+
+# Checks every 24 hours to update app telemetry data to ToolJet hub.
+# (Telemetry is enabled by default. Set value to true to disable.)
+tooljet_disable_tooljet_telemetry: "true"
+
+tooljet_google_client_id: ""
+tooljet_google_client_secret: ""
+
+# EMAIL CONFIGURATION
+tooljet_default_from_email: "tooljet@{{ ansible_nas_domain }}"
+tooljet_smtp_username: ""
+tooljet_smtp_password: ""
+tooljet_smtp_domain: ""
+tooljet_smtp_port: ""
+
+# DISABLE USER SIGNUPS (true or false). only applicable if Multi-Workspace feature is enabled
+tooljet_disable_signups: ""
+
+
+# OBSERVABILITY
+tooljet_apm_vendor: "tooljet"
+tooljet_sentry_dns: ""
+tooljet_sentry_debug: ""
+
+# FEATURE TOGGLE
+tooljet_comment_feature_enable: "true"
+tooljet_enable_multiplayer_editing: "true"
+tooljet_enable_marketplace_feature: "true"
+
+
+# SSO (Applicable only for Multi-Workspace)
+tooljet_sso_google_oauth2_client_id: ""
+tooljet_sso_git_oauth2_client_id: ""
+tooljet_sso_git_oauth2_client_secret: ""
+tooljet_sso_git_oauth2_host: ""
+tooljet_sso_accepted_domains: ""
+tooljet_sso_disable_signups: ""
+
+# ONBOARDING
+tooljet_enable_onboarding_questions_for_all_sign_ups: ""
+
+# session expiry in minutes
+tooljet_user_session_expiry: "2880"
+
+# TELEMETRY
+tooljet_deployment_platform: "docker"
+
+tooljet_language: "en"
+
+tooljet_env:
+  # Get detailed information about each variable here: https://docs.tooljet.com/docs/setup/env-vars
+  SERVE_CLIENT: "{{ tooljet_serve_client }}"
+  PORT: "80"
+
+  TOOLJET_HOST: "{{ tooljet_host }}"
+  LOCKBOX_MASTER_KEY: "{{ tooljet_lockbox_master_key }}"
+  SECRET_KEY_BASE: "{{ tooljet_secret_key_base }}"
+
+  # DATABASE CONFIG
+  ORM_LOGGING: "{{ tooljet_orm_logging }}"
+  PG_DB: "{{ tooljet_pg_db }}"
+  PG_USER: "{{ tooljet_pg_user }}"
+  PG_HOST: "{{ tooljet_pg_host }}"
+  PG_PASS: "{{ tooljet_pg_pass }}"
+  POSTGRES_USER: "{{ tooljet_pg_user }}"
+  POSTGRES_PASSWORD: "{{ tooljet_pg_pass }}"
+  # TOOLJET DATABASE
+  ENABLE_TOOLJET_DB: "{{ tooljet_enable_tooljet_db }}"
+  TOOLJET_DB: "{{ tooljet_tooljet_db }}"
+  TOOLJET_DB_USER: "{{ tooljet_tooljet_db_user }}"
+  TOOLJET_DB_HOST: "{{ tooljet_tooljet_db_host }}"
+  TOOLJET_DB_PASS: "{{ tooljet_tooljet_db_pass }}"
+
+  PGRST_DB_URI: "{{ tooljet_pgrst_db_uri }}"
+  PGRST_HOST: "{{ tooljet_pgrst_host }}"
+  PGRST_JWT_SECRET: "{{ tooljet_pgrst_jwt_secret }}"
+  PGRST_SERVER_PORT: "80"
+
+  # Redis
+  REDIS_HOST: "{{ tooljet_redis_host }}"
+  REDIS_PORT: "{{ tooljet_redis_port }}"
+  REDIS_USER: "{{ tooljet_redis_user }}"
+  REDIS_PASSWORD: "{{ tooljet_redis_password }}"
+
+
+  # Checks every 24 hours to see if a new version of ToolJet is available
+  # (Enabled by default. Set false to disable)
+  CHECK_FOR_UPDATES: "{{ tooljet_check_for_updates }}"
+
+  # Checks every 24 hours to update app telemetry data to ToolJet hub.
+  # (Telemetry is enabled by default. Set value to true to disable.)
+  DISABLE_TOOLJET_TELEMETRY": "{{ tooljet_disable_tooljet_telemetry }}"
+
+  GOOGLE_CLIENT_ID: "{{ tooljet_google_client_id }}"
+  GOOGLE_CLIENT_SECRET: "{{ tooljet_google_client_secret }}"
+
+  # EMAIL CONFIGURATION
+  DEFAULT_FROM_EMAIL: "{{ tooljet_default_from_email }}"
+  SMTP_USERNAME: "{{ tooljet_smtp_username }}"
+  SMTP_PASSWORD: "{{ tooljet_smtp_password }}"
+  SMTP_DOMAIN: "{{ tooljet_smtp_domain }}"
+  SMTP_PORT: "{{ tooljet_smtp_port }}"
+
+  # DISABLE USER SIGNUPS (true or false). only applicable if Multi-Workspace feature is enabled
+  DISABLE_SIGNUPS: "{{ tooljet_disable_signups }}"
+
+
+  # OBSERVABILITY
+  APM_VENDOR: "{{ tooljet_apm_vendor }}"
+  SENTRY_DNS: "{{ tooljet_sentry_dns }}"
+  SENTRY_DEBUG: "{{ tooljet_sentry_debug }}"
+
+  # FEATURE TOGGLE
+  COMMENT_FEATURE_ENABLE: "{{ tooljet_comment_feature_enable }}"
+  ENABLE_MULTIPLAYER_EDITING: "{{ tooljet_enable_multiplayer_editing }}"
+  ENABLE_MARKETPLACE_FEATURE: "{{ tooljet_enable_marketplace_feature }}"
+
+
+  # SSO (Applicable only for Multi-Workspace)
+  SSO_GOOGLE_OAUTH2_CLIENT_ID: "{{ tooljet_sso_google_oauth2_client_id }}"
+  SSO_GIT_OAUTH2_CLIENT_ID: "{{ tooljet_sso_git_oauth2_client_id }}"
+  SSO_GIT_OAUTH2_CLIENT_SECRET: "{{ tooljet_sso_git_oauth2_client_secret }}"
+  SSO_GIT_OAUTH2_HOST: "{{ tooljet_sso_git_oauth2_host }}"
+  SSO_ACCEPTED_DOMAINS: "{{ tooljet_sso_accepted_domains }}"
+  SSO_DISABLE_SIGNUPS: "{{ tooljet_sso_disable_signups }}"
+
+  # ONBOARDING
+  ENABLE_ONBOARDING_QUESTIONS_FOR_ALL_SIGN_UPS: "{{ tooljet_enable_onboarding_questions_for_all_sign_ups }}"
+
+  # session expiry in minutes
+  USER_SESSION_EXPIRY: "{{ tooljet_user_session_expiry }}"
+
+  # TELEMETRY
+  DEPLOYMENT_PLATFORM: "{{ tooljet_deployment_platform }}"
+
+  MASTER: "{{ tooljet_redis_host }}"
+
+  LANGUAGE: "{{ tooljet_language }}"

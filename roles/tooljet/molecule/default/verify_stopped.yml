@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove tooljet redis
+      community.docker.docker_container:
+        name: "{{ tooljet_db_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove tooljet db
+      community.docker.docker_container:
+        name: "{{ tooljet_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove tooljet postgrest
+      community.docker.docker_container:
+        name: "{{ tooljet_db_container_name }}"
+        state: absent
+      register: result_postgrest
+
+    - name: Try and stop and remove tooljet
+      community.docker.docker_container:
+        name: "{{ tooljet_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if tooljet is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_redis.changed
+          - not result_db.changed
+          - not result_postgrest.changed
+          - not result.changed
