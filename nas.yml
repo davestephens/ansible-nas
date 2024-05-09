@@ -214,6 +214,10 @@
       tags:
         - flatnotes
 
+    - role: formio
+      tags:
+        - formio
+
     - role: freshrss
       tags:
         - freshrss

@@ -1,0 +1,56 @@
+---
+formio_enabled: false
+formio_available_externally: false
+
+# directories
+formio_data_directory: "{{ docker_home }}/formio"
+
+# network
+formio_port: "3019"
+formio_hostname: "formio"
+formio_network_name: "formio"
+
+# specs
+formio_memory: 1g
+formio_db_memory: 1g
+
+# docker
+formio_container_name: formio
+formio_image_name: "garfieldwtf/formio"
+formio_image_version: latest
+formio_db_container_name: formio-mongodb
+formio_db_image_name: mongo
+formio_db_image_version: latest
+formio_user_id: "1000"
+formio_group_id: "1000"
+
+# formio
+formio_mongo_initdb_root_username: "formio"
+formio_mongo_initdb_root_password: "formio"
+formio_email_type: "smtp"
+formio_email_host: "smtp.gmail.com"
+formio_email_port: "587"
+formio_email_secure: "false"
+formio_email_ignore_tls: "false"
+formio_email_auth_user: ""
+formio_email_auth_password: ""
+formio_email_allow_unauthorized_certs: "true"
+formio_debug: "formio:*"
+formio_node_config:
+  mongo: "mongodb://{{ formio_mongo_initdb_root_username }}:{{ formio_mongo_initdb_root_password }}@{{ formio_db_container_name }}:27017"
+  domain: "https://{{ formio_hostname }}.{{ ansible_nas_domain }}"
+  email:
+    type: "{{ formio_email_type }}"
+    settings:
+      email:
+        smtp:
+          host: "{{ formio_email_host }}"
+          port: "{{ formio_email_port }}"
+          secure: "{{ formio_email_secure }}"
+          ignoreTLS: "{{ formio_email_ignore_tls }}"
+          auth:
+            user: "{{ formio_email_auth_user }}"
+            pass: "{{ formio_email_auth_password }}"
+          allowUnauthorizedCerts: "{{ formio_email_allow_unauthorized_certs }}"
+formio_root_email: "formio@{{ ansible_nas_domain }}"
+formio_root_password: "{{ formio_mongo_initdb_root_password }}"

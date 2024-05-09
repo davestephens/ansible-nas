@@ -1,0 +1,73 @@
+---
+- name: Start FormIO
+  block:
+    - name: Create FormIO Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ formio_data_directory }}"
+
+    - name: Create FormIO network
+      community.docker.docker_network:
+        name: "{{ formio_network_name }}"
+
+    - name: Create FormIO Db Docker Container
+      community.docker.docker_container:
+        name: "{{ formio_db_container_name }}"
+        image: "{{ formio_db_image_name }}:{{ formio_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ formio_data_directory }}/data/mdb-data:/data/db:rw"
+        networks:
+          - name: "{{ formio_network_name }}"
+        network_mode: "{{ formio_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          MONGO_INITDB_ROOT_USERNAME: "{{ formio_mongo_initdb_root_username }}"
+          MONGO_INITDB_ROOT_PASSWORD: "{{ formio_mongo_initdb_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ formio_db_memory }}"
+
+    - name: Create FormIO Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ formio_container_name }}"
+        image: "{{ formio_image_name }}:{{ formio_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ formio_network_name }}"
+        network_mode: "{{ formio_network_name }}"
+        ports:
+          - "{{ formio_port }}:3001"
+        command: npm run start:prod
+        env:
+          DEBUG: "{{ formio_debug }}"
+          NODE_CONFIG: "{{ formio_node_config | to_json }}"
+          ROOT_EMAIL: "{{ formio_root_email }}"
+          ROOT_PASSWORD: "{{ formio_root_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ formio_memory }}"
+        labels:
+          traefik.enable: "{{ formio_available_externally | string }}"
+          traefik.http.routers.formio.rule: "Host(`{{ formio_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.formio.tls.certresolver: "letsencrypt"
+          traefik.http.routers.formio.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.formio.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.formio.loadbalancer.server.port: "3001"
+  when: formio_enabled is true
+
+- name: Stop FormIO
+  block:
+    - name: Stop FormIO db
+      community.docker.docker_container:
+        name: "{{ formio_db_container_name }}"
+        state: absent
+
+    - name: Stop FormIO
+      community.docker.docker_container:
+        name: "{{ formio_container_name }}"
+        state: absent
+  when: formio_enabled is false
