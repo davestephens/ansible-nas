@@ -41,16 +41,16 @@ formio_node_config:
   domain: "https://{{ formio_hostname }}.{{ ansible_nas_domain }}"
   email:
     type: "{{ formio_email_type }}"
-    settings:
-      email:
-        smtp:
-          host: "{{ formio_email_host }}"
-          port: "{{ formio_email_port }}"
-          secure: "{{ formio_email_secure }}"
-          ignoreTLS: "{{ formio_email_ignore_tls }}"
-          auth:
-            user: "{{ formio_email_auth_user }}"
-            pass: "{{ formio_email_auth_password }}"
-          allowUnauthorizedCerts: "{{ formio_email_allow_unauthorized_certs }}"
+  settings:
+    email:
+      smtp:
+        host: "{{ formio_email_host }}"
+        port: "{{ formio_email_port }}"
+        secure: "{{ formio_email_secure }}"
+        ignoreTLS: "{{ formio_email_ignore_tls }}"
+        auth:
+          user: "{{ formio_email_auth_user }}"
+          pass: "{{ formio_email_auth_password }}"
+        allowUnauthorizedCerts: "{{ formio_email_allow_unauthorized_certs }}"
 formio_root_email: "formio@{{ ansible_nas_domain }}"
 formio_root_password: "{{ formio_mongo_initdb_root_password }}"
