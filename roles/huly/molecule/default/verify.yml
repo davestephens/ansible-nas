@@ -1,0 +1,68 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get huly mongo container state
+      community.docker.docker_container:
+        name: "{{ huly_mongo_container_name }}"
+      register: result_mongo
+
+    - name: Get huly minio container state
+      community.docker.docker_container:
+        name: "{{ huly_minio_container_name }}"
+      register: result_minio
+
+    - name: Get huly elastic container state
+      community.docker.docker_container:
+        name: "{{ huly_elastic_container_name }}"
+      register: result_elastic
+
+    - name: Get huly account container state
+      community.docker.docker_container:
+        name: "{{ huly_account_container_name }}"
+      register: result_account
+
+    - name: Get huly front container state
+      community.docker.docker_container:
+        name: "{{ huly_front_container_name }}"
+      register: result_front
+
+    - name: Get huly collaborator container state
+      community.docker.docker_container:
+        name: "{{ huly_collaborator_container_name }}"
+      register: result_collaborator
+
+    - name: Get huly transactor container state
+      community.docker.docker_container:
+        name: "{{ huly_transactor_container_name }}"
+      register: result_transactor
+
+    - name: Get huly rekoni container state
+      community.docker.docker_container:
+        name: "{{ huly_rekoni_container_name }}"
+      register: result_rekoni
+
+    - name: Check if huly containers are running
+      ansible.builtin.assert:
+        that:
+          - result_mongo.container['State']['Status'] == "running"
+          - result_mongo.container['State']['Restarting'] == false
+          - result_minio.container['State']['Status'] == "running"
+          - result_minio.container['State']['Restarting'] == false
+          - result_elastic.container['State']['Status'] == "running"
+          - result_elastic.container['State']['Restarting'] == false
+          - result_account.container['State']['Status'] == "running"
+          - result_account.container['State']['Restarting'] == false
+          - result_front.container['State']['Status'] == "running"
+          - result_front.container['State']['Restarting'] == false
+          - result_collaborator.container['State']['Status'] == "running"
+          - result_collaborator.container['State']['Restarting'] == false
+          - result_transactor.container['State']['Status'] == "running"
+          - result_transactor.container['State']['Restarting'] == false
+          - result_rekoni.container['State']['Status'] == "running"
+          - result_rekoni.container['State']['Restarting'] == false

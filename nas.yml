@@ -302,6 +302,10 @@
       tags:
         - huginn
 
+    - role: huly
+      tags:
+        - huly
+
     - role: huntly
       tags:
         - huntly

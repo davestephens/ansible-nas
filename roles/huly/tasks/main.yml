@@ -1,0 +1,295 @@
+---
+- name: Start Huly
+  block:
+    - name: Create Huly Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ huly_user_id }}"
+        group: "{{ huly_group_id }}"
+      with_items:
+        - "{{ huly_data_directory }}"
+        - "{{ huly_data_directory }}/elastic"
+
+    - name: Create Huly Network
+      community.docker.docker_network:
+        name: "{{ huly_network_name }}"
+
+    - name: Create Huly Mongo Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huly_mongo_container_name }}"
+        image: "{{ huly_mongo_image_name }}:{{ huly_mongo_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ huly_network_name }}"
+        network_mode: "{{ huly_network_name }}"
+        ports:
+          - "{{ huly_mongo_port }}:27017"
+        volumes:
+          - "{{ huly_data_directory }}/mongo_data:/data/db"
+        env:
+          PUID: "{{ huly_user_id }}"
+          GUID: "{{ huly_group_id }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ huly_mongo_memory }}"
+
+    - name: Create Huly Minio Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huly_minio_container_name }}"
+        image: "{{ huly_minio_image_name }}:{{ huly_minio_image_version }}"
+        pull: true
+        command: server /data --address ":9000" --console-address ":9001"
+        networks:
+          - name: "{{ huly_network_name }}"
+        network_mode: "{{ huly_network_name }}"
+        ports:
+          - "{{ huly_minio_port_a }}:9000"
+          - "{{ huly_minio_port_b }}:9001"
+        volumes:
+          - "{{ huly_data_directory }}/files:/data"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ huly_minio_memory }}"
+
+    - name: Create Huly Elastic Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huly_elastic_container_name }}"
+        image: "{{ huly_elastic_image_name }}:{{ huly_elastic_image_version }}"
+        pull: true
+        command: |
+          /bin/sh -c "./bin/elasticsearch-plugin list | grep -q ingest-attachment || yes | ./bin/elasticsearch-plugin install --silent ingest-attachment;
+          /usr/local/bin/docker-entrypoint.sh eswrapper"
+        networks:
+          - name: "{{ huly_network_name }}"
+        network_mode: "{{ huly_network_name }}"
+        ports:
+          - "{{ huly_elastic_port }}:9200"
+        volumes:
+          - "{{ huly_data_directory }}/elastic:/usr/share/elasticsearch/data"
+        env:
+          ELASTICSEARCH_PORT_NUMBER: "9200"
+          BITNAMI_DEBUG: "{{ huly_elastic_bitnami_debug }}"
+          discovery.type: "{{ huly_elastic_discovery_type }}"
+          ES_JAVA_OPTS: "{{ huly_elastic_es_java_opts }}"
+          http.cors.enabled: "{{ huly_elastic_http_cors_enabled }}"
+          http.cors.allow-origin: "{{ huly_elastic_http_cors_allow_origin }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        healthcheck:
+          interval: 20s
+          retries: 10
+          test: curl -s http://{{ huly_elastic_container_name }}:9200/_cluster/health | grep -vq '"status":"red"'
+        memory: "{{ huly_elastic_memory }}"
+
+    - name: Create Huly Account Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huly_account_container_name }}"
+        image: "{{ huly_account_image_name }}:{{ huly_account_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ huly_network_name }}"
+        network_mode: "{{ huly_network_name }}"
+        ports:
+          - "{{ huly_account_port }}:3000"
+        volumes:
+          - "{{ huly_data_directory }}/files:/data"
+        env:
+          SERVER_PORT: "{{ huly_account_server_port }}"
+          SERVER_SECRET: "{{ huly_account_server_secret }}"
+          MONGO_URL: "{{ huly_mongo_url }}"
+          TRANSACTOR_URL: "{{ huly_transactor_url }}"
+          ENDPOINT_URL: "{{ huly_endpoint_url }}"
+          MINIO_ENDPOINT: "{{ huly_minio_endpoint }}"
+          MINIO_ACCESS_KEY: "{{ huly_minio_access_key }}"
+          MINIO_SECRET_KEY: "{{ huly_minio_secret_key }}"
+          FRONT_URL: "{{ huly_front_url }}"
+          INIT_WORKSPACE: "{{ huly_init_workspace }}"
+          MODEL_ENABLED: "{{ huly_model_enabled }}"
+          ACCOUNTS_URL: "{{ huly_accounts_url }}"
+        labels:
+          traefik.enable: "{{ huly_available_externally | string }}"
+          traefik.http.routers.huly-account.rule: "Host(`{{ huly_account_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.huly-account.tls.certresolver: "letsencrypt"
+          traefik.http.routers.huly-account.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.huly-account.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.huly-account.loadbalancer.server.port: "3000"
+        restart_policy: always
+        memory: "{{ huly_account_memory }}"
+
+    - name: Create Huly Front Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huly_front_container_name }}"
+        image: "{{ huly_front_image_name }}:{{ huly_front_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ huly_network_name }}"
+        network_mode: "{{ huly_network_name }}"
+        ports:
+          - "{{ huly_front_port }}:8080"
+        volumes:
+          - "{{ huly_data_directory }}/files:/data"
+        env:
+          SERVER_PORT: "{{ huly_front_server_port }}"
+          SERVER_SECRET: "{{ huly_front_server_secret }}"
+          ACCOUNTS_URL: "{{ huly_accounts_url }}"
+          REKONI_URL: "{{ huly_rekoni_url }}"
+          CALENDAR_URL: "{{ huly_calendar_url }}"
+          GMAIL_URL: "{{ huly_gmail_url }}"
+          TELEGRAM_URL: "{{ huly_telegram_url }}"
+          UPLOAD_URL: "{{ huly_upload_url }}"
+          TRANSACTOR_URL: "{{ huly_transactor_url }}"
+          ELASTIC_URL: "{{ huly_elastic_url }}"
+          MONGO_URL: "{{ huly_mongo_url }}"
+          COLLABORATOR_URL: "{{ huly_collaborator_url }}"
+          COLLABORATOR_API_URL: "{{ huly_collaborator_api_url }}"
+          MINIO_ENDPOINT: "{{ huly_minio_endpoint }}"
+          MINIO_ACCESS_KEY: "{{ huly_minio_access_key }}"
+          MINIO_SECRET_KEY: "{{ huly_minio_secret_key }}"
+          TITLE: "{{ huly_title }}"
+          DEFAULT_LANGUAGE: "{{ huly_default_language }}"
+          LAST_NAME_FIRST: "{{ huly_last_name_first }}"
+        labels:
+          traefik.enable: "{{ huly_available_externally | string }}"
+          traefik.http.routers.huly.rule: "Host(`{{ huly_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.huly.tls.certresolver: "letsencrypt"
+          traefik.http.routers.huly.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.huly.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.huly.loadbalancer.server.port: "8080"
+        restart_policy: always
+        memory: "{{ huly_front_memory }}"
+
+    - name: Create Huly Collaborator Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huly_collaborator_container_name }}"
+        image: "{{ huly_collaborator_image_name }}:{{ huly_collaborator_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ huly_network_name }}"
+        network_mode: "{{ huly_network_name }}"
+        ports:
+          - "{{ huly_collaborator_port }}:3078"
+        volumes:
+          - "{{ huly_data_directory }}/files:/data"
+        env:
+          COLLABORATOR_PORT: "{{ huly_collaborator_port_env }}"
+          SECRET: "{{ huly_collaborator_server_secret }}"
+          ACCOUNTS_URL: "{{ huly_accounts_url }}"
+          TRANSACTOR_URL: "{{ huly_transactor_url }}"
+          UPLOAD_URL: "{{ huly_upload_url }}"
+          MONGO_URL: "{{ huly_mongo_url }}"
+          MINIO_ENDPOINT: "{{ huly_minio_endpoint }}"
+          MINIO_ACCESS_KEY: "{{ huly_minio_access_key }}"
+          MINIO_SECRET_KEY: "{{ huly_minio_secret_key }}"
+        labels:
+          traefik.enable: "{{ huly_available_externally | string }}"
+          traefik.http.routers.huly-collaborator.rule: "Host(`{{ huly_collaborator_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.huly-collaborator.tls.certresolver: "letsencrypt"
+          traefik.http.routers.huly-collaborator.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.huly-collaborator.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.huly-collaborator.loadbalancer.server.port: "3078"
+        restart_policy: always
+        memory: "{{ huly_collaborator_memory }}"
+
+    - name: Create Huly Transactor Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huly_transactor_container_name }}"
+        image: "{{ huly_transactor_image_name }}:{{ huly_transactor_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ huly_network_name }}"
+        network_mode: "{{ huly_network_name }}"
+        ports:
+          - "{{ huly_transactor_port }}:3333"
+        volumes:
+          - "{{ huly_data_directory }}/files:/data"
+        env:
+          SERVER_PORT: "{{ huly_transactor_server_port }}"
+          SERVER_SECRET: "{{ huly_transactor_server_secret }}"
+          SERVER_CURSOR_MAXTIMEMS: "{{ huly_transactor_cursor_maxtimesms }}"
+          ELASTIC_URL: "{{ huly_elastic_url }}"
+          MONGO_URL: "{{ huly_mongo_url }}"
+          METRICS_CONSOLE: "{{ huly_transactor_metrics_console }}"
+          METRICS_FILE: "{{ huly_transactor_metrics_file }}"
+          MINIO_ENDPOINT: "{{ huly_minio_endpoint }}"
+          MINIO_ACCESS_KEY: "{{ huly_minio_access_key }}"
+          MINIO_SECRET_KEY: "{{ huly_minio_secret_key }}"
+          REKONI_URL: "{{ huly_rekoni_url }}"
+          FRONT_URL: "{{ huly_front_url }}"
+          SERVER_PROVIDER: "{{ huly_transactor_server_provider }}"
+          ACCOUNTS_URL: "{{ huly_accounts_url }}"
+          LAST_NAME_FIRST: "{{ huly_last_name_first }}"
+          ELASTIC_INDEX_NAME: "{{ huly_transactor_elastic_index_name }}"
+          UPLOAD_URL: "{{ huly_upload_url }}"
+        labels:
+          traefik.enable: "{{ huly_available_externally | string }}"
+          traefik.http.routers.huly-transactor.rule: "Host(`{{ huly_transactor_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.huly-transactor.tls.certresolver: "letsencrypt"
+          traefik.http.routers.huly-transactor.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.huly-transactor.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.huly-transactor.loadbalancer.server.port: "3333"
+        restart_policy: always
+        memory: "{{ huly_transactor_memory }}"
+
+    - name: Create Huly Rekoni Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ huly_rekoni_container_name }}"
+        image: "{{ huly_rekoni_image_name }}:{{ huly_rekoni_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ huly_network_name }}"
+        network_mode: "{{ huly_network_name }}"
+        ports:
+          - "{{ huly_rekoni_port }}:4004"
+        restart_policy: unless-stopped
+        memory: "{{ huly_rekoni_memory }}"
+        labels:
+          traefik.enable: "false"
+  when: huly_enabled is true
+
+- name: Stop Huly
+  block:
+    - name: Stop Huly Mongo
+      community.docker.docker_container:
+        name: "{{ huly_mongo_container_name }}"
+        state: absent
+    - name: Stop Huly Minio
+      community.docker.docker_container:
+        name: "{{ huly_minio_container_name }}"
+        state: absent
+    - name: Stop Huly Elastic
+      community.docker.docker_container:
+        name: "{{ huly_elastic_container_name }}"
+        state: absent
+    - name: Stop Huly Account
+      community.docker.docker_container:
+        name: "{{ huly_account_container_name }}"
+        state: absent
+    - name: Stop Huly Front
+      community.docker.docker_container:
+        name: "{{ huly_front_container_name }}"
+        state: absent
+    - name: Stop Huly Collaborator
+      community.docker.docker_container:
+        name: "{{ huly_collaborator_container_name }}"
+        state: absent
+    - name: Stop Huly Transactor
+      community.docker.docker_container:
+        name: "{{ huly_transactor_container_name }}"
+        state: absent
+    - name: Stop Huly Rekoni
+      community.docker.docker_container:
+        name: "{{ huly_rekoni_container_name }}"
+        state: absent
+  when: huly_enabled is false

@@ -1,0 +1,68 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove huly mongo
+      community.docker.docker_container:
+        name: "{{ huly_mongo_container_name }}"
+        state: absent
+      register: result_mongo
+
+    - name: Try and stop and remove huly minio
+      community.docker.docker_container:
+        name: "{{ huly_minio_container_name }}"
+        state: absent
+      register: result_minio
+
+    - name: Try and stop and remove huly elastic
+      community.docker.docker_container:
+        name: "{{ huly_elastic_container_name }}"
+        state: absent
+      register: result_elastic
+
+    - name: Try and stop and remove huly account
+      community.docker.docker_container:
+        name: "{{ huly_account_container_name }}"
+        state: absent
+      register: result_account
+
+    - name: Try and stop and remove huly front
+      community.docker.docker_container:
+        name: "{{ huly_front_container_name }}"
+        state: absent
+      register: result_front
+
+    - name: Try and stop and remove huly collaborator
+      community.docker.docker_container:
+        name: "{{ huly_collaborator_container_name }}"
+        state: absent
+      register: result_collaborator
+
+    - name: Try and stop and remove huly transactor
+      community.docker.docker_container:
+        name: "{{ huly_transactor_container_name }}"
+        state: absent
+      register: result_transactor
+
+    - name: Try and stop and remove huly rekoni
+      community.docker.docker_container:
+        name: "{{ huly_rekoni_container_name }}"
+        state: absent
+      register: result_rekoni
+
+    - name: Check if huly is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_mongo.changed
+          - not result_minio.changed
+          - not result_elastic.changed
+          - not result_account.changed
+          - not result_front.changed
+          - not result_collaborator.changed
+          - not result_transactor.changed
+          - not result_rekoni.changed

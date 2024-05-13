@@ -1,0 +1,115 @@
+---
+huly_enabled: false
+huly_available_externally: false
+
+# directories
+huly_data_directory: "{{ docker_home }}/huly"
+
+# network
+huly_mongo_port: "27017"
+huly_minio_port_a: "9010"
+huly_minio_port_b: "9011"
+huly_elastic_port: "9201"
+huly_account_port: "3020"
+huly_front_port: "8139"
+huly_collaborator_port: "3078"
+huly_transactor_port: "3333"
+huly_rekoni_port: "4004"
+huly_hostname: "huly"
+huly_account_hostname: "huly-account"
+huly_collaborator_hostname: "huly-collaborator"
+huly_transactor_hostname: "huly-transactor"
+huly_network_name: "huly"
+
+# specs
+huly_mongo_memory: 1g
+huly_minio_memory: 1g
+huly_elastic_memory: 1g
+huly_account_memory: 1g
+huly_front_memory: 1g
+huly_collaborator_memory: 1g
+huly_transactor_memory: 1g
+huly_rekoni_memory: 500m
+
+# docker
+
+huly_mongo_container_name: huly-mongo
+huly_mongo_image_name: "mongo"
+huly_mongo_image_version: "7-jammy"
+
+huly_minio_container_name: huly-minio
+huly_minio_image_name: "minio/minio"
+huly_minio_image_version: "latest"
+
+huly_elastic_container_name: huly-elastic
+huly_elastic_image_name: "elasticsearch"
+huly_elastic_image_version: "7.14.2"
+
+huly_account_container_name: huly-account
+huly_account_image_name: "hardcoreeng/account"
+huly_account_image_version: "latest"
+
+huly_front_container_name: huly-front
+huly_front_image_name: "hardcoreeng/front"
+huly_front_image_version: "latest"
+
+huly_collaborator_container_name: huly-collaborator
+huly_collaborator_image_name: "hardcoreeng/collaborator"
+huly_collaborator_image_version: "latest"
+
+huly_transactor_container_name: huly-transactor
+huly_transactor_image_name: "hardcoreeng/transactor"
+huly_transactor_image_version: "latest"
+
+huly_rekoni_container_name: huly-rekoni
+huly_rekoni_image_name: "hardcoreeng/rekoni-service"
+huly_rekoni_image_version: "latest"
+
+huly_user_id: "1000"
+huly_group_id: "1000"
+
+# huly
+huly_server_address: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+huly_elastic_bitnami_debug: "true"
+huly_elastic_discovery_type: single-node
+huly_elastic_es_java_opts: "-Xms1024m -Xmx1024m"
+huly_elastic_http_cors_enabled: "true"
+huly_elastic_http_cors_allow_origin: "http://localhost:8082" # not sure what this points to, might need to be fixed later
+
+huly_account_server_port: "3000"
+huly_account_server_secret: secret
+huly_mongo_url: "mongodb://{{ huly_mongo_container_name }}:27017"
+huly_transactor_url: "wss://{{ huly_transactor_hostname }}.{{ ansible_nas_domain }}"
+huly_endpoint_url: "wss://{{ huly_transactor_hostname }}.{{ ansible_nas_domain }}"
+huly_minio_endpoint: "{{ huly_minio_container_name }}"
+huly_minio_access_key: minioadmin
+huly_minio_secret_key: minioadmin
+huly_front_url: "https://{{ huly_hostname }}.{{ ansible_nas_domain }}"
+huly_init_workspace: "demo-tracker"
+huly_model_enabled: "*"
+huly_accounts_url: "https://{{ huly_account_hostname }}.{{ ansible_nas_domain }}"
+
+huly_front_server_port: "8080"
+huly_front_server_secret: secret
+huly_rekoni_url: "http://{{ huly_server_address }}:4004"
+huly_calendar_url: "http://{{ huly_server_address }}:8095"
+huly_gmail_url: "http://{{ huly_server_address }}:8088"
+huly_telegram_url: "http://{{ huly_server_address }}:8086"
+huly_upload_url: "/files"
+huly_elastic_url: "http://{{ huly_elastic_container_name }}:9200"
+huly_collaborator_url: "wss://{{ huly_collaborator_hostname }}.{{ ansible_nas_domain }}"
+huly_collaborator_api_url: "https://{{ huly_collaborator_hostname }}.{{ ansible_nas_domain }}"
+huly_title: "Huly Self Hosted"
+huly_default_language: "en"
+huly_last_name_first: "true"
+
+huly_collaborator_port_env: "3078"
+huly_collaborator_server_secret: secret
+huly_transactor_server_port: "3333"
+huly_transactor_server_secret: secret
+huly_transactor_cursor_maxtimesms: "30000"
+huly_transactor_metrics_console: "false"
+huly_transactor_metrics_file: "metrics.txt"
+huly_transactor_server_provider: ws
+huly_transactor_elastic_index_name: local_storage_index
