@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove heyform mongo
+      community.docker.docker_container:
+        name: "{{ heyform_mongo_container_name }}"
+        state: absent
+      register: result_mongo
+
+    - name: Try and stop and remove heyform redis
+      community.docker.docker_container:
+        name: "{{ heyform_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove heyform
+      community.docker.docker_container:
+        name: "{{ heyform_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if heyform is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_mongo.changed
+          - not result_redis.changed
+          - not result.changed

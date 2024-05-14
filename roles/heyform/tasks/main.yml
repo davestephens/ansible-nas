@@ -1,0 +1,128 @@
+---
+- name: Start Heyform
+  block:
+    - name: Create Heyform Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ heyform_data_directory }}"
+
+    - name: Create Heyform network
+      community.docker.docker_network:
+        name: "{{ heyform_network_name }}"
+
+    - name: Create Heyform Mongo Docker Container
+      community.docker.docker_container:
+        name: "{{ heyform_mongo_container_name }}"
+        image: "{{ heyform_mongo_image_name }}:{{ heyform_mongo_image_version }}"
+        pull: true
+        volumes:
+          - "{{ heyform_data_directory }}/database:/data/db:rw"
+        networks:
+          - name: "{{ heyform_network_name }}"
+        network_mode: "{{ heyform_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          MONGO_INITDB_ROOT_USERNAME: "{{ heyform_mongo_initdb_root_username }}"
+          MONGO_INITDB_ROOT_PASSWORD: "{{ heyform_mongo_initdb_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ heyform_mongo_memory }}"
+
+    - name: Create Heyform Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ heyform_redis_container_name }}"
+        image: "{{ heyform_redis_image_name }}:{{ heyform_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ heyform_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ heyform_network_name }}"
+        network_mode: "{{ heyform_network_name }}"
+        container_default_behavior: no_defaults
+        command: "redis-server --appendonly yes"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ heyform_redis_memory }}"
+
+    - name: Create Heyform Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ heyform_container_name }}"
+        image: "{{ heyform_image_name }}:{{ heyform_image_version }}"
+        pull: true
+        volumes:
+          - "{{ heyform_data_directory }}/assets:/app/static/upload:rw"
+        networks:
+          - name: "{{ heyform_network_name }}"
+        network_mode: "{{ heyform_network_name }}"
+        ports:
+          - "{{ heyform_port }}:8000"
+        env:
+          APP_HOMEPAGE_URL: "{{ heyform_app_homepage_url }}"
+          APP_DISABLE_REGISTRATION: "{{ heyform_app_disable_registration }}"
+          VERIFY_USER_EMAIL: "{{ heyform_verify_user_email }}"
+          SESSION_KEY: "{{ heyform_session_key }}"
+          FORM_ENCRYPTION_KEY: "{{ heyform_form_encryption_key }}"
+          MONGO_URI: "{{ heyform_mongo_uri }}"
+          MONGO_USER: "{{ heyform_mongo_user }}"
+          MONGO_PASSWORD: "{{ heyform_mongo_password }}"
+          REDIS_HOST: "{{ heyform_redis_host }}"
+          REDIS_PORT: "{{ heyform_redis_port }}"
+          SMTP_FROM: "{{ heyform_smtp_from }}"
+          SMTP_HOST: "{{ heyform_smtp_host }}"
+          SMTP_PORT: "{{ heyform_smtp_port }}"
+          SMTP_USER: "{{ heyform_smtp_user }}"
+          SMTP_PASSWORD: "{{ heyform_smtp_password }}"
+          SMTP_SECURE: "{{ heyform_smtp_secure }}"
+          SMTP_IGNORE_CERT: "{{ heyform_smtp_ignore_cert }}"
+          GOOGLE_RECAPTCHA_KEY: "{{ heyform_google_recaptcha_key }}"
+          GOOGLE_RECAPTCHA_SECRET: "{{ heyform_google_recaptcha_secret }}"
+          APPLE_LOGIN_TEAM_ID: "{{ heyform_apple_login_team_id }}"
+          APPLE_LOGIN_WEB_CLIENT_ID: "{{ heyform_apple_login_web_client_id }}"
+          APPLE_LOGIN_KEY_ID: "{{ heyform_apple_login_key_id }}"
+          APPLE_LOGIN_PRIVATE_KEY_PATH: "{{ heyform_apple_login_private_key_path }}"
+          GOOGLE_LOGIN_CLIENT_ID: "{{ heyform_google_login_client_id }}"
+          GOOGLE_LOGIN_CLIENT_SECRET: "{{ heyform_google_login_client_secret }}"
+          INVITE_CODE_EXPIRE_DAYS: "{{ heyform_invite_code_expire_days }}"
+          UNSPLASH_CLIENT_ID: "{{ heyform_unsplash_client_id }}"
+          OPENAI_BASE_URL: "{{ heyform_openai_base_url }}"
+          OPENAI_API_KEY: "{{ heyform_openai_api_key }}"
+          OPENAI_GPT_MODEL: "{{ heyform_openai_gpt_model }}"
+          S3_ENDPOINT: "{{ heyform_s3_endpoint }}"
+          S3_REGION: "{{ heyform_s3_region }}"
+          S3_BUCKET: "{{ heyform_s3_bucket }}"
+          S3_ACCESS_KEY_ID: "{{ heyform_s3_access_key_id }}"
+          S3_SECRET_ACCESS_KEY: "{{ heyform_s3_secret_access_key }}"
+          S3_PUBLIC_URL: "{{ heyform_s3_public_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ heyform_memory }}"
+        labels:
+          traefik.enable: "{{ heyform_available_externally | string }}"
+          traefik.http.routers.heyform.rule: "Host(`{{ heyform_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.heyform.tls.certresolver: "letsencrypt"
+          traefik.http.routers.heyform.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.heyform.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.heyform.loadbalancer.server.port: "8000"
+  when: heyform_enabled is true
+
+- name: Stop Heyform
+  block:
+    - name: Stop Heyform Mongo
+      community.docker.docker_container:
+        name: "{{ heyform_mongo_container_name }}"
+        state: absent
+
+    - name: Stop Heyform Redis
+      community.docker.docker_container:
+        name: "{{ heyform_redis_container_name }}"
+        state: absent
+
+    - name: Stop Heyform
+      community.docker.docker_container:
+        name: "{{ heyform_container_name }}"
+        state: absent
+  when: heyform_enabled is false

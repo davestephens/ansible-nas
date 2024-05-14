@@ -6,7 +6,7 @@
         path: "{{ item }}"
         state: directory
         owner: "{{ wallos_user_id }}"
-        group: "{{ wallos_group_id}}"
+        group: "{{ wallos_group_id }}"
       with_items:
         - "{{ wallos_data_directory }}"
 

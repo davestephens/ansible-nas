@@ -1,0 +1,70 @@
+---
+heyform_enabled: false
+heyform_available_externally: false
+
+# directories
+heyform_data_directory: "{{ docker_home }}/heyform"
+
+# network
+heyform_port: "8141"
+heyform_hostname: "heyform"
+heyform_network_name: "heyform"
+
+# specs
+heyform_memory: 1g
+heyform_mongo_memory: 1g
+heyform_redis_memory: 1g
+
+# docker
+heyform_container_name: heyform
+heyform_image_name: "heyform/community-edition"
+heyform_image_version: latest
+heyform_mongo_container_name: heyform-mongodb
+heyform_mongo_image_name: mongo
+heyform_mongo_image_version: 4.4.29
+heyform_redis_container_name: heyform-redis
+heyform_redis_image_name: redis
+heyform_redis_image_version: latest
+heyform_user_id: "1000"
+heyform_group_id: "1000"
+
+
+# heyform
+heyform_mongo_initdb_root_username: "heyform"
+heyform_mongo_initdb_root_password: "heyform"
+heyform_app_homepage_url: "https://{{ heyform_hostname }}.{{ ansible_nas_domain }}"
+heyform_session_key: "key1"
+heyform_form_encryption_key: "key2"
+heyform_mongo_uri: "mongodb://{{ heyform_mongo_container_name }}:27017/heyform?authSource=admin"
+heyform_mongo_user: "{{ heyform_mongo_initdb_root_username }}"
+heyform_mongo_password: "{{ heyform_mongo_initdb_root_password }}"
+heyform_redis_host: "{{ heyform_redis_container_name }}"
+heyform_redis_port: "6379"
+heyform_app_disable_registration: "false"
+heyform_verify_user_email: "false"
+heyform_smtp_from: ""
+heyform_smtp_host: ""
+heyform_smtp_port: ""
+heyform_smtp_user: ""
+heyform_smtp_password: ""
+heyform_smtp_secure: "true"
+heyform_smtp_ignore_cert: "true"
+heyform_google_recaptcha_key: ""
+heyform_google_recaptcha_secret: ""
+heyform_apple_login_team_id: ""
+heyform_apple_login_web_client_id: ""
+heyform_apple_login_key_id: ""
+heyform_apple_login_private_key_path: ""
+heyform_google_login_client_id: ""
+heyform_google_login_client_secret: ""
+heyform_invite_code_expire_days: ""
+heyform_unsplash_client_id: ""
+heyform_openai_base_url: ""
+heyform_openai_api_key: ""
+heyform_openai_gpt_model: ""
+heyform_s3_endpoint: ""
+heyform_s3_region: ""
+heyform_s3_bucket: ""
+heyform_s3_access_key_id: ""
+heyform_s3_secret_access_key: ""
+heyform_s3_public_url: ""

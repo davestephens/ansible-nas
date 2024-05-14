@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get heyform mongo container state
+      community.docker.docker_container:
+        name: "{{ heyform_mongo_container_name }}"
+      register: result_mongo
+
+    - name: Get heyform redis container state
+      community.docker.docker_container:
+        name: "{{ heyform_redis_container_name }}"
+      register: result_redis
+
+    - name: Get heyform container state
+      community.docker.docker_container:
+        name: "{{ heyform_container_name }}"
+      register: result
+
+    - name: Check if heyform containers are running
+      ansible.builtin.assert:
+        that:
+          - result_mongo.container['State']['Status'] == "running"
+          - result_mongo.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

@@ -73,6 +73,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [HA Fusion](https://github.com/matt8707/ha-fusion) - A modern, easy-to-use and performant custom Home Assistant dashboard
 * [healthchecks.io](https://healthchecks.io/) - Ensure your NAS is online and get notified otherwise
 * [Heimdall](https://heimdall.site/) - Home server dashboard
+* [Heyform](https://github.com/heyform/heyform) - an open-source form builder that allows anyone to create engaging conversational forms
 * [Homarr](https://github.com/ajnart/homarr) - Customizable browser's home page
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API

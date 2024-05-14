@@ -282,6 +282,10 @@
       tags:
         - hello_world
 
+    - role: heyform
+      tags:
+        - heyform
+
     - role: homarr
       tags:
         - homarr
