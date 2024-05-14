@@ -199,6 +199,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden) - Self-Hosting port of password manager
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
+* [Wallos](https://github.com/ellite/Wallos) - Open-Source Personal Subscription Tracker.
 * [Wanderer](https://github.com/Flomp/wanderer) - A self-hosted trail database.
 * [Watchtower](https://github.com/v2tec/watchtower) - Monitor your Docker containers and update them if a new version is available
 * [Webtrees](https://www.webtrees.net/index.php/en/) - On-line collaborative genealogy application

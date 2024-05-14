@@ -1,0 +1,43 @@
+---
+- name: Start Wallos
+  block:
+    - name: Create Wallos Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ wallos_user_id }}"
+        group: "{{ wallos_group_id}}"
+      with_items:
+        - "{{ wallos_data_directory }}"
+
+    - name: Create Wallos Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ wallos_container_name }}"
+        image: "{{ wallos_image_name }}:{{ wallos_image_version }}"
+        pull: true
+        volumes:
+          - "{{ wallos_data_directory }}/db:/var/www/html/db"
+          - "{{ wallos_data_directory }}/logos:/var/www/html/images/uploads/logos"
+        ports:
+          - "{{ wallos_port }}:80"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+        restart_policy: unless-stopped
+        memory: "{{ wallos_memory }}"
+        labels:
+          traefik.enable: "{{ wallos_available_externally | string }}"
+          traefik.http.routers.wallos.rule: "Host(`{{ wallos_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.wallos.tls.certresolver: "letsencrypt"
+          traefik.http.routers.wallos.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.wallos.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.wallos.loadbalancer.server.port: "80"
+  when: wallos_enabled is true
+
+- name: Stop Wallos
+  block:
+    - name: Stop Wallos
+      community.docker.docker_container:
+        name: "{{ wallos_container_name }}"
+        state: absent
+  when: wallos_enabled is false

@@ -1,0 +1,16 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        wallos_enabled: true
+        wallos_data_directory: /tmp/wallos
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp:rw
+    privileged: true
+    pre_build_image: true

@@ -53,9 +53,9 @@
         labels:
           traefik.enable: "{{ formio_available_externally | string }}"
           traefik.http.routers.formio.rule: "Host(`{{ formio_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.formio.tls.certresolver: "letsencrypt"
-          traefik.http.routers.formio.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.formio.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          # traefik.http.routers.formio.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.formio.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.formio.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.formio.loadbalancer.server.port: "3001"
   when: formio_enabled is true
 

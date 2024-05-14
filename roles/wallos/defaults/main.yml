@@ -1,0 +1,20 @@
+---
+wallos_enabled: false
+wallos_available_externally: false
+
+# directories
+wallos_data_directory: "{{ docker_home }}/wallos"
+
+# network
+wallos_port: "8140"
+wallos_hostname: "wallos"
+
+# specs
+wallos_memory: 1g
+
+# docker
+wallos_container_name: wallos
+wallos_image_name: "bellamy/wallos"
+wallos_image_version: latest
+wallos_user_id: "1000"
+wallos_group_id: "1000"

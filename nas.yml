@@ -782,6 +782,10 @@
       tags:
         - wallabag
 
+    - role: wallos
+      tags:
+        - wallos
+
     - role: wanderer
       tags:
         - wanderer
