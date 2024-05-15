@@ -214,6 +214,10 @@
       tags:
         - flatnotes
 
+    - role: formbricks
+      tags:
+        - formbricks
+
     - role: formio
       tags:
         - formio

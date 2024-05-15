@@ -56,6 +56,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Flame](https://github.com/pawelmalak/flame/) - Flarum is a delightfully simple discussion platform for your website
 * [Flarum](https://flarum.org/) - Self-hosted startpage for your server
 * [Flatnotes](https://flatnotes.io/) - Self-hosted, database-less note taking web app
+* [Formbricks](https://github.com/formbricks/formbricks) - An Open Source Survey Platform
 * [FormIO](https://github.com/formio/formio) - SA Form and Data Management Platform for Progressive Web Applications
 * [Fresh RSS](https://freshrss.org/) - Self-hosted RSS feed aggregator like Leed or Kriss Feed
 * [Frigate](https://frigate.video/) - Frigate is an open source NVR built around real-time AI object detection

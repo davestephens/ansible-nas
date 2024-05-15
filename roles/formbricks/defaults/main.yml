@@ -1,0 +1,79 @@
+---
+formbricks_enabled: false
+formbricks_available_externally: false
+
+# directories
+formbricks_data_directory: "{{ docker_home }}/formbricks"
+
+# network
+formbricks_port: "3021"
+formbricks_hostname: "formbricks"
+formbricks_network_name: "formbricks"
+
+# specs
+formbricks_memory: 1g
+formbricks_db_memory: 1g
+
+# docker
+formbricks_container_name: formbricks
+formbricks_image_name: "ghcr.io/formbricks/formbricks"
+formbricks_image_version: latest
+formbricks_db_container_name: formbricks-postgres
+formbricks_db_image_name: postgres
+formbricks_db_image_version: 15-alpine
+formbricks_user_id: "1000"
+formbricks_group_id: "1000"
+
+
+# formbricks
+formbricks_postgres_user: postgres
+formbricks_postgres_password: postgres
+formbricks_postgres_db: postgres
+formbricks_webapp_url: "https://{{ formbricks_hostname }}.{{ ansible_nas_domain }}"
+formbricks_database_url: "postgresql://{{ formbricks_postgres_user }}:{{ formbricks_postgres_password }}@{{ formbricks_db_container_name }}:5432/{{ formbricks_postgres_db }}?schema=public"
+formbricks_nextauth_secret: "supersecret_changeme"
+formbricks_nextauth_url: "{{ formbricks_webapp_url }}"
+formbricks_mail_from: ""
+formbricks_smtp_host: ""
+formbricks_smtp_port: ""
+formbricks_smtp_user: "user"
+formbricks_smtp_secure_enabled: "0"
+formbricks_smtp_password: "pass"
+formbricks_encryption_key: "245d3ce88bc3f31efd67a904844d6b96b61f1a5e3c51215608ac196afee87b8a"
+formbricks_short_url_base: ""
+formbricks_privacy_url: ""
+formbricks_terms_url: ""
+formbricks_imprint_url: ""
+formbricks_email_verification_disabled: "1"
+formbricks_password_reset_disabled: "1"
+formbricks_email_auth_disabled: "0"
+formbricks_signup_disabled: "0"
+formbricks_invite_disabled: "0"
+formbricks_sentry_ignore_api_resolution_error: ""
+formbricks_sentry_dsn: ""
+formbricks_github_id: ""
+formbricks_github_secret: ""
+formbricks_google_client_id: ""
+formbricks_google_client_secret: ""
+formbricks_cron_secret: "supersecret_changeme"
+formbricks_redis_url: ""
+formbricks_onboarding_disabled: "0"
+formbricks_unsplash_access_key: ""
+formbricks_uploads_dir: "/uploads"
+formbricks_s3_access_key: ""
+formbricks_s3_secret_key: ""
+formbricks_s3_region: ""
+formbricks_s3_bucket_name: ""
+formbricks_s3_endpoint_url: ""
+formbricks_oidc_client_id: ""
+formbricks_oidc_client_secret: ""
+formbricks_oidc_issuer: ""
+formbricks_oidc_display_name: ""
+formbricks_oidc_signing_algorithm: ""
+formbricks_google_sheets_client_id: ""
+formbricks_google_sheets_client_secret: ""
+formbricks_google_sheets_redirect_url: ""
+formbricks_airtable_client_id: ""
+formbricks_slack_client_id: ""
+formbricks_slack_client_secret: ""
+formbricks_rate_limiting_disabled: "1"

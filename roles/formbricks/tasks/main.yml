@@ -1,0 +1,119 @@
+---
+- name: Start Formbricks
+  block:
+    - name: Create Formbricks Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ formbricks_data_directory }}"
+
+    - name: Create Formbricks network
+      community.docker.docker_network:
+        name: "{{ formbricks_network_name }}"
+
+    - name: Create Formbricks DB Docker Container
+      community.docker.docker_container:
+        name: "{{ formbricks_db_container_name }}"
+        image: "{{ formbricks_db_image_name }}:{{ formbricks_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ formbricks_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ formbricks_network_name }}"
+        network_mode: "{{ formbricks_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ formbricks_postgres_password }}"
+          POSTGRES_USER: "{{ formbricks_postgres_user }}"
+          POSTGRES_DB: "{{ formbricks_postgres_db }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ formbricks_db_memory }}"
+
+    - name: Create Formbricks Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ formbricks_container_name }}"
+        image: "{{ formbricks_image_name }}:{{ formbricks_image_version }}"
+        pull: true
+        volumes:
+          - "{{ formbricks_data_directory }}/uploads:/home/nextjs/apps/web/uploads/:rw"
+        networks:
+          - name: "{{ formbricks_network_name }}"
+        network_mode: "{{ formbricks_network_name }}"
+        ports:
+          - "{{ formbricks_port }}:3000"
+        env:
+          WEBAPP_URL: "{{ formbricks_webapp_url }}"
+          DATABASE_URL: "{{ formbricks_database_url }}"
+          NEXTAUTH_SECRET: "{{ formbricks_nextauth_secret }}"
+          NEXTAUTH_URL: "{{ formbricks_nextauth_url }}"
+          MAIL_FROM: "{{ formbricks_mail_from }}"
+          SMTP_HOST: "{{ formbricks_smtp_host }}"
+          SMTP_PORT: "{{ formbricks_smtp_port }}"
+          SMTP_SECURE_ENABLED: "{{ formbricks_smtp_secure_enabled }}"
+          SMTP_USER: "{{ formbricks_smtp_user }}"
+          SMTP_PASSWORD: "{{ formbricks_smtp_password }}"
+          ENCRYPTION_KEY: "{{ formbricks_encryption_key }}"
+          SHORT_URL_BASE: "{{ formbricks_short_url_base }}"
+          PRIVACY_URL: "{{ formbricks_privacy_url }}"
+          TERMS_URL: "{{ formbricks_terms_url }}"
+          IMPRINT_URL: "{{ formbricks_imprint_url }}"
+          EMAIL_VERIFICATION_DISABLED: "{{ formbricks_email_verification_disabled }}"
+          PASSWORD_RESET_DISABLED: "{{ formbricks_password_reset_disabled }}"
+          EMAIL_AUTH_DISABLED: "{{ formbricks_email_auth_disabled }}"
+          SIGNUP_DISABLED: "{{ formbricks_signup_disabled }}"
+          INVITE_DISABLED: "{{ formbricks_invite_disabled }}"
+          SENTRY_IGNORE_API_RESOLUTION_ERROR: "{{ formbricks_sentry_ignore_api_resolution_error }}"
+          NEXT_PUBLIC_SENTRY_DSN: "{{ formbricks_sentry_dsn }}"
+          GITHUB_ID: "{{ formbricks_github_id }}"
+          GITHUB_SECRET: "{{ formbricks_github_secret }}"
+          GOOGLE_CLIENT_ID: "{{ formbricks_google_client_id }}"
+          GOOGLE_CLIENT_SECRET: "{{ formbricks_google_client_secret }}"
+          CRON_SECRET: "{{ formbricks_cron_secret }}"
+          REDIS_URL: "{{ formbricks_redis_url }}"
+          ONBOARDING_DISABLED: "{{ formbricks_onboarding_disabled }}"
+          UNSPLASH_ACCESS_KEY: "{{ formbricks_unsplash_access_key }}"
+          UPLOADS_DIR: "{{ formbricks_uploads_dir }}"
+          S3_ACCESS_KEY: "{{ formbricks_s3_access_key }}"
+          S3_SECRET_KEY: "{{ formbricks_s3_secret_key }}"
+          S3_REGION: "{{ formbricks_s3_region }}"
+          S3_BUCKET_NAME: "{{ formbricks_s3_bucket_name }}"
+          S3_ENDPOINT_URL: "{{ formbricks_s3_endpoint_url }}"
+          OIDC_CLIENT_ID: "{{ formbricks_oidc_client_id }}"
+          OIDC_CLIENT_SECRET: "{{ formbricks_oidc_client_secret }}"
+          OIDC_ISSUER: "{{ formbricks_oidc_issuer }}"
+          OIDC_DISPLAY_NAME: "{{ formbricks_oidc_display_name }}"
+          OIDC_SIGNING_ALGORITHM: "{{ formbricks_oidc_signing_algorithm }}"
+          GOOGLE_SHEETS_CLIENT_ID: "{{ formbricks_google_sheets_client_id }}"
+          GOOGLE_SHEETS_CLIENT_SECRET: "{{ formbricks_google_sheets_client_secret }}"
+          GOOGLE_SHEETS_REDIRECT_URL: "{{ formbricks_google_sheets_redirect_url }}"
+          AIRTABLE_CLIENT_ID: "{{ formbricks_airtable_client_id }}"
+          SLACK_CLIENT_ID: "{{ formbricks_slack_client_id }}"
+          SLACK_CLIENT_SECRET: "{{ formbricks_slack_client_secret }}"
+          RATE_LIMITING_DISABLED: "{{ formbricks_rate_limiting_disabled }}"
+        restart_policy: unless-stopped
+        memory: "{{ formbricks_memory }}"
+        labels:
+          traefik.enable: "{{ formbricks_available_externally | string }}"
+          traefik.http.routers.formbricks.rule: "Host(`{{ formbricks_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.formbricks.tls.certresolver: "letsencrypt"
+          traefik.http.routers.formbricks.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.formbricks.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.formbricks.loadbalancer.server.port: "3000"
+  when: formbricks_enabled is true
+
+- name: Stop Formbricks
+  block:
+    - name: Stop Formbricks DB
+      community.docker.docker_container:
+        name: "{{ formbricks_db_container_name }}"
+        state: absent
+
+    - name: Stop Formbricks
+      community.docker.docker_container:
+        name: "{{ formbricks_container_name }}"
+        state: absent
+  when: formbricks_enabled is false
