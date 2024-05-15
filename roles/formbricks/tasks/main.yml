@@ -5,8 +5,11 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
+        owner: 1001
+        group: 65533
       with_items:
         - "{{ formbricks_data_directory }}"
+        - "{{ formbricks_data_directory }}/uploads"
 
     - name: Create Formbricks network
       community.docker.docker_network:
@@ -99,9 +102,9 @@
         labels:
           traefik.enable: "{{ formbricks_available_externally | string }}"
           traefik.http.routers.formbricks.rule: "Host(`{{ formbricks_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.formbricks.tls.certresolver: "letsencrypt"
-          traefik.http.routers.formbricks.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.formbricks.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          # traefik.http.routers.formbricks.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.formbricks.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.formbricks.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.formbricks.loadbalancer.server.port: "3000"
   when: formbricks_enabled is true
 
