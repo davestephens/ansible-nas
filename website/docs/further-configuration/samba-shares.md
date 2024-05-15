@@ -1,6 +1,6 @@
 # Samba Shares
 
-Ansible-NAS uses the awesome [bertvv.samba](https://github.com/bertvv/ansible-role-samba) Ansible role to configure Samba - check out the project page for the many different options you can use to configure a share.
+Ansible-NAS uses the awesome [vladgh.samba](https://github.com/vladgh/ansible-collection-vladgh-samba) Ansible role to configure Samba - check out [the Ansible Galaxf page](https://galaxy.ansible.com/vladgh/samba) for the many different options you can use to configure a share.
 
 ## Share Examples
 
