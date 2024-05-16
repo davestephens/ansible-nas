@@ -20,3 +20,321 @@ n8n_image_version: "latest"
 
 # specs
 n8n_memory: 1g
+n8n_ai_enabled: "false" # Whether AI features are enabled (true) or not (false). Enables Ask AI for the code node and HTTP node.
+n8n_ai_provider: "openai" # The AI provider to use. Currently, n8n only supports OpenAI.
+n8n_ai_openai_api_key: "" # Your OpenAI API key.
+n8n_credentials_overwrite_data: "" # Overwrites for credentials.
+n8n_credentials_overwrite_endpoint: "" # The API endpoint to fetch credentials.
+n8n_credentials_default_name: "My credentials" # The default name for credentials.
+n8n_db_type: "sqlite" # The database to use. Enum string: sqlite, postgresdb
+n8n_db_table_prefix: "" # Prefix to use for table names.
+n8n_db_postgresdb_database: "n8n" # The name of the PostgreSQL database.
+n8n_db_postgresdb_host: "locahost" # The PostgreSQL host.
+n8n_db_postgresdb_port: "5432" # The PostgreSQL port.
+n8n_db_postgresdb_user: "postgres" # The PostgreSQL user.
+n8n_db_postgresdb_password: "postgres" # The PostgreSQL password.
+n8n_db_postgresdb_schema: "public" # The PostgreSQL schema.
+n8n_db_postgresdb_ssl_ca: "" # The PostgreSQL SSL certificate authority.
+n8n_db_postgresdb_ssl_cert: "" # The PostgreSQL SSL certificate.
+n8n_db_postgresdb_ssl_key: "" # The PostgreSQL SSL key.
+n8n_db_postgresdb_ssl_reject_unauthorized: "true" # If n8n should reject unauthorized SSL connections (true) or not (false).
+n8n_sqlite_vacuum_on_startup: "false" # Runs VACUUM operation on startup to rebuild the database. Reduces file size and optimizes indexes. This is a long running blocking operation and increases start-up time.
+n8n_editor_base_url: "https://{{ n8n_hostname }}.{{ ansible_nas_domain }}" # Public URL where users can access the editor. Also used for emails sent from n8n.
+n8n_config_files: "" # Use to provide the path to any JSON configuration file.
+n8n_disable_ui: "false" # Disable the UI (true) or not (false).
+n8n_templates_enabled: "true" # Enable workflow templates (true) or disable (false).
+n8n_templates_host: "https://api.n8n.io" # Change this if creating your own workflow template library. Note that to use your own workflow templates library, your API must provide the same endpoints and response structure as n8n's. Refer to Workflow templates for more information.
+n8n_encryption_key: "" # Provide a custom key used to encrypt credentials in the n8n database. By default n8n generates a random key on first launch.
+n8n_user_folder: "user-folder" # Provide the path where n8n will create the .n8n folder. This directory stores user-specific data, such as database file and encryption key.
+n8n_path: "/" # The path n8n deploys to.
+n8n_host: "{{ n8n_hostname }}.{{ ansible_nas_domain }}" # Host name n8n runs on.
+n8n_internal_port: "5678" # The HTTP port n8n runs on.
+n8n_listen_address: "0.0.0.0" # The IP address n8n should listen on.
+n8n_protocol: "https" # The protocol used to reach n8n.
+n8n_ssl_key: "" # The SSL key for HTTPS protocol.
+n8n_ssl_cert: "" # The SSL certificate for HTTPS protocol.
+n8n_personalization_enabled: "true" # Whether to ask users personalisation questions and then customise n8n accordingly.
+n8n_version_notifications_enabled: "true" # When enabled, n8n sends notifications of new versions and security updates.
+n8n_version_notifications_endpoint: "https://api.n8n.io/versions/" # The endpoint to retrieve where version information.
+n8n_version_notifications_info_url: "https://docs.n8n.io/getting-started/installation/updating.html" # The URL displayed in the New Versions panel for additional information.
+n8n_diagnostics_enabled: "false" # Whether to share selected, anonymous telemetry with n8n
+n8n_diagnostics_config_frontend: "1zPn9bgWPzlQc0p8Gj1uiK6DOTn;https://telemetry.n8n.io" # Telemetry configuration for the frontend.
+n8n_diagnostics_config_backend: "1zPn7YoGC3ZXE9zLeTKLuQCB4F6;https://telemetry.n8n.io/v1/batch" # Telemetry configuration for the backend.
+n8n_push_backend: "websocket" # Choose whether the n8n backend uses server-sent events (sse) or WebSockets (websocket) to send changes to the UI.
+n8n_url_base_api: "http://localhost:5678/" # Used when building the n8n-editor-ui package manually to set how the frontend can reach the backend API.
+n8n_hiring_banner_enabled: "false" # Whether to show the n8n hiring banner in the console (true) or not (false).
+n8n_public_api_swaggerui_disabled: "false" # Whether the Swagger UI (API playground) is disabled (true) or not (false).
+n8n_public_api_disabled: "false" # Whether to disable the public API (true) or not (false).
+n8n_public_api_endpoint: "api" # Path for the public API endpoints.
+n8n_graceful_shutdown_timeout: "30" # How long should the n8n process wait (in seconds) for components to shut down before exiting the process.
+n8n_available_binary_data_modes: "filesystem" # A comma separated list of available binary data modes.
+n8n_binary_data_storage_path: "user-folder/binaryData" # The path where n8n stores binary data.
+n8n_default_binary_data_mode: "default" # The default binary data mode. default keeps binary data in memory. Set to filesystem to use the filesystem, or s3 to AWS S3.
+n8n_email_mode: "smtp" # Enable emails.
+n8n_smtp_host: ""
+n8n_smtp_port: ""
+n8n_smtp_user: ""
+n8n_smtp_pass: ""
+n8n_smtp_oauth_service_client: "" # If using 2LO with a service account this is your client ID
+n8n_smtp_oauth_private_key: "" # If using 2LO with a service account this is your private key
+n8n_smtp_sender: "n8n@{{ ansible_nas_domain }}" # Sender email address. You can optionally include the sender name. Example with name: N8N <contact@n8n.com>
+n8n_smtp_ssl: "true" # Whether to use SSL for SMTP (true) or not (false).
+n8n_um_email_templates_invite: "" # Full path to your HTML email template. This overrides the default template for invite emails.
+n8n_um_email_templates_pwreset: "" # Full path to your HTML email template. This overrides the default template for password reset emails.
+n8n_um_email_templates_workflow_shared: "" # Overrides the default HTML template for notifying users that a workflow was shared. Provide the full path to the template.
+n8n_um_email_templates_credentials_shared: "" # Overrides the default HTML template for notifying users that a credential was shared. Provide the full path to the template.
+n8n_user_management_jwt_secret: "" # Set a specific JWT secret. By default, n8n generates one on start.
+n8n_user_management_jwt_duration_hours: "168" # Set an expiration date for the JWTs in hours.
+n8n_user_management_jwt_refresh_timeout_hours: "0" # How many hours before the JWT expires to automatically refresh it.
+n8n_mfa_enabled: "true" # Whether to enable two-factor authentication (true) or disable (false). n8n ignores this if existing users have 2FA enabled.
+n8n_payload_size_max: "16" # The maximum payload size in MB.
+n8n_metrics: "false" # Whether to enable the /metrics endpoint.
+n8n_metrics_prefix: "n8n_" # Optional prefix for n8n specific metrics names.
+n8n_metrics_include_default_metrics: "true" # Whether to expose default system and node.js metrics.
+n8n_metrics_include_cache_metrics: "false" # Whether to include metrics (true) for cache hits and misses, or not include them (false).
+n8n_metrics_include_message_event_bus_metrics: "false" # Whether to include metrics (true) for events, or not include them (false).
+n8n_metrics_include_workflow_id_label: "false" # Whether to include a label for the workflow ID on workflow metrics.
+n8n_metrics_include_node_type_label: "false" # Whether to include a label for the node type on node metrics.
+n8n_metrics_include_credential_type_label: "false" # Whether to include a label for the credential type on credential metrics.
+n8n_metrics_include_api_endpoints: "false" # Whether to expose metrics for API endpoints.
+n8n_metrics_include_api_path_label: "false" # Whether to include a label for the path of API invocations.
+n8n_metrics_include_api_method_label: "false" # Whether to include a label for the HTTP method (GET, POST, ...) of API invocations.
+n8n_metrics_include_api_status_code_label: "false" # Whether to include a label for the HTTP status code (200, 404, ...) of API invocations.
+n8n_endpoint_rest: "rest" # The path used for REST endpoint.
+n8n_endpoint_webhook: "webhook" # The path used for webhook endpoint.
+n8n_endpoint_webhook_test: "webhook-test" # The path used for test-webhook endpoint.
+n8n_endpoint_webhook_wait: "webhook-waiting" # The path used for waiting-webhook endpoint.
+n8n_webhook_url: "{{ n8n_editor_base_url }}" # Used to manually provide the Webhook URL when running n8n behind a reverse proxy
+n8n_disable_production_main_process: "false" # Disable production webhooks from main process. This helps ensure no HTTP traffic load to main process when using webhook-specific processes.
+n8n_external_hook_files: "" # Files containing external hooks. Provide multiple files as a colon-separated list (":").
+n8n_executions_mode: "regular" # Whether executions should run directly or using queue.
+n8n_executions_timeout: "-1" # Sets a default timeout (in seconds) to all workflows after which n8n stops their execution.
+n8n_executions_timeout_max: "3600" # The maximum execution time (in seconds) that users can set for an individual workflow.
+n8n_executions_data_save_on_error: "all" # Whether n8n saves execution data on error.
+n8n_executions_data_save_on_success: "all" # Whether n8n saves execution data on success.
+n8n_executions_data_save_on_progress: "false" # Whether to save progress for each node executed (true) or not (false).
+n8n_executions_data_save_manual_executions: "true" # Whether to save data of executions when started manually.
+n8n_executions_data_prune: "true" # Whether to delete data of past executions on a rolling basis.
+n8n_executions_data_max_age: "336" # The execution age (in hours) before it's deleted.
+n8n_executions_data_prune_max_count: "10000" # Maximum number of executions to keep in the database. 0 = no limit
+n8n_executions_data_hard_delete_buffer: "1" # How old (hours) the finished execution data has to be to get hard-deleted. By default, this buffer excludes recent executions as the user may need them while building a workflow.
+n8n_executions_data_prune_hard_delete_interval: "15" # How often (minutes) execution data should be hard-deleted.
+n8n_executions_data_prune_soft_delete_interval: "60" # How often (minutes) execution data should be soft-deleted.
+n8n_log_level: "info" # Log output level.
+n8n_log_output: "console" # Where to output logs. Provide multiple values as a comma-separated list. console or file
+n8n_log_file_count_max: "100" # Max number of log files to keep.
+n8n_log_file_size_max: "16" # Max size of each log file in MB.
+n8n_log_file_location: "/home/node/.n8n/logs/n8n.log" # Log file location. Requires N8N_LOG_OUTPUT set to file.
+n8n_db_logging_enabled: "false" # Whether to enable database-specific logging.
+n8n_db_logging_options: "error" # Database log output level. To enable all logging, specify all.
+n8n_db_logging_max_execution_time: "1000" # Maximum execution time (in milliseconds) before n8n logs a warning. Set to 0 to disable long running query warning.
+n8n_eventbus_checkunsentinterval: "0" # How often (in milliseconds) to check for unsent event messages. Can in rare cases send message twice. Set to 0 to disable it.
+n8n_eventbus_logwriter_syncfileaccess: "false" # Whether all file access happens synchronously within the thread (true) or not (false).
+n8n_eventbus_logwriter_keeplogcount: "3" # Number of event log files to keep.
+n8n_eventbus_logwriter_maxfilesizeinkb: "10240" # Maximum size (in kilo-bytes) of an event log file before a new one starts.
+n8n_eventbus_logwriter_logbasename: "n8nEventLog" # Basename of the event log file.
+n8n_external_storage_s3_host: "" # Host of the n8n bucket in S3-compatible external storage. For example, s3.us-east-1.amazonaws.com
+n8n_external_storage_s3_bucket_name: "" # Name of the n8n bucket in S3-compatible external storage.
+n8n_external_storage_s3_bucket_region: "" # Region of the n8n bucket in S3-compatible external storage. For example, us-east-1
+n8n_external_storage_s3_access_key: "" # Access key in S3-compatible external storage
+n8n_external_storage_s3_access_secret: "" # Access secret in S3-compatible external storage.
+n8n_nodes_include: "" # Specify which nodes to load.
+n8n_nodes_exclude: "" # Specify which nodes not to load. For example, to block nodes that can be a security risk if users aren't trustworthy: NODES_EXCLUDE: "[\"n8n-nodes-base.executeCommand\", \"n8n-nodes-base.filesreadwrite\"]"
+n8n_nodes_allow_builtin: "" # Permit users to import specific built-in modules in the Code node. Use * to allow all. n8n disables importing modules by default.
+n8n_nodes_allow_external: "" # Permit users to import specific external modules (from n8n/node_modules) in the Code node. n8n disables importing modules by default.
+n8n_nodes_error_trigger_type: "n8n-nodes-base.errorTrigger" # Specify which node type to use as Error Trigger.
+n8n_custom_extensions: "" # Specify the path to directories containing your custom nodes.
+n8n_community_packages_enabled: "true" # Enables (true) or disables (false) community nodes.
+n8n_queue_bull_prefix: "" # Prefix to use for all queue keys.
+n8n_queue_bull_redis_db: "0" # The Redis database used.
+n8n_queue_bull_redis_host: "localhost" # The Redis host.
+n8n_queue_bull_redis_port: "6379" # The Redis port used.
+n8n_queue_bull_redis_username: "" # The Redis username (needs Redis version 6 or above). Don't define it for Redis < 6 compatibility
+n8n_queue_bull_redis_password: "" # The Redis password.
+n8n_queue_bull_redis_timeout_threshold: "10000" # The Redis timeout threshold (in ms).
+n8n_queue_bull_redis_cluster_nodes: "" # Expects a comma-separated list of Redis Cluster nodes in the format host:port, for the Redis client to initially connect to. If running in queue mode (EXECUTIONS_MODE = queue), setting this variable will create a Redis Cluster client instead of a Redis client, and n8n will ignore QUEUE_BULL_REDIS_HOST and QUEUE_BULL_REDIS_PORT.
+n8n_queue_bull_redis_tls: "false" # Enable TLS on Redis connections.
+n8n_queue_recovery_interval: "60" # Interval (in seconds) for active polling to the queue to recover from Redis crashes. 0 disables recovery. May increase Redis traffic.
+n8n_queue_health_check_active: "false" # Whether to enable health checks (true) or disable (false).
+n8n_queue_health_check_port: "" # The port to serve health checks on.
+n8n_queue_worker_lock_duration: "30000" # How long (in ms) is the lease period for a worker to work on a message.
+n8n_queue_worker_lock_renew_time: "15000" # How frequently (in ms) should a worker renew the lease time.
+n8n_queue_worker_stalled_interval: "30000" # How often should a worker check for stalled jobs (use 0 for never).
+n8n_queue_worker_max_stalled_count: "1" # Maximum amount of times a stalled job will be re-processed.
+n8n_block_env_access_in_node: "false" # Whether to allow users to access environment variables in expressions and the Code node (false) or not (true).
+n8n_sourcecontrol_default_ssh_key_type: "ed25519" # Set to rsa to make RSA the default SSH key type for Source control setup.
+n8n_external_secrets_update_interval: "300" # How often (in seconds) to check for secret updates.
+n8n_default_locale: "en" # A locale identifier, compatible with the Accept-Language header. n8n doesn't support regional identifiers, such as de-AT. When running in a locale other than the default, n8n displays UI strings in the selected locale, and falls back to en for any untranslated strings.
+n8n_workflows_default_name: "My workflow" # The default name used for new workflows.
+n8n_onboarding_flow_disabled: "false" # Whether to disable onboarding tips when creating a new workflow (true) or not (false).
+n8n_workflow_tags_disabled: "false" # Whether to disable workflow tags (true) or enable tags (false).
+n8n_workflow_caller_policy_default_option: "workflowsFromSameOwner" # Which workflows can call a workflow. Options are: any, none, workflowsFromAList, workflowsFromSameOwner
+n8n_hide_usage_page: "false" # Hide the usage and plans page in the app.
+n8n_license_activation_key: "" # Activation key to initialize license. Not applicable if the n8n instance was already activated.
+n8n_license_auto_renew_enabled: "true" # Enables (true) or disables (false) autorenewal for licenses.
+n8n_license_auto_renew_offset: "259200" # Time in seconds before expiry a license should automatically renew.
+n8n_license_server_url: "http://license.n8n.io/v1" # Server URL to retrieve license.
+n8n_http_proxy_license_server: "http://use:pass@proxy:port" # Proxy server URL for HTTP requests to retrieve license.
+n8n_https_proxy_license_server: "https://use:pass@proxy:port" # Proxy server URL for HTTPS requests to retrieve license.
+n8n_secure_cookie: "false"
+
+
+n8n_env:
+  GENERIC_TIMEZONE: "{{ ansible_nas_timezone }}"
+  N8N_AI_ENABLED: "{{ n8n_ai_enabled }}"
+  N8N_AI_PROVIDER: "{{ n8n_ai_provider }}"
+  N8N_AI_OPENAI_API_KEY: "{{ n8n_ai_openai_api_key }}"
+  # CREDENTIALS_OVERWRITE_DATA: "{{ n8n_credentials_overwrite_data }}"
+  # CREDENTIALS_OVERWRITE_ENDPOINT: "{{ n8n_credentials_overwrite_endpoint }}"
+  CREDENTIALS_DEFAULT_NAME: "{{ n8n_credentials_default_name }}"
+  DB_TYPE: "{{ n8n_db_type }}"
+  DB_TABLE_PREFIX: "{{ n8n_db_table_prefix }}"
+  DB_POSTGRESDB_DATABASE: "{{ n8n_db_postgresdb_database }}"
+  DB_POSTGRESDB_HOST: "{{ n8n_db_postgresdb_host }}"
+  DB_POSTGRESDB_PORT: "{{ n8n_db_postgresdb_port }}"
+  DB_POSTGRESDB_USER: "{{ n8n_db_postgresdb_user }}"
+  DB_POSTGRESDB_PASSWORD: "{{ n8n_db_postgresdb_password }}"
+  DB_POSTGRESDB_SCHEMA: "{{ n8n_db_postgresdb_schema }}"
+  DB_POSTGRESDB_SSL_CA: "{{ n8n_db_postgresdb_ssl_ca }}"
+  DB_POSTGRESDB_SSL_CERT: "{{ n8n_db_postgresdb_ssl_cert }}"
+  DB_POSTGRESDB_SSL_KEY: "{{ n8n_db_postgresdb_ssl_key }}"
+  DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED: "{{ n8n_db_postgresdb_ssl_reject_unauthorized }}"
+  DB_SQLITE_VACUUM_ON_STARTUP: "{{ n8n_sqlite_vacuum_on_startup }}"
+  N8N_EDITOR_BASE_URL: "{{ n8n_editor_base_url }}"
+  # N8N_CONFIG_FILES: "{{ n8n_config_files }}"
+  N8N_DISABLE_UI: "{{ n8n_disable_ui }}"
+  N8N_TEMPLATES_ENABLED: "{{ n8n_templates_enabled }}"
+  N8N_TEMPLATES_HOST: "{{ n8n_templates_host }}"
+  N8N_ENCRYPTION_KEY: "{{ n8n_encryption_key }}"
+  N8N_USER_FOLDER: "{{ n8n_user_folder }}"
+  N8N_PATH: "{{ n8n_path }}"
+  N8N_HOST: "{{ n8n_host }}"
+  N8N_PORT: "{{ n8n_internal_port }}"
+  N8N_LISTEN_ADDRESS: "{{ n8n_listen_address }}"
+  N8N_PROTOCOL: "{{ n8n_protocol }}"
+  N8N_SSL_KEY: "{{ n8n_ssl_key }}"
+  N8N_SSL_CERT: "{{ n8n_ssl_cert }}"
+  N8N_PERSONALIZATION_ENABLED: "{{ n8n_personalization_enabled }}"
+  N8N_VERSION_NOTIFICATIONS_ENABLED: "{{ n8n_version_notifications_enabled }}"
+  N8N_VERSION_NOTIFICATIONS_ENDPOINT: "{{ n8n_version_notifications_endpoint }}"
+  N8N_VERSION_NOTIFICATIONS_INFO_URL: "{{ n8n_version_notifications_info_url }}"
+  N8N_DIAGNOSTICS_ENABLED: "{{ n8n_diagnostics_enabled }}"
+  N8N_DIAGNOSTICS_CONFIG_FRONTEND: "{{ n8n_diagnostics_config_frontend }}"
+  N8N_DIAGNOSTICS_CONFIG_BACKEND: "{{ n8n_diagnostics_config_backend }}"
+  N8N_PUSH_BACKEND: "{{ n8n_push_backend }}"
+  VUE_APP_URL_BASE_API: "{{ n8n_url_base_api }}"
+  N8N_HIRING_BANNER_ENABLED: "{{ n8n_hiring_banner_enabled }}"
+  N8N_PUBLIC_API_SWAGGERUI_DISABLED: "{{ n8n_public_api_swaggerui_disabled }}"
+  N8N_PUBLIC_API_DISABLED: "{{ n8n_public_api_disabled }}"
+  N8N_PUBLIC_API_ENDPOINT: "{{ n8n_public_api_endpoint }}"
+  N8N_GRACEFUL_SHUTDOWN_TIMEOUT: "{{ n8n_graceful_shutdown_timeout }}"
+  N8N_AVAILABLE_BINARY_DATA_MODES: "{{ n8n_available_binary_data_modes }}"
+  N8N_BINARY_DATA_STORAGE_PATH: "{{ n8n_binary_data_storage_path }}"
+  N8N_DEFAULT_BINARY_DATA_MODE: "{{ n8n_default_binary_data_mode }}"
+  N8N_EMAIL_MODE: "{{ n8n_email_mode }}"
+  N8N_SMTP_HOST: "{{ n8n_smtp_host }}"
+  N8N_SMTP_PORT: "{{ n8n_smtp_port }}"
+  N8N_SMTP_USER: "{{ n8n_smtp_user }}"
+  N8N_SMTP_PASS: "{{ n8n_smtp_pass }}"
+  N8N_SMTP_OAUTH_SERVICE_CLIENT: "{{ n8n_smtp_oauth_service_client }}"
+  N8N_SMTP_OAUTH_PRIVATE_KEY: "{{ n8n_smtp_oauth_private_key }}"
+  N8N_SMTP_SENDER: "{{  n8n_smtp_sender }}"
+  N8N_SMTP_SSL: "{{ n8n_smtp_ssl }}"
+  N8N_UM_EMAIL_TEMPLATES_INVITE: "{{ n8n_um_email_templates_invite }}"
+  N8N_UM_EMAIL_TEMPLATES_PWRESET: "{{ n8n_um_email_templates_pwreset }}"
+  N8N_UM_EMAIL_TEMPLATES_WORKFLOW_SHARED: "{{ n8n_um_email_templates_workflow_shared }}"
+  N8N_UM_EMAIL_TEMPLATES_CREDENTIALS_SHARED: "{{ n8n_um_email_templates_credentials_shared }}"
+  N8N_USER_MANAGEMENT_JWT_SECRET: "{{ n8n_user_management_jwt_secret }}"
+  N8N_USER_MANAGEMENT_JWT_DURATION_HOURS: "{{ n8n_user_management_jwt_duration_hours }}"
+  N8N_USER_MANAGEMENT_JWT_REFRESH_TIMEOUT_HOURS: "{{ n8n_user_management_jwt_refresh_timeout_hours }}"
+  N8N_MFA_ENABLED: "{{ n8n_mfa_enabled }}"
+  N8N_PAYLOAD_SIZE_MAX: "{{ n8n_payload_size_max }}"
+  N8N_METRICS: "{{ n8n_metrics }}"
+  N8N_METRICS_PREFIX: "{{ n8n_metrics_prefix }}"
+  N8N_METRICS_INCLUDE_DEFAULT_METRICS: "{{ n8n_metrics_include_default_metrics }}"
+  N8N_METRICS_INCLUDE_CACHE_METRICS: "{{ n8n_metrics_include_cache_metrics }}"
+  N8N_METRICS_INCLUDE_MESSAGE_EVENT_BUS_METRICS: "{{ n8n_metrics_include_message_event_bus_metrics }}"
+  N8N_METRICS_INCLUDE_WORKFLOW_ID_LABEL: "{{ n8n_metrics_include_workflow_id_label }}"
+  N8N_METRICS_INCLUDE_NODE_TYPE_LABEL: "{{ n8n_metrics_include_node_type_label }}"
+  N8N_METRICS_INCLUDE_CREDENTIAL_TYPE_LABEL: "{{ n8n_metrics_include_credential_type_label }}"
+  N8N_METRICS_INCLUDE_API_ENDPOINTS: "{{ n8n_metrics_include_api_endpoints }}"
+  N8N_METRICS_INCLUDE_API_PATH_LABEL: "{{ n8n_metrics_include_api_path_label }}"
+  N8N_METRICS_INCLUDE_API_METHOD_LABEL: "{{ n8n_metrics_include_api_method_label }}"
+  N8N_METRICS_INCLUDE_API_STATUS_CODE_LABEL: "{{ n8n_metrics_include_api_status_code_label }}"
+  N8N_ENDPOINT_REST: "{{ n8n_endpoint_rest }}"
+  N8N_ENDPOINT_WEBHOOK: "{{ n8n_endpoint_webhook }}"
+  N8N_ENDPOINT_WEBHOOK_TEST: "{{ n8n_endpoint_webhook_test }}"
+  N8N_ENDPOINT_WEBHOOK_WAIT: "{{ n8n_endpoint_webhook_wait }}"
+  WEBHOOK_URL: "{{ n8n_webhook_url }}"
+  N8N_DISABLE_PRODUCTION_MAIN_PROCESS: "{{ n8n_disable_production_main_process }}"
+  EXTERNAL_HOOK_FILES: "{{ n8n_external_hook_files }}"
+  EXECUTIONS_MODE: "{{ n8n_executions_mode }}"
+  EXECUTIONS_TIMEOUT: "{{ n8n_executions_timeout }}"
+  EXECUTIONS_TIMEOUT_MAX: "{{ n8n_executions_timeout_max }}"
+  EXECUTIONS_DATA_SAVE_ON_ERROR: "{{ n8n_executions_data_save_on_error }}"
+  EXECUTIONS_DATA_SAVE_ON_SUCCESS: "{{ n8n_executions_data_save_on_success }}"
+  EXECUTIONS_DATA_SAVE_ON_PROGRESS: "{{ n8n_executions_data_save_on_progress }}"
+  EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS: "{{ n8n_executions_data_save_manual_executions }}"
+  EXECUTIONS_DATA_PRUNE: "{{ n8n_executions_data_prune }}"
+  EXECUTIONS_DATA_MAX_AGE: "{{ n8n_executions_data_max_age }}"
+  EXECUTIONS_DATA_PRUNE_MAX_COUNT: "{{ n8n_executions_data_prune_max_count }}"
+  EXECUTIONS_DATA_HARD_DELETE_BUFFER: "{{ n8n_executions_data_hard_delete_buffer }}"
+  EXECUTIONS_DATA_PRUNE_HARD_DELETE_INTERVAL: "{{ n8n_executions_data_prune_hard_delete_interval }}"
+  EXECUTIONS_DATA_PRUNE_SOFT_DELETE_INTERVAL: "{{ n8n_executions_data_prune_soft_delete_interval }}"
+  N8N_LOG_LEVEL: "{{ n8n_log_level }}"
+  N8N_LOG_OUTPUT: "{{ n8n_log_output }}"
+  N8N_LOG_FILE_COUNT_MAX: "{{ n8n_log_file_count_max }}"
+  N8N_LOG_FILE_SIZE_MAX: "{{ n8n_log_file_size_max }}"
+  N8N_LOG_FILE_LOCATION: "{{ n8n_log_file_location }}"
+  DB_LOGGING_ENABLED: "{{ n8n_db_logging_enabled }}"
+  DB_LOGGING_OPTIONS: "{{ n8n_db_logging_options }}"
+  DB_LOGGING_MAX_EXECUTION_TIME: "{{ n8n_db_logging_max_execution_time }}"
+  N8N_EVENTBUS_CHECKUNSENTINTERVAL: "{{ n8n_eventbus_checkunsentinterval }}"
+  N8N_EVENTBUS_LOGWRITER_SYNCFILEACCESS: "{{ n8n_eventbus_logwriter_syncfileaccess }}"
+  N8N_EVENTBUS_LOGWRITER_KEEPLOGCOUNT: "{{ n8n_eventbus_logwriter_keeplogcount }}"
+  N8N_EVENTBUS_LOGWRITER_MAXFILESIZEINKB: "{{ n8n_eventbus_logwriter_maxfilesizeinkb }}"
+  N8N_EVENTBUS_LOGWRITER_LOGBASENAME: "{{ n8n_eventbus_logwriter_logbasename }}"
+  N8N_EXTERNAL_STORAGE_S3_HOST: "{{ n8n_external_storage_s3_host }}"
+  N8N_EXTERNAL_STORAGE_S3_BUCKET_NAME: "{{ n8n_external_storage_s3_bucket_name }}"
+  N8N_EXTERNAL_STORAGE_S3_BUCKET_REGION: "{{ n8n_external_storage_s3_bucket_region }}"
+  N8N_EXTERNAL_STORAGE_S3_ACCESS_KEY: "{{ n8n_external_storage_s3_access_key }}"
+  N8N_EXTERNAL_STORAGE_S3_ACCESS_SECRET: "{{ n8n_external_storage_s3_access_secret }}"
+  # NODES_INCLUDE: "{{ n8n_nodes_include }}"
+  # NODES_EXCLUDE: "{{ n8n_nodes_exclude }}"
+  NODE_FUNCTION_ALLOW_BUILTIN: "{{ n8n_nodes_allow_builtin }}"
+  NODE_FUNCTION_ALLOW_EXTERNAL: "{{ n8n_nodes_allow_external }}"
+  NODES_ERROR_TRIGGER_TYPE: "{{ n8n_nodes_error_trigger_type }}"
+  N8N_CUSTOM_EXTENSIONS: "{{ n8n_custom_extensions }}"
+  N8N_COMMUNITY_PACKAGES_ENABLED: "{{ n8n_community_packages_enabled }}"
+  QUEUE_BULL_PREFIX: "{{ n8n_queue_bull_prefix }}"
+  QUEUE_BULL_REDIS_DB: "{{ n8n_queue_bull_redis_db }}"
+  QUEUE_BULL_REDIS_HOST: "{{ n8n_queue_bull_redis_host }}"
+  QUEUE_BULL_REDIS_PORT: "{{ n8n_queue_bull_redis_port }}"
+  QUEUE_BULL_REDIS_USERNAME: "{{ n8n_queue_bull_redis_username }}"
+  QUEUE_BULL_REDIS_PASSWORD: "{{ n8n_queue_bull_redis_password }}"
+  QUEUE_BULL_REDIS_TIMEOUT_THRESHOLD: "{{ n8n_queue_bull_redis_timeout_threshold }}"
+  QUEUE_BULL_REDIS_CLUSTER_NODES: "{{ n8n_queue_bull_redis_cluster_nodes }}"
+  QUEUE_BULL_REDIS_TLS: "{{ n8n_queue_bull_redis_tls }}"
+  QUEUE_RECOVERY_INTERVAL: "{{ n8n_queue_recovery_interval }}"
+  QUEUE_HEALTH_CHECK_ACTIVE: "{{ n8n_queue_health_check_active }}"
+  QUEUE_HEALTH_CHECK_PORT: "{{ n8n_queue_health_check_port }}"
+  QUEUE_WORKER_LOCK_DURATION: "{{ n8n_queue_worker_lock_duration }}"
+  QUEUE_WORKER_LOCK_RENEW_TIME: "{{ n8n_queue_worker_lock_renew_time }}"
+  QUEUE_WORKER_STALLED_INTERVAL: "{{ n8n_queue_worker_stalled_interval }}"
+  QUEUE_WORKER_MAX_STALLED_COUNT: "{{ n8n_queue_worker_max_stalled_count }}"
+  N8N_BLOCK_ENV_ACCESS_IN_NODE: "{{ n8n_block_env_access_in_node }}"
+  N8N_SOURCECONTROL_DEFAULT_SSH_KEY_TYPE: "{{ n8n_sourcecontrol_default_ssh_key_type }}"
+  N8N_EXTERNAL_SECRETS_UPDATE_INTERVAL: "{{ n8n_external_secrets_update_interval }}"
+  N8N_DEFAULT_LOCALE: "{{ n8n_default_locale }}"
+  WORKFLOWS_DEFAULT_NAME: "{{ n8n_workflows_default_name }}"
+  N8N_ONBOARDING_FLOW_DISABLED: "{{ n8n_onboarding_flow_disabled }}"
+  N8N_WORKFLOW_TAGS_DISABLED: "{{ n8n_workflow_tags_disabled }}"
+  N8N_WORKFLOW_CALLER_POLICY_DEFAULT_OPTION: "{{ n8n_workflow_caller_policy_default_option }}"
+  N8N_HIDE_USAGE_PAGE: "{{ n8n_hide_usage_page }}"
+  N8N_LICENSE_ACTIVATION_KEY: "{{ n8n_license_activation_key }}"
+  N8N_LICENSE_AUTO_RENEW_ENABLED: "{{ n8n_license_auto_renew_enabled }}"
+  N8N_LICENSE_AUTO_RENEW_OFFSET: "{{ n8n_license_auto_renew_offset }}"
+  N8N_LICENSE_SERVER_URL: "{{ n8n_license_server_url }}"
+  HTTP_PROXY_LICENSE_SERVER: "{{ n8n_http_proxy_license_server }}"
+  HTTPS_PROXY_LICENSE_SERVER: "{{ n8n_https_proxy_license_server }}"
+  N8N_SECURE_COOKIE: "{{ n8n_secure_cookie }}"
