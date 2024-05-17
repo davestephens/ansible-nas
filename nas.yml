@@ -326,6 +326,10 @@
       tags:
         - immich
 
+    - role: input
+      tags:
+        - input
+
     - role: invidious
       tags:
         - invidious

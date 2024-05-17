@@ -1,0 +1,31 @@
+---
+input_enabled: false
+input_available_externally: false
+
+# directories
+input_data_directory: "{{ docker_home }}/input"
+
+# network
+input_port: "8142"
+input_hostname: "input"
+
+# specs
+input_memory: 1g
+
+# docker
+input_container_name: input
+input_image_name: "ghcr.io/deck9/input"
+input_image_version: main
+input_user_id: "1000"
+input_group_id: "1000"
+
+# input
+input_app_url: "https://{{ input_hostname }}.{{ ansible_nas_domain }}"
+input_mail_mailer: ""
+input_mail_host: ""
+input_mail_username: ""
+input_mail_password: ""
+input_mail_from_address: ""
+input_mail_from_name: ""
+input_mail_port: ""
+input_mail_encryption: "tls"

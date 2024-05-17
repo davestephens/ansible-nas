@@ -1,0 +1,51 @@
+---
+- name: Start Input
+  block:
+    - name: Create Input Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ input_data_directory }}"
+        - "{{ input_data_directory }}/data"
+
+    - name: Create Input Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ input_container_name }}"
+        image: "{{ input_image_name }}:{{ input_image_version }}"
+        pull: true
+        volumes:
+          # - "{{ input_data_directory }}/data:/var/www/html/storage:rw"
+          # bind mounts currently don't work: https://github.com/deck9/input/issues/132
+          - /var/www/html/storage
+        ports:
+          - "{{ input_port }}:8080"
+        env:
+          APP_URL: "{{ input_app_url }}"
+          MAIL_MAILER: "{{ input_mail_mailer }}"
+          MAIL_HOST: "{{ input_mail_host }}"
+          MAIL_USERNAME: "{{ input_mail_username }}"
+          MAIL_PASSWORD: "{{ input_mail_password }}"
+          MAIL_FROM_ADDRESS: "{{ input_mail_from_address }}"
+          MAIL_FROM_NAME: "{{ input_mail_from_name }}"
+          MAIL_PORT: "{{ input_mail_port }}"
+          MAIL_ENCRYPTION: "{{ input_mail_encryption }}"
+        restart_policy: unless-stopped
+        memory: "{{ input_memory }}"
+        labels:
+          traefik.enable: "{{ input_available_externally | string }}"
+          traefik.http.routers.input.rule: "Host(`{{ input_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.input.tls.certresolver: "letsencrypt"
+          traefik.http.routers.input.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.input.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.input.loadbalancer.server.port: "8080"
+  when: input_enabled is true
+
+- name: Stop Input
+  block:
+    - name: Stop Input
+      community.docker.docker_container:
+        name: "{{ input_container_name }}"
+        state: absent
+  when: input_enabled is false
