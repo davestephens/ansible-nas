@@ -13,3 +13,5 @@ Set `firefly_enabled: true` in your `inventories/<your_inventory>/group_vars/nas
 The Firefly III web interface can be found at [http://ansible_nas_host_or_ip:8066](http://ansible_nas_host_or_ip:8066).
 
 Optionally, you can install [Firefly Data Importer](https://github.com/firefly-iii/data-importer) by creating a Personal Access Token in Firefly, copying it into `firefly_access_token` variable, setting `firefly_importer_enabled` to `true` and re-running the playbook.
+
+You can also install [Firefly Pico](https://github.com/cioraneanu/firefly-pico) setting `firefly_pico_enabled` to `true` and re-running the playbook.

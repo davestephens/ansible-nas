@@ -22,6 +22,16 @@
         name: "{{ firefly_importer_container_name }}"
       register: result_importer
 
+    - name: Get firefly pico db container state
+      community.docker.docker_container_info:
+        name: "{{ firefly_pico_db_container_name }}"
+      register: result_pico_db
+
+    - name: Get firefly pico container state
+      community.docker.docker_container_info:
+        name: "{{ firefly_pico_container_name }}"
+      register: result_pico
+
     - name: Check Firefly is running
       ansible.builtin.assert:
         that:
@@ -31,3 +41,7 @@
           - result_mysql.container['State']['Restarting'] == false
           - result_importer.container['State']['Status'] == "running"
           - result_importer.container['State']['Restarting'] == false
+          - result_pico_db.container['State']['Status'] == "running"
+          - result_pico_db.container['State']['Restarting'] == false
+          - result_pico.container['State']['Status'] == "running"
+          - result_pico.container['State']['Restarting'] == false

@@ -3,6 +3,7 @@
 firefly_enabled: false
 firefly_available_externally: false
 firefly_importer_enabled: false
+firefly_pico_enabled: false
 
 # directories
 firefly_data_directory: "{{ docker_home }}/firefly"
@@ -10,7 +11,9 @@ firefly_data_directory: "{{ docker_home }}/firefly"
 # network
 firefly_hostname: "firefly"
 firefly_importer_hostname: "firefly-importer"
+firefly_pico_hostname: "firefly-pico"
 firefly_port: "8066"
+firefly_pico_port: "8143"
 firefly_importer_port: "8067"
 firefly_network_name: "firefly"
 
@@ -18,6 +21,8 @@ firefly_network_name: "firefly"
 firefly_memory: "1g"
 firefly_mysql_memory: "1g"
 firefly_importer_memory: "1g"
+firefly_pico_memory: "1g"
+firefly_pico_db_memory: "1g"
 
 # docker
 firefly_container_name: firefly
@@ -29,6 +34,12 @@ firefly_mysql_image_tag: "10.9"
 firefly_importer_container_name: firefly-importer
 firefly_importer_image_name: fireflyiii/data-importer
 firefly_importer_image_tag: latest
+firefly_pico_container_name: firefly-pico
+firefly_pico_image_name: cioraneanu/firefly-pico
+firefly_pico_image_tag: latest
+firefly_pico_db_container_name: firefly-pico-db
+firefly_pico_db_image_name: postgres
+firefly_pico_db_image_tag: latest
 
 # firefly
 firefly_mysql_database: "firefly"
@@ -52,6 +63,12 @@ firefly_mail_username: "null"
 firefly_mail_password: "null"
 firefly_mail_encryption: "null"
 firefly_mail_destination: ""
+
+firefly_pico_db_connection: pgsql
+firefly_pico_db_port: "5432"
+firefly_pico_db_database: "firefly-pico"
+firefly_pico_db_user: "firefly-pico"
+firefly_pico_db_password: "firefly-pico"
 
 firefly_env:
   APP_URL: "https://{{ firefly_hostname }}.{{ ansible_nas_domain }}"
@@ -85,3 +102,12 @@ firefly_importer_env:
   MYSQL_PASSWORD: "{{ firefly_mysql_password }}"
   MYSQL_ROOT_PASSWORD: "{{ firefly_mysql_root_password }}"
   MAIL_DESTINATION: "{{ firefly_mail_destination }}"
+firefly_pico_env:
+  FIREFLY_URL: "https://{{ firefly_hostname }}.{{ ansible_nas_domain }}"
+  DB_CONNECTION: "{{ firefly_pico_db_connection }}"
+  DB_HOST: "{{ firefly_pico_db_container_name }}"
+  DB_PORT: "{{ firefly_pico_db_port }}"
+  DB_DATABASE: "{{ firefly_pico_db_database }}"
+  DB_USERNAME: "{{ firefly_pico_db_user }}"
+  DB_PASSWORD: "{{ firefly_pico_db_password }}"
+  TZ: "{{ ansible_nas_timezone }}"

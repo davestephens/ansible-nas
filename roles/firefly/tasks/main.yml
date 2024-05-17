@@ -57,9 +57,9 @@
         labels:
           traefik.enable: "{{ firefly_available_externally | string }}"
           traefik.http.routers.firefly.rule: "Host(`{{ firefly_hostname }}.{{ ansible_nas_domain }}`)"
-          # traefik.http.routers.firefly.tls.certresolver: "letsencrypt"
-          # traefik.http.routers.firefly.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          # traefik.http.routers.firefly.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.firefly.tls.certresolver: "letsencrypt"
+          traefik.http.routers.firefly.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.firefly.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.firefly.loadbalancer.server.port: "8080"
 
     - name: Create Firefly III Data Importer container
@@ -81,11 +81,54 @@
         labels:
           traefik.enable: "{{ firefly_available_externally | string }}"
           traefik.http.routers.firefly-importer.rule: "Host(`{{ firefly_importer_hostname }}.{{ ansible_nas_domain }}`)"
-          # traefik.http.routers.firefly-importer.tls.certresolver: "letsencrypt"
-          # traefik.http.routers.firefly-importer.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          # traefik.http.routers.firefly-importer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.firefly-importer.tls.certresolver: "letsencrypt"
+          traefik.http.routers.firefly-importer.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.firefly-importer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.firefly-importer.loadbalancer.server.port: "8080"
       when: firefly_importer_enabled is true
+
+    - name: Install Firefly Pico
+      block:
+        - name: Create Firefly III Pico Db container
+          community.docker.docker_container:
+            name: "{{ firefly_pico_db_container_name }}"
+            image: "{{ firefly_pico_db_image_name }}:{{ firefly_pico_db_image_tag }}"
+            networks:
+              - name: "{{ firefly_network_name }}"
+            network_mode: "{{ firefly_network_name }}"
+            pull: true
+            volumes:
+              - "{{ firefly_data_directory }}/pico-db:/var/lib/postgresql/data:rw"
+            env:
+              POSTGRES_DB: "{{ firefly_pico_db_database }}"
+              POSTGRES_USER: "{{ firefly_pico_db_user }}"
+              POSTGRES_PASSWORD: "{{ firefly_pico_db_password }}"
+            restart_policy: unless-stopped
+            memory: "{{ firefly_pico_db_memory }}"
+            labels:
+              traefik.enable: "false"
+
+        - name: Create Firefly III Pico container
+          community.docker.docker_container:
+            name: "{{ firefly_pico_container_name }}"
+            image: "{{ firefly_pico_image_name }}:{{ firefly_pico_image_tag }}"
+            networks:
+              - name: "{{ firefly_network_name }}"
+            network_mode: "{{ firefly_network_name }}"
+            pull: true
+            ports:
+              - "{{ firefly_pico_port }}:80"
+            env: "{{ firefly_pico_optional_env | default({}) | combine(firefly_pico_env) }}"
+            restart_policy: unless-stopped
+            memory: "{{ firefly_pico_memory }}"
+            labels:
+              traefik.enable: "{{ firefly_available_externally | string }}"
+              traefik.http.routers.firefly-pico.rule: "Host(`{{ firefly_pico_hostname }}.{{ ansible_nas_domain }}`)"
+              traefik.http.routers.firefly-pico.tls.certresolver: "letsencrypt"
+              traefik.http.routers.firefly-pico.tls.domains[0].main: "{{ ansible_nas_domain }}"
+              traefik.http.routers.firefly-pico.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+              traefik.http.services.firefly-pico.loadbalancer.server.port: "80"
+      when: firefly_pico_enabled is true
   when: firefly_enabled is true
 
 - name: Stop Firefly
@@ -103,5 +146,15 @@
     - name: Stop Firefly Data Importer
       community.docker.docker_container:
         name: "{{ firefly_importer_container_name }}"
+        state: absent
+
+    - name: Stop Firefly Pico Db
+      community.docker.docker_container:
+        name: "{{ firefly_pico_db_container_name }}"
+        state: absent
+
+    - name: Stop Firefly Pico
+      community.docker.docker_container:
+        name: "{{ firefly_pico_container_name }}"
         state: absent
   when: firefly_enabled is false

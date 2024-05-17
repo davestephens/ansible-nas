@@ -25,9 +25,23 @@
         state: absent
       register: result_importer
 
+    - name: Try and stop and remove Firefly Pico
+      community.docker.docker_container:
+        name: "{{ firefly_pico_container_name }}"
+        state: absent
+      register: result_pico
+
+    - name: Try and stop and remove Firefly Pico Db
+      community.docker.docker_container:
+        name: "{{ firefly_pico_db_container_name }}"
+        state: absent
+      register: result_pico_db
+
     - name: Check Firefly is stopped
       ansible.builtin.assert:
         that:
           - not result.changed
           - not result_mysql.changed
           - not result_importer.changed
+          - not result_pico.changed
+          - not result_pico_db.changed
