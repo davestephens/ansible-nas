@@ -1,0 +1,123 @@
+---
+- name: Start Chatwoot
+  block:
+    - name: Create Chatwoot Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ chatwoot_data_directory }}"
+
+    - name: Create Chatwoot network
+      community.docker.docker_network:
+        name: "{{ chatwoot_network_name }}"
+
+    - name: Create Chatwoot Postgres Docker Container
+      community.docker.docker_container:
+        name: "{{ chatwoot_postgres_container_name }}"
+        image: "{{ chatwoot_postgres_image_name }}:{{ chatwoot_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ chatwoot_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ chatwoot_network_name }}"
+        network_mode: "{{ chatwoot_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_DB: "{{ chatwoot_postgres_database }}"
+          POSTGRES_USER: "{{ chatwoot_postgres_username }}"
+          POSTGRES_PASSWORD: "{{ chatwoot_postgres_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ chatwoot_postgres_memory }}"
+
+    - name: Create Chatwoot Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ chatwoot_redis_container_name }}"
+        image: "{{ chatwoot_redis_image_name }}:{{ chatwoot_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ chatwoot_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ chatwoot_network_name }}"
+        network_mode: "{{ chatwoot_network_name }}"
+        container_default_behavior: no_defaults
+        command: ["sh", "-c", "redis-server --requirepass \"{{ chatwoot_redis_password }}\""]
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ chatwoot_redis_memory }}"
+
+    - name: Create Chatwoot Rails Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ chatwoot_rails_container_name }}"
+        image: "{{ chatwoot_rails_image_name }}:{{ chatwoot_rails_image_version }}"
+        pull: true
+        volumes:
+          - "{{ chatwoot_data_directory }}/storage:/app/storage:rw"
+        networks:
+          - name: "{{ chatwoot_network_name }}"
+        network_mode: "{{ chatwoot_network_name }}"
+        ports:
+          - "{{ chatwoot_port }}:3000"
+        env: "{{ chatwoot_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ chatwoot_rails_memory }}"
+        entrypoint: docker/entrypoints/rails.sh
+        command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+        labels:
+          traefik.enable: "{{ chatwoot_available_externally | string }}"
+          traefik.http.routers.chatwoot.rule: "Host(`{{ chatwoot_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.chatwoot.tls.certresolver: "letsencrypt"
+          traefik.http.routers.chatwoot.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.chatwoot.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.chatwoot.loadbalancer.server.port: "3000"
+
+    - name: Create Chatwoot Sidekick Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ chatwoot_sidekick_container_name }}"
+        image: "{{ chatwoot_sidekick_image_name }}:{{ chatwoot_sidekick_image_version }}"
+        pull: true
+        volumes:
+          - "{{ chatwoot_data_directory }}/storage:/app/storage:rw"
+        networks:
+          - name: "{{ chatwoot_network_name }}"
+        network_mode: "{{ chatwoot_network_name }}"
+        env: "{{ chatwoot_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ chatwoot_sidekick_memory }}"
+        command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+        labels:
+          traefik.enable: "false"
+
+    - name: Prepare the database
+      ansible.builtin.command: /usr/bin/docker exec {{ chatwoot_rails_container_name }} bundle exec rails db:chatwoot_prepare
+      changed_when: false
+      tags: molecule-idempotence-notest
+  when: chatwoot_enabled is true
+
+- name: Stop Chatwoot
+  block:
+    - name: Stop Chatwoot Postgres
+      community.docker.docker_container:
+        name: "{{ chatwoot_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Chatwoot Redis
+      community.docker.docker_container:
+        name: "{{ chatwoot_redis_container_name }}"
+        state: absent
+
+    - name: Stop Chatwoot Rails
+      community.docker.docker_container:
+        name: "{{ chatwoot_rails_container_name }}"
+        state: absent
+
+    - name: Stop Chatwoot Sidekick
+      community.docker.docker_container:
+        name: "{{ chatwoot_sidekick_container_name }}"
+        state: absent
+  when: chatwoot_enabled is false

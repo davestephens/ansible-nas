@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove chatwoot postgres
+      community.docker.docker_container:
+        name: "{{ chatwoot_postgres_container_name }}"
+        state: absent
+      register: result_postgres
+
+    - name: Try and stop and remove chatwoot redis
+      community.docker.docker_container:
+        name: "{{ chatwoot_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove chatwoot sidekick
+      community.docker.docker_container:
+        name: "{{ chatwoot_sidekick_container_name }}"
+        state: absent
+      register: result_sidekick
+
+    - name: Try and stop and remove chatwoot rails
+      community.docker.docker_container:
+        name: "{{ chatwoot_rails_container_name }}"
+        state: absent
+      register: result_rails
+
+    - name: Check if chatwoot is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_postgres.changed
+          - not result_redis.changed
+          - not result_sidekick.changed
+          - not result_rails.changed

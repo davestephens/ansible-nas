@@ -33,6 +33,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Calibre-web](https://github.com/janeczku/calibre-web) - Provides a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 * [Changedetection.io](https://github.com/dgtlmoon/changedetection.io) - Free open source website change detection, monitor and notification service
 * [Chatpad](https://chatpad.ai/) - Not just another ChatGPT user-interface!
+* [Chatwoot](https://github.com/chatwoot/chatwoot) - Open-source live-chat, email support, omni-channel desk
 * [Claper](https://claper.co/) - The ultimate tool to interact with your audience
 * [Code Server](https://code.visualstudio.com/) - Powerful IDE from Microsoft accessible through the browser
 * [CommaFeed](https://www.commafeed.com/) - Google Reader inspired self-hosted RSS reader

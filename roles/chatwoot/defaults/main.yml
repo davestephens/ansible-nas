@@ -1,0 +1,558 @@
+---
+chatwoot_enabled: false
+chatwoot_available_externally: false
+
+# directories
+chatwoot_data_directory: "{{ docker_home }}/chatwoot"
+
+# network
+chatwoot_port: "3022"
+chatwoot_hostname: "chatwoot"
+chatwoot_network_name: "chatwoot"
+
+# specs
+chatwoot_memory: 1g
+chatwoot_postgres_memory: 1g
+chatwoot_redis_memory: 1g
+chatwoot_sidekick_memory: 1g
+chatwoot_rails_memory: 1g
+
+# docker
+
+chatwoot_postgres_container_name: chatwoot-postgres
+chatwoot_postgres_image_name: postgres
+chatwoot_postgres_image_version: 12
+chatwoot_redis_container_name: chatwoot-redis
+chatwoot_redis_image_name: redis
+chatwoot_redis_image_version: alpine
+chatwoot_sidekick_container_name: chatwoot-sidekick
+chatwoot_sidekick_image_name: "chatwoot/chatwoot"
+chatwoot_sidekick_image_version: latest
+chatwoot_rails_container_name: chatwoot-rails
+chatwoot_rails_image_name: "chatwoot/chatwoot"
+chatwoot_rails_image_version: latest
+chatwoot_user_id: "1000"
+chatwoot_group_id: "1000"
+
+
+# chatwoot
+# Used to verify the integrity of signed cookies. so ensure a secure value is set
+chatwoot_secret_key_base: "replace_with_lengthy_secure_hex"
+
+# Replace with the URL you are planning to use for your app
+chatwoot_frontend_url: "https://{{ chatwoot_hostname }}.{{ ansible_nas_domain }}"
+# To use a dedicated URL for help center pages
+# chatwoot_helpcenter_url: "https://{{ chatwoot_hostname }}.{{ ansible_nas_domain }}"
+
+# If the variable is set, all non-authenticated pages would fallback to the default locale.
+# Whenever a new account is created, the default language will be DEFAULT_LOCALE instead of en
+chatwoot_default_locale: "en"
+
+# If you plan to use CDN for your assets, set Asset CDN Host
+chatwoot_asset_cdn_host: ""
+
+# Force all access to the app over SSL, default is set to false
+chatwoot_force_ssl: "false"
+
+# This lets you control new sign ups on your chatwoot installation
+# true : default option, allows sign ups
+# false : disables all the end points related to sign ups
+# api_only: disables the UI for signup, but you can create sign ups via the account apis
+chatwoot_enable_account_signup: "false"
+
+# Redis config
+# specify the configs via single URL or individual variables
+# ref: https://www.iana.org/assignments/uri-schemes/prov/redis
+# You can also use the following format for the URL: redis://:password@host:port/db_number
+chatwoot_redis_url: "redis://{{ chatwoot_redis_container_name }}:6379"
+# If you are using docker-compose, set this variable's value to be any string,
+# which will be the password for the redis service running inside the docker-compose
+# to make it secure
+chatwoot_redis_password: "redis"
+# Redis Sentinel can be used by passing list of sentinel host and ports e,g. sentinel_host1:port1,sentinel_host2:port2
+chatwoot_redis_sentinels: ""
+# Redis sentinel master name is required when using sentinel, default value is "mymaster".
+# You can find list of master using "SENTINEL masters" command
+chatwoot_redis_sentinel_master_name: ""
+
+# By default Chatwoot will pass REDIS_PASSWORD as the password value for sentinels
+# Use the following environment variable to customize passwords for sentinels.
+# Use empty string if sentinels are configured with out passwords
+# chatwoot_redis_sentinel_password: ""
+
+# Redis premium breakage in heroku fix
+# enable the following configuration
+# ref: https://github.com/chatwoot/chatwoot/issues/2420
+# chatwoot_redis_openssl_verify_mode: "none"
+
+# Postgres Database config variables
+# You can leave POSTGRES_DATABASE blank. The default name of
+# the database in the production environment is chatwoot_production
+chatwoot_postgres_database: "chatwoot_production"
+chatwoot_postgres_host: "{{ chatwoot_postgres_container_name }}"
+chatwoot_postgres_username: "postgres"
+chatwoot_postgres_password: "postgres"
+chatwoot_rails_env: "production"
+# Changes the Postgres query timeout limit. The default is 14 seconds. Modify only when required.
+# POSTGRES_STATEMENT_TIMEOUT=14s
+chatwoot_rails_max_threads: "5"
+
+# The email from which all outgoing emails are sent
+# could user either  `email@yourdomain.com` or `BrandName <email@yourdomain.com>`
+chatwoot_mailer_sender_email: "Chatwoot <chatwoot@{{ ansible_nas_domain }}>"
+
+# SMTP domain key is set up for HELO checking
+chatwoot_smtp_domain: "chatwoot.com"
+# Set the value to "mailhog" if using docker-compose for development environments,
+# Set the value as "localhost" or your SMTP address in other environments
+# If SMTP_ADDRESS is empty, Chatwoot would try to use sendmail(postfix)
+chatwoot_smtp_address: ""
+chatwoot_smtp_port: ""
+chatwoot_smtp_username: ""
+chatwoot_smtp_password: ""
+# plain,login,cram_md5
+chatwoot_smtp_authentication: "plain"
+chatwoot_smtp_enable_starttls_auto: "true"
+# Can be: 'none', 'peer', 'client_once', 'fail_if_no_peer_cert', see http://api.rubyonrails.org/classes/ActionMailer/Base.html
+chatwoot_smtp_openssl_verify_mode: "peer"
+# Comment out the following environment variables if required by your SMTP server
+# chatwoot_smtp_tls: ""
+# chatwoot_smtp_ssl: ""
+
+# Mail Incoming
+# This is the domain set for the reply emails when conversation continuity is enabled
+chatwoot_mailer_inbound_email_domain: ""
+# Set this to the appropriate ingress channel with regards to incoming emails
+# Possible values are :
+# relay for Exim, Postfix, Qmail
+# mailgun for Mailgun
+# mandrill for Mandrill
+# postmark for Postmark
+# sendgrid for Sendgrid
+chatwoot_rails_inbound_email_service: ""
+# Use one of the following based on the email ingress service
+# Ref: https://edgeguides.rubyonrails.org/action_mailbox_basics.html
+# Set this to a password of your choice and use it in the Inbound webhook
+chatwoot_rails_inbound_email_password: ""
+
+chatwoot_mailgun_ingress_signing_key: ""
+chatwoot_mandrill_ingress_api_key: ""
+
+# Creating Your Inbound Webhook Instructions for Postmark and Sendgrid:
+# Inbound webhook URL format:
+#    https://actionmailbox:[YOUR_RAILS_INBOUND_EMAIL_PASSWORD]@[YOUR_CHATWOOT_DOMAIN.COM]/rails/action_mailbox/[RAILS_INBOUND_EMAIL_SERVICE]/inbound_emails
+# Note: Replace the values inside the brackets; do not include the brackets themselves.
+# Example: https://actionmailbox:mYRandomPassword3@chatwoot.example.com/rails/action_mailbox/postmark/inbound_emails
+# For Postmark
+# Ensure the 'Include raw email content in JSON payload' checkbox is selected in the inbound webhook section.
+
+# Storage
+chatwoot_active_storage_service: "local"
+
+# Amazon S3
+# documentation: https://www.chatwoot.com/docs/configuring-s3-bucket-as-cloud-storage
+chatwoot_s3_bucket_name: ""
+chatwoot_aws_access_key_id: ""
+chatwoot_aws_secret_access_key: ""
+chatwoot_aws_region: ""
+
+# Log settings
+# Disable if you want to write logs to a file
+chatwoot_rails_log_to_stdout: "true"
+chatwoot_log_level: "info"
+chatwoot_log_size: "500"
+# Configure this environment variable if you want to use lograge instead of rails logger
+# chatwoot_lograge_enabled: "true"
+
+### This environment variables are only required if you are setting up social media channels
+
+# Facebook
+# documentation: https://www.chatwoot.com/docs/facebook-setup
+chatwoot_fb_verify_token: ""
+chatwoot_fb_app_secret: ""
+chatwoot_fb_app_id: ""
+
+# https://developers.facebook.com/docs/messenger-platform/instagram/get-started#app-dashboard
+chatwoot_ig_verify_token: ""
+
+# Twitter
+# documentation: https://www.chatwoot.com/docs/twitter-app-setup
+chatwoot_twitter_app_id: ""
+chatwoot_twitter_consumer_key: ""
+chatwoot_twitter_consumer_secret: ""
+chatwoot_twitter_environment: ""
+
+# slack integration
+chatwoot_slack_client_id: ""
+chatwoot_slack_client_secret: ""
+
+# Google OAuth
+chatwoot_google_oauth_client_id: ""
+chatwoot_google_oauth_client_secret: ""
+chatwoot_google_oauth_callback_url: ""
+
+### Change this env variable only if you are using a custom build mobile app
+## Mobile app env variables
+chatwoot_ios_app_id: "L7YLMN4634.com.chatwoot.app"
+chatwoot_android_bundle_id: "com.chatwoot.app"
+
+# https://developers.google.com/android/guides/client-auth (use keytool to print the fingerprint in the first section)
+chatwoot_android_sha256_cert_fingerprint: "AC:73:8E:DE:EB:56:EA:CC:10:87:02:A7:65:37:7B:38:D4:5D:D4:53:F8:3B:FB:D3:C6:28:64:1D:AA:08:1E:D8"
+
+### Smart App Banner
+# https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html
+# You can find your app-id in https://itunesconnect.apple.com
+# chatwoot_ios_app_identifier: "1495796682"
+
+## Push Notification
+## generate a new key value here : https://d3v.one/vapid-key-generator/
+# chatwoot_vapid_public_key: ""
+# chatwoot_vapid_private_key: ""
+#
+# for mobile apps
+# chatwoot_fcm_server_key: ""
+
+### APM and Error Monitoring configurations
+## Elastic APM
+## https://www.elastic.co/guide/en/apm/agent/ruby/current/getting-started-rails.html
+# chatwoot_elastic_apm_server_url: ""
+# chatwoot_elastic_apm_secret_token: ""
+
+## Sentry
+# chatwoot_sentry_dsn: ""
+
+
+# MICROSOFT CLARITY
+# chatwoot_ms_clarity_token: "xxxxxxxxx"
+
+# GOOGLE_TAG_MANAGER
+# chatwoot_google_tag: "GTM-XXXXXXX"
+
+## Scout
+## https://scoutapm.com/docs/ruby/configuration
+# chatwoot_scout_key: "YOURKEY"
+# chatwoot_scout_name: "YOURAPPNAME (Production)"
+# chatwoot_scout_monitor: "true"
+
+## NewRelic
+# https://docs.newrelic.com/docs/agents/ruby-agent/configuration/ruby-agent-configuration/
+# chatwoot_newrelic_license_key: ""
+# Set this to true to allow newrelic apm to send logs.
+# This is turned off by default.
+# chatwoot_newrelic_application_logging_enabled: "true"
+
+## Datadog
+## https://github.com/DataDog/dd-trace-rb/blob/master/docs/GettingStarted.md#environment-variables
+# chatwoot_dd_trace_agent_url: ""
+
+# MaxMindDB API key to download GeoLite2 City database
+# chatwoot_ip_lookup_api_key: ""
+
+## Rack Attack configuration
+## To prevent and throttle abusive requests
+# chatwoot_enable_rack_attack: "true"
+# chatwoot_rack_attack_limit: "300"
+# chatwoot_enable_rack_attack_widget_api: "true"
+
+## Running chatwoot as an API only server
+## setting this value to true will disable the frontend dashboard endpoints
+# chatwoot_api_only_server: "false"
+
+## Development Only Config
+# if you want to use letter_opener for local emails
+# chatwoot_letter_opener: "true"
+# meant to be used in github codespaces
+# chatwoot_webpacker_dev_server_public: ""
+
+# If you want to use official mobile app,
+# the notifications would be relayed via a Chatwoot server
+chatwoot_enable_push_relay_server: "true"
+
+# Stripe API key
+chatwoot_stripe_secret_key: ""
+chatwoot_stripe_webhook_secret: ""
+
+# Set to true if you want to upload files to cloud storage using the signed url
+# Make sure to follow https://edgeguides.rubyonrails.org/active_storage_overview.html#cross-origin-resource-sharing-cors-configuration on the cloud storage after setting this to true.
+chatwoot_direct_uploads_enabled: ""
+
+# MS OAUTH creds
+chatwoot_azure_app_id: ""
+chatwoot_azure_app_secret: ""
+
+## Advanced configurations
+## Change these values to fine tune performance
+# control the concurrency setting of sidekiq
+# chatwoot_sidekiq_concurrency: "10"
+
+
+# AI powered features
+## OpenAI key
+# chatwoot_openai_api_ke: ""
+
+# Housekeeping/Performance related configurations
+# Set to true if you want to remove stale contact inboxes
+# contact_inboxes with no conversation older than 90 days will be removed
+# chatwoot_remove_stale_contact_inbox_job_status: "false"
+
+chatwoot_env:
+  NODE_ENV: production
+  INSTALLATION_ENV: docker
+  # Used to verify the integrity of signed cookies. so ensure a secure value is set
+  SECRET_KEY_BASE: "{{ chatwoot_secret_key_base }}"
+
+  # Replace with the URL you are planning to use for your app
+  FRONTEND_URL: "{{ chatwoot_frontend_url }}"
+  # To use a dedicated URL for help center pages
+  # HELPCENTER_URL: "{{ chatwoot_helpcenter_url }}"
+
+  # If the variable is set, all non-authenticated pages would fallback to the default locale.
+  # Whenever a new account is created, the default language will be DEFAULT_LOCALE instead of en
+  DEFAULT_LOCALE: "{{ chatwoot_default_locale }}"
+
+  # If you plan to use CDN for your assets, set Asset CDN Host
+  ASSET_CDN_HOST: "{{ chatwoot_asset_cdn_host }}"
+
+  # Force all access to the app over SSL, default is set to false
+  FORCE_SSL: "{{ chatwoot_force_ssl }}"
+
+  # This lets you control new sign ups on your chatwoot installation
+  # true : default option, allows sign ups
+  # false : disables all the end points related to sign ups
+  # api_only: disables the UI for signup, but you can create sign ups via the account apis
+  ENABLE_ACCOUNT_SIGNUP: "{{ chatwoot_enable_account_signup }}"
+
+  # Redis config
+  # specify the configs via single URL or individual variables
+  # ref: https://www.iana.org/assignments/uri-schemes/prov/redis
+  # You can also use the following format for the URL: redis://:password@host:port/db_number
+  REDIS_URL: "{{ chatwoot_redis_url }}"
+  # If you are using docker-compose, set this variable's value to be any string,
+  # which will be the password for the redis service running inside the docker-compose
+  # to make it secure
+  REDIS_PASSWORD: "{{ chatwoot_redis_password }}"
+  # Redis Sentinel can be used by passing list of sentinel host and ports e,g. sentinel_host1:port1,sentinel_host2:port2
+  REDIS_SENTINELS: "{{ chatwoot_redis_sentinels }}"
+  # Redis sentinel master name is required when using sentinel, default value is "mymaster".
+  # You can find list of master using "SENTINEL masters" command
+  REDIS_SENTINEL_MASTER_NAME: "{{ chatwoot_redis_sentinel_master_name }}"
+
+  # By default Chatwoot will pass REDIS_PASSWORD as the password value for sentinels
+  # Use the following environment variable to customize passwords for sentinels.
+  # Use empty string if sentinels are configured with out passwords
+  # REDIS_SENTINEL_PASSWORD: "{{ chatwoot_redis_sentinel_password }}"
+
+  # Redis premium breakage in heroku fix
+  # enable the following configuration
+  # ref: https://github.com/chatwoot/chatwoot/issues/2420
+  # REDIS_OPENSSL_VERIFY_MODE: "{{ chatwoot_redis_openssl_verify_mode }}"=none
+
+  # Postgres Database config variables
+  # You can leave POSTGRES_DATABASE blank. The default name of
+  # the database in the production environment is chatwoot_production
+  # POSTGRES_DATABASE: "{{ chatwoot_postgres_database }}"
+  POSTGRES_HOST: "{{ chatwoot_postgres_host }}"
+  POSTGRES_USERNAME: "{{ chatwoot_postgres_username }}"
+  POSTGRES_PASSWORD: "{{ chatwoot_postgres_password }}"
+  RAILS_ENV: "{{ chatwoot_rails_env }}"
+  # Changes the Postgres query timeout limit. The default is 14 seconds. Modify only when required.
+  # POSTGRES_STATEMENT_TIMEOUT=14s
+  RAILS_MAX_THREADS: "{{ chatwoot_rails_max_threads }}"
+
+  # The email from which all outgoing emails are sent
+  # could user either  `email@yourdomain.com` or `BrandName <email@yourdomain.com>`
+  MAILER_SENDER_EMAIL: "{{ chatwoot_mailer_sender_email }}"
+
+  # SMTP domain key is set up for HELO checking
+  SMTP_DOMAIN: "{{ chatwoot_smtp_domain }}"
+  # Set the value to "mailhog" if using docker-compose for development environments,
+  # Set the value as "localhost" or your SMTP address in other environments
+  # If SMTP_ADDRESS is empty, Chatwoot would try to use sendmail(postfix)
+  SMTP_ADDRESS: "{{ chatwoot_smtp_address }}"
+  SMTP_PORT: "{{ chatwoot_smtp_port }}"
+  SMTP_USERNAME: "{{ chatwoot_smtp_username }}"
+  SMTP_PASSWORD: "{{ chatwoot_smtp_password }}"
+  # plain,login,cram_md5
+  SMTP_AUTHENTICATION: "{{ chatwoot_smtp_authentication }}"
+  SMTP_ENABLE_STARTTLS_AUTO: "{{ chatwoot_smtp_enable_starttls_auto }}"
+  # Can be: 'none', 'peer', 'client_once', 'fail_if_no_peer_cert', see http://api.rubyonrails.org/classes/ActionMailer/Base.html
+  SMTP_OPENSSL_VERIFY_MODE: "{{ chatwoot_smtp_openssl_verify_mode }}"
+  # Comment out the following environment variables if required by your SMTP server
+  # SMTP_TLS: "{{ chatwoot_smtp_tls }}"
+  # SMTP_SSL: "{{ chatwoot_smtp_ssl }}"
+
+  # Mail Incoming
+  # This is the domain set for the reply emails when conversation continuity is enabled
+  MAILER_INBOUND_EMAIL_DOMAIN: "{{ chatwoot_mailer_inbound_email_domain }}"
+  # Set this to the appropriate ingress channel with regards to incoming emails
+  # Possible values are :
+  # relay for Exim, Postfix, Qmail
+  # mailgun for Mailgun
+  # mandrill for Mandrill
+  # postmark for Postmark
+  # sendgrid for Sendgrid
+  RAILS_INBOUND_EMAIL_SERVICE: "{{ chatwoot_rails_inbound_email_service }}"
+  # Use one of the following based on the email ingress service
+  # Ref: https://edgeguides.rubyonrails.org/action_mailbox_basics.html
+  # Set this to a password of your choice and use it in the Inbound webhook
+  RAILS_INBOUND_EMAIL_PASSWORD: "{{ chatwoot_rails_inbound_email_password }}"
+
+  MAILGUN_INGRESS_SIGNING_KEY: "{{ chatwoot_mailgun_ingress_signing_key }}"
+  MANDRILL_INGRESS_API_KEY: "{{ chatwoot_mandrill_ingress_api_key }}"
+
+  # Creating Your Inbound Webhook Instructions for Postmark and Sendgrid:
+  # Inbound webhook URL format:
+  #    https://actionmailbox:[YOUR_RAILS_INBOUND_EMAIL_PASSWORD]@[YOUR_CHATWOOT_DOMAIN.COM]/rails/action_mailbox/[RAILS_INBOUND_EMAIL_SERVICE]/inbound_emails
+  # Note: Replace the values inside the brackets; do not include the brackets themselves.
+  # Example: https://actionmailbox:mYRandomPassword3@chatwoot.example.com/rails/action_mailbox/postmark/inbound_emails
+  # For Postmark
+  # Ensure the 'Include raw email content in JSON payload' checkbox is selected in the inbound webhook section.
+
+  # Storage
+  ACTIVE_STORAGE_SERVICE: "{{ chatwoot_active_storage_service }}"
+
+  # Amazon S3
+  # documentation: https://www.chatwoot.com/docs/configuring-s3-bucket-as-cloud-storage
+  S3_BUCKET_NAME: "{{ chatwoot_s3_bucket_name }}"
+  AWS_ACCESS_KEY_ID: "{{ chatwoot_aws_access_key_id }}"
+  AWS_SECRET_ACCESS_KEY: "{{ chatwoot_aws_secret_access_key }}"
+  AWS_REGION: "{{ chatwoot_aws_region }}"
+
+  # Log settings
+  # Disable if you want to write logs to a file
+  RAILS_LOG_TO_STDOUT: "{{ chatwoot_rails_log_to_stdout }}"
+  LOG_LEVEL: "{{ chatwoot_log_level }}"
+  LOG_SIZE: "{{ chatwoot_log_size }}"
+  # Configure this environment variable if you want to use lograge instead of rails logger
+  # LOGRAGE_ENABLED: "{{ chatwoot_lograge_enabled }}"
+
+  ### This environment variables are only required if you are setting up social media channels
+
+  # Facebook
+  # documentation: https://www.chatwoot.com/docs/facebook-setup
+  FB_VERIFY_TOKEN: "{{ chatwoot_fb_verify_token }}"
+  FB_APP_SECRET: "{{ chatwoot_fb_app_secret }}"
+  FB_APP_ID: "{{ chatwoot_fb_app_id }}"
+
+  # https://developers.facebook.com/docs/messenger-platform/instagram/get-started#app-dashboard
+  IG_VERIFY_TOKEN: "{{ chatwoot_ig_verify_token }}"
+
+  # Twitter
+  # documentation: https://www.chatwoot.com/docs/twitter-app-setup
+  TWITTER_APP_ID: "{{ chatwoot_twitter_app_id }}"
+  TWITTER_CONSUMER_KEY: "{{ chatwoot_twitter_consumer_key }}"
+  TWITTER_CONSUMER_SECRET: "{{ chatwoot_twitter_consumer_secret }}"
+  TWITTER_ENVIRONMENT: "{{ chatwoot_twitter_environment }}"
+
+  # slack integration
+  SLACK_CLIENT_ID: "{{ chatwoot_slack_client_id }}"
+  SLACK_CLIENT_SECRET: "{{ chatwoot_slack_client_secret }}"
+
+  # Google OAuth
+  GOOGLE_OAUTH_CLIENT_ID: "{{ chatwoot_google_oauth_client_id }}"
+  GOOGLE_OAUTH_CLIENT_SECRET: "{{ chatwoot_google_oauth_client_secret }}"
+  GOOGLE_OAUTH_CALLBACK_URL: "{{ chatwoot_google_oauth_callback_url }}"
+
+  ### Change this env variable only if you are using a custom build mobile app
+  ## Mobile app env variables
+  IOS_APP_ID: "{{ chatwoot_ios_app_id }}"
+  ANDROID_BUNDLE_ID: "{{ chatwoot_android_bundle_id }}"
+
+  # https://developers.google.com/android/guides/client-auth (use keytool to print the fingerprint in the first section)
+  ANDROID_SHA256_CERT_FINGERPRINT: "{{ chatwoot_android_sha256_cert_fingerprint }}"
+
+  ### Smart App Banner
+  # https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html
+  # You can find your app-id in https://itunesconnect.apple.com
+  # IOS_APP_IDENTIFIER: "{{ chatwoot_ios_app_identifier }}"
+
+  ## Push Notification
+  ## generate a new key value here : https://d3v.one/vapid-key-generator/
+  # VAPID_PUBLIC_KEY: "{{ chatwoot_vapid_public_key }}"
+  # VAPID_PRIVATE_KEY: "{{ chatwoot_vapid_private_key }}"
+  #
+  # for mobile apps
+  # FCM_SERVER_KEY: "{{ chatwoot_fcm_server_key }}"
+
+  ### APM and Error Monitoring configurations
+  ## Elastic APM
+  ## https://www.elastic.co/guide/en/apm/agent/ruby/current/getting-started-rails.html
+  # ELASTIC_APM_SERVER_URL: "{{ chatwoot_elastic_apm_server_url }}"
+  # ELASTIC_APM_SECRET_TOKEN: "{{ chatwoot_elastic_apm_secret_token }}"
+
+  ## Sentry
+  # SENTRY_DSN: "{{ chatwoot_sentry_dsn }}"
+
+
+  # MICROSOFT CLARITY
+  # MS_CLARITY_TOKEN: "{{ chatwoot_ms_clarity_token }}"
+
+  # GOOGLE_TAG_MANAGER
+  # GOOGLE_TAG: "{{ chatwoot_google_tag }}"
+
+  ## Scout
+  ## https://scoutapm.com/docs/ruby/configuration
+  # SCOUT_KEY: "{{ chatwoot_scout_key }}"
+  # SCOUT_NAME: "{{ chatwoot_scout_name }}"
+  # SCOUT_MONITOR: "{{ chatwoot_scout_monitor }}"
+
+  ## NewRelic
+  # https://docs.newrelic.com/docs/agents/ruby-agent/configuration/ruby-agent-configuration/
+  # NEW_RELIC_LICENSE_KEY: "{{ chatwoot_newrelic_license_key }}"
+  # Set this to true to allow newrelic apm to send logs.
+  # This is turned off by default.
+  # NEW_RELIC_APPLICATION_LOGGING_ENABLED: "{{ chatwoot_newrelic_application_logging_enabled }}"
+
+  ## Datadog
+  ## https://github.com/DataDog/dd-trace-rb/blob/master/docs/GettingStarted.md#environment-variables
+  # DD_TRACE_AGENT_URL: "{{ chatwoot_dd_trace_agent_url }}"
+
+  # MaxMindDB API key to download GeoLite2 City database
+  # IP_LOOKUP_API_KEY: "{{ chatwoot_ip_lookup_api_key }}"
+
+  ## Rack Attack configuration
+  ## To prevent and throttle abusive requests
+  # ENABLE_RACK_ATTACK: "{{ chatwoot_enable_rack_attack }}"
+  # RACK_ATTACK_LIMIT: "{{ chatwoot_rack_attack_limit }}"
+  # ENABLE_RACK_ATTACK_WIDGET_API: "{{ chatwoot_enable_rack_attack_widget_api }}"
+
+  ## Running chatwoot as an API only server
+  ## setting this value to true will disable the frontend dashboard endpoints
+  # CW_API_ONLY_SERVER: "{{ chatwoot_api_only_server }}"
+
+  ## Development Only Config
+  # if you want to use letter_opener for local emails
+  # LETTER_OPENER: "{{ chatwoot_letter_opener }}"
+  # meant to be used in github codespaces
+  # WEBPACKER_DEV_SERVER_PUBLIC: "{{ chatwoot_webpacker_dev_server_public }}"
+
+  # If you want to use official mobile app,
+  # the notifications would be relayed via a Chatwoot server
+  ENABLE_PUSH_RELAY_SERVER: "{{ chatwoot_enable_push_relay_server }}"
+
+  # Stripe API key
+  STRIPE_SECRET_KEY: "{{ chatwoot_stripe_secret_key }}"
+  STRIPE_WEBHOOK_SECRET: "{{ chatwoot_stripe_webhook_secret }}"
+
+  # Set to true if you want to upload files to cloud storage using the signed url
+  # Make sure to follow https://edgeguides.rubyonrails.org/active_storage_overview.html#cross-origin-resource-sharing-cors-configuration on the cloud storage after setting this to true.
+  DIRECT_UPLOADS_ENABLED: "{{ chatwoot_direct_uploads_enabled }}"
+
+  # MS OAUTH creds
+  AZURE_APP_ID: "{{ chatwoot_azure_app_id }}"
+  AZURE_APP_SECRET: "{{ chatwoot_azure_app_secret }}"
+
+  ## Advanced configurations
+  ## Change these values to fine tune performance
+  # control the concurrency setting of sidekiq
+  # SIDEKIQ_CONCURRENCY: "{{ chatwoot_sidekiq_concurrency }}"
+
+
+  # AI powered features
+  ## OpenAI key
+  # OPENAI_API_KEY: "{{ chatwoot_openai_api_key }}"
+
+  # Housekeeping/Performance related configurations
+  # Set to true if you want to remove stale contact inboxes
+  # contact_inboxes with no conversation older than 90 days will be removed
+  # REMOVE_STALE_CONTACT_INBOX_JOB_STATUS: "{{ chatwoot_remove_stale_contact_inbox_job_status }}"

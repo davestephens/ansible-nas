@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get chatwoot postgres container state
+      community.docker.docker_container:
+        name: "{{ chatwoot_postgres_container_name }}"
+      register: result_postgres
+
+    - name: Get chatwoot redis container state
+      community.docker.docker_container:
+        name: "{{ chatwoot_redis_container_name }}"
+      register: result_redis
+
+    - name: Get chatwoot rails container state
+      community.docker.docker_container:
+        name: "{{ chatwoot_rails_container_name }}"
+      register: result_rails
+
+    - name: Get chatwoot sidekick container state
+      community.docker.docker_container:
+        name: "{{ chatwoot_sidekick_container_name }}"
+      register: result_sidekick
+
+    - name: Check if chatwoot containers are running
+      ansible.builtin.assert:
+        that:
+          - result_mongo.container['State']['Status'] == "running"
+          - result_mongo.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result_rails.container['State']['Status'] == "running"
+          - result_rails.container['State']['Restarting'] == false
+          - result_sidekick.container['State']['Status'] == "running"
+          - result_sidekick.container['State']['Restarting'] == false
