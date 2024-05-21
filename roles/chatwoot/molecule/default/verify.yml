@@ -30,8 +30,8 @@
     - name: Check if chatwoot containers are running
       ansible.builtin.assert:
         that:
-          - result_mongo.container['State']['Status'] == "running"
-          - result_mongo.container['State']['Restarting'] == false
+          - result_postgres.container['State']['Status'] == "running"
+          - result_postgres.container['State']['Restarting'] == false
           - result_redis.container['State']['Status'] == "running"
           - result_redis.container['State']['Restarting'] == false
           - result_rails.container['State']['Status'] == "running"
