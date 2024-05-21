@@ -4,3 +4,6 @@ provisioner:
     group_vars:
       all:
         livehelperchat_enabled: true
+        livehelperchat_data_directory: "/tmp"
+  playbooks:
+    prepare: prepare.yml
