@@ -410,6 +410,10 @@
       tags:
         - littlelink
 
+    - role: livehelperchat
+      tags:
+        - livehelperchat
+
     - role: lldap
       tags:
         - lldap

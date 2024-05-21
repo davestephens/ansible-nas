@@ -1,0 +1,236 @@
+---
+- name: Start LiveHelperChat
+  block:
+    - name: Create LiveHelperChat Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ livehelperchat_data_directory }}"
+        - "{{ livehelperchat_data_directory }}/conf"
+        - "{{ livehelperchat_data_directory }}/conf/nginx"
+        - "{{ livehelperchat_data_directory }}/conf/php-fpm"
+        - "{{ livehelperchat_data_directory }}/conf/scripts"
+        - "{{ livehelperchat_data_directory }}/livehelperchat-master/lhc_web"
+
+    - name: Create LiveHelperChat network
+      community.docker.docker_network:
+        name: "{{ livehelperchat_network_name }}"
+
+    - name: Create LiveHelperChat Nginx config files
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ livehelperchat_data_directory }}/conf/{{ item }}"
+      with_items:
+        - nginx/mime.types
+        - nginx/nginx.conf
+        - nginx/site.conf
+      register: nginx_config
+
+    - name: Create LiveHelperChat php-fpm files
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ livehelperchat_data_directory }}/conf/{{ item }}"
+      with_items:
+        - php-fpm/zz-lhc.conf
+      register: php_fpm_config
+
+    - name: Create LiveHelperChat script files
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ livehelperchat_data_directory }}/conf/"
+      with_fileglob:
+        - "templates/scripts/*"
+
+    - name: Download LiveHelperChat master zip
+      ansible.builtin.get_url:
+        url: "{{ livehelperchat_master_zip_location }}"
+        dest: /tmp/livehelperchat-master.zip
+
+    - name: Unzip LiveHelperChat archive to target directory
+      ansible.builtin.unarchive:
+        src: /tmp/livehelperchat-master.zip
+        dest: "{{ livehelperchat_data_directory }}"
+        owner: www-data
+        group: www-data
+        remote_src: yes
+        # extra_opts: [--strip-components=1]
+
+    - name: Clean up downloaded ZIP file
+      ansible.builtin.file:
+        path: /tmp/livehelperchat-master.zip
+        state: absent
+
+    - name: Create LiveHelperChat Db Docker Container
+      community.docker.docker_container:
+        name: "{{ livehelperchat_db_container_name }}"
+        image: "{{ livehelperchat_db_image_name }}:{{ livehelperchat_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ livehelperchat_data_directory }}/dbdata:/var/lib/mysql:rw"
+        networks:
+          - name: "{{ livehelperchat_network_name }}"
+        network_mode: "{{ livehelperchat_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ livehelperchat_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ livehelperchat_db_memory }}"
+
+    - name: Create LiveHelperChat Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ livehelperchat_redis_container_name }}"
+        image: "{{ livehelperchat_redis_image_name }}:{{ livehelperchat_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ livehelperchat_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ livehelperchat_network_name }}"
+        network_mode: "{{ livehelperchat_network_name }}"
+        container_default_behavior: no_defaults
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ livehelperchat_redis_memory }}"
+
+    - name: Create LiveHelperChat Php Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ livehelperchat_php_container_name }}"
+        image: "{{ livehelperchat_php_image_name }}:{{ livehelperchat_php_image_version }}"
+        pull: true
+        volumes:
+          - "{{ livehelperchat_data_directory }}/livehelperchat-master/lhc_web:/code"
+          - "{{ livehelperchat_data_directory }}/lhc-php-resque/lhcphpresque:/code/extension/lhcphpresque"
+          - "{{ livehelperchat_data_directory }}/conf/scripts:/scripts"
+          - "{{ livehelperchat_data_directory }}/conf/php-fpm/zz-lhc.conf:/usr/local/etc/php-fpm.d/zz-lhc.conf"
+        networks:
+          - name: "{{ livehelperchat_network_name }}"
+        network_mode: "{{ livehelperchat_network_name }}"
+        env: "{{ livehelperchat_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ livehelperchat_php_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create LiveHelperChat Php Cronjob Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ livehelperchat_php_cronjob_container_name }}"
+        image: "{{ livehelperchat_php_cronjob_image_name }}:{{ livehelperchat_php_cronjob_image_version }}"
+        pull: true
+        volumes:
+          - "{{ livehelperchat_data_directory }}/livehelperchat-master/lhc_web:/code"
+          - "{{ livehelperchat_data_directory }}/lhc-php-resque/lhcphpresque:/code/extension/lhcphpresque"
+          - "{{ livehelperchat_data_directory }}/conf/scripts:/scripts"
+        networks:
+          - name: "{{ livehelperchat_network_name }}"
+        network_mode: "{{ livehelperchat_network_name }}"
+        env: "{{ livehelperchat_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ livehelperchat_php_cronjob_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create LiveHelperChat Php Resque Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ livehelperchat_php_resque_container_name }}"
+        image: "{{ livehelperchat_php_resque_image_name }}:{{ livehelperchat_php_resque_image_version }}"
+        pull: true
+        volumes:
+          - "{{ livehelperchat_data_directory }}/livehelperchat-master/lhc_web:/code"
+          - "{{ livehelperchat_data_directory }}/lhc-php-resque/lhcphpresque:/code/extension/lhcphpresque"
+          - "{{ livehelperchat_data_directory }}/conf/scripts:/scripts"
+        networks:
+          - name: "{{ livehelperchat_network_name }}"
+        network_mode: "{{ livehelperchat_network_name }}"
+        env: "{{ livehelperchat_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ livehelperchat_php_resque_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create LiveHelperChat Cobrowse Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ livehelperchat_cobrowse_container_name }}"
+        image: "{{ livehelperchat_cobrowse_image_name }}:{{ livehelperchat_cobrowse_image_version }}"
+        pull: true
+        ports:
+          - "{{ livehelperchat_cobrowse_port }}:31130"
+        networks:
+          - name: "{{ livehelperchat_network_name }}"
+        network_mode: "{{ livehelperchat_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ livehelperchat_cobrowse_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create LiveHelperChat Web Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ livehelperchat_web_container_name }}"
+        image: "{{ livehelperchat_web_image_name }}:{{ livehelperchat_web_image_version }}"
+        pull: true
+        volumes:
+          - "{{ livehelperchat_data_directory }}/livehelperchat-master/lhc_web:/code"
+          - "{{ livehelperchat_data_directory }}/conf/nginx/site.conf:/etc/nginx/conf.d/default.conf"
+          - "{{ livehelperchat_data_directory }}/conf/nginx/mime.types:/etc/nginx/mime.types"
+          - "{{ livehelperchat_data_directory }}/conf/nginx/nginx.conf:/etc/nginx/nginx.conf"
+        networks:
+          - name: "{{ livehelperchat_network_name }}"
+        network_mode: "{{ livehelperchat_network_name }}"
+        ports:
+          - "{{ livehelperchat_port }}:80"
+        env: "{{ livehelperchat_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ livehelperchat_web_memory }}"
+        labels:
+          traefik.enable: "{{ livehelperchat_available_externally | string }}"
+          traefik.http.routers.livehelperchat.rule: "Host(`{{ livehelperchat_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.livehelperchat.tls.certresolver: "letsencrypt"
+          traefik.http.routers.livehelperchat.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.livehelperchat.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.livehelperchat.loadbalancer.server.port: "80"
+
+  when: livehelperchat_enabled is true
+
+- name: Stop LiveHelperChat
+  block:
+    - name: Stop LiveHelperChat Db
+      community.docker.docker_container:
+        name: "{{ livehelperchat_db_container_name }}"
+        state: absent
+
+    - name: Stop LiveHelperChat Redis
+      community.docker.docker_container:
+        name: "{{ livehelperchat_redis_container_name }}"
+        state: absent
+
+    - name: Stop LiveHelperChat Web
+      community.docker.docker_container:
+        name: "{{ livehelperchat_web_container_name }}"
+        state: absent
+
+    - name: Stop LiveHelperChat Php
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_container_name }}"
+        state: absent
+
+    - name: Stop LiveHelperChat Php Cronjob
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_cronjob_container_name }}"
+        state: absent
+
+    - name: Stop LiveHelperChat Php Resque
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_resque_container_name }}"
+        state: absent
+
+    - name: Stop LiveHelperChat Cobrowse
+      community.docker.docker_container:
+        name: "{{ livehelperchat_cobrowse_container_name }}"
+        state: absent
+  when: livehelperchat_enabled is false

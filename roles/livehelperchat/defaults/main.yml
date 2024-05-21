@@ -1,0 +1,101 @@
+---
+livehelperchat_enabled: false
+livehelperchat_available_externally: false
+
+# directories
+livehelperchat_data_directory: "{{ docker_home }}/livehelperchat"
+
+# network
+livehelperchat_port: "3022"
+livehelperchat_cobrowse_port: "31130"
+livehelperchat_hostname: "livehelperchat"
+livehelperchat_network_name: "livehelperchat"
+
+# specs
+livehelperchat_memory: 1g
+livehelperchat_db_memory: 1g
+livehelperchat_redis_memory: 1g
+livehelperchat_web_memory: 1g
+livehelperchat_php_memory: 1g
+livehelperchat_php_cronjob_memory: 1g
+livehelperchat_php_resque_memory: 1g
+livehelperchat_cobrowse_memory: 1g
+
+# docker
+
+livehelperchat_db_container_name: livehelperchat-db
+livehelperchat_db_image_name: mysql
+livehelperchat_db_image_version: 5
+livehelperchat_redis_container_name: livehelperchat-redis
+livehelperchat_redis_image_name: redis
+livehelperchat_redis_image_version: alpine
+livehelperchat_web_container_name: livehelperchat-web
+livehelperchat_web_image_name: nginx
+livehelperchat_web_image_version: latest
+livehelperchat_php_container_name: livehelperchat-php
+livehelperchat_php_image_name: remdex/livehelperchat-php
+livehelperchat_php_image_version: latest
+
+livehelperchat_php_cronjob_container_name: livehelperchat-cronjob
+livehelperchat_php_cronjob_image_name: remdex/livehelperchat-php-cronjob
+livehelperchat_php_cronjob_image_version: latest
+
+livehelperchat_php_resque_container_name: livehelperchat-resque
+livehelperchat_php_resque_image_name: remdex/livehelperchat-php-resque
+livehelperchat_php_resque_image_version: latest
+
+livehelperchat_cobrowse_container_name: livehelperchat-cobrowse
+livehelperchat_cobrowse_image_name: remdex/livehelperchat-cobrowse
+livehelperchat_cobrowse_image_version: latest
+livehelperchat_user_id: "1000"
+livehelperchat_group_id: "1000"
+
+
+# livehelperchat
+# livehelperchat_master_zip_location: "https://github.com/remdex/livehelperchat/archive/master.zip"
+livehelperchat_master_zip_location: "https://github.com/LiveHelperChat/livehelperchat/releases/download/4.39v/4.39v-with-dependencies.zip"
+livehelperchat_secret_hash: "CHANGE_ME_TO_SOMETHING"
+
+# Should webhooks be enabled after install
+livehelperchat_webhooks_enabled: "1"
+
+### DATABASE SETTINGS
+
+livehelperchat_mysql_root_password: "lhcroot"
+livehelperchat_mysql_database: "lhc"
+livehelperchat_mysql_user: "lhc"
+livehelperchat_mysql_password: "lhc"
+
+### WEB SETTINGS ###
+
+# On what port we should listen http port.
+livehelperchat_public_port: "8081"
+
+### NODE JS SETTINGS ###
+
+# This is port for frontend visitors for node js.
+livehelperchat_node_js_port: "8081"
+livehelperchat_redis_host: "redis"
+
+# Should visitors connect to NodeJS in secure way wss
+
+livehelperchat_node_js_secure: "0"
+
+# Redis settings
+livehelperchat_redis_backend: "redis:6379"
+livehelperchat_redis_backend_db: "1"
+
+livehelperchat_env:
+  ### Live Helper Chat settings
+  LHC_SECRET_HASH: "{{ livehelperchat_secret_hash }}"
+  LHC_WEBHOOKS_ENABLED: "{{ livehelperchat_webhooks_enabled }}"
+  MYSQL_ROOT_PASSWORD: "{{ livehelperchat_mysql_root_password }}"
+  MYSQL_DATABASE: "{{ livehelperchat_mysql_database }}"
+  MYSQL_USER: "{{ livehelperchat_mysql_user }}"
+  MYSQL_PASSWORD: "{{ livehelperchat_mysql_password }}"
+  LHC_PUBLIC_PORT: "{{ livehelperchat_public_port }}"
+  LHC_NODE_JS_PORT: "{{ livehelperchat_node_js_port }}"
+  REDIS_HOST: "{{ livehelperchat_redis_host }}"
+  LHC_NODE_JS_SECURE: "{{ livehelperchat_node_js_secure }}"
+  REDIS_BACKEND: "{{ livehelperchat_redis_backend }}"
+  REDIS_BACKEND_DB: "{{ livehelperchat_redis_backend_db }}"

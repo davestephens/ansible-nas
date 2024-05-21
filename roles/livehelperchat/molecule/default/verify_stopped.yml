@@ -1,0 +1,61 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove livehelperchat db
+      community.docker.docker_container:
+        name: "{{ livehelperchat_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove livehelperchat redis
+      community.docker.docker_container:
+        name: "{{ livehelperchat_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove livehelperchat web
+      community.docker.docker_container:
+        name: "{{ livehelperchat_web_container_name }}"
+        state: absent
+      register: result_web
+
+    - name: Try and stop and remove livehelperchat php
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_container_name }}"
+        state: absent
+      register: result_php
+
+    - name: Try and stop and remove livehelperchat php cronjob
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_cronjob_container_name }}"
+        state: absent
+      register: result_php_cronjob
+
+    - name: Try and stop and remove livehelperchat php resque
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_resque_container_name }}"
+        state: absent
+      register: result_php_resque
+
+    - name: Try and stop and remove livehelperchat cobrowse
+      community.docker.docker_container:
+        name: "{{ livehelperchat_cobrowse_container_name }}"
+        state: absent
+      register: result_cobrowse
+
+    - name: Check if livehelperchat is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result_redis.changed
+          - not result_web.changed
+          - not result_php.changed
+          - not result_php_cronjob.changed
+          - not result_php_resque.changed
+          - not result_cobrowse.changed

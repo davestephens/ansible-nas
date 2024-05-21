@@ -1,0 +1,61 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get livehelperchat db container state
+      community.docker.docker_container:
+        name: "{{ livehelperchat_db_container_name }}"
+      register: result_db
+
+    - name: Get livehelperchat redis container state
+      community.docker.docker_container:
+        name: "{{ livehelperchat_redis_container_name }}"
+      register: result_redis
+
+    - name: Get livehelperchat web container state
+      community.docker.docker_container:
+        name: "{{ livehelperchat_web_container_name }}"
+      register: result_web
+
+    - name: Get livehelperchat php container state
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_container_name }}"
+      register: result_php
+
+    - name: Get livehelperchat php cronjob container state
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_cronjob_container_name }}"
+      register: result_php_cronjob
+
+    - name: Get livehelperchat php resque container state
+      community.docker.docker_container:
+        name: "{{ livehelperchat_php_resque_container_name }}"
+      register: result_php_resque
+
+    - name: Get livehelperchat cobrowse container state
+      community.docker.docker_container:
+        name: "{{ livehelperchat_cobrowse_container_name }}"
+      register: result_cobrowse
+
+    - name: Check if livehelperchat containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result_web.container['State']['Status'] == "running"
+          - result_web.container['State']['Restarting'] == false
+          - result_php.container['State']['Status'] == "running"
+          - result_php.container['State']['Restarting'] == false
+          - result_php_cronjob.container['State']['Status'] == "running"
+          - result_php_cronjob.container['State']['Restarting'] == false
+          - result_php_resque.container['State']['Status'] == "running"
+          - result_php_resque.container['State']['Restarting'] == false
+          - result_cobrowse.container['State']['Status'] == "running"
+          - result_cobrowse.container['State']['Restarting'] == false
