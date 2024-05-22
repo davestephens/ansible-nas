@@ -52,6 +52,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Emby](https://emby.media/) - Media streaming and management
 * [ebusd](https://github.com/john30/ebusd) - daemon for communication with eBUS heating systems
 * [ESPHome](https://esphome.io/) - ESP8266/ESP32 programming and management for home automation
+* [Evershop](https://github.com/evershopcommerce/evershop) - NodeJS E-commerce Platform
 * [Excalidraw](https://excalidraw.com/) - Virtual whiteboard for sketching hand-drawn like diagrams
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
 * [Flame](https://github.com/pawelmalak/flame/) - Flarum is a delightfully simple discussion platform for your website

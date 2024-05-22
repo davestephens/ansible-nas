@@ -198,6 +198,10 @@
       tags:
         - esphome
 
+    - role: evershop
+      tags:
+        - evershop
+
     - role: excalidraw
       tags:
         - excalidraw

@@ -1,0 +1,93 @@
+---
+- name: Start Evershop
+  block:
+    - name: Create evershop Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ evershop_data_directory }}"
+
+    - name: Create Evershop network
+      community.docker.docker_network:
+        name: "{{ evershop_network_name }}"
+
+    - name: Create Evershop Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ evershop_postgres_container_name }}"
+        image: "{{ evershop_postgres_image_name }}:{{ evershop_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ evershop_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ evershop_network_name }}"
+        network_mode: "{{ evershop_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ evershop_db_password }}"
+          POSTGRES_USER: "{{ evershop_db_username }}"
+          POSTGRES_DB: "{{ evershop_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ evershop_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ evershop_db_name }} -U {{ evershop_db_username }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Create Evershop Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ evershop_container_name }}"
+        image: "{{ evershop_image_name }}:{{ evershop_image_version }}"
+        pull: true
+        volumes:
+          - "{{ evershop_data_directory }}/data/config:/app/config:rw"
+          - "{{ evershop_data_directory }}/data/media:/app/media:rw"
+          - "{{ evershop_data_directory }}/data/public:/app/public:rw"
+          - "{{ evershop_data_directory }}/data/themes:/app/themes:rw"
+        networks:
+          - name: "{{ evershop_network_name }}"
+        network_mode: "{{ evershop_network_name }}"
+        ports:
+          - "{{ evershop_port }}:3000"
+        env:
+          DB_HOST: "{{ evershop_db_host }}"
+          DB_PORT: "{{ evershop_db_port }}"
+          DB_PASSWORD: "{{ evershop_db_password }}"
+          DB_USER: "{{ evershop_db_username }}"
+          DB_NAME: "{{ evershop_db_name }}"
+          NODE_ENV: production
+        restart_policy: unless-stopped
+        memory: "{{ evershop_memory }}"
+        labels:
+          traefik.enable: "{{ evershop_available_externally | string }}"
+          traefik.http.routers.evershop.rule: "Host(`{{ evershop_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.evershop.tls.certresolver: "letsencrypt"
+          traefik.http.routers.evershop.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.evershop.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.evershop.loadbalancer.server.port: "3000"
+
+    - name: Create new admin user
+      community.docker.docker_container_exec:
+        container: "{{ evershop_container_name }}"
+        command: npm run user:create -- --email "{{ evershop_admin_email }}" --password "{{ evershop_admin_password }}" --name "{{ evershop_admin_name }}"
+      tags: molecule-idempotence-notest
+  when: evershop_enabled is true
+
+- name: Stop Evershop
+  block:
+    - name: Stop Evershop postgres
+      community.docker.docker_container:
+        name: "{{ evershop_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Evershop
+      community.docker.docker_container:
+        name: "{{ evershop_container_name }}"
+        state: absent
+  when: evershop_enabled is false

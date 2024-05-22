@@ -1,0 +1,35 @@
+---
+evershop_enabled: false
+evershop_available_externally: false
+
+# directories
+evershop_data_directory: "{{ docker_home }}/evershop"
+
+# network
+evershop_port: "3023"
+evershop_hostname: "evershop"
+evershop_network_name: "evershop"
+
+# specs
+evershop_memory: 1g
+evershop_postgres_memory: 1g
+
+# docker
+evershop_container_name: evershop
+evershop_postgres_container_name: evershop-db
+evershop_image_name: "evershop/evershop"
+evershop_image_version: latest
+evershop_postgres_image_name: "postgres"
+evershop_postgres_image_version: "16"
+evershop_user_id: "1000"
+evershop_group_id: "1000"
+
+# evershop
+evershop_db_name: "evershop"
+evershop_db_username: "evershop"
+evershop_db_password: "secure"
+evershop_db_host: "{{ evershop_postgres_container_name }}"
+evershop_db_port: "5432"
+evershop_admin_email: "admin@{{ ansible_nas_domain }}"
+evershop_admin_name: "admin"
+evershop_admin_password: "supersecure"
