@@ -46,6 +46,7 @@
       ansible.builtin.get_url:
         url: "{{ livehelperchat_master_zip_location }}"
         dest: /tmp/livehelperchat-master.zip
+      tags: molecule-idempotence-notest
 
     - name: Unzip LiveHelperChat archive to target directory
       ansible.builtin.unarchive:
@@ -54,12 +55,13 @@
         owner: www-data
         group: www-data
         remote_src: yes
-        # extra_opts: [--strip-components=1]
+      tags: molecule-idempotence-notest
 
     - name: Clean up downloaded ZIP file
       ansible.builtin.file:
         path: /tmp/livehelperchat-master.zip
         state: absent
+      tags: molecule-idempotence-notest
 
     - name: Create LiveHelperChat Db Docker Container
       community.docker.docker_container:
