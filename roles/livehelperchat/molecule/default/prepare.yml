@@ -2,6 +2,12 @@
 - name: Prepare
   hosts: all
   tasks:
+    - name: Install docker python module
+      ansible.builtin.pip:
+        name:
+          - docker
+          - urllib3<2
+          - molecule-plugins[docker]
     - name: Install unzip
       ansible.builtin.apt:
         name: unzip
