@@ -106,6 +106,10 @@
       tags:
         - booksonic
 
+    - role: budibase
+      tags:
+        - budibase
+
     - role: calibre
       tags:
         - calibre

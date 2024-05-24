@@ -1,0 +1,186 @@
+---
+- name: Start Budibase
+  block:
+    - name: Create Budibase Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ budibase_data_directory }}"
+
+    - name: Create Budibase network
+      community.docker.docker_network:
+        name: "{{ budibase_network_name }}"
+
+    - name: Create Budibase Minio Docker Container
+      community.docker.docker_container:
+        name: "{{ budibase_minio_container_name }}"
+        image: "{{ budibase_minio_image_name }}:{{ budibase_minio_image_version }}"
+        pull: true
+        volumes:
+          - "{{ budibase_data_directory }}/minio_data:/data:rw"
+        networks:
+          - name: "{{ budibase_network_name }}"
+        network_mode: "{{ budibase_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ budibase_minio_env }}"
+        command: server /data --console-address ":9001"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ budibase_minio_memory }}"
+        healthcheck:
+          test: "timeout 5s bash -c ':> /dev/tcp/127.0.0.1/9000' || exit 1"
+          interval: 30s
+          timeout: 20s
+          retries: 3
+
+    - name: Create Budibase Proxy Docker Container
+      community.docker.docker_container:
+        name: "{{ budibase_proxy_container_name }}"
+        image: "{{ budibase_proxy_image_name }}:{{ budibase_proxy_image_version }}"
+        pull: true
+        ports:
+          - "{{ budibase_port }}:10000"
+        volumes:
+          - "{{ budibase_data_directory }}/minio_data:/data:rw"
+        networks:
+          - name: "{{ budibase_network_name }}"
+        network_mode: "{{ budibase_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ budibase_proxy_env }}"
+        labels:
+          traefik.enable: "{{ budibase_available_externally | string }}"
+          traefik.http.routers.budibase.rule: "Host(`{{ budibase_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.budibase.tls.certresolver: "letsencrypt"
+          traefik.http.routers.budibase.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.budibase.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.budibase.loadbalancer.server.port: "10000"
+        restart_policy: always
+        memory: "{{ budibase_proxy_memory }}"
+
+    - name: Create Budibase CouchDB Docker Container
+      community.docker.docker_container:
+        name: "{{ budibase_couchdb_container_name }}"
+        image: "{{ budibase_couchdb_image_name }}:{{ budibase_couchdb_image_version }}"
+        pull: true
+        volumes:
+          - "{{ budibase_data_directory }}/couchdb3_data:/opt/couchdb/data:rw"
+        networks:
+          - name: "{{ budibase_network_name }}"
+        network_mode: "{{ budibase_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ budibase_couchdb_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ budibase_couchdb_memory }}"
+
+    - name: Create Budibase Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ budibase_redis_container_name }}"
+        image: "{{ budibase_redis_image_name }}:{{ budibase_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ budibase_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ budibase_network_name }}"
+        network_mode: "{{ budibase_network_name }}"
+        container_default_behavior: no_defaults
+        command: redis-server --requirepass "{{ budibase_redis_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ budibase_redis_memory }}"
+
+    - name: Create Budibase Watchtower Docker Container
+      community.docker.docker_container:
+        name: "{{ budibase_watchtower_container_name }}"
+        image: "{{ budibase_watchtower_image_name }}:{{ budibase_watchtower_image_version }}"
+        pull: true
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+          - name: "{{ budibase_network_name }}"
+        network_mode: "{{ budibase_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ budibase_watchtower_env }}"
+        command: --debug --http-api-update {{ budibase_app_container_name }} {{ budibase_worker_container_name }} {{ budibase_proxy_container_name }}
+        labels:
+          traefik.enable: "false"
+          com.centurylinklabs.watchtower.enable: "false"
+        restart_policy: always
+        memory: "{{ budibase_watchtower_memory }}"
+
+    - name: Create Budibase App Docker Container
+      community.docker.docker_container:
+        name: "{{ budibase_app_container_name }}"
+        image: "{{ budibase_app_image_name }}:{{ budibase_app_image_version }}"
+        pull: true
+        volumes:
+          - "{{ budibase_data_directory }}/plugins:/plugins:rw"
+        networks:
+          - name: "{{ budibase_network_name }}"
+        network_mode: "{{ budibase_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ budibase_app_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ budibase_app_memory }}"
+
+    - name: Create Budibase Worker Docker Container
+      community.docker.docker_container:
+        name: "{{ budibase_worker_container_name }}"
+        image: "{{ budibase_worker_image_name }}:{{ budibase_worker_image_version }}"
+        pull: true
+        volumes:
+          - "{{ budibase_data_directory }}/plugins:/plugins:rw"
+        networks:
+          - name: "{{ budibase_network_name }}"
+        network_mode: "{{ budibase_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ budibase_worker_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ budibase_worker_memory }}"
+  when: budibase_enabled is true
+
+- name: Stop Budibase
+  block:
+    - name: Stop Budibase App
+      community.docker.docker_container:
+        name: "{{ budibase_app_container_name }}"
+        state: absent
+
+    - name: Stop Budibase Worker
+      community.docker.docker_container:
+        name: "{{ budibase_worker_container_name }}"
+        state: absent
+
+    - name: Stop Budibase Minio
+      community.docker.docker_container:
+        name: "{{ budibase_minio_container_name }}"
+        state: absent
+
+    - name: Stop Budibase Proxy
+      community.docker.docker_container:
+        name: "{{ budibase_proxy_container_name }}"
+        state: absent
+
+    - name: Stop Budibase CouchDB
+      community.docker.docker_container:
+        name: "{{ budibase_couchdb_container_name }}"
+        state: absent
+
+    - name: Stop Budibase Redis
+      community.docker.docker_container:
+        name: "{{ budibase_redis_container_name }}"
+        state: absent
+
+    - name: Stop Budibase Watchtower
+      community.docker.docker_container:
+        name: "{{ budibase_watchtower_container_name }}"
+        state: absent
+  when: budibase_enabled is false

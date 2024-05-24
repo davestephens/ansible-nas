@@ -1,0 +1,145 @@
+---
+budibase_enabled: false
+budibase_available_externally: false
+
+# directories
+budibase_data_directory: "{{ docker_home }}/budibase"
+
+# network
+budibase_port: "10000"
+budibase_hostname: "budibase"
+budibase_network_name: "budibase"
+
+# specs
+budibase_app_memory: 1g
+budibase_worker_memory: 1g
+budibase_minio_memory: 1g
+budibase_proxy_memory: 1g
+budibase_couchdb_memory: 1g
+budibase_redis_memory: 1g
+budibase_watchtower_memory: 1g
+
+# docker
+budibase_app_container_name: budibase-app
+budibase_app_image_name: "budibase.docker.scarf.sh/budibase/apps"
+budibase_app_image_version: latest
+budibase_worker_container_name: budibase-worker
+budibase_worker_image_name: budibase.docker.scarf.sh/budibase/worker
+budibase_worker_image_version: latest
+budibase_minio_container_name: budibase-minio
+budibase_minio_image_name: minio/minio
+budibase_minio_image_version: latest
+budibase_proxy_container_name: budibase-proxy
+budibase_proxy_image_name: budibase/proxy
+budibase_proxy_image_version: latest
+budibase_couchdb_container_name: budibase-couchdb
+budibase_couchdb_image_name: budibase/couchdb
+budibase_couchdb_image_version: latest
+budibase_redis_container_name: budibase-redis
+budibase_redis_image_name: redis
+budibase_redis_image_version: latest
+budibase_watchtower_container_name: budibase-watchtower
+budibase_watchtower_image_name: containrrr/watchtower
+budibase_watchtower_image_version: latest
+budibase_user_id: "1000"
+budibase_group_id: "1000"
+
+
+# budibase
+budibase_couchdb_url: http://{{ budibase_couchdb_username }}:{{ budibase_couchdb_password }}@{{ budibase_couchdb_container_name }}:5984
+budibase_worker_url: http://{{ budibase_worker_container_name }}:4003
+budibase_minio_url: http://{{ budibase_minio_container_name }}:9000
+budibase_apps_url: "http://{{ budibase_app_container_name }}:4002"
+budibase_redis_url: http://{{ budibase_redis_container_name }}:6379
+budibase_watchtower_url: "http://{{ budibase_watchtower_container_name }}:8080"
+budibase_minio_access_key: "budibase"
+budibase_minio_secret_key: "budibase"
+budibase_internal_api_key: "budibase"
+budibase_environment: "PRODUCTION"
+budibase_app_port: "4002"
+budibase_api_encryption_key: "testsecret"
+budibase_jwt_secret: "testsecret"
+budibase_log_level: "info"
+budibase_enable_analytics: "false"
+budibase_redis_password: "budibase"
+budibase_admin_user_email: "admin@{{ ansible_nas_domain }}"
+budibase_admin_user_password: "supersecure"
+budibase_plugins_dir: "/plugins"
+budibase_offline_mode: ""
+budibase_cluster_port: "10000"
+budibase_worker_port: "4003"
+budibase_minio_browser: "off"
+budibase_proxy_rate_limit_webhooks_per_second: "10"
+budibase_proxy_rate_limit_api_per_second: "20"
+budibase_resolver: "127.0.0.11"
+budibase_couchdb_password: "budibase"
+budibase_couchdb_username: "budibase"
+budibase_targetbuild: "docker-compose"
+budibase_watchtower_http_api: "true"
+budibase_watchtower_http_api_token: "budibase"
+budibase_watchtower_cleanup: "true"
+
+budibase_app_env:
+  SELF_HOSTED: "1"
+  COUCH_DB_URL: "{{ budibase_couchdb_url }}"
+  WORKER_URL: "{{ budibase_worker_url }}"
+  MINIO_URL: "{{ budibase_minio_url }}"
+  MINIO_ACCESS_KEY: "{{ budibase_minio_access_key }}"
+  MINIO_SECRET_KEY: "{{ budibase_minio_secret_key }}"
+  INTERNAL_API_KEY: "{{ budibase_internal_api_key }}"
+  BUDIBASE_ENVIRONMENT: "{{ budibase_environment }}"
+  PORT: "{{ budibase_app_port }}"
+  API_ENCRYPTION_KEY: "{{ budibase_api_encryption_key }}"
+  JWT_SECRET: "{{ budibase_jwt_secret }}"
+  LOG_LEVEL: "{{ budibase_log_level }}"
+  ENABLE_ANALYTICS: "{{ budibase_enable_analytics }}"
+  REDIS_URL: "{{ budibase_redis_url }}"
+  REDIS_PASSWORD: "{{ budibase_redis_password }}"
+  BB_ADMIN_USER_EMAIL: "{{ budibase_admin_user_email }}"
+  BB_ADMIN_USER_PASSWORD: "{{ budibase_admin_user_password }}"
+  PLUGINS_DIR: "{{ budibase_plugins_dir }}"
+  OFFLINE_MODE: "{{ budibase_offline_mode }}"
+
+budibase_worker_env:
+  SELF_HOSTED: "1"
+  CLUSTER_PORT: "{{ budibase_cluster_port }}"
+  APPS_URL: "{{ budibase_apps_url }}"
+  COUCH_DB_USERNAME: "{{ budibase_couchdb_username }}"
+  COUCH_DB_PASSWORD: "{{ budibase_couchdb_password }}"
+  COUCH_DB_URL: "{{ budibase_couchdb_url }}"
+  MINIO_URL: "{{ budibase_minio_url }}"
+  MINIO_ACCESS_KEY: "{{ budibase_minio_access_key }}"
+  MINIO_SECRET_KEY: "{{ budibase_minio_secret_key }}"
+  INTERNAL_API_KEY: "{{ budibase_internal_api_key }}"
+  PORT: "{{ budibase_worker_port }}"
+  API_ENCRYPTION_KEY: "{{ budibase_api_encryption_key }}"
+  JWT_SECRET: "{{ budibase_jwt_secret }}"
+
+  REDIS_URL: "{{ budibase_redis_url }}"
+  REDIS_PASSWORD: "{{ budibase_redis_password }}"
+  OFFLINE_MODE: "{{ budibase_offline_mode }}"
+
+budibase_minio_env:
+  MINIO_ACCESS_KEY: "{{ budibase_minio_access_key }}"
+  MINIO_SECRET_KEY: "{{ budibase_minio_secret_key }}"
+  MINIO_BROWSER: "{{ budibase_minio_browser }}"
+
+budibase_proxy_env:
+  PROXY_RATE_LIMIT_WEBHOOKS_PER_SECOND: "{{ budibase_proxy_rate_limit_webhooks_per_second }}"
+  PROXY_RATE_LIMIT_API_PER_SECOND: "{{ budibase_proxy_rate_limit_api_per_second }}"
+  APPS_UPSTREAM_URL: "{{ budibase_apps_url }}"
+  WORKER_UPSTREAM_URL: "{{ budibase_worker_url }}"
+  MINIO_UPSTREAM_URL: "{{ budibase_minio_url }}"
+  COUCHDB_UPSTREAM_UR: "{{ budibase_couchdb_url }}"
+  WATCHTOWER_UPSTREAM_URL: "{{ budibase_watchtower_url }}"
+  RESOLVER: "{{ budibase_resolver }}"
+
+budibase_couchdb_env:
+  COUCHDB_PASSWORD: "{{ budibase_couchdb_password }}"
+  COUCHDB_USER: "{{ budibase_couchdb_username }}"
+  TARGETBUILD: "{{ budibase_targetbuild }}"
+
+budibase_watchtower_env:
+  WATCHTOWER_HTTP_API: "{{ budibase_watchtower_http_api }}"
+  WATCHTOWER_HTTP_API_TOKEN: "{{ budibase_watchtower_http_api_token }}"
+  WATCHTOWER_CLEANUP: "{{ budibase_watchtower_cleanup }}"

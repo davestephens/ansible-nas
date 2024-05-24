@@ -1,0 +1,61 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get budibase app container state
+      community.docker.docker_container:
+        name: "{{ budibase_app_container_name }}"
+      register: result_app
+
+    - name: Get budibase worker container state
+      community.docker.docker_container:
+        name: "{{ budibase_worker_container_name }}"
+      register: result_worker
+
+    - name: Get budibase minio container state
+      community.docker.docker_container:
+        name: "{{ budibase_minio_container_name }}"
+      register: result_minio
+
+    - name: Get budibase proxy container state
+      community.docker.docker_container:
+        name: "{{ budibase_proxy_container_name }}"
+      register: result_proxy
+
+    - name: Get budibase couchdb container state
+      community.docker.docker_container:
+        name: "{{ budibase_couchdb_container_name }}"
+      register: result_couchdb
+
+    - name: Get budibase redis container state
+      community.docker.docker_container:
+        name: "{{ budibase_redis_container_name }}"
+      register: result_redis
+
+    - name: Get budibase watchtower container state
+      community.docker.docker_container:
+        name: "{{ budibase_watchtower_container_name }}"
+      register: result_watchtower
+
+    - name: Check if budibase containers are running
+      ansible.builtin.assert:
+        that:
+          - result_app.container['State']['Status'] == "running"
+          - result_app.container['State']['Restarting'] == false
+          - result_worker.container['State']['Status'] == "running"
+          - result_worker.container['State']['Restarting'] == false
+          - result_minio.container['State']['Status'] == "running"
+          - result_minio.container['State']['Restarting'] == false
+          - result_proxy.container['State']['Status'] == "running"
+          - result_proxy.container['State']['Restarting'] == false
+          - result_couchdb.container['State']['Status'] == "running"
+          - result_couchdb.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result_watchtower.container['State']['Status'] == "running"
+          - result_watchtower.container['State']['Restarting'] == false

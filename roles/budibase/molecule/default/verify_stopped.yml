@@ -1,0 +1,61 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove budibase app
+      community.docker.docker_container:
+        name: "{{ budibase_app_container_name }}"
+        state: absent
+      register: result_app
+
+    - name: Try and stop and remove budibase worker
+      community.docker.docker_container:
+        name: "{{ budibase_worker_container_name }}"
+        state: absent
+      register: result_worker
+
+    - name: Try and stop and remove budibase minio
+      community.docker.docker_container:
+        name: "{{ budibase_minio_container_name }}"
+        state: absent
+      register: result_minio
+
+    - name: Try and stop and remove budibase proxy
+      community.docker.docker_container:
+        name: "{{ budibase_proxy_container_name }}"
+        state: absent
+      register: result_proxy
+
+    - name: Try and stop and remove budibase couchdb
+      community.docker.docker_container:
+        name: "{{ budibase_couchdb_container_name }}"
+        state: absent
+      register: result_couchdb
+
+    - name: Try and stop and remove budibase redis
+      community.docker.docker_container:
+        name: "{{ budibase_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove budibase watchtower
+      community.docker.docker_container:
+        name: "{{ budibase_watchtower_container_name }}"
+        state: absent
+      register: result_watchtower
+
+    - name: Check if budibase is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_app.changed
+          - not result_worker.changed
+          - not result_minio.changed
+          - not result_proxy.changed
+          - not result_couchdb.changed
+          - not result_redis.changed
+          - not result_watchtower.changed
