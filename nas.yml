@@ -434,6 +434,10 @@
       tags:
         - lubelogger
 
+    - role: mantium
+      tags:
+        - mantium
+
     - role: mattermost
       tags:
         - mattermost

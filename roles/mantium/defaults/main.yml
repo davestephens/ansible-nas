@@ -1,0 +1,83 @@
+---
+mantium_enabled: false
+mantium_available_externally: false
+
+# directories
+mantium_data_directory: "{{ docker_home }}/mantium"
+
+# network
+mantium_port: "8501"
+mantium_hostname: "mantium"
+mantium_network_name: "mantium"
+
+# specs
+mantium_api_memory: 1g
+mantium_db_memory: 1g
+mantium_dashboard_memory: 1g
+# docker
+mantium_api_container_name: mantium-api
+mantium_api_image_name: ghcr.io/diogovalentte/mantium-api
+mantium_api_image_version: latest
+mantium_db_container_name: mantium-db
+mantium_db_image_name: postgres
+mantium_db_image_version: 16-alpine
+mantium_dashboard_container_name: mantium-dashboard
+mantium_dashboard_image_name: ghcr.io/diogovalentte/mantium-dashboard
+mantium_dashboard_image_version: latest
+mantium_user_id: "1000"
+mantium_group_id: "1000"
+
+
+# mantium
+mantium_postgres_host: "{{ mantium_db_container_name }}"
+mantium_postgres_port: "5432"
+mantium_postgres_db: "mantium"
+mantium_postgres_user: "mantium"
+mantium_postgres_password: "mantium"
+mantium_log_level: "info"
+mantium_api_port: "8080"
+mantium_ntfy_address: ""
+mantium_ntfy_topic: ""
+mantium_ntfy_token: ""
+mantium_update_mangas_periodically: "false"
+mantium_update_mangas_periodically_notify: "false"
+mantium_update_mangas_periodically_minutes: "30"
+mantium_kaizoku_address: ""
+mantium_kaizoku_default_interval: "never"
+mantium_wait_until_empty_queues_timeout_minutes: "5"
+mantium_dashboard_port: "{{ mantium_port }}"
+mantium_api_address: "http://{{ mantium_api_container_name }}:{{ mantium_api_port }}"
+
+mantium_api_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  POSTGRES_HOST: "{{ mantium_postgres_host }}"
+  POSTGRES_PORT: "{{ mantium_postgres_port }}"
+  POSTGRES_DB: "{{ mantium_postgres_db }}"
+  POSTGRES_USER: "{{ mantium_postgres_user }}"
+  POSTGRES_PASSWORD: "{{ mantium_postgres_password }}"
+
+  LOG_LEVEL: "{{ mantium_log_level }}"
+  API_PORT: "{{ mantium_api_port }}"
+
+  NTFY_ADDRESS: "{{ mantium_ntfy_address }}"
+  NTFY_TOPIC: "{{ mantium_ntfy_topic }}"
+  NTFY_TOKEN: "{{ mantium_ntfy_token }}"
+
+  UPDATE_MANGAS_PERIODICALLY: "{{ mantium_update_mangas_periodically }}"
+  UPDATE_MANGAS_PERIODICALLY_NOTIFY: "{{ mantium_update_mangas_periodically_notify }}"
+  UPDATE_MANGAS_PERIODICALLY_MINUTES: "{{ mantium_update_mangas_periodically_minutes }}"
+
+  KAIZOKU_ADDRESS: "{{ mantium_kaizoku_address }}"
+  KAIZOKU_DEFAULT_INTERVAL: "{{ mantium_kaizoku_default_interval }}"
+  KAIZOKU_WAIT_UNTIL_EMPTY_QUEUES_TIMEOUT_MINUTES: "{{ mantium_wait_until_empty_queues_timeout_minutes }}"
+
+mantium_db_env:
+  POSTGRES_PORT: "{{ mantium_postgres_port }}"
+  POSTGRES_DB: "{{ mantium_postgres_db }}"
+  POSTGRES_USER: "{{ mantium_postgres_user }}"
+  POSTGRES_PASSWORD: "{{ mantium_postgres_password }}"
+
+mantium_dashboard_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  DASHBOARD_PORT: "{{ mantium_dashboard_port}}"
+  API_ADDRESS: "{{ mantium_api_address }}"

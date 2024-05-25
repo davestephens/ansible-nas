@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get mantium dbp container state
+      community.docker.docker_container:
+        name: "{{ mantium_db_container_name }}"
+      register: result_db
+
+    - name: Get mantium api container state
+      community.docker.docker_container:
+        name: "{{ mantium_api_container_name }}"
+      register: result_api
+
+    - name: Get mantium dashboard container state
+      community.docker.docker_container:
+        name: "{{ mantium_dashboard_container_name }}"
+      register: result_dashboard
+
+    - name: Check if mantium containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_api.container['State']['Status'] == "running"
+          - result_api.container['State']['Restarting'] == false
+          - result_dashboard.container['State']['Status'] == "running"
+          - result_dashboard.container['State']['Restarting'] == false

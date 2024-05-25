@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove mantium dashboard
+      community.docker.docker_container:
+        name: "{{ mantium_dashboard_container_name }}"
+        state: absent
+      register: result_dashboard
+
+    - name: Try and stop and remove mantium api
+      community.docker.docker_container:
+        name: "{{ mantium_api_container_name }}"
+        state: absent
+      register: result_api
+
+    - name: Try and stop and remove mantium db
+      community.docker.docker_container:
+        name: "{{ mantium_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Check if mantium is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_dashboard.changed
+          - not result_api.changed
+          - not result_db.changed

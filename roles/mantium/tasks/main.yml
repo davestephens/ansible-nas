@@ -1,0 +1,89 @@
+---
+- name: Start Mantium
+  block:
+    - name: Create Mantium Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ mantium_data_directory }}"
+
+    - name: Create Mantium network
+      community.docker.docker_network:
+        name: "{{ mantium_network_name }}"
+
+    - name: Create Mantium Db Docker Container
+      community.docker.docker_container:
+        name: "{{ mantium_db_container_name }}"
+        image: "{{ mantium_db_image_name }}:{{ mantium_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ mantium_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ mantium_network_name }}"
+        network_mode: "{{ mantium_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ mantium_db_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ mantium_db_memory }}"
+
+    - name: Create Mantium Api Docker Container
+      community.docker.docker_container:
+        name: "{{ mantium_api_container_name }}"
+        image: "{{ mantium_api_image_name }}:{{ mantium_api_image_version }}"
+        pull: true
+        volumes:
+          - "{{ mantium_data_directory }}/configs:/app/api/configs:rw"
+        networks:
+          - name: "{{ mantium_network_name }}"
+        network_mode: "{{ mantium_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ mantium_api_env }}"
+        labels:
+          traefik.enable: "false"
+        memory: "{{ mantium_api_memory }}"
+
+    - name: Create Mantium Dashboard Docker Container
+      community.docker.docker_container:
+        name: "{{ mantium_dashboard_container_name }}"
+        image: "{{ mantium_dashboard_image_name }}:{{ mantium_dashboard_image_version }}"
+        pull: true
+        ports:
+          - "{{ mantium_port }}:8501"
+        env: "{{ mantium_dashboard_env }}"
+        volumes:
+          - "{{ mantium_data_directory }}/couchdb3_data:/opt/couchdb/data:rw"
+        networks:
+          - name: "{{ mantium_network_name }}"
+        network_mode: "{{ mantium_network_name }}"
+        container_default_behavior: no_defaults
+        labels:
+          traefik.enable: "{{ mantium_available_externally | string }}"
+          traefik.http.routers.mantium.rule: "Host(`{{ mantium_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.mantium.tls.certresolver: "letsencrypt"
+          traefik.http.routers.mantium.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.mantium.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.mantium.loadbalancer.server.port: "8501"
+        restart_policy: always
+        memory: "{{ mantium_dashboard_memory }}"
+  when: mantium_enabled is true
+
+- name: Stop Mantium
+  block:
+    - name: Stop Mantium Dashboard
+      community.docker.docker_container:
+        name: "{{ mantium_dashboard_container_name }}"
+        state: absent
+
+    - name: Stop Mantium Api
+      community.docker.docker_container:
+        name: "{{ mantium_api_container_name }}"
+        state: absent
+
+    - name: Stop Mantium Db
+      community.docker.docker_container:
+        name: "{{ mantium_db_container_name }}"
+        state: absent
+  when: mantium_enabled is false
