@@ -1,0 +1,36 @@
+---
+- name: Start Readneck
+  block:
+    - name: Create Readneck Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ readeck_data_directory }}"
+
+    - name: Create Readneck Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ readeck_container_name }}"
+        image: "{{ readeck_image_name }}:{{ readeck_image_version }}"
+        pull: true
+        ports:
+          - "{{ readeck_port }}:8000"
+        restart_policy: unless-stopped
+        memory: "{{ readeck_memory }}"
+        labels:
+          traefik.enable: "{{ readeck_available_externally | string }}"
+          traefik.http.routers.readeck.rule: "Host(`{{ readeck_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.readeck.tls.certresolver: "letsencrypt"
+          traefik.http.routers.readeck.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.readeck.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.readeck.loadbalancer.server.port: "8000"
+  when: readeck_enabled is true
+
+- name: Stop Readneck
+  block:
+    - name: Stop Readneck
+      community.docker.docker_container:
+        name: "{{ readeck_container_name }}"
+        state: absent
+  when: readeck_enabled is false

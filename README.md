@@ -170,9 +170,10 @@ If you have a spare domain name you can configure applications to be accessible 
 * [PyTivo](http://pytivo.org) - An HMO and GoBack server for TiVos.
 * [Radarr](https://radarr.video/) - for organising and downloading movies
 * [Rallly](https://github.com/lukevella/rallly/) - an open-source scheduling and collaboration tool
-* [Romm](https://github.com/zurdi15/romm) - A game library manager focused on retro gaming
+* [Readeck](https://codeberg.org/readeck/readeck) - a simple web application that lets you save the precious readable content of web pages you like and want to keep forever.
 * [Releasebell](https://github.com/anarion80/releasebell) - Starred GitHub repositories notifications
 * [Restic](https://restic.net/) - A modern backup program
+* [Romm](https://github.com/zurdi15/romm) - A game library manager focused on retro gaming
 * [Route53 DDNS](https://crazymax.dev/ddns-route53/) - Automatically update AWS Route53 with your IP address
 * [RSS-Bridge](https://rss-bridge.github.io/rss-bridge/) - The RSS feed for websites missing it
 * [Ryot](https://github.com/ignisda/ryot) - A self hosted platform for tracking various facets of your life - media, fitness etc.

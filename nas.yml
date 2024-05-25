@@ -662,6 +662,10 @@
       tags:
         - rclone
 
+    - role: readeck
+      tags:
+        - readeck
+
     - role: releasebell
       tags:
         - releasebell
