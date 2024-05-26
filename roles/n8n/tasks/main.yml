@@ -62,4 +62,8 @@
       community.docker.docker_container:
         name: "{{ n8n_container_name }}"
         state: absent
+    - name: Stop n8n Postgres
+      community.docker.docker_container:
+        name: "{{ n8n_postgres_container_name }}"
+        state: absent
   when: n8n_enabled is false

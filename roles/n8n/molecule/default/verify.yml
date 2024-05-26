@@ -7,6 +7,11 @@
       ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
+    - name: Get n8n postgres container state
+      community.docker.docker_container:
+        name: "{{ n8n_postgres_container_name }}"
+      register: result_postgres
+
     - name: Get n8n container state
       community.docker.docker_container:
         name: "{{ n8n_container_name }}"
@@ -15,5 +20,7 @@
     - name: Check if n8n containers are running
       ansible.builtin.assert:
         that:
+          - result_postgres.container['State']['Status'] == "running"
+          - result_postgres.container['State']['Restarting'] == false
           - result.container['State']['Status'] == "running"
           - result.container['State']['Restarting'] == false

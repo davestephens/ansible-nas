@@ -13,7 +13,14 @@
         state: absent
       register: result
 
+    - name: Try and stop and remove n8n postgres
+      community.docker.docker_container:
+        name: "{{ n8n_postgres_container_name }}"
+        state: absent
+      register: result_postgres
+
     - name: Check if n8n is stopped
       ansible.builtin.assert:
         that:
           - not result.changed
+          - not result_postgres.changed
