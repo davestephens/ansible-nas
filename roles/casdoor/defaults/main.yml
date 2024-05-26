@@ -1,0 +1,50 @@
+---
+casdoor_enabled: false
+
+# Networking
+casdoor_available_externally: false
+casdoor_port: "8006"
+casdoor_hostname: "casdoor"
+casdoor_network_name: "casdoor"
+
+# Directories
+casdoor_data_directory: "{{ docker_home }}/casdoor"
+
+# Security
+casdoor_basic_auth_user: "casdoor_user"
+casdoor_basic_auth_password: "casdoor_change_me"
+
+# docker
+casdoor_container_name: "casdoor"
+casdoor_image_name: "casbin/casdoor"
+casdoor_image_version: "latest"
+casdoor_mysql_container_name: "casdoor-mysql"
+casdoor_mysql_image_name: mysql
+casdoor_mysql_image_version: "8.0.25"
+
+# specs
+casdoor_memory: 1g
+casdoor_mysql_memory: 1g
+casdoor_mysql_root_password: "supersecure"
+casdoor_mysql_database: casdoor
+casdoor_mysql_user: casdoor
+casdoor_mysql_password: casdoor
+casdoor_driver_name: "mysql"
+casdoor_data_source_name: "root:{{ casdoor_mysql_root_password }}@tcp({{ casdoor_mysql_container_name }}:3306)/"
+# casadoor_staticbaseurl: "https://{{ casdoor_hostname }}.{{ ansible_nas_domain }}"
+casdoor_runmode: "prod"
+
+
+casdoor_env:
+  RUNNING_IN_DOCKER: "true"
+  driverName: "{{ casdoor_driver_name }}"
+  dataSourceName: "{{ casdoor_data_source_name }}"
+  # staticBaseUrl: "{{ casadoor_staticbaseurl }}"
+  dbName: "{{ casdoor_mysql_database }}"
+  runmode: "{{ casdoor_runmode | default('prod') }}"
+
+casdoor_mysql_env:
+  MYSQL_ROOT_PASSWORD: "{{ casdoor_mysql_root_password }}"
+  MYSQL_DATABASE: "{{ casdoor_mysql_database }}"
+  MYSQL_USER: "{{ casdoor_mysql_user }}"
+  MYSQL_PASSWORD: "{{ casdoor_mysql_password }}"

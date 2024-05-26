@@ -118,6 +118,10 @@
       tags:
         - calibreweb
 
+    - role: casdoor
+      tags:
+        - casdoor
+
     - role: changedetection
       tags:
         - changedetection

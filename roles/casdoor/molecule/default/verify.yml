@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get casdoor mysql container state
+      community.docker.docker_container:
+        name: "{{ casdoor_mysql_container_name }}"
+      register: result_mysql
+
+    - name: Get casdoor container state
+      community.docker.docker_container:
+        name: "{{ casdoor_container_name }}"
+      register: result
+
+    - name: Check if casdoor containers are running
+      ansible.builtin.assert:
+        that:
+          - result_mysql.container['State']['Status'] == "running"
+          - result_mysql.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

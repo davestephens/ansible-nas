@@ -1,0 +1,72 @@
+---
+- name: Start Casdoor
+  block:
+    - name: Create Casdoor Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # owner: 1000
+        # group: 1000
+      with_items:
+        - "{{ casdoor_data_directory }}"
+
+    - name: Create Casdoor network
+      community.docker.docker_network:
+        name: "{{ casdoor_network_name }}"
+
+    - name: Create Casdoor Mysql Docker Container
+      community.docker.docker_container:
+        name: "{{ casdoor_mysql_container_name }}"
+        image: "{{ casdoor_mysql_image_name }}:{{ casdoor_mysql_image_version }}"
+        pull: true
+        volumes:
+          - "{{ casdoor_data_directory }}/mysql:/var/lib/mysql:rw"
+        networks:
+          - name: "{{ casdoor_network_name }}"
+        network_mode: "{{ casdoor_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ casdoor_mysql_memory }}"
+        env: "{{ casdoor_mysql_env }}"
+        labels:
+          traefik.enable: "false"
+
+
+    - name: Pause for 70 seconds to wait for DB to get up
+      ansible.builtin.pause:
+        seconds: 70
+
+    - name: Create Casdoor Docker Container
+      community.docker.docker_container:
+        name: "{{ casdoor_container_name }}"
+        image: "{{ casdoor_image_name }}:{{ casdoor_image_version }}"
+        pull: true
+        ports:
+          - "{{ casdoor_port }}:8000"
+        # volumes:
+        #   - "{{ casdoor_data_directory }}/conf:/conf:rw"
+        networks:
+          - name: "{{ casdoor_network_name }}"
+        network_mode: "{{ casdoor_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ casdoor_memory }}"
+        env: "{{ casdoor_env }}"
+        labels:
+          traefik.enable: "{{ casdoor_available_externally | string }}"
+          traefik.http.routers.casdoor.rule: "Host(`{{ casdoor_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.casdoor.tls.certresolver: "letsencrypt"
+          traefik.http.routers.casdoor.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.casdoor.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.casdoor.loadbalancer.server.port: "8000"
+  when: casdoor_enabled is true
+
+- name: Stop Casdoor
+  block:
+    - name: Stop Casdoor
+      community.docker.docker_container:
+        name: "{{ casdoor_container_name }}"
+        state: absent
+    - name: Stop Casdoor Mysql
+      community.docker.docker_container:
+        name: "{{ casdoor_mysql_container_name }}"
+        state: absent
+  when: casdoor_enabled is false

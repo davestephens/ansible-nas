@@ -79,5 +79,5 @@ mantium_db_env:
 
 mantium_dashboard_env:
   TZ: "{{ ansible_nas_timezone }}"
-  DASHBOARD_PORT: "{{ mantium_dashboard_port}}"
+  DASHBOARD_PORT: "{{ mantium_dashboard_port }}"
   API_ADDRESS: "{{ mantium_api_address }}"
