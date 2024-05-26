@@ -10,6 +10,26 @@
       with_items:
         - "{{ n8n_data_directory }}"
 
+    - name: Create n8n network
+      community.docker.docker_network:
+        name: "{{ n8n_network_name }}"
+
+    - name: Create n8n Postgres Docker Container
+      community.docker.docker_container:
+        name: "{{ n8n_postgres_container_name }}"
+        image: "{{ n8n_postgres_image_name }}:{{ n8n_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ n8n_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ n8n_network_name }}"
+        network_mode: "{{ n8n_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ n8n_postgres_memory }}"
+        env: "{{ n8n_postgres_env }}"
+        labels:
+          traefik.enable: "false"
+
     - name: Create n8n Docker Container
       community.docker.docker_container:
         name: "{{ n8n_container_name }}"
@@ -18,9 +38,12 @@
         ports:
           - "{{ n8n_port }}:5678"
         volumes:
-          - "{{ n8n_data_directory }}:/home/node/.n8n:rw"
-          - "{{ n8n_data_directory }}local-files:/files:rw"
+          - "{{ n8n_data_directory }}/data:/home/node/.n8n:rw"
+          - "{{ n8n_data_directory }}/local-files:/files:rw"
           - "/etc/timezone:/etc/timezone:ro"
+        networks:
+          - name: "{{ n8n_network_name }}"
+        network_mode: "{{ n8n_network_name }}"
         restart_policy: unless-stopped
         memory: "{{ n8n_memory }}"
         env: "{{ n8n_env }}"

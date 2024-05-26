@@ -5,6 +5,7 @@ n8n_enabled: false
 n8n_available_externally: false
 n8n_port: 5678
 n8n_hostname: "n8n"
+n8n_network_name: "n8n"
 
 # Directories
 n8n_data_directory: "{{ docker_home }}/n8n"
@@ -17,19 +18,23 @@ n8n_basic_auth_password: "n8n_change_me"
 n8n_container_name: "n8n"
 n8n_image_name: "docker.n8n.io/n8nio/n8n"
 n8n_image_version: "latest"
+n8n_postgres_container_name: "n8n-postgres"
+n8n_postgres_image_name: postgres
+n8n_postgres_image_version: 16-alpine
 
 # specs
 n8n_memory: 1g
+n8n_postgres_memory: 1g
 n8n_ai_enabled: "false" # Whether AI features are enabled (true) or not (false). Enables Ask AI for the code node and HTTP node.
 n8n_ai_provider: "openai" # The AI provider to use. Currently, n8n only supports OpenAI.
 n8n_ai_openai_api_key: "" # Your OpenAI API key.
 n8n_credentials_overwrite_data: "" # Overwrites for credentials.
 n8n_credentials_overwrite_endpoint: "" # The API endpoint to fetch credentials.
 n8n_credentials_default_name: "My credentials" # The default name for credentials.
-n8n_db_type: "sqlite" # The database to use. Enum string: sqlite, postgresdb
-n8n_db_table_prefix: "" # Prefix to use for table names.
+n8n_db_type: "postgresdb" # The database to use. Enum string: sqlite, postgresdb
+n8n_db_table_prefix: "n8n" # Prefix to use for table names.
 n8n_db_postgresdb_database: "n8n" # The name of the PostgreSQL database.
-n8n_db_postgresdb_host: "locahost" # The PostgreSQL host.
+n8n_db_postgresdb_host: "{{ n8n_postgres_container_name }}" # The PostgreSQL host.
 n8n_db_postgresdb_port: "5432" # The PostgreSQL port.
 n8n_db_postgresdb_user: "postgres" # The PostgreSQL user.
 n8n_db_postgresdb_password: "postgres" # The PostgreSQL password.
@@ -338,3 +343,9 @@ n8n_env:
   HTTP_PROXY_LICENSE_SERVER: "{{ n8n_http_proxy_license_server }}"
   HTTPS_PROXY_LICENSE_SERVER: "{{ n8n_https_proxy_license_server }}"
   N8N_SECURE_COOKIE: "{{ n8n_secure_cookie }}"
+
+n8n_postgres_env:
+  POSTGRES_PORT: "{{ n8n_db_postgresdb_port }}"
+  POSTGRES_DB: "{{ n8n_db_postgresdb_database }}"
+  POSTGRES_USER: "{{ n8n_db_postgresdb_user }}"
+  POSTGRES_PASSWORD: "{{ n8n_db_postgresdb_password }}"
