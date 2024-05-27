@@ -116,6 +116,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Mantium](https://github.com/diogovalentte/mantium) - dashboard for tracking mangas from multiple source sites, like Mangadex and ComicK.
 * [Mattermost](https://mattermost.com/) - open source platform for secure collaboration across the entire software development lifecycle
 * [MariaDB](https://mariadb.org/) - one of the most popular open source relational databases
+* [Maybe](https://github.com/maybe-finance/maybe) - The OS for your personal finances
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
 * [Memos](https://usememos.com/) - An open-source memo hub with knowledge management and social networking
 * [Metabase](https://github.com/metabase/metabase) - business intelligence and analytics

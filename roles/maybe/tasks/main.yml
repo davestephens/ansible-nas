@@ -1,0 +1,81 @@
+---
+- name: Start Maybe
+  block:
+    - name: Create Maybe Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 1000
+        group: 1000
+      with_items:
+        - "{{ maybe_data_directory }}"
+        - "{{ maybe_data_directory }}/storage"
+
+    - name: Create Maybe network
+      community.docker.docker_network:
+        name: "{{ maybe_network_name }}"
+
+    - name: Create Maybe Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ maybe_postgres_container_name }}"
+        image: "{{ maybe_postgres_image_name }}:{{ maybe_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ maybe_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ maybe_network_name }}"
+        network_mode: "{{ maybe_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ maybe_db_password }}"
+          POSTGRES_USER: "{{ maybe_db_username }}"
+          POSTGRES_DB: "{{ maybe_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ maybe_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ maybe_db_name }} -U {{ maybe_db_username }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Create Maybe Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ maybe_container_name }}"
+        image: "{{ maybe_image_name }}:{{ maybe_image_version }}"
+        pull: true
+        volumes:
+          - "{{ maybe_data_directory }}/storage:/rails/storage:rw"
+        networks:
+          - name: "{{ maybe_network_name }}"
+        network_mode: "{{ maybe_network_name }}"
+        ports:
+          - "{{ maybe_port }}:3000"
+        env: "{{ maybe_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ maybe_memory }}"
+        labels:
+          traefik.enable: "{{ maybe_available_externally | string }}"
+          traefik.http.routers.maybe.rule: "Host(`{{ maybe_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.maybe.tls.certresolver: "letsencrypt"
+          traefik.http.routers.maybe.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.maybe.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.maybe.loadbalancer.server.port: "3000"
+  when: maybe_enabled is true
+
+- name: Stop Maybe
+  block:
+    - name: Stop Maybe postgres
+      community.docker.docker_container:
+        name: "{{ maybe_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Maybe
+      community.docker.docker_container:
+        name: "{{ maybe_container_name }}"
+        state: absent
+  when: maybe_enabled is false
