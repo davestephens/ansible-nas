@@ -1,0 +1,33 @@
+---
+metabase_enabled: false
+metabase_available_externally: false
+
+# directories
+metabase_data_directory: "{{ docker_home }}/metabase"
+
+# network
+metabase_port: "3024"
+metabase_hostname: "metabase"
+metabase_network_name: "metabase"
+
+# specs
+metabase_memory: 1g
+metabase_postgres_memory: 1g
+
+# docker
+metabase_container_name: metabase
+metabase_postgres_container_name: metabase-db
+metabase_image_name: "metabase/metabase"
+metabase_image_version: latest
+metabase_postgres_image_name: "docker.io/library/postgres"
+metabase_postgres_image_version: latest
+metabase_user_id: "1000"
+metabase_group_id: "1000"
+
+# metabase
+metabase_db_name: metabase
+metabase_db_username: metabase
+metabase_db_password: mysecretpassword
+metabase_db_type: postgres
+metabase_db_port: "5432"
+metabase_db_host: "{{ metabase_postgres_container_name }}"

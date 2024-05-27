@@ -118,6 +118,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [MariaDB](https://mariadb.org/) - one of the most popular open source relational databases
 * [Mealie](https://hay-kot.github.io/mealie/) - A self-hosted recipe manager and meal planner
 * [Memos](https://usememos.com/) - An open-source memo hub with knowledge management and social networking
+* [Metabase](https://github.com/metabase/metabase) - business intelligence and analytics
 * [Metube](https://github.com/alexta69/metube) - Self-hosted YouTube downloader (web UI for youtube-dl / yt-dlp)
 * [Minecraft Java Server](https://www.minecraft.net/) - Java server edition of the popular building and exploring game
 * [Minecraft Bedrock Server](https://www.minecraft.net/) - Bedrock server edition of the popular building and exploring game

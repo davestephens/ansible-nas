@@ -458,6 +458,10 @@
       tags:
         - mergerfs
 
+    - role: metabase
+      tags:
+        - metabase
+
     - role: metube
       tags:
         - metube

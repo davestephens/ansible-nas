@@ -1,0 +1,84 @@
+---
+- name: Start Metabase
+  block:
+    - name: Create Metabase Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ metabase_data_directory }}"
+
+    - name: Create Metabase network
+      community.docker.docker_network:
+        name: "{{ metabase_network_name }}"
+
+    - name: Create Metabase Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ metabase_postgres_container_name }}"
+        image: "{{ metabase_postgres_image_name }}:{{ metabase_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ metabase_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ metabase_network_name }}"
+        network_mode: "{{ metabase_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ metabase_db_password }}"
+          POSTGRES_USER: "{{ metabase_db_username }}"
+          POSTGRES_DB: "{{ metabase_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ metabase_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ metabase_db_name }} -U {{ metabase_db_username }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Create Metabase Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ metabase_container_name }}"
+        image: "{{ metabase_image_name }}:{{ metabase_image_version }}"
+        pull: true
+        volumes:
+          - "/dev/urandom:/dev/random:ro"
+        networks:
+          - name: "{{ metabase_network_name }}"
+        network_mode: "{{ metabase_network_name }}"
+        ports:
+          - "{{ metabase_port }}:3000"
+        env:
+          MB_DB_TYPE: "{{ metabase_db_type }}"
+          MB_DB_DBNAME: "{{ metabase_db_name }}"
+          MB_DB_PORT: "{{ metabase_db_port }}"
+          MB_DB_USER: "{{ metabase_db_username }}"
+          MB_DB_PASS: "{{ metabase_db_password }}"
+          MB_DB_HOST: "{{ metabase_db_host }}"
+        restart_policy: unless-stopped
+        memory: "{{ metabase_memory }}"
+        labels:
+          traefik.enable: "{{ metabase_available_externally | string }}"
+          traefik.http.routers.metabase.rule: "Host(`{{ metabase_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.metabase.tls.certresolver: "letsencrypt"
+          traefik.http.routers.metabase.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.metabase.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.metabase.loadbalancer.server.port: "3000"
+  when: metabase_enabled is true
+
+- name: Stop Metabase
+  block:
+    - name: Stop Metabase postgres
+      community.docker.docker_container:
+        name: "{{ metabase_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Metabase
+      community.docker.docker_container:
+        name: "{{ metabase_container_name }}"
+        state: absent
+  when: metabase_enabled is false

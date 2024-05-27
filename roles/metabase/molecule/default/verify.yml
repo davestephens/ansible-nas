@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get metabase postgres container state
+      community.docker.docker_container:
+        name: "{{ metabase_postgres_container_name }}"
+      register: result_db
+
+    - name: Get metabase container state
+      community.docker.docker_container:
+        name: "{{ metabase_container_name }}"
+      register: result
+
+    - name: Check if metabase containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
