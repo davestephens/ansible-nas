@@ -758,6 +758,10 @@
       tags:
         - stirlingpdf
 
+    - role: suitecrm
+      tags:
+        - suitecrm
+
     - role: syncthing
       tags:
         - syncthing

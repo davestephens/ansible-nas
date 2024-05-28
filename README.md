@@ -194,6 +194,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * Stats - Monitor and visualise metrics about your NAS and internet connection using Grafana, Prometheus, Telegraf and more.
 * [Standard Notes](https://standardnotes.com/) - An end-to-end encrypted notes app
 * [Stirling-PDF](https://github.com/Frooodle/Stirling-PDF) - locally hosted web application that allows you to perform various operations on PDF files
+* [SuiteCRM](https://github.com/salesagility/SuiteCRM) - Open source CRM for the world
 * [Syncthing](https://syncthing.net/) - sync directories with another device
 * [Tautulli](http://tautulli.com/) - Monitor Your Plex Media Server
 * [The Lounge](https://thelounge.chat) - Web based always-on IRC client

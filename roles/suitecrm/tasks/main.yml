@@ -1,0 +1,98 @@
+---
+- name: Start SuiteCRM
+  block:
+    - name: Create SuiteCRM Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 1001
+        # group: "root"
+        # mode: 0777
+      with_items:
+        - "{{ suitecrm_data_directory }}"
+        - "{{ suitecrm_data_directory }}/mariadb_data"
+
+    - name: Create SuiteCRM network
+      community.docker.docker_network:
+        name: "{{ suitecrm_network_name }}"
+
+    - name: Create SuiteCRM database container
+      community.docker.docker_container:
+        name: "{{ suitecrm_db_container_name }}"
+        image: "{{ suitecrm_db_image_name }}:{{ suitecrm_db_image_version }}"
+        networks:
+          - name: "{{ suitecrm_network_name }}"
+        network_mode: "{{ suitecrm_network_name }}"
+        pull: true
+        volumes:
+          - "{{ suitecrm_data_directory }}/mariadb_data:/bitnami/mariadb"
+        env:
+          MARIADB_DATABASE: "{{ suitecrm_db_database }}"
+          MARIADB_USER: "{{ suitecrm_db_user }}"
+          MARIADB_PASSWORD: "{{ suitecrm_db_password }}"
+          MARIADB_ROOT_PASSWORD: "{{ suitecrm_db_root_password }}"
+          ALLOW_EMPTY_PASSWORD: "{{ suitecrm_allow_empty_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ suitecrm_db_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create SuiteCRM Docker Container
+      community.docker.docker_container:
+        name: "{{ suitecrm_container_name }}"
+        image: "{{ suitecrm_image_name }}:{{ suitecrm_image_version }}"
+        networks:
+          - name: "{{ suitecrm_network_name }}"
+        network_mode: "{{ suitecrm_network_name }}"
+        pull: true
+        volumes:
+          - "{{ suitecrm_data_directory }}/suitecrm_data:/bitnami/suitecrm"
+        ports:
+          - "{{ suitecrm_http_port }}:8080"
+          - "{{ suitecrm_https_port }}:8443"
+        env:
+          ALLOW_EMPTY_PASSWORD: "{{ suitecrm_allow_empty_password }}"
+          SUITECRM_DATABASE_USER: "{{ suitecrm_db_user }}"
+          SUITECRM_DATABASE_PASSWORD: "{{ suitecrm_db_password }}"
+          SUITECRM_DATABASE_NAME: "{{ suitecrm_db_database }}"
+          SUITECRM_DATABASE_HOST: "{{ suitecrm_database_host }}"
+          SUITECRM_DATABASE_PORT_NUMBER: "{{ suitecrm_database_port_number }}"
+          SUITECRM_SKIP_BOOTSTRAP: "{{ suitecrm_skip_bootstrap }}"
+          SUITECRM_USERNAME: "{{ suitecrm_username }}"
+          SUITECRM_PASSWORD: "{{ suitecrm_password }}"
+          SUITECRM_EMAIL: "{{ suitecrm_email }}"
+          SUITECRM_HOST: "{{ suitecrm_host }}"
+          SUITECRM_ENABLE_HTTPS: "{{ suitecrm_enable_https }}"
+          SUITECRM_EXTERNAL_HTTP_PORT_NUMBER: "{{ suitecrm_external_http_port_number }}"
+          SUITECRM_EXTERNAL_HTTPS_PORT_NUMBER: "{{ suitecrm_external_https_port_number }}"
+          SUITECRM_VALIDATE_USER_IP: "{{ suitecrm_validate_user_ip }}"
+          SUITECRM_SMTP_HOST: "{{ suitecrm_smtp_host }}"
+          SUITECRM_SMTP_PORT_NUMBER: "{{ suitecrm_smtp_port_number }}"
+          SUITECRM_SMTP_USER: "{{ suitecrm_smtp_user }}"
+          SUITECRM_SMTP_PASSWORD: "{{ suitecrm_smtp_password }}"
+          SUITECRM_SMTP_PROTOCOL: "{{ suitecrm_smtp_protocol }}"
+          SUITECRM_SMTP_NOTIFY_ADDRESS: "{{ suitecrm_smtp_notify_address }}"
+          SUITECRM_SMTP_NOTIFY_NAME: "{{ suitecrm_smtp_notify_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ suitecrm_memory }}"
+        labels:
+          traefik.enable: "{{ suitecrm_available_externally | string }}"
+          traefik.http.routers.suitecrm.rule: "Host(`{{ suitecrm_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.suitecrm.tls.certresolver: "letsencrypt"
+          traefik.http.routers.suitecrm.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.suitecrm.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.suitecrm.loadbalancer.server.port: "8080"
+  when: suitecrm_enabled is true
+
+- name: Stop SuiteCRM
+  block:
+    - name: Stop SuiteCRM
+      community.docker.docker_container:
+        name: "{{ suitecrm_container_name }}"
+        state: absent
+
+    - name: Stop SuiteCRM DB
+      community.docker.docker_container:
+        name: "{{ suitecrm_db_container_name }}"
+        state: absent
+  when: suitecrm_enabled is false

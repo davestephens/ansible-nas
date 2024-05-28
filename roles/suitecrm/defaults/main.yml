@@ -1,0 +1,50 @@
+---
+suitecrm_enabled: false
+suitecrm_available_externally: false
+
+# directories
+suitecrm_data_directory: "{{ docker_home }}/suitecrm"
+
+# network
+suitecrm_http_port: "8144"
+suitecrm_https_port: "8145"
+suitecrm_hostname: "suitecrm"
+suitecrm_network_name: "suitecrm"
+
+# specs
+suitecrm_memory: 1g
+suitecrm_db_memory: 1g
+
+# docker
+suitecrm_container_name: suitecrm
+suitecrm_db_container_name: suitecrm-db
+suitecrm_image_name: "bitnami/suitecrm"
+suitecrm_image_version: "latest"
+suitecrm_db_image_name: "bitnami/mariadb"
+suitecrm_db_image_version: latest
+suitecrm_user_id: "1000"
+suitecrm_group_id: "1000"
+
+suitecrm_allow_empty_password: "no"
+suitecrm_db_root_password: "supersecure"
+suitecrm_db_database: "bitnami_suitecrm"
+suitecrm_db_user: "bn_suitecrm"
+suitecrm_db_password: "bitnami"
+suitecrm_database_host: "{{ suitecrm_db_container_name }}"
+suitecrm_database_port_number: "3306"
+suitecrm_skip_bootstrap: ""
+suitecrm_username: "user"
+suitecrm_password: "bitnami"
+suitecrm_email: "suitecrm@{{ ansible_nas_domain }}"
+suitecrm_host: "localhost"
+suitecrm_enable_https: "no"
+suitecrm_external_http_port_number: "80"
+suitecrm_external_https_port_number: "443"
+suitecrm_validate_user_ip: "true"
+suitecrm_smtp_host: ""
+suitecrm_smtp_port_number: ""
+suitecrm_smtp_user: ""
+suitecrm_smtp_password: ""
+suitecrm_smtp_protocol: "tls"
+suitecrm_smtp_notify_address: "{{ suitecrm_email }}"
+suitecrm_smtp_notify_name: "SuiteCRM"
