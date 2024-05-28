@@ -209,6 +209,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Tt-rss](https://tt-rss.org/) - free and open source web-based news feed (RSS/Atom) reader and aggregator
 * [Twenty CMS](https://github.com/twentyhq/twenty) - The #1 Open-Source CRM
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
+* [Uppy](https://github.com/transloadit/uppy) - The next open source file uploader for web browsers
 * [uTorrent](https://www.utorrent.com/) - The best torrent downloading app for beginners
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden) - Self-Hosting port of password manager
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.

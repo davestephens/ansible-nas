@@ -1,0 +1,128 @@
+---
+uppy_enabled: false
+uppy_available_externally: false
+
+# directories
+uppy_data_directory: "{{ docker_home }}/uppy"
+
+# network
+uppy_port: "3027"
+uppy_hostname: "uppy"
+
+# specs
+uppy_memory: 1g
+
+# docker
+uppy_container_name: uppy
+uppy_image_name: "transloadit/companion"
+uppy_image_version: latest
+uppy_user_id: "1000"
+uppy_group_id: "1000"
+
+# uppy
+uppy_node_env: "production"
+uppy_companion_datadir: "/output"
+uppy_companion_upload_urls: "/upload"
+uppy_companion_domain: "{{ uppy_hostname }}.{{ ansible_nas_domain }}"
+uppy_companion_protocol: https
+uppy_companion_port: "443"
+uppy_companion_client_origins: ""
+uppy_companion_secret: development
+uppy_companion_preauth_secret: development2
+uppy_companion_allow_local_urls: "true"
+uppy_companion_aws_key: "YOUR AWS KEY"
+uppy_companion_aws_secret: "YOUR AWS SECRET"
+uppy_companion_aws_secret_file: "PATH/TO/AWS/SECRET/FILE"
+uppy_companion_aws_bucket: "YOUR AWS S3 BUCKET"
+uppy_companion_aws_region: "AWS REGION"
+uppy_companion_aws_prefix: "OPTIONAL PREFIX"
+uppy_companion_aws_use_accelerate_endpoint: "false"
+uppy_companion_aws_expires: "800"
+uppy_companion_aws_acl: "public-read"
+uppy_companion_box_key: "***"
+uppy_companion_box_secret: "***"
+uppy_companion_dropbox_key: "***"
+uppy_companion_dropbox_secret: "***"
+uppy_companion_google_key: "***"
+uppy_companion_google_secret: "***"
+uppy_companion_instagram_key: "***"
+uppy_companion_instagram_secret: "***"
+uppy_companion_facebook_key: "***"
+uppy_companion_facebook_secret: "***"
+uppy_companion_zoom_key: "***"
+uppy_companion_zoom_secret: "***"
+uppy_companion_unsplash_key: "***"
+uppy_companion_unsplash_secret: "***"
+uppy_companion_onedrive_key: "***"
+uppy_companion_onedrive_secret: "***"
+uppy_companion_google_keys_endpoint: "https://{{ uppy_hostname }}.{{ ansible_nas_domain }}/drive/test-dynamic-oauth-credentials?secret=development"
+uppy_companion_test_dynamic_oauth_credentials: "true"
+uppy_companion_test_dynamic_oauth_credentials_secret: "development"
+uppy_vite_uploader: "tus"
+
+uppy_env:
+  NODE_ENV: "{{ uppy_node_env }}"
+
+  # Companion
+  # =======================
+  COMPANION_DATADIR: "{{ uppy_companion_datadir }}"
+  COMPANION_DOMAIN: "{{ uppy_companion_domain }}"
+  COMPANION_PROTOCOL: "{{ uppy_companion_protocol }}"
+  COMPANION_PORT: "{{ uppy_companion_port }}"
+  COMPANION_CLIENT_ORIGINS: "{{ uppy_companion_client_origins }}"
+  COMPANION_SECRET: "{{ uppy_companion_secret }}"
+  COMPANION_PREAUTH_SECRET: "{{ uppy_companion_preauth_secret }}"
+  COMPANION_UPLOAD_URLS: "{{ uppy_companion_upload_urls }}"
+
+  # NOTE: Only enable this in development. Enabling it in production is a security risk
+  COMPANION_ALLOW_LOCAL_URLS: "{{ uppy_companion_allow_local_urls }}"
+
+  # to enable S3
+  COMPANION_AWS_KEY: "{{ uppy_companion_aws_key }}"
+  COMPANION_AWS_SECRET: "{{ uppy_companion_aws_secret }}"
+  # specifying a secret file will override a directly set secret
+  # COMPANION_AWS_SECRET_FILE="PATH/TO/AWS/SECRET/FILE"
+  COMPANION_AWS_BUCKET: "{{ uppy_companion_aws_bucket }}"
+  COMPANION_AWS_REGION: "{{ uppy_companion_aws_region }}"
+  COMPANION_AWS_PREFIX: "{{ uppy_companion_aws_prefix }}"
+  # to enable S3 Transfer Acceleration (default: false)
+  # COMPANION_AWS_USE_ACCELERATE_ENDPOINT: "{{ uppy_companion_aws_use_accelerate_endpoint }}"
+  # to set X-Amz-Expires query param in presigned urls (in seconds, default: 800)
+  # COMPANION_AWS_EXPIRES: "{{ uppy_companion_aws_expires }}"
+  # to set a canned ACL for uploaded objects: https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl
+  # COMPANION_AWS_ACL: "{{ uppy_companion_aws_acl }}"
+
+  COMPANION_BOX_KEY: "{{ uppy_companion_box_key }}"
+  COMPANION_BOX_SECRET: "{{ uppy_companion_box_secret }}"
+
+  COMPANION_DROPBOX_KEY: "{{ uppy_companion_dropbox_key }}"
+  COMPANION_DROPBOX_SECRET: "{{ uppy_companion_dropbox_secret }}"
+
+  COMPANION_GOOGLE_KEY: "{{ uppy_companion_google_key }}"
+  COMPANION_GOOGLE_SECRET: "{{ uppy_companion_google_secret }}"
+
+  COMPANION_INSTAGRAM_KEY: "{{ uppy_companion_instagram_key }}"
+  COMPANION_INSTAGRAM_SECRET: "{{ uppy_companion_instagram_secret }}"
+
+  COMPANION_FACEBOOK_KEY: "{{ uppy_companion_facebook_key }}"
+  COMPANION_FACEBOOK_SECRET: "{{ uppy_companion_facebook_secret }}"
+
+  COMPANION_ZOOM_KEY: "{{ uppy_companion_zoom_key }}"
+  COMPANION_ZOOM_SECRET: "{{ uppy_companion_zoom_secret }}"
+
+  COMPANION_UNSPLASH_KEY: "{{ uppy_companion_unsplash_key }}"
+  COMPANION_UNSPLASH_SECRET: "{{ uppy_companion_unsplash_secret }}"
+
+  COMPANION_ONEDRIVE_KEY: "{{ uppy_companion_onedrive_key }}"
+  COMPANION_ONEDRIVE_SECRET: "{{ uppy_companion_onedrive_secret }}"
+
+  # To test dynamic Oauth against local companion (which is pointless but allows us to test it without Transloadit's servers), enable these:
+  # COMPANION_GOOGLE_KEYS_ENDPOINT: "{{ uppy_companion_google_keys_endpoint }}"
+  # COMPANION_TEST_DYNAMIC_OAUTH_CREDENTIALS: "{{ uppy_companion_test_dynamic_oauth_credentials }}"
+  # COMPANION_TEST_DYNAMIC_OAUTH_CREDENTIALS_SECRET: "{{ uppy_companion_test_dynamic_oauth_credentials_secret }}"
+
+
+  # Development environment
+  # =======================
+
+  VITE_UPLOADER: "{{ uppy_vite_uploader }}"

@@ -822,6 +822,10 @@
       tags:
         - ubooquity
 
+    - role: uppy
+      tags:
+        - uppy
+
     - role: utorrent
       tags:
         - utorrent

@@ -1,0 +1,45 @@
+---
+- name: Start Uppy
+  block:
+    - name: Create Uppy Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ uppy_data_directory }}"
+        - "{{ uppy_data_directory }}/data"
+        - "{{ uppy_data_directory }}/upload"
+        - "{{ uppy_data_directory }}/output"
+
+    - name: Create Uppy Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ uppy_container_name }}"
+        image: "{{ uppy_image_name }}:{{ uppy_image_version }}"
+        pull: true
+        volumes:
+          - /app/node_modules
+          - "{{ uppy_data_directory }}/data:/mnt/uppy-server-data:rw"
+          - "{{ uppy_data_directory }}/output:/output:rw"
+          - "{{ uppy_data_directory }}/upload:/upload:rw"
+        ports:
+          - "{{ uppy_port }}:3020"
+        env: "{{ uppy_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ uppy_memory }}"
+        labels:
+          traefik.enable: "{{ uppy_available_externally | string }}"
+          traefik.http.routers.uppy.rule: "Host(`{{ uppy_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.uppy.tls.certresolver: "letsencrypt"
+          traefik.http.routers.uppy.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.uppy.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.uppy.loadbalancer.server.port: "3020"
+  when: uppy_enabled is true
+
+- name: Stop Uppy
+  block:
+    - name: Stop Uppy
+      community.docker.docker_container:
+        name: "{{ uppy_container_name }}"
+        state: absent
+  when: uppy_enabled is false
