@@ -1,13 +1,13 @@
 ---
-- name: Create Minecraft Bedrock Server Directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ minecraft_bedrock_server_data_directory }}"
-
 - name: Start Minecraft Bedrock Server
   block:
+    - name: Create Minecraft Bedrock Server Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ minecraft_bedrock_server_data_directory }}"
+
     - name: Minecraft Bedrock Server Docker Container
       community.docker.docker_container:
         name: "{{ minecraft_bedrock_server_container_name }}"
