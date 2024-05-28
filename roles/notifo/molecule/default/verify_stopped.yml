@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove notifo mongo
+      community.docker.docker_container:
+        name: "{{ notifo_mongo_container_name }}"
+        state: absent
+      register: result_mongo
+
+    - name: Try and stop and remove notifo
+      community.docker.docker_container:
+        name: "{{ notifo_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if notifo is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_mongo.changed
+          - not result.changed

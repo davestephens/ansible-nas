@@ -562,6 +562,10 @@
       tags:
         - nomad
 
+    - role: notifo
+      tags:
+        - notifo
+
     - role: nzbget
       tags:
         - nzbget

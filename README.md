@@ -143,6 +143,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [Node-RED](https://nodered.org/) - A programming tool for wiring together hardware devices, APIs and online services
 * [Nomad](https://www.nomadproject.io/) - A simple and flexible scheduler and software orchestrator
+* [Notifo](https://github.com/notifo-io/notifo) - Multi channel notification service for collaboration tools, e-commerce, news service and more.
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader
 * [Nzbhydra2](https://github.com/theotherp/nzbhydra2) - Usenet meta search
 * [Obsidian](https://obsidian.md/) - Obsidian is the private and flexible writing app

@@ -1,0 +1,79 @@
+---
+- name: Start Notifo
+  block:
+    - name: Create Notifo Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ notifo_data_directory }}"
+
+    - name: Create Notifo network
+      community.docker.docker_network:
+        name: "{{ notifo_network_name }}"
+
+    - name: Create Notifo Mongo Docker Container
+      community.docker.docker_container:
+        name: "{{ notifo_mongo_container_name }}"
+        image: "{{ notifo_mongo_image_name }}:{{ notifo_mongo_image_version }}"
+        pull: true
+        volumes:
+          - "{{ notifo_data_directory }}/database:/data/db:rw"
+        networks:
+          - name: "{{ notifo_network_name }}"
+        network_mode: "{{ notifo_network_name }}"
+        container_default_behavior: no_defaults
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ notifo_mongo_memory }}"
+
+    - name: Create Notifo Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ notifo_container_name }}"
+        image: "{{ notifo_image_name }}:{{ notifo_image_version }}"
+        pull: true
+        volumes:
+          - "{{ notifo_data_directory }}/assets:/app/Assets:rw"
+        networks:
+          - name: "{{ notifo_network_name }}"
+        network_mode: "{{ notifo_network_name }}"
+        ports:
+          - "{{ notifo_port }}:5000"
+        env:
+          URLS__BASEURL: "{{ notifo_urls_baseurl }}"
+          STORAGE__MONGODB__CONNECTIONSTRING: "{{ notifo_storage_mongodb_connectionstring }}"
+          IDENTITY__GOOGLECLIENT: "{{ notifo_identity_googleclient }}"
+          IDENTITY__GOOGLESECRET: "{{ notifo_identity_googlesecret }}"
+          IDENTITY__GITHUBCLIENT: "{{ notifo_identity_githubclient }}"
+          IDENTITY__GITHUBSECRET: "{{ notifo_identity_githubsecret }}"
+          IDENTITY__MICROSOFTCLIENT: "{{ notifo_identity_microsoftclient }}"
+          IDENTITY__MICROSOFTSECRET: "{{ notifo_identity_microsoftsecret }}"
+          ASPNETCORE_URLS: "{{ notifo_aspnetcore_urls }}"
+        restart_policy: unless-stopped
+        memory: "{{ notifo_memory }}"
+        labels:
+          traefik.enable: "{{ notifo_available_externally | string }}"
+          traefik.http.routers.notifo.rule: "Host(`{{ notifo_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.notifo.tls.certresolver: "letsencrypt"
+          traefik.http.routers.notifo.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.notifo.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.notifo.loadbalancer.server.port: "5000"
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:5000/healthz"]
+          start_period: 60s
+  when: notifo_enabled is true
+
+- name: Stop Notifo
+  block:
+    - name: Stop Notifo Mongo
+      community.docker.docker_container:
+        name: "{{ notifo_mongo_container_name }}"
+        state: absent
+
+    - name: Stop Notifo
+      community.docker.docker_container:
+        name: "{{ notifo_container_name }}"
+        state: absent
+  when: notifo_enabled is false

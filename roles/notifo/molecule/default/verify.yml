@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get notifo mongo container state
+      community.docker.docker_container:
+        name: "{{ notifo_mongo_container_name }}"
+      register: result_mongo
+
+    - name: Get notifo container state
+      community.docker.docker_container:
+        name: "{{ notifo_container_name }}"
+      register: result
+
+    - name: Check if notifo containers are running
+      ansible.builtin.assert:
+        that:
+          - result_mongo.container['State']['Status'] == "running"
+          - result_mongo.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

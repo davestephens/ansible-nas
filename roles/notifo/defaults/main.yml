@@ -1,0 +1,37 @@
+---
+notifo_enabled: false
+notifo_available_externally: false
+
+# directories
+notifo_data_directory: "{{ docker_home }}/notifo"
+
+# network
+notifo_port: "5007"
+notifo_hostname: "notifo"
+notifo_network_name: "notifo"
+
+# specs
+notifo_memory: 1g
+notifo_mongo_memory: 1g
+
+# docker
+notifo_container_name: notifo
+notifo_image_name: "squidex/notifo"
+notifo_image_version: latest
+notifo_mongo_container_name: notifo-mongodb
+notifo_mongo_image_name: mongo
+notifo_mongo_image_version: 5
+notifo_user_id: "1000"
+notifo_group_id: "1000"
+
+
+# notifo
+notifo_urls_baseurl: "https://{{ notifo_hostname }}.{{ ansible_nas_domain }}"
+notifo_storage_mongodb_connectionstring: "mongodb://{{ notifo_mongo_container_name }}"
+notifo_identity_googleclient: ""
+notifo_identity_googlesecret: ""
+notifo_identity_githubclient: ""
+notifo_identity_githubsecret: ""
+notifo_identity_microsoftclient: ""
+notifo_identity_microsoftsecret: ""
+notifo_aspnetcore_urls: "http://+:5000"
