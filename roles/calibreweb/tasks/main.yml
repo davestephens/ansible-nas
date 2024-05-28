@@ -10,9 +10,7 @@
         - "{{ calibreweb_data_directory }}/data"
 
     - name: Calibre-web Docker Container
-      community:
-        docker:
-          docker_container:
+      community.docker.docker_container:
         name: "{{ calibreweb_container_name }}"
         image: linuxserver/calibre-web:latest
         pull: true
