@@ -1,0 +1,47 @@
+---
+- name: Start Stalwart
+  block:
+    - name: Create stalwart Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ stalwart_data_directory }}"
+
+    - name: Create Stalwart Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ stalwart_container_name }}"
+        image: "{{ stalwart_image_name }}:{{ stalwart_image_version }}"
+        pull: true
+        volumes:
+          - "{{ stalwart_data_directory }}/data:/opt/stalwart-mail"
+        ports:
+          - "{{ stalwart_https_port }}:443"
+          - "{{ stalwart_ui_port }}:8080"
+          - "{{ stalwart_smtp_port }}:25"
+          - "{{ stalwart_smtp_submission_port }}:587"
+          - "{{ stalwart_smtps_port }}:465"
+          - "{{ stalwart_imap4_port }}:143"
+          - "{{ stalwart_imaps_port }}:993"
+          - "{{ stalwart_manage_sieve_port }}:4190"
+          - "{{ stalwart_pop3_port }}:110"
+          - "{{ stalwart_pop3s_port }}:995"
+        restart_policy: unless-stopped
+        memory: "{{ stalwart_memory }}"
+        labels:
+          traefik.enable: "{{ stalwart_available_externally | string }}"
+          traefik.http.routers.stalwart.rule: "Host(`{{ stalwart_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.stalwart.tls.certresolver: "letsencrypt"
+          traefik.http.routers.stalwart.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.stalwart.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.stalwart.loadbalancer.server.port: "80"
+  when: stalwart_enabled is true
+
+- name: Stop Stalwart
+  block:
+    - name: Stop Stalwart
+      community.docker.docker_container:
+        name: "{{ stalwart_container_name }}"
+        state: absent
+  when: stalwart_enabled is false

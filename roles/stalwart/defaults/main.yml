@@ -1,0 +1,29 @@
+---
+stalwart_enabled: false
+stalwart_available_externally: false
+
+# directories
+stalwart_data_directory: "{{ docker_home }}/stalwart"
+
+# network
+stalwart_ui_port: "8149"
+stalwart_https_port: "443"
+stalwart_smtp_port: "25"
+stalwart_smtp_submission_port: "587"
+stalwart_smtps_port: "465"
+stalwart_imap4_port: "143"
+stalwart_imaps_port: "993"
+stalwart_manage_sieve_port: "4190"
+stalwart_pop3_port: "110"
+stalwart_pop3s_port: "995"
+stalwart_hostname: "stalwart"
+
+# specs
+stalwart_memory: 1g
+
+# docker
+stalwart_container_name: stalwart
+stalwart_image_name: "stalwartlabs/mail-server"
+stalwart_image_version: latest
+stalwart_user_id: "1000"
+stalwart_group_id: "1000"
