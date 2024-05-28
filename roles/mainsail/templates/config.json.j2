@@ -1,0 +1,11 @@
+{
+    "defaultLocale": "{{ mainsail_default_locale }}",
+    "instancesDB": "{{ mainsail_instances_db }}",
+    "instances": [
+    {% if mainsail_instances_db == "json" %}
+    {% for instance in mainsail_instances %}
+    {"hostname": "{{ instance.hostname }}", "port": "{{ instance.port }}"}{% if not loop.last %},{% endif +%}
+    {% endfor %}
+    {% endif %}
+    ]
+}

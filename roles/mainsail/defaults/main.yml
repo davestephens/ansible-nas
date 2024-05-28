@@ -1,0 +1,29 @@
+---
+mainsail_enabled: false
+mainsail_available_externally: false
+
+# directories
+mainsail_data_directory: "{{ docker_home }}/mainsail"
+
+# network
+mainsail_port: "8148"
+mainsail_hostname: "mainsail"
+
+# specs
+mainsail_memory: 1g
+
+# docker
+mainsail_container_name: mainsail
+mainsail_image_name: "ghcr.io/mainsail-crew/mainsail"
+mainsail_image_version: latest
+mainsail_user_id: "1000"
+mainsail_group_id: "1000"
+
+# mainsail
+mainsail_default_locale: "en"
+mainsail_instances_db: "browser" # or "json"
+mainsail_instances:
+  - hostname: "192.168.2.1"
+    port: "7125"
+  - hostname: "192.168.2.2"
+    port: "7125"

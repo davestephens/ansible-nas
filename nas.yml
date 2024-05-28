@@ -442,6 +442,10 @@
       tags:
         - lubelogger
 
+    - role: mainsail
+      tags:
+        - mainsail
+
     - role: mantium
       tags:
         - mantium
