@@ -206,6 +206,10 @@
       tags:
         - esphome
 
+    - role: espocrm
+      tags:
+        - espocrm
+
     - role: evershop
       tags:
         - evershop

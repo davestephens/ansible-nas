@@ -1,0 +1,50 @@
+---
+espocrm_enabled: false
+espocrm_available_externally: false
+
+# directories
+espocrm_data_directory: "{{ docker_home }}/espocrm"
+
+# network
+espocrm_port: "8146"
+espocrm_websocket_port: "8147"
+espocrm_hostname: "espocrm"
+espocrm_websocket_hostname: "espocrm-ws"
+espocrm_network_name: "espocrm"
+
+# specs
+espocrm_memory: 1g
+espocrm_db_memory: 1g
+espocrm_daemon_memory: 1g
+espocrm_websocket_memory: 1g
+
+# docker
+espocrm_container_name: espocrm
+espocrm_image_name: "espocrm/espocrm"
+espocrm_image_version: latest
+espocrm_db_container_name: espocrm-db
+espocrm_db_image_name: mariadb
+espocrm_db_image_version: latest
+espocrm_daemon_container_name: espocrm-deamon
+espocrm_daemon_image_name: "espocrm/espocrm"
+espocrm_daemon_image_version: latest
+espocrm_websocket_container_name: espocrm-websocket
+espocrm_websocket_image_name: "espocrm/espocrm"
+espocrm_websocket_image_version: latest
+espocrm_user_id: "1000"
+espocrm_group_id: "1000"
+
+# espocrm
+espocrm_db_root_password: "password"
+espocrm_db_database: "espocrm"
+espocrm_db_user: "root"
+espocrm_db_password: "password"
+espocrm_db_platform: "Mysql"
+espocrm_db_host: "{{ espocrm_db_container_name }}"
+espocrm_admin_username: "admin"
+espocrm_admin_password: "admin_password"
+espocrm_site_url: "https://{{ espocrm_hostname }}.{{ ansible_nas_domain }}"
+espocrm_config_use_web_socket: "true"
+espocrm_config_web_socket_url: "ws://{{ espocrm_websocket_hostname }}.{{ ansible_nas_domain }}"
+espocrm_config_web_socket_zero_m_q_subscriber_dsn: "tcp://*:7777"
+espocrm_config_web_socket_zero_m_q_submission_dsn: "tcp://{{ espocrm_websocket_container_name }}:7777"

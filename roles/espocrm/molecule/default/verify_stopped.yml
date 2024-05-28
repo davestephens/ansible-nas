@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove espocrm db
+      community.docker.docker_container:
+        name: "{{ espocrm_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove espocrm
+      community.docker.docker_container:
+        name: "{{ espocrm_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove espocrm daemon
+      community.docker.docker_container:
+        name: "{{ espocrm_daemon_container_name }}"
+        state: absent
+      register: result_daemon
+
+    - name: Try and stop and remove espocrm websocket
+      community.docker.docker_container:
+        name: "{{ espocrm_websocket_container_name }}"
+        state: absent
+      register: result_websocket
+
+    - name: Check if espocrm is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result.changed
+          - not result_daemon.changed
+          - not result_websocket.changed

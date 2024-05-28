@@ -1,0 +1,135 @@
+---
+- name: Start EspoCRM
+  block:
+    - name: Create EspoCRM Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ espocrm_data_directory }}"
+
+    - name: Create EspoCRM network
+      community.docker.docker_network:
+        name: "{{ espocrm_network_name }}"
+
+    - name: Create EspoCRM Db Docker Container
+      community.docker.docker_container:
+        name: "{{ espocrm_db_container_name }}"
+        image: "{{ espocrm_db_image_name }}:{{ espocrm_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ espocrm_data_directory }}/db:/var/lib/mysql:rw"
+        networks:
+          - name: "{{ espocrm_network_name }}"
+        network_mode: "{{ espocrm_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          MARIADB_ROOT_PASSWORD: "{{ espocrm_db_root_password }}"
+          MARIADB_DATABASE: "{{ espocrm_db_database }}"
+          MARIADB_USER: "{{ espocrm_db_user }}"
+          MARIADB_PASSWORD: "{{ espocrm_db_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ espocrm_db_memory }}"
+
+    - name: Create EspoCRM Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ espocrm_container_name }}"
+        image: "{{ espocrm_image_name }}:{{ espocrm_image_version }}"
+        pull: true
+        volumes:
+          - "{{ espocrm_data_directory }}/data:/var/www/html:rw"
+        networks:
+          - name: "{{ espocrm_network_name }}"
+        network_mode: "{{ espocrm_network_name }}"
+        ports:
+          - "{{ espocrm_port }}:80"
+        env:
+          ESPOCRM_DATABASE_PLATFORM: "{{ espocrm_db_platform }}"
+          ESPOCRM_DATABASE_HOST: "{{ espocrm_db_host }}"
+          ESPOCRM_DATABASE_USER: "{{ espocrm_db_user }}"
+          ESPOCRM_DATABASE_PASSWORD: "{{ espocrm_db_password }}"
+          ESPOCRM_ADMIN_USERNAME: "{{ espocrm_admin_username }}"
+          ESPOCRM_ADMIN_PASSWORD: "{{ espocrm_admin_password }}"
+          ESPOCRM_SITE_URL: "{{ espocrm_site_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ espocrm_memory }}"
+        labels:
+          traefik.enable: "{{ espocrm_available_externally | string }}"
+          traefik.http.routers.espocrm.rule: "Host(`{{ espocrm_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.espocrm.tls.certresolver: "letsencrypt"
+          traefik.http.routers.espocrm.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.espocrm.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.espocrm.loadbalancer.server.port: "80"
+
+    - name: Create EspoCRM Daemon Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ espocrm_daemon_container_name }}"
+        image: "{{ espocrm_daemon_image_name }}:{{ espocrm_daemon_image_version }}"
+        pull: true
+        volumes:
+          - "{{ espocrm_data_directory }}/data:/var/www/html:rw"
+        networks:
+          - name: "{{ espocrm_network_name }}"
+        network_mode: "{{ espocrm_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ espocrm_daemon_memory }}"
+        labels:
+          traefik.enable: "false"
+        entrypoint: docker-daemon.sh
+
+    - name: Create EspoCRM Websocket Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ espocrm_websocket_container_name }}"
+        image: "{{ espocrm_websocket_image_name }}:{{ espocrm_websocket_image_version }}"
+        pull: true
+        volumes:
+          - "{{ espocrm_data_directory }}/data:/var/www/html:rw"
+        networks:
+          - name: "{{ espocrm_network_name }}"
+        network_mode: "{{ espocrm_network_name }}"
+        ports:
+          - "{{ espocrm_websocket_port }}:8080"
+        env:
+          ESPOCRM_CONFIG_USE_WEB_SOCKET: "{{ espocrm_config_use_web_socket }}"
+          ESPOCRM_CONFIG_WEB_SOCKET_URL: "{{ espocrm_config_web_socket_url }}"
+          ESPOCRM_CONFIG_WEB_SOCKET_ZERO_M_Q_SUBSCRIBER_DSN: "{{ espocrm_config_web_socket_zero_m_q_subscriber_dsn }}"
+          ESPOCRM_CONFIG_WEB_SOCKET_ZERO_M_Q_SUBMISSION_DSN: "{{ espocrm_config_web_socket_zero_m_q_submission_dsn }}"
+        restart_policy: unless-stopped
+        memory: "{{ espocrm_websocket_memory }}"
+        labels:
+          traefik.enable: "{{ espocrm_available_externally | string }}"
+          traefik.http.routers.espocrm-ws.rule: "Host(`{{ espocrm_websocket_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.espocrm-ws.tls.certresolver: "letsencrypt"
+          traefik.http.routers.espocrm-ws.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.espocrm-ws.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.espocrm-ws.loadbalancer.server.port: "8080"
+        entrypoint: docker-websocket.sh
+  when: espocrm_enabled is true
+
+- name: Stop EspoCRM
+  block:
+    - name: Stop EspoCRM db
+      community.docker.docker_container:
+        name: "{{ espocrm_db_container_name }}"
+        state: absent
+
+    - name: Stop EspoCRM
+      community.docker.docker_container:
+        name: "{{ espocrm_container_name }}"
+        state: absent
+
+    - name: Stop EspoCRM Daemon
+      community.docker.docker_container:
+        name: "{{ espocrm_daemon_container_name }}"
+        state: absent
+
+    - name: Stop EspoCRM Websocket
+      community.docker.docker_container:
+        name: "{{ espocrm_websocket_container_name }}"
+        state: absent
+  when: espocrm_enabled is false
