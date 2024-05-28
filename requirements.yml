@@ -1,10 +1,7 @@
 ---
 roles:
   - name: geerlingguy.docker
-    version: 6.0.0
-
-  - name: geerlingguy.docker_arm
-    version: 5.0.0
+    version: 7.1.0
 
   - name: bertvv.samba
     version: v2.7.1
