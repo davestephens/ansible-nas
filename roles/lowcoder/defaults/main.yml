@@ -1,0 +1,70 @@
+---
+lowcoder_enabled: false
+lowcoder_available_externally: false
+
+# directories
+lowcoder_data_directory: "{{ docker_home }}/lowcoder"
+
+# network
+lowcoder_port: "3028"
+lowcoder_hostname: "lowcoder"
+lowcoder_network_name: "lowcoder"
+
+# specs
+lowcoder_api_memory: 1g
+lowcoder_node_memory: 1g
+lowcoder_frontend_memory: 1g
+lowcoder_db_memory: 1g
+lowcoder_redis_memory: 1g
+
+# docker
+lowcoder_api_container_name: lowcoder-api
+lowcoder_api_image_name: "lowcoderorg/lowcoder-ce-api-service"
+lowcoder_api_image_version: latest
+lowcoder_node_container_name: lowcoder-node
+lowcoder_node_image_name: "lowcoderorg/lowcoder-ce-node-service"
+lowcoder_node_image_version: latest
+lowcoder_frontend_container_name: lowcoder-frontend
+lowcoder_frontend_image_name: "lowcoderorg/lowcoder-ce-frontend"
+lowcoder_frontend_image_version: latest
+lowcoder_db_container_name: lowcoder-db
+lowcoder_db_image_name: mongo
+lowcoder_db_image_version: 4.4
+lowcoder_redis_container_name: lowcoder-redis
+lowcoder_redis_image_name: redis
+lowcoder_redis_image_version: 7-alpine
+
+# lowcoder
+lowcoder_mongo_initdb_database: lowcoder
+lowcoder_mongo_initdb_root_username: lowcoder
+lowcoder_mongo_initdb_root_password: secret123
+lowcoder_user_id: "9001"
+lowcoder_group_id: "9001"
+lowcoder_mongodb_url: "mongodb://{{ lowcoder_mongo_initdb_root_username }}:{{ lowcoder_mongo_initdb_root_password }}@{{ lowcoder_db_container_name }}:27017/{{ lowcoder_mongo_initdb_database }}?authSource=admin"
+lowcoder_redis_url: "redis://{{ lowcoder_redis_container_name }}:6379"
+lowcoder_node_service_url: "http://{{ lowcoder_node_container_name }}:6060"
+lowcoder_max_query_timeout: "120"
+lowcoder_email_auth_enabled: "true"
+lowcoder_email_signup_enabled: "true"
+lowcoder_create_workspace_on_signup: "true"
+lowcoder_db_encryption_password: "lowcoder.org"
+lowcoder_db_encryption_salt: "lowcoder.org"
+lowcoder_cors_domains: "*"
+lowcoder_max_orgs_per_user: "100"
+lowcoder_max_members_per_org: "1000"
+lowcoder_max_groups_per_org: "100"
+lowcoder_max_apps_per_org: "1000"
+lowcoder_max_developers: "50"
+lowcoder_api_key_secret: "5a41b090758b39b226603177ef48d73ae9839dd458ccb7e66f7e7cc028d5a50b"
+lowcoder_workspace_mode: "SAAS"
+lowcoder_admin_smtp_host: "smtp.gmail.com"
+lowcoder_admin_smtp_port: "587"
+lowcoder_admin_smtp_username: "info@localhost"
+lowcoder_admin_smtp_password: "secret123"
+lowcoder_admin_smtp_auth: "true"
+lowcoder_admin_smtp_ssl_enabled: "false"
+lowcoder_admin_smtp_starttls_enabled: "true"
+lowcoder_admin_smtp_starttls_required: "true"
+lowcoder_email_notifications_sender: "info@localhost"
+lowcoder_api_service_url: "http://{{ lowcoder_api_container_name }}:8080"
+lowcoder_max_request_size: "20m"

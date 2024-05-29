@@ -115,6 +115,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Littlelink](https://github.com/techno-tim/littlelink-server) - Self-hosted alternative to linktree
 * [LiveHelperChat](https://github.com/LiveHelperChat/livehelperchat) - live support for your website
 * [Loki](https://grafana.com/oss/loki/) - Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus.
+* [Lowcoder](https://github.com/lowcoder-org/lowcoder) - The Open Source Retool, Tooljet and Appsmith Alternative.
 * [LubeLogger](https://github.com/hargata/lubelog) - LubeLogger is a web-based vehicle maintenance and fuel mileage tracker.
 * [Mainsail](https://github.com/mainsail-crew/mainsail) -  popular web interface for managing and controlling 3D printers with Klipper
 * [Mantium](https://github.com/diogovalentte/mantium) - dashboard for tracking mangas from multiple source sites, like Mangadex and ComicK.

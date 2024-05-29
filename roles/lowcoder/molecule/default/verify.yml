@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get lowcoder redis container state
+      community.docker.docker_container:
+        name: "{{ lowcoder_redis_container_name }}"
+      register: result_redis
+
+    - name: Get lowcoder db container state
+      community.docker.docker_container:
+        name: "{{ lowcoder_db_container_name }}"
+      register: result_db
+
+    - name: Get lowcoder api container state
+      community.docker.docker_container:
+        name: "{{ lowcoder_api_container_name }}"
+      register: result_api
+
+    - name: Get lowcoder node container state
+      community.docker.docker_container:
+        name: "{{ lowcoder_node_container_name }}"
+      register: result_node
+
+    - name: Get lowcoder frontend container state
+      community.docker.docker_container:
+        name: "{{ lowcoder_frontend_container_name }}"
+      register: result_frontend
+
+    - name: Check if lowcoder containers are running
+      ansible.builtin.assert:
+        that:
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_api.container['State']['Status'] == "running"
+          - result_api.container['State']['Restarting'] == false
+          - result_node.container['State']['Status'] == "running"
+          - result_node.container['State']['Restarting'] == false
+          - result_frontend.container['State']['Status'] == "running"
+          - result_frontend.container['State']['Restarting'] == false

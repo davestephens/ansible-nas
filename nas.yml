@@ -441,6 +441,10 @@
       tags:
         - loki
 
+    - role: lowcoder
+      tags:
+        - lowcoder
+
     - role: lubelogger
       tags:
         - lubelogger

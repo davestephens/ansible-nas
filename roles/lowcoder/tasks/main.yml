@@ -1,0 +1,188 @@
+---
+- name: Start Lowcoder
+  block:
+    - name: Create Lowcoder Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 9001
+        group: 9001
+      with_items:
+        - "{{ lowcoder_data_directory }}"
+
+    - name: Create Lowcoder network
+      community.docker.docker_network:
+        name: "{{ lowcoder_network_name }}"
+
+    - name: Create Lowcoder Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ lowcoder_redis_container_name }}"
+        image: "{{ lowcoder_redis_image_name }}:{{ lowcoder_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ lowcoder_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ lowcoder_network_name }}"
+        network_mode: "{{ lowcoder_network_name }}"
+        container_default_behavior: no_defaults
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ lowcoder_redis_memory }}"
+        healthcheck:
+          test: ['CMD', 'redis-cli', '--raw', 'incr', 'ping']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Lowcoder Db Docker Container
+      community.docker.docker_container:
+        name: "{{ lowcoder_db_container_name }}"
+        image: "{{ lowcoder_db_image_name }}:{{ lowcoder_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ lowcoder_data_directory }}/mongodata:/data/db:rw"
+        networks:
+          - name: "{{ lowcoder_network_name }}"
+        network_mode: "{{ lowcoder_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          MONGO_INITDB_DATABASE: "{{ lowcoder_mongo_initdb_database }}"
+          MONGO_INITDB_ROOT_USERNAME: "{{ lowcoder_mongo_initdb_root_username }}"
+          MONGO_INITDB_ROOT_PASSWORD: "{{ lowcoder_mongo_initdb_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ lowcoder_db_memory }}"
+
+    - name: Create Lowcoder API Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ lowcoder_api_container_name }}"
+        image: "{{ lowcoder_api_image_name }}:{{ lowcoder_api_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ lowcoder_network_name }}"
+        network_mode: "{{ lowcoder_network_name }}"
+        env:
+          LOWCODER_PUID: "{{ lowcoder_user_id }}"
+          LOWCODER_PGID: "{{ lowcoder_group_id }}"
+          LOWCODER_MONGODB_URL: "{{ lowcoder_mongodb_url }}"
+          LOWCODER_REDIS_URL: "{{ lowcoder_redis_url }}"
+          LOWCODER_NODE_SERVICE_URL: "{{ lowcoder_node_service_url }}"
+          LOWCODER_MAX_QUERY_TIMEOUT: "{{ lowcoder_max_query_timeout }}"
+          LOWCODER_EMAIL_AUTH_ENABLED: "{{ lowcoder_email_auth_enabled }}"
+          LOWCODER_EMAIL_SIGNUP_ENABLED: "{{ lowcoder_email_signup_enabled }}"
+          LOWCODER_CREATE_WORKSPACE_ON_SIGNUP: "{{ lowcoder_create_workspace_on_signup }}"
+          #
+          # ! PLEASE CHANGE THESE TO SOMETHING UNIQUE !
+          #
+          #    LOWCODER_DB_ENCRYPTION_PASSWORD and LOWCODER_DB_ENCRYPTION_SALT is used
+          #    to encrypt sensitive data in database so it is important to change the defaults
+          #
+          LOWCODER_DB_ENCRYPTION_PASSWORD: "{{ lowcoder_db_encryption_password }}"
+          LOWCODER_DB_ENCRYPTION_SALT: "{{ lowcoder_db_encryption_salt }}"
+          LOWCODER_CORS_DOMAINS: "{{ lowcoder_cors_domains }}"
+          LOWCODER_MAX_ORGS_PER_USER: "{{ lowcoder_max_orgs_per_user }}"
+          LOWCODER_MAX_MEMBERS_PER_ORG: "{{ lowcoder_max_members_per_org }}"
+          LOWCODER_MAX_GROUPS_PER_ORG: "{{ lowcoder_max_groups_per_org }}"
+          LOWCODER_MAX_APPS_PER_ORG: "{{ lowcoder_max_apps_per_org }}"
+          LOWCODER_MAX_DEVELOPERS: "{{ lowcoder_max_developers }}"
+          #
+          # API-KEY secret - should be a string of at least 32 random characters
+          #    - on linux/mac, generate one eg. with: head /dev/urandom | head -c 30 | shasum -a 256
+          #
+          LOWCODER_API_KEY_SECRET: "{{ lowcoder_api_key_secret }}"
+          LOWCODER_WORKSPACE_MODE: "{{ lowcoder_workspace_mode }}"
+          # Lowcoder notification emails setup
+          LOWCODER_ADMIN_SMTP_HOST: "{{ lowcoder_admin_smtp_host }}"
+          LOWCODER_ADMIN_SMTP_PORT: "{{ lowcoder_admin_smtp_port }}"
+          LOWCODER_ADMIN_SMTP_USERNAME: "{{ lowcoder_admin_smtp_username }}"
+          LOWCODER_ADMIN_SMTP_PASSWORD: "{{ lowcoder_admin_smtp_password }}"
+          LOWCODER_ADMIN_SMTP_AUTH: "{{ lowcoder_admin_smtp_auth }}"
+          LOWCODER_ADMIN_SMTP_SSL_ENABLED: "{{ lowcoder_admin_smtp_ssl_enabled }}"
+          LOWCODER_ADMIN_SMTP_STARTTLS_ENABLED: "{{ lowcoder_admin_smtp_starttls_enabled }}"
+          LOWCODER_ADMIN_SMTP_STARTTLS_REQUIRED: "{{ lowcoder_admin_smtp_starttls_required }}"
+          # Email used as sender in lost password email
+          LOWCODER_EMAIL_NOTIFICATIONS_SENDER: "{{ lowcoder_email_notifications_sender }}"
+        restart_policy: unless-stopped
+        memory: "{{ lowcoder_api_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Lowcoder Node Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ lowcoder_node_container_name }}"
+        image: "{{ lowcoder_node_image_name }}:{{ lowcoder_node_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ lowcoder_network_name }}"
+        network_mode: "{{ lowcoder_network_name }}"
+        env:
+          LOWCODER_PUID: "{{ lowcoder_user_id }}"
+          LOWCODER_PGID: "{{ lowcoder_group_id }}"
+          LOWCODER_API_SERVICE_URL: "{{ lowcoder_api_service_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ lowcoder_node_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Lowcoder Frontend Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ lowcoder_frontend_container_name }}"
+        image: "{{ lowcoder_frontend_image_name }}:{{ lowcoder_frontend_image_version }}"
+        pull: true
+        ports:
+          - "{{ lowcoder_port }}:3000"
+        volumes:
+          - "{{ lowcoder_data_directory }}/static-assets:/lowcoder/assets"
+        networks:
+          - name: "{{ lowcoder_network_name }}"
+        network_mode: "{{ lowcoder_network_name }}"
+        env:
+          LOWCODER_PUID: "{{ lowcoder_user_id }}"
+          LOWCODER_PGID: "{{ lowcoder_group_id }}"
+          LOWCODER_MAX_REQUEST_SIZE: "{{ lowcoder_max_request_size }}"
+          LOWCODER_MAX_QUERY_TIMEOUT: "{{ lowcoder_max_query_timeout }}"
+          LOWCODER_API_SERVICE_URL: "{{ lowcoder_api_service_url }}"
+          LOWCODER_NODE_SERVICE_URL: "{{ lowcoder_node_service_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ lowcoder_frontend_memory }}"
+        labels:
+          traefik.enable: "{{ lowcoder_available_externally | string }}"
+          traefik.http.routers.lowcoder.rule: "Host(`{{ lowcoder_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.lowcoder.tls.certresolver: "letsencrypt"
+          traefik.http.routers.lowcoder.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.lowcoder.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.lowcoder.loadbalancer.server.port: "3000"
+  when: lowcoder_enabled is true
+
+- name: Stop Lowcoder
+  block:
+    - name: Stop Lowcoder redis
+      community.docker.docker_container:
+        name: "{{ lowcoder_redis_container_name }}"
+        state: absent
+
+    - name: Stop Lowcoder db
+      community.docker.docker_container:
+        name: "{{ lowcoder_db_container_name }}"
+        state: absent
+
+    - name: Stop Lowcoder API
+      community.docker.docker_container:
+        name: "{{ lowcoder_api_container_name }}"
+        state: absent
+
+    - name: Stop Lowcoder Node
+      community.docker.docker_container:
+        name: "{{ lowcoder_node_container_name }}"
+        state: absent
+
+    - name: Stop Lowcoder Frontend
+      community.docker.docker_container:
+        name: "{{ lowcoder_frontend_container_name }}"
+        state: absent
+  when: lowcoder_enabled is false

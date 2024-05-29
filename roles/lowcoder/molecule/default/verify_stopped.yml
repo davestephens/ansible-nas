@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove lowcoder redis
+      community.docker.docker_container:
+        name: "{{ lowcoder_db_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove lowcoder db
+      community.docker.docker_container:
+        name: "{{ lowcoder_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove lowcoder api
+      community.docker.docker_container:
+        name: "{{ lowcoder_api_container_name }}"
+        state: absent
+      register: result_api
+
+    - name: Try and stop and remove lowcoder node
+      community.docker.docker_container:
+        name: "{{ lowcoder_node_container_name }}"
+        state: absent
+      register: result_node
+
+    - name: Try and stop and remove lowcoder frontend
+      community.docker.docker_container:
+        name: "{{ lowcoder_frontend_container_name }}"
+        state: absent
+      register: result_frontend
+
+    - name: Check if lowcoder is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_redis.changed
+          - not result_db.changed
+          - not result_api.changed
+          - not result_node.changed
+          - not result_frontend.changed
