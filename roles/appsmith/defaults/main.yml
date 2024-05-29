@@ -1,0 +1,56 @@
+---
+appsmith_enabled: false
+appsmith_available_externally: false
+
+# directories
+appsmith_data_directory: "{{ docker_home }}/appsmith"
+
+# network
+appsmith_http_port: "8150"
+appsmith_https_port: "8151"
+appsmith_hostname: "appsmith"
+
+# specs
+appsmith_memory: 1g
+
+# docker
+appsmith_container_name: appsmith
+appsmith_image_name: "index.docker.io/appsmith/appsmith-ce" # or index.docker.io/appsmith/appsmith-ee
+appsmith_image_version: latest
+appsmith_user_id: "1000"
+appsmith_group_id: "1000"
+
+# appsmith
+appsmith_mail_enabled: ""
+appsmith_mail_from: ""
+appsmith_reply_to: ""
+appsmith_mail_host: ""
+appsmith_mail_port: ""
+appsmith_mail_smtp_tls_enabled: ""
+appsmith_mail_smtp_auth: ""
+appsmith_mail_username: ""
+appsmith_mail_password: ""
+appsmith_oauth2_google_client_id: ""
+appsmith_oauth2_google_client_secret: ""
+appsmith_signup_allowed_domains: "gmail.com,{{ ansible_nas_domain }}"
+appsmith_oauth2_github_client_id: "YOUR_GITHUB_CLIENT_ID"
+appsmith_oauth2_github_client_secret: "YOUR_GITHUB_CLIENT_SECRET"
+appsmith_oauth2_oidc_client_id: ""
+appsmith_oauth2_oidc_client_secret: ""
+appsmith_form_login_disabled: "false"
+appsmith_client_log_level: "1"
+appsmith_intercom_app_id: ""
+appsmith_disable_intercom: "true"
+appsmith_google_maps_api_key: "<YOUR_API_KEY>"
+appsmith_admin_emails: ""
+appsmith_signup_disabled: "false"
+appsmith_custom_domain: ""
+appsmith_telemetry_enabled: "false"
+appsmith_recaptcha_enabled: ""
+appsmith_recaptcha_site_key: ""
+appsmith_recaptcha_secret_key: ""
+appsmith_supervisor_user: "admin"
+appsmith_supervisor_password: "supersecure"
+appsmith_backup_cron_expression: ""
+appsmith_server_timeout: "60"
+appsmith_allowed_frame_ancestors: "'self' https://{{ ansible_nas_domain }}"

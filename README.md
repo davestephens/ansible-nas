@@ -22,6 +22,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Admidio](https://www.admidio.org/) - a free online membership management
 * [Affine](https://github.com/toeverything/AFFiNE) - a next-gen knowledge base that brings planning, sorting and creating all together
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
+* [Appsmith](https://www.appsmith.com/) -  low-code application platform to quickly build, deploy, and manage effective software
 * [Authelia](https://www.authelia.com/) - The Single Sign-On Multi-Factor portal for web apps
 * [Authentik](https://goauthentik.io/) - an open-source Identity Provider focused on flexibility and versatility
 * [Barcode Buddy](https://github.com/Forceu/barcodebuddy/) - Barcode system for Grocy

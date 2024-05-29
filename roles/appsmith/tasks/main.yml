@@ -1,0 +1,74 @@
+---
+- name: Start Appsmith
+  block:
+    - name: Create Appsmith Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ appsmith_data_directory }}"
+        - "{{ appsmith_data_directory }}/data"
+
+    - name: Create Appsmith Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ appsmith_container_name }}"
+        image: "{{ appsmith_image_name }}:{{ appsmith_image_version }}"
+        pull: true
+        volumes:
+          - "{{ appsmith_data_directory }}/stacks:/appsmith-stacks:rw"
+        ports:
+          - "{{ appsmith_http_port }}:80"
+          - "{{ appsmith_https_port }}:443"
+        env:
+          APPSMITH_MAIL_ENABLED: "{{ appsmith_mail_enabled }}"
+          APPSMITH_MAIL_FROM: "{{ appsmith_mail_from }}"
+          APPSMITH_REPLY_TO: "{{ appsmith_reply_to }}"
+          APPSMITH_MAIL_HOST: "{{ appsmith_mail_host }}"
+          APPSMITH_MAIL_PORT: "{{ appsmith_mail_port }}"
+          APPSMITH_MAIL_SMTP_TLS_ENABLED: "{{ appsmith_mail_smtp_tls_enabled }}"
+          APPSMITH_MAIL_SMTP_AUTH: "{{ appsmith_mail_smtp_auth }}"
+          APPSMITH_MAIL_USERNAME: "{{ appsmith_mail_username }}"
+          APPSMITH_MAIL_PASSWORD: "{{ appsmith_mail_password }}"
+          APPSMITH_OAUTH2_GOOGLE_CLIENT_ID=YOUR_CLIENT_ID: "{{ appsmith_oauth2_google_client_id }}"
+          APPSMITH_OAUTH2_GOOGLE_CLIENT_SECRET=YOUR_CLIENT_SECRET: "{{ appsmith_oauth2_google_client_secret  }}"
+          APPSMITH_SIGNUP_ALLOWED_DOMAINS: "{{ appsmith_signup_allowed_domains }}"
+          APPSMITH_OAUTH2_GITHUB_CLIENT_ID: "{{ appsmith_oauth2_github_client_id }}"
+          APPSMITH_OAUTH2_GITHUB_CLIENT_SECRET: "{{ appsmith_oauth2_github_client_secret }}"
+          APPSMITH_OAUTH2_OIDC_CLIENT_ID: "{{ appsmith_oauth2_oidc_client_id }}"
+          APPSMITH_OAUTH2_OIDC_CLIENT_SECRET: "{{ appsmith_oauth2_oidc_client_secret }}"
+          APPSMITH_FORM_LOGIN_DISABLED: "{{ appsmith_form_login_disabled }}"
+          APPSMITH_CLIENT_LOG_LEVEL: "{{ appsmith_client_log_level }}"
+          APPSMITH_INTERCOM_APP_ID: "{{ appsmith_intercom_app_id }}"
+          APPSMITH_DISABLE_INTERCOM: "{{ appsmith_disable_intercom }}"
+          APPSMITH_GOOGLE_MAPS_API_KEY: "{{ appsmith_google_maps_api_key }}"
+          APPSMITH_ADMIN_EMAILS: "{{ appsmith_admin_emails }}"
+          APPSMITH_SIGNUP_DISABLED: "{{ appsmith_signup_disabled }}"
+          APPSMITH_CUSTOM_DOMAIN: "{{ appsmith_custom_domain }}"
+          APPSMITH_TELEMETRY_ENABLED: "{{ appsmith_telemetry_enabled }}"
+          APPSMITH_RECAPTCHA_ENABLED: "{{ appsmith_recaptcha_enabled }}"
+          APPSMITH_RECAPTCHA_SITE_KEY: "{{ appsmith_recaptcha_site_key }}"
+          APPSMITH_RECAPTCHA_SECRET_KEY: "{{ appsmith_recaptcha_secret_key }}"
+          APPSMITH_SUPERVISOR_USER: "{{ appsmith_supervisor_user }}"
+          APPSMITH_SUPERVISOR_PASSWORD: "{{ appsmith_supervisor_password }}"
+          APPSMITH_BACKUP_CRON_EXPRESSION: "{{ appsmith_backup_cron_expression }}"
+          APPSMITH_SERVER_TIMEOUT: "{{ appsmith_server_timeout }}"
+          APPSMITH_ALLOWED_FRAME_ANCESTORS: "{{ appsmith_allowed_frame_ancestors }}"
+        restart_policy: unless-stopped
+        memory: "{{ appsmith_memory }}"
+        labels:
+          traefik.enable: "{{ appsmith_available_externally | string }}"
+          traefik.http.routers.appsmith.rule: "Host(`{{ appsmith_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.appsmith.tls.certresolver: "letsencrypt"
+          traefik.http.routers.appsmith.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.appsmith.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.appsmith.loadbalancer.server.port: "80"
+  when: appsmith_enabled is true
+
+- name: Stop Appsmith
+  block:
+    - name: Stop Appsmith
+      community.docker.docker_container:
+        name: "{{ appsmith_container_name }}"
+        state: absent
+  when: appsmith_enabled is false

@@ -73,6 +73,10 @@
       tags:
         - airsonic
 
+    - role: appsmith
+      tags:
+        - appsmith
+
     - role: authelia
       tags:
         - authelia
