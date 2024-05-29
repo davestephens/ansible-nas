@@ -35,7 +35,7 @@
           homepage.description: Notes for developers
   when: silverbullet_enabled is true
 
-- name: Stop silverbullet
+- name: Stop Silverbullet
   block:
     - name: Stop silverbullet
       community.docker.docker_container:
