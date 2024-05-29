@@ -1,6 +1,6 @@
 ---
 title: "Wger"
-description: "free, open source workout manager"
+description: "Free, open source workout manager"
 ---
 
 Homepage: [https://wger.de/](https://wger.de/)

@@ -1,6 +1,6 @@
 ---
 title: "Invidious"
-description: "an alternative front-end to YouTube "
+description: "An alternative front-end to YouTube "
 ---
 
 Homepage: [https://invidious.io/](https://invidious.io/)

@@ -1,7 +1,6 @@
 ---
 title: "Chatwoot"
-description: "About
-Open-source live-chat, email support, omni-channel desk. An alternative to Intercom, Zendesk, Salesforce Service Cloud etc. 🔥💬"
+description: "Open-source live-chat, email support, omni-channel desk. An alternative to Intercom, Zendesk, Salesforce Service Cloud etc. 🔥💬"
 ---
 
 Homepage: [https://github.com/chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)

@@ -1,6 +1,6 @@
 ---
 title: "ebusd"
-description: "daemon for communication with eBUS heating systems "
+description: "Daemon for communication with eBUS heating systems"
 ---
 
 Homepage: [https://github.com/john30/ebusd](https://github.com/john30/ebusd)

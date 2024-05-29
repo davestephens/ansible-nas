@@ -4,11 +4,11 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Over Fifty Applications',
+    title: 'Over 200 Applications',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Easily install over fifty different applications onto your home server.
+        Easily install over 200 different applications onto your home server.
       </>
     ),
   },

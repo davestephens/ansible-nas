@@ -1,6 +1,6 @@
 ---
 title: "Wanderer"
-description: "a self-hosted trail database"
+description: "A self-hosted trail database"
 ---
 
 Homepage: [https://github.com/Flomp/wanderer](https://github.com/Flomp/wanderer)

@@ -1,6 +1,6 @@
 ---
 title: "Huly Platform"
-description: "Huly — All-in-One Project Management Platform (alternative to Linear, Jira, Slack, Notion, Motion)"
+description: "All-in-One Project Management Platform (alternative to Linear, Jira, Slack, Notion, Motion)"
 ---
 
 
