@@ -18,6 +18,7 @@ If you have a spare domain name you can configure applications to be accessible 
 ## Available Applications
 
 * [Activepieces](https://www.activepieces.com/) - an open source all-in-one automation tool
+* [Actual](https://github.com/actualbudget/actual-server) - A local-first personal finance app
 * [Admidio](https://www.admidio.org/) - a free online membership management
 * [Affine](https://github.com/toeverything/AFFiNE) - a next-gen knowledge base that brings planning, sorting and creating all together
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music

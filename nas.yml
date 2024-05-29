@@ -57,6 +57,10 @@
       tags:
         - activepieces
 
+    - role: actual
+      tags:
+        - actual
+
     - role: admidio
       tags:
         - admidio

@@ -1,0 +1,43 @@
+---
+- name: Start Actual
+  block:
+    - name: Create Actual Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ actual_data_directory }}"
+        - "{{ actual_data_directory }}/data"
+
+    - name: Create Actual Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ actual_container_name }}"
+        image: "{{ actual_image_name }}:{{ actual_image_version }}"
+        pull: true
+        volumes:
+          - "{{ actual_data_directory }}/data:/data:rw"
+        ports:
+          - "{{ actual_port }}:5006"
+        env:
+          ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB: "{{ actual_upload_file_sync_size_limit_mb }}"
+          ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SYNC_SIZE_LIMIT_MB: "{{ actual_upload_sync_encrypted_file_sync_size_limit_mb }}"
+          ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB: "{{ actual_upload_file_size_limit_mb }}"
+        restart_policy: unless-stopped
+        memory: "{{ actual_memory }}"
+        labels:
+          traefik.enable: "{{ actual_available_externally | string }}"
+          traefik.http.routers.actual.rule: "Host(`{{ actual_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.actual.tls.certresolver: "letsencrypt"
+          traefik.http.routers.actual.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.actual.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.actual.loadbalancer.server.port: "5006"
+  when: actual_enabled is true
+
+- name: Stop Actual
+  block:
+    - name: Stop Actual
+      community.docker.docker_container:
+        name: "{{ actual_container_name }}"
+        state: absent
+  when: actual_enabled is false

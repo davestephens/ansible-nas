@@ -1,0 +1,25 @@
+---
+actual_enabled: false
+actual_available_externally: false
+
+# directories
+actual_data_directory: "{{ docker_home }}/actual"
+
+# network
+actual_port: "5008"
+actual_hostname: "actual"
+
+# specs
+actual_memory: 1g
+
+# docker
+actual_container_name: actual
+actual_image_name: "docker.io/actualbudget/actual-server"
+actual_image_version: latest
+actual_user_id: "1000"
+actual_group_id: "1000"
+
+# actual
+actual_upload_file_sync_size_limit_mb: "20"
+actual_upload_sync_encrypted_file_sync_size_limit_mb: "50"
+actual_upload_file_size_limit_mb: "20"
