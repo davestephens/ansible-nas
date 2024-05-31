@@ -1,0 +1,36 @@
+---
+aria2_enabled: false
+aria2_available_externally: false
+
+# directories
+aria2_data_directory: "{{ docker_home }}/aria2"
+aria2_download_directory: "{{ downloads_root }}"
+
+# network
+aria2_port: "6800"
+aria2_listen_port: "6888"
+aria2_ui_port: "6880"
+aria2_hostname: "aria2"
+aria2_network_name: "aria2"
+
+# specs
+aria2_memory: 1g
+aria2_ui_memory: 1g
+
+# docker
+aria2_container_name: aria2
+aria2_image_name: "p3terx/aria2-pro"
+aria2_image_version: latest
+aria2_ui_container_name: aria2-ui
+aria2_ui_image_name: "p3terx/ariang"
+aria2_ui_image_version: latest
+
+# aria2
+aria2_user_id: "65534"
+aria2_group_id: "65534"
+aria2_umask: "022"
+aria2_secret: "P3TERX"
+aria2_disk_cache: "64M"
+aria2_ipv6_mode: "false"
+aria2_update_trackers: "true"
+aria2_custom_tracker_url: ""

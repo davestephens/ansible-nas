@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove aria2
+      community.docker.docker_container:
+        name: "{{ aria2_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove aria2 ui
+      community.docker.docker_container:
+        name: "{{ aria2_ui_container_name }}"
+        state: absent
+      register: result_ui
+
+    - name: Check if aria2 is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_ui.changed

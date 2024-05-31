@@ -1,0 +1,86 @@
+---
+- name: Start aria2
+  block:
+    - name: Create aria2 Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ aria2_user_id }}"
+        group: "{{ aria2_group_id }}"
+      with_items:
+        - "{{ aria2_data_directory }}"
+
+    - name: Create aria2 network
+      community.docker.docker_network:
+        name: "{{ aria2_network_name }}"
+
+    - name: Create aria2 Docker Container
+      community.docker.docker_container:
+        name: "{{ aria2_container_name }}"
+        image: "{{ aria2_image_name }}:{{ aria2_image_version }}"
+        pull: true
+        ports:
+          - "{{ aria2_port }}:6800"
+          - "{{ aria2_listen_port }}:6888"
+        volumes:
+          - "{{ aria2_data_directory }}/config:/config"
+          - "{{ aria2_download_directory }}:/downloads"
+        networks:
+          - name: "{{ aria2_network_name }}"
+        network_mode: "{{ aria2_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          PUID: "{{ aria2_user_id }}"
+          PGID: "{{ aria2_group_id }}"
+          UMASK_SET: "{{ aria2_umask }}"
+          RPC_SECRET: "{{ aria2_secret }}"
+          RPC_PORT: "{{ aria2_port }}"
+          LISTEN_PORT: "{{ aria2_listen_port }}"
+          DISK_CACHE: "{{ aria2_disk_cache }}"
+          IPV6_MODE: "{{ aria2_ipv6_mode }}"
+          UPDATE_TRACKERS: "{{ aria2_update_trackers }}"
+          CUSTOM_TRACKER_URL: "{{ aria2_custom_tracker_url }}"
+          TZ: "{{ ansible_nas_timezone }}"
+        labels:
+          traefik.enable: "false"
+        log_driver: json-file
+        log_options:
+          max-size: 1m
+        restart_policy: always
+        memory: "{{ aria2_memory }}"
+
+    - name: Create aria2 UI Docker Container
+      community.docker.docker_container:
+        name: "{{ aria2_ui_container_name }}"
+        image: "{{ aria2_ui_image_name }}:{{ aria2_ui_image_version }}"
+        pull: true
+        ports:
+          - "{{ aria2_ui_port }}:6880"
+        networks:
+          - name: "{{ aria2_network_name }}"
+        network_mode: "{{ aria2_network_name }}"
+        container_default_behavior: no_defaults
+        command: --port 6880 --ipv6
+        labels:
+          traefik.enable: "{{ aria2_available_externally | string }}"
+          traefik.http.routers.aria2.rule: "Host(`{{ aria2_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.aria2.tls.certresolver: "letsencrypt"
+          traefik.http.routers.aria2.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.aria2.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.aria2.loadbalancer.server.port: "6880"
+        restart_policy: always
+        memory: "{{ aria2_ui_memory }}"
+  when: aria2_enabled is true
+
+- name: Stop aria2
+  block:
+    - name: Stop aria2
+      community.docker.docker_container:
+        name: "{{ aria2_redis_container_name }}"
+        state: absent
+
+    - name: Stop aria2 ui
+      community.docker.docker_container:
+        name: "{{ aria2_db_container_name }}"
+        state: absent
+  when: aria2_enabled is false

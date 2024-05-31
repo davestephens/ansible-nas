@@ -77,6 +77,10 @@
       tags:
         - appsmith
 
+    - role: aria2
+      tags:
+        - aria2
+
     - role: authelia
       tags:
         - authelia
