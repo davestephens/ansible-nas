@@ -76,7 +76,7 @@
   block:
     - name: Stop aria2
       community.docker.docker_container:
-        name: "{{ aria2_redis_container_name }}"
+        name: "{{ aria2_container_name }}"
         state: absent
 
     - name: Stop aria2 ui
