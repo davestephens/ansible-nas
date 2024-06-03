@@ -1,0 +1,135 @@
+---
+dbgate_enabled: false
+dbgate_available_externally: false
+
+# directories
+dbgate_data_directory: "{{ docker_home }}/dbgate"
+
+# network
+dbgate_port: "3026"
+dbgate_hostname: "dbgate"
+dbgate_network_name: "dbgate"
+dbgate_networks:
+  - name: "{{ dbgate_network_name }}"
+
+# specs
+dbgate_memory: 1g
+
+# docker
+dbgate_container_name: dbgate
+dbgate_image_name: "dbgate/dbgate" # or index.docker.io/dbgate/dbgate-ee
+dbgate_image_version: latest
+dbgate_user_id: "1000"
+dbgate_group_id: "1000"
+
+# dbgate
+dbgate_web_root: ""
+dbgate_permissions: ""
+dbgate_shell_connection: "0"
+dbgate_shell_scripting: "0"
+# dbgate_logins: ""
+# dbgate_login_password: ""
+# dbgate_login_permissions: ""
+dbgate_token_lifetime: "1d"
+dbgate_single_connection: ""
+dbgate_single_database: ""
+dbgate_basic_auth: "0"
+dbgate_log_level: "info"
+dbgate_file_log_level: "info"
+dbgate_console_log_level: "info"
+dbgate_oauth_auth: ""
+dbgate_oauth_token: ""
+dbgate_oauth_logout: ""
+dbgate_oauth_client_id: ""
+dbgate_oauth_client_secret: ""
+dbgate_oauth_login_field: ""
+dbgate_oauth_allowed_logins: ""
+dbgate_oauth_scope: ""
+dbgate_oauth_permissions: ""
+dbgate_oauth_group_field: ""
+dbgate_oauth_allowed_groups: ""
+dbgate_ad_url: ""
+dbgate_ad_basedn: ""
+dbgate_ad_username: ""
+dbgate_ad_password: ""
+dbgate_ad_allowed_logins: ""
+
+dbgate_env:
+  WEB_ROOT: "{{ dbgate_web_root }}" # if you need to run DbGate in virtual subdirectory (eg. for value /dbadmin , dbgate will be accessible on localhost:3000/dbadmin )
+  PERMISSIONS: "{{ dbgate_permissions }}" # list of comma separated permissions. See also permission list below
+  SHELL_CONNECTION: "{{ dbgate_shell_connection }}" # if true or 1, connections can be defined in shell scripts. Otherwise, only preconfigured connections are allowed. By default, this is not allowed for security reasons.
+  SHELL_SCRIPTING: "{{ dbgate_shell_scripting }}" # if true or 1, custom JavaScript shell scripts are allowed. By default, this is not allowed for security reasons.
+  # LOGINS: "{{ dbgate_logins }}" # comma delimited list of aditional logins
+  # LOGIN_PASSWORD_[login]: "{{ dbgate_login_password }}" # password for specified login
+  # LOGIN_PERMISSIONS_[login]: "{{ dbgate_login_permissions }}" # list of comma separated permissions for given login. See also permission list below
+  TOKEN_LIFETIME: "{{ dbgate_token_lifetime }}" # lifetime of access token. After this time, logged user will be redirected to login page. Default is 1d (means 1 day). Possible are values like 3h (3 hours), 10m (10 minutes), 2d (2 days)
+  SINGLE_CONNECTION: "{{ dbgate_single_connection }}" # connection id. If defined, only this connection will be available (must be used with SINGLE_DATABASE)
+  SINGLE_DATABASE: "{{ dbgate_single_database }}" # database name, only this database will be available. (must be used with SINGLE_CONNECTION)
+  BASIC_AUTH: "{{ dbgate_basic_auth }}" # if true or 1 and LOGIN or LOGINS are defined, baseic authentization of both web and API is used. Otherwise, login form and JWT token base API authentization is used. Basic authentization cannot be used for active directory/LDAP authentization.
+  LOG_LEVEL: "{{ dbgate_log_level }}" # all messages with this log level or bigger will be logged. One of values trace, debug, info, warn, error, fatal. Default is info
+  FILE_LOG_LEVEL: "{{ dbgate_file_log_level }}" # log level for logging into log file. For file logging, this has bigger priority than LOG_LEVEL
+  CONSOLE_LOG_LEVEL: "{{ dbgate_console_log_level }}" # log level for logging into log file. For console logging, this has bigger priority than LOG_LEVEL
+  OAUTH_AUTH: "{{ dbgate_oauth_auth }}" # authentication endpoint of OAuth protocol
+  OAUTH_TOKEN: "{{ dbgate_oauth_token }}" # token endpoint of OAuth protocol
+  OAUTH_LOGOUT: "{{ dbgate_oauth_logout }}" # logout URL of OAuth provider. User will be redirected to this URL when he requests logging out
+  OAUTH_CLIENT_ID: "{{ dbgate_oauth_client_id }}" # client ID
+  OAUTH_CLIENT_SECRET: "{{ dbgate_oauth_client_secret }}" # client secret
+  OAUTH_LOGIN_FIELD: "{{ dbgate_oauth_login_field }}" # field name from payload, which holds login name. For availabe fields, you could inspect dbgate log, payload sent from OAuth provider are logged to console. This login name is used eg. for configuring permissions. It is not neccessary login entered in OAuth. If not specified, all users from OAuth provider will have the same login name.
+  OAUTH_ALLOWED_LOGINS: "{{ dbgate_oauth_allowed_logins }}" # comma separator login names, which will be allowed to login. If not specified, all logins will be allowed to use DbGate app.
+  OAUTH_SCOPE: "{{ dbgate_oauth_scope }}" # scope, which is sent to OAuth authorize and token endpoint
+  OAUTH_PERMISSIONS: "{{ dbgate_oauth_permissions }}" # set 1 or true, when set, LOGIN_PERMISSIONS_[login] could be used also for users authentificated by OAuth
+  OAUTH_GROUP_FIELD: "{{ dbgate_oauth_group_field }}" # field in payload from OAuth which denotes group
+  OAUTH_ALLOWED_GROUPS: "{{ dbgate_oauth_allowed_groups }}" # comma separated alowed group names
+  AD_URL: "{{ dbgate_ad_url }}" # URL of LDAP provider (eg ldap://domain.com)
+  AD_BASEDN: "{{ dbgate_ad_basedn }}" # eg. dc=domain,dc=com
+  AD_USERNAME: "{{ dbgate_ad_username }}" # username to active directory
+  AD_PASSWORD: "{{ dbgate_ad_password }}" # password to acvtive directory
+  AD_ALLOWED_LOGINS: "{{ dbgate_ad_allowed_logins }}" # comma separator login names, which will be allowed to login. If not specified, all logins will be allowed to use DbGate app.
+  CONNECTIONS: "" # list of preconfigured connection names, comma delimited. In following options, [connection id] is ID from this list
+  LABEL_[connection id]: "" # label (display name) of connection.
+  SERVER_[connection id]: "" # server (host name) of connection.
+  USER_[connection id]: "" # user name for DB connection.
+  PASSWORD_[connection id]: "" # password for DB connection.
+  PASSWORD_MODE_[connection id]: "" # determines whether password and user name is stored or must be filled in by used. One of following values:
+  # askPassword # DbGate asks for password when connecting
+  # askUser # DbGate asks for username and password
+  PORT_[connection id]: "" # port for DB connection.
+  FILE_[connection id]: "" # database file path (for SQLite).
+  URL_[connection id]: "" # database URL (works for MongoDB, PostgreSQL, CockroachDb, Redshift).
+  DATABASE_[connection id]: "" # default database name.
+  READONLY_[connection id]: "" # connect in readonly mode
+  ENGINE_[connection id]: "" # engine of connection (mandatory, name of engine with plugin), one of:
+  # mssql@dbgate-plugin-mssql # Microsoft SQL Server
+  # mysql@dbgate-plugin-mysql # MySQL
+  # mariadb@dbgate-plugin-mysql # MariaDB
+  # postgres@dbgate-plugin-postgres # PostgreSQL
+  # cockroach@dbgate-plugin-postgres # CockroachDB
+  # redshift@dbgate-plugin-postgres # Amazon Redshift
+  # sqlite@dbgate-plugin-sqlite # SQLite
+  # mongo@dbgate-plugin-mongo # MongoDB
+  USE_SSH_[connection id]: "" # set value 1 or true, when SSH tunnel should be used
+  SSH_HOST_[connection id]: "" # SSH host name
+  SSH_PORT_[connection id]: "" # SSH port number
+  SSH_MODE_[connection id]: "" # one of following values
+  # userPassword # authenticate with user and password
+  # agent # authenticate with SSH agent
+  # keyFile # authenticate with key file
+  SSH_LOGIN_[connection id]: "" # SSH login
+  SSH_PASSWORD_[connection id]: "" # SSH password
+  SSH_KEY_FILE_[connection id]: "" # full path to key file
+  SSH_KEY_FILE_PASSWORD_[connection id]: "" # key file passphrase
+  USE_SSL_[connection id]: "" # set value 1 or true, when SSL should be used
+  SSL_CA_FILE_[connection id]: "" # path to CA Cert file
+  SSL_CERT_FILE_[connection id]: "{" # path to certificate file
+  SSL_CERT_FILE_PASSWORD_[connection id]: "" # certificate key file password
+  SSL_KEY_FILE_[connection id]: "" # path to key file
+  SSL_REJECT_UNAUTHORIZED_[connection id]: "" # set value 1 or true if reject unauthorized connections
+  SSL_TRUST_CERTIFICATE_[connection id]: "" # set value 1 or true for setting trustServerCertificate MSSQL option
+  SETTINGS_[settings key]: "" # preconfigure settings value. Setting key could be listed from source codes, https://github.com/dbgate/dbgate/blob/master/packages/web/src/settings/
+  SOCKET_PATH_[connection id]: "" # path to socket file, if connecting via socket
+  AUTH_TYPE_[connection id]: "" # authentization type
+  # hostPort (default)
+  # socket # value is set implicitly, when settings SOCKET_PATH
+  # tedious # default portable authentization for MS SQL, using tedious driver
+  # sspi # Windows integrated authentization (Windows only, MS SQL), using native MSSQL driver
+  # sql # SQL authentization (Windows only, MS SQL), using native MSSQL driver

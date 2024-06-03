@@ -169,6 +169,10 @@
       tags:
         - dashy
 
+    - role: dbgate
+      tags:
+        - dbgate
+
     - role: ddns_updater
       tags:
         - ddns_updater

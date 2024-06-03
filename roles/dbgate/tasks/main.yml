@@ -1,0 +1,46 @@
+---
+- name: Start DbGate
+  block:
+    - name: Create DbGate Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ dbgate_data_directory }}"
+        - "{{ dbgate_data_directory }}/data"
+
+    - name: Create DbGate network
+      community.docker.docker_network:
+        name: "{{ dbgate_network_name }}"
+
+    - name: Create DbGate Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ dbgate_container_name }}"
+        image: "{{ dbgate_image_name }}:{{ dbgate_image_version }}"
+        pull: true
+        networks: "{{ dbgate_networks }}"
+        network_mode: "{{ dbgate_network_name }}"
+        volumes:
+          - "{{ dbgate_data_directory }}/data:/root/.dbgate:rw"
+        ports:
+          - "{{ dbgate_port }}:3000"
+        env: "{{ dbgate_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ dbgate_memory }}"
+        labels:
+          traefik.enable: "{{ dbgate_available_externally | string }}"
+          traefik.http.routers.dbgate.rule: "Host(`{{ dbgate_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.dbgate.tls.certresolver: "letsencrypt"
+          traefik.http.routers.dbgate.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.dbgate.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.dbgate.loadbalancer.server.port: "3000"
+  when: dbgate_enabled is true
+
+- name: Stop DbGate
+  block:
+    - name: Stop DbGate
+      community.docker.docker_container:
+        name: "{{ dbgate_container_name }}"
+        state: absent
+  when: dbgate_enabled is false
