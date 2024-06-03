@@ -81,6 +81,6 @@
 
     - name: Stop aria2 ui
       community.docker.docker_container:
-        name: "{{ aria2_db_container_name }}"
+        name: "{{ aria2_ui_container_name }}"
         state: absent
   when: aria2_enabled is false
