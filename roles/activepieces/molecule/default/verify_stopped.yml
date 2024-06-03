@@ -15,7 +15,7 @@
 
     - name: Try and stop and remove activepieces redis
       community.docker.docker_container:
-        name: "{{ activepieces_db_container_name }}"
+        name: "{{ activepieces_redis_container_name }}"
         state: absent
       register: result_redis
 

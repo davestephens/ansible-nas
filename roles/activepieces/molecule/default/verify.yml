@@ -14,7 +14,7 @@
 
     - name: Get activepieces redis container state
       community.docker.docker_container:
-        name: "{{ activepieces_db_container_name }}"
+        name: "{{ activepieces_redis_container_name }}"
       register: result_redis
 
     - name: Get activepieces container state
