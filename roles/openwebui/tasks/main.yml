@@ -1,0 +1,70 @@
+---
+- name: Start Open-WebUI
+  block:
+    - name: Create Open-WebUI Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ openwebui_data_directory }}"
+
+    - name: Create Open-WebUI network
+      community.docker.docker_network:
+        name: "{{ openwebui_network_name }}"
+
+    - name: Create Open-WebUI Ollama Docker Container
+      community.docker.docker_container:
+        name: "{{ openwebui_ollama_container_name }}"
+        image: "{{ openwebui_ollama_image_name }}:{{ openwebui_ollama_image_version }}"
+        pull: true
+        ports:
+          - "{{ openwebui_ollama_port }}:11434"
+        devices: "{{ openwebui_ollama_devices }}"
+        volumes:
+          - "{{ openwebui_data_directory }}/ollama:/root/.ollama:rw"
+        networks:
+          - name: "{{ openwebui_network_name }}"
+        network_mode: "{{ openwebui_network_name }}"
+        container_default_behavior: no_defaults
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ openwebui_ollama_memory }}"
+
+    - name: Create Open-WebUI UI Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ openwebui_ui_container_name }}"
+        image: "{{ openwebui_ui_image_name }}:{{ openwebui_ui_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ openwebui_network_name }}"
+        network_mode: "{{ openwebui_network_name }}"
+        ports:
+          - "{{ openwebui_ui_port }}:8080"
+        volumes:
+          - "{{ openwebui_data_directory }}/open-webui:/app/backend/data:rw"
+        env: "{{ openwebui_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ openwebui_ui_memory }}"
+        labels:
+          traefik.enable: "{{ openwebui_available_externally | string }}"
+          traefik.http.routers.openwebui.rule: "Host(`{{ openwebui_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.openwebui.tls.certresolver: "letsencrypt"
+          traefik.http.routers.openwebui.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.openwebui.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.openwebui.loadbalancer.server.port: "8080"
+  when: openwebui_enabled is true
+
+- name: Stop Open-WebUI
+  block:
+    - name: Stop Open-WebUI Ollama
+      community.docker.docker_container:
+        name: "{{ openwebui_ollama_container_name }}"
+        state: absent
+
+    - name: Stop Open-WebUI
+      community.docker.docker_container:
+        name: "{{ openwebui_ui_container_name }}"
+        state: absent
+  when: openwebui_enabled is false

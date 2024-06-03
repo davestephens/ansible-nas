@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove openwebui ollama
+      community.docker.docker_container:
+        name: "{{ openwebui_ollama_container_name }}"
+        state: absent
+      register: result_ollama
+
+    - name: Try and stop and remove openwebui ui
+      community.docker.docker_container:
+        name: "{{ openwebui_ui_container_name }}"
+        state: absent
+      register: result_ui
+
+    - name: Check if openwebui is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_ollama.changed
+          - not result_ui.changed

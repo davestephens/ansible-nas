@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get openwebui ollama container state
+      community.docker.docker_container:
+        name: "{{ openwebui_ollama_container_name }}"
+      register: result_ollama
+
+    - name: Get openwebui ui container state
+      community.docker.docker_container:
+        name: "{{ openwebui_ui_container_name }}"
+      register: result_ui
+
+    - name: Check if openwebui containers are running
+      ansible.builtin.assert:
+        that:
+          - result_ollama.container['State']['Status'] == "running"
+          - result_ollama.container['State']['Restarting'] == false
+          - result_ui.container['State']['Status'] == "running"
+          - result_ui.container['State']['Restarting'] == false

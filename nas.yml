@@ -629,6 +629,10 @@
       tags:
         - openresume
 
+    - role: openwebui
+      tags:
+        - openwebui
+
     - role: organizr
       tags:
         - organizr

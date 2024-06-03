@@ -1,0 +1,115 @@
+---
+openwebui_enabled: false
+openwebui_available_externally: false
+
+# directories
+openwebui_data_directory: "{{ docker_home }}/openwebui"
+
+# network
+openwebui_ollama_port: "11434"
+openwebui_ui_port: "8155"
+openwebui_hostname: "openwebui"
+openwebui_network_name: "openwebui"
+
+# specs
+openwebui_ollama_memory: 1g
+openwebui_ui_memory: 1g
+
+# docker
+openwebui_ollama_container_name: openwebui-ollama
+openwebui_ollama_image_name: "ollama/ollama"
+openwebui_ollama_image_version: latest # rocm
+openwebui_ui_container_name: openwebui-ui
+openwebui_ui_image_name: "ghcr.io/open-webui/open-webui"
+openwebui_ui_image_version: main
+openwebui_user_id: "1000"
+openwebui_group_id: "1000"
+
+# openwebui
+openwebui_ollama_base_url: "http://{{ openwebui_ollama_container_name }}:11434"
+openwebui_openai_api_base_url: ""
+openwebui_openai_api_key: ""
+openwebui_scarf_no_analytics: "true"
+openwebui_do_not_track: "true"
+openwebui_anonymized_telemetry: "false"
+openwebui_webui_secret_key: "super_secret"
+openwebui_webui_auth: "true"
+openwebui_webui_name: "Open WebUI"
+openwebui_webui_url: "https://{{ openwebui_hostname }}.{{ ansible_nas_domain }}"
+openwebui_env_var: "prod"
+openwebui_enable_signup: "true"
+openwebui_enable_rag_web_loader_ssl_verification: "true"
+openwebui_default_models: ""
+openwebui_default_user_role: "pending" # pensing, user, admin
+openwebui_user_permissions_chat_deletion: "true"
+openwebui_enable_model_filter: "false"
+openwebui_model_filter_list: "" # Example: llama3:instruct;gemma:instruct
+openwebui_webhook_url: "{{ openwebui_webui_url }}"
+openwebui_enable_admin_export: "true"
+openwebui_enable_community_sharing: "true"
+openwebui_webui_build_hash: "dev-build"
+openwebui_webui_banners:
+  - id: "1"
+    type: "success"
+    title: "Welcome to Open WebUI!"
+    content: "Thanks for installing Open WebUI!"
+    dismissible: false
+    timestamp: 1000
+  - id: "2"
+    type: "warning"
+    title: "Watch out for models"
+    content: "Please make sure to import models!"
+    dismissible: false
+    timestamp: 1000
+openwebui_searxng_query_url: http://searxng.local/search?q=<query>
+openwebui_enable_image_generation: "false"
+openwebui_image_generation_engine: "openai" # Options: openai, comfyui, automatic1111
+openwebui_automatic1111_base_url: ""
+openwebui_comfyui_base_url: ""
+openwebui_image_size: "512x512"
+openwebui_image_steps: "50"
+openwebui_image_generation_model: ""
+openwebui_ollama_devices:
+#   - /dev/kfd:/dev/kfd
+#   - /dev/dri:/dev/dri
+
+openwebui_env:
+  # Ollama URL for the backend to connect
+  # The path '/ollama' will be redirected to the specified backend URL
+  OLLAMA_BASE_URL: "{{ openwebui_ollama_base_url }}"
+  OPENAI_API_BASE_URL: "{{ openwebui_openai_api_base_url }}"
+  OPENAI_API_KEY: "{{ openwebui_openai_api_key }}"
+
+  # AUTOMATIC1111_BASE_URL="http://localhost:7860"
+
+  # DO NOT TRACK
+  SCARF_NO_ANALYTICS: "{{ openwebui_scarf_no_analytics }}"
+  DO_NOT_TRACK: "{{ openwebui_do_not_track }}"
+  ANONYMIZED_TELEMETRY: "{{ openwebui_anonymized_telemetry }}"
+  WEBUI_SECRET_KEY: "{{ openwebui_webui_secret_key }}"
+  WEBUI_AUTH: "{{ openwebui_webui_auth }}"
+  WEBUI_NAME: "{{ openwebui_webui_name }}"
+  WEBUI_URL: "{{ openwebui_webui_url }}"
+  ENV: "{{ openwebui_env_var }}"
+  ENABLE_SIGNUP: "{{ openwebui_enable_signup }}"
+  ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION: "{{ openwebui_enable_rag_web_loader_ssl_verification }}"
+  DEFAULT_MODELS: "{{ openwebui_default_models }}"
+  DEFAULT_USER_ROLE: "{{ openwebui_default_user_role }}"
+  USER_PERMISSIONS_CHAT_DELETION: "{{ openwebui_user_permissions_chat_deletion }}"
+  ENABLE_MODEL_FILTER: "{{ openwebui_enable_model_filter }}"
+  MODEL_FILTER_LIST: "{{ openwebui_model_filter_list }}"
+  WEBHOOK_URL: "{{ openwebui_webhook_url }}"
+  ENABLE_ADMIN_EXPORT: "{{ openwebui_enable_admin_export }}"
+  ENABLE_COMMUNITY_SHARING: "{{ openwebui_enable_community_sharing }}"
+  WEBUI_BUILD_HASH: "{{ openwebui_webui_build_hash }}"
+  WEBUI_BANNERS: "{{ openwebui_webui_banners | to_json }}"
+  SEARXNG_QUERY_URL: "{{ openwebui_searxng_query_url }}"
+  ENABLE_IMAGE_GENERATION: "{{ openwebui_enable_image_generation }}"
+  IMAGE_GENERATION_ENGINE: "{{ openwebui_image_generation_engine }}"
+  AUTOMATIC1111_BASE_URL: "{{ openwebui_automatic1111_base_url }}"
+  COMFYUI_BASE_URL: "{{ openwebui_comfyui_base_url }}"
+  IMAGES_OPENAI_API_KEY: "{{ openwebui_openai_api_key }}"
+  IMAGES_OPENAI_API_BASE_URL: "{{ openwebui_openai_api_base_url }}"
+  IMAGE_SIZE: "{{ openwebui_image_size }}"
+  IMAGE_STEPS: "{{ openwebui_image_steps }}"
+  IMAGE_GENERATION_MODEL: "{{ openwebui_image_generation_model }}"
