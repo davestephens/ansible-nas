@@ -521,6 +521,10 @@
       tags:
         - miniserve
 
+    - role: mmp
+      tags:
+        - mmp
+
     - role: mosquitto
       tags:
         - mosquitto

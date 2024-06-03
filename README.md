@@ -120,6 +120,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Lowcoder](https://github.com/lowcoder-org/lowcoder) - The Open Source Retool, Tooljet and Appsmith Alternative.
 * [LubeLogger](https://github.com/hargata/lubelog) - LubeLogger is a web-based vehicle maintenance and fuel mileage tracker.
 * [Mainsail](https://github.com/mainsail-crew/mainsail) -  popular web interface for managing and controlling 3D printers with Klipper
+* [Maker Management Platform](https://github.com/Maker-Management-Platform/docs) -  management of a variety of digital assets related to 3d printing, manufacturing, laser engraving and such.
 * [Mantium](https://github.com/diogovalentte/mantium) - dashboard for tracking mangas from multiple source sites, like Mangadex and ComicK.
 * [Mattermost](https://mattermost.com/) - open source platform for secure collaboration across the entire software development lifecycle
 * [MariaDB](https://mariadb.org/) - one of the most popular open source relational databases

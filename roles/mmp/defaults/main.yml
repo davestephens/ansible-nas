@@ -1,0 +1,26 @@
+---
+mmp_enabled: false
+mmp_available_externally: false
+
+# directories
+mmp_data_directory: "{{ docker_home }}/mmp"
+
+# network
+mmp_ui_port: "8152"
+mmp_agent_port: "8153"
+mmp_hostname: "mmp"
+mmp_network_name: "mmp"
+
+# specs
+mmp_agent_memory: 1g
+mmp_ui_memory: 1g
+
+# docker
+mmp_agent_container_name: mmp-agent
+mmp_agent_image_name: "ghcr.io/maker-management-platform/agent"
+mmp_agent_image_version: main
+mmp_ui_container_name: mmp-ui
+mmp_ui_image_name: "ghcr.io/maker-management-platform/mmp-ui"
+mmp_ui_image_version: master
+mmp_user_id: "1000"
+mmp_group_id: "1000"
