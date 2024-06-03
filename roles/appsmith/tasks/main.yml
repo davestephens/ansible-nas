@@ -31,7 +31,7 @@
           APPSMITH_MAIL_USERNAME: "{{ appsmith_mail_username }}"
           APPSMITH_MAIL_PASSWORD: "{{ appsmith_mail_password }}"
           APPSMITH_OAUTH2_GOOGLE_CLIENT_ID=YOUR_CLIENT_ID: "{{ appsmith_oauth2_google_client_id }}"
-          APPSMITH_OAUTH2_GOOGLE_CLIENT_SECRET=YOUR_CLIENT_SECRET: "{{ appsmith_oauth2_google_client_secret  }}"
+          APPSMITH_OAUTH2_GOOGLE_CLIENT_SECRET=YOUR_CLIENT_SECRET: "{{ appsmith_oauth2_google_client_secret }}"
           APPSMITH_SIGNUP_ALLOWED_DOMAINS: "{{ appsmith_signup_allowed_domains }}"
           APPSMITH_OAUTH2_GITHUB_CLIENT_ID: "{{ appsmith_oauth2_github_client_id }}"
           APPSMITH_OAUTH2_GITHUB_CLIENT_SECRET: "{{ appsmith_oauth2_github_client_secret }}"
