@@ -729,6 +729,10 @@
       tags:
         - rssbridge
 
+    - role: rsshub
+      tags:
+        - rsshub
+
     - role: ryot
       tags:
         - ryot

@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get rsshub pupeteer container state
+      community.docker.docker_container:
+        name: "{{ rsshub_pupeteer_container_name }}"
+      register: result_pupeteer
+
+    - name: Get rsshub redis container state
+      community.docker.docker_container:
+        name: "{{ rsshub_redis_container_name }}"
+      register: result_redis
+
+    - name: Get rsshub container state
+      community.docker.docker_container:
+        name: "{{ rsshub_container_name }}"
+      register: result
+
+    - name: Check if rsshub containers are running
+      ansible.builtin.assert:
+        that:
+          - result_pupeteer.container['State']['Status'] == "running"
+          - result_pupeteer.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

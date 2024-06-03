@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove rsshub
+      community.docker.docker_container:
+        name: "{{ rsshub_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove rsshub redis
+      community.docker.docker_container:
+        name: "{{ rsshub_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove rsshub pupeteer
+      community.docker.docker_container:
+        name: "{{ rsshub_pupeteer_container_name }}"
+        state: absent
+      register: result_pupeteer
+
+    - name: Check if rsshub is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_redis.changed
+          - not result_pupeteer.changed

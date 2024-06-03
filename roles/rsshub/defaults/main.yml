@@ -1,0 +1,41 @@
+---
+rsshub_enabled: false
+rsshub_available_externally: false
+
+# directories
+rsshub_data_directory: "{{ docker_home }}/rsshub"
+
+# network
+rsshub_port: "1200"
+rsshub_hostname: "rsshub"
+rsshub_network_name: "rsshub"
+
+# specs
+rsshub_memory: 1g
+rsshub_pupeteer_memory: 1g
+rsshub_redis_memory: 1g
+
+# docker
+rsshub_container_name: rsshub
+rsshub_image_name: "diygod/rsshub"
+rsshub_image_version: "latest"
+rsshub_pupeteer_container_name: rsshub-pupeteer
+rsshub_pupeteer_image_name: "browserless/chrome"
+rsshub_pupeteer_image_version: "latest"
+rsshub_redis_container_name: rsshub-redis
+rsshub_redis_image_name: "redis"
+rsshub_redis_image_version: "alpine"
+rsshub_user_id: "1000"
+rsshub_group_id: "1000"
+
+# rsshub
+rsshub_node_env: production
+rsshub_cache_type: redis
+rsshub_redis_url: redis://{{ rsshub_redis_container_name }}:6379/
+rsshub_puppeteer_ws_endpoint: "ws://{{ rsshub_pupeteer_container_name }}:3000"
+
+rsshub_env:
+  NODE_ENV: "{{ rsshub_node_env }}"
+  CACHE_TYPE: "{{ rsshub_cache_type }}"
+  REDIS_URL: "{{ rsshub_redis_url }}"
+  PUPPETEER_WS_ENDPOINT: "{{ rsshub_puppeteer_ws_endpoint }}"

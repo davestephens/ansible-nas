@@ -1,0 +1,85 @@
+---
+- name: Start RSSHub
+  block:
+    - name: Create RSSHub Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ rsshub_data_directory }}"
+        - "{{ rsshub_data_directory }}/config"
+
+    - name: Create RSSHub network
+      community.docker.docker_network:
+        name: "{{ rsshub_network_name }}"
+
+    - name: Create RSSHub Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ rsshub_redis_container_name }}"
+        image: "{{ rsshub_redis_image_name }}:{{ rsshub_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ rsshub_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ rsshub_network_name }}"
+        network_mode: "{{ rsshub_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ rsshub_redis_memory }}"
+
+    - name: Create RSSHub Pupeteer Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ rsshub_pupeteer_container_name }}"
+        image: "{{ rsshub_pupeteer_image_name }}:{{ rsshub_pupeteer_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ rsshub_network_name }}"
+        network_mode: "{{ rsshub_network_name }}"
+        # ulimits:
+        #   - "core=0:0"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ rsshub_pupeteer_memory }}"
+
+    - name: Create RSSHub Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ rsshub_container_name }}"
+        image: "{{ rsshub_image_name }}:{{ rsshub_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ rsshub_network_name }}"
+        network_mode: "{{ rsshub_network_name }}"
+        ports:
+          - "{{ rsshub_port }}:1200"
+        env: "{{ rsshub_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ rsshub_memory }}"
+        labels:
+          traefik.enable: "{{ rsshub_available_externally | string }}"
+          traefik.http.routers.rsshub.rule: "Host(`{{ rsshub_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.rsshub.tls.certresolver: "letsencrypt"
+          traefik.http.routers.rsshub.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.rsshub.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.rsshub.loadbalancer.server.port: "1200"
+  when: rsshub_enabled is true
+
+- name: Stop RSSHub
+  block:
+    - name: Stop RSSHub
+      community.docker.docker_container:
+        name: "{{ rsshub_container_name }}"
+        state: absent
+    - name: Stop RSSHub Pupeteer
+      community.docker.docker_container:
+        name: "{{ rsshub_pupeteer_container_name }}"
+        state: absent
+    - name: Stop RSSHub Redis
+      community.docker.docker_container:
+        name: "{{ rsshub_redis_container_name }}"
+        state: absent
+  when: rsshub_enabled is false
