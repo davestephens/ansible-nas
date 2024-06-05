@@ -1,0 +1,68 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get baserow caddy container state
+      community.docker.docker_container:
+        name: "{{ baserow_caddy_container_name }}"
+      register: result_caddy
+
+    - name: Get baserow db container state
+      community.docker.docker_container:
+        name: "{{ baserow_db_container_name }}"
+      register: result_db
+
+    - name: Get baserow redis container state
+      community.docker.docker_container:
+        name: "{{ baserow_redis_container_name }}"
+      register: result_redis
+
+    - name: Get baserow backend container state
+      community.docker.docker_container:
+        name: "{{ baserow_backend_container_name }}"
+      register: result_backend
+
+    - name: Get baserow frontend container state
+      community.docker.docker_container:
+        name: "{{ baserow_frontend_container_name }}"
+      register: result_frontend
+
+    - name: Get baserow celery container state
+      community.docker.docker_container:
+        name: "{{ baserow_celery_container_name }}"
+      register: result_celery
+
+    - name: Get baserow celery export container state
+      community.docker.docker_container:
+        name: "{{ baserow_celery_export_container_name }}"
+      register: result_celery_export
+
+    - name: Get baserow celery beat container state
+      community.docker.docker_container:
+        name: "{{ baserow_celery_beat_container_name }}"
+      register: result_celery_beat
+
+    - name: Check if baserow containers are running
+      ansible.builtin.assert:
+        that:
+          - result_caddy.container['State']['Status'] == "running"
+          - result_caddy.container['State']['Restarting'] == false
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result_backend.container['State']['Status'] == "running"
+          - result_backend.container['State']['Restarting'] == false
+          - result_frontend.container['State']['Status'] == "running"
+          - result_frontend.container['State']['Restarting'] == false
+          - result_celery.container['State']['Status'] == "running"
+          - result_celery.container['State']['Restarting'] == false
+          - result_celery_export.container['State']['Status'] == "running"
+          - result_celery_export.container['State']['Restarting'] == false
+          - result_celery_beat.container['State']['Status'] == "running"
+          - result_celery_beat.container['State']['Restarting'] == false

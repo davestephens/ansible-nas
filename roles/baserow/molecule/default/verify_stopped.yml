@@ -1,0 +1,68 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove baserow celery beat
+      community.docker.docker_container:
+        name: "{{ baserow_celery_beat_container_name }}"
+        state: absent
+      register: result_celery_beat
+
+    - name: Try and stop and remove baserow celery export
+      community.docker.docker_container:
+        name: "{{ baserow_celery_export_container_name }}"
+        state: absent
+      register: result_celery_export
+
+    - name: Try and stop and remove baserow celery
+      community.docker.docker_container:
+        name: "{{ baserow_celery_container_name }}"
+        state: absent
+      register: result_celery
+
+    - name: Try and stop and remove baserow frontend
+      community.docker.docker_container:
+        name: "{{ baserow_frontend_container_name }}"
+        state: absent
+      register: result_frontend
+
+    - name: Try and stop and remove baserow backend
+      community.docker.docker_container:
+        name: "{{ baserow_backend_container_name }}"
+        state: absent
+      register: result_backend
+
+    - name: Try and stop and remove baserow caddy
+      community.docker.docker_container:
+        name: "{{ baserow_caddy_container_name }}"
+        state: absent
+      register: result_caddy
+
+    - name: Try and stop and remove baserow redis
+      community.docker.docker_container:
+        name: "{{ baserow_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove baserow db
+      community.docker.docker_container:
+        name: "{{ baserow_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Check if baserow is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_celery_beat.changed
+          - not result_celery_export.changed
+          - not result_celery.changed
+          - not result_frontend.changed
+          - not result_backend.changed
+          - not result_caddy.changed
+          - not result_redis.changed
+          - not result_db.changed

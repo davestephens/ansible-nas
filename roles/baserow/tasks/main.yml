@@ -1,0 +1,233 @@
+---
+- name: Start Baserow
+  block:
+    - name: Create Baserow Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ baserow_data_directory }}"
+
+    - name: Create Baserow Media and Plugins Directoriy
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 9999
+        group: 9999
+      with_items:
+        - "{{ baserow_data_directory }}/media"
+        - "{{ baserow_data_directory }}/plugins"
+
+    - name: Create Baserow network
+      community.docker.docker_network:
+        name: "{{ baserow_network_name }}"
+
+    - name: Template Caddyfile
+      ansible.builtin.template:
+        src: Caddyfile.j2
+        dest: "{{ baserow_data_directory }}/Caddyfile"
+      register: beets_config
+
+    - name: Create Baserow Postgress Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ baserow_db_container_name }}"
+        image: "{{ baserow_db_image_name }}:{{ baserow_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ baserow_data_directory }}/pgdata:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ baserow_network_name }}"
+        network_mode: "{{ baserow_network_name }}"
+        env:
+          POSTGRES_PASSWORD: "{{ baserow_db_pass }}"
+          POSTGRES_USER: "{{ baserow_db_user }}"
+          POSTGRES_DB: "{{ baserow_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ baserow_db_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "su postgres -c \"pg_isready -U {{ baserow_db_user }}\""]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Baserow Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ baserow_redis_container_name }}"
+        image: "{{ baserow_redis_image_name }}:{{ baserow_redis_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ baserow_network_name }}"
+        network_mode: "{{ baserow_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ baserow_redis_memory }}"
+        command: redis-server --requirepass {{ baserow_redis_password }}
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
+
+    - name: Create Baserow Caddy Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ baserow_caddy_container_name }}"
+        image: "{{ baserow_caddy_image_name }}:{{ baserow_caddy_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ baserow_network_name }}"
+        network_mode: "{{ baserow_network_name }}"
+        volumes:
+          - "{{ baserow_data_directory }}/Caddyfile:/etc/caddy/Caddyfile"
+          - "{{ baserow_data_directory }}/media:/baserow/media"
+          - "{{ baserow_data_directory }}/plugins:/baserow/plugins"
+          - "{{ baserow_data_directory }}/caddy_config:/config"
+          - "{{ baserow_data_directory }}/caddy_data:/data"
+
+        ports:
+          - "{{ baserow_http_port }}:80"
+          - "{{ baserow_https_port }}:443"
+        env:
+          BASEROW_CADDY_ADDRESSES: "{{ baserow_caddy_addresses }}"
+          PRIVATE_WEB_FRONTEND_URL: "{{ baserow_private_web_frontend_url }}"
+          PRIVATE_BACKEND_URL: "{{ baserow_private_backend_url }}"
+          BASEROW_PUBLIC_URL: "{{ baserow_public_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ baserow_caddy_memory }}"
+        labels:
+          traefik.enable: "{{ baserow_available_externally | string }}"
+          traefik.http.routers.baserow.rule: "Host(`{{ baserow_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.baserow.tls.certresolver: "letsencrypt"
+          traefik.http.routers.baserow.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.baserow.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.baserow.loadbalancer.server.port: "80"
+
+    - name: Create Baserow Backend Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ baserow_backend_container_name }}"
+        image: "{{ baserow_backend_image_name }}:{{ baserow_backend_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ baserow_network_name }}"
+        network_mode: "{{ baserow_network_name }}"
+        volumes:
+          - "{{ baserow_data_directory }}/media:/baserow/media"
+        env: "{{ baserow_backend_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ baserow_backend_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Baserow Frontend Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ baserow_frontend_container_name }}"
+        image: "{{ baserow_frontend_image_name }}:{{ baserow_frontend_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ baserow_network_name }}"
+        network_mode: "{{ baserow_network_name }}"
+        env: "{{ baserow_frontend_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ baserow_frontend_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Baserow Celery Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ baserow_celery_container_name }}"
+        image: "{{ baserow_celery_image_name }}:{{ baserow_celery_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ baserow_network_name }}"
+        network_mode: "{{ baserow_network_name }}"
+        volumes:
+          - "{{ baserow_data_directory }}/media:/baserow/media"
+        env: "{{ baserow_celery_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ baserow_celery_memory }}"
+        labels:
+          traefik.enable: "false"
+        healthcheck:
+          test: ["CMD-SHELL", "/baserow/backend/docker/docker-entrypoint.sh celery-worker-healthcheck"]
+        command: celery-worker
+
+    - name: Create Baserow Celery Export Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ baserow_celery_export_container_name }}"
+        image: "{{ baserow_celery_export_image_name }}:{{ baserow_celery_export_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ baserow_network_name }}"
+        network_mode: "{{ baserow_network_name }}"
+        volumes:
+          - "{{ baserow_data_directory }}/media:/baserow/media"
+        env: "{{ baserow_celery_export_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ baserow_celery_export_memory }}"
+        labels:
+          traefik.enable: "false"
+        healthcheck:
+          test: ["CMD-SHELL", "/baserow/backend/docker/docker-entrypoint.sh celery-exportworker-healthcheck"]
+        command: celery-exportworker
+
+    - name: Create Baserow Celery Beat Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ baserow_celery_beat_container_name }}"
+        image: "{{ baserow_celery_beat_image_name }}:{{ baserow_celery_beat_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ baserow_network_name }}"
+        network_mode: "{{ baserow_network_name }}"
+        volumes:
+          - "{{ baserow_data_directory }}/media:/baserow/media"
+        env: "{{ baserow_celery_beat_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ baserow_celery_beat_memory }}"
+        labels:
+          traefik.enable: "false"
+        stop_signal: SIGQUIT
+        command: celery-beat
+  when: baserow_enabled is true
+
+- name: Stop Baserow
+  block:
+    - name: Stop Baserow Celery Beat
+      community.docker.docker_container:
+        name: "{{ baserow_celery_beat_container_name }}"
+        state: absent
+    - name: Stop Baserow Celery Export
+      community.docker.docker_container:
+        name: "{{ baserow_celery_export_container_name }}"
+        state: absent
+    - name: Stop Baserow Celery
+      community.docker.docker_container:
+        name: "{{ baserow_celery_container_name }}"
+        state: absent
+    - name: Stop Baserow Frontend
+      community.docker.docker_container:
+        name: "{{ baserow_frontend_container_name }}"
+        state: absent
+    - name: Stop Baserow Backend
+      community.docker.docker_container:
+        name: "{{ baserow_backend_container_name }}"
+        state: absent
+    - name: Stop Baserow Caddy
+      community.docker.docker_container:
+        name: "{{ baserow_caddy_container_name }}"
+        state: absent
+    - name: Stop Baserow Redis
+      community.docker.docker_container:
+        name: "{{ baserow_redis_container_name }}"
+        state: absent
+    - name: Stop Baserow DB
+      community.docker.docker_container:
+        name: "{{ baserow_db_container_name }}"
+        state: absent
+  when: baserow_enabled is false

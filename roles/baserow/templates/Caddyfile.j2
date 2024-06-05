@@ -1,0 +1,48 @@
+{
+	on_demand_tls {
+        ask {{ baserow_private_backend_url }}/api/builder/domains/ask-public-domain-exists/
+        interval 2m
+        burst 5
+    }
+
+    {{ baserow_caddy_global_conf }}
+}
+
+{{ baserow_caddy_addresses }} {
+    tls {
+        on_demand
+    }
+
+    @is_baserow_tool {
+        expression "{{ baserow_public_url }}".contains({http.request.host})
+    }
+
+    handle @is_baserow_tool {
+        handle /api/* {
+            reverse_proxy {{ baserow_private_backend_url }}
+        }
+
+        handle /ws/* {
+            reverse_proxy {{ baserow_private_backend_url }}
+        }
+
+        handle_path /media/* {
+            @downloads {
+                query dl=*
+            }
+            header @downloads Content-disposition "attachment; filename={query.dl}"
+
+            file_server {
+                root {{ baserow_media_root }}
+            }
+        }
+
+        handle_path /static/* {
+            file_server {
+                root {{ baserow_static_root }}
+            }
+        }
+    }
+
+    reverse_proxy {{ baserow_private_web_frontend_url }}
+}

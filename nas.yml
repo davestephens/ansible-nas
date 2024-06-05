@@ -93,6 +93,10 @@
       tags:
         - barcodebuddy
 
+    - role: baserow
+      tags:
+        - baserow
+
     - role: bazarr
       tags:
         - bazarr
