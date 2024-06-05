@@ -1,7 +1,7 @@
 ---
 - name: Start Mmp
   block:
-    - name: Create mmp Directories
+    - name: Create Mmp Directories
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
@@ -57,13 +57,13 @@
 
 - name: Stop Mmp
   block:
-    - name: Stop Mmp db
+    - name: Stop Mmp agent
       community.docker.docker_container:
-        name: "{{ mmp_db_container_name }}"
+        name: "{{ mmp_agent_container_name }}"
         state: absent
 
-    - name: Stop Mmp
+    - name: Stop Mmp UI
       community.docker.docker_container:
-        name: "{{ mmp_container_name }}"
+        name: "{{ mmp_ui_container_name }}"
         state: absent
   when: mmp_enabled is false

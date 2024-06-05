@@ -7,20 +7,20 @@
       ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove mmp db
+    - name: Try and stop and remove mmp agent
       community.docker.docker_container:
-        name: "{{ mmp_db_container_name }}"
+        name: "{{ mmp_agent_container_name }}"
         state: absent
-      register: result_db
+      register: result_agent
 
-    - name: Try and stop and remove mmp
+    - name: Try and stop and remove mmp ui
       community.docker.docker_container:
-        name: "{{ mmp_container_name }}"
+        name: "{{ mmp_ui_container_name }}"
         state: absent
-      register: result
+      register: result_ui
 
     - name: Check if mmp is stopped
       ansible.builtin.assert:
         that:
-          - not result_db.changed
-          - not result.changed
+          - not result_agent.changed
+          - not result_ui.changed
