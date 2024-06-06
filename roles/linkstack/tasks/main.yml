@@ -1,0 +1,72 @@
+---
+- name: Start Linkstack
+  block:
+    - name: Create linkstack Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ linkstack_data_directory }}"
+        - "{{ linkstack_data_directory }}/data"
+
+    - name: Create Linkstack network
+      community.docker.docker_network:
+        name: "{{ linkstack_network_name }}"
+
+    - name: Create Linkstack database container
+      community.docker.docker_container:
+        name: "{{ linkstack_mysql_container_name }}"
+        image: "{{ linkstack_mysql_image_name }}:{{ linkstack_mysql_image_version }}"
+        networks:
+          - name: "{{ linkstack_network_name }}"
+        network_mode: "{{ linkstack_network_name }}"
+        pull: true
+        volumes:
+          - "{{ linkstack_data_directory }}/mysql:/var/lib/mysql:rw"
+        env:
+          MYSQL_DATABASE: "{{ linkstack_mysql_database }}"
+          MYSQL_USER: "{{ linkstack_mysql_user }}"
+          MYSQL_PASSWORD: "{{ linkstack_mysql_password }}"
+          MYSQL_ROOT_PASSWORD: "{{ linkstack_mysql_root_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ linkstack_mysql_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Linkstack Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ linkstack_container_name }}"
+        image: "{{ linkstack_image_name }}:{{ linkstack_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ linkstack_network_name }}"
+        network_mode: "{{ linkstack_network_name }}"
+        volumes:
+          - "{{ linkstack_data_directory }}/data:/root/.linkstack:rw"
+        ports:
+          - "{{ linkstack_http_port }}:80"
+          - "{{ linkstack_https_port }}:443"
+        env: "{{ linkstack_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ linkstack_memory }}"
+        labels:
+          traefik.enable: "{{ linkstack_available_externally | string }}"
+          traefik.http.routers.linkstack.rule: "Host(`{{ linkstack_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.linkstack.tls.certresolver: "letsencrypt"
+          traefik.http.routers.linkstack.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.linkstack.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.linkstack.loadbalancer.server.port: "80"
+  when: linkstack_enabled is true
+
+- name: Stop Linkstack
+  block:
+    - name: Stop Linkstack
+      community.docker.docker_container:
+        name: "{{ linkstack_container_name }}"
+        state: absent
+    - name: Stop Linkstack db
+      community.docker.docker_container:
+        name: "{{ linkstack_mysql_container_name }}"
+        state: absent
+  when: linkstack_enabled is false

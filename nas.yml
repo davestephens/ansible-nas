@@ -429,6 +429,10 @@
       tags:
         - linkding
 
+    - role: linkstack
+      tags:
+        - linkstack
+
     - role: linkwarden
       tags:
         - linkwarden

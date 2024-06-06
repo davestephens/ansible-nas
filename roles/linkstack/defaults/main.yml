@@ -1,0 +1,47 @@
+---
+linkstack_enabled: false
+linkstack_available_externally: false
+
+# directories
+linkstack_data_directory: "{{ docker_home }}/linkstack"
+
+# network
+linkstack_http_port: "8158"
+linkstack_https_port: "8159"
+linkstack_hostname: "linkstack"
+linkstack_network_name: "linkstack"
+
+# specs
+linkstack_memory: 1g
+linkstack_mysql_memory: 1g
+
+# docker
+linkstack_container_name: linkstack
+linkstack_image_name: "linkstackorg/linkstack"
+linkstack_image_version: latest
+linkstack_mysql_container_name: linkstack-mysql
+linkstack_mysql_image_name: "mysql"
+linkstack_mysql_image_version: "8"
+linkstack_user_id: "1000"
+linkstack_group_id: "1000"
+
+# linkstack
+linkstack_server_admin: "admin@{{ ansible_nas_domain }}"
+linkstack_http_server_name: "{{ linkstack_hostname }}.{{ ansible_nas_domain }}"
+linkstack_https_server_name: "{{ linkstack_hostname }}.{{ ansible_nas_domain }}"
+linkstack_log_level: "info"
+linkstack_php_memory_limit: "256M"
+linkstack_upload_max_filesize: "8M"
+linkstack_mysql_database: "linkstack"
+linkstack_mysql_user: "linkstack"
+linkstack_mysql_password: "linkstack"
+linkstack_mysql_root_password: "xeFgUGb5mPPn5q2d"
+
+linkstack_env:
+  TZ: "{{ ansible_nas_timezone }}"
+  SERVER_ADMIN: "{{ linkstack_server_admin }}"
+  HTTP_SERVER_NAME: "{{ linkstack_http_server_name }}"
+  HTTPS_SERVER_NAME: "{{ linkstack_https_server_name }}"
+  LOG_LEVEL: "{{ linkstack_log_level }}"
+  PHP_MEMORY_LIMIT: "{{ linkstack_php_memory_limit }}"
+  UPLOAD_MAX_FILESIZE: "{{ linkstack_upload_max_filesize }}"

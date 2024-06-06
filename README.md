@@ -113,6 +113,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [Light LDAP](https://github.com/lldap/lldap) - Light LDAP implementation
 * [Linkding](https://github.com/sissbruecker/linkding) - Self-hosted bookmark service
+* [Linkstack](https://github.com/LinkStackOrg/LinkStack) - the ultimate solution for creating a personalized & professional profile page
 * [Linkwarden](https://linkwarden.app/) - Open-source collaborative bookmark manager to collect, organize and archive webpages
 * [Listmonk](https://listmonk.app/) - High performance, self-hosted, newsletter and mailing list manager
 * [Littlelink](https://github.com/techno-tim/littlelink-server) - Self-hosted alternative to linktree
