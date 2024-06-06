@@ -1,0 +1,147 @@
+---
+- name: Start Grist
+  block:
+    - name: Create Grist Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ grist_data_directory }}"
+        - "{{ grist_data_directory }}/data"
+
+    - name: Create Grist network
+      community.docker.docker_network:
+        name: "{{ grist_network_name }}"
+
+    - name: Template email config file
+      ansible.builtin.template:
+        src: config.json.j2
+        dest: "{{ grist_data_directory }}/data/config.json"
+      register: grist_email_config
+
+    - name: Create Grist Postgress Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ grist_db_container_name }}"
+        image: "{{ grist_db_image_name }}:{{ grist_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ grist_data_directory }}/pgdata:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ grist_network_name }}"
+        network_mode: "{{ grist_network_name }}"
+        env:
+          POSTGRES_PASSWORD: "{{ grist_db_pass }}"
+          POSTGRES_USER: "{{ grist_db_user }}"
+          POSTGRES_DB: "{{ grist_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ grist_db_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "su postgres -c \"pg_isready -U {{ grist_db_user }}\""]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Grist Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ grist_redis_container_name }}"
+        image: "{{ grist_redis_image_name }}:{{ grist_redis_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ grist_network_name }}"
+        network_mode: "{{ grist_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ grist_redis_memory }}"
+        # command: redis-server --requirepass {{ grist_redis_password }}
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
+
+    - name: Create Grist Minio Docker Container
+      community.docker.docker_container:
+        name: "{{ grist_minio_container_name }}"
+        image: "{{ grist_minio_image_name }}:{{ grist_minio_image_version }}"
+        pull: true
+        volumes:
+          - "{{ grist_data_directory }}/minio_data:/data:rw"
+        networks:
+          - name: "{{ grist_network_name }}"
+        network_mode: "{{ grist_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ grist_minio_env }}"
+        command: server /data --json --console-address ':9090'
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ grist_minio_memory }}"
+        command_handling: compatibility
+        entrypoint: |
+          /bin/sh -c
+          'isAlive() { curl -sf http://127.0.0.1:9000/minio/health/live; }
+          minio $0 "$@" --quiet & echo $! > /tmp/minio.pid
+          while ! isAlive; do sleep 0.1; done
+          /usr/bin/mc alias set minio http://127.0.0.1:9000 {{ grist_minio_root_user }} {{ grist_minio_root_password }}
+          /usr/bin/mc mb minio/{{ grist_docs_minio_bucket }} || true
+          /usr/bin/mc anonymous set public minio/{{ grist_docs_minio_bucket }}
+          /usr/bin/mc version enable minio/{{ grist_docs_minio_bucket }}
+          kill -s INT $(cat /tmp/minio.pid) && rm /tmp/minio.pid
+          while isAlive; do sleep 0.1; done
+          exec minio $0 "$@"'
+
+        healthcheck:
+          test: ['CMD', 'curl', '-f', 'http://127.0.0.1:9000/minio/health/live']
+          interval: 10s
+          start_interval: 1s
+          start_period: 10s
+
+    - name: Create Grist Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ grist_container_name }}"
+        image: "{{ grist_image_name }}:{{ grist_image_version }}"
+        pull: true
+        volumes:
+          - "{{ grist_data_directory }}/data:/persist"
+          # - "{{ grist_data_directory }}/custom.css:/grist/static/custom.css"
+        networks:
+          - name: "{{ grist_network_name }}"
+        network_mode: "{{ grist_network_name }}"
+        ports:
+          - "{{ grist_port }}:8484"
+        env: "{{ grist_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ grist_memory }}"
+        capabilities:
+          - SYS_PTRACE
+        labels:
+          traefik.enable: "{{ grist_available_externally | string }}"
+          traefik.http.routers.grist.rule: "Host(`{{ grist_hostname }}.{{ ansible_nas_domain }}`)"
+          # traefik.http.routers.grist.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.grist.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.grist.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.grist.loadbalancer.server.port: "8484"
+  when: grist_enabled is true
+
+- name: Stop Grist
+  block:
+    - name: Stop Grist
+      community.docker.docker_container:
+        name: "{{ grist_container_name }}"
+        state: absent
+    - name: Stop Grist Minio
+      community.docker.docker_container:
+        name: "{{ grist_minio_container_name }}"
+        state: absent
+    - name: Stop Grist Redis
+      community.docker.docker_container:
+        name: "{{ grist_redis_container_name }}"
+        state: absent
+    - name: Stop Grist Db
+      community.docker.docker_container:
+        name: "{{ grist_db_container_name }}"
+        state: absent
+  when: grist_enabled is false

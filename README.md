@@ -79,6 +79,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Gotify](https://gotify.net/) - Self-hosted server for sending push notifications
 * [Grafana](https://grafana.com/) - Query, visualize, alert on, and understand your data no matter where it’s stored (via stats role).
 * [Graylog](https://www.graylog.org/) - Free and open source log management
+* [Grist](https://github.com/gristlabs/grist-core) - Grist is the evolution of spreadsheets.
 * [Grocy](https://grocy.info/) - web-based self-hosted groceries & household management solution for your home
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [HA Fusion](https://github.com/matt8707/ha-fusion) - A modern, easy-to-use and performant custom Home Assistant dashboard

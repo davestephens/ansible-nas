@@ -1,0 +1,30 @@
+{
+  "sendgrid": {
+    "api": {
+      "prefix": "{{ grist_sendgrid_api_prefix }}",
+      "enroll": "{{ grist_sendgrid_api_enroll }}",
+      "search": "{{ grist_sendgrid_api_search }}",
+      "searchByEmail": "{{ grist_sendgrid_api_search_by_email }}",
+      "listRemove": "{{ grist_sendgrid_api_list_remove }}",
+      "send": "{{ grist_sendgrid_api_send }}"
+    },
+    "address": {
+      "from": {
+        "email": "{{ grist_sendgrid_address_from_email }}",
+        "name": "{{ grist_sendgrid_address_from_name }}"
+      }
+    },
+    "template": {
+      "invite": "{{ grist_sendgrid_template_invite }}",
+      "billingManagerInvite": "{{ grist_sendgrid_template_billing_manager_invite }}",
+      "memberChange": "{{ grist_sendgrid_template_member_change }}"
+    },
+    "list": {
+      "singleUserOnboarding": "{{ grist_sendgrid_list_singleuser_onboarding }}"
+    },
+    "unsubscribeGroup": {
+      "invites": "{{ grist_sendgrid_unsubscribe_group_invites }}",
+      "billingManagers": "{{ grist_sendgrid_unsubscribe_group_billing_managers }}"
+    }
+  }
+}

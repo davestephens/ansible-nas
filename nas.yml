@@ -297,6 +297,10 @@
       tags:
         - graylog
 
+    - role: grist
+      tags:
+        - grist
+
     - role: grocy
       tags:
         - grocy

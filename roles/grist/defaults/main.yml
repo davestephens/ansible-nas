@@ -1,0 +1,147 @@
+---
+grist_enabled: false
+grist_available_externally: false
+
+# directories
+grist_data_directory: "{{ docker_home }}/grist"
+
+# network
+grist_port: "8485"
+grist_hostname: "grist"
+grist_network_name: "grist"
+
+# specs
+grist_memory: 1g
+grist_db_memory: 1g
+grist_redis_memory: 1g
+grist_minio_memory: 1g
+
+# docker
+grist_container_name: grist
+grist_image_name: "gristlabs/grist"
+grist_image_version: latest
+grist_db_container_name: grist-db
+grist_db_image_name: "postgres"
+grist_db_image_version: "14"
+grist_redis_container_name: grist-redis
+grist_redis_image_name: "redis"
+grist_redis_image_version: latest
+grist_minio_container_name: grist-minio
+grist_minio_image_name: "minio/minio"
+grist_minio_image_version: latest
+grist_user_id: "1000"
+grist_group_id: "1000"
+
+# grist
+grist_session_secret: "super_secret"
+grist_default_email: "grist@{{ ansible_nas_domain }}"
+grist_sandbox_flavor: "gvisor"
+grist_boot_key: "super_secret"
+grist_app_home_url: "https://{{ grist_hostname }}.{{ ansible_nas_domain }}"
+grist_single_org: ansible-nas
+grist_cookie_max_age: "86400"
+grist_force_login: "true"
+grist_hide_ui_elements: "" # =helpCenter,billing,templates,multiSite,multiAccounts
+grist_page_title_suffix: " - Ansible-NAS"
+grist_app_static_include_custom_css: "false"
+grist_widget_list_url: "https://github.com/gristlabs/grist-widget/releases/download/latest/manifest.json"
+grist_sendgrid_api_key: "SG.XXXXXXX.XXXXX"
+grist_sendgrid_api_prefix: "https://api.sendgrid.com/v3"
+grist_sendgrid_api_enroll: "/marketing/contacts"
+grist_sendgrid_api_search: "/marketing/contacts/search"
+grist_sendgrid_api_search_by_email: "/marketing/contacts/search/emails"
+grist_sendgrid_api_list_remove: "/marketing/lists/id/contacts"
+grist_sendgrid_api_send: "/mail/send"
+grist_sendgrid_address_from_email: "<grist@{{ ansible_nas_domain }}>"
+grist_sendgrid_address_from_name: "Grist at Ansible-NAS"
+grist_sendgrid_template_invite: "d-f9....."
+grist_sendgrid_template_billing_manager_invite: "d-f9....."
+grist_sendgrid_template_member_change: "d-b3....."
+grist_sendgrid_list_singleuser_onboarding: "b22..."
+grist_sendgrid_unsubscribe_group_invites: "19..."
+grist_sendgrid_unsubscribe_group_billing_managers: "19..."
+grist_minio_root_user: "grist"
+grist_minio_root_password: "admingrist"
+grist_docs_minio_access_key: "{{ grist_minio_root_user }}"
+grist_docs_minio_secret_key: "{{ grist_minio_root_password }}"
+grist_docs_minio_use_ssl: "0"
+grist_docs_minio_bucket: "grist-docs"
+grist_docs_minio_endpoint: "{{ grist_minio_container_name }}"
+grist_docs_minio_port: "9000"
+grist_redis_url: "redis://{{ grist_redis_container_name }}"
+grist_telemetry_level: "off"
+grist_db_type: "postgres"
+grist_db_name: "grist"
+grist_db_user: "grist"
+grist_db_pass: "grist"
+grist_db_host: "{{ grist_db_container_name }}"
+grist_db_port: "5432"
+grist_offer_all_languages: "true"
+grist_saml_idp_skip_slo: "false"
+grist_saml_sp_host: "https://{{ grist_hostname }}.{{ ansible_nas_domain }}"
+grist_saml_idp_unencrypted: "1"
+grist_saml_idp_login: "https://...auth0.com/samlp/xxxx"
+grist_saml_idp_logout: "https://...auth0.com/samlp/xxxx"
+grist_saml_idp_certs: ".../auth0.pem"
+grist_saml_sp_key: ".../saml.pem (created)"
+grist_saml_sp_cert: "../saml.crt (created)"
+grist_oidc_sp_host: "https://{{ grist_hostname }}.{{ ansible_nas_domain }}"
+grist_oidc_idp_issuer: "https://example.com"
+grist_oidc_idp_scopes: "openid profile email"
+grist_oidc_idp_client_id: ""
+grist_oidc_idp_client_secret: ""
+grist_oidc_idp_end_session_endpoint: ""
+grist_oidc_idp_skip_end_session_endpoint: ""
+grist_oidc_sp_profile_name_attr: ""
+grist_oidc_sp_profile_email_attr: ""
+
+grist_env:
+  GRIST_SESSION_SECRET: "{{ grist_session_secret }}"
+  GRIST_DEFAULT_EMAIL: "{{ grist_default_email }}"
+  GRIST_SANDBOX_FLAVOR: "{{ grist_sandbox_flavor }}"
+  GRIST_BOOT_KEY: "{{ grist_boot_key }}"
+  APP_HOME_URL: "{{ grist_app_home_url }}"
+  GRIST_SINGLE_ORG: "{{ grist_single_org }}"
+  COOKIE_MAX_AGE: "{{ grist_cookie_max_age }}"
+  GRIST_FORCE_LOGIN: "{{ grist_force_login }}"
+  GRIST_HIDE_UI_ELEMENTS: "{{ grist_hide_ui_elements }}"
+  GRIST_PAGE_TITLE_SUFFIX: "{{ grist_page_title_suffix }}"
+  APP_STATIC_INCLUDE_CUSTOM_CSS: "{{ grist_app_static_include_custom_css }}"
+  GRIST_WIDGET_LIST_URL: "{{ grist_widget_list_url }}"
+  SENDGRID_API_KEY: "{{ grist_sendgrid_api_key }}"
+  GRIST_DOCS_MINIO_ACCESS_KEY: "{{ grist_docs_minio_access_key }}"
+  GRIST_DOCS_MINIO_SECRET_KEY: "{{ grist_docs_minio_secret_key }}"
+  GRIST_DOCS_MINIO_USE_SSL: "{{ grist_docs_minio_use_ssl  }}"
+  GRIST_DOCS_MINIO_BUCKET: "{{ grist_docs_minio_bucket }}"
+  GRIST_DOCS_MINIO_ENDPOINT: "{{ grist_docs_minio_endpoint }}"
+  GRIST_DOCS_MINIO_PORT: "{{ grist_docs_minio_port }}"
+  REDIS_URL: "{{ grist_redis_url }}"
+  GRIST_TELEMETRY_LEVEL: "{{ grist_telemetry_level }}"
+  TYPEORM_TYPE: "{{ grist_db_type }}"
+  TYPEORM_DATABASE: "{{ grist_db_name }}"
+  TYPEORM_USERNAME: "{{ grist_db_user }}"
+  TYPEORM_PASSWORD: "{{ grist_db_pass }}"
+  TYPEORM_HOST: "{{ grist_db_host }}"
+  TYPEORM_PORT: "{{ grist_db_port }}"
+  GRIST_OFFER_ALL_LANGUAGES: "{{ grist_offer_all_languages }}"
+  # GRIST_SAML_IDP_SKIP_SLO: "{{ grist_saml_idp_skip_slo }}"
+  # GRIST_SAML_SP_HOST: "{{ grist_saml_sp_host }}"
+  # GRIST_SAML_IDP_UNENCRYPTED: "{{ grist_saml_idp_unencrypted }}"
+  # GRIST_SAML_IDP_LOGIN: "{{ grist_saml_idp_login }}"
+  # GRIST_SAML_IDP_LOGOUT: "{{ grist_saml_idp_logout }}"
+  # GRIST_SAML_IDP_CERTS: "{{ grist_saml_idp_certs }}"
+  # GRIST_SAML_SP_KEY: "{{ grist_saml_sp_key }}"
+  # GRIST_SAML_SP_CERT: "{{ grist_saml_sp_cert }}"
+  # GRIST_OIDC_SP_HOST: "{{ grist_oidc_sp_host }}"
+  # GRIST_OIDC_IDP_ISSUER: "{{ grist_oidc_idp_issuer }}"
+  # GRIST_OIDC_IDP_SCOPES: "{{ grist_oidc_idp_scopes }}"
+  # GRIST_OIDC_IDP_CLIENT_ID: "{{ grist_oidc_idp_client_id }}"
+  # GRIST_OIDC_IDP_CLIENT_SECRET: "{{ grist_oidc_idp_client_secret }}"
+  # GRIST_OIDC_IDP_END_SESSION_ENDPOINT: "{{ grist_oidc_idp_end_session_endpoint }}"
+  # GRIST_OIDC_IDP_SKIP_END_SESSION_ENDPOINT : "{{ grist_oidc_idp_skip_end_session_endpoint }}"
+  # GRIST_OIDC_SP_PROFILE_NAME_ATTR: "{{ grist_oidc_sp_profile_name_attr }}"
+  # GRIST_OIDC_SP_PROFILE_EMAIL_ATTR: "{{ grist_oidc_sp_profile_email_attr }}"
+
+grist_minio_env:
+  MINIO_ROOT_USER: "{{ grist_minio_root_user }}"
+  MINIO_ROOT_PASSWORD: "{{ grist_minio_root_password }}"
