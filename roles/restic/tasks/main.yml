@@ -26,6 +26,13 @@
       with_items:
         - "{{ restic_script_dir }}"
 
+    - name: Update apt-cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      register: result
+      until: result is succeeded
+
     - name: Include Restic role
       ansible.builtin.include_role:
         name: andrewrothstein.restic
