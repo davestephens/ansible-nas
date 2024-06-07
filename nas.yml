@@ -797,6 +797,10 @@
       tags:
         - speedtest-tracker
 
+    - role: squirrel
+      tags:
+        - squirrel
+
     - role: stalwart
       tags:
         - stalwart

@@ -1,0 +1,146 @@
+---
+- name: Start Squirrel Servers Manager
+  block:
+    - name: Create Squirrel Servers Manager Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ squirrel_data_directory }}"
+        - "{{ squirrel_data_directory }}/config"
+
+    - name: Create Squirrel Servers Manager network
+      community.docker.docker_network:
+        name: "{{ squirrel_network_name }}"
+
+    - name: Create Squirrel Proxy config file
+      ansible.builtin.template:
+        src: default.conf.j2
+        dest: "{{ squirrel_data_directory }}/config/default.conf"
+
+    - name: Copy index.html file
+      ansible.builtin.copy:
+        src: index.html
+        dest: "{{ squirrel_data_directory }}/config/index.html"
+
+    - name: Create Squirrel Servers Manager Mongo Docker Container
+      community.docker.docker_container:
+        name: "{{ squirrel_mongo_container_name }}"
+        image: "{{ squirrel_mongo_image_name }}:{{ squirrel_mongo_image_version }}"
+        pull: true
+        volumes:
+          - "{{ squirrel_data_directory }}/database:/data/db:rw"
+        networks:
+          - name: "{{ squirrel_network_name }}"
+        network_mode: "{{ squirrel_network_name }}"
+        container_default_behavior: no_defaults
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ squirrel_mongo_memory }}"
+        command: --quiet
+
+    - name: Create Squirrel Servers Manager Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ squirrel_redis_container_name }}"
+        image: "{{ squirrel_redis_image_name }}:{{ squirrel_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ squirrel_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ squirrel_network_name }}"
+        network_mode: "{{ squirrel_network_name }}"
+        container_default_behavior: no_defaults
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ squirrel_redis_memory }}"
+        command: --save 60 1
+
+    - name: Create Squirrel Servers Manager Server Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ squirrel_server_container_name }}"
+        image: "{{ squirrel_server_image_name }}:{{ squirrel_server_image_version }}"
+        pull: true
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+          - name: "{{ squirrel_network_name }}"
+        network_mode: "{{ squirrel_network_name }}"
+        env: "{{ squirrel_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ squirrel_server_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Squirrel Servers Manager Client Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ squirrel_client_container_name }}"
+        image: "{{ squirrel_client_image_name }}:{{ squirrel_client_image_version }}"
+        pull: true
+        volumes:
+          - "{{ squirrel_data_directory }}/assets:/app/static/upload:rw"
+        networks:
+          - name: "{{ squirrel_network_name }}"
+        network_mode: "{{ squirrel_network_name }}"
+        env: "{{ squirrel_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ squirrel_client_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Squirrel Servers Manager Proxy Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ squirrel_proxy_container_name }}"
+        image: "{{ squirrel_proxy_image_name }}:{{ squirrel_proxy_image_version }}"
+        pull: true
+        volumes:
+          - "{{ squirrel_data_directory }}/assets:/app/static/upload:rw"
+          - "{{ squirrel_data_directory }}/config/default.conf:/etc/nginx/conf.d/default.conf"
+          - "{{ squirrel_data_directory }}/config/index.html:/usr/share/nginx/html/custom.html"
+        networks:
+          - name: "{{ squirrel_network_name }}"
+        network_mode: "{{ squirrel_network_name }}"
+        ports:
+          - "{{ squirrel_port }}:8000"
+        restart_policy: unless-stopped
+        memory: "{{ squirrel_proxy_memory }}"
+        labels:
+          traefik.enable: "{{ squirrel_available_externally | string }}"
+          traefik.http.routers.squirrel.rule: "Host(`{{ squirrel_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.squirrel.tls.certresolver: "letsencrypt"
+          traefik.http.routers.squirrel.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.squirrel.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.squirrel.loadbalancer.server.port: "8000"
+  when: squirrel_enabled is true
+
+- name: Stop Squirrel Servers Manager
+  block:
+    - name: Stop Squirrel Servers Manager Mongo
+      community.docker.docker_container:
+        name: "{{ squirrel_mongo_container_name }}"
+        state: absent
+
+    - name: Stop Squirrel Servers Manager Redis
+      community.docker.docker_container:
+        name: "{{ squirrel_redis_container_name }}"
+        state: absent
+
+    - name: Stop Squirrel Servers Manager Server
+      community.docker.docker_container:
+        name: "{{ squirrel_server_container_name }}"
+        state: absent
+
+    - name: Stop Squirrel Servers Manager Client
+      community.docker.docker_container:
+        name: "{{ squirrel_client_container_name }}"
+        state: absent
+
+    - name: Stop Squirrel Servers Manager Proxyu
+      community.docker.docker_container:
+        name: "{{ squirrel_proxy_container_name }}"
+        state: absent
+  when: squirrel_enabled is false

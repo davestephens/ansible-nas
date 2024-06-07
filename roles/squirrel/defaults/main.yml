@@ -1,0 +1,59 @@
+---
+squirrel_enabled: false
+squirrel_available_externally: false
+
+# directories
+squirrel_data_directory: "{{ docker_home }}/squirrel"
+
+# network
+squirrel_port: "8154"
+squirrel_hostname: "squirrel"
+squirrel_network_name: "squirrel"
+
+# specs
+squirrel_server_memory: 1g
+squirrel_client_memory: 1g
+squirrel_proxy_memory: 1g
+squirrel_mongo_memory: 1g
+squirrel_redis_memory: 1g
+
+# docker
+squirrel_proxy_container_name: squirrel-proxy
+squirrel_proxy_image_name: "nginx"
+squirrel_proxy_image_version: alpine
+squirrel_mongo_container_name: squirrel-mongodb
+squirrel_mongo_image_name: mongo
+squirrel_mongo_image_version: 4.4.29
+squirrel_redis_container_name: squirrel-redis
+squirrel_redis_image_name: redis
+squirrel_redis_image_version: latest
+squirrel_server_container_name: squirrel-server
+squirrel_server_image_name: "ghcr.io/squirrelcorporation/squirrelserversmanager-server"
+squirrel_server_image_version: latest
+squirrel_client_container_name: squirrel-client
+squirrel_client_image_name: "ghcr.io/squirrelcorporation/squirrelserversmanager-client"
+squirrel_client_image_version: latest
+squirrel_user_id: "1000"
+squirrel_group_id: "1000"
+
+# squirrel
+squirrel_server_node_env: production
+squirrel_secret: REPLACE_ME
+squirrel_salt: "1234567890123456"
+squirrel_vault_pwd: REPLACE_ME
+squirrel_db_host: "{{ squirrel_mongo_container_name }}"
+squirrel_db_name: ssm
+squirrel_db_port: "27017"
+squirrel_redis_host: "{{ squirrel_redis_container_name }}"
+squirrel_redis_port: "6379"
+
+squirrel_env:
+  NODE_ENV: "{{ squirrel_server_node_env }}"
+  SECRET: "{{ squirrel_secret }}"
+  SALT: "{{ squirrel_salt }}"
+  VAULT_PWD: "{{ squirrel_vault_pwd }}"
+  DB_HOST: "{{ squirrel_db_host }}"
+  DB_NAME: "{{ squirrel_db_name }}"
+  DB_PORT: "{{ squirrel_db_port }}"
+  REDIS_HOST: "{{ squirrel_redis_host }}"
+  REDIS_PORT: "{{ squirrel_redis_port }}"

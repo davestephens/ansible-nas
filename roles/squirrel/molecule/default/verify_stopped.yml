@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove squirrel mongo
+      community.docker.docker_container:
+        name: "{{ squirrel_mongo_container_name }}"
+        state: absent
+      register: result_mongo
+
+    - name: Try and stop and remove squirrel redis
+      community.docker.docker_container:
+        name: "{{ squirrel_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove squirrel server
+      community.docker.docker_container:
+        name: "{{ squirrel_server_container_name }}"
+        state: absent
+      register: result_server
+
+    - name: Try and stop and remove squirrel client
+      community.docker.docker_container:
+        name: "{{ squirrel_client_container_name }}"
+        state: absent
+      register: result_client
+
+    - name: Try and stop and remove squirrel proxy
+      community.docker.docker_container:
+        name: "{{ squirrel_proxy_container_name }}"
+        state: absent
+      register: result_proxy
+
+    - name: Check if squirrel is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_mongo.changed
+          - not result_redis.changed
+          - not result_server.changed
+          - not result_client.changed
+          - not result_proxy.changed
