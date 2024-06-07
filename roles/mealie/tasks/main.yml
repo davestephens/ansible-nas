@@ -16,7 +16,7 @@
         volumes:
           - "{{ mealie_data_directory }}:/app/data:rw"
         ports:
-          - "{{ mealie_port }}:80"
+          - "{{ mealie_port }}:9000"
         env:
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ mealie_user_id }}"
