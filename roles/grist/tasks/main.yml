@@ -95,8 +95,8 @@
         healthcheck:
           test: ['CMD', 'curl', '-f', 'http://127.0.0.1:9000/minio/health/live']
           interval: 10s
-          start_interval: 1s
-          start_period: 10s
+          timeout: 5s
+          retries: 5
 
     - name: Create Grist Docker Container
       community.docker.docker_container:
@@ -120,9 +120,9 @@
         labels:
           traefik.enable: "{{ grist_available_externally | string }}"
           traefik.http.routers.grist.rule: "Host(`{{ grist_hostname }}.{{ ansible_nas_domain }}`)"
-          # traefik.http.routers.grist.tls.certresolver: "letsencrypt"
-          # traefik.http.routers.grist.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          # traefik.http.routers.grist.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.grist.tls.certresolver: "letsencrypt"
+          traefik.http.routers.grist.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.grist.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.grist.loadbalancer.server.port: "8484"
   when: grist_enabled is true
 
