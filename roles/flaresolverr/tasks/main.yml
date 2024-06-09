@@ -30,7 +30,7 @@
           traefik.http.routers.flaresolverr.tls.certresolver: "letsencrypt"
           traefik.http.routers.flaresolverr.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.flaresolverr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.flaresolverr.loadbalancer.server.port: "5050"
+          traefik.http.services.flaresolverr.loadbalancer.server.port: "8191"
   when: flaresolverr_enabled is true
 
 - name: Stop FlareSolverr
