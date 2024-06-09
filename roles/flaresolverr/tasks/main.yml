@@ -1,0 +1,42 @@
+---
+- name: Start FlareSolverr
+  block:
+    - name: Create FlareSolverr Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ docker_home }}/flaresolverr/config"
+
+    - name: FlareSolverr Docker Container
+      community.docker.docker_container:
+        name: "{{ flaresolverr_container_name }}"
+        image: flaresolverr/flaresolverr
+        pull: true
+        volumes:
+          - "{{ flaresolverr_config_directory }}:/config:rw"
+        ports:
+          - "{{ flaresolverr_port }}:5050"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ flaresolverr_user_id }}"
+          PGID: "{{ flaresolverr_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ flaresolverr_memory }}"
+        labels:
+          traefik.enable: "{{ flaresolverr_available_externally | string }}"
+          traefik.http.routers.flaresolverr.rule: "Host(`flaresolverr.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.flaresolverr.tls.certresolver: "letsencrypt"
+          traefik.http.routers.flaresolverr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.flaresolverr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.flaresolverr.loadbalancer.server.port: "5050"
+  when: flaresolverr_enabled is true
+
+- name: Stop FlareSolverr
+  block:
+    - name: Stop FlareSolverr
+      community.docker.docker_container:
+        name: "{{ flaresolverr_container_name }}"
+        state: absent
+  when: flaresolverr_enabled is false
