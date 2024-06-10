@@ -189,6 +189,10 @@
       tags:
         - homepage
 
+    - role: ispyagentdvr
+      tags:
+        - ispyagentdvr
+
     - role: jackett
       tags:
         - jackett

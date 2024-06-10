@@ -1,0 +1,49 @@
+---
+- name: Start iSpyAgentDVR
+  block:
+    - name: Create iSpyAgentDVR Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ ispyagentdvr_config_directory }}"
+        - "{{ ispyagentdvr_commands_directory }}"
+        - "{{ ispyagentdvr_recordings_directory }}"
+
+    - name: iSpyAgentDVR Docker Container
+      community.docker.docker_container:
+        name: "{{ ispyagentdvr_container_name }}"
+        image: mekayelanik/ispyagentdvr:latest
+        pull: true
+        volumes:
+          - "{{ ispyagentdvr_config_directory }}:/AgentDVR/Media/XML:rw"
+          - "{{ ispyagentdvr_commands_directory }}:/AgentDVR/Commands:rw"
+          - "{{ ispyagentdvr_recordings_directory }}:/AgentDVR/Media/WebServerRoot/Media:rw"
+        ports:
+          - "{{ ispyagentdvr_webui_port }}:8090"
+          - "{{ ispyagentdvr_turn_port }}:3478/udp"
+          - "{{ ispyagentdvr_agentdvr_host_port }}:50000-50010/udp"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          WEBUI_PORT: "{{ ispyagentdvr_webui_port }}"
+          PUID: "{{ ispyagentdvr_user_id }}"
+          PGID: "{{ ispyagentdvr_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ ispyagentdvr_memory }}"
+        labels:
+          traefik.enable: "{{ ispyagentdvr_available_externally | string }}"
+          traefik.http.routers.ispyagentdvr.rule: "Host(`ispyagentdvr.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.ispyagentdvr.tls.certresolver: "letsencrypt"
+          traefik.http.routers.ispyagentdvr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.ispyagentdvr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.ispyagentdvr.loadbalancer.server.port: "8097"
+  when: ispyagentdvr_enabled is true
+
+- name: Stop iSpyAgentDVR
+  block:
+    - name: Stop iSpyAgentDVR
+      community.docker.docker_container:
+        name: "{{ ispyagentdvr_container_name }}"
+        state: absent
+  when: ispyagentdvr_enabled is false
