@@ -3,9 +3,6 @@ roles:
   - name: geerlingguy.docker
     version: 7.1.0
 
-  - name: bertvv.samba
-    version: v2.7.1
-
   - name: geerlingguy.nfs
     version: 2.0.0
 
@@ -13,3 +10,4 @@ collections:
   - name: ansible.posix
   - name: community.docker
   - name: community.general
+  - name: vladgh.samba
