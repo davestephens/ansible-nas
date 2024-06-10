@@ -1,0 +1,40 @@
+---
+librum_enabled: false
+librum_available_externally: false
+
+# directories
+librum_data_directory: "{{ docker_home }}/librum"
+
+# network
+librum_port: "5009"
+librum_hostname: "librum"
+librum_network_name: "librum"
+
+# specs
+librum_memory: 1g
+librum_db_memory: 1g
+
+# docker
+librum_container_name: librum
+librum_db_container_name: librum-db
+librum_image_name: "ghcr.io/librum-reader/librum-server"
+librum_image_version: "latest"
+librum_db_image_name: "mariadb"
+librum_db_image_version: latest
+librum_user_id: "1000"
+librum_group_id: "1000"
+
+librum_db_database: "librum"
+librum_db_user: "librum"
+librum_db_password: "librum"
+librum_db_root_password: "supersecure"
+librum_jwt_valid_issuer: exampleIssuer
+librum_jwt_key: exampleOfALongSecretToken
+librum_smtp_endpoint: "smtp.example.com:587"
+librum_smtp_username: "mailuser123"
+librum_smtp_password: "smtpUserPassword123"
+librum_smtp_mail_from: "mailuser123@example.com"
+librum_db_connection_string: "Server={{ librum_db_container_name }};port=3306;Database={{ librum_db_database }};Uid=root;Pwd={{ librum_db_root_password }};"
+librum_admin_email: "admin@example.com"
+librum_admin_password: "strongPassword123"
+librum_open_ai_token: ""

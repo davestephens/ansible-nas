@@ -1,0 +1,89 @@
+---
+- name: Start Librum
+  block:
+    - name: Create Librum Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 999
+        group: 999
+      with_items:
+        - "{{ librum_data_directory }}"
+        - "{{ librum_data_directory }}/data"
+
+    - name: Create Librum network
+      community.docker.docker_network:
+        name: "{{ librum_network_name }}"
+
+    - name: Create Librum database container
+      community.docker.docker_container:
+        name: "{{ librum_db_container_name }}"
+        image: "{{ librum_db_image_name }}:{{ librum_db_image_version }}"
+        networks:
+          - name: "{{ librum_network_name }}"
+        network_mode: "{{ librum_network_name }}"
+        pull: true
+        volumes:
+          - "{{ librum_data_directory }}/mariadb_data:/var/lib/mysql"
+        env:
+          MARIADB_DATABASE: "{{ librum_db_database }}"
+          MARIADB_USER: "{{ librum_db_user }}"
+          MARIADB_PASSWORD: "{{ librum_db_password }}"
+          MARIADB_ROOT_PASSWORD: "{{ librum_db_root_password }}"
+        restart_policy: unless-stopped
+        memory: "{{ librum_db_memory }}"
+        labels:
+          traefik.enable: "false"
+        healthcheck:
+          test: ["CMD", "mariadb-admin", "ping", "-u", "root", "-p'{{ librum_db_root_password }}'", "-h", "localhost"]
+          interval: 20s
+          timeout: 40s
+          retries: 3
+          start_period: 30s
+
+    - name: Create Librum Docker Container
+      community.docker.docker_container:
+        name: "{{ librum_container_name }}"
+        image: "{{ librum_image_name }}:{{ librum_image_version }}"
+        networks:
+          - name: "{{ librum_network_name }}"
+        network_mode: "{{ librum_network_name }}"
+        pull: true
+        volumes:
+          - "{{ librum_data_directory }}/data:/var/lib/librum-server/librum_storage"
+        ports:
+          - "{{ librum_port }}:5000"
+        env:
+          JWTValidIssuer: "{{ librum_jwt_valid_issuer }}"
+          JWTKey: "{{ librum_jwt_key }}"
+          SMTPEndpoint: "{{ librum_smtp_endpoint }}"
+          SMTPUsername: "{{ librum_smtp_username }}"
+          SMTPPassword: "{{ librum_smtp_password }}"
+          SMTPMailFrom: "{{ librum_smtp_mail_from }}"
+          DBConnectionString: "{{ librum_db_connection_string }}"
+          AdminEmail: "{{ librum_admin_email }}"
+          AdminPassword: "{{ librum_admin_password }}"
+          # OpenAIToken: "{{ librum_open_ai_token }}"
+        restart_policy: unless-stopped
+        memory: "{{ librum_memory }}"
+        labels:
+          traefik.enable: "{{ librum_available_externally | string }}"
+          traefik.http.routers.librum.rule: "Host(`{{ librum_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.librum.tls.certresolver: "letsencrypt"
+          traefik.http.routers.librum.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.librum.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.librum.loadbalancer.server.port: "5000"
+  when: librum_enabled is true
+
+- name: Stop Librum
+  block:
+    - name: Stop Librum
+      community.docker.docker_container:
+        name: "{{ librum_container_name }}"
+        state: absent
+
+    - name: Stop Librum DB
+      community.docker.docker_container:
+        name: "{{ librum_db_container_name }}"
+        state: absent
+  when: librum_enabled is false

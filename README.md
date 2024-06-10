@@ -111,6 +111,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Librephotos](https://github.com/LibrePhotos/librephotos) - self-hosted open source photo
 * [Librespeed](https://github.com/librespeed/speedtest) - Self-hosted Speedtest for HTML5 and more
 * [LibreTranslate](https://libretranslate.com/) - Free and Open Source Machine Translation API
+* [Librum Server](https://github.com/Librum-Reader/Librum-Server) - A clean and powerful way to read and manage your e-books on any device
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
 * [Light LDAP](https://github.com/lldap/lldap) - Light LDAP implementation
 * [Linkding](https://github.com/sissbruecker/linkding) - Self-hosted bookmark service

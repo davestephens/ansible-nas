@@ -425,6 +425,10 @@
       tags:
         - libretranslate
 
+    - role: librum
+      tags:
+        - librum
+
     - role: lidarr
       tags:
         - lidarr
