@@ -67,7 +67,6 @@
           EMAIL_VERIFICATION_DISABLED: "{{ formbricks_email_verification_disabled }}"
           PASSWORD_RESET_DISABLED: "{{ formbricks_password_reset_disabled }}"
           EMAIL_AUTH_DISABLED: "{{ formbricks_email_auth_disabled }}"
-          SIGNUP_DISABLED: "{{ formbricks_signup_disabled }}"
           INVITE_DISABLED: "{{ formbricks_invite_disabled }}"
           SENTRY_IGNORE_API_RESOLUTION_ERROR: "{{ formbricks_sentry_ignore_api_resolution_error }}"
           NEXT_PUBLIC_SENTRY_DSN: "{{ formbricks_sentry_dsn }}"
