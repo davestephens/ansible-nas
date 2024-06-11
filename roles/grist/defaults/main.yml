@@ -111,7 +111,7 @@ grist_env:
   SENDGRID_API_KEY: "{{ grist_sendgrid_api_key }}"
   GRIST_DOCS_MINIO_ACCESS_KEY: "{{ grist_docs_minio_access_key }}"
   GRIST_DOCS_MINIO_SECRET_KEY: "{{ grist_docs_minio_secret_key }}"
-  GRIST_DOCS_MINIO_USE_SSL: "{{ grist_docs_minio_use_ssl  }}"
+  GRIST_DOCS_MINIO_USE_SSL: "{{ grist_docs_minio_use_ssl }}"
   GRIST_DOCS_MINIO_BUCKET: "{{ grist_docs_minio_bucket }}"
   GRIST_DOCS_MINIO_ENDPOINT: "{{ grist_docs_minio_endpoint }}"
   GRIST_DOCS_MINIO_PORT: "{{ grist_docs_minio_port }}"
