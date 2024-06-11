@@ -66,7 +66,6 @@
         name: "{{ immich_server_container_name }}"
         image: "{{ immich_server_image }}:{{ immich_server_tag }}"
         pull: true
-        command: ["start.sh", "immich"]
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
@@ -92,6 +91,7 @@
           MAPBOX_KEY: "{{ immich_mapbox_key }}"
           UPLOAD_LOCATION: "{{ immich_upload_location }}"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+          IMMICH_WORKERS_INCLUDE: 'api'
         labels:
           traefik.enable: "{{ immich_available_externally | string }}"
           traefik.http.routers.immich.rule: "Host(`{{ immich_hostname }}.{{ ansible_nas_domain }}`)"
@@ -107,7 +107,6 @@
         name: "{{ immich_microservices_container_name }}"
         image: "{{ immich_microservices_image }}:{{ immich_microservices_tag }}"
         pull: true
-        command: ["start.sh", "microservices"]
         volumes:
           - "{{ immich_data_directory }}/data:/data:rw"
           - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
@@ -131,6 +130,7 @@
           MAPBOX_KEY: "{{ immich_mapbox_key }}"
           UPLOAD_LOCATION: "{{ immich_upload_location }}"
           PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+          IMMICH_WORKERS_INCLUDE: 'microservices'
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
