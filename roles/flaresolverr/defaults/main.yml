@@ -1,0 +1,19 @@
+---
+flaresolverr_enabled: false
+flaresolverr_available_externally: false
+
+# directories
+flaresolverr_config_directory: "{{ docker_home }}/flaresolverr/config"
+
+# uid / gid
+flaresolverr_user_id: "0"
+flaresolverr_group_id: "0"
+
+# network
+flaresolverr_port: "8191"
+
+# specs
+flaresolverr_memory: 200m
+
+# docker
+flaresolverr_container_name: flaresolverr

@@ -133,6 +133,10 @@
       tags:
         - firefly
 
+    - role: flaresolverr
+      tags:
+        - flaresolverr
+
     - role: freshrss
       tags:
         - freshrss
