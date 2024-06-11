@@ -6,7 +6,9 @@ keycloak_available_externally: false
 keycloak_data_directory: "{{ docker_home }}/keycloak"
 
 # network
-keycloak_port: "8093"
+keycloak_http_port: "8161"
+keycloak_https_port: "8162"
+keycloak_maintenance_port: "8163"
 keycloak_hostname: "keycloak"
 
 # specs
@@ -19,34 +21,39 @@ keycloak_db_container_name: "keycloak-db"
 keycloak_network_name: "keycloak"
 keycloak_image_name: "quay.io/keycloak/keycloak"
 keycloak_image_version: "latest"
-keycloak_db_image_name: "mysql"
-keycloak_db_image_version: "5.7"
+keycloak_db_image_name: "postgres"
+keycloak_db_image_version: "latest"
 
 # environment variables
-keycloak_mysql_db_name: "keycloak"
-keycloak_mysql_db_user: "keycloak"
-keycloak_mysql_db_password: "keycloak"
-keycloak_mysql_db_root_password: "keycloak"
-keycloak_db_vendor: "mysql"
+keycloak_db_name: "keycloak"
+keycloak_db_user: "keycloak"
+keycloak_db_password: "keycloak"
+keycloak_db_root_password: "keycloak"
+keycloak_kc_db: "postgres"
+keycloak_kc_db_url_host: "{{ keycloak_db_container_name }}"
+keycloak_kc_db_url_database: "{{ keycloak_db_name }}"
+keycloak_kc_db_password: "{{ keycloak_db_password }}"
+keycloak_kc_db_username: "{{ keycloak_db_user }}"
+keycloak_kc_db_schema: "public"
+keycloak_db_vendor: "postgres"
 keycloak_db_addr: "{{ keycloak_db_container_name }}"
-keycloak_db_port: "3306"
+keycloak_db_port: "5432"
 keycloak_user: "admin"
 keycloak_password: "password"
 keycloak_admin: "admin"
 keycloak_admin_password: "password"
 keycloak_frontend_url: "https://{{ keycloak_hostname }}.{{ ansible_nas_domain }}/auth"
 keycloak_proxy_address_forwarding: "true"
+keycloak_https_certificate_file: "/var/lib/keycloak/content/keycloak.crt"
+keycloak_https_certificate_key_file: "/var/lib/keycloak/content/keycloak.pem"
+keycloak_https_key_store_file: cert
+keycloak_https_key_store_password: "{{ keycloak_admin_password }}"
 keycloak_command:
   - start
-  # - --optimized
-  - --hostname={{ keycloak_hostname }}.{{ ansible_nas_domain }}
-  - --hostname-admin={{ keycloak_hostname }}.{{ ansible_nas_domain }}
-  - --hostname-strict-backchannel=true
-  - --hostname-strict=false
+  - --features=token-exchange,hostname:v2
+  - --hostname=https://{{ keycloak_hostname }}.{{ ansible_nas_domain }}
+  - --https-certificate-file={{ keycloak_https_certificate_file }}
+  - --https-certificate-key-file={{ keycloak_https_certificate_key_file }}
+  - --proxy-headers=xforwarded
+  - --hostname-backchannel-dynamic=true
   - --http-enabled=true
-  - --features=token-exchange
-  - --proxy=edge
-  - --db=mysql
-  - --db-url="jdbc:{{ keycloak_db_vendor }}://{{ keycloak_db_addr }}:{{ keycloak_db_port }}/{{ keycloak_mysql_db_name }}"
-  - --db-username={{ keycloak_mysql_db_user }}
-  - --db-password={{ keycloak_mysql_db_password }}

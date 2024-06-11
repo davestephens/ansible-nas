@@ -4,3 +4,4 @@ provisioner:
     group_vars:
       all:
         keycloak_enabled: true
+        samba_server_string: Ansible NAS
