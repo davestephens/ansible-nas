@@ -3,12 +3,6 @@ roles:
   - name: geerlingguy.docker
     version: 7.1.0
 
-  - name: geerlingguy.docker_arm
-    version: 5.0.0
-
-  - name: bertvv.samba
-    version: v2.7.1
-
   - name: geerlingguy.nfs
     version: 2.0.0
 
@@ -23,3 +17,4 @@ collections:
   - name: community.docker
   - name: community.general
   - name: community.windows
+  - name: vladgh.samba
