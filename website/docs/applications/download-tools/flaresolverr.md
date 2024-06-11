@@ -1,6 +1,6 @@
 # FlareSolverr
 
-Homepage: <https://github.com/FlareSolverr/FlareSolverr>
+Homepage: [https://github.com/FlareSolverr/FlareSolverr](https://github.com/FlareSolverr/FlareSolverr)
 
 FlareSolverr is a proxy server to bypass Cloudflare and DDoS-GUARD protection. Some Jackett indexers require it.
 
@@ -8,4 +8,4 @@ FlareSolverr is a proxy server to bypass Cloudflare and DDoS-GUARD protection. S
 
 Set `flaresolverr_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-The FlareSolverr API can be accessed from <http://ansible_nas_host_or_ip:8191>.
+The FlareSolverr API can be accessed from [http://ansible_nas_host_or_ip:8191](http://ansible_nas_host_or_ip:8191).
