@@ -11,7 +11,7 @@
         - ansible-nas-users
         - ansible-nas
 
-    - role: bertvv.samba
+    - role: vladgh.samba.server
       tags:
         - samba
         - skip_ansible_lint
