@@ -5,9 +5,8 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        # mode: 0755
       with_items:
-        - "{{ docker_home }}/flaresolverr/config"
+        - "{{ flaresolverr_config_directory }}"
 
     - name: FlareSolverr Docker Container
       community.docker.docker_container:
@@ -17,11 +16,9 @@
         volumes:
           - "{{ flaresolverr_config_directory }}:/config:rw"
         ports:
-          - "{{ flaresolverr_port }}:5050"
+          - "{{ flaresolverr_port }}:8191"
         env:
           TZ: "{{ ansible_nas_timezone }}"
-          PUID: "{{ flaresolverr_user_id }}"
-          PGID: "{{ flaresolverr_group_id }}"
         restart_policy: unless-stopped
         memory: "{{ flaresolverr_memory }}"
         labels:
