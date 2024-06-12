@@ -241,6 +241,10 @@
       tags:
         - flame
 
+    - role: flaresolverr
+      tags:
+        - flaresolverr
+
     - role: flarum
       tags:
         - flarum

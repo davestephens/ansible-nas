@@ -64,6 +64,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Excalidraw](https://excalidraw.com/) - Virtual whiteboard for sketching hand-drawn like diagrams
 * [Firefly III](https://firefly-iii.org/) - Free and open source personal finance manager
 * [Flame](https://github.com/pawelmalak/flame/) - Flarum is a delightfully simple discussion platform for your website
+* [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr) - FlareSolverr is a proxy server to bypass Cloudflare and DDoS-GUARD protection
 * [Flarum](https://flarum.org/) - Self-hosted startpage for your server
 * [Flatnotes](https://flatnotes.io/) - Self-hosted, database-less note taking web app
 * [Formbricks](https://github.com/formbricks/formbricks) - An Open Source Survey Platform
