@@ -11,7 +11,7 @@
         - "{{ ispyagentdvr_commands_directory }}"
         - "{{ ispyagentdvr_recordings_directory }}"
 
-    - name: iSpyAgentDVR Docker Container
+    - name: Create iSpyAgentDVR Docker Container
       community.docker.docker_container:
         name: "{{ ispyagentdvr_container_name }}"
         image: mekayelanik/ispyagentdvr:latest
