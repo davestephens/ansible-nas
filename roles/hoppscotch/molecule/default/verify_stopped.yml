@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove hoppscotch db
+      community.docker.docker_container:
+        name: "{{ hoppscotch_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove hoppscotch backend
+      community.docker.docker_container:
+        name: "{{ hoppscotch_backend_container_name }}"
+        state: absent
+      register: result_backend
+
+    - name: Try and stop and remove hoppscotch frontend
+      community.docker.docker_container:
+        name: "{{ hoppscotch_frontend_container_name }}"
+        state: absent
+      register: result_frontend
+
+    - name: Try and stop and remove hoppscotch admin
+      community.docker.docker_container:
+        name: "{{ hoppscotch_admin_container_name }}"
+        state: absent
+      register: result_admin
+
+    - name: Check if hoppscotch is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result_backend.changed
+          - not result_frontend.changed
+          - not result_admin.changed

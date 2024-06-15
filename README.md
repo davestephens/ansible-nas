@@ -91,6 +91,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API
 * [Homepage](https://gethomepage.dev/) - Highly customizable application dashboard with integrations for over 100 services.
+* [Hoppscotch](https://github.com/hoppscotch/hoppscotch) - Open source API development ecosystem - (open-source alternative to Postman, Insomnia)
 * [Huginn](https://github.com/huginn/huginn) - Create agents that monitor and act on your behalf. Your agents are standing by!
 * [Huly Platform](https://github.com/hcengineering/platform) - All-in-One Project Management Platform (alternative to Linear, Jira, Slack, Notion, Motion)
 * [Huntly](https://github.com/lcomplete/huntly) - Self-hosted information management tool
