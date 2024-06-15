@@ -38,6 +38,11 @@
           traefik.http.routers.ispyagentdvr.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.ispyagentdvr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.ispyagentdvr.loadbalancer.server.port: "8097"
+          homepage.group: Monitoring
+          homepage.name: iSpy AgentDVR
+          homepage.icon: ispy.png
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ ispyagentdvr_webui_port }}"
+          homepage.description: Camera Monitoring software
   when: ispyagentdvr_enabled is true
 
 - name: Stop iSpyAgentDVR
