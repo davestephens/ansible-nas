@@ -58,11 +58,11 @@
           - "{{ unifi_stun_port }}:{{ unifi_stun_port }}/udp"
           - "{{ unifi_discovery_port }}:10001/udp"
           - "{{ unifi_device_port }}:{{ unifi_device_port }}"
-          - "{{ unifi_l2_port }}:1900/udp" #optional
-          - "{{ unifi_https_portal_port }}:{{ unifi_https_portal_port }}" #optional
-          - "{{ unifi_http_portal_port }}:{{ unifi_http_portal_port }}" #optional
-          - "{{ unifi_speed_test_port }}:6789" #optional
-          - "{{ unifi_syslog_port }}:5514/udp" #optional
+          - "{{ unifi_l2_port }}:1900/udp" # optional
+          - "{{ unifi_https_portal_port }}:{{ unifi_https_portal_port }}" # optional
+          - "{{ unifi_http_portal_port }}:{{ unifi_http_portal_port }}" # optional
+          - "{{ unifi_speed_test_port }}:6789" # optional
+          - "{{ unifi_syslog_port }}:5514/udp" # optional
         env:
           PUID: "{{ unifi_user_id }}"
           PGID: "{{ unifi_group_id }}"
