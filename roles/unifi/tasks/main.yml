@@ -1,0 +1,130 @@
+---
+- name: Start Unifi Network Application
+  block:
+    - name: Create Unifi Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ unifi_user_id }}"
+        group: "{{ unifi_group_id }}"
+      with_items:
+        - "{{ unifi_data_directory }}"
+        - "{{ unifi_data_directory }}/data"
+
+    - name: Create Unifi network
+      community.docker.docker_network:
+        name: "{{ unifi_network_name }}"
+
+    - name: Create Mongo config file
+      ansible.builtin.template:
+        src: init-mongo.js.j2
+        dest: "{{ unifi_data_directory }}/data/init-mongo.js"
+        owner: "{{ unifi_user_id }}"
+        group: "{{ unifi_group_id }}"
+
+    - name: Create Unifi Db Docker Container
+      community.docker.docker_container:
+        name: "{{ unifi_db_container_name }}"
+        image: "{{ unifi_db_image_name }}:{{ unifi_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ unifi_data_directory }}/data/mdb-data:/data/db:rw"
+          - "{{ unifi_data_directory }}/data/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
+        networks:
+          - name: "{{ unifi_network_name }}"
+        network_mode: "{{ unifi_network_name }}"
+        container_default_behavior: no_defaults
+        # env:
+        #   MONGO_INITDB_ROOT_USERNAME: "{{ unifi_mongo_initdb_root_username }}"
+        #   MONGO_INITDB_ROOT_PASSWORD: "{{ unifi_mongo_initdb_root_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ unifi_db_memory }}"
+
+    - name: Create Unifi Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ unifi_container_name }}"
+        image: "{{ unifi_image_name }}:{{ unifi_image_version }}"
+        pull: true
+        volumes:
+          - "{{ unifi_data_directory }}/data:/config"
+        networks:
+          - name: "{{ unifi_network_name }}"
+        network_mode: "{{ unifi_network_name }}"
+        ports:
+          - "{{ unifi_gui_port }}:8443"
+          - "{{ unifi_stun_port }}:{{ unifi_stun_port }}/udp"
+          - "{{ unifi_discovery_port }}:10001/udp"
+          - "{{ unifi_device_port }}:{{ unifi_device_port }}"
+          - "{{ unifi_l2_port }}:1900/udp" #optional
+          - "{{ unifi_https_portal_port }}:{{ unifi_https_portal_port }}" #optional
+          - "{{ unifi_http_portal_port }}:{{ unifi_http_portal_port }}" #optional
+          - "{{ unifi_speed_test_port }}:6789" #optional
+          - "{{ unifi_syslog_port }}:5514/udp" #optional
+        env:
+          PUID: "{{ unifi_user_id }}"
+          PGID: "{{ unifi_group_id }}"
+          TZ: "{{ ansible_nas_timezone }}"
+          MONGO_USER: "{{ unifi_mongo_user }}"
+          MONGO_PASS: "{{ unifi_mongo_pass }}"
+          MONGO_HOST: "{{ unifi_mongo_host }}"
+          MONGO_PORT: "{{ unifi_mongo_port }}"
+          MONGO_DBNAME: "{{ unifi_mongo_dbname }}"
+          MEM_LIMIT: "{{ unifi_mem_limit }}"
+          MEM_STARTUP: "{{ unifi_mem_startup }}"
+          MONGO_TLS: "{{ unifi_mongo_tls }}"
+          MONGO_AUTHSOURCE: "{{ unifi_mongo_authsource }}"
+        restart_policy: unless-stopped
+        memory: "{{ unifi_memory }}"
+        labels:
+          traefik.enable: "{{ unifi_available_externally | string }}"
+          traefik.http.routers.unifi.rule: "Host(`{{ unifi_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.unifi.tls.certresolver: "letsencrypt"
+          traefik.http.routers.unifi.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.unifi.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.unifi.loadbalancer.server.port: "8443"
+          traefik.http.services.unifi.loadbalancer.server.scheme: "https"
+
+    - name: Wait for Unifi to init
+      ansible.builtin.pause:
+        seconds: 60
+
+    - name: Add proper ports to config file
+      ansible.builtin.lineinfile:
+        path: "{{ unifi_data_directory }}/data/data/system.properties"
+        line: 'unifi.http.port={{ unifi_device_port }}'
+        insertbefore: EOF
+
+    - name: Add proper ports to config file
+      ansible.builtin.lineinfile:
+        path: "{{ unifi_data_directory }}/data/data/system.properties"
+        line: "{{ item.line }}"
+        insertbefore: EOF
+      loop:
+        - { line: 'unifi.http.port={{ unifi_device_port }}' }
+        - { line: 'portal.http.port={{ unifi_http_portal_port }}' }
+        - { line: 'portal.https.port={{ unifi_https_portal_port }}' }
+        - { line: 'unifi.stun.port={{ unifi_stun_port }}' }
+
+    - name: Restart Unifi
+      community.docker.docker_container:
+        name: "{{ unifi_container_name }}"
+        state: started
+        restart: true
+      tags: molecule-idempotence-notest
+  when: unifi_enabled is true
+
+- name: Stop unifi
+  block:
+    - name: Stop Unifi db
+      community.docker.docker_container:
+        name: "{{ unifi_db_container_name }}"
+        state: absent
+
+    - name: Stop Unifi
+      community.docker.docker_container:
+        name: "{{ unifi_container_name }}"
+        state: absent
+  when: unifi_enabled is false

@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove unifi db
+      community.docker.docker_container:
+        name: "{{ unifi_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove unifi
+      community.docker.docker_container:
+        name: "{{ unifi_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check if unifi is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result.changed

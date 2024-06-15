@@ -226,6 +226,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Tt-rss](https://tt-rss.org/) - free and open source web-based news feed (RSS/Atom) reader and aggregator
 * [Twenty CMS](https://github.com/twentyhq/twenty) - The #1 Open-Source CRM
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
+* [Unifi Network Application](https://github.com/linuxserver/docker-unifi-network-application) - powerful, enterprise wireless software engine
 * [Uppy](https://github.com/transloadit/uppy) - The next open source file uploader for web browsers
 * [uTorrent](https://www.utorrent.com/) - The best torrent downloading app for beginners
 * [Valheim Server](https://github.com/mbround18/valheim-docker) - Valheim dedicated gameserver manager.

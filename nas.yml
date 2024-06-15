@@ -885,6 +885,10 @@
       tags:
         - ubooquity
 
+    - role: unifi
+      tags:
+        - unifi
+
     - role: uppy
       tags:
         - uppy
