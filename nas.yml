@@ -893,6 +893,10 @@
       tags:
         - utorrent
 
+    - role: valheim
+      tags:
+        - valheim
+
     - role: vaultwarden
       tags:
         - vaultwarden

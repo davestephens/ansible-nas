@@ -228,6 +228,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
 * [Uppy](https://github.com/transloadit/uppy) - The next open source file uploader for web browsers
 * [uTorrent](https://www.utorrent.com/) - The best torrent downloading app for beginners
+* [Valheim Server](https://github.com/mbround18/valheim-docker) - Valheim dedicated gameserver manager.
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden) - Self-Hosting port of password manager
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
 * [Wallabag](https://wallabag.org/) - Save and classify articles. Read them later.
