@@ -1,0 +1,2 @@
+db.getSiblingDB("{{ unifi_mongo_dbname }}").createUser({user: "{{ unifi_mongo_user }}", pwd: "{{ unifi_mongo_pass }}", roles: [{role: "dbOwner", db: "{{ unifi_mongo_dbname }}"}]});
+db.getSiblingDB("{{ unifi_mongo_dbname }}_stat").createUser({user: "{{ unifi_mongo_user }}", pwd: "{{ unifi_mongo_pass }}", roles: [{role: "dbOwner", db: "{{ unifi_mongo_dbname }}_stat"}]});

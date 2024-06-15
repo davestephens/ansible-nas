@@ -1,0 +1,46 @@
+---
+unifi_enabled: false
+unifi_available_externally: false
+
+# directories
+unifi_data_directory: "{{ docker_home }}/unifi"
+
+# network
+unifi_gui_port: "8444"
+unifi_stun_port: "3478"
+unifi_discovery_port: "10001"
+unifi_device_port: "8445"
+unifi_l2_port: "1901"
+unifi_https_portal_port: "8446"
+unifi_http_portal_port: "8447"
+unifi_speed_test_port: "6789"
+unifi_syslog_port: "5514"
+unifi_hostname: "unifi"
+unifi_network_name: "unifi"
+
+# specs
+unifi_memory: 1g
+unifi_db_memory: 1g
+
+# docker
+unifi_container_name: unifi
+unifi_image_name: "lscr.io/linuxserver/unifi-network-application"
+unifi_image_version: latest
+unifi_db_container_name: unifi-mongodb
+unifi_db_image_name: mongo
+unifi_db_image_version: latest
+unifi_user_id: "1000"
+unifi_group_id: "1000"
+
+# unifi
+unifi_mongo_initdb_root_username: "unifi"
+unifi_mongo_initdb_root_password: "unifi"
+unifi_mongo_user: "{{ unifi_mongo_initdb_root_username }}"
+unifi_mongo_pass: "{{ unifi_mongo_initdb_root_password }}"
+unifi_mongo_host: "{{ unifi_db_container_name }}"
+unifi_mongo_port: "27017"
+unifi_mongo_dbname: "unifi"
+unifi_mem_limit: "1024"
+unifi_mem_startup: "1024"
+unifi_mongo_tls: ""
+unifi_mongo_authsource: ""
