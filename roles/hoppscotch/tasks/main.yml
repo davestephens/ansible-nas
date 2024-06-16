@@ -1,0 +1,134 @@
+---
+- name: Start Hoppscotch
+  block:
+    - name: Create Hoppscotch Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ hoppscotch_data_directory }}"
+
+    - name: Create Hoppscotch network
+      community.docker.docker_network:
+        name: "{{ hoppscotch_network_name }}"
+
+    - name: Create Hoppscotch DB Docker Container
+      community.docker.docker_container:
+        name: "{{ hoppscotch_db_container_name }}"
+        image: "{{ hoppscotch_db_image_name }}:{{ hoppscotch_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ hoppscotch_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ hoppscotch_network_name }}"
+        network_mode: "{{ hoppscotch_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ hoppscotch_postgres_password }}"
+          POSTGRES_USER: "{{ hoppscotch_postgres_user }}"
+          POSTGRES_DB: "{{ hoppscotch_postgres_db }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ hoppscotch_db_memory }}"
+        healthcheck:
+          test:
+            [
+              "CMD-SHELL",
+              "sh -c 'pg_isready -U {{ hoppscotch_postgres_user }} -d {{ hoppscotch_postgres_db }}'"
+            ]
+          interval: 5s
+          timeout: 5s
+          retries: 10
+
+
+    - name: Create Hoppscotch Admin Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hoppscotch_admin_container_name }}"
+        image: "{{ hoppscotch_admin_image_name }}:{{ hoppscotch_admin_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ hoppscotch_network_name }}"
+        network_mode: "{{ hoppscotch_network_name }}"
+        ports:
+          - "{{ hoppscotch_admin_port }}:3100"
+        env: "{{ hoppscotch_admin_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ hoppscotch_admin_memory }}"
+        labels:
+          traefik.enable: "{{ hoppscotch_available_externally | string }}"
+          traefik.http.routers.hoppscotch-admin.rule: "Host(`{{ hoppscotch_admin_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hoppscotch-admin.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hoppscotch-admin.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hoppscotch-admin.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hoppscotch-admin.loadbalancer.server.port: "3100"
+
+    - name: Create Hoppscotch Frontend Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hoppscotch_frontend_container_name }}"
+        image: "{{ hoppscotch_frontend_image_name }}:{{ hoppscotch_frontend_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ hoppscotch_network_name }}"
+        network_mode: "{{ hoppscotch_network_name }}"
+        ports:
+          - "{{ hoppscotch_port }}:3000"
+        env: "{{ hoppscotch_frontend_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ hoppscotch_frontend_memory }}"
+        labels:
+          traefik.enable: "{{ hoppscotch_available_externally | string }}"
+          traefik.http.routers.hoppscotch-frontend.rule: "Host(`{{ hoppscotch_frontend_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hoppscotch-frontend.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hoppscotch-frontend.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hoppscotch-frontend.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hoppscotch-frontend.loadbalancer.server.port: "3000"
+
+    - name: Create Hoppscotch Backend Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hoppscotch_backend_container_name }}"
+        image: "{{ hoppscotch_backend_image_name }}:{{ hoppscotch_backend_image_version }}"
+        pull: true
+        ports:
+          - "{{ hoppscotch_backend_port }}:3170"
+        networks:
+          - name: "{{ hoppscotch_network_name }}"
+        network_mode: "{{ hoppscotch_network_name }}"
+        env: "{{ hoppscotch_backend_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ hoppscotch_backend_memory }}"
+        labels:
+          traefik.enable: "{{ hoppscotch_available_externally | string }}"
+          traefik.http.routers.hoppscotch-backend.rule: "Host(`{{ hoppscotch_backend_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hoppscotch-backend.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hoppscotch-backend.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hoppscotch-backend.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hoppscotch-backend.loadbalancer.server.port: "3170"
+        command: ["sh", "-c", "pnpm exec prisma migrate deploy && node /usr/src/app/packages/hoppscotch-backend/prod_run.mjs"]
+  when: hoppscotch_enabled is true
+
+- name: Stop Hoppscotch
+  block:
+    - name: Stop Hoppscotch DB
+      community.docker.docker_container:
+        name: "{{ hoppscotch_db_container_name }}"
+        state: absent
+
+    - name: Stop Hoppscotch Backend
+      community.docker.docker_container:
+        name: "{{ hoppscotch_backend_container_name }}"
+        state: absent
+
+    - name: Stop Hoppscotch Frontend
+      community.docker.docker_container:
+        name: "{{ hoppscotch_frontend_container_name }}"
+        state: absent
+
+    - name: Stop Hoppscotch Admin
+      community.docker.docker_container:
+        name: "{{ hoppscotch_admin_container_name }}"
+        state: absent
+  when: hoppscotch_enabled is false

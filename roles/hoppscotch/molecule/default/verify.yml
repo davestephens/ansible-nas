@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get hoppscotch db container state
+      community.docker.docker_container:
+        name: "{{ hoppscotch_db_container_name }}"
+      register: result_db
+
+    - name: Get hoppscotch backend container state
+      community.docker.docker_container:
+        name: "{{ hoppscotch_backend_container_name }}"
+      register: result_backend
+
+    - name: Get hoppscotch frontend container state
+      community.docker.docker_container:
+        name: "{{ hoppscotch_frontend_container_name }}"
+      register: result_frontend
+
+    - name: Get hoppscotch admin container state
+      community.docker.docker_container:
+        name: "{{ hoppscotch_admin_container_name }}"
+      register: result_admin
+
+    - name: Check if hoppscotch containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_backend.container['State']['Status'] == "running"
+          - result_backend.container['State']['Restarting'] == false
+          - result_frontend.container['State']['Status'] == "running"
+          - result_frontend.container['State']['Restarting'] == false
+          - result_admin.container['State']['Status'] == "running"
+          - result_admin.container['State']['Restarting'] == false

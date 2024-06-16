@@ -1,0 +1,148 @@
+---
+hoppscotch_enabled: false
+hoppscotch_available_externally: false
+
+# directories
+hoppscotch_data_directory: "{{ docker_home }}/hoppscotch"
+
+# network
+hoppscotch_port: "3032"
+hoppscotch_admin_port: "3033"
+hoppscotch_backend_port: "3034"
+hoppscotch_frontend_hostname: "hoppscotch"
+hoppscotch_backend_hostname: "hoppscotch-backend"
+hoppscotch_admin_hostname: "hoppscotch-admin"
+hoppscotch_network_name: "hoppscotch"
+
+# specs
+hoppscotch_backend_memory: 1g
+hoppscotch_frontend_memory: 1g
+hoppscotch_admin_memory: 1g
+hoppscotch_db_memory: 1g
+
+# docker
+hoppscotch_backend_container_name: hoppscotch-backend
+hoppscotch_backend_image_name: "hoppscotch/hoppscotch-backend"
+hoppscotch_backend_image_version: latest
+hoppscotch_frontend_container_name: hoppscotch-frontend
+hoppscotch_frontend_image_name: "hoppscotch/hoppscotch-frontend"
+hoppscotch_frontend_image_version: latest
+hoppscotch_admin_container_name: hoppscotch-admin
+hoppscotch_admin_image_name: "hoppscotch/hoppscotch-admin"
+hoppscotch_admin_image_version: latest
+hoppscotch_db_container_name: hoppscotch-postgres
+hoppscotch_db_image_name: postgres
+hoppscotch_db_image_version: 15
+hoppscotch_user_id: "1000"
+hoppscotch_group_id: "1000"
+
+
+# hoppscotch
+hoppscotch_postgres_password: "postgres"
+hoppscotch_postgres_user: "postgres"
+hoppscotch_postgres_db: "postgres"
+hoppscotch_database_url: "postgresql://{{ hoppscotch_postgres_user }}:{{ hoppscotch_postgres_password }}@{{ hoppscotch_db_container_name }}:5432/{{ hoppscotch_postgres_db }}?connect_timeout=300"
+hoppscotch_backend_port_internal: "8080"
+hoppscotch_jwt_secret: "secret1233"
+hoppscotch_token_salt_complexity: "10"
+hoppscotch_magic_link_token_validity: "3"
+hoppscotch_refresh_token_validity: "604800000" # Default validity is 7 days (604800000 ms) in ms
+hoppscotch_access_token_validity: "86400000" # Default validity is 1 day (86400000 ms) in ms
+hoppscotch_session_secret: "add some secret here"
+hoppscotch_redirect_url: "https://{{ hoppscotch_frontend_hostname }}.{{ ansible_nas_domain }}"
+hoppscotch_whitelisted_origins: "http://{{ hoppscotch_backend_container_name }}:3170,http://{{ hoppscotch_frontend_container_name }}:3000,http://{{ hoppscotch_admin_container_name }}:3100,https://{{ hoppscotch_frontend_hostname }}.{{ ansible_nas_domain }},https://{{ hoppscotch_backend_hostname }}.{{ ansible_nas_domain }},https://{{ hoppscotch_admin_hostname }}.{{ ansible_nas_domain }}"
+hoppscotch_vite_allowed_auth_providers: "GOOGLE,GITHUB,MICROSOFT,EMAIL"
+hoppscotch_google_client_id: "************************************************"
+hoppscotch_google_client_secret: "************************************************"
+hoppscotch_google_callback_url: "http://{{ hoppscotch_backend_container_name }}:3170/v1/auth/google/callback"
+hoppscotch_google_scope: "email,profile"
+hoppscotch_github_client_id: "************************************************"
+hoppscotch_github_client_secret: "************************************************"
+hoppscotch_github_callback_url: "http://{{ hoppscotch_backend_container_name }}:3170/v1/auth/github/callback"
+hoppscotch_github_scope: "user:email"
+hoppscotch_microsoft_client_id: "************************************************"
+hoppscotch_microsoft_client_secret: "************************************************"
+hoppscotch_microsoft_callback_url: "http://{{ hoppscotch_backend_container_name }}:3170/v1/auth/microsoft/callback"
+hoppscotch_microsoft_scope: "user.read"
+hoppscotch_microsoft_tenant: "common"
+hoppscotch_mailer_smtp_url: "smtps://user@domain.com:pass@smtp.domain.com"
+hoppscotch_mailer_address_from: "From Name Here <from@example.com>"
+hoppscotch_rate_limit_ttl: "60" # In seconds
+hoppscotch_rate_limit_max: "100" # Max requests per IP
+hoppscotch_base_url: "https://{{ hoppscotch_frontend_hostname }}.{{ ansible_nas_domain }}"
+hoppscotch_shortcode_base_url: "https://{{ hoppscotch_frontend_hostname }}.{{ ansible_nas_domain }}"
+hoppscotch_admin_url: "https://{{ hoppscotch_admin_hostname }}.{{ ansible_nas_domain }}"
+hoppscotch_backend_gql_url: "https://{{ hoppscotch_backend_hostname }}.{{ ansible_nas_domain }}/graphql"
+hoppscotch_backend_ws_url: "wss://{{ hoppscotch_backend_hostname }}.{{ ansible_nas_domain }}/graphql"
+hoppscotch_backend_api_url: "https://{{ hoppscotch_backend_hostname }}.{{ ansible_nas_domain }}/v1"
+hoppscotch_vite_app_tos_link: "https://docs.hoppscotch.io/support/terms"
+hoppscotch_vite_app_privacy_policy_link: "https://docs.hoppscotch.io/support/privacy"
+hoppscotch_enable_subpath_based_access: "false"
+hoppscotch_backend_env: "{{ hoppscotch_env }}"
+hoppscotch_frontend_env: "{{ hoppscotch_env }}"
+hoppscotch_admin_env: "{{ hoppscotch_env }}"
+hoppscotch_env:
+  #-----------------------Backend Config------------------------------#
+  # Prisma Config
+  DATABASE_URL: "{{ hoppscotch_database_url }}"
+
+  # Auth Tokens Config
+  JWT_SECRET: "{{ hoppscotch_jwt_secret }}"
+  TOKEN_SALT_COMPLEXITY: "{{ hoppscotch_token_salt_complexity }}"
+  MAGIC_LINK_TOKEN_VALIDITY: "{{ hoppscotch_magic_link_token_validity }}"
+  REFRESH_TOKEN_VALIDITY: "{{ hoppscotch_refresh_token_validity }}"
+  ACCESS_TOKEN_VALIDITY: "{{ hoppscotch_access_token_validity }}"
+  SESSION_SECRET: "{{ hoppscotch_session_secret }}"
+
+  # Hoppscotch App Domain Config
+  REDIRECT_URL: "{{ hoppscotch_redirect_url }}"
+  WHITELISTED_ORIGINS: "{{ hoppscotch_whitelisted_origins }}"
+  VITE_ALLOWED_AUTH_PROVIDERS: "{{ hoppscotch_vite_allowed_auth_providers }}"
+
+  # Google Auth Config
+  GOOGLE_CLIENT_ID: "{{ hoppscotch_google_client_id }}"
+  GOOGLE_CLIENT_SECRET: "{{ hoppscotch_google_client_secret }}"
+  GOOGLE_CALLBACK_URL: "{{ hoppscotch_google_callback_url }}"
+  GOOGLE_SCOPE: "{{ hoppscotch_google_scope }}"
+
+  # Github Auth Config
+  GITHUB_CLIENT_ID: "{{ hoppscotch_github_client_id }}"
+  GITHUB_CLIENT_SECRET: "{{ hoppscotch_github_client_secret }}"
+  GITHUB_CALLBACK_URL: "{{ hoppscotch_github_callback_url }}"
+  GITHUB_SCOPE: "{{ hoppscotch_github_scope }}"
+
+  # Microsoft Auth Config
+  MICROSOFT_CLIENT_ID: "{{ hoppscotch_microsoft_client_id }}"
+  MICROSOFT_CLIENT_SECRET: "{{ hoppscotch_microsoft_client_secret }}"
+  MICROSOFT_CALLBACK_URL: "{{ hoppscotch_microsoft_callback_url }}"
+  MICROSOFT_SCOPE: "{{ hoppscotch_microsoft_scope }}"
+  MICROSOFT_TENANT: "{{ hoppscotch_microsoft_tenant }}"
+
+  # Mailer config
+  MAILER_SMTP_URL: "{{ hoppscotch_mailer_smtp_url }}"
+  MAILER_ADDRESS_FROM: "{{ hoppscotch_mailer_address_from }}"
+
+  # Rate Limit Config
+  RATE_LIMIT_TTL: "{{ hoppscotch_rate_limit_ttl }}"
+  RATE_LIMIT_MAX: "{{ hoppscotch_rate_limit_max }}"
+
+
+  #-----------------------Frontend Config------------------------------#
+
+
+  # Base URLs
+  VITE_BASE_URL: "{{ hoppscotch_base_url }}"
+  VITE_SHORTCODE_BASE_URL: "{{ hoppscotch_shortcode_base_url }}"
+  VITE_ADMIN_URL: "{{ hoppscotch_admin_url }}"
+
+  # Backend URLs
+  VITE_BACKEND_GQL_URL: "{{ hoppscotch_backend_gql_url }}"
+  VITE_BACKEND_WS_URL: "{{ hoppscotch_backend_ws_url }}"
+  VITE_BACKEND_API_URL: "{{ hoppscotch_backend_api_url }}"
+
+  # Terms Of Service And Privacy Policy Links (Optional)
+  VITE_APP_TOS_LINK: "{{ hoppscotch_vite_app_tos_link }}"
+  VITE_APP_PRIVACY_POLICY_LINK: "{{ hoppscotch_vite_app_privacy_policy_link }}"
+
+  # Set to `true` for subpath based access
+  ENABLE_SUBPATH_BASED_ACCESS: "{{ hoppscotch_enable_subpath_based_access }}"
