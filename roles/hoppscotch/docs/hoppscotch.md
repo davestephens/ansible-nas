@@ -8,4 +8,4 @@ Open source API development ecosystem - <https://hoppscotch.io> (open-source alt
 
 Set `hoppscotch_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-Hoppscotch web interface can be found at [http://ansible_nas_host_or_ip:3029](http://ansible_nas_host_or_ip:30213029).
+Hoppscotch web interface can be found at [http://ansible_nas_host_or_ip:3032](http://ansible_nas_host_or_ip:3032).
