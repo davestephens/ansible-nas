@@ -2,7 +2,7 @@
 
 Homepage: [https://github.com/hoppscotch/hoppscotch](https://github.com/hoppscotch/hoppscotch)
 
-Open source API development ecosystem - <https://hoppscotch.io> (open-source alternative to Postman, Insomnia)
+Open source API development ecosystem (open-source alternative to Postman, Insomnia)
 
 ## Usage
 

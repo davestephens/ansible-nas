@@ -82,7 +82,7 @@ hoppscotch_backend_env: "{{ hoppscotch_env }}"
 hoppscotch_frontend_env: "{{ hoppscotch_env }}"
 hoppscotch_admin_env: "{{ hoppscotch_env }}"
 hoppscotch_env:
-  #-----------------------Backend Config------------------------------#
+  # -----------------------Backend Config------------------------------#
   # Prisma Config
   DATABASE_URL: "{{ hoppscotch_database_url }}"
 
@@ -127,7 +127,7 @@ hoppscotch_env:
   RATE_LIMIT_MAX: "{{ hoppscotch_rate_limit_max }}"
 
 
-  #-----------------------Frontend Config------------------------------#
+  # -----------------------Frontend Config------------------------------#
 
 
   # Base URLs
