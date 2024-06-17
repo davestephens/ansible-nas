@@ -74,6 +74,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Gaps](https://github.com/JasonHHouse/gaps) - Find the missing movies in your Plex Server
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
 * [Ghost](https://ghost.org/) - Turn your audience into a business. Publishing, memberships, subscriptions and newsletters
+* [Ghostfolio](https://github.com/ghostfolio/ghostfolio) - Open Source Wealth Management Software
 * [Gitea](https://gitea.io/en-us/) - Simple self-hosted GitHub clone
 * [GitLab](https://about.gitlab.com/features/) - Self-hosted GitHub clone of the highest order
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser

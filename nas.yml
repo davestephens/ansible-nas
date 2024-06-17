@@ -281,6 +281,10 @@
       tags:
         - ghost
 
+    - role: ghostfolio
+      tags:
+        - ghostfolio
+
     - role: gitea
       tags:
         - gitea

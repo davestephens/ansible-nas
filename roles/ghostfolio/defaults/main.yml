@@ -1,0 +1,62 @@
+---
+ghostfolio_enabled: false
+ghostfolio_available_externally: false
+
+# directories
+ghostfolio_data_directory: "{{ docker_home }}/ghostfolio"
+
+# network
+ghostfolio_port: "3334"
+ghostfolio_hostname: "ghostfolio"
+ghostfolio_network_name: "ghostfolio"
+
+# specs
+ghostfolio_memory: 1g
+ghostfolio_db_memory: 1g
+ghostfolio_redis_memory: 1g
+
+# docker
+ghostfolio_container_name: ghostfolio
+ghostfolio_image_name: "ghostfolio/ghostfolio"
+ghostfolio_image_version: "latest"
+ghostfolio_db_container_name: ghostfolio-db
+ghostfolio_db_image_name: "postgres"
+ghostfolio_db_image_version: "15"
+ghostfolio_redis_container_name: ghostfolio-redis
+ghostfolio_redis_image_name: "redis"
+ghostfolio_redis_image_version: "alpine"
+ghostfolio_user_id: "1000"
+ghostfolio_group_id: "1000"
+
+ghostfolio_admin_username: "admin"
+ghostfolio_admin_password: "admin"
+
+# ghostfolio
+ghostfolio_db_name: "ghostfolio"
+ghostfolio_db_user: "ghostfolio"
+ghostfolio_db_pass: "ghostfolio"
+ghostfolio_database_url: "postgresql://{{ ghostfolio_db_user }}:{{ ghostfolio_db_pass }}@{{ ghostfolio_db_container_name }}:5432/{{ ghostfolio_db_name }}?connect_timeout=300&sslmode=prefer"
+ghostfolio_redis_host: "{{ ghostfolio_redis_container_name }}"
+ghostfolio_redis_port: "6379"
+ghostfolio_redis_password: "redis"
+ghostfolio_project_name: "ghostfolio"
+ghostfolio_access_token_salt: "371f11ee5f9f73fdbf78830f5b13a1c4b953ea6c57cc1157b45c9eef18413678"
+ghostfolio_jwt_secret: "f82720dc09938be5c22b29c9100fabbf1a08f7bfd3c20a5dc478d851d56b59e3"
+
+ghostfolio_env:
+  NODE_ENV: production
+  COMPOSE_PROJECT_NAME: "{{ ghostfolio_project_name }}"
+  # CACHE
+  REDIS_HOST: "{{ ghostfolio_redis_host }}"
+  REDIS_PORT: "{{ ghostfolio_redis_port }}"
+  REDIS_PASSWORD: "{{ ghostfolio_redis_password }}"
+
+  # POSTGRES
+  POSTGRES_DB: "{{ ghostfolio_db_name }}"
+  POSTGRES_USER: "{{ ghostfolio_db_user }}"
+  POSTGRES_PASSWORD: "{{ ghostfolio_db_pass }}"
+
+  # VARIOUS
+  ACCESS_TOKEN_SALT: "{{ ghostfolio_access_token_salt }}"
+  DATABASE_URL: "{{ ghostfolio_database_url }}"
+  JWT_SECRET_KEY: "{{ ghostfolio_jwt_secret }}"

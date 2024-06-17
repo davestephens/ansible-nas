@@ -1,0 +1,103 @@
+---
+- name: Start Ghostfolio
+  block:
+    - name: Create Ghostfolio Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ ghostfolio_data_directory }}"
+
+    - name: Create Ghostfolio network
+      community.docker.docker_network:
+        name: "{{ ghostfolio_network_name }}"
+
+    - name: Create Ghostfolio Postgress Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ghostfolio_db_container_name }}"
+        image: "{{ ghostfolio_db_image_name }}:{{ ghostfolio_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ghostfolio_data_directory }}/db:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ ghostfolio_network_name }}"
+        network_mode: "{{ ghostfolio_network_name }}"
+        env: "{{ ghostfolio_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ ghostfolio_db_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U {{ ghostfolio_db_user }}"]
+          start_period: 20s
+          interval: 5s
+          retries: 12
+          timeout: 5s
+
+    - name: Create Ghostfolio Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ghostfolio_redis_container_name }}"
+        image: "{{ ghostfolio_redis_image_name }}:{{ ghostfolio_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ ghostfolio_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ ghostfolio_network_name }}"
+        network_mode: "{{ ghostfolio_network_name }}"
+        env: "{{ ghostfolio_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ ghostfolio_redis_memory }}"
+        command: ['redis-server', '--requirepass', "{{ ghostfolio_redis_password }}"]
+        healthcheck:
+          test: ['CMD-SHELL', 'redis-cli --pass {{ ghostfolio_redis_password }} ping | grep PONG']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Ghostfolio Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ ghostfolio_container_name }}"
+        image: "{{ ghostfolio_image_name }}:{{ ghostfolio_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ ghostfolio_network_name }}"
+        network_mode: "{{ ghostfolio_network_name }}"
+        ports:
+          - "{{ ghostfolio_port }}:3333"
+        env: "{{ ghostfolio_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ ghostfolio_memory }}"
+        healthcheck:
+          test: ['CMD-SHELL', 'curl -f http://localhost:3333/api/v1/health']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+        labels:
+          traefik.enable: "{{ ghostfolio_available_externally | string }}"
+          traefik.http.routers.ghostfolio.rule: "Host(`{{ ghostfolio_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.ghostfolio.tls.certresolver: "letsencrypt"
+          traefik.http.routers.ghostfolio.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.ghostfolio.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.ghostfolio.loadbalancer.server.port: "3333"
+  when: ghostfolio_enabled is true
+
+- name: Stop Ghostfolio
+  block:
+    - name: Stop Ghostfolio
+      community.docker.docker_container:
+        name: "{{ ghostfolio_container_name }}"
+        state: absent
+    - name: Stop Ghostfolio Redis
+      community.docker.docker_container:
+        name: "{{ ghostfolio_redis_container_name }}"
+        state: absent
+    - name: Stop Ghostfolio DB
+      community.docker.docker_container:
+        name: "{{ ghostfolio_db_container_name }}"
+        state: absent
+  when: ghostfolio_enabled is false
