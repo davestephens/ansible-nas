@@ -613,6 +613,10 @@
       tags:
         - nextcloud
 
+    - role: nocodb
+      tags:
+        - nocodb
+
     - role: nodered
       tags:
         - nodered

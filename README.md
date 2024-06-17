@@ -158,6 +158,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Netdata](https://my-netdata.io/) - An extremely comprehensive system monitoring solution
 * [Nextcloud](https://nextcloud.com/) - A self-hosted Dropbox alternative
 * [Node-RED](https://nodered.org/) - A programming tool for wiring together hardware devices, APIs and online services
+* [NocoDB](https://github.com/nocodb/nocodb) - Open Source Airtable Alternative
 * [Nomad](https://www.nomadproject.io/) - A simple and flexible scheduler and software orchestrator
 * [Notifo](https://github.com/notifo-io/notifo) - Multi channel notification service for collaboration tools, e-commerce, news service and more.
 * [NZBget](https://nzbget.net/) - The most efficient usenet downloader

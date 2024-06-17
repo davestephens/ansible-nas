@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get nocodb db container state
+      community.docker.docker_container:
+        name: "{{ nocodb_postgres_container_name }}"
+      register: result_db
+
+    - name: Get nocodb redis container state
+      community.docker.docker_container:
+        name: "{{ nocodb_redis_container_name }}"
+      register: result_redis
+
+    - name: Get nocodb container state
+      community.docker.docker_container:
+        name: "{{ nocodb_container_name }}"
+      register: result
+
+    - name: Check if nocodb containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_redis.container['State']['Status'] == "running"
+          - result_redis.container['State']['Restarting'] == false
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false

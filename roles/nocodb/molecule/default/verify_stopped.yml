@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove nocodb
+      community.docker.docker_container:
+        name: "{{ nocodb_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove nocodb db
+      community.docker.docker_container:
+        name: "{{ nocodb_postgres_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove nocodb redis
+      community.docker.docker_container:
+        name: "{{ nocodb_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Check if nocodb is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_db.changed
+          - not result_redis.changed

@@ -1,0 +1,103 @@
+---
+- name: Start NocoDB
+  block:
+    - name: Create nocodb Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ nocodb_data_directory }}"
+
+    - name: Create NocoDB network
+      community.docker.docker_network:
+        name: "{{ nocodb_network_name }}"
+
+    - name: Create NocoDB Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ nocodb_postgres_container_name }}"
+        image: "{{ nocodb_postgres_image_name }}:{{ nocodb_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ nocodb_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ nocodb_network_name }}"
+        network_mode: "{{ nocodb_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ nocodb_db_password }}"
+          POSTGRES_USER: "{{ nocodb_db_user }}"
+          POSTGRES_DB: "{{ nocodb_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ nocodb_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ nocodb_db_name }} -U {{ nocodb_db_user }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Create NocoDB Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ nocodb_redis_container_name }}"
+        image: "{{ nocodb_redis_image_name }}:{{ nocodb_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ nocodb_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ nocodb_network_name }}"
+        network_mode: "{{ nocodb_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ nocodb_redis_memory }}"
+        command: ['redis-server', '--requirepass', "{{ nocodb_redis_password }}"]
+        healthcheck:
+          test: ['CMD-SHELL', 'redis-cli --pass {{ nocodb_redis_password }} ping | grep PONG']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create NocoDB Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ nocodb_container_name }}"
+        image: "{{ nocodb_image_name }}:{{ nocodb_image_version }}"
+        pull: true
+        volumes:
+          - "{{ nocodb_data_directory }}/nc_data:/usr/app/data"
+        networks:
+          - name: "{{ nocodb_network_name }}"
+        network_mode: "{{ nocodb_network_name }}"
+        ports:
+          - "{{ nocodb_port }}:8080"
+        env: "{{ nocodb_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ nocodb_memory }}"
+        labels:
+          traefik.enable: "{{ nocodb_available_externally | string }}"
+          traefik.http.routers.nocodb.rule: "Host(`{{ nocodb_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.nocodb.tls.certresolver: "letsencrypt"
+          traefik.http.routers.nocodb.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.nocodb.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.nocodb.loadbalancer.server.port: "8080"
+  when: nocodb_enabled is true
+
+- name: Stop NocoDB
+  block:
+    - name: Stop NocoDB
+      community.docker.docker_container:
+        name: "{{ nocodb_container_name }}"
+        state: absent
+    - name: Stop NocoDB Redis
+      community.docker.docker_container:
+        name: "{{ nocodb_redis_container_name }}"
+        state: absent
+    - name: Stop NocoDB Db
+      community.docker.docker_container:
+        name: "{{ nocodb_postgres_container_name }}"
+        state: absent
+  when: nocodb_enabled is false
