@@ -1,0 +1,62 @@
+---
+directus_enabled: false
+directus_available_externally: false
+
+# directories
+directus_data_directory: "{{ docker_home }}/directus"
+
+# network
+directus_port: "8055"
+directus_hostname: "directus"
+directus_network_name: "directus"
+
+# specs
+directus_memory: 1g
+directus_db_memory: 1g
+directus_redis_memory: 1g
+
+# docker
+directus_container_name: directus
+directus_image_name: "directus/directus"
+directus_image_version: "latest"
+directus_db_container_name: directus-db
+directus_db_image_name: "postgis/postgis"
+directus_db_image_version: "13-master"
+directus_redis_container_name: directus-redis
+directus_redis_image_name: "redis"
+directus_redis_image_version: "6"
+directus_user_id: "1000"
+directus_group_id: "1000"
+
+# directus
+directus_db_name: "directus"
+directus_db_user: "directus"
+directus_db_pass: "directus"
+directus_secret: "replace-with-secure-random-value"
+directus_db_client: "pg"
+directus_db_host: "{{ directus_db_container_name }}"
+directus_db_port: "5432"
+directus_cache_enabled: "true"
+directus_cache_auto_purge: "true"
+directus_cache_store: "redis"
+directus_redis_host: "redis://:{{ directus_redis_password}}@{{ directus_redis_container_name }}:6379"
+directus_redis_password: "redis"
+directus_admin_username: "admin@example.com"
+directus_admin_password: "d1r3ctu5"
+directus_public_url: "https://{{ directus_hostname }}.{{ ansible_nas_domain }}"
+
+directus_env:
+  SECRET: "{{ directus_secret }}"
+  DB_CLIENT: "{{ directus_db_client }}"
+  DB_HOST: "{{ directus_db_host }}"
+  DB_PORT: "{{ directus_db_port }}"
+  DB_DATABASE: "{{ directus_db_name }}"
+  DB_USER: "{{ directus_db_user }}"
+  DB_PASSWORD: "{{ directus_db_pass }}"
+  CACHE_ENABLED: "{{ directus_cache_enabled }}"
+  CACHE_AUTO_PURGE: "{{ directus_cache_auto_purge }}"
+  CACHE_STORE: "{{ directus_cache_store }}"
+  REDIS: "{{ directus_redis_host }}"
+  ADMIN_EMAIL: "{{ directus_admin_username }}"
+  ADMIN_PASSWORD: "{{ directus_admin_password }}"
+  PUBLIC_URL: "{{ directus_public_url }}"

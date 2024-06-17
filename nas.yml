@@ -185,6 +185,10 @@
       tags:
         - deluge
 
+    - role: directus
+      tags:
+        - directus
+
     - role: dockge
       tags:
         - dockge

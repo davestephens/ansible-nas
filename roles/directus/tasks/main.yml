@@ -1,0 +1,117 @@
+---
+- name: Start Directus
+  block:
+    - name: Create Directus Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 1000
+        group: 1000
+      with_items:
+        - "{{ directus_data_directory }}"
+        - "{{ directus_data_directory }}/uploads"
+        - "{{ directus_data_directory }}/extensions"
+        - "{{ directus_data_directory }}/templates"
+
+    - name: Create Directus network
+      community.docker.docker_network:
+        name: "{{ directus_network_name }}"
+
+    - name: Create Directus Postgress Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ directus_db_container_name }}"
+        image: "{{ directus_db_image_name }}:{{ directus_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ directus_data_directory }}/db:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ directus_network_name }}"
+        network_mode: "{{ directus_network_name }}"
+        env:
+          POSTGRES_USER: "{{ directus_db_user }}"
+          POSTGRES_PASSWORD: "{{ directus_db_pass }}"
+          POSTGRES_DB: "{{ directus_db_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ directus_db_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U {{ directus_db_user }}"]
+          start_period: 20s
+          interval: 5s
+          retries: 12
+          timeout: 5s
+
+    - name: Create Directus Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ directus_redis_container_name }}"
+        image: "{{ directus_redis_image_name }}:{{ directus_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ directus_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ directus_network_name }}"
+        network_mode: "{{ directus_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ directus_redis_memory }}"
+        command: ['redis-server', '--requirepass', "{{ directus_redis_password }}"]
+        healthcheck:
+          test: ['CMD-SHELL', 'redis-cli --pass {{ directus_redis_password }} ping | grep PONG']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Wait until the DB is initialized and healthy
+      community.docker.docker_container_info:
+        name: "{{ directus_db_container_name }}"
+      register: result
+      until: result.container.State.Health.Status == "healthy"
+      retries: 20
+      delay: 30
+
+    - name: Create Directus Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ directus_container_name }}"
+        image: "{{ directus_image_name }}:{{ directus_image_version }}"
+        pull: true
+        volumes:
+          - "{{ directus_data_directory }}/uploads:/directus/uploads"
+          - "{{ directus_data_directory }}/extensions:/directus/extensions"
+          - "{{ directus_data_directory }}/templates:/directus/templates"
+        networks:
+          - name: "{{ directus_network_name }}"
+        network_mode: "{{ directus_network_name }}"
+        ports:
+          - "{{ directus_port }}:8055"
+        env: "{{ directus_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ directus_memory }}"
+        labels:
+          traefik.enable: "{{ directus_available_externally | string }}"
+          traefik.http.routers.directus.rule: "Host(`{{ directus_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.directus.tls.certresolver: "letsencrypt"
+          traefik.http.routers.directus.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.directus.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.directus.loadbalancer.server.port: "8055"
+  when: directus_enabled is true
+
+- name: Stop Directus
+  block:
+    - name: Stop Directus
+      community.docker.docker_container:
+        name: "{{ directus_container_name }}"
+        state: absent
+    - name: Stop Directus Redis
+      community.docker.docker_container:
+        name: "{{ directus_redis_container_name }}"
+        state: absent
+    - name: Stop Directus DB
+      community.docker.docker_container:
+        name: "{{ directus_db_container_name }}"
+        state: absent
+  when: directus_enabled is false

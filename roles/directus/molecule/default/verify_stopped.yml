@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove directus
+      community.docker.docker_container:
+        name: "{{ directus_container_name }}"
+        state: absent
+      register: result
+
+    - name: Try and stop and remove directus redis
+      community.docker.docker_container:
+        name: "{{ directus_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove directus db
+      community.docker.docker_container:
+        name: "{{ directus_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Check if directus is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
+          - not result_redis.changed
+          - not result_db.changed
