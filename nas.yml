@@ -341,6 +341,10 @@
       tags:
         - heyform
 
+    - role: hoarder
+      tags:
+        - hoarder
+
     - role: homarr
       tags:
         - homarr

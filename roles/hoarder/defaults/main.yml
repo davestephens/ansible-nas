@@ -1,0 +1,100 @@
+---
+hoarder_enabled: false
+hoarder_available_externally: false
+
+# directories
+hoarder_data_directory: "{{ docker_home }}/hoarder"
+
+# network
+hoarder_port: "3029"
+hoarder_search_port: "7701"
+hoarder_hostname: "hoarder"
+hoarder_network_name: "hoarder"
+
+# specs
+hoarder_web_memory: 1g
+hoarder_workers_memory: 1g
+hoarder_chrome_memory: 1g
+hoarder_search_memory: 1g
+hoarder_redis_memory: 1g
+
+# docker
+hoarder_web_container_name: hoarder-web
+hoarder_web_image_name: "ghcr.io/hoarder-app/hoarder-web"
+hoarder_web_image_version: "release"
+hoarder_workers_container_name: hoarder-workers
+hoarder_workers_image_name: "ghcr.io/hoarder-app/hoarder-workers"
+hoarder_workers_image_version: "release"
+hoarder_redis_container_name: hoarder-redis
+hoarder_redis_image_name: "redis"
+hoarder_redis_image_version: "7.2-alpine"
+hoarder_search_container_name: hoarder-search
+hoarder_search_image_name: "getmeili/meilisearch"
+hoarder_search_image_version: "v1.6"
+hoarder_chrome_container_name: hoarder-chrome
+hoarder_chrome_image_name: "gcr.io/zenika-hub/alpine-chrome"
+hoarder_chrome_image_version: "123"
+hoarder_user_id: "1000"
+hoarder_group_id: "1000"
+
+# hoarder
+hoarder_data_dir: "/data"
+hoarder_nextauth_url: "https://{{ hoarder_hostname }}.{{ ansible_nas_domain }}"
+hoarder_nextauth_secret: "iVfxDV9JZlcBCRjsk4f+TZlMf6GelJ0Q1KVQCG46m4xPTdi4"
+hoarder_redis_host: "{{ hoarder_redis_container_name }}"
+hoarder_redis_port: "6379"
+hoarder_redis_db_idx: "0"
+hoarder_redis_password: "redis"
+hoarder_meili_addr: "http://{{ hoarder_search_container_name }}:7700"
+hoarder_meili_master_key: "Ot5yRmb6WVnKhwnAdMGEtgBjd0bu6PD5z+PtavENImfsr1ml"
+hoarder_meili_no_analytics: "true"
+hoarder_disable_signups: "false"
+hoarder_max_asset_size_mb: "4"
+hoarder_disable_new_release_check: "false"
+hoarder_openai_api_key: ""
+hoarder_openai_base_url: ""
+hoarder_ollama_base_url: ""
+hoarder_inference_text_model: "gpt-3.5-turbo-0125"
+hoarder_inference_image_model: "gpt-4o-2024-05-13"
+hoarder_inference_lang: "english"
+hoarder_crawler_num_workers: "1"
+hoarder_browser_web_url: "http://{{ hoarder_chrome_container_name }}:9222"
+hoarder_browser_websocket_url: ""
+hoarder_browser_connect_ondemand: "false"
+hoarder_crawler_download_banner_image: "true"
+hoarder_crawler_store_screenshot: "true"
+hoarder_crawler_full_page_screenshot: "false"
+hoarder_crawler_full_page_archive: "false"
+hoarder_crawler_job_timeout_sec: "60"
+hoarder_crawler_navigate_timeout_sec: "30"
+
+hoarder_env:
+  DATA_DIR: "{{ hoarder_data_dir }}"
+  NEXTAUTH_URL: "{{ hoarder_nextauth_url }}"
+  NEXTAUTH_SECRET: "{{ hoarder_nextauth_secret }}"
+  REDIS_HOST: "{{ hoarder_redis_host }}"
+  REDIS_PORT: "{{ hoarder_redis_port }}"
+  REDIS_DB_IDX: "{{ hoarder_redis_db_idx }}"
+  REDIS_PASSWORD: "{{ hoarder_redis_password }}"
+  MEILI_ADDR: "{{ hoarder_meili_addr }}"
+  MEILI_MASTER_KEY: "{{ hoarder_meili_master_key }}"
+  MEILI_NO_ANALYTICS: "{{ hoarder_meili_no_analytics }}"
+  DISABLE_SIGNUPS: "{{ hoarder_disable_signups }}"
+  MAX_ASSET_SIZE_MB: "{{ hoarder_max_asset_size_mb }}"
+  DISABLE_NEW_RELEASE_CHECK: "{{ hoarder_disable_new_release_check }}"
+  OPENAI_API_KEY: "{{ hoarder_openai_api_key }}"
+  # OPENAI_BASE_URL: "{{ hoarder_openai_base_url }}"
+  # OLLAMA_BASE_URL: "{{ hoarder_ollama_base_url }}"
+  INFERENCE_TEXT_MODEL: "{{ hoarder_inference_text_model }}"
+  INFERENCE_IMAGE_MODEL: "{{ hoarder_inference_image_model }}"
+  INFERENCE_LANG: "{{ hoarder_inference_lang }}"
+  CRAWLER_NUM_WORKERS: "{{ hoarder_crawler_num_workers }}"
+  BROWSER_WEB_URL: "{{ hoarder_browser_web_url }}"
+  # BROWSER_WEBSOCKET_URL: "{{ hoarder_browser_websocket_url }}"
+  BROWSER_CONNECT_ONDEMAND: "{{ hoarder_browser_connect_ondemand }}"
+  CRAWLER_DOWNLOAD_BANNER_IMAGE: "{{ hoarder_crawler_download_banner_image }}"
+  CRAWLER_STORE_SCREENSHOT: "{{ hoarder_crawler_store_screenshot }}"
+  CRAWLER_FULL_PAGE_SCREENSHOT: "{{ hoarder_crawler_full_page_screenshot }}"
+  CRAWLER_FULL_PAGE_ARCHIVE: "{{ hoarder_crawler_full_page_archive }}"
+  CRAWLER_JOB_TIMEOUT_SEC: "{{ hoarder_crawler_job_timeout_sec }}"
+  CRAWLER_NAVIGATE_TIMEOUT_SEC: "{{ hoarder_crawler_navigate_timeout_sec }}"

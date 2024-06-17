@@ -89,6 +89,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [healthchecks.io](https://healthchecks.io/) - Ensure your NAS is online and get notified otherwise
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Heyform](https://github.com/heyform/heyform) - an open-source form builder that allows anyone to create engaging conversational forms
+* [Hoarder](https://github.com/hoarder-app/hoarder) - A self-hostable bookmark-everything app (links, notes and images)
 * [Homarr](https://github.com/ajnart/homarr) - Customizable browser's home page
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API

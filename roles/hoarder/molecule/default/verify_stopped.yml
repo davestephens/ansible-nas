@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove hoarder search
+      community.docker.docker_container:
+        name: "{{ hoarder_db_container_name }}"
+        state: absent
+      register: result_search
+
+    - name: Try and stop and remove hoarder redis
+      community.docker.docker_container:
+        name: "{{ hoarder_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove hoarder chrome
+      community.docker.docker_container:
+        name: "{{ hoarder_chrome_container_name }}"
+        state: absent
+      register: result_chrome
+
+    - name: Try and stop and remove hoarder web
+      community.docker.docker_container:
+        name: "{{ hoarder_web_container_name }}"
+        state: absent
+      register: result_web
+
+    - name: Try and stop and remove hoarder workers
+      community.docker.docker_container:
+        name: "{{ hoarder_workers_container_name }}"
+        state: absent
+      register: result_workers
+
+    - name: Check if hoarder is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_search.changed
+          - not result_redis.changed
+          - not result_chrome.changed
+          - not result_web.changed
+          - not result_workers.changed

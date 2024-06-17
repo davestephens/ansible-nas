@@ -1,0 +1,159 @@
+---
+- name: Start Hoarder
+  block:
+    - name: Create Hoarder Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ hoarder_data_directory }}"
+
+    - name: Create Hoarder network
+      community.docker.docker_network:
+        name: "{{ hoarder_network_name }}"
+
+    - name: Create Hoarder Search Docker Container
+      community.docker.docker_container:
+        name: "{{ hoarder_search_container_name }}"
+        image: "{{ hoarder_search_image_name }}:{{ hoarder_search_image_version }}"
+        pull: true
+        volumes:
+          - "{{ hoarder_data_directory }}/meilisearch:/meili_data:rw"
+        networks:
+          - name: "{{ hoarder_network_name }}"
+        network_mode: "{{ hoarder_network_name }}"
+        container_default_behavior: no_defaults
+        ports:
+          - "{{ hoarder_search_port }}:7700"
+        env: "{{ hoarder_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ hoarder_search_memory }}"
+        healthcheck:
+          test: curl --fail http://localhost:7700/health || exit 1
+          interval: 15s
+          retries: 10
+          start_period: 20s
+          timeout: 10s
+
+    - name: Wait until Hoarder Search initializes and is healthy
+      community.docker.docker_container_info:
+        name: "{{ hoarder_search_container_name }}"
+      register: result
+      until: result.container.State.Health.Status == "healthy"
+      retries: 20
+      delay: 30
+
+    - name: Create Hoarder Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hoarder_redis_container_name }}"
+        image: "{{ hoarder_redis_image_name }}:{{ hoarder_redis_image_version }}"
+        pull: true
+        volumes:
+          - "{{ hoarder_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ hoarder_network_name }}"
+        network_mode: "{{ hoarder_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ hoarder_redis_memory }}"
+        command: ['redis-server', '--requirepass', "{{ hoarder_redis_password }}"]
+        healthcheck:
+          test: ['CMD-SHELL', 'redis-cli --pass {{ hoarder_redis_password }} ping | grep PONG']
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Hoarder Chrome Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hoarder_chrome_container_name }}"
+        image: "{{ hoarder_chrome_image_name }}:{{ hoarder_chrome_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ hoarder_network_name }}"
+        network_mode: "{{ hoarder_network_name }}"
+        restart_policy: unless-stopped
+        command:
+          - --no-sandbox
+          - --disable-gpu
+          - --disable-dev-shm-usage
+          - --remote-debugging-address=0.0.0.0
+          - --remote-debugging-port=9222
+          - --hide-scrollbars
+        memory: "{{ hoarder_chrome_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Hoarder Web Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hoarder_web_container_name }}"
+        image: "{{ hoarder_web_image_name }}:{{ hoarder_web_image_version }}"
+        pull: true
+        volumes:
+          - "{{ hoarder_data_directory }}/data:/data"
+        networks:
+          - name: "{{ hoarder_network_name }}"
+        network_mode: "{{ hoarder_network_name }}"
+        ports:
+          - "{{ hoarder_port }}:3000"
+        env: "{{ hoarder_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ hoarder_web_memory }}"
+        labels:
+          traefik.enable: "{{ hoarder_available_externally | string }}"
+          traefik.http.routers.hoarder.rule: "Host(`{{ hoarder_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hoarder.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hoarder.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hoarder.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hoarder.loadbalancer.server.port: "3000"
+
+    - name: Create Hoarder Workers Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hoarder_workers_container_name }}"
+        image: "{{ hoarder_workers_image_name }}:{{ hoarder_workers_image_version }}"
+        pull: true
+        volumes:
+          - "{{ hoarder_data_directory }}/data:/data"
+        networks:
+          - name: "{{ hoarder_network_name }}"
+        network_mode: "{{ hoarder_network_name }}"
+        env: "{{ hoarder_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ hoarder_workers_memory }}"
+        labels:
+          traefik.enable: "false"
+  when: hoarder_enabled is true
+
+- name: Stop Hoarder
+  block:
+    - name: Stop Hoarder search
+      community.docker.docker_container:
+        name: "{{ hoarder_search_container_name }}"
+        state: absent
+
+    - name: Stop Hoarder redis
+      community.docker.docker_container:
+        name: "{{ hoarder_redis_container_name }}"
+        state: absent
+
+    - name: Stop Hoarder chrome
+      community.docker.docker_container:
+        name: "{{ hoarder_chrome_container_name }}"
+        state: absent
+
+    - name: Stop Hoarder web
+      community.docker.docker_container:
+        name: "{{ hoarder_web_container_name }}"
+        state: absent
+
+    - name: Stop Hoarder workers
+      community.docker.docker_container:
+        name: "{{ hoarder_workers_container_name }}"
+        state: absent
+  when: hoarder_enabled is false
