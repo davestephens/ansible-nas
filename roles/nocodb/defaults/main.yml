@@ -112,7 +112,7 @@ nocodb_env:
   NC_ADMIN_EMAIL: "{{ nocodb_admin_email }}" # Super admin e-mail address.
   NC_ADMIN_PASSWORD: "{{ nocodb_admin_password }}" # Super admin password. The password should have at least 8 letters with one uppercase, one number and one special letter. Allowed special characters include $&+,:;=?@#|'.^*()%!_-".
   PORT: "{{ nocodb_port_env }}" # Network port NocoDB runs on. Defaults to 8080.
-  DB_QUERY_LIMIT_DEFAULT: "{{ nocodb_db_query_limit_default }}"	# Pagination limit. Defaults to 25.
+  DB_QUERY_LIMIT_DEFAULT: "{{ nocodb_db_query_limit_default }}" # Pagination limit. Defaults to 25.
   DB_QUERY_LIMIT_GROUP_BY_GROUP: "{{ nocodb_db_query_limit_group_by_group }}" # Group per page limit. Defaults to 10.
   DB_QUERY_LIMIT_GROUP_BY_RECORD: "{{ nocodb_db_query_limit_group_by_record }}" # Record per group limit. Defaults to 10.
   DB_QUERY_LIMIT_MAX: "{{ nocodb_db_query_limit_max }}" # Maximum allowed pagination limit. Defaults to 1000.
