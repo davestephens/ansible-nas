@@ -116,7 +116,7 @@ nocodb_env:
   DB_QUERY_LIMIT_GROUP_BY_GROUP: "{{ nocodb_db_query_limit_group_by_group }}" # Group per page limit. Defaults to 10.
   DB_QUERY_LIMIT_GROUP_BY_RECORD: "{{ nocodb_db_query_limit_group_by_record }}" # Record per group limit. Defaults to 10.
   DB_QUERY_LIMIT_MAX: "{{ nocodb_db_query_limit_max }}" # Maximum allowed pagination limit. Defaults to 1000.
-  DB_QUERY_LIMIT_MIN: "{{ nocodb_db_query_limit_min }}"	# Minimum allowed pagination limit. Defaults to 1.
+  DB_QUERY_LIMIT_MIN: "{{ nocodb_db_query_limit_min }}" # Minimum allowed pagination limit. Defaults to 1.
   NC_TOOL_DIR: "{{ nocodb_tool_dir }}" # App directory to keep metadata and app related files in. Defaults to the current working directory. In docker, maps to /usr/app/data/ for mounting volume.
   NC_JWT_EXPIRES_IN: "{{ nocodb_jwt_expires_in }}" # JWT token expiry time Defaults to 10h.
   NC_CONNECT_TO_EXTERNAL_DB_DISABLED: "{{ nocodb_connect_to_external_db_disabled }}" # Disable base creation on external databases.
