@@ -441,6 +441,10 @@
       tags:
         - lidarr
 
+    - role: lidatube
+      tags:
+        - lidatube
+
     - role: linkding
       tags:
         - linkding

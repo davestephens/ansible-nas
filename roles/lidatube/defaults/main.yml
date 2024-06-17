@@ -1,0 +1,49 @@
+---
+lidatube_enabled: false
+lidatube_available_externally: false
+
+# directories
+lidatube_data_directory: "{{ docker_home }}/lidatube"
+lidatube_downloads_directory: "{{ lidatube_data_directory }}/downloads"
+
+# network
+lidatube_port: "5010"
+lidatube_hostname: "lidatube"
+
+# specs
+lidatube_memory: 1g
+
+# docker
+lidatube_container_name: lidatube
+lidatube_image_name: "thewicklowwolf/lidatube"
+lidatube_image_version: latest
+lidatube_user_id: "1000"
+lidatube_group_id: "1000"
+
+# lidatube
+lidatube_lidarr_address: "{{ lidarr_container_name }}" # The URL for Lidarr. Defaults to http://192.168.1.2:8686.
+lidatube_lidarr_api_key: "" # The API key for Lidarr. Defaults to ``.
+lidatube_lidarr_api_timeout: "120" # Timeout duration for Lidarr API calls. Defaults to 120.
+lidatube_thread_limit: "1" # Max number of threads to use. Defaults to 1.
+lidatube_sleep_interval: "0" # Interval to sleep. Defaults to 0.
+lidatube_fallback_to_top_result: "false" # Whether to use the top result if no match is found. Defaults to False.
+lidatube_library_scan_on_completion: "true" # Whether to scan Lidarr Library on completion. Defaults to True.
+lidatube_sync_schedule: "" # Schedule times to run (comma seperated values in 24hr). Defaults to ``
+lidatube_minimum_match_ratio: "90" # Minimum percentage for a match. Defaults to 90
+lidatube_secondary_search: "YTS" # Method for secondary search (YTS or YTDLP). Defaults to YTS.
+lidatube_preferred_codec: "mp3" # Preferred codec (mp3). Defaults to mp3.
+lidatube_attempt_lidarr_import: "false" # Attempt to import each song directly into Lidarr. Defaults to False.
+
+lidatube_env:
+  lidarr_address: "{{ lidatube_lidarr_address }}"
+  lidarr_api_key: "{{ lidatube_lidarr_api_key }}"
+  lidarr_api_timeout: "{{ lidatube_lidarr_api_timeout }}"
+  thread_limit: "{{ lidatube_thread_limit }}"
+  sleep_interval: "{{ lidatube_sleep_interval }}"
+  fallback_to_top_result: "{{ lidatube_fallback_to_top_result }}"
+  library_scan_on_completion: "{{ lidatube_library_scan_on_completion }}"
+  sync_schedule: "{{ lidatube_sync_schedule }}"
+  minimum_match_ratio: "{{ lidatube_minimum_match_ratio }}"
+  secondary_search: "{{ lidatube_secondary_search }}"
+  preferred_codec: "{{ lidatube_preferred_codec }}"
+  attempt_lidarr_import: "{{ lidatube_attempt_lidarr_import }}"

@@ -1,0 +1,44 @@
+---
+- name: Start LidaTube
+  block:
+    - name: Create lidatube Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 1000
+        group: 1000
+      with_items:
+        - "{{ lidatube_data_directory }}"
+        - "{{ lidatube_data_directory }}/config"
+
+    - name: Create LidaTube Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ lidatube_container_name }}"
+        image: "{{ lidatube_image_name }}:{{ lidatube_image_version }}"
+        pull: true
+        volumes:
+          - "{{ lidatube_data_directory }}/config:/lidatube/config"
+          - "{{ lidatube_downloads_directory }}:/lidatube/downloads"
+          - "/etc/localtime:/etc/localtime:ro"
+        ports:
+          - "{{ lidatube_port }}:5000"
+        env: "{{ lidatube_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ lidatube_memory }}"
+        labels:
+          traefik.enable: "{{ lidatube_available_externally | string }}"
+          traefik.http.routers.lidatube.rule: "Host(`{{ lidatube_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.lidatube.tls.certresolver: "letsencrypt"
+          traefik.http.routers.lidatube.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.lidatube.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.lidatube.loadbalancer.server.port: "5000"
+  when: lidatube_enabled is true
+
+- name: Stop LidaTube
+  block:
+    - name: Stop LidaTube
+      community.docker.docker_container:
+        name: "{{ lidatube_container_name }}"
+        state: absent
+  when: lidatube_enabled is false

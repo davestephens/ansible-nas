@@ -115,6 +115,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [LibreTranslate](https://libretranslate.com/) - Free and Open Source Machine Translation API
 * [Librum Server](https://github.com/Librum-Reader/Librum-Server) - A clean and powerful way to read and manage your e-books on any device
 * [Lidarr](https://github.com/lidarr/Lidarr) - Music collection manager for Usenet and BitTorrent users
+* [LidaTube](https://github.com/TheWicklowWolf/LidaTube) - App for finding missing Lidarr albums via yt-dlp
 * [Light LDAP](https://github.com/lldap/lldap) - Light LDAP implementation
 * [Linkding](https://github.com/sissbruecker/linkding) - Self-hosted bookmark service
 * [Linkstack](https://github.com/LinkStackOrg/LinkStack) - the ultimate solution for creating a personalized & professional profile page
