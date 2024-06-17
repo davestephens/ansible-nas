@@ -106,12 +106,12 @@ nocodb_env:
   # NC_DB_JSON: "{{ nocodb_nc_db_json }}" # Can be used instead of NC_DB and value should be valid knex connection JSON string.
   # NC_DB_JSON_FILE: "{{ nocodb_nc_db_json_file }}" # Can be used instead of NC_DB and value should be a valid path to knex connection JSON file.
   # DATABASE_URL: "{{ nocodb_database_url }}" # Can be used instead of NC_DB and value should be a JDBC URL string.
-  # DATABASE_URL_FILE: "{{ nocodb_database_url_file }}"	# Can be used instead of NC_DB and value should be a valid path to a JDBC URL file.
+  # DATABASE_URL_FILE: "{{ nocodb_database_url_file }}" # Can be used instead of NC_DB and value should be a valid path to a JDBC URL file.
   NC_AUTH_JWT_SECRET: "{{ nocodb_nc_auth_jwt }}" # JWT secret used for auth and storing other secrets. A random secret is generated.
   NC_PUBLIC_URL: "{{ nocodb_public_url }}" # is the base URL for constructing URLs in email templates, generating the Swagger documentation URL, and handling backend URL requirements. Set it to your public-facing NocoDB URL for consistency across the application. By default, it infers the URL from the incoming request on the backend. If the server is behind a proxy, this may result in incorrect URLs.
   NC_ADMIN_EMAIL: "{{ nocodb_admin_email }}" # Super admin e-mail address.
   NC_ADMIN_PASSWORD: "{{ nocodb_admin_password }}" # Super admin password. The password should have at least 8 letters with one uppercase, one number and one special letter. Allowed special characters include $&+,:;=?@#|'.^*()%!_-".
-  PORT: "{{ nocodb_port_env }}"	# Network port NocoDB runs on. Defaults to 8080.
+  PORT: "{{ nocodb_port_env }}" # Network port NocoDB runs on. Defaults to 8080.
   DB_QUERY_LIMIT_DEFAULT: "{{ nocodb_db_query_limit_default }}"	# Pagination limit. Defaults to 25.
   DB_QUERY_LIMIT_GROUP_BY_GROUP: "{{ nocodb_db_query_limit_group_by_group }}" # Group per page limit. Defaults to 10.
   DB_QUERY_LIMIT_GROUP_BY_RECORD: "{{ nocodb_db_query_limit_group_by_record }}" # Record per group limit. Defaults to 10.
