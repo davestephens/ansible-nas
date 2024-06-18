@@ -801,6 +801,10 @@
       tags:
         - shaarli
 
+    - role: shiori
+      tags:
+        - shiori
+
     - role: servas
       tags:
         - servas
