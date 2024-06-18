@@ -187,6 +187,7 @@ If you have a spare domain name you can configure applications to be accessible 
   * [Plex Autoscan](https://github.com/Cloudbox/autoscan) - automatic Plex library updates
   * [Plex Meta Manager](https://metamanager.wiki) - Python script to update metadata information for items in plex
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
+* [Pretix](https://pretix.eu/about/en/) - Ticketing software that cares about your event—all the way.
 * [Prometheus](https://prometheus.io/) - Time series database and monitoring system (via stats role).
 * [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/) - Promtail is an agent which ships the contents of local logs to a private Grafana Loki instance
 * [Prowlarr](https://github.com/Prowlarr/Prowlarr) - Indexer aggregator for Sonarr, Radarr, Lidarr, etc.

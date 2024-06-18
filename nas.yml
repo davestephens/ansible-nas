@@ -725,6 +725,10 @@
       tags:
         - portainer
 
+    - role: pretix
+      tags:
+        - pretix
+
     - role: prowlarr
       tags:
         - prowlarr

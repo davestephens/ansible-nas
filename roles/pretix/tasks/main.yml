@@ -1,0 +1,94 @@
+---
+- name: Start Pretix
+  block:
+    - name: Create pretix Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 15371
+        group: 15371
+      with_items:
+        - "{{ pretix_data_directory }}"
+        - "{{ pretix_data_directory }}/data"
+
+    - name: Template Pretix config
+      ansible.builtin.template:
+        src: pretix.cfg.j2
+        dest: "{{ pretix_data_directory }}/pretix.cfg"
+      register: pretix_config
+
+    - name: Create Pretix network
+      community.docker.docker_network:
+        name: "{{ pretix_network_name }}"
+
+    - name: Pretix Docker DB Container
+      community.docker.docker_container:
+        name: "{{ pretix_db_container_name }}"
+        image: "{{ pretix_db_image_name }}:{{ pretix_db_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ pretix_network_name }}"
+        network_mode: "{{ pretix_network_name }}"
+        container_default_behavior: no_defaults
+        volumes:
+          - "{{ pretix_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        env:
+          POSTGRES_PASSWORD: "{{ pretix_postgres_password }}"
+          POSTGRES_USER: "{{ pretix_postgres_user }}"
+          POSTGRES_DB: "{{ pretix_postgres_db }}"
+        restart_policy: unless-stopped
+        memory: "{{ pretix_db_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Create Pretix Redis
+      community.docker.docker_container:
+        name: "{{ pretix_redis_container_name }}"
+        image: "{{ pretix_redis_image_name }}:{{ pretix_redis_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ pretix_network_name }}"
+        network_mode: "{{ pretix_network_name }}"
+        container_default_behavior: no_defaults
+        restart_policy: unless-stopped
+        memory: "{{ pretix_redis_memory }}"
+        labels:
+          traefik.enable: "false"
+
+    - name: Pretix Docker Container
+      community.docker.docker_container:
+        name: "{{ pretix_container_name }}"
+        image: "{{ pretix_image_name }}:{{ pretix_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ pretix_network_name }}"
+        network_mode: "{{ pretix_network_name }}"
+        container_default_behavior: no_defaults
+        volumes:
+          - "{{ pretix_data_directory }}/data:/data"
+          - "{{ pretix_data_directory }}/pretix.cfg:/etc/pretix/pretix.cfg"
+        ports:
+          - "{{ pretix_port }}:80"
+        restart_policy: unless-stopped
+        memory: "{{ pretix_memory }}"
+        labels:
+          traefik.enable: "{{ pretix_available_externally | string }}"
+          traefik.http.routers.pretix.rule: "Host(`{{ pretix_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.pretix.tls.certresolver: "letsencrypt"
+          traefik.http.routers.pretix.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.pretix.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.pretix.loadbalancer.server.port: "80"
+  when: pretix_enabled is true
+
+- name: Stop Pretix
+  block:
+    - name: Stop Pretix
+      community.docker.docker_container:
+        name: "{{ pretix_container_name }}"
+        state: absent
+
+    - name: Stop Pretix DB
+      community.docker.docker_container:
+        name: "{{ pretix_db_container_name }}"
+        state: absent
+  when: pretix_enabled is false
