@@ -1,0 +1,41 @@
+[pretix]
+instance_name=My pretix installation
+url={{ pretix_url }}
+currency={{ pretix_currency }}
+; DO NOT change the following value, it has to be set to the location of the
+; directory *inside* the docker container
+datadir=/data
+trust_x_forwarded_for=on
+trust_x_forwarded_proto=on
+
+[database]
+backend={{ pretix_db_backend }}
+name={{ pretix_postgres_db }}
+user={{ pretix_postgres_user }}
+; Replace with the password you chose above
+password={{ pretix_postgres_password }}
+; In most docker setups, 172.17.0.1 is the address of the docker host. Adjust
+; this to wherever your database is running, e.g. the name of a linked container.
+host={{ pretix_postgres_db_host }}
+
+[mail]
+; See config file documentation for more options
+from={{ pretix_from_email }}
+; This is the default IP address of your docker host in docker's virtual
+; network. Make sure postfix listens on this address.
+host={{ pretix_email_host }}
+user={{ pretix_email_user }}
+password={{ pretix_email_password }}
+port={{ pretix_email_port }}
+tls={{ pretix_email_tls }}
+ssl={{ pretix_email_ssl }}
+
+[redis]
+location={{ pretix_redis_host }}/0
+; Remove the following line if you are unsure about your redis' security
+; to reduce impact if redis gets compromised.
+sessions=true
+
+[celery]
+backend={{ pretix_redis_host }}/1
+broker={{ pretix_redis_host }}/2
