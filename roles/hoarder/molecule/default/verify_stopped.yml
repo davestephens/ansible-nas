@@ -9,7 +9,7 @@
 
     - name: Try and stop and remove hoarder search
       community.docker.docker_container:
-        name: "{{ hoarder_db_container_name }}"
+        name: "{{ hoarder_search_container_name }}"
         state: absent
       register: result_search
 
