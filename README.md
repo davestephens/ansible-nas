@@ -207,6 +207,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [SearxNG](https://github.com/searxng/searxng) - Free internet metasearch engine
 * [Servas](https://github.com/beromir/Servas) - A self-hosted bookmark management tool
 * [Shaarli](https://github.com/shaarli/Shaarli) - Personal, minimalist, super-fast, database free, bookmarking service
+* [Shiori](https://github.com/go-shiori/shiori) - Simple bookmark manager built with Go
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Silverbullet](https://silverbullet.md) - Note-taking application optimized for people with a hacker mindset
 * [SiYuan](https://github.com/siyuan-note/siyuan) - A privacy-first, self-hosted, fully open source personal knowledge management software

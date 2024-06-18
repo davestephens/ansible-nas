@@ -1,0 +1,63 @@
+---
+shiori_enabled: false
+shiori_available_externally: false
+
+# directories
+shiori_data_directory: "{{ docker_home }}/shiori"
+
+# network
+shiori_port: "8165"
+shiori_hostname: "shiori"
+shiori_network_name: "shiori"
+
+# specs
+shiori_memory: 1g
+shiori_db_memory: 1g
+
+# docker
+shiori_container_name: shiori
+shiori_image_name: "ghcr.io/go-shiori/shiori"
+shiori_image_version: latest
+shiori_db_container_name: shiori-postgres
+shiori_db_image_name: postgres
+shiori_db_image_version: 15-alpine
+shiori_user_id: "1000"
+shiori_group_id: "1000"
+
+
+# shiori
+shiori_postgres_user: shiori
+shiori_postgres_password: shiori
+shiori_postgres_db: shiori
+shiori_http_enabled: "true"
+shiori_http_port: "8080"
+shiori_http_address: ":"
+shiori_http_root_path: "/"
+shiori_http_access_log: "true"
+shiori_http_serve_web_ui: "true"
+shiori_http_secret_key: "secret_key_to_be_changed"
+shiori_http_body_limit: "1024"
+shiori_http_read_timeout: "10s"
+shiori_http_write_timeout: "10s"
+shiori_http_idle_timeout: "10s"
+shiori_http_disable_keep_alive: "true"
+shiori_http_disable_parse_multipart_form: "true"
+shiori_data_directory_env: "/data"
+shiori_database_url: "postgres://{{ shiori_postgres_user }}:{{ shiori_postgres_password }}@{{ shiori_db_container_name }}/{{ shiori_postgres_db }}?sslmode=disable"
+
+shiori_env:
+  SHIORI_HTTP_ENABLED: "{{ shiori_http_enabled }}"
+  SHIORI_HTTP_PORT: "{{ shiori_http_port }}"
+  SHIORI_HTTP_ADDRESS: "{{ shiori_http_address }}"
+  SHIORI_HTTP_ROOT_PATH: "{{ shiori_http_root_path }}"
+  SHIORI_HTTP_ACCESS_LOG: "{{ shiori_http_access_log }}"
+  SHIORI_HTTP_SERVE_WEB_UI: "{{ shiori_http_serve_web_ui }}"
+  SHIORI_HTTP_SECRET_KEY: "{{ shiori_http_secret_key }}"
+  SHIORI_HTTP_BODY_LIMIT: "{{ shiori_http_body_limit }}"
+  SHIORI_HTTP_READ_TIMEOUT: "{{ shiori_http_read_timeout }}"
+  SHIORI_HTTP_WRITE_TIMEOUT: "{{ shiori_http_write_timeout }}"
+  SHIORI_HTTP_IDLE_TIMEOUT: "{{ shiori_http_idle_timeout }}"
+  SHIORI_HTTP_DISABLE_KEEP_ALIVE: "{{ shiori_http_disable_keep_alive }}"
+  SHIORI_HTTP_DISABLE_PARSE_MULTIPART_FORM: "{{ shiori_http_disable_parse_multipart_form }}"
+  SHIORI_DIR: "{{ shiori_data_directory_env }}"
+  SHIORI_DATABASE_URL: "{{ shiori_database_url }}"

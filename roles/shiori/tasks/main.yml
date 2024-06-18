@@ -1,0 +1,75 @@
+---
+- name: Start Shiori
+  block:
+    - name: Create Shiori Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 1001
+        group: 65533
+      with_items:
+        - "{{ shiori_data_directory }}"
+        - "{{ shiori_data_directory }}/uploads"
+
+    - name: Create Shiori network
+      community.docker.docker_network:
+        name: "{{ shiori_network_name }}"
+
+    - name: Create Shiori DB Docker Container
+      community.docker.docker_container:
+        name: "{{ shiori_db_container_name }}"
+        image: "{{ shiori_db_image_name }}:{{ shiori_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ shiori_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ shiori_network_name }}"
+        network_mode: "{{ shiori_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ shiori_postgres_password }}"
+          POSTGRES_USER: "{{ shiori_postgres_user }}"
+          POSTGRES_DB: "{{ shiori_postgres_db }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ shiori_db_memory }}"
+
+    - name: Create Shiori Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ shiori_container_name }}"
+        image: "{{ shiori_image_name }}:{{ shiori_image_version }}"
+        pull: true
+        volumes:
+          - "{{ shiori_data_directory }}/dev-data:/srv/shiori"
+          - "{{ shiori_data_directory }}/data:/data"
+        networks:
+          - name: "{{ shiori_network_name }}"
+        network_mode: "{{ shiori_network_name }}"
+        ports:
+          - "{{ shiori_port }}:8080"
+        env: "{{ shiori_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ shiori_memory }}"
+        labels:
+          traefik.enable: "{{ shiori_available_externally | string }}"
+          traefik.http.routers.shiori.rule: "Host(`{{ shiori_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.shiori.tls.certresolver: "letsencrypt"
+          traefik.http.routers.shiori.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.shiori.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.shiori.loadbalancer.server.port: "8080"
+  when: shiori_enabled is true
+
+- name: Stop Shiori
+  block:
+    - name: Stop Shiori DB
+      community.docker.docker_container:
+        name: "{{ shiori_db_container_name }}"
+        state: absent
+
+    - name: Stop Shiori
+      community.docker.docker_container:
+        name: "{{ shiori_container_name }}"
+        state: absent
+  when: shiori_enabled is false
