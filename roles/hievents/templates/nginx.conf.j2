@@ -1,0 +1,33 @@
+events {}
+
+http {
+   server {
+       listen 80;
+       listen [::]:80;
+       server_name _;
+
+       root /var/www/html/storage/app/;
+
+       add_header X-XSS-Protection "1; mode=block";
+
+       index index.html index.htm index.php;
+       charset utf-8;
+
+       access_log /dev/stdout;
+       error_log /dev/stderr;
+
+       location / {
+           alias /var/www/html/storage/app/;
+           access_log off;
+           expires max;
+           add_header Cache-Control "public";
+       }
+
+       location = /favicon.ico { access_log off; log_not_found off; }
+       location = /robots.txt  { access_log off; log_not_found off; }
+
+       location ~ /\.(?!well-known).* {
+           deny all;
+       }
+   }
+}

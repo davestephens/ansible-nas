@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove hievents db
+      community.docker.docker_container:
+        name: "{{ hievents_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Try and stop and remove hievents redis
+      community.docker.docker_container:
+        name: "{{ hievents_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove hievents nginx
+      community.docker.docker_container:
+        name: "{{ hievents_nginx_container_name }}"
+        state: absent
+      register: result_nginx
+
+    - name: Try and stop and remove hievents frontend
+      community.docker.docker_container:
+        name: "{{ hievents_frontend_container_name }}"
+        state: absent
+      register: result_frontend
+
+    - name: Try and stop and remove hievents backend
+      community.docker.docker_container:
+        name: "{{ hievents_backend_container_name }}"
+        state: absent
+      register: result_backend
+
+    - name: Check if hievents is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_db.changed
+          - not result_redis.changed
+          - not result_nginx.changed
+          - not result_frontend.changed
+          - not result_backend.changed

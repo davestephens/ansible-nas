@@ -1,0 +1,188 @@
+---
+- name: Start Hi.Events
+  block:
+    - name: Create hievents Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: 82
+        group: 82
+        mode: 0755
+      with_items:
+        - "{{ hievents_data_directory }}"
+        - "{{ hievents_data_directory }}/config"
+        - "{{ hievents_data_directory }}/storage"
+
+    - name: Create Hi.Events network
+      community.docker.docker_network:
+        name: "{{ hievents_network_name }}"
+
+    - name: Copy Hi.Events Nginx config
+      ansible.builtin.template:
+        src: nginx.conf.j2
+        dest: "{{ hievents_data_directory }}/config/nginx.conf"
+
+    - name: Create Hi.Events DB Docker Container
+      community.docker.docker_container:
+        name: "{{ hievents_db_container_name }}"
+        image: "{{ hievents_db_image_name }}:{{ hievents_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ hievents_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ hievents_network_name }}"
+        network_mode: "{{ hievents_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ hievents_postgres_password }}"
+          POSTGRES_USER: "{{ hievents_postgres_user }}"
+          POSTGRES_DB: "{{ hievents_postgres_db }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ hievents_db_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "su postgres -c \"pg_isready -U {{ hievents_postgres_user }}\""]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    - name: Create Hi.Events Redis Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hievents_redis_container_name }}"
+        image: "{{ hievents_redis_image_name }}:{{ hievents_redis_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ hievents_network_name }}"
+        network_mode: "{{ hievents_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ hievents_redis_memory }}"
+        command: redis-server --requirepass {{ hievents_redis_password }}
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
+
+    - name: Wait until the DB is initialized and healthy
+      community.docker.docker_container_info:
+        name: "{{ hievents_db_container_name }}"
+      register: result
+      until: result.container.State.Health.Status == "healthy"
+      retries: 20
+      delay: 30
+
+    - name: Create Hi.Events Nginx Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hievents_nginx_container_name }}"
+        image: "{{ hievents_nginx_image_name }}:{{ hievents_nginx_image_version }}"
+        pull: true
+        ports:
+          - "{{ hievents_cdn_port }}:80"
+        volumes:
+          - "{{ hievents_data_directory }}/storage:/var/www/html/storage/app:ro"
+          - "{{ hievents_data_directory }}/config/nginx.conf:/etc/nginx/nginx.conf:ro"
+        networks:
+          - name: "{{ hievents_network_name }}"
+        network_mode: "{{ hievents_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ hievents_nginx_memory }}"
+        entrypoint: ["/bin/sh", "-c", "deluser nginx && addgroup -g 101 nginx && adduser -S -D -H -u 82 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx && /docker-entrypoint.sh nginx -g \"daemon off;\""]
+
+        labels:
+          traefik.enable: "{{ hievents_available_externally | string }}"
+          traefik.http.routers.hievents-cdn.rule: "Host(`{{ hievents_cdn_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hievents-cdn.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hievents-cdn.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hievents-cdn.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hievents-cdn.loadbalancer.server.port: "80"
+
+    - name: Create Hi.Events Backend Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hievents_backend_container_name }}"
+        image: "{{ hievents_backend_image_name }}:{{ hievents_backend_image_version }}"
+        pull: true
+        ports:
+          - "{{ hievents_api_port }}:8080"
+        networks:
+          - name: "{{ hievents_network_name }}"
+        network_mode: "{{ hievents_network_name }}"
+        volumes:
+          - "{{ hievents_data_directory }}/storage:/var/www/html/storage/app:rw"
+        env: "{{ hievents_backend_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ hievents_backend_memory }}"
+        labels:
+          traefik.enable: "{{ hievents_available_externally | string }}"
+          traefik.http.routers.hievents-api.rule: "Host(`{{ hievents_api_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hievents-api.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hievents-api.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hievents-api.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hievents-api.loadbalancer.server.port: "8080"
+
+    - name: Prepare database
+      block:
+        - name: Check if db container exists and is running
+          ansible.builtin.command: "docker inspect --format=\"{{ '{{' }} .State.Running {{ '}}' }}\" {{ hievents_backend_container_name }}"
+          register: container_running
+          changed_when: false
+          ignore_errors: true
+
+        - name: Prepare the database
+          community.docker.docker_container_exec:
+            container: "{{ hievents_backend_container_name }}"
+            command: php artisan migrate --force
+          tags: molecule-idempotence-notest
+
+    - name: Create Hi.Events Frontend Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ hievents_frontend_container_name }}"
+        image: "{{ hievents_frontend_image_name }}:{{ hievents_frontend_image_version }}"
+        pull: true
+        networks:
+          - name: "{{ hievents_network_name }}"
+        network_mode: "{{ hievents_network_name }}"
+        ports:
+          - "{{ hievents_port }}:5678"
+        env: "{{ hievents_frontend_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ hievents_frontend_memory }}"
+        labels:
+          traefik.enable: "{{ hievents_available_externally | string }}"
+          traefik.http.routers.hievents.rule: "Host(`{{ hievents_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.hievents.tls.certresolver: "letsencrypt"
+          traefik.http.routers.hievents.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.hievents.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.hievents.loadbalancer.server.port: "5678"
+  when: hievents_enabled is true
+
+- name: Stop Hi.Events
+  block:
+    - name: Stop Hi.Events DB
+      community.docker.docker_container:
+        name: "{{ hievents_db_container_name }}"
+        state: absent
+
+    - name: Stop Hi.Events Redis
+      community.docker.docker_container:
+        name: "{{ hievents_redis_container_name }}"
+        state: absent
+
+    - name: Stop Hi.Events Nginx
+      community.docker.docker_container:
+        name: "{{ hievents_nginx_container_name }}"
+        state: absent
+
+    - name: Stop Hi.Events Frontend
+      community.docker.docker_container:
+        name: "{{ hievents_frontend_container_name }}"
+        state: absent
+
+    - name: Stop Hi.Events Backend
+      community.docker.docker_container:
+        name: "{{ hievents_backend_container_name }}"
+        state: absent
+  when: hievents_enabled is false
