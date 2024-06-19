@@ -18,6 +18,7 @@ If you have a spare domain name you can configure applications to be accessible 
 ## Available Applications
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
+* [Barcode Buddy](https://github.com/Forceu/barcodebuddy/) - Barcode system for Grocy
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Bitwarden](https://github.com/dani-garcia/vaultwarden) - Password Manger (Technically Vaultwarden, a lightweight implementation in Rust)
 * [Booksonic](https://booksonic.org/) - The selfhosted audiobook server
@@ -45,6 +46,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Glances](https://nicolargo.github.io/glances/) - for seeing the state of your system via a web browser
 * [Gotify](https://gotify.net/) - Self-hosted server for sending push notifications
 * [Grafana](https://grafana.com/) - Query, visualize, alert on, and understand your data no matter where it’s stored (via stats role).
+* [Grocy](https://grocy.info/) - web-based self-hosted groceries & household management solution for your home
 * [Guacamole](https://guacamole.apache.org/) - Web based remote desktop gateway, supports VNC, RDP and SSH
 * [Homepage](https://gethomepage.dev/) - Highly customizable application dashboard with integrations for over 100 services.
 * [healthchecks.io](https://healthchecks.io/) - Ensure your NAS is online and get notified otherwise

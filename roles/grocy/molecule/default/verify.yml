@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get grocy container state
+      docker_container_info:
+        name: "{{ grocy_container_name }}"
+      register: result
+
+    - name: Get barcodebuddy container state
+      docker_container_info:
+        name: "{{ grocy_bbuddy_container_name }}"
+      register: result_bbuddy
+
+    - name: Check if grocy docker container is running
+      assert:
+        that:
+          - result.container['State']['Status'] == "running"
+          - result.container['State']['Restarting'] == false
+          - result_bbuddy.container['State']['Status'] == "running"
+          - result_bbuddy.container['State']['Restarting'] == false
