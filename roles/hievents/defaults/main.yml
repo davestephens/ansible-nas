@@ -1,0 +1,141 @@
+---
+hievents_enabled: false
+hievents_available_externally: false
+
+# directories
+hievents_data_directory: "{{ docker_home }}/hievents"
+
+# network
+hievents_port: "8167"
+hievents_api_port: "8168"
+hievents_cdn_port: "8169"
+hievents_hostname: "hievents"
+hievents_api_hostname: "hievents-api"
+hievents_cdn_hostname: "hievents-cdn"
+hievents_network_name: "hievents"
+
+# specs
+hievents_backend_memory: 1g
+hievents_frontend_memory: 1g
+hievents_redis_memory: 1g
+hievents_db_memory: 1g
+hievents_nginx_memory: 1g
+
+# docker
+hievents_backend_container_name: hievents-backend
+hievents_backend_image_name: "daveearley/hi.events-backend"
+hievents_backend_image_version: latest
+hievents_frontend_container_name: hievents-frontend
+hievents_frontend_image_name: "daveearley/hi.events-frontend"
+hievents_frontend_image_version: latest
+hievents_db_container_name: hievents-postgres
+hievents_db_image_name: postgres
+hievents_db_image_version: latest
+hievents_redis_container_name: hievents-redis
+hievents_redis_image_name: redis
+hievents_redis_image_version: alpine
+hievents_nginx_container_name: hievents-nginx
+hievents_nginx_image_name: nginx
+hievents_nginx_image_version: alpine
+hievents_user_id: "1000"
+hievents_group_id: "1000"
+
+
+# hievents
+hievents_postgres_user: postgres
+hievents_postgres_password: secret
+hievents_postgres_db: hi-events
+hievents_vite_stripe_publishable_key: "pk_test"
+hievents_vite_api_url_server: "http://{{ hievents_backend_container_name }}:8080"
+hievents_vite_api_url_client: "https://{{ hievents_api_hostname }}.{{ ansible_nas_domain }}"
+hievents_vite_frontend_url: "https://{{ hievents_hostname }}.{{ ansible_nas_domain }}"
+hievents_app_key: "base64:jZfeaYNpOQDn9M1dqSN3YxLmQnRNLbKfWMLX5RJ2VdE=" # echo "base64:$(openssl rand -base64 32)"
+hievents_app_saas_mode_enabled: "true"
+hievents_app_frontend_url: "https://{{ hievents_hostname }}.{{ ansible_nas_domain }}"
+hievents_app_cdn_url: "https://{{ hievents_cdn_hostname }}.{{ ansible_nas_domain }}"
+hievents_filesystem_disk: "local" # local or s3-public
+hievents_filesystem_public_disk: "local" # local or s3-public
+hievents_filesystem_private_disk: "local" # local or s3-public
+hievents_jwt_secret: "base64:ZOM0yaJi4HckbIORIn2PYUtkwSNk/FcnEnn9hWYk76o=" # echo "base64:$(openssl rand -base64 32)"
+hievents_log_channel: "stderr"
+hievents_log_level: "error"
+hievents_aws_access_key_id: ""
+hievents_aws_secret_access_key: ""
+hievents_aws_default_region: "us-west-1"
+hievents_aws_public_bucket: "hievents-public"
+hievents_aws_private_bucket: "hievents-private"
+hievents_stripe_public_key: ""
+hievents_stripe_secret_key: ""
+hievents_app_saas_stripe_application_fee_percent: "1.5"
+hievents_mail_mailer: "smtp"
+hievents_mail_host: "sandbox.smtp.mailtrap.io"
+hievents_mail_port: "2525"
+hievents_mail_username: ""
+hievents_mail_password: ""
+hievents_mail_from_address: "hievents@{{ ansible_nas_domain }}"
+hievents_mail_from_name: "Hi.Events"
+hievents_db_connection: "pgsql"
+hievents_db_host: "{{ hievents_db_container_name }}"
+hievents_db_port: "5432"
+hievents_db_database: "{{ hievents_postgres_db }}"
+hievents_db_username: "{{ hievents_postgres_user }}"
+hievents_db_password: "{{ hievents_postgres_password }}"
+hievents_database_url: "postgresql://{{ hievents_db_username }}:{{ hievents_db_password }}@{{ hievents_db_host }}:{{ hievents_db_port }}/{{ hievents_db_database }}"
+hievents_redis_host: "{{ hievents_redis_container_name }}"
+hievents_redis_password: "hievents"
+hievents_redis_user: "default"
+hievents_redis_port: "6379"
+hievents_redis_url: "redis://{{ hievents_redis_user }}:{{ hievents_redis_password }}@{{ hievents_redis_host }}:{{ hievents_redis_port }}"
+hievents_queue_connection: "redis"
+hievents_stripe_webhook_secret: ""
+hievents_app_disable_registration: "false"
+hievents_cors_allowed_origins: http://localhost:5173
+
+hievents_frontend_env:
+  VITE_STRIPE_PUBLISHABLE_KEY: "{{ hievents_vite_stripe_publishable_key }}"
+  VITE_API_URL_SERVER: "{{ hievents_vite_api_url_server }}"
+  VITE_API_URL_CLIENT: "{{ hievents_vite_api_url_client }}"
+  VITE_FRONTEND_URL: "{{ hievents_vite_frontend_url }}"
+
+hievents_backend_env:
+  APP_KEY: "{{ hievents_app_key }}"
+  APP_SAAS_MODE_ENABLED: "{{ hievents_app_saas_mode_enabled }}"
+  APP_FRONTEND_URL: "{{ hievents_app_frontend_url }}"
+  APP_CDN_URL: "{{ hievents_app_cdn_url }}"
+  APP_DISABLE_REGISTRATION: "{{ hievents_app_disable_registration }}"
+  FILESYSTEM_DISK: "{{ hievents_filesystem_disk }}"
+  FILESYSTEM_PUBLIC_DISK: "{{ hievents_filesystem_public_disk }}"
+  FILESYSTEM_PRIVATE_DISK: "{{ hievents_filesystem_private_disk }}"
+  JWT_SECRET: "{{ hievents_jwt_secret }}"
+  LOG_CHANNEL: "{{ hievents_log_channel }}"
+  LOG_LEVEL: "{{ hievents_log_level }}"
+  AWS_ACCESS_KEY_ID: "{{ hievents_aws_access_key_id }}"
+  AWS_SECRET_ACCESS_KEY: "{{ hievents_aws_secret_access_key }}"
+  AWS_DEFAULT_REGION: "{{ hievents_aws_default_region }}"
+  AWS_PUBLIC_BUCKET: "{{ hievents_aws_public_bucket }}"
+  AWS_PRIVATE_BUCKET: "{{ hievents_aws_private_bucket }}"
+  STRIPE_PUBLIC_KEY: "{{ hievents_stripe_public_key }}"
+  STRIPE_SECRET_KEY: "{{ hievents_stripe_secret_key }}"
+  APP_SAAS_STRIPE_APPLICATION_FEE_PERCENT: "{{ hievents_app_saas_stripe_application_fee_percent }}"
+  MAIL_MAILER: "{{ hievents_mail_mailer }}"
+  MAIL_HOST: "{{ hievents_mail_host }}"
+  MAIL_PORT: "{{ hievents_mail_port }}"
+  MAIL_USERNAME: "{{ hievents_mail_username }}"
+  MAIL_PASSWORD: "{{ hievents_mail_password }}"
+  MAIL_FROM_ADDRESS: "{{ hievents_mail_from_address }}"
+  MAIL_FROM_NAME: "{{ hievents_mail_from_name }}"
+  DB_CONNECTION: "{{ hievents_db_connection }}"
+  DB_HOST: "{{ hievents_db_host }}"
+  DB_PORT: "{{ hievents_db_port }}"
+  DB_DATABASE: "{{ hievents_db_database }}"
+  DB_USERNAME: "{{ hievents_db_username }}"
+  DB_PASSWORD: "{{ hievents_db_password }}"
+  DATABASE_URL: "{{ hievents_database_url }}"
+  REDIS_HOST: "{{ hievents_redis_host }}"
+  REDIS_PASSWORD: "{{ hievents_redis_password }}"
+  REDIS_USER: "{{ hievents_redis_user }}"
+  REDIS_PORT: "{{ hievents_redis_port }}"
+  REDIS_URL: "{{ hievents_redis_url }}"
+  QUEUE_CONNECTION: "{{ hievents_queue_connection }}"
+  STRIPE_WEBHOOK_SECRET: "{{ hievents_stripe_webhook_secret }}"
+  CORS_ALLOWED_ORIGINS: "{{ hievents_cors_allowed_origins }}"
