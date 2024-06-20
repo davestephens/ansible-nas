@@ -57,6 +57,10 @@
       tags:
         - airsonic
 
+    - role: apcupsd
+      tags:
+        - apcupsd
+
     - role: bazarr
       tags:
         - bazarr

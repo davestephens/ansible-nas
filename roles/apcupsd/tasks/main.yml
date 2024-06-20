@@ -1,0 +1,48 @@
+---
+
+- name: Start Apcupsd
+  block:
+    - name: Create Apcupsd Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ apcupsd_data_directory }}"
+
+    - name: "Check if Apcupsd config exists"
+      ansible.builtin.stat:
+        path: "{{ apcupsd_data_directory }}/apcupsd.conf"
+      register: apcupsd_config_path
+
+    - name: Template Apcupsd config
+      ansible.builtin.template:
+        src: apcupsd.conf
+        dest: "{{ apcupsd_data_directory }}/apcupsd.conf"
+      when: not apcupsd_config_path.stat.exists
+
+    - name: Apcupsd Docker Container
+      community.docker.docker_container:
+        name: "{{ apcupsd_container_name }}"
+        image: gregewing/apcupsd
+        pull: true
+        privileged: true
+        volumes:
+          - "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket"
+          - "{{ apcupsd_data_directory }}/apcupsd.conf:/etc/apcupsd/apcupsd.conf"
+        ports:
+          - "{{ apcupsd_port }}:3551"
+        devices:
+          - "{{ apcupsd_device }}:{{ apcupsd_device }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+        restart_policy: unless-stopped
+        memory: "{{ apcupsd_memory }}"
+  when: apcupsd_enabled is true
+
+- name: Stop Apcupsd
+  block:
+    - name: Stop Apcupsd
+      community.docker.docker_container:
+        name: "{{ apcupsd_container_name }}"
+        state: absent
+  when: apcupsd_enabled is false

@@ -1,0 +1,24 @@
+---
+apcupsd_enabled: false
+
+# directories
+apcupsd_data_directory: "{{ docker_home }}/apcupsd"
+
+# network
+apcupsd_port: "3551"
+
+# specs
+apcupsd_memory: 1g
+
+# docker
+apcupsd_container_name: apcupsd
+
+# ups config
+apcupsd_onbatterydelay: 6
+apcupsd_batterylevel: 5
+apcupsd_minutes: 5
+apcupsd_timeout: 0
+apcupsd_annoy: 300
+apcupsd_annoydelay: 60
+apcupsd_nologon: "disable"
+apcupsd_killdelay: 0
