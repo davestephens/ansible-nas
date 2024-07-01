@@ -35,11 +35,19 @@
         labels:
           traefik.enable: "false"
         healthcheck:
-          test: ["CMD", "mariadb-admin", "ping", "-u", "root", "-p'{{ librum_db_root_password }}'", "-h", "localhost"]
-          interval: 20s
-          timeout: 40s
+          test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+          start_period: 10s
+          interval: 10s
+          timeout: 5s
           retries: 3
-          start_period: 30s
+
+    - name: Wait until Librum database initializes and is healthy
+      community.docker.docker_container_info:
+        name: "{{ librum_db_container_name }}"
+      register: result
+      until: result.container.State.Health.Status == "healthy"
+      retries: 20
+      delay: 30
 
     - name: Create Librum Docker Container
       community.docker.docker_container:
