@@ -136,6 +136,7 @@
           PUID: "{{ netbox_user_id }}"
           PGID: "{{ netbox_group_id }}"
           CORS_ORIGIN_ALLOW_ALL: "{{ netbox_cors_origin_allow_all }}"
+          ALLOWED_HOSTS: "{{ netbox_allowed_hosts }}"
           DB_HOST: "{{ netbox_db_host }}"
           DB_NAME: "{{ netbox_db_name }}"
           DB_PASSWORD: "{{ netbox_db_password }}"
@@ -152,34 +153,36 @@
           # EMAIL_USE_SSL and EMAIL_USE_TLS are mutually exclusive, i.e. they can't both be `true`!
           EMAIL_USE_SSL: "{{ netbox_email_use_ssl }}"
           EMAIL_USE_TLS: "{{ netbox_email_use_tls }}"
-          MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
+          GRAPHQL_ENABLED: "{{ netbox_graphql_enabled }}"
+          HOUSEKEEPING_INTERVAL: "{{ netbox_housekeeping_interval }}"
           MEDIA_ROOT: "{{ netbox_media_root }}"
           METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
           REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
           REDIS_CACHE_HOST: "{{ netbox_redis_cache_host }}"
+          REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY: "{{ netbox_redis_cache_insecure_skip_tls_verify }}"
           REDIS_CACHE_PASSWORD: "{{ netbox_redis_cache_password }}"
           REDIS_CACHE_SSL: "{{ netbox_redis_cache_ssl }}"
           REDIS_DATABASE: "{{ netbox_redis_database }}"
           REDIS_HOST: "{{ netbox_redis_host }}"
           REDIS_PORT: "{{ netbox_redis_port }}"
           REDIS_CACHE_PORT: "{{ netbox_redis_cache_port }}"
+          REDIS_INSECURE_SKIP_TLS_VERIFY: "{{ netbox_redis_insecure_skip_tls_verify }}"
           REDIS_PASSWORD: "{{ netbox_redis_password }}"
           REDIS_SSL: "{{ netbox_redis_ssl }}"
           RELEASE_CHECK_URL: "{{ netbox_release_check_url }}"
           SECRET_KEY: "{{ netbox_secret_key }}"
-          SKIP_STARTUP_SCRIPTS: "{{ netbox_skip_startup_scripts }}"
           SKIP_SUPERUSER: "{{ netbox_skip_superuser }}"
+          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
           SUPERUSER_API_TOKEN: "{{ netbox_superuser_api_token }}"
           SUPERUSER_EMAIL: "{{ netbox_superuser_email }}"
           SUPERUSER_NAME: "{{ netbox_superuser_name }}"
           SUPERUSER_PASSWORD: "{{ netbox_superuser_password }}"
-          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
         labels:
           traefik.enable: "{{ netbox_available_externally | string }}"
           traefik.http.routers.netbox.rule: "Host(`{{ netbox_hostname }}.{{ ansible_nas_domain }}`)"
-          # traefik.http.routers.netbox.tls.certresolver: "letsencrypt"
-          # traefik.http.routers.netbox.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          # traefik.http.routers.netbox.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.netbox.tls.certresolver: "letsencrypt"
+          traefik.http.routers.netbox.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.netbox.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.netbox.loadbalancer.server.port: "8080"
         restart_policy: unless-stopped
         memory: "{{ netbox_memory }}"
@@ -187,7 +190,7 @@
           start_period: 60s
           timeout: 3s
           interval: 15s
-          test: "curl -f http://localhost:8080/api/ || exit 1"
+          test: "curl -f http://localhost:8080/login/ || exit 1"
 
     - name: Netbox Worker Docker Container
       community.docker.docker_container:
@@ -226,28 +229,30 @@
           # EMAIL_USE_SSL and EMAIL_USE_TLS are mutually exclusive, i.e. they can't both be `true`!
           EMAIL_USE_SSL: "{{ netbox_email_use_ssl }}"
           EMAIL_USE_TLS: "{{ netbox_email_use_tls }}"
-          MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
+          GRAPHQL_ENABLED: "{{ netbox_graphql_enabled }}"
+          HOUSEKEEPING_INTERVAL: "{{ netbox_housekeeping_interval }}"
           MEDIA_ROOT: "{{ netbox_media_root }}"
           METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
           REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
           REDIS_CACHE_HOST: "{{ netbox_redis_cache_host }}"
+          REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY: "{{ netbox_redis_cache_insecure_skip_tls_verify }}"
           REDIS_CACHE_PASSWORD: "{{ netbox_redis_cache_password }}"
           REDIS_CACHE_SSL: "{{ netbox_redis_cache_ssl }}"
           REDIS_DATABASE: "{{ netbox_redis_database }}"
           REDIS_HOST: "{{ netbox_redis_host }}"
           REDIS_PORT: "{{ netbox_redis_port }}"
           REDIS_CACHE_PORT: "{{ netbox_redis_cache_port }}"
+          REDIS_INSECURE_SKIP_TLS_VERIFY: "{{ netbox_redis_insecure_skip_tls_verify }}"
           REDIS_PASSWORD: "{{ netbox_redis_password }}"
           REDIS_SSL: "{{ netbox_redis_ssl }}"
           RELEASE_CHECK_URL: "{{ netbox_release_check_url }}"
           SECRET_KEY: "{{ netbox_secret_key }}"
-          SKIP_STARTUP_SCRIPTS: "{{ netbox_skip_startup_scripts }}"
           SKIP_SUPERUSER: "{{ netbox_skip_superuser }}"
+          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
           SUPERUSER_API_TOKEN: "{{ netbox_superuser_api_token }}"
           SUPERUSER_EMAIL: "{{ netbox_superuser_email }}"
           SUPERUSER_NAME: "{{ netbox_superuser_name }}"
           SUPERUSER_PASSWORD: "{{ netbox_superuser_password }}"
-          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
@@ -309,7 +314,6 @@
           EMAIL_USE_TLS: "{{ netbox_email_use_tls }}"
           GRAPHQL_ENABLED: "{{ netbox_graphql_enabled }}"
           HOUSEKEEPING_INTERVAL: "{{ netbox_housekeeping_interval }}"
-          MAX_PAGE_SIZE: "{{ netbox_max_page_size }}"
           MEDIA_ROOT: "{{ netbox_media_root }}"
           METRICS_ENABLED: "{{ netbox_metrics_enabled }}"
           REDIS_CACHE_DATABASE: "{{ netbox_redis_cache_database }}"
@@ -326,13 +330,12 @@
           REDIS_SSL: "{{ netbox_redis_ssl }}"
           RELEASE_CHECK_URL: "{{ netbox_release_check_url }}"
           SECRET_KEY: "{{ netbox_secret_key }}"
-          SKIP_STARTUP_SCRIPTS: "{{ netbox_skip_startup_scripts }}"
           SKIP_SUPERUSER: "{{ netbox_skip_superuser }}"
+          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
           SUPERUSER_API_TOKEN: "{{ netbox_superuser_api_token }}"
           SUPERUSER_EMAIL: "{{ netbox_superuser_email }}"
           SUPERUSER_NAME: "{{ netbox_superuser_name }}"
           SUPERUSER_PASSWORD: "{{ netbox_superuser_password }}"
-          WEBHOOKS_ENABLED: "{{ netbox_webhooks_enabled }}"
         labels:
           traefik.enable: "false"
         restart_policy: unless-stopped
@@ -398,7 +401,7 @@
             name: netbox-import
           register: import_result
           until: import_result.container.State.Status == "exited"
-          retries: 30
+          retries: 60
           delay: 30
 
         - name: Remove the import container

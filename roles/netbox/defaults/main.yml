@@ -29,7 +29,7 @@ netbox_housekeeping_container_name: "netbox-housekeeping"
 netbox_container_name: "netbox"
 
 netbox_postgres_image: "postgres"
-netbox_postgres_tag: "15-alpine"
+netbox_postgres_tag: "16-alpine"
 netbox_redis_image: "docker.io/redis"
 netbox_redis_tag: "7-alpine"
 netbox_redis_cache_image: "redis"
@@ -97,6 +97,6 @@ netbox_webhooks_enabled: "true"
 # import
 netbox_import_repo_url: "https://github.com/netbox-community/devicetype-library.git"
 netbox_import_repo_branch: master
-netbox_import_netbox_url: "http://{{ netbox_container_name }}:8080"
+netbox_import_netbox_url: "https://{{ netbox_hostname }}.{{ ansible_nas_domain }}"
 netbox_import_netbox_token: ""
 netbox_import_vendors: "" # a comma separated list of vendors, e.g: "apc,juniper"
