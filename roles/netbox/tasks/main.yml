@@ -5,7 +5,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        owner: "101"
+        owner: 999
       with_items:
         - "{{ netbox_data_directory }}/config"
         - "{{ netbox_data_directory }}/reports"
