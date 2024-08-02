@@ -4,7 +4,7 @@ name: Integration
 # Controls when the action will run.
 on:
   schedule:
-    - cron:  '0 23 * * *'
+    - cron:  '0 14 * * SAT'
   workflow_dispatch:
 
 
