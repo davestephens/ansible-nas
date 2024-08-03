@@ -26,7 +26,7 @@ uppy_companion_upload_urls: "/upload"
 uppy_companion_domain: "{{ uppy_hostname }}.{{ ansible_nas_domain }}"
 uppy_companion_protocol: https
 uppy_companion_port: "443"
-uppy_companion_client_origins: ""
+uppy_companion_client_origins: "*"
 uppy_companion_secret: development
 uppy_companion_preauth_secret: development2
 uppy_companion_allow_local_urls: "true"
