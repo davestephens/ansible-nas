@@ -14,7 +14,7 @@ trilium_memory: 1g
 
 # docker
 trilium_container_name: trilium
-trilium_image_name: "zadam/trilium"
+trilium_image_name: "triliumnext/notes"
 trilium_image_version: latest
 trilium_user_id: "1000"
 trilium_group_id: "1000"

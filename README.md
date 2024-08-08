@@ -231,7 +231,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [ToolJet](https://github.com/ToolJet/ToolJet) - Low-code platform for building business applications
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
-* [Trilium](https://github.com/zadam/trilium) - Hierarchical note taking application with focus on building large personal knowledge bases
+* [TriliumNext Notes](https://github.com/TriliumNext/Notes) - Hierarchical note taking application with focus on building large personal knowledge bases
 * [Tt-rss](https://tt-rss.org/) - free and open source web-based news feed (RSS/Atom) reader and aggregator
 * [Twenty CMS](https://github.com/twentyhq/twenty) - The #1 Open-Source CRM
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server

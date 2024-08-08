@@ -1,14 +1,14 @@
 ---
-- name: Start Trilium
+- name: Start TriliumNext Notes
   block:
-    - name: Create Trilium Directories
+    - name: Create TriliumNext Notes Directories
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ trilium_data_directory }}"
 
-    - name: Create Trilium Docker Container
+    - name: Create TriliumNext Notes Docker Container
       community.docker.docker_container:
         container_default_behavior: no_defaults
         name: "{{ trilium_container_name }}"
@@ -33,9 +33,9 @@
           traefik.http.services.trilium.loadbalancer.server.port: "8080"
   when: trilium_enabled is true
 
-- name: Stop Trilium
+- name: Stop TriliumNext Notes
   block:
-    - name: Stop Trilium
+    - name: Stop TriliumNext Notes
       community.docker.docker_container:
         name: "{{ trilium_container_name }}"
         state: absent
