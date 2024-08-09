@@ -5,7 +5,6 @@ bitwarden_data_directory: "{{ docker_home }}/bitwarden"
 bitwarden_port_a: "19080"
 bitwarden_port_b: "3012"
 bitwarden_hostname: "bitwarden"
-bitwarden_ip_whitelist: "deprecated"
 bitwarden_ip_allowlist: "0.0.0.0/0"
 
 # Keep this token secret, this is password to access admin area of your server!

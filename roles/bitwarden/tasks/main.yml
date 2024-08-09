@@ -4,7 +4,7 @@
     - name: Check for Deprecated IP Whitelist setting
       ansible.builtin.fail:
         msg: "Use bitwarden_ip_allowlist instead of bitwarden_ip_whitelist! Read https://traefik.io/blog/announcing-traefik-proxy-v2-11/ for more information."
-      when: bitwarden_ip_whitelist != "deprecated"
+      when: bitwarden_ip_whitelist is defined
 
     - name: Create Bitwarden Directories
       ansible.builtin.file:
