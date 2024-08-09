@@ -1,6 +1,11 @@
 ---
 - name: Start Bitwarden
   block:
+    - name: Check for Deprecated IP Whitelist setting
+      ansible.builtin.fail:
+        msg: "Use bitwarden_ip_allowlist instead of bitwarden_ip_whitelist! Read https://traefik.io/blog/announcing-traefik-proxy-v2-11/ for more information."
+      when: bitwarden_ip_whitelist != "deprecated"
+
     - name: Create Bitwarden Directories
       ansible.builtin.file:
         path: "{{ item }}"
@@ -40,7 +45,7 @@
           traefik.http.routers.bitwarden-ws.service: "bitwarden-ws"
           traefik.http.routers.bitwarden-ws.middlewares: "bitwarden-ipallowlist@docker"
           traefik.http.services.bitwarden-ws.loadbalancer.server.port: "3012"
-          traefik.http.middlewares.bitwarden-ipallowlist.ipallowlist.sourcerange: "{{ bitwarden_ip_whitelist }}"
+          traefik.http.middlewares.bitwarden-ipallowlist.ipallowlist.sourcerange: "{{ bitwarden_ip_allowlist }}"
         memory: "{{ bitwarden_memory }}"
         restart_policy: unless-stopped
 

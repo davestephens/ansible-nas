@@ -8,6 +8,7 @@ portainer_data_directory: "{{ docker_home }}/portainer/config"
 # network
 portainer_port: "9000"
 portainer_hostname: "portainer"
+portainer_ip_whitelist: "deprecated"
 portainer_ip_allowlist: "0.0.0.0/0"
 
 # docker

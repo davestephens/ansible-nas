@@ -1,6 +1,11 @@
 ---
 - name: Start Portainer
   block:
+    - name: Check for Deprecated IP Whitelist setting
+      ansible.builtin.fail:
+        msg: "Use portainer_ip_allowlist instead of portainer_ip_whitelist! Read https://traefik.io/blog/announcing-traefik-proxy-v2-11/ for more information."
+      when: portainer_ip_whitelist != "deprecated"
+
     - name: Create Portainer Directories
       ansible.builtin.file:
         path: "{{ item }}"
