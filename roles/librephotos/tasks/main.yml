@@ -32,7 +32,7 @@
         volumes:
           - "{{ librephotos_scan_directory }}:/data:rw"
           - "{{ librephotos_data_directory }}/protected_media:/protected_media:rw"
-          - "{{ librephotos_data_directory }}/proxy:/etc/nginx/"
+          - "{{ librephotos_data_directory }}/proxy/nginx.conf:/etc/nginx/nginx.conf"
         ports:
           - "{{ librephotos_port }}:80"
         restart_policy: unless-stopped
