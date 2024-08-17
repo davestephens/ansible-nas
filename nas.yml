@@ -209,6 +209,10 @@
       tags:
         - krusader
 
+    - role: librephotos
+      tags:
+        - librephotos
+
     - role: lidarr
       tags:
         - lidarr
