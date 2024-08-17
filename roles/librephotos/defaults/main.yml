@@ -18,6 +18,8 @@ librephotos_memory: 4g
 librephotos_container_name: librephotos
 librephotos_image_version: latest
 librephotos_image_name: reallibrephotos/librephotos
+librephotos_proxy_image_name: nginx
+librephotos_proxy_image_version: latest
 librephotos_network_name: librephotos
 
 # Number of workers, which take care of the request to the api. This setting can dramatically affect the ram usage.

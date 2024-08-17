@@ -8,22 +8,31 @@
       with_items:
         - "{{ librephotos_scan_directory }}"
         - "{{ librephotos_data_directory }}"
+        - "{{ librephotos_data_directory }}/proxy"
       when: (librephotos_enabled | default(False))
 
     - name: Create Librephotos network
       community.docker.docker_network:
         name: "{{ librephotos_network_name }}"
 
+    - name: Template Librephotos Proxy Config
+      ansible.builtin.template:
+        src: nginx.conf
+        dest: "{{ librephotos_data_directory }}/proxy/"
+      register: proxy_config
+
     - name: LibrePhotos Proxy Container
       docker_container:
         name: "{{ librephotos_container_name }}-proxy"
-        image: "{{ librephotos_image_name }}-proxy:{{ librephotos_image_version }}"
+        image: "{{ librephotos_proxy_image_name }}:{{ librephotos_proxy_image_version }}"
         networks:
           - name: "{{ librephotos_network_name }}"
-        pull: false
+        pull: true
+        restart: "{{ proxy_config is changed }}"
         volumes:
           - "{{ librephotos_scan_directory }}:/data:rw"
           - "{{ librephotos_data_directory }}/protected_media:/protected_media:rw"
+          - "{{ librephotos_data_directory }}/proxy:/etc/nginx/"
         ports:
           - "{{ librephotos_port }}:80"
         restart_policy: unless-stopped
