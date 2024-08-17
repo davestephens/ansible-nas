@@ -10,11 +10,17 @@
         - "{{ librephotos_data_directory }}"
       when: (librephotos_enabled | default(False))
 
+    - name: Create Librephotos network
+      community.docker.docker_network:
+        name: "{{ librephotos_network_name }}"
+
     - name: LibrePhotos Proxy Container
       docker_container:
-        name: "{{ librephotos_container_name }}_proxy"
+        name: "{{ librephotos_container_name }}-proxy"
         image: "{{ librephotos_image_name }}-proxy:{{ librephotos_image_version }}"
-        pull: true
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        pull: false
         volumes:
           - "{{ librephotos_scan_directory }}:/data:rw"
           - "{{ librephotos_data_directory }}/protected_media:/protected_media:rw"
@@ -28,13 +34,15 @@
           traefik.http.routers.librephotos.tls.certresolver: "letsencrypt"
           traefik.http.routers.librephotos.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.librephotos.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.librephotos.loadbalancer.server.port: "4040"
+          traefik.http.services.librephotos.loadbalancer.server.port: "{{ librephotos_port }}"
       when: (librephotos_enabled | default(False))
 
     - name: LibrePhotos Database Container
       docker_container:
-        name: "{{ librephotos_container_name }}_db"
+        name: "{{ librephotos_container_name }}-db"
         image: postgres:13
+        networks:
+          - name: "{{ librephotos_network_name }}"
         pull: true
         volumes:
           - "{{ librephotos_data_directory }}/db:/var/lib/postgresql/data"
@@ -54,15 +62,19 @@
 
     - name: LibrePhotos Frontend
       docker_container:
-        name: "{{ librephotos_container_name }}_frontend"
+        name: "{{ librephotos_container_name }}-frontend"
         image: "{{ librephotos_image_name }}-frontend:{{ librephotos_image_version }}"
+        networks:
+          - name: "{{ librephotos_network_name }}"
         restart_policy: unless-stopped
       when: (librephotos_enabled | default(False))
 
     - name: LibrePhotos Backend
       docker_container:
-        name: "{{ librephotos_container_name }}_backend"
-        image: "{{ librephotos_container_name }}:{{ librephotos_image_version }}"
+        name: "{{ librephotos_container_name }}-backend"
+        image: "{{ librephotos_image_name }}:{{ librephotos_image_version }}"
+        networks:
+          - name: "{{ librephotos_network_name }}"
         restart_policy: unless-stopped
         volumes:
           - "{{ librephotos_scan_directory }}:/data"
@@ -70,48 +82,34 @@
           - "{{ librephotos_data_directory }}/logs:/logs"
           - "{{ librephotos_data_directory }}/cache:/root/.cache"
         env:
-          SECRET_KEY: (librephotos_shhhhKey | default())
-          BACKEND_HOST: librephotos_backend
-          ADMIN_EMAIL: (librephotos_adminEmail | default())
-          ADMIN_USERNAME: (librephotos_userName | default())
-          ADMIN_PASSWORD: (librephotos_userPass | default())
+          SECRET_KEY: "{{ librephotos_shhhhKey }}"
+          BACKEND_HOST: "{{ librephotos_container_name }}-backend"
+          ADMIN_EMAIL: "{{ librephotos_adminEmail }}"
+          ADMIN_USERNAME: "{{ librephotos_userName }}"
+          ADMIN_PASSWORD: "{{ librephotos_userPass }}"
           DB_BACKEND: postgresql
           DB_NAME: "{{ librephotos_dbName }}"
           DB_USER: "{{ librephotos_dbUser }}"
           DB_PASS: "{{ librephotos_dbPass }}"
-          DB_HOST: "{{ librephotos_dbHost }}"
+          DB_HOST: "{{ librephotos_container_name }}-db"
           DB_PORT: "5432"
-          REDIS_HOST: redis
-          REDIS_PORT: "6379"
-          MAPBOX_API_KEY: (librephotos_mapApiKey | default())
-          WEB_CONCURRENCY: (librephotos_gunniWorkers | default(1))
-          SKIP_PATTERNS: (librephotos_skipPatterns | default())
-          ALLOW_UPLOAD: (librephotos_allowUpload | default(false))
+          MAPBOX_API_KEY: "{{ librephotos_mapApiKey }}"
+          WEB_CONCURRENCY: "{{ librephotos_gunniWorkers }}"
+          SKIP_PATTERNS: "{{ librephotos_skipPatterns }}"
+          ALLOW_UPLOAD: "{{ librephotos_allowUpload }}"
           DEBUG: "0"
-          HEAVYWEIGHT_PROCESS: (librephotos_HEAVYWEIGHT_PROCESS | default())
-      when: (librephotos_enabled | default(False))
-
-    - name: LibrePhotos Redis
-      docker_container:
-        name: "{{ librephotos_container_name }}_redis"
-        image: redis:6
-        restart_policy: unless-stopped
-        # healthcheck:
-        #   test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
-        #   interval: 5s
-        #   timeout: 5s
-        #   retries: 12
+          HEAVYWEIGHT_PROCESS: "{{ librephotos_heavyweight_process }}"
       when: (librephotos_enabled | default(False))
 
 - name: Stop LibrePhotos
   block:
     - name: Stop LibrePhotos Containers
       docker_container:
-        name: "{{ librephotos_container_name }}_{{ item }}"
+        name: "{{ librephotos_container_name }}-{{ item }}"
         state: absent
       with_items:
         - proxy
         - db
         - frontend
         - backend
-      when: (!librephotos_enabled)
+      when: (not librephotos_enabled)
