@@ -1,14 +1,14 @@
 # Miniflux
 
-Homepage: <https://miniflux.app/>
+Homepage: [https://miniflux.app/](https://miniflux.app/)
 
 Miniflux is a minimalist and opinionated feed reader.
 
 ## Usage
 
-Set `miniflux_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `miniflux_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
-The Miniflux web interface can be found at <http://ansible_nas_host_or_ip:8070>, the default username is `admin` and password `supersecure`.
+The Miniflux web interface can be found at [http://ansible_nas_host_or_ip:8070](http://ansible_nas_host_or_ip:8070), the default username is `admin` and password `supersecure`.
 
 ## Specific Configuration
 

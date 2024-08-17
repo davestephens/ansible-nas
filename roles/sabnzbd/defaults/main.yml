@@ -17,3 +17,8 @@ sabnzbd_memory: 1g
 # uid / gid
 sabnzbd_user_id: "0"
 sabnzbd_group_id: "0"
+
+# docker
+sabnzbd_container_name: "sabnzbd"
+sabnzbd_image_name: "linuxserver/sabnzbd"
+sabnzbd_image_version: "latest"

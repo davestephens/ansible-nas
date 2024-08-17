@@ -1,0 +1,69 @@
+# my global config
+global:
+  scrape_interval: {{ stats_collection_interval }} # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+ 
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:{{ stats_prometheus_port }}"]
+
+  - job_name: "telegraf"
+    static_configs:
+      - targets: [
+                    "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ stats_telegraf_port }}",
+                 ]
+
+  - job_name: "smartctl"
+    static_configs:
+      - targets: [
+                    "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ stats_prometheus_smartctl_port }}"
+                 ]
+
+  - job_name: "traefik"
+    static_configs:
+      - targets: [
+                    "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8083"
+                 ]
+
+{% if stats_internet_speed_test_enabled %}
+  - job_name: "speedtest"
+    scrape_interval: {{ stats_speedtest_collection_interval }}
+    scrape_timeout: 5m
+    static_configs:
+      - targets: [
+                    "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ stats_speedtest_exporter_port }}"
+                 ]
+{% endif %}
+
+{% if stats_prometheus_additional_hosts is defined %}
+  - job_name: "additional_hosts"
+    static_configs:
+      - targets: [
+{% for host in stats_prometheus_additional_hosts %}
+    {{ host }}
+    {% if not loop.last %}
+        ,
+    {% endif %}
+{% endfor %}
+                 ]
+{% endif %}
+
+
+  - job_name: "homeassistant"
+    metrics_path: /api/prometheus
+    authorization:
+      credentials: "{{ stats_hass_long_lived_access_token | default("abcd") }}"
+    static_configs:
+      - targets: [
+                    "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8123"
+                 ]

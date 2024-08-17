@@ -1,11 +1,12 @@
 ---
 ansible_nas_user: david
 
-# Where you want Docker to store its container data.
+# Where you want to store application data - you'll likely want this backed up or on a ZFS zpool.
 docker_home: /mnt/Volume2/docker
 
 # Where you want Docker to store images
-docker_image_directory: "{{ docker_home }}/data"
+# Keep this on a fast disk, ideally an SSD. It doesn't need to be backed up.
+docker_image_directory: "/var/lib/docker"
 
 # Docker storage driver, see https://docs.docker.com/storage/storagedriver/select-storage-driver/#supported-backing-filesystems
 # You might want to change this to ZFS, depending on your underlying filesystem.

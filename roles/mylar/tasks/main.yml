@@ -1,34 +1,45 @@
 ---
-- name: Create Mylar Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ mylar_data_directory }}/config"
+- name: Start Mylar
+  block:
+    - name: Create Mylar Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ mylar_data_directory }}/config"
 
-- name: Mylar Docker Container
-  docker_container:
-    name: mylar
-    image: linuxserver/mylar
-    pull: true
-    volumes:
-      - "{{ mylar_comics_directory }}:/comics:rw"
-      - "{{ mylar_downloads_directory }}:/downloads:rw"
-      - "{{ mylar_data_directory }}/config:/config:rw"
-    network_mode: "bridge"
-    ports:
-      - "{{ mylar_port_http }}:8090"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ mylar_user_id }}"
-      PGID: "{{ mylar_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ mylar_memory }}"
-    labels:
-      traefik.enable: "{{ mylar_available_externally | string }}"
-      traefik.http.routers.mylar.rule: "Host(`{{ mylar_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.mylar.tls.certresolver: "letsencrypt"
-      traefik.http.routers.mylar.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.mylar.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.mylar.loadbalancer.server.port: "8090"
+    - name: Mylar Docker Container
+      community.docker.docker_container:
+        name: "{{ mylar_container_name }}"
+        image: "{{ mylar_image_name }}:{{ mylar_image_version }}"
+        pull: true
+        volumes:
+          - "{{ mylar_comics_directory }}:/comics:rw"
+          - "{{ mylar_downloads_directory }}:/downloads:rw"
+          - "{{ mylar_data_directory }}/config:/config:rw"
+        network_mode: "bridge"
+        ports:
+          - "{{ mylar_port_http }}:8090"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ mylar_user_id }}"
+          PGID: "{{ mylar_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ mylar_memory }}"
+        labels:
+          traefik.enable: "{{ mylar_available_externally | string }}"
+          traefik.http.routers.mylar.rule: "Host(`{{ mylar_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.mylar.tls.certresolver: "letsencrypt"
+          traefik.http.routers.mylar.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.mylar.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.mylar.loadbalancer.server.port: "8090"
+  when: mylar_enabled is true
+
+- name: Stop Mylar
+  block:
+    - name: Stop Mylar
+      community.docker.docker_container:
+        name: "{{ mylar_container_name }}"
+        state: absent
+  when: mylar_enabled is false

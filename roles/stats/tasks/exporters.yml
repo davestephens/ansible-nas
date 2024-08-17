@@ -1,22 +1,53 @@
 ---
-- name: Smartctl Exporter Docker Container
-  docker_container:
-    name: stats-smartctl
-    image: matusnovak/prometheus-smartctl:latest
-    pull: true
-    privileged: true
-    ports:
-      - "{{ stats_prometheus_smartctl_port }}:9902"
-    restart_policy: unless-stopped
-    memory: "{{ stats_prometheus_smartctl_memory }}"
+- name: Start Exporters
+  block:
+    - name: Smartctl Exporter Docker Container
+      community.docker.docker_container:
+        name: "{{ stats_smartctl_container_name }}"
+        image: "{{ stats_smartctl_docker_image_name }}:{{ stats_smartctl_docker_image_version }}"
+        pull: true
+        privileged: true
+        ports:
+          - "{{ stats_prometheus_smartctl_port }}:9902"
+        restart_policy: unless-stopped
+        memory: "{{ stats_prometheus_smartctl_memory }}"
 
-- name: Speedtest Exporter Docker Container
-  docker_container:
-    name: stats-speedtest
-    image: miguelndecarvalho/speedtest-exporter
-    pull: true
-    ports:
-      "{{ stats_speedtest_exporter_port }}:9798"
-    restart_policy: unless-stopped
-    memory: "{{ stats_speedtest_exporter_memory }}"
-  when: stats_internet_speed_test_enabled
+    - name: Hddtemp Docker Container
+      community.docker.docker_container:
+        name: "{{ stats_hddtemp_docker_container_name }}"
+        image: "{{ stats_hddtemp_docker_image_name }}:{{ stats_hddtemp_docker_image_tag }}"
+        pull: true
+        privileged: true
+        ports:
+          - "{{ stats_hddtemp_port }}:7634"
+        env:
+          HDDTEMP_ARGS: "-q -d -F /dev/sd*"
+          TZ: "{{ ansible_nas_timezone }}"
+        volumes:
+          - "/dev:/dev:ro"
+        restart_policy: unless-stopped
+        memory: "{{ stats_hddtemp_memory }}"
+
+    - name: Speedtest Exporter Docker Container
+      community.docker.docker_container:
+        name: "{{ stats_speedtest_container_name }}"
+        image: "{{ stats_speedtest_docker_image_name }}:{{ stats_speedtest_docker_image_version }}"
+        pull: true
+        ports:
+          "{{ stats_speedtest_exporter_port }}:9798"
+        restart_policy: unless-stopped
+        memory: "{{ stats_speedtest_exporter_memory }}"
+      when: stats_internet_speed_test_enabled
+  when: stats_enabled is true
+
+- name: Stop Exporters
+  block:
+    - name: Stop Smartctl Exporter
+      community.docker.docker_container:
+        name: "{{ stats_smartctl_container_name }}"
+        state: absent
+    - name: Stop Speedtest Exporter
+      community.docker.docker_container:
+        name: "{{ stats_speedtest_container_name }}"
+        state: absent
+  when: stats_enabled is false

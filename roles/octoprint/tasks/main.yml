@@ -1,33 +1,44 @@
 ---
-- name: Create Octoprint Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ octoprint_data_directory }}"
+- name: Start Octoprint
+  block:
+    - name: Create Octoprint Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ octoprint_data_directory }}"
 
-- name: Octoprint Docker Container
-  docker_container:
-    name: octoprint
-    image: octoprint/octoprint
-    pull: true
-    volumes:
-      - "{{ octoprint_data_directory }}:/octoprint:rw"
-    ports:
-      - "{{ octoprint_port }}:80"
-    devices:
-      - "{{ octoprint_printer_mountpoint }}"
-      - "{{ octoprint_enable_webcam | ternary(octoprint_webcam_mountpoint, '/dev/null') }}"
-    restart_policy: unless-stopped
-    memory: "{{ octoprint_memory }}"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      MJPG_STREAMER_INPUT: "-n -r 1080x1024 -f 30"
-      ENABLE_MJPG_STREAMER: "{{ octoprint_enable_webcam | string }}"
-    labels:
-      traefik.enable: "{{ octoprint_available_externally | string }}"
-      traefik.http.routers.octoprint.rule: "Host(`{{ octoprint_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.octoprint.tls.certresolver: "letsencrypt"
-      traefik.http.routers.octoprint.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.octoprint.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.octoprint.loadbalancer.server.port: "80"
+    - name: Octoprint Docker Container
+      community.docker.docker_container:
+        name: "{{ octoprint_container_name }}"
+        image: "{{ octoprint_image_name }}:{{ octoprint_image_version }}"
+        pull: true
+        volumes:
+          - "{{ octoprint_data_directory }}:/octoprint:rw"
+        ports:
+          - "{{ octoprint_port }}:80"
+        devices:
+          - "{{ octoprint_printer_mountpoint }}"
+          - "{{ octoprint_enable_webcam | ternary(octoprint_webcam_mountpoint, '/dev/null') }}"
+        restart_policy: unless-stopped
+        memory: "{{ octoprint_memory }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          MJPG_STREAMER_INPUT: "-n -r 1080x1024 -f 30"
+          ENABLE_MJPG_STREAMER: "{{ octoprint_enable_webcam | string }}"
+        labels:
+          traefik.enable: "{{ octoprint_available_externally | string }}"
+          traefik.http.routers.octoprint.rule: "Host(`{{ octoprint_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.octoprint.tls.certresolver: "letsencrypt"
+          traefik.http.routers.octoprint.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.octoprint.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.octoprint.loadbalancer.server.port: "80"
+  when: octoprint_enabled is true
+
+- name: Stop Octoprint
+  block:
+    - name: Stop Octoprint
+      community.docker.docker_container:
+        name: "{{ octoprint_container_name }}"
+        state: absent
+  when: octoprint_enabled is false

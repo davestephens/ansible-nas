@@ -5,7 +5,7 @@ Upgrading consists of two steps - firstly updating the Ansible-NAS code on your 
 Assuming you haven't changed anything except the files in your inventory directory, you can simply run:
 
 ```bash
-git pull origin master
+git pull origin main
 ```
 
 ...to pull the latest updates from GitHub. If you've changed files outside of the inventory directory, you'll need to fix any merge conflicts.

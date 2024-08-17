@@ -5,13 +5,18 @@ nextcloud_available_externally: false
 # directories
 nextcloud_data_directory: "{{ docker_home }}/nextcloud"
 
-# images
-nextcloud_image: "nextcloud:stable"
-nextcloud_mysql_image: "mysql:5.7"
-
 # network
 nextcloud_port: "8080"
 nextcloud_hostname: "nextcloud"
+nextcloud_network_name: "nextcloud"
+
+# docker
+nextcloud_container_name: "nextcloud"
+nextcloud_image_name: "nextcloud"
+nextcloud_image_version: "stable"
+nextcloud_db_container_name: "nextcloud-db"
+nextcloud_db_image_name: "mysql"
+nextcloud_db_image_version: "5.7"
 
 # username / passwords
 nextcloud_sql_user: "nextcloud-user"
@@ -20,4 +25,4 @@ nextcloud_sql_root_password: "nextcloud-secret"
 
 # specs
 nextcloud_memory: 1g
-nextcloud_mysql_memory: 1g
+nextcloud_db_memory: 1g

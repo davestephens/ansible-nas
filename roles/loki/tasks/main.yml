@@ -1,0 +1,78 @@
+---
+- name: Start Loki
+  block:
+    - name: Check for Minio installation
+      ansible.builtin.fail:
+        msg: "Loki requires Minio enabled and running for storage, please set that up first."
+      when: minio_enabled is false
+
+    - name: Check for Grafana installation
+      ansible.builtin.fail:
+        msg: "Loki requires Grafana enabled and running for visualisation, please set that up first."
+      when: grafana_enabled is false
+
+    - name: Include Stats variables
+      ansible.builtin.include_vars: ../../stats/defaults/main.yml
+
+    - name: Create Loki Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ loki_data_directory }}"
+
+    - name: Create Minio buckets for Loki
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ minio_data_directory }}/data/loki-data"
+        - "{{ minio_data_directory }}/data/loki-ruler"
+
+    - name: Template Loki config
+      ansible.builtin.template:
+        src: config.yml
+        dest: "{{ loki_data_directory }}/config.yml"
+      register: loki_config
+
+    - name: Create loki Docker Container
+      community.docker.docker_container:
+        name: "{{ loki_container_name }}"
+        image: "{{ loki_image_name }}:{{ loki_image_version }}"
+        pull: true
+        command: "-config.file=/etc/loki/config.yml"
+        ports:
+          - "{{ loki_http_port }}:3100"
+          - 7946
+          - 9095
+        volumes:
+          - "{{ loki_data_directory }}/config.yml:/etc/loki/config.yml"
+        restart_policy: unless-stopped
+        memory: "{{ loki_memory }}"
+        restart: "{{ loki_config is changed }}"
+        labels:
+          traefik.enable: "{{ loki_available_externally | string }}"
+          traefik.http.routers.loki.rule: "Host(`{{ loki_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.loki.tls.certresolver: "letsencrypt"
+          traefik.http.routers.loki.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.loki.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.loki.loadbalancer.server.port: "3100"
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "3100"
+          prometheus.io/path: "/metrics"
+
+    - name: Template Grafana Loki data source
+      ansible.builtin.template:
+        src: grafana-datasource.yml
+        dest: "{{ stats_grafana_config_directory }}/provisioning/datasources/loki.yml"
+        owner: "472"
+      notify: restart grafana
+  when: loki_enabled is true
+
+- name: Stop loki
+  block:
+    - name: Stop loki
+      community.docker.docker_container:
+        name: "{{ loki_container_name }}"
+        state: absent
+  when: loki_enabled is false

@@ -1,0 +1,22 @@
+---
+silverbullet_enabled: false
+silverbullet_available_externally: false
+
+# directories
+silverbullet_data_directory: "{{ docker_home }}/silverbullet"
+
+# network
+silverbullet_port: 3002
+silverbullet_hostname: silverbullet
+
+# docker
+silverbullet_container_name: "silverbullet"
+silverbullet_image_name: "zefhemel/silverbullet"
+silverbullet_image_version: "latest"
+
+# specs
+silverbullet_memory: 1g
+
+# config
+silverbullet_username: admin
+silverbullet_password: topSecret

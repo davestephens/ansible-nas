@@ -1,5 +1,6 @@
 ---
 paperless_ng_enabled: false
+paperless_ng_available_externally: false
 
 # directories
 paperless_ng_config_directory: "{{ docker_home }}/paperless_ng"
@@ -14,6 +15,7 @@ paperless_ng_consume_directory: "{{ paperless_ng_files_directory }}/consume"
 # network
 paperless_ng_port: "16922"
 paperless_ng_hostname: "paperless_ng"
+paperless_ng_network_name: "paperless_ng"
 
 # postgres
 paperless_ng_postgres_db: "paperless"
@@ -21,10 +23,18 @@ paperless_ng_postgres_user: "paperless"
 paperless_ng_postgres_password: "paperless"
 
 # container names
-paperless_ng_container_network_name: "paperless_ng_network"
-paperless_ng_container_name_redis: "paperless_ng_redis"
-paperless_ng_container_name_postgres: "paperless_ng_postgres"
-paperless_ng_container_name_uiserver: "paperless_ng_uiserver"
+
+paperless_ng_redis_container_name: "paperless-redis"
+paperless_ng_redis_image_name: "redis"
+paperless_ng_redis_image_version: "6.0"
+
+paperless_ng_db_container_name: "paperless-db"
+paperless_ng_db_image_name: "postgres"
+paperless_ng_db_image_version: "13"
+
+paperless_ng_uiserver_container_name: "paperless-uiserver"
+paperless_ng_uiserver_image_name: "jonaswinkler/paperless-ng"
+paperless_ng_uiserver_image_version: "latest"
 
 # uid/guid
 paperless_ng_user_id: "1000"

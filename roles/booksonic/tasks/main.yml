@@ -2,7 +2,7 @@
 - name: Start Booksonic
   block:
     - name: Create Booksonic Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         mode: 0755
@@ -11,7 +11,7 @@
         - "{{ booksonic_data_directory }}/playlists"
 
     - name: Booksonic Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ booksonic_container_name }}"
         image: linuxserver/booksonic-air:latest
         pull: true
@@ -40,7 +40,7 @@
 - name: Stop Booksonic
   block:
     - name: Stop Booksonic
-      docker_container:
+      community.docker.docker_container:
         name: "{{ booksonic_container_name }}"
         state: absent
   when: booksonic_enabled is false

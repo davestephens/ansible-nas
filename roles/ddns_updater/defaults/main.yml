@@ -1,0 +1,40 @@
+---
+ddns_updater_enabled: false
+ddns_updater_available_externally: "false"
+
+# directories
+ddns_updater_data_directory: "{{ docker_home }}/ddns_updater"
+
+# network
+ddns_updater_port: 8202
+ddns_updater_hostname: "ddns-updater"
+
+# docker
+ddns_updater_container_name: ddns_updater
+
+# specs
+ddns_updater_memory: 1g
+
+# gotify
+# ddns_updater_gotify_token: "token"
+# gotify_url: "https://gotify.{{ ansible_nas_domain }}"
+
+# DDNS Updater Config
+# Period of IP address check
+ddns_updater_period: 5m
+
+# Duration to cooldown between updates for each record. This is useful to avoid being rate limited or banned.
+ddns_updater_cooldown_period: 5m
+
+# Timeout for all HTTP requests
+ddns_updater_http_timeout: 10s
+
+# ddns_updater_config describes the content of the config.json used to configure the updater.
+# see https://github.com/qdm12/ddns-updater#configuration for more info
+#
+# ddns_updater_config:
+#   settings:
+#     - provider: namecheap
+#       domain: example.com
+#       host: "@"
+#       password: e5322165c1d74692bfa6d807100c0310

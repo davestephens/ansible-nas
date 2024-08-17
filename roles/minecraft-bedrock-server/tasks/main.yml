@@ -1,0 +1,38 @@
+---
+- name: Start Minecraft Bedrock Server
+  block:
+    - name: Create Minecraft Bedrock Server Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ minecraft_bedrock_server_data_directory }}"
+
+    - name: Minecraft Bedrock Server Docker Container
+      community.docker.docker_container:
+        name: "{{ minecraft_bedrock_server_container_name }}"
+        image: "{{ minecraft_bedrock_server_image }}"
+        pull: true
+        volumes:
+          - "{{ minecraft_bedrock_server_data_directory }}:/data:rw"
+        ports:
+          - "{{ minecraft_bedrock_server_port }}:19132/udp"
+        env:
+          EULA: "TRUE"
+          SERVER_NAME: "{{ minecraft_bedrock_server_name }}"
+          GAMEMODE: "{{ minecraft_bedrock_server_game_mode }}"
+          DIFFICULTY: "{{ minecraft_bedrock_server_difficulty }}"
+          ONLINE_MODE: "{{ minecraft_bedrock_server_online_mode }}"
+          OPS: "{{ minecraft_bedrock_server_ops }}"
+          MEMBERS: "{{ minecraft_bedrock_server_members }}"
+          VISITORS: "{{ minecraft_bedrock_server_visitors }}"
+        restart_policy: unless-stopped
+  when: minecraft_bedrock_server_enabled is true
+
+- name: Stop Minecraft Bedrock Server
+  block:
+    - name: Stop Minecraft Bedrock Server
+      community.docker.docker_container:
+        name: "{{ minecraft_bedrock_server_container_name }}"
+        state: absent
+  when: minecraft_bedrock_server_enabled is false

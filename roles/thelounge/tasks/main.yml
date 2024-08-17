@@ -1,35 +1,46 @@
 ---
-- name: The Lounge Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ thelounge_data_directory }}"
-    - "{{ thelounge_data_directory }}/users"
+- name: Start The Lounge
+  block:
+    - name: The Lounge Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ thelounge_data_directory }}"
+        - "{{ thelounge_data_directory }}/users"
 
-- name: Set up admin user
-  copy:
-    src: admin.json
-    dest: "{{ thelounge_data_directory }}/users/admin.json"
-    mode: 0777
+    - name: Set up admin user
+      ansible.builtin.copy:
+        src: admin.json
+        dest: "{{ thelounge_data_directory }}/users/admin.json"
+        mode: 0777
 
-- name: The Lounge Docker Container
-  docker_container:
-    name: thelounge
-    image: thelounge/thelounge:latest
-    pull: true
-    ports:
-      - "{{ thelounge_port_one }}:9001"
-      - "{{ thelounge_port_two }}:9000"
-    volumes:
-      - "{{ thelounge_data_directory }}:/var/opt/thelounge"
-      - "/var/run/dbus:/var/run/dbus"
-    restart_policy: unless-stopped
-    memory: "{{ thelounge_memory }}"
-    labels:
-      traefik.enable: "{{ thelounge_available_externally | string }}"
-      traefik.http.routers.thelounge.rule: "Host(`{{ thelounge_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.thelounge.tls.certresolver: "letsencrypt"
-      traefik.http.routers.thelounge.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.thelounge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.thelounge.loadbalancer.server.port: "9000"
+    - name: The Lounge Docker Container
+      community.docker.docker_container:
+        name: "{{ thelounge_container_name }}"
+        image: "{{ thelounge_image_name }}:{{ thelounge_image_version }}"
+        pull: true
+        ports:
+          - "{{ thelounge_port_one }}:9001"
+          - "{{ thelounge_port_two }}:9000"
+        volumes:
+          - "{{ thelounge_data_directory }}:/var/opt/thelounge"
+          - "/var/run/dbus:/var/run/dbus"
+        restart_policy: unless-stopped
+        memory: "{{ thelounge_memory }}"
+        labels:
+          traefik.enable: "{{ thelounge_available_externally | string }}"
+          traefik.http.routers.thelounge.rule: "Host(`{{ thelounge_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.thelounge.tls.certresolver: "letsencrypt"
+          traefik.http.routers.thelounge.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.thelounge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.thelounge.loadbalancer.server.port: "9000"
+  when: thelounge_enabled is true
+
+- name: Stop The Lounge
+  block:
+    - name: Stop The Lounge
+      community.docker.docker_container:
+        name: "{{ thelounge_container_name }}"
+        state: absent
+  when: thelounge_enabled is false

@@ -1,40 +1,56 @@
 ---
-- name: Create Youtubedlmaterial Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    # mode: 0755
-  with_items:
-    - "{{ youtubedlmaterial_data_directory }}/appdata"
-    - "{{ youtubedlmaterial_data_directory }}/audio"
-    - "{{ youtubedlmaterial_data_directory }}/video"
-    - "{{ youtubedlmaterial_data_directory }}/subscriptions"
-    - "{{ youtubedlmaterial_dl_audio_directory }}"
-    - "{{ youtubedlmaterial_dl_video_directory }}"
-    - "{{ youtubedlmaterial_dl_subscriptions_directory }}"
+- name: Start Youtubedlmaterial
+  block:
+    - name: Create Youtubedlmaterial Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        # mode: 0755
+      with_items:
+        - "{{ youtubedlmaterial_data_directory }}/appdata"
+        - "{{ youtubedlmaterial_data_directory }}/audio"
+        - "{{ youtubedlmaterial_data_directory }}/video"
+        - "{{ youtubedlmaterial_data_directory }}/subscriptions"
+        - "{{ youtubedlmaterial_dl_audio_directory }}"
+        - "{{ youtubedlmaterial_dl_video_directory }}"
+        - "{{ youtubedlmaterial_dl_subscriptions_directory }}"
 
-- name: Create Youtubedlmaterial Docker Container
-  docker_container:
-    name: youtubedlmaterial
-    image: tzahi12345/youtubedl-material:latest
-    pull: true
-    volumes:
-      - "{{ youtubedlmaterial_data_directory }}/appdata:/app/appdata:rw"
-      - "{{ youtubedlmaterial_dl_audio_directory }}:/app/audio:rw"
-      - "{{ youtubedlmaterial_dl_video_directory }}:/app/video:rw"
-      - "{{ youtubedlmaterial_dl_subscriptions_directory }}:/app/subscriptions:rw"
-    network_mode: "bridge"
-    ports:
-      - "{{ youtubedlmaterial_port_http }}:17442"
-    env:
-      ALLOW_CONFIG_MUTATIONS: "true"
-      TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: unless-stopped
-    memory: "{{ youtubedlmaterial_memory }}"
-    labels:
-      traefik.enable: "{{ youtubedlmaterial_available_externally | string }}"
-      traefik.http.routers.youtubedlmaterial.rule: "Host(`{{ youtubedlmaterial_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.youtubedlmaterial.tls.certresolver: "letsencrypt"
-      traefik.http.routers.youtubedlmaterial.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.youtubedlmaterial.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.youtubedlmaterial.loadbalancer.server.port: "17442"
+    - name: Create Youtubedlmaterial Docker Container
+      community.docker.docker_container:
+        name: "{{ youtubedlmaterial_container_name }}"
+        image: "{{ youtubedlmaterial_image_name }}:{{ youtubedlmaterial_image_version }}"
+        pull: true
+        volumes:
+          - "{{ youtubedlmaterial_data_directory }}/appdata:/app/appdata:rw"
+          - "{{ youtubedlmaterial_dl_audio_directory }}:/app/audio:rw"
+          - "{{ youtubedlmaterial_dl_video_directory }}:/app/video:rw"
+          - "{{ youtubedlmaterial_dl_subscriptions_directory }}:/app/subscriptions:rw"
+        network_mode: "bridge"
+        ports:
+          - "{{ youtubedlmaterial_port_http }}:17442"
+        env:
+          ALLOW_CONFIG_MUTATIONS: "true"
+          TZ: "{{ ansible_nas_timezone }}"
+        restart_policy: unless-stopped
+        memory: "{{ youtubedlmaterial_memory }}"
+        labels:
+          traefik.enable: "{{ youtubedlmaterial_available_externally | string }}"
+          traefik.http.routers.youtubedlmaterial.rule: "Host(`{{ youtubedlmaterial_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.youtubedlmaterial.tls.certresolver: "letsencrypt"
+          traefik.http.routers.youtubedlmaterial.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.youtubedlmaterial.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.youtubedlmaterial.loadbalancer.server.port: "17442"
+          homepage.group: Download Tools
+          homepage.name: YoutubeDL Material
+          homepage.icon: youtubedl.png
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ youtubedlmaterial_port_http }}"
+          homepage.description: Youtube downloader client
+  when: youtubedlmaterial_enabled is true
+
+- name: Stop Youtubedlmaterial
+  block:
+    - name: Stop Youtubedlmaterial
+      community.docker.docker_container:
+        name: "{{ youtubedlmaterial_container_name }}"
+        state: absent
+  when: youtubedlmaterial_enabled is false

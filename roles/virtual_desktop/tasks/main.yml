@@ -1,30 +1,41 @@
 ---
-- name: Create Virtual Desktop Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ virtual_desktop_data_directory }}"
-    - "{{ virtual_desktop_data_directory }}/home"
+- name: Start Virtual Desktop
+  block:
+    - name: Create Virtual Desktop Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ virtual_desktop_data_directory }}"
+        - "{{ virtual_desktop_data_directory }}/home"
 
-- name: Create users file
-  template:
-    src: "users.txt.j2"
-    dest: "{{ virtual_desktop_data_directory }}/users.txt"
+    - name: Create users file
+      ansible.builtin.template:
+        src: "users.txt.j2"
+        dest: "{{ virtual_desktop_data_directory }}/users.txt"
 
-- name: Virtual Desktop Container
-  docker_container:
-    name: virtual_desktop
-    image: "{{ virtual_desktop_docker_image }}"
-    pull: true
-    volumes:
-      - "{{ virtual_desktop_data_directory }}/users.txt:/root/createusers.txt:ro"
-      - "{{ virtual_desktop_data_directory }}/home:/home:rw"
-      - "{{ samba_shares_root }}:/samba:rw"
-      - "{{ docker_home }}:/docker:rw"
-      - "/etc/timezone:/etc/timezone:ro"
-    ports:
-      - "{{ virtual_desktop_rdp_port }}:3389"
-    privileged: true
-    restart_policy: unless-stopped
-    memory: "{{ virtual_desktop_memory }}"
+    - name: Virtual Desktop Container
+      community.docker.docker_container:
+        name: "{{ virtual_desktop_container_name }}"
+        image: "{{ virtual_desktop_image_name }}:{{ virtual_desktop_image_version }}"
+        pull: true
+        volumes:
+          - "{{ virtual_desktop_data_directory }}/users.txt:/root/createusers.txt:ro"
+          - "{{ virtual_desktop_data_directory }}/home:/home:rw"
+          - "{{ samba_shares_root }}:/samba:rw"
+          - "{{ docker_home }}:/docker:rw"
+          - "/etc/timezone:/etc/timezone:ro"
+        ports:
+          - "{{ virtual_desktop_rdp_port }}:3389"
+        privileged: true
+        restart_policy: unless-stopped
+        memory: "{{ virtual_desktop_memory }}"
+  when: virtual_desktop_enabled is true
+
+- name: Stop Virtual Desktop
+  block:
+    - name: Stop Virtual Desktop
+      community.docker.docker_container:
+        name: "{{ virtual_desktop_container_name }}"
+        state: absent
+  when: virtual_desktop_enabled is false

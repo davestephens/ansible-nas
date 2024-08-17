@@ -2,14 +2,14 @@
 - name: Start Bazarr
   block:
     - name: Create Bazarr Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ bazarr_data_directory }}"
 
     - name: Bazarr
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bazarr_container_name }}"
         image: linuxserver/bazarr
         pull: true
@@ -32,12 +32,19 @@
           traefik.http.routers.bazarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.bazarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.bazarr.loadbalancer.server.port: "6767"
+          homepage.group: Download Tools
+          homepage.name: Bazarr
+          homepage.icon: bazarr.png
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ bazarr_port }}"
+          homepage.description: Manage subtitles
+          homepage.widget.type: bazarr
+          homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ bazarr_port }}"
   when: bazarr_enabled is true
 
 - name: Stop Bazarr
   block:
     - name: Stop Bazarr
-      docker_container:
+      community.docker.docker_container:
         name: "{{ bazarr_container_name }}"
         state: absent
   when: bazarr_enabled is false

@@ -26,8 +26,12 @@ jellyfin_group_id: "0"
 
 # network
 jellyfin_hostname: "jellyfin"
-jellyfin_port_http: "8896"
-jellyfin_port_https: "8928"
+jellyfin_port_http: "8096"
+
+# docker
+jellyfin_container_name: "jellyfin"
+jellyfin_image_name: "linuxserver/jellyfin"
+jellyfin_image_version: "latest"
 
 # specs
 jellyfin_memory: "1g"

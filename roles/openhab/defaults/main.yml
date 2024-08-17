@@ -10,5 +10,10 @@ openhab_port_http: "7777"
 openhab_port_https: "7778"
 openhab_hostname: "openhab"
 
+# docker
+openhab_container_name: "openhab"
+openhab_image_name: "openhab/openhab"
+openhab_image_version: "latest"
+
 # specs
 openhab_memory: 1g

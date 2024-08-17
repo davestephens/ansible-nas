@@ -1,0 +1,17 @@
+---
+mumble_enabled: false
+mumble_available_externally: false
+
+# Directories
+mumble_data_directory: "{{ docker_home }}/mumble"
+
+# Networking
+mumble_tcp_port: "64738"
+mumble_udp_port: "64738"
+mumble_hostname: mumble
+
+# Configuration
+# It is strongly advised this password is change, especially if this is publicly available.
+mumble_server_password: "abcpassword123"
+
+mumble_container_name: mumble-server

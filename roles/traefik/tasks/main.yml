@@ -1,29 +1,48 @@
 ---
-- name: Create Traefik Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ traefik_data_directory }}"
-    - "{{ traefik_data_directory }}/letsencrypt"
+- name: Start Traefik
+  block:
+    - name: Create Traefik Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ traefik_data_directory }}"
+        - "{{ traefik_data_directory }}/letsencrypt"
 
-- name: Template Traefik config.toml
-  template:
-    src: traefik.toml
-    dest: "{{ traefik_data_directory }}/traefik.toml"
-  register: template_config
+    - name: Template Traefik config.toml
+      ansible.builtin.template:
+        src: traefik.toml
+        dest: "{{ traefik_data_directory }}/traefik.toml"
+      register: template_config
 
-- name: Traefik Docker Container
-  docker_container:
-    name: traefik
-    image: "{{ traefik_docker_image }}"
-    pull: true
-    network_mode: host
-    volumes:
-      - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
-      - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    env: "{{ traefik_environment_variables }}"
-    restart_policy: unless-stopped
-    memory: "{{ traefik_memory }}"
-    recreate: "{{ template_config is changed }}"
+    - name: Traefik Docker Container
+      community.docker.docker_container:
+        name: "{{ traefik_container_name }}"
+        image: "{{ traefik_image_name }}:{{ traefik_image_version }}"
+        pull: true
+        network_mode: host
+        volumes:
+          - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+          - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
+          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        env: "{{ traefik_environment_variables }}"
+        restart_policy: unless-stopped
+        memory: "{{ traefik_memory }}"
+        recreate: "{{ template_config is changed }}"
+        labels:
+          homepage.group: Networking
+          homepage.name: Traefik
+          homepage.icon: traefik
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ traefik_port_ui }}"
+          homepage.description: Reverse Proxy
+          homepage.widget.type: traefik
+          homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ traefik_port_ui }}"
+  when: traefik_enabled is true
+
+- name: Stop Traefik
+  block:
+    - name: Stop Traefik
+      community.docker.docker_container:
+        name: "{{ traefik_container_name }}"
+        state: absent
+  when: traefik_enabled is false

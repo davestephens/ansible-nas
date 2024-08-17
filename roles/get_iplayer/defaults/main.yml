@@ -8,5 +8,10 @@ get_iplayer_download_directory: "{{ tv_root }}/iplayer_downloads"
 # network
 get_iplayer_port: "8182"
 
+# docker
+get_iplayer_container_name: "get_iplayer"
+get_iplayer_image_name: "kolonuk/get_iplayer"
+get_iplayer_image_version: "latest"
+
 # specs
 get_iplayer_memory: "1g"

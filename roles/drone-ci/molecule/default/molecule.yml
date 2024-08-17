@@ -8,3 +8,6 @@ provisioner:
         drone_ci_gitea_client_secret: asdfasd12341234
         gitea_port_http: 3001
         ansible_nas_hostname: ansible-nas-ci
+        gitea_data_directory: "/tmp"
+  playbooks:
+    prepare: prepare.yml

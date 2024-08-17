@@ -11,5 +11,10 @@ minidlna_media_directory2: "{{ tv_root }}"
 minidlna_friendly_name: "{{ ansible_nas_hostname }}"
 minidlna_port: "8201"
 
+# docker
+minidlna_container_name: "minidnla"
+minidlna_image_name: "vladgh/minidlna"
+minidlna_image_version: "latest"
+
 # specs
 minidlna_memory: "1g"

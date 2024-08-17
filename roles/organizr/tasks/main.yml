@@ -1,31 +1,42 @@
 ---
-- name: Create Organizr Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ organizr_data_directory }}"
+- name: Start Organizr
+  block:
+    - name: Create Organizr Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ organizr_data_directory }}"
 
-- name: Create Organizr container
-  docker_container:
-    name: organizr
-    image: organizr/organizr:latest
-    pull: true
-    volumes:
-      - "{{ organizr_data_directory }}:/config:rw"
-    env:
-      PUID: "{{ organizr_user_id }}"
-      PGID: "{{ organizr_group_id }}"
-      TZ: "{{ ansible_nas_timezone }}"
-    ports:
-      - "{{ organizr_port_http }}:80"
-      - "{{ organizr_port_https }}:443"
-    restart_policy: unless-stopped
-    memory: "{{ organizr_memory }}"
-    labels:
-      traefik.enable: "{{ organizr_available_externally | string }}"
-      traefik.http.routers.organizr.rule: "Host(`{{ organizr_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.organizr.tls.certresolver: "letsencrypt"
-      traefik.http.routers.organizr.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.organizr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.organizr.loadbalancer.server.port: "80"
+    - name: Create Organizr container
+      community.docker.docker_container:
+        name: "{{ organizr_container_name }}"
+        image: "{{ organizr_image_name }}:{{ organizr_image_version }}"
+        pull: true
+        volumes:
+          - "{{ organizr_data_directory }}:/config:rw"
+        env:
+          PUID: "{{ organizr_user_id }}"
+          PGID: "{{ organizr_group_id }}"
+          TZ: "{{ ansible_nas_timezone }}"
+        ports:
+          - "{{ organizr_port_http }}:80"
+          - "{{ organizr_port_https }}:443"
+        restart_policy: unless-stopped
+        memory: "{{ organizr_memory }}"
+        labels:
+          traefik.enable: "{{ organizr_available_externally | string }}"
+          traefik.http.routers.organizr.rule: "Host(`{{ organizr_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.organizr.tls.certresolver: "letsencrypt"
+          traefik.http.routers.organizr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.organizr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.organizr.loadbalancer.server.port: "80"
+  when: organizr_enabled is true
+
+- name: Stop Organizr
+  block:
+    - name: Stop Organizr
+      community.docker.docker_container:
+        name: "{{ organizr_container_name }}"
+        state: absent
+  when: organizr_enabled is false

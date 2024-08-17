@@ -2,16 +2,16 @@
 - name: Start Emby
   block:
     - name: Create Emby Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ emby_config_directory }}"
 
     - name: Emby Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ emby_container_name }}"
-        image: emby/embyserver
+        image: "{{ emby_image }}:{{ emby_image_tag }}"
         pull: true
         volumes:
           - "{{ emby_config_directory }}:/config:rw"
@@ -20,6 +20,7 @@
         ports:
           - "{{ emby_port_http }}:8096"
           - "{{ emby_port_https }}:8920"
+        devices: "{{ emby_devices | default(omit) }}"
         env:
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ emby_user_id }}"
@@ -38,7 +39,7 @@
 - name: Stop Emby
   block:
     - name: Stop Emby
-      docker_container:
+      community.docker.docker_container:
         name: "{{ emby_container_name }}"
         state: absent
   when: emby_enabled is false

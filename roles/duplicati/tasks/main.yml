@@ -2,14 +2,14 @@
 - name: Start Duplicati
   block:
     - name: Create Duplicati Directory
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "{{ duplicati_data_directory }}"
 
     - name: Dupicati Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ duplicati_container_name }}"
         image: linuxserver/duplicati
         pull: true
@@ -38,7 +38,7 @@
 - name: Stop Duplicati
   block:
     - name: Stop Duplicati
-      docker_container:
+      community.docker.docker_container:
         name: "{{ duplicati_container_name }}"
         state: absent
   when: duplicati_enabled is false

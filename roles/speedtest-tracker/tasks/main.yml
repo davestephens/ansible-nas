@@ -1,34 +1,46 @@
 ---
-- name: Speedtest-Tracker Directory
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ speedtest_data_directory }}/config"
+- name: Start Speedtest-Tracker
+  block:
+    - name: Speedtest-Tracker Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ speedtest_data_directory }}/config"
 
-- name: Remove old Speedtest-Tracker Docker Container
-  docker_container:
-    name: speedtest_tracker
-    state: absent
+    - name: Remove old Speedtest-Tracker Docker Container
+      community.docker.docker_container:
+        name: "{{ speedtest_container_name }}"
+        state: absent
+      tags: molecule-idempotence-notest
 
-- name: Speedtest-Tracker Docker Container
-  docker_container:
-    name: speedtest-tracker
-    image: henrywhitaker3/speedtest-tracker:latest
-    pull: true
-    volumes:
-      - "{{ speedtest_data_directory }}/config:/config:rw"
-    ports:
-      - "{{ speedtest_tracker_port }}:80"
-    env:
-      OOKLA_EULA_GDPR: "true"
-      TZ: "{{ ansible_nas_timezone }}"
-    restart_policy: unless-stopped
-    memory: "1g"
-    labels:
-      traefik.enable: "{{ speedtest_tracker_available_externally | string }}"
-      traefik.http.routers.speedtest_tracker.rule: "Host(`{{ speedtest_tracker_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.speedtest_tracker.tls.certresolver: "letsencrypt"
-      traefik.http.routers.speedtest_tracker.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.speedtest_tracker.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.speedtest_tracker.loadbalancer.server.port: "80"
+    - name: Speedtest-Tracker Docker Container
+      community.docker.docker_container:
+        name: "{{ speedtest_container_name }}"
+        image: "{{ speedtest_image_name }}:{{ speedtest_image_version }}"
+        pull: true
+        volumes:
+          - "{{ speedtest_data_directory }}/config:/config:rw"
+        ports:
+          - "{{ speedtest_tracker_port }}:80"
+        env:
+          OOKLA_EULA_GDPR: "true"
+          TZ: "{{ ansible_nas_timezone }}"
+        restart_policy: unless-stopped
+        memory: "1g"
+        labels:
+          traefik.enable: "{{ speedtest_tracker_available_externally | string }}"
+          traefik.http.routers.speedtest_tracker.rule: "Host(`{{ speedtest_tracker_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.speedtest_tracker.tls.certresolver: "letsencrypt"
+          traefik.http.routers.speedtest_tracker.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.speedtest_tracker.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.speedtest_tracker.loadbalancer.server.port: "80"
+  when: speedtest_enabled is true
+
+- name: Stop Speedtest-Tracker
+  block:
+    - name: Stop Speedtest-Tracker
+      community.docker.docker_container:
+        name: "{{ speedtest_container_name }}"
+        state: absent
+  when: speedtest_enabled is false

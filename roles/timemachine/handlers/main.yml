@@ -1,0 +1,6 @@
+---
+- name: Reload Avahi Configuration
+  ansible.builtin.service:
+    name: avahi-daemon
+    state: reloaded
+  listen: "reload avahi configuration"

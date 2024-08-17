@@ -8,4 +8,4 @@ for f in ./roles/*; do
   fi
 done
 
-echo "::set-output name=matrix::$(echo $test_matrix | jq -R -s -c 'sub("\n"; " ") | split(" ")[:-1]')"
+echo "matrix=$(echo $test_matrix | jq -R -s -c 'sub("\n"; " ") | split(" ")[:-1]')" >> $GITHUB_OUTPUT

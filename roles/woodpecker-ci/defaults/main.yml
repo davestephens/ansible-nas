@@ -11,6 +11,15 @@ woodpecker_ci_port_grpc: 9000
 woodpecker_ci_address: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ woodpecker_ci_port_ui }}"
 woodpecker_ci_hostname: woodpecker-ci
 
+# docker
+woodpecker_ci_container_name: "woodpecker-ci"
+woodpecker_ci_image_name: "woodpeckerci/woodpecker-server"
+woodpecker_ci_image_version: "latest"
+
+woodpecker_ci_agent_container_name: "woodpecker-ci-agent"
+woodpecker_ci_agent_image_name: "woodpeckerci/woodpecker-agent"
+woodpecker_ci_agent_image_version: "latest"
+
 # memory
 woodpecker_ci_memory: 1g
 woodpecker_ci_agent_memory: 1g

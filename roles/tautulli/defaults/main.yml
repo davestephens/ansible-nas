@@ -13,5 +13,10 @@ tautulli_group_id: "0"
 tautulli_hostname: "tautulli"
 tautulli_port: "8185"
 
+# docker
+tautulli_container_name: "tautulli"
+tautulli_image_name: "linuxserver/tautulli"
+tautulli_image_version: "latest"
+
 # specs
 tautulli_memory: "1g"

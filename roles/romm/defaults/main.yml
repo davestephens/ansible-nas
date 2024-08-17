@@ -1,0 +1,50 @@
+---
+romm_enabled: false
+romm_available_externally: false
+
+romm_database_username: romm_user
+romm_database_password: top_secret
+romm_database_root_password: top_top_secret
+
+# directories
+romm_home: "{{ docker_home }}/romm"
+romm_data_directory: "{{ romm_home }}/romm"
+romm_db_data_directory: "{{ romm_home }}/db"
+romm_roms_directory: "{{ roms_root }}"
+
+# network
+romm_port: "8484"
+romm_hostname: "romm"
+
+# docker
+romm_container_name: "romm"
+romm_image_name: "rommapp/romm"
+romm_image_version: "latest"
+
+romm_db_container_name: "romm-db"
+romm_db_image_name: "mariadb"
+romm_db_image_version: "11.2"
+
+romm_redis_container_name: "romm-redis"
+romm_redis_image_name: "redis"
+romm_redis_image_version: "alpine"
+
+# specs
+romm_memory: 1g
+romm_db_memory: 1g
+romm_redis_memory: 1g
+
+# IGDB auth credentials - see https://github.com/zurdi15/romm/tree/release#-docker for more info
+romm_igdb_client_id: "abcd"
+romm_igdb_client_secret: "abcd"
+
+# MobyGames auth credentials
+romm_mobygames_client_id: "abcd"
+
+# SteamGridDB auth credentials
+romm_steamgriddb_client_id: "abcd"
+
+# auth config
+romm_auth_secret_key: "aaaabbbbccccdddd" # Generate a key with `openssl rand -hex 32`
+romm_auth_username: "admin"
+romm_auth_password: "admin"

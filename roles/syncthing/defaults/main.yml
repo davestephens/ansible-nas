@@ -19,5 +19,10 @@ syncthing_group_id: "0"
 syncthing_port: 8384
 syncthing_hostname: syncthing
 
+# docker
+syncthing_container_name: "syncthing"
+syncthing_image_name: "syncthing/syncthing"
+syncthing_image_version: "latest"
+
 # specs
 syncthing_memory: 1g
