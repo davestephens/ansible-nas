@@ -212,7 +212,6 @@
     - role: librephotos
       tags:
         - librephotos
-      when: (librephotos_enabled | default(False))
 
     - role: lidarr
       tags:

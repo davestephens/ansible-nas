@@ -8,11 +8,12 @@
       with_items:
         - "{{ librephotos_scan_directory }}"
         - "{{ librephotos_data_directory }}"
+      when: (librephotos_enabled | default(False))
 
     - name: LibrePhotos Proxy Container
       docker_container:
-        name: librephotos_proxy
-        image: reallibrephotos/librephotos-proxy:{{ librephotos_tag }}
+        name: "{{ librephotos_container_name }}_proxy"
+        image: "{{ librephotos_image_name }}-proxy:{{ librephotos_image_version }}"
         pull: true
         volumes:
           - "{{ librephotos_scan_directory }}:/data:rw"
@@ -28,10 +29,11 @@
           traefik.http.routers.librephotos.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.librephotos.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.librephotos.loadbalancer.server.port: "4040"
+      when: (librephotos_enabled | default(False))
 
     - name: LibrePhotos Database Container
       docker_container:
-        name: "librephotos_db"
+        name: "{{ librephotos_container_name }}_db"
         image: postgres:13
         pull: true
         volumes:
@@ -48,17 +50,19 @@
         #   interval: 5s
         #   timeout: 5s
         #   retries: 5
+      when: (librephotos_enabled | default(False))
 
     - name: LibrePhotos Frontend
       docker_container:
-        name: librephotos_frontend
-        image: reallibrephotos/librephotos-frontend:{{ librephotos_tag }}
+        name: "{{ librephotos_container_name }}_frontend"
+        image: "{{ librephotos_image_name }}-frontend:{{ librephotos_image_version }}"
         restart_policy: unless-stopped
-    
+      when: (librephotos_enabled | default(False))
+
     - name: LibrePhotos Backend
       docker_container:
-        name: librephotos_backend
-        image: reallibrephotos/librephotos:{{ librephotos_tag }}
+        name: "{{ librephotos_container_name }}_backend"
+        image: "{{ librephotos_container_name }}:{{ librephotos_image_version }}"
         restart_policy: unless-stopped
         volumes:
           - "{{ librephotos_scan_directory }}:/data"
@@ -85,10 +89,11 @@
           ALLOW_UPLOAD: (librephotos_allowUpload | default(false))
           DEBUG: "0"
           HEAVYWEIGHT_PROCESS: (librephotos_HEAVYWEIGHT_PROCESS | default())
+      when: (librephotos_enabled | default(False))
 
     - name: LibrePhotos Redis
-      docker_container: 
-        name: librephotos_redis
+      docker_container:
+        name: "{{ librephotos_container_name }}_redis"
         image: redis:6
         restart_policy: unless-stopped
         # healthcheck:
@@ -96,17 +101,17 @@
         #   interval: 5s
         #   timeout: 5s
         #   retries: 12
-  when: librephotos_enabled is true
+      when: (librephotos_enabled | default(False))
 
 - name: Stop LibrePhotos
   block:
     - name: Stop LibrePhotos Containers
       docker_container:
-        name: "{{ item }}"
+        name: "{{ librephotos_container_name }}_{{ item }}"
         state: absent
       with_items:
-        - librephotos_proxy
-        - librephotos_db
-        - librephotos_frontend
-        - librephotos_backend
-  when: librephotos_enabled is false
+        - proxy
+        - db
+        - frontend
+        - backend
+      when: (!librephotos_enabled)
