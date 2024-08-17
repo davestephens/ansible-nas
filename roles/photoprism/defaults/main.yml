@@ -4,3 +4,6 @@ photoprism_photos_directory: "{{ photos_root }}"
 photoprism_port: "2342"
 photoprism_hostname: "photoprism"
 photoprism_available_externally: false
+photoprism_container_name: "photoprism"
+photoprism_image_name: "photoprism/photoprism"
+photoprism_image_version: "latest"

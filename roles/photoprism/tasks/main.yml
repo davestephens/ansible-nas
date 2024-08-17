@@ -10,8 +10,8 @@
 
 - name: Install Docker container
   docker_container:
-    name: photoprism
-    image: photoprism/photoprism
+    name: "{{ photoprism }}"
+    image: "{{ photoprism_image_name }}/{{ photoprism_image_version }}"
     pull: true
     ports:
       - "{{ photoprism_port }}:2342"
