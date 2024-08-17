@@ -37,9 +37,6 @@ librephotos_dbUser: docker
 # The password used by the database.
 librephotos_dbPass: AaAa1234
 
-# Database host. Only change this if you want to use your own existing Postgres server. If using your own server, you can remove the 'db' container from docker-compose.yml. If you're changing the name of the DB's container name (DB_CONT_NAME further down), you need to set this variable to match that name too.
-librephotos_dbHost: db
-
 librephotos_shhhhKey: "abc123"
 librephotos_adminEmail: "{{ ansible_nas_email }}"
 librephotos_userName: "{{ ansible_nas_user }}"

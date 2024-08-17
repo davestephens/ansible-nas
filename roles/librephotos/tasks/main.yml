@@ -36,7 +36,6 @@
         ports:
           - "{{ librephotos_port }}:80"
         restart_policy: unless-stopped
-        # memory: "{{ librephotos_memory }}"
         labels:
           traefik.enable: "{{ librephotos_available_externally | string }}"
           traefik.http.routers.librephotos.rule: "Host(`{{ librephotos_hostname }}.{{ ansible_nas_domain }}`)"
@@ -56,7 +55,6 @@
         volumes:
           - "{{ librephotos_data_directory }}/db:/var/lib/postgresql/data"
         restart_policy: unless-stopped
-        memory: "{{ librephotos_memory }}"
         env:
           POSTGRES_USER: "{{ librephotos_dbUser }}"
           POSTGRES_PASSWORD: "{{ librephotos_dbPass }}"
@@ -85,6 +83,7 @@
         networks:
           - name: "{{ librephotos_network_name }}"
         restart_policy: unless-stopped
+        memory: "{{ librephotos_memory }}"
         volumes:
           - "{{ librephotos_scan_directory }}:/data"
           - "{{ librephotos_data_directory }}/protected_media:/protected_media"
