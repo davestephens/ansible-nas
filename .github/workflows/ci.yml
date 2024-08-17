@@ -3,11 +3,11 @@ name: CI
 
 # Controls when the action will run.
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,15 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the codebase
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python 3
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: "3.x"
 
       - name: Install test dependencies
-        run: pip3 install ansible yamllint==1.27.1 ansible-lint==6.5
+        run: pip3 install ansible yamllint==1.30.0 ansible-lint==6.14.6
 
       - name: Ansible-lint
         run: ansible-lint nas.yml

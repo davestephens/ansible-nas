@@ -1,30 +1,47 @@
 ---
-- name: Create Prowlarr Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ prowlarr_data_directory }}"
+- name: Start Prowlarr
+  block:
+    - name: Create Prowlarr Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ prowlarr_data_directory }}"
 
-- name: Create Prowlarr Docker Container
-  docker_container:
-    name: prowlarr
-    image: ghcr.io/linuxserver/prowlarr:develop
-    pull: true
-    volumes:
-      - "{{ prowlarr_data_directory }}:/config:rw"
-    ports:
-      - "{{ prowlarr_port }}:9696"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ prowlarr_user_id }}"
-      PGID: "{{ prowlarr_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ prowlarr_memory }}"
-    labels:
-      traefik.enable: "{{ prowlarr_available_externally | string }}"
-      traefik.http.routers.prowlarr.rule: "Host(`{{ prowlarr_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.prowlarr.tls.certresolver: "letsencrypt"
-      traefik.http.routers.prowlarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.prowlarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.prowlarr.loadbalancer.server.port: "9696"
+    - name: Create Prowlarr Docker Container
+      community.docker.docker_container:
+        name: "{{ prowlarr_container_name }}"
+        image: "{{ prowlarr_image_name }}:{{ prowlarr_image_version }}"
+        pull: true
+        volumes:
+          - "{{ prowlarr_data_directory }}:/config:rw"
+        ports:
+          - "{{ prowlarr_port }}:9696"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ prowlarr_user_id }}"
+          PGID: "{{ prowlarr_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ prowlarr_memory }}"
+        labels:
+          traefik.enable: "{{ prowlarr_available_externally | string }}"
+          traefik.http.routers.prowlarr.rule: "Host(`{{ prowlarr_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.prowlarr.tls.certresolver: "letsencrypt"
+          traefik.http.routers.prowlarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.prowlarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.prowlarr.loadbalancer.server.port: "9696"
+          homepage.group: Download Tools
+          homepage.name: Prowlarr
+          homepage.icon: prowlarr
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ prowlarr_port }}"
+          homepage.description: Indexer Proxy
+
+  when: prowlarr_enabled is true
+
+- name: Stop Prowlarr
+  block:
+    - name: Stop Prowlarr
+      community.docker.docker_container:
+        name: "{{ prowlarr_container_name }}"
+        state: absent
+  when: prowlarr_enabled is false

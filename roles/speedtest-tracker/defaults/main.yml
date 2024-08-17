@@ -3,7 +3,7 @@ speedtest_tracker_enabled: false
 speedtest_tracker_available_externally: false
 
 # directories
-speedtest_data_directory: "{{ docker_home }}/speedtest_tracker/"
+speedtest_data_directory: "{{ docker_home }}/speedtest_tracker"
 
 # uid / gid
 speedtest_tracker_user_id: "0"
@@ -12,6 +12,11 @@ speedtest_tracker_group_id: "0"
 # network
 speedtest_tracker_port: "8765"
 speedtest_tracker_hostname: "speedtest-tracker"
+
+# docker
+speedtest_container_name: "speedtest-tracker"
+speedtest_image_name: "henrywhitaker3/speedtest-tracker"
+speedtest_image_version: "latest"
 
 # specs
 speedtest_tracker_memory: 1g

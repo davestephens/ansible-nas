@@ -1,21 +1,32 @@
 ---
-- name: Create get_iplayer Directories
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ get_iplayer_config_directory }}"
-    - "{{ get_iplayer_download_directory }}"
+- name: Start get_iplayer
+  block:
+    - name: Create get_iplayer Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ get_iplayer_config_directory }}"
+        - "{{ get_iplayer_download_directory }}"
 
-- name: Get_iplayer Docker Container
-  docker_container:
-    name: get_iplayer
-    image: kolonuk/get_iplayer
-    pull: true
-    volumes:
-      - "{{ get_iplayer_config_directory }}:/root/.get_iplayer:rw"
-      - "{{ get_iplayer_download_directory }}:/root/output:rw"
-    ports:
-      - "{{ get_iplayer_port }}:8181"
-    restart_policy: unless-stopped
-    memory: "{{ get_iplayer_memory }}"
+    - name: Create get_iplayer Docker Container
+      community.docker.docker_container:
+        name: "{{ get_iplayer_container_name }}"
+        image: "{{ get_iplayer_image_name }}:{{ get_iplayer_image_version }}"
+        pull: true
+        volumes:
+          - "{{ get_iplayer_config_directory }}:/root/.get_iplayer:rw"
+          - "{{ get_iplayer_download_directory }}:/root/output:rw"
+        ports:
+          - "{{ get_iplayer_port }}:8181"
+        restart_policy: unless-stopped
+        memory: "{{ get_iplayer_memory }}"
+  when: get_iplayer_enabled is true
+
+- name: Stop get_iplayer
+  block:
+    - name: Stop get_iplayer
+      community.docker.docker_container:
+        name: "{{ get_iplayer_container_name }}"
+        state: absent
+  when: get_iplayer_enabled is false

@@ -1,8 +1,21 @@
 ---
 - name: Start Dashy
   block:
+    - name: Create Dashy Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ dashy_data_directory }}"
+
+    - name: Copy base config
+      ansible.builtin.copy:
+        src: conf.yml
+        dest: "{{ dashy_data_directory }}/conf.yml"
+        force: no
+
     - name: Dashy Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: "{{ dashy_container_name }}"
         image: lissy93/dashy:latest
         pull: true
@@ -10,6 +23,8 @@
           - "{{ dashy_port }}:80"
         restart_policy: unless-stopped
         memory: "{{ dashy_memory }}"
+        volumes:
+          - "{{ dashy_data_directory }}/conf.yml:/app/public/conf.yml:rw"
         labels:
           traefik.enable: "{{ dashy_available_externally | string }}"
           traefik.http.routers.dashy.rule: "Host(`{{ dashy_hostname }}.{{ ansible_nas_domain }}`)"
@@ -22,7 +37,7 @@
 - name: Stop Dashy
   block:
     - name: Stop Dashy
-      docker_container:
+      community.docker.docker_container:
         name: "{{ dashy_container_name }}"
         state: absent
   when: dashy_enabled is false

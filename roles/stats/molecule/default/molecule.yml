@@ -1,0 +1,24 @@
+---
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp:rw
+    privileged: true
+    pre_build_image: true
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        stats_enabled: true
+        stats_prometheus_enabled: true
+        stats_internet_speed_test_enabled: true
+        ansible_nas_hostname: "ansible-nas"
+        stats_grafana_data_directory: "/tmp/grafana/data"
+        stats_grafana_config_directory: "/tmp/grafana/config"
+        stats_prometheus_data_directory: "/tmp/prometheus/data"
+        stats_prometheus_config_directory: "/tmp/prometheus/config"
+        stats_telegraf_config_directory: "/tmp/telegraf/config"
+        stats_collection_interval: 15s

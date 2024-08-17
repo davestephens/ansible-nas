@@ -4,7 +4,7 @@ Contributing to Ansible-NAS is easy! Add your functionality, then raise a pull r
 
 ## Development Environment
 
-* Development of Ansible-NAS is carried out in [Visual Studio Code](https://code.visualstudio.com/) on Linux - you'll get some nice recommended extensions and task setups if you do the same.
+* Development of Ansible-NAS is carried out in [JetBrains PyCharm](https://www.jetbrains.com/?from=Ansible-NAS) on Linux - you'll get some nice recommended extensions and task setups if you do the same.
 * You'll need a working Python 3 environment, Docker (to run tests) and [pre-commit](https://pre-commit.com) installed - `pip install -r requirements-dev.txt`.
 
 ## General Stuff

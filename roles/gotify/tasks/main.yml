@@ -1,31 +1,42 @@
 ---
-- name: Create Gotify Data Directory
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "{{ gotify_data_directory }}"
+- name: Start Gotify
+  block:
+    - name: Create Gotify Data Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ gotify_data_directory }}"
 
-- name: Gotify Docker Container
-  docker_container:
-    name: gotify
-    image: "{{ gotify_docker_image }}"
-    pull: true
-    ports:
-      - "{{ gotify_port }}:80"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "{{ gotify_data_directory }}:/app/data:rw"
-    env:
-      TZ: "{{ ansible_nas_timezone }}"
-      PUID: "{{ gotify_user_id }}"
-      PGID: "{{ gotify_group_id }}"
-    restart_policy: unless-stopped
-    memory: "{{ gotify_memory }}"
-    labels:
-      traefik.enable: "{{ gotify_available_externally | string }}"
-      traefik.http.routers.gotify.rule: "Host(`{{ gotify_hostname }}.{{ ansible_nas_domain }}`)"
-      traefik.http.routers.gotify.tls.certresolver: "letsencrypt"
-      traefik.http.routers.gotify.tls.domains[0].main: "{{ ansible_nas_domain }}"
-      traefik.http.routers.gotify.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-      traefik.http.services.gotify.loadbalancer.server.port: "80"
+    - name: Gotify Docker Container
+      community.docker.docker_container:
+        name: "{{ gotify_container_name }}"
+        image: "{{ gotify_image_name }}:{{ gotify_image_version }}"
+        pull: true
+        ports:
+          - "{{ gotify_port }}:80"
+        volumes:
+          - "/var/run/docker.sock:/var/run/docker.sock"
+          - "{{ gotify_data_directory }}:/app/data:rw"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ gotify_user_id }}"
+          PGID: "{{ gotify_group_id }}"
+        restart_policy: unless-stopped
+        memory: "{{ gotify_memory }}"
+        labels:
+          traefik.enable: "{{ gotify_available_externally | string }}"
+          traefik.http.routers.gotify.rule: "Host(`{{ gotify_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.gotify.tls.certresolver: "letsencrypt"
+          traefik.http.routers.gotify.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.gotify.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.gotify.loadbalancer.server.port: "80"
+  when: gotify_enabled is true
+
+- name: Stop Gotify
+  block:
+    - name: Stop Gotify
+      community.docker.docker_container:
+        name: "{{ gotify_container_name }}"
+        state: absent
+  when: gotify_enabled is false

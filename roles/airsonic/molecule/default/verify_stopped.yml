@@ -3,16 +3,16 @@
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
     - name: Try and stop and remove Airsonic
-      docker_container:
+      community.docker.docker_container:
         name: "{{ airsonic_container_name }}"
         state: absent
       register: result
 
     - name: Check Airsonic is stopped
-      assert:
+      ansible.builtin.assert:
         that:
           - not result.changed

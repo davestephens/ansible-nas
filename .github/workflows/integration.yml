@@ -15,7 +15,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Generate Test Matrix
         id: set-matrix
         shell: bash
@@ -29,7 +29,7 @@ jobs:
         matrix:
             role: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Molecule Test
         uses: gofrolist/molecule-action@dfbfd1af6a77523c8a937a1532f92808065a00a4
         with:

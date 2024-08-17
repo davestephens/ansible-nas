@@ -2,7 +2,7 @@
 - name: Start Gitea
   block:
     - name: Create Gitea Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         recurse: yes
@@ -11,9 +11,9 @@
         - "{{ gitea_data_directory }}/mysql"
 
     - name: Create MySQL container for Gitea
-      docker_container:
+      community.docker.docker_container:
         name: "{{ gitea_mysql_container_name }}"
-        image: mysql:5.7
+        image: "{{ gitea_mysql_image_name }}:{{ gitea_mysql_image_version }}"
         pull: true
         volumes:
           - "{{ gitea_data_directory }}/mysql:/var/lib/mysql:rw"
@@ -26,17 +26,17 @@
         memory: "{{ gitea_mysql_memory }}"
 
     - name: Create Gitea container
-      docker_container:
-        name: gitea
-        image: gitea/gitea:latest
+      community.docker.docker_container:
+        name: "{{ gitea_container_name }}"
+        image: "{{ gitea_image_name }}:{{ gitea_image_version }}"
         pull: true
-        links:
-          - gitea-mysql:db
         volumes:
           - "{{ gitea_data_directory }}/gitea:/data:rw"
         ports:
           - "{{ gitea_port_http }}:3000"
           - "{{ gitea_port_ssh }}:22"
+        links:
+          - gitea-mysql:db
         env:
           DB_TYPE: "mysql"
           DB_HOST: "db:3306"
@@ -45,7 +45,7 @@
           DB_PASSWD: "gitea"
           RUN_MODE: "prod"
           SSH_DOMAIN: "{{ ansible_nas_hostname }}"
-          SSH_PORT: "{{ gitea_port_ssh }}"
+          SSH_PORT: "22"
           ROOT_URL: "http://{{ gitea_hostname }}:{{ gitea_port_http }}/"
           USER_UID: "1000"
           USER_GID: "1000"
@@ -63,12 +63,12 @@
 - name: Stop Gitea
   block:
     - name: Stop Gitea
-      docker_container:
+      community.docker.docker_container:
         name: "{{ gitea_container_name }}"
         state: absent
 
     - name: Stop Gitea Mysql
-      docker_container:
+      community.docker.docker_container:
         name: "{{ gitea_mysql_container_name }}"
         state: absent
   when: gitea_enabled is false

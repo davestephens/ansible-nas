@@ -2,7 +2,7 @@
 - name: Start Deluge
   block:
     - name: Create Deluge Directories
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
@@ -10,13 +10,13 @@
         - "{{ deluge_download_directory }}"
 
     - name: Deluge Docker Container
-      docker_container:
+      community.docker.docker_container:
         name: deluge
         image: linuxserver/deluge
         pull: true
         volumes:
           - "{{ deluge_config_directory }}:/config:rw"
-          - "{{ deluge_download_directory }}:/root/Downloads:rw"
+          - "{{ deluge_download_directory }}:/downloads:rw"
         ports:
           - "{{ deluge_port }}:8112"
         env:
@@ -32,12 +32,19 @@
           traefik.http.routers.deluge.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.deluge.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.deluge.loadbalancer.server.port: "8112"
+          homepage.group: Download Tools
+          homepage.name: Deluge
+          homepage.icon: deluge.png
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ deluge_port }}"
+          homepage.description: BitTorrent client
+          homepage.widget.type: deluge
+          homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ deluge_port }}"
   when: deluge_enabled is true
 
 - name: Stop Deluge
   block:
     - name: Stop Deluge
-      docker_container:
+      community.docker.docker_container:
         name: "{{ deluge_container_name }}"
         state: absent
   when: deluge_enabled is false

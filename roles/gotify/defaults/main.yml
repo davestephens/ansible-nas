@@ -5,14 +5,14 @@ gotify_available_externally: false
 # data directory
 gotify_data_directory: "{{ docker_home }}/gotify"
 
-# docker image to use
-gotify_docker_image: gotify/server:latest
-
 # network
 gotify_port: "2346"
 gotify_hostname: "gotify"
 
-# user to run container with
+# docker
+gotify_container_name: "gotify"
+gotify_image_name: "gotify/server"
+gotify_image_version: "latest"
 gotify_user_id: "0"
 gotify_group_id: "0"
 

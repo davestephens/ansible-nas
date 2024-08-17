@@ -12,7 +12,10 @@ netbootxyz_port_http: "3002"
 netbootxyz_port_http2: "5803"
 netbootxyz_port_tftp: "69"
 
-# uid/gid
+# docker
+netbootxyz_container_name: "netbootxyz"
+netbootxyz_image_name: "linuxserver/netbootxyz"
+netbootxyz_image_version: "latest"
 netbootxyz_user_id: "1000"
 netbootxyz_group_id: "1000"
 

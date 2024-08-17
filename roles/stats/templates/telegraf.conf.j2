@@ -210,17 +210,17 @@
   # insecure_skip_verify = false
 
 
-# # Monitor disks' temperatures using hddtemp
-# [[inputs.hddtemp]]
-#   ## By default, telegraf gathers temps data from all disks detected by the
-#   ## hddtemp.
-#   ##
-#   ## Only collect temps from the selected disks.
-#   ##
-#   ## A * as the device name will return the temperature values of all disks.
-#   ##
-#   address = "hddtemp:7634"
-#   devices = ["*"]
+# Monitor disks' temperatures using hddtemp
+[[inputs.hddtemp]]
+  ## By default, telegraf gathers temps data from all disks detected by the
+  ## hddtemp.
+  ##
+  ## Only collect temps from the selected disks.
+  ##
+  ## A * as the device name will return the temperature values of all disks.
+  ##
+  address = "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:7634"
+  devices = ["*"]
 
 # Read metrics about network interface usage
 [[inputs.net]]
@@ -255,7 +255,7 @@
 #   #
 #   ## On most platforms smartctl requires root access.
 #   ## Setting 'use_sudo' to true will make use of sudo to run smartctl.
-#   ## Sudo must be configured to to allow the telegraf user to run smartctl
+#   ## Sudo must be configured to allow the telegraf user to run smartctl
 #   ## with out password.
 #   # use_sudo = false
 #   #
