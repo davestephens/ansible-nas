@@ -57,9 +57,9 @@
           PUID: "{{ commafeed_user_id | quote }}"
           PGID: "{{ commafeed_group_id | quote }}"
           CF_DATABASE_DRIVERCLASS: "{{ commafeed_db_driverclass }}"
-          CF_DATABASE_URL: "{{ commafeed_db_url }}"
-          CF_DATABASE_USER: "{{ commafeed_db_user }}"
-          CF_DATABASE_PASSWORD: "{{ commafeed_db_password }}"
+          QUARKUS_DATASOURCE_JDBC_URL: "{{ commafeed_db_url }}"
+          QUARKUS_DATASOURCE_USERNAME: "{{ commafeed_db_user }}"
+          QUARKUS_DATASOURCE_PASSWORD: "{{ commafeed_db_password }}"
         restart_policy: unless-stopped
         memory: "{{ commafeed_memory }}"
         labels:

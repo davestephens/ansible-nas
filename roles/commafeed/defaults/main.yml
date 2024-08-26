@@ -19,7 +19,7 @@ commafeed_container_name: commafeed
 commafeed_postgres_container_name: commafeed-db
 commafeed_image_name: "athou/commafeed"
 commafeed_postgres_image_name: "docker.io/library/postgres"
-commafeed_image_version: latest
+commafeed_image_version: latest-postgresql
 commafeed_postgres_image_version: "13"
 commafeed_user_id: "1000"
 commafeed_group_id: "1000"
