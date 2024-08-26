@@ -18,24 +18,7 @@
           - "{{ fusion_data_directory }}/data:/data:rw"
         ports:
           - "{{ fusion_port }}:8080"
-        env:
-          HOST: "{{ fusion_host }}"
-          PORT: "{{ fusion_port_internal }}"
-
-          # WebUI password
-          PASSWORD: "{{ fusion_password }}"
-
-          # Path to store sqlite DB file
-          DB: "{{ fusion_db }}"
-
-          # Enable Secure Cookie
-          # It is automatically set to true when TLS_* is not empty.
-          SECURE_COOKIE: "{{ fusion_secure_cookie }}"
-
-          # Path to TLS cert and key files
-          # If you are using a reverse proxy like Nginx to handle HTTPS, please leave these empty.
-          TLS_CERT: "{{ fusion_tls_cert }}"
-          TLS_KEY: "{{ fusion_tls_key }}"
+        env: "{{ fusion_env }}"
         restart_policy: unless-stopped
         memory: "{{ fusion_memory }}"
         labels:

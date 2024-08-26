@@ -10,6 +10,7 @@
     - name: Get fusion container state
       community.docker.docker_container:
         name: "{{ fusion_container_name }}"
+        env: "{{ fusion_env }}"
       register: result
 
     - name: Check if fusion containers are running
