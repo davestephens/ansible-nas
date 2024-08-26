@@ -168,6 +168,38 @@
           traefik.enable: "false"
         restart_policy: unless-stopped
         memory: "{{ immich_machinelearning_memory }}"
+
+    - name: Install Immich Power Tools
+      block:
+        - name: Immich Power Tools
+          community.docker.docker_container:
+            name: "{{ immich_power_tools_container_name }}"
+            image: "{{ immich_power_tools_image }}:{{ immich_power_tools_tag }}"
+            pull: true
+            networks:
+              - name: "{{ immich_network_name }}"
+            network_mode: "{{ immich_network_name }}"
+            container_default_behavior: no_defaults
+            restart_policy: always
+            memory: "{{ immich_power_tools_memory }}"
+            ports:
+              - "{{ immich_power_tools_port }}:3000"
+            env:
+              IMMICH_URL: "https://{{ immich_hostname }}.{{ ansible_nas_domain }}"
+              IMMICH_API_KEY: "{{ immich_api_key }}"
+              DB_USERNAME: "{{ immich_db_username }}"
+              DB_PASSWORD: "{{ immich_db_password }}"
+              DB_HOST: "{{ immich_postgres_container_name }}"
+              DB_PORT: "{{ immich_db_port }}"
+              DB_DATABASE_NAME: "{{ immich_db_name }}"
+            labels:
+              traefik.enable: "{{ immich_available_externally | string }}"
+              traefik.http.routers.immich_power_tools.rule: "Host(`{{ immich_power_tools_hostname }}.{{ ansible_nas_domain }}`)"
+              traefik.http.routers.immich_power_tools.tls.certresolver: "letsencrypt"
+              traefik.http.routers.immich_power_tools.tls.domains[0].main: "{{ ansible_nas_domain }}"
+              traefik.http.routers.immich_power_tools.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+              traefik.http.services.immich_power_tools.loadbalancer.server.port: "3000"
+      when: immich_install_power_tools is true
   when: immich_enabled is true
 
 - name: Stop Immich
@@ -201,4 +233,12 @@
       community.docker.docker_network:
         name: "{{ immich_network_name }}"
         state: absent
+
+    - name: Stop Immich Power Tools
+      block:
+        - name: Stop Immich Power Tools
+          community.docker.docker_container:
+            name: "{{ immich_power_tools_container_name }}"
+            state: absent
+      when: immich_install_power_tools is false
   when: immich_enabled is false
