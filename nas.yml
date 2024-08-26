@@ -273,6 +273,10 @@
       tags:
         - frigate
 
+    - role: fusion
+      tags:
+        - fusion
+
     - role: gaps
       tags:
         - gaps

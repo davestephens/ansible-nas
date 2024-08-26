@@ -1,0 +1,29 @@
+---
+fusion_enabled: false
+fusion_available_externally: false
+
+# directories
+fusion_data_directory: "{{ docker_home }}/fusion"
+
+# network
+fusion_port: "8170"
+fusion_hostname: "fusion"
+
+# specs
+fusion_memory: 1g
+
+# docker
+fusion_container_name: fusion
+fusion_image_name: "rook1e404/fusion"
+fusion_image_version: latest
+fusion_user_id: "1000"
+fusion_group_id: "1000"
+
+# fusion
+fusion_host: "0.0.0.0"
+fusion_port_internal: "8080"
+fusion_password: "super_secure"
+fusion_db: "fusion.db"
+fusion_secure_cookie: "false"
+fusion_tls_cert: ""
+fusion_tls_key: ""

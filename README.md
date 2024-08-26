@@ -72,6 +72,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [FormIO](https://github.com/formio/formio) - SA Form and Data Management Platform for Progressive Web Applications
 * [Fresh RSS](https://freshrss.org/) - Self-hosted RSS feed aggregator like Leed or Kriss Feed
 * [Frigate](https://frigate.video/) - Frigate is an open source NVR built around real-time AI object detection
+* [Fusion](https://github.com/0x2E/fusion) - A lightweight, self-hosted friendly RSS aggregator and reader
 * [Gaps](https://github.com/JasonHHouse/gaps) - Find the missing movies in your Plex Server
 * [get_iplayer](https://github.com/get-iplayer/get_iplayer) - download programmes from BBC iplayer
 * [Ghost](https://ghost.org/) - Turn your audience into a business. Publishing, memberships, subscriptions and newsletters

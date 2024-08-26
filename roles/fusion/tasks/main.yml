@@ -1,0 +1,56 @@
+---
+- name: Start Fusion
+  block:
+    - name: Create Fusion Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ fusion_data_directory }}"
+
+    - name: Create Fusion Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ fusion_container_name }}"
+        image: "{{ fusion_image_name }}:{{ fusion_image_version }}"
+        pull: true
+        volumes:
+          - "{{ fusion_data_directory }}/data:/data:rw"
+        ports:
+          - "{{ fusion_port }}:8080"
+        env:
+          HOST: "{{ fusion_host }}"
+          PORT: "{{ fusion_port_internal }}"
+
+          # WebUI password
+          PASSWORD: "{{ fusion_password }}"
+
+          # Path to store sqlite DB file
+          DB: "{{ fusion_db }}"
+
+          # Enable Secure Cookie
+          # It is automatically set to true when TLS_* is not empty.
+          SECURE_COOKIE: "{{ fusion_secure_cookie }}"
+
+          # Path to TLS cert and key files
+          # If you are using a reverse proxy like Nginx to handle HTTPS, please leave these empty.
+          TLS_CERT: "{{ fusion_tls_cert }}"
+          TLS_KEY: "{{ fusion_tls_key }}"
+        restart_policy: unless-stopped
+        memory: "{{ fusion_memory }}"
+        labels:
+          traefik.enable: "{{ fusion_available_externally | string }}"
+          traefik.http.routers.fusion.rule: "Host(`{{ fusion_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.fusion.tls.certresolver: "letsencrypt"
+          traefik.http.routers.fusion.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.fusion.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.fusion.loadbalancer.server.port: "8080"
+  when: fusion_enabled is true
+
+- name: Stop Fusion
+  block:
+    - name: Stop Fusion
+      community.docker.docker_container:
+        name: "{{ fusion_container_name }}"
+        state: absent
+  when: fusion_enabled is false
