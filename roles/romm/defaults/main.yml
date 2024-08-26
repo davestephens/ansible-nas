@@ -18,7 +18,7 @@ romm_hostname: "romm"
 
 # docker
 romm_container_name: "romm"
-romm_image_name: "zurdi15/romm"
+romm_image_name: "rommapp/romm"
 romm_image_version: "latest"
 
 romm_db_container_name: "romm-db"
@@ -37,6 +37,12 @@ romm_redis_memory: 1g
 # IGDB auth credentials - see https://github.com/zurdi15/romm/tree/release#-docker for more info
 romm_igdb_client_id: "abcd"
 romm_igdb_client_secret: "abcd"
+
+# MobyGames auth credentials
+romm_mobygames_client_id: "abcd"
+
+# SteamGridDB auth credentials
+romm_steamgriddb_client_id: "abcd"
 
 # auth config
 romm_auth_secret_key: "aaaabbbbccccdddd" # Generate a key with `openssl rand -hex 32`

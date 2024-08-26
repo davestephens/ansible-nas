@@ -1,6 +1,11 @@
 ---
 - name: Start Portainer
   block:
+    - name: Check for Deprecated IP Whitelist setting
+      ansible.builtin.fail:
+        msg: "Use portainer_ip_allowlist instead of portainer_ip_whitelist! Read https://traefik.io/blog/announcing-traefik-proxy-v2-11/ for more information."
+      when: portainer_ip_whitelist is defined
+
     - name: Create Portainer Directories
       ansible.builtin.file:
         path: "{{ item }}"
@@ -28,8 +33,8 @@
           traefik.http.routers.portainer.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.portainer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.portainer.loadbalancer.server.port: "9443"
-          traefik.http.routers.portainer.middlewares: "portainer-IPAllowList@docker"
-          traefik.http.middlewares.portainer-IPAllowList.IPAllowList.sourcerange: "{{ portainer_ip_allowlist }}"
+          traefik.http.routers.portainer.middlewares: "portainer-ipallowlist@docker"
+          traefik.http.middlewares.portainer-ipallowlist.ipallowlist.sourcerange: "{{ portainer_ip_allowlist }}"
   when: portainer_enabled is true
 
 - name: Stop Portainer

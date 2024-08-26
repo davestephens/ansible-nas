@@ -56,6 +56,8 @@
           REDIS_PORT: "6379"
           IGDB_CLIENT_ID: "{{ romm_igdb_client_id }}"
           IGDB_CLIENT_SECRET: "{{ romm_igdb_client_secret }}"
+          MOBYGAMES_API_KEY: "{{ romm_mobygames_client_id }}"
+          STEAMGRIDDB_API_KEY: "{{ romm_steamgriddb_client_id }}"
           ROMM_AUTH_USERNAME: "{{ romm_auth_username }}"
           ROMM_AUTH_PASSWORD: "{{ romm_auth_password }}"
         restart_policy: unless-stopped
