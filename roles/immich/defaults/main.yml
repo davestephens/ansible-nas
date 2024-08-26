@@ -1,6 +1,7 @@
 ---
 immich_enabled: false
 immich_available_externally: false
+immich_install_power_tools: false
 
 # directories
 immich_data_directory: "{{ docker_home }}/immich"
@@ -8,7 +9,9 @@ immich_upload_directory: "{{ docker_home }}/immich/upload"
 
 # network
 immich_port: "2283"
+immich_power_tools_port: "3035"
 immich_hostname: "immich"
+immich_power_tools_hostname: "immich-power-tools"
 immich_network_name: "immich"
 
 # specs
@@ -20,6 +23,7 @@ immich_microservices_memory: 1g
 immich_machinelearning_memory: 1g
 immich_web_memory: 1g
 immich_proxy_memory: 1g
+immich_power_tools_memory: 1g
 
 # docker
 immich_postgres_container_name: "immich_postgres"
@@ -27,6 +31,7 @@ immich_redis_container_name: "immich_redis"
 immich_server_container_name: "immich_server"
 immich_microservices_container_name: "immich_microservices"
 immich_machinelearning_container_name: "immich_machine_learning"
+immich_power_tools_container_name: "immich_power_tools"
 
 immich_postgres_image: "tensorchord/pgvecto-rs"
 immich_postgres_tag: "pg14-v0.2.0"
@@ -38,6 +43,8 @@ immich_microservices_image: "ghcr.io/immich-app/immich-server"
 immich_microservices_tag: "{{ immich_version }}"
 immich_machinelearning_image: "ghcr.io/immich-app/immich-machine-learning"
 immich_machinelearning_tag: "{{ immich_version }}"
+immich_power_tools_image: "ghcr.io/varun-raj/immich-power-tools"
+immich_power_tools_tag: "latest"
 immich_user_id: "1000"
 immich_group_id: "1000"
 
@@ -54,3 +61,4 @@ immich_enable_mapbox: "false"
 immich_mapbox_key: ""
 immich_upload_location: "./library"
 immich_public_login_page_message: "Welcome to Immich!"
+immich_api_key: ""

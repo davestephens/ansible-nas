@@ -12,9 +12,15 @@ Set `immich_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.
 
 Set all `immich_*` variables in `inventories/<your_inventory>/group_vars/all.yml`.
 
-The immich web interface can be found at [http://ansible_nas_host_or_ip:2283](http://ansible_nas_host_or_ip:2283).
+The Immich web interface can be found at [http://ansible_nas_host_or_ip:2283](http://ansible_nas_host_or_ip:2283).
 
 Refer to [https://immich.app/docs/install/post-install](https://immich.app/docs/install/post-install) for post-install steps (Registering Admin User, adding users, etc.).
+
+Optionally, you can install[Immich Power Tools](https://github.com/varun-raj/immich-power-tools).
+
+Set `immich_install_power_tools: true` and `immich_api_key` in your `inventories/<your_inventory>/group_vars/nas.yml` file and run the playbook again.
+
+The Immich Power Tools web interface can then be found at [http://ansible_nas_host_or_ip:3035](http://ansible_nas_host_or_ip:3035).
 
 ## Specific Configuration
 
