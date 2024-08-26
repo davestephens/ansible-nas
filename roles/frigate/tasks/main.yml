@@ -18,6 +18,7 @@
         dest: "{{ frigate_data_directory }}/config/config.yml"
         owner: "{{ frigate_user_id }}"
         group: "{{ frigate_group_id }}"
+      tags: molecule-idempotence-notest
 
     - name: Create Frigate Docker Container
       community.docker.docker_container:
@@ -25,15 +26,21 @@
         image: "{{ frigate_docker_image }}:{{ frigate_docker_image_version }}"
         pull: true
         tty: true
+        groups:
+          - "109" # render
+          - "110" # render
+          - "44"  # video
+          - "46"  # plugdev
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
+          # - /dev/bus/usb:/dev/bus/usb
           - /etc/localtime:/etc/localtime:ro
           - "{{ frigate_data_directory }}/config:/config"
           - "{{ frigate_data_directory }}/media:/media/frigate"
-          - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
-            target: /tmp/cache
-            tmpfs:
-              size: 1000000000
+          # - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+          #   target: /tmp/cache
+          #   tmpfs:
+          #     size: 1000000000
         ports:
           - "{{ frigate_port }}:5000"
           - "{{ frigate_rtmp_port }}:1935" # RTMP feeds
@@ -44,6 +51,7 @@
           PUID: "{{ frigate_user_id }}"
           PGID: "{{ frigate_group_id }}"
           FRIGATE_RTSP_PASSWORD: "{{ frigate_rtsp_password }}"
+          YOLO_MODELS: "{{ frigate_yolo_models }}"
         restart_policy: unless-stopped
         memory: "{{ frigate_memory }}"
         shm_size: "340M"
