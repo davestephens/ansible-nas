@@ -65,6 +65,10 @@
       tags:
         - admidio
 
+    - role: adventure_log
+      tags:
+        - adventure_log
+
     - role: affine
       tags:
         - affine

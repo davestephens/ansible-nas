@@ -1,0 +1,40 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get Adventure Log db container state
+      community.docker.docker_container:
+        name: "{{ adventure_log_db_container_name }}"
+      register: result_db
+
+    - name: Get Adventure Log web container state
+      community.docker.docker_container:
+        name: "{{ adventure_log_web_container_name }}"
+      register: result_web
+
+    - name: Get Adventure Log dashboard container state
+      community.docker.docker_container:
+        name: "{{ adventure_log_server_container_name }}"
+      register: result_server
+
+    - name: Get Adventure Log nginx container state
+      community.docker.docker_container:
+        name: "{{ adventure_log_nginx_container_name }}"
+      register: result_nginx
+
+    - name: Check if Adventure Log containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_web.container['State']['Status'] == "running"
+          - result_web.container['State']['Restarting'] == false
+          - result_server.container['State']['Status'] == "running"
+          - result_server.container['State']['Restarting'] == false
+          - result_nginx.container['State']['Status'] == "running"
+          - result_nginx.container['State']['Restarting'] == false
