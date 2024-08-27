@@ -1,0 +1,82 @@
+---
+adventure_log_enabled: false
+adventure_log_available_externally: false
+
+# directories
+adventure_log_data_directory: "{{ docker_home }}/adventure_log"
+
+# network
+adventure_log_port: "8171"
+adventure_log_web_port: "8172"
+adventure_log_hostname: "adventurelog"
+adventure_log_network_name: "adventurelog"
+
+# specs
+adventure_log_web_memory: 1g
+adventure_log_db_memory: 1g
+adventure_log_server_memory: 1g
+adventure_log_nginx_memory: 1g
+# docker
+adventure_log_web_container_name: adventure-log-web
+adventure_log_web_image_name: ghcr.io/seanmorley15/adventurelog-frontend
+adventure_log_web_image_version: latest
+adventure_log_db_container_name: adventure-log-db
+adventure_log_db_image_name: postgis/postgis
+adventure_log_db_image_version: 15-3.3
+adventure_log_server_container_name: adventure-log-server
+adventure_log_server_image_name: ghcr.io/seanmorley15/adventurelog-backend
+adventure_log_server_image_version: latest
+adventure_log_nginx_container_name: adventure-log-nginx
+adventure_log_nginx_image_name: nginx
+adventure_log_nginx_image_version: stable-alpine
+adventure_log_user_id: "1000"
+adventure_log_group_id: "1000"
+
+
+# adventure_log
+adventure_log_public_server_url: "http://{{ adventure_log_server_container_name }}:8000"
+adventure_log_origin: "https://{{ adventure_log_hostname }}.{{ ansible_nas_domain }}"
+adventure_log_body_size_limit: "Infinity"
+adventure_log_postgres_port: "5432"
+adventure_log_postgres_db: "adventure_log"
+adventure_log_postgres_user: "adventure_log"
+adventure_log_postgres_password: "change_me"
+adventure_log_postgres_host: "{{ adventure_log_db_container_name }}"
+adventure_log_secret_key: "super_secret"
+adventure_log_django_admin_username: "admin"
+adventure_log_django_admin_password: "admin"
+adventure_log_django_admin_email: "admin@example.com"
+adventure_log_public_url: "https://{{ adventure_log_hostname }}.{{ ansible_nas_domain }}"
+adventure_log_csrf_trusted_origins: "https://{{ adventure_log_hostname }}.{{ ansible_nas_domain }}"
+adventure_log_debug: "false"
+adventure_log_frontend_url: "http://{{ adventure_log_web_container_name }}:8080"
+adventure_log_disable_registration: "false"
+adventure_log_disable_registration_message: "Registration is disabled for this instance of AdventureLog."
+
+adventure_log_web_env:
+  PUBLIC_SERVER_URL: "{{ adventure_log_public_server_url }}"
+  ORIGIN: "{{ adventure_log_origin }}"
+  BODY_SIZE_LIMIT: "{{ adventure_log_body_size_limit }}"
+
+adventure_log_db_env:
+  POSTGRES_PORT: "{{ adventure_log_postgres_port }}"
+  POSTGRES_DB: "{{ adventure_log_postgres_db }}"
+  POSTGRES_USER: "{{ adventure_log_postgres_user }}"
+  POSTGRES_PASSWORD: "{{ adventure_log_postgres_password }}"
+
+adventure_log_server_env:
+  PGHOST: "{{ adventure_log_postgres_host }}"
+  PGDATABASE: "{{ adventure_log_postgres_db }}"
+  PGUSER: "{{ adventure_log_postgres_user }}"
+  PGPASSWORD: "{{ adventure_log_postgres_password }}"
+  SECRET_KEY: "{{ adventure_log_secret_key }}"
+  DJANGO_ADMIN_USERNAME: "{{ adventure_log_django_admin_username }}"
+  DJANGO_ADMIN_PASSWORD: "{{ adventure_log_django_admin_password }}"
+  DJANGO_ADMIN_EMAIL: "{{ adventure_log_django_admin_email }}"
+  PUBLIC_URL: "{{ adventure_log_public_url }}"
+  CSRF_TRUSTED_ORIGINS: "{{ adventure_log_csrf_trusted_origins }}"
+  DEBUG: "{{ adventure_log_debug }}"
+  FRONTEND_URL: "{{ adventure_log_frontend_url }}"
+  DISABLE_REGISTRATION: "{{ adventure_log_disable_registration }}"
+  # OPTIONAL: Set the message to display when registration is disabled
+  DISABLE_REGISTRATION_MESSAGE: "{{ adventure_log_disable_registration_message }}"

@@ -20,7 +20,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Activepieces](https://www.activepieces.com/) - an open source all-in-one automation tool
 * [Actual](https://github.com/actualbudget/actual-server) - A local-first personal finance app
 * [Admidio](https://www.admidio.org/) - a free online membership management
-* [Affine](https://github.com/toeverything/AFFiNE) - a next-gen knowledge base that brings planning, sorting and creating all together
+* [Adventure Log](https://github.com/seanmorley15/AdventureLog) - Self-hostable travel tracker and trip planner.
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
 * [Appsmith](https://www.appsmith.com/) -  low-code application platform to quickly build, deploy, and manage effective software
 * [Aria2](https://github.com/aria2/aria2) - a lightweight multi-protocol & multi-source, cross platform download utility operated in command-line
