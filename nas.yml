@@ -201,6 +201,10 @@
       tags:
         - dokuwiki
 
+    - role: domain_watchdog
+      tags:
+        - domain_watchdog
+
     - role: drone-ci
       tags:
         - drone_ci

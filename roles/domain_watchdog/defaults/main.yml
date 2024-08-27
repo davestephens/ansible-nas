@@ -1,0 +1,84 @@
+---
+domain_watchdog_enabled: false
+domain_watchdog_available_externally: false
+
+# directories
+domain_watchdog_data_directory: "{{ docker_home }}/domain_watchdog"
+
+# network
+domain_watchdog_port: "8173"
+domain_watchdog_hostname: "domain_watchdog"
+domain_watchdog_network_name: "domain_watchdog"
+
+# specs
+domain_watchdog_server_memory: 1g
+domain_watchdog_worker_memory: 1g
+domain_watchdog_db_memory: 1g
+# docker
+domain_watchdog_server_container_name: domain-watchdog-server
+domain_watchdog_server_image_name: maelgangloff/domain-watchdog
+domain_watchdog_server_image_version: latest
+domain_watchdog_worker_container_name: domain-watchdog-worker
+domain_watchdog_worker_image_name: maelgangloff/domain-watchdog
+domain_watchdog_worker_image_version: latest
+domain_watchdog_db_container_name: domain-watchdog-db
+domain_watchdog_db_image_name: postgres
+domain_watchdog_db_image_version: 16-alpine
+domain_watchdog_user_id: "1000"
+domain_watchdog_group_id: "1000"
+
+
+# domain_watchdog
+domain_watchdog_postgres_host: "{{ domain_watchdog_db_container_name }}"
+domain_watchdog_postgres_port: "5432"
+domain_watchdog_postgres_db: "domain_watchdog"
+domain_watchdog_postgres_user: "domain_watchdog"
+domain_watchdog_postgres_password: "domain_watchdog"
+domain_watchdog_server_name: ":80"
+domain_watchdog_datebase_url: "postgresql://{{ domain_watchdog_postgres_user }}:{{ domain_watchdog_postgres_password }}@{{ domain_watchdog_db_container_name }}:{{ domain_watchdog_postgres_port }}/{{ domain_watchdog_postgres_db }}?serverVersion=16&charset=utf8"
+domain_watchdog_app_secret: "super_secret"
+domain_watchdog_registration_enabled: "true"
+domain_watchdog_registration_verify_email: "false"
+domain_watchdog_limited_features: "false"
+domain_watchdog_limit_max_watchlist: "0"
+domain_watchdog_limit_max_watchlist_domains: "0"
+domain_watchdog_limit_max_watchlist_webhooks: "0"
+domain_watchdog_mailer_dsn: "null://null"
+domain_watchdog_jwt_secret_key: "{{ lookup('pipe', 'openssl rand -base64 32') }}"
+domain_watchdog_jwt_public_key: "{{ lookup('pipe', 'openssl rand -base64 32') }}"
+domain_watchdog_jwt_passphrase: "0456f23bb41aa797092f1422dc9295e9855c3518fa82969a10716bf09f99d24d"
+domain_watchdog_mailer_sender_name: "Domain Watchdog"
+domain_watchdog_mailer_sender_email: "notifications@example.com"
+
+domain_watchdog_server_env:
+  SERVER_NAME: "{{ domain_watchdog_server_name }}"
+  DATABASE_URL: "{{ domain_watchdog_datebase_url }}"
+  APP_SECRET: "{{ domain_watchdog_app_secret }}"
+  REGISTRATION_ENABLED: "{{ domain_watchdog_registration_enabled }}"
+  REGISTRATION_VERIFY_EMAIL: "{{ domain_watchdog_registration_verify_email }}"
+  LIMITED_FEATURES: "{{ domain_watchdog_limited_features }}"
+  LIMIT_MAX_WATCHLIST: "{{ domain_watchdog_limit_max_watchlist }}"
+  LIMIT_MAX_WATCHLIST_DOMAINS: "{{ domain_watchdog_limit_max_watchlist_domains }}"
+  LIMIT_MAX_WATCHLIST_WEBHOOKS: "{{ domain_watchdog_limit_max_watchlist_webhooks }}"
+  MAILER_DSN: "{{ domain_watchdog_mailer_dsn }}"
+  JWT_SECRET_KEY: "{{ domain_watchdog_jwt_secret_key }}"
+  JWT_PUBLIC_KEY: "{{ domain_watchdog_jwt_public_key }}"
+  JWT_PASSPHRASE: "{{ domain_watchdog_jwt_passphrase }}"
+  MAILER_SENDER_NAME: "{{ domain_watchdog_mailer_sender_name }}"
+  MAILER_SENDER_EMAIL: "{{ domain_watchdog_mailer_sender_email }}"
+
+domain_watchdog_db_env:
+  POSTGRES_PORT: "{{ domain_watchdog_postgres_port }}"
+  POSTGRES_DB: "{{ domain_watchdog_postgres_db }}"
+  POSTGRES_USER: "{{ domain_watchdog_postgres_user }}"
+  POSTGRES_PASSWORD: "{{ domain_watchdog_postgres_password }}"
+
+domain_watchdog_worker_env:
+  DATABASE_URL: "{{ domain_watchdog_datebase_url }}"
+  APP_SECRET: "{{ domain_watchdog_app_secret }}"
+  MAILER_DSN: "{{ domain_watchdog_mailer_dsn }}"
+  JWT_SECRET_KEY: "{{ domain_watchdog_jwt_secret_key }}"
+  JWT_PUBLIC_KEY: "{{ domain_watchdog_jwt_public_key }}"
+  JWT_PASSPHRASE: "{{ domain_watchdog_jwt_passphrase }}"
+  MAILER_SENDER_NAME: "{{ domain_watchdog_mailer_sender_name }}"
+  MAILER_SENDER_EMAIL: "{{ domain_watchdog_mailer_sender_email }}"

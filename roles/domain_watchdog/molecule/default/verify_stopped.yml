@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove domain watchdog server
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_server_container_name }}"
+        state: absent
+      register: result_server
+
+    - name: Try and stop and remove domain watchdog worker
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_worker_container_name }}"
+        state: absent
+      register: result_worker
+
+    - name: Try and stop and remove domain watchdog db
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_db_container_name }}"
+        state: absent
+      register: result_db
+
+    - name: Check if domain watchdog is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_server.changed
+          - not result_worker.changed
+          - not result_db.changed
