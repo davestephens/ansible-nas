@@ -39,7 +39,7 @@
         restart_policy: always
         memory: "{{ domain_watchdog_db_memory }}"
         healthcheck:
-          test: [ "CMD", "pg_isready", "-d", "{{ domain_watchdog_postgres_db }}", "-U", "{{ domain_watchdog_postgres_user }}" ]
+          test: ["CMD", "pg_isready", "-d", "{{ domain_watchdog_postgres_db }}", "-U", "{{ domain_watchdog_postgres_user }}"]
           timeout: 5s
           retries: 5
           start_period: 60s
