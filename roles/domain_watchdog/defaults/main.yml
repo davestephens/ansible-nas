@@ -7,7 +7,7 @@ domain_watchdog_data_directory: "{{ docker_home }}/domain_watchdog"
 
 # network
 domain_watchdog_port: "8173"
-domain_watchdog_hostname: "domain_watchdog"
+domain_watchdog_hostname: "domain-watchdog"
 domain_watchdog_network_name: "domain_watchdog"
 
 # specs
@@ -61,9 +61,6 @@ domain_watchdog_server_env:
   LIMIT_MAX_WATCHLIST_DOMAINS: "{{ domain_watchdog_limit_max_watchlist_domains }}"
   LIMIT_MAX_WATCHLIST_WEBHOOKS: "{{ domain_watchdog_limit_max_watchlist_webhooks }}"
   MAILER_DSN: "{{ domain_watchdog_mailer_dsn }}"
-  JWT_SECRET_KEY: "{{ domain_watchdog_jwt_secret_key }}"
-  JWT_PUBLIC_KEY: "{{ domain_watchdog_jwt_public_key }}"
-  JWT_PASSPHRASE: "{{ domain_watchdog_jwt_passphrase }}"
   MAILER_SENDER_NAME: "{{ domain_watchdog_mailer_sender_name }}"
   MAILER_SENDER_EMAIL: "{{ domain_watchdog_mailer_sender_email }}"
 
@@ -77,8 +74,5 @@ domain_watchdog_worker_env:
   DATABASE_URL: "{{ domain_watchdog_datebase_url }}"
   APP_SECRET: "{{ domain_watchdog_app_secret }}"
   MAILER_DSN: "{{ domain_watchdog_mailer_dsn }}"
-  JWT_SECRET_KEY: "{{ domain_watchdog_jwt_secret_key }}"
-  JWT_PUBLIC_KEY: "{{ domain_watchdog_jwt_public_key }}"
-  JWT_PASSPHRASE: "{{ domain_watchdog_jwt_passphrase }}"
   MAILER_SENDER_NAME: "{{ domain_watchdog_mailer_sender_name }}"
   MAILER_SENDER_EMAIL: "{{ domain_watchdog_mailer_sender_email }}"
