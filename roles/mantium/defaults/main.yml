@@ -17,13 +17,13 @@ mantium_dashboard_memory: 1g
 # docker
 mantium_api_container_name: mantium-api
 mantium_api_image_name: ghcr.io/diogovalentte/mantium-api
-mantium_api_image_version: latest
+mantium_api_image_version: "v0.3.4"
 mantium_db_container_name: mantium-db
 mantium_db_image_name: postgres
 mantium_db_image_version: 16-alpine
 mantium_dashboard_container_name: mantium-dashboard
 mantium_dashboard_image_name: ghcr.io/diogovalentte/mantium-dashboard
-mantium_dashboard_image_version: latest
+mantium_dashboard_image_version: "v0.3.4"
 mantium_user_id: "1000"
 mantium_group_id: "1000"
 
