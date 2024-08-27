@@ -107,7 +107,7 @@
           traefik.http.routers.hoppscotch-backend.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.hoppscotch-backend.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.hoppscotch-backend.loadbalancer.server.port: "3170"
-        command: ["sh", "-c", "pnpm exec prisma migrate deploy && node /usr/src/app/packages/hoppscotch-backend/prod_run.mjs"]
+        command: ["sh", "-c", "pnpm exec prisma migrate deploy && pnpm run start:prod"]
   when: hoppscotch_enabled is true
 
 - name: Stop Hoppscotch
