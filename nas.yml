@@ -737,6 +737,10 @@
       tags:
         - plex
 
+    - role: pocketid
+      tags:
+        - pocketid
+
     - role: portainer
       tags:
         - portainer

@@ -1,0 +1,23 @@
+---
+pocketid_enabled: false
+pocketid_available_externally: false
+
+# directories
+pocketid_data_directory: "{{ docker_home }}/pocketid"
+
+# network
+pocketid_port: "8174"
+pocketid_hostname: "pocketid"
+
+# specs
+pocketid_memory: 1g
+
+# docker
+pocketid_container_name: pocketid
+pocketid_image_name: "stonith404/pocket-id"
+pocketid_image_version: latest
+pocketid_user_id: "1000"
+pocketid_group_id: "1000"
+
+# pocketid
+pocketid_public_app_url: https://{{ pocketid_hostname }}.{{ ansible_nas_domain }}
