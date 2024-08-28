@@ -1,0 +1,63 @@
+---
+- name: Start Pocket-ID
+  block:
+    - name: Create Pocket-ID Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ pinchflat_user_id }}"
+        group: "{{ pinchflat_group_id }}"
+      with_items:
+        - "{{ pinchflat_data_directory }}"
+        - "{{ pinchflat_data_directory }}/config"
+
+    - name: Change ownership of downloads directory
+      ansible.builtin.file:
+        path: "{{ pinchflat_downloads_directory }}"
+        state: directory
+        owner: "{{ pinchflat_user_id }}"
+        group: "{{ pinchflat_group_id }}"
+        recurse: yes
+
+    - name: Create Pocket-ID Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ pinchflat_container_name }}"
+        image: "{{ pinchflat_image_name }}:{{ pinchflat_image_version }}"
+        user: "{{ pinchflat_user_id }}:{{ pinchflat_group_id }}"
+        pull: true
+        volumes:
+          - "{{ pinchflat_data_directory }}/config:/config"
+          - "{{ pinchflat_downloads_directory }}:/downloads:rw"
+        ports:
+          - "{{ pinchflat_port }}:8945"
+        env:
+          TZ: "{{ pinchflat_timezone }}"
+          LOG_LEVEL: "{{ pinchflat_log_level }}"
+          BASIC_AUTH_USERNAME: "{{ pinchflat_basic_auth_username }}"
+          BASIC_AUTH_PASSWORD: "{{ pinchflat_basic_auth_password }}"
+          EXPOSE_FEED_ENDPOINTS: "{{ pinchflat_expose_feed_endpoints }}"
+          ENABLE_IPV6: "{{ pinchflat_enable_ipv6 }}"
+          JOURNAL_MODE: "{{ pinchflat_journal_mode }}"
+          TZ_DATA_DIR: "{{ pinchflat_tz_data_dir }}"
+          BASE_ROUTE_PATH: "{{ pinchflat_base_route_path }}"
+          YT_DLP_WORKER_CONCURRENCY: "{{ pinchflat_yt_dlp_worker_concurrency }}"
+        restart_policy: unless-stopped
+        memory: "{{ pinchflat_memory }}"
+        tty: true
+        labels:
+          traefik.enable: "{{ pinchflat_available_externally | string }}"
+          traefik.http.routers.pinchflat.rule: "Host(`{{ pinchflat_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.pinchflat.tls.certresolver: "letsencrypt"
+          traefik.http.routers.pinchflat.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.pinchflat.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.pinchflat.loadbalancer.server.port: "8945"
+  when: pinchflat_enabled is true
+
+- name: Stop Pocket-ID
+  block:
+    - name: Stop Pocket-ID
+      community.docker.docker_container:
+        name: "{{ pinchflat_container_name }}"
+        state: absent
+  when: pinchflat_enabled is false

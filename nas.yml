@@ -729,6 +729,10 @@
       tags:
         - phpmyadmin
 
+    - role: pinchflat
+      tags:
+        - pinchflat
+
     - role: piwigo
       tags:
         - piwigo
