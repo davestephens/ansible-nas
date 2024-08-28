@@ -9,18 +9,20 @@
         - "{{ domain_watchdog_data_directory }}"
         - "{{ domain_watchdog_data_directory }}/caddy_data"
         - "{{ domain_watchdog_data_directory }}/caddy_config"
+        - "{{ domain_watchdog_data_directory }}/public"
         - "{{ domain_watchdog_data_directory }}/public/content"
+        - "{{ domain_watchdog_data_directory }}/public/images"
 
     - name: Create Domain Watchdog network
       community.docker.docker_network:
         name: "{{ domain_watchdog_network_name }}"
 
-    - name: Copy content files
+    - name: Copy content files recursively
       ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: "{{ domain_watchdog_data_directory }}/public/content/"
-      with_fileglob:
-        - "files/*"
+        src: "files/"
+        dest: "{{ domain_watchdog_data_directory }}/public/"
+        directory_mode: yes
+        mode: 0644
 
     - name: Create Domain Watchdog Db Docker Container
       community.docker.docker_container:
@@ -55,6 +57,8 @@
           - "{{ domain_watchdog_data_directory }}/caddy_data:/data"
           - "{{ domain_watchdog_data_directory }}/caddy_config:/config"
           - "{{ domain_watchdog_data_directory }}/public/content:/app/public/content"
+          - "{{ domain_watchdog_data_directory }}/public/images:/app/public/images"
+          - "{{ domain_watchdog_data_directory }}/public/favicon.ico:/app/public/favicon.ico"
         networks:
           - name: "{{ domain_watchdog_network_name }}"
         network_mode: "{{ domain_watchdog_network_name }}"
@@ -63,9 +67,9 @@
         labels:
           traefik.enable: "{{ domain_watchdog_available_externally | string }}"
           traefik.http.routers.domain_watchdog.rule: "Host(`{{ domain_watchdog_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.domain_watchdog.tls.certresolver: "letsencrypt"
-          traefik.http.routers.domain_watchdog.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.domain_watchdog.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          # traefik.http.routers.domain_watchdog.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.domain_watchdog.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.domain_watchdog.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.domain_watchdog.loadbalancer.server.port: "80"
         memory: "{{ domain_watchdog_server_memory }}"
 

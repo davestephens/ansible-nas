@@ -4,3 +4,14 @@ provisioner:
     group_vars:
       all:
         domain_watchdog_enabled: true
+        domain_watchdog_data_directory: "/tmp/domainwatchdog"
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
