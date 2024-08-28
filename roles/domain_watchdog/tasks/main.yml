@@ -1,0 +1,113 @@
+---
+- name: Start Domain Watchdog
+  block:
+    - name: Create domain_watchdog Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ domain_watchdog_data_directory }}"
+        - "{{ domain_watchdog_data_directory }}/caddy_data"
+        - "{{ domain_watchdog_data_directory }}/caddy_config"
+        - "{{ domain_watchdog_data_directory }}/public"
+        - "{{ domain_watchdog_data_directory }}/public/content"
+        - "{{ domain_watchdog_data_directory }}/public/images"
+
+    - name: Create Domain Watchdog network
+      community.docker.docker_network:
+        name: "{{ domain_watchdog_network_name }}"
+
+    - name: Copy content files recursively
+      ansible.builtin.copy:
+        src: "files/"
+        dest: "{{ domain_watchdog_data_directory }}/public/"
+        directory_mode: yes
+        mode: 0644
+
+    - name: Create Domain Watchdog Db Docker Container
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_db_container_name }}"
+        image: "{{ domain_watchdog_db_image_name }}:{{ domain_watchdog_db_image_version }}"
+        pull: true
+        volumes:
+          - "{{ domain_watchdog_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ domain_watchdog_network_name }}"
+        network_mode: "{{ domain_watchdog_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ domain_watchdog_db_env }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ domain_watchdog_db_memory }}"
+        healthcheck:
+          test: ["CMD", "pg_isready", "-d", "{{ domain_watchdog_postgres_db }}", "-U", "{{ domain_watchdog_postgres_user }}"]
+          timeout: 5s
+          retries: 5
+          start_period: 60s
+
+    - name: Create Domain Watchdog Server Docker Container
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_server_container_name }}"
+        image: "{{ domain_watchdog_server_image_name }}:{{ domain_watchdog_server_image_version }}"
+        pull: true
+        ports:
+          - "{{ domain_watchdog_port }}:80"
+        volumes:
+          - "{{ domain_watchdog_data_directory }}/caddy_data:/data"
+          - "{{ domain_watchdog_data_directory }}/caddy_config:/config"
+          - "{{ domain_watchdog_data_directory }}/public/content:/app/public/content"
+          - "{{ domain_watchdog_data_directory }}/public/images:/app/public/images"
+          - "{{ domain_watchdog_data_directory }}/public/favicon.ico:/app/public/favicon.ico"
+        networks:
+          - name: "{{ domain_watchdog_network_name }}"
+        network_mode: "{{ domain_watchdog_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ domain_watchdog_server_env }}"
+        labels:
+          traefik.enable: "{{ domain_watchdog_available_externally | string }}"
+          traefik.http.routers.domain_watchdog.rule: "Host(`{{ domain_watchdog_hostname }}.{{ ansible_nas_domain }}`)"
+          # traefik.http.routers.domain_watchdog.tls.certresolver: "letsencrypt"
+          # traefik.http.routers.domain_watchdog.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          # traefik.http.routers.domain_watchdog.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.domain_watchdog.loadbalancer.server.port: "80"
+        memory: "{{ domain_watchdog_server_memory }}"
+
+    - name: Create Domain Watchdog Worker Docker Container
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_worker_container_name }}"
+        image: "{{ domain_watchdog_worker_image_name }}:{{ domain_watchdog_worker_image_version }}"
+        pull: true
+        env: "{{ domain_watchdog_worker_env }}"
+        volumes:
+          - "{{ domain_watchdog_data_directory }}/worker:/app/worker:rw"
+        networks:
+          - name: "{{ domain_watchdog_network_name }}"
+        network_mode: "{{ domain_watchdog_network_name }}"
+        container_default_behavior: no_defaults
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ domain_watchdog_worker_memory }}"
+        command: php /app/bin/console messenger:consume --all --time-limit=3600 -vvv
+        healthcheck:
+          test_cli_compatible: false
+  when: domain_watchdog_enabled is true
+
+- name: Stop Domain Watchdog
+  block:
+    - name: Stop Domain Watchdog Server
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_server_container_name }}"
+        state: absent
+
+    - name: Stop Domain Watchdog Worker
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_worker_container_name }}"
+        state: absent
+
+    - name: Stop Domain Watchdog Db
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_db_container_name }}"
+        state: absent
+  when: domain_watchdog_enabled is false

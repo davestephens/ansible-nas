@@ -53,6 +53,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Directus](https://github.com/directus/directus) - An instant REST+GraphQL API and intuitive no-code data collaboration app for any SQL database.
 * [Dockge](https://github.com/louislam/dockge) - A fancy, easy-to-use and reactive self-hosted docker compose.yaml stack-oriented manager
 * [DokuWiki](https://www.dokuwiki.org/) - A simple to use and highly versatile Open Source wiki software that doesn't require a database.
+* [Domain Watchdog](https://github.com/maelgangloff/domain-watchdog) - DNS domain monitoring tool
 * [Drone CI](https://drone.io) - A self-service Continuous Integration platform for busy development teams.
 * [Duplicacy](https://duplicacy.com/) - A web UI for the Duplicacy cloud backup program, which provides lock-free deduplication backups to multiple providers
 * [Dufs](https://github.com/sigoden/dufs) - distinctive utility file server

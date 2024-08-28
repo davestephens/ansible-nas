@@ -1,0 +1,33 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Get domain watchdog db container state
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_db_container_name }}"
+      register: result_db
+
+    - name: Get domain watchdog worker container state
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_worker_container_name }}"
+      register: result_worker
+
+    - name: Get domain watchdog server container state
+      community.docker.docker_container:
+        name: "{{ domain_watchdog_server_container_name }}"
+      register: result_server
+
+    - name: Check if domain watchdog containers are running
+      ansible.builtin.assert:
+        that:
+          - result_db.container['State']['Status'] == "running"
+          - result_db.container['State']['Restarting'] == false
+          - result_worker.container['State']['Status'] == "running"
+          - result_worker.container['State']['Restarting'] == false
+          - result_server.container['State']['Status'] == "running"
+          - result_server.container['State']['Restarting'] == false
