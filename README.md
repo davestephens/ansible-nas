@@ -189,6 +189,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Plex](https://www.plex.tv/) - Plex Media Server
   * [Plex Autoscan](https://github.com/Cloudbox/autoscan) - automatic Plex library updates
   * [Plex Meta Manager](https://metamanager.wiki) - Python script to update metadata information for items in plex
+* [Pocket-ID](https://github.com/stonith404/pocket-id) - A simple OIDC provider
 * [Portainer](https://portainer.io/) - for managing Docker and running custom images
 * [Pretix](https://pretix.eu/about/en/) - Ticketing software that cares about your event—all the way.
 * [Prometheus](https://prometheus.io/) - Time series database and monitoring system (via stats role).

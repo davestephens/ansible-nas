@@ -1,0 +1,41 @@
+---
+- name: Start Pocket-ID
+  block:
+    - name: Create Pocket-ID Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ pocketid_data_directory }}"
+        - "{{ pocketid_data_directory }}/data"
+
+    - name: Create Pocket-ID Docker Container
+      community.docker.docker_container:
+        container_default_behavior: no_defaults
+        name: "{{ pocketid_container_name }}"
+        image: "{{ pocketid_image_name }}:{{ pocketid_image_version }}"
+        pull: true
+        volumes:
+          - "{{ pocketid_data_directory }}/data:/app/backend/data"
+        ports:
+          - "{{ pocketid_port }}:80"
+        env:
+          PUBLIC_APP_URL: "{{ pocketid_public_app_url }}"
+        restart_policy: unless-stopped
+        memory: "{{ pocketid_memory }}"
+        labels:
+          traefik.enable: "{{ pocketid_available_externally | string }}"
+          traefik.http.routers.pocketid.rule: "Host(`{{ pocketid_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.pocketid.tls.certresolver: "letsencrypt"
+          traefik.http.routers.pocketid.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.pocketid.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.pocketid.loadbalancer.server.port: "80"
+  when: pocketid_enabled is true
+
+- name: Stop Pocket-ID
+  block:
+    - name: Stop Pocket-ID
+      community.docker.docker_container:
+        name: "{{ pocketid_container_name }}"
+        state: absent
+  when: pocketid_enabled is false
