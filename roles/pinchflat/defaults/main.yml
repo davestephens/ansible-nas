@@ -1,0 +1,33 @@
+---
+pinchflat_enabled: false
+pinchflat_available_externally: false
+
+# directories
+pinchflat_data_directory: "{{ docker_home }}/pinchflat"
+
+# network
+pinchflat_port: "8175"
+pinchflat_hostname: "pinchflat"
+
+# specs
+pinchflat_memory: 1g
+
+# docker
+pinchflat_container_name: pinchflat
+pinchflat_image_name: "ghcr.io/kieraneglin/pinchflat"
+pinchflat_image_version: latest
+pinchflat_user_id: "1000"
+pinchflat_group_id: "1000"
+
+# pinchflat
+pinchflat_downloads_directory: "{{ downloads_root }}/pinchflat"
+pinchflat_timezone: "{{ ansible_nas_timezone }}"
+pinchflat_log_level: "debug"
+pinchflat_basic_auth_username: "pinchflat"
+pinchflat_basic_auth_password: "pinchflat"
+pinchflat_expose_feed_endpoints: "false"
+pinchflat_enable_ipv6: "false"
+pinchflat_journal_mode: "wal"
+pinchflat_tz_data_dir: "/etc/elixir_tzdata_data"
+pinchflat_base_route_path: "/"
+pinchflat_yt_dlp_worker_concurrency: "2"
