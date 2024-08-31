@@ -18,7 +18,7 @@ seafile_memcached_memory: 1g
 # docker
 seafile_container_name: seafile
 seafile_image_name: "seafileltd/seafile-mc"
-seafile_image_version: latest
+seafile_image_version: "11.0-latest"
 seafile_db_container_name: seafile-db
 seafile_db_image_name: "mysql"
 seafile_db_image_version: latest
