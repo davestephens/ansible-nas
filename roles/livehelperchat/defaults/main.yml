@@ -24,8 +24,8 @@ livehelperchat_cobrowse_memory: 1g
 # docker
 
 livehelperchat_db_container_name: livehelperchat-db
-livehelperchat_db_image_name: mysql
-livehelperchat_db_image_version: 5
+livehelperchat_db_image_name: mariadb
+livehelperchat_db_image_version: latest
 livehelperchat_redis_container_name: livehelperchat-redis
 livehelperchat_redis_image_name: redis
 livehelperchat_redis_image_version: alpine

@@ -24,14 +24,15 @@ fileLock="/code/cache/runresque.lock"
 
 if [ -f $fileLock ];
 then
+    kill -9 $(ps aux | grep "/usr/local/bin/php resque.php" | awk '{print $2}')
     kill -9 $(ps aux | grep "[0-9] resque-1.2: *" | awk '{print $2}')
-    cd /scripts/ && ./phpresque.sh
+    cd /scripts/ && ./phpresque.sh &
     rm -f $fileLock;
 else
     PIDS=`ps aux | grep '[0-9] resque-1.2: *'`
     if [ -z "$PIDS" ]; then
        echo "Starting resque"
-       cd /scripts/ && ./phpresque.sh
+       cd /scripts/ && ./phpresque.sh &
     fi
 fi
 
