@@ -7,7 +7,7 @@
       ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get mantium dbp container state
+    - name: Get mantium db container state
       community.docker.docker_container:
         name: "{{ mantium_db_container_name }}"
       register: result_db
