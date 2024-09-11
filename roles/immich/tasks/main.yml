@@ -1,0 +1,204 @@
+---
+- name: Start Immich
+  block:
+    - name: Create Immich Directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ immich_data_directory }}"
+        - "{{ immich_upload_directory }}"
+
+    - name: Create Immich network
+      community.docker.docker_network:
+        name: "{{ immich_network_name }}"
+
+    - name: Immich Postgress Docker Container
+      community.docker.docker_container:
+        name: "{{ immich_postgres_container_name }}"
+        image: "{{ immich_postgres_image }}:{{ immich_postgres_tag }}"
+        pull: true
+        volumes:
+          - "{{ immich_data_directory }}/database:/var/lib/postgresql/data:rw"
+        networks:
+          - name: "{{ immich_network_name }}"
+        network_mode: "{{ immich_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_PASSWORD: "{{ immich_db_password }}"
+          POSTGRES_USER: "{{ immich_db_username }}"
+          POSTGRES_DB: "{{ immich_db_name }}"
+          PG_DATA: /var/lib/postgresql/data
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ immich_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ immich_db_name }} -U {{ immich_db_username }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Immich Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ immich_redis_container_name }}"
+        image: "{{ immich_redis_image }}:{{ immich_redis_tag }}"
+        pull: true
+        command: --save 60 1 --loglevel warning
+        volumes:
+          - "{{ immich_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ immich_network_name }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ immich_redis_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 3s
+
+    - name: Immich Server Docker Container
+      community.docker.docker_container:
+        name: "{{ immich_server_container_name }}"
+        image: "{{ immich_server_image }}:{{ immich_server_tag }}"
+        pull: true
+        command: ["start.sh", "immich"]
+        volumes:
+          - "{{ immich_data_directory }}/data:/data:rw"
+          - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
+          - /etc/localtime:/etc/localtime:ro
+        networks:
+          - name: "{{ immich_network_name }}"
+        ports:
+          - "{{ immich_port }}:3001"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ immich_user_id | quote }}"
+          PGID: "{{ immich_group_id | quote }}"
+          NODE_ENV: "production"
+          IMMICH_VERSION: "{{ immich_version }}"
+          REDIS_HOSTNAME: "{{ immich_redis_container_name }}"
+          DB_HOSTNAME: "{{ immich_postgres_container_name }}"
+          DB_USERNAME: "{{ immich_db_username }}"
+          DB_PASSWORD: "{{ immich_db_password }}"
+          DB_DATABASE_NAME: "{{ immich_db_name }}"
+          DB_PORT: "{{ immich_db_port }}"
+          JWT_SECRET: "{{ immich_jwt_secret }}"
+          ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
+          MAPBOX_KEY: "{{ immich_mapbox_key }}"
+          UPLOAD_LOCATION: "{{ immich_upload_location }}"
+          PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+        labels:
+          traefik.enable: "{{ immich_available_externally | string }}"
+          traefik.http.routers.immich.rule: "Host(`{{ immich_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.immich.tls.certresolver: "letsencrypt"
+          traefik.http.routers.immich.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.immich.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.immich.loadbalancer.server.port: "3001"
+        restart_policy: unless-stopped
+        memory: "{{ immich_server_memory }}"
+
+    - name: Immich Microservices Docker Container
+      community.docker.docker_container:
+        name: "{{ immich_microservices_container_name }}"
+        image: "{{ immich_microservices_image }}:{{ immich_microservices_tag }}"
+        pull: true
+        command: ["start.sh", "microservices"]
+        volumes:
+          - "{{ immich_data_directory }}/data:/data:rw"
+          - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
+          - /etc/localtime:/etc/localtime:ro
+        networks:
+          - name: "{{ immich_network_name }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ immich_user_id | quote }}"
+          PGID: "{{ immich_group_id | quote }}"
+          NODE_ENV: "production"
+          IMMICH_VERSION: "{{ immich_version }}"
+          REDIS_HOSTNAME: "{{ immich_redis_container_name }}"
+          DB_HOSTNAME: "{{ immich_postgres_container_name }}"
+          DB_USERNAME: "{{ immich_db_username }}"
+          DB_PASSWORD: "{{ immich_db_password }}"
+          DB_DATABASE_NAME: "{{ immich_db_name }}"
+          DB_PORT: "{{ immich_db_port }}"
+          JWT_SECRET: "{{ immich_jwt_secret }}"
+          ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
+          MAPBOX_KEY: "{{ immich_mapbox_key }}"
+          UPLOAD_LOCATION: "{{ immich_upload_location }}"
+          PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ immich_microservices_memory }}"
+
+    - name: Immich Machine Learning Docker Container
+      community.docker.docker_container:
+        name: "{{ immich_machinelearning_container_name }}"
+        image: "{{ immich_machinelearning_image }}:{{ immich_machinelearning_tag }}"
+        pull: true
+        volumes:
+          - "{{ immich_data_directory }}/data:/data:rw"
+          - "{{ immich_upload_directory }}:/usr/src/app/upload:rw"
+          - "model-cache:/cache"
+        networks:
+          - name: "{{ immich_network_name }}"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ immich_user_id | quote }}"
+          PGID: "{{ immich_group_id | quote }}"
+          NODE_ENV: "production"
+          IMMICH_VERSION: "{{ immich_version }}"
+          REDIS_HOSTNAME: "{{ immich_redis_container_name }}"
+          DB_HOSTNAME: "{{ immich_postgres_container_name }}"
+          DB_USERNAME: "{{ immich_db_username }}"
+          DB_PASSWORD: "{{ immich_db_password }}"
+          DB_DATABASE_NAME: "{{ immich_db_name }}"
+          DB_PORT: "{{ immich_db_port }}"
+          JWT_SECRET: "{{ immich_jwt_secret }}"
+          ENABLE_MAPBOX: "{{ immich_enable_mapbox }}"
+          MAPBOX_KEY: "{{ immich_mapbox_key }}"
+          UPLOAD_LOCATION: "{{ immich_upload_location }}"
+          PUBLIC_LOGIN_PAGE_MESSAGE: "{{ immich_public_login_page_message }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ immich_machinelearning_memory }}"
+  when: immich_enabled is true
+
+- name: Stop Immich
+  block:
+    - name: Stop Immich Postgres
+      community.docker.docker_container:
+        name: "{{ immich_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Immich Redis
+      community.docker.docker_container:
+        name: "{{ immich_redis_container_name }}"
+        state: absent
+
+    - name: Stop Immich Server
+      community.docker.docker_container:
+        name: "{{ immich_server_container_name }}"
+        state: absent
+
+    - name: Stop Immich Microservices
+      community.docker.docker_container:
+        name: "{{ immich_microservices_container_name }}"
+        state: absent
+
+    - name: Stop Immich Machine Learning
+      community.docker.docker_container:
+        name: "{{ immich_machinelearning_container_name }}"
+        state: absent
+
+    - name: Delete Immich Network
+      community.docker.docker_network:
+        name: "{{ immich_network_name }}"
+        state: absent
+  when: immich_enabled is false

@@ -51,6 +51,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API
+* [Immich](https://immich.app/) - Self-hosted photo and video backup solution directly from your mobile phone.
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [Joomla](https://www.joomla.org/) - Open source content management system

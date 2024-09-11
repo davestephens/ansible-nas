@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove Immich Postgres
+      community.docker.docker_container:
+        name: "{{ immich_postgres_container_name }}"
+        state: absent
+      register: result_postgres
+
+    - name: Try and stop and remove Immich Redis
+      community.docker.docker_container:
+        name: "{{ immich_redis_container_name }}"
+        state: absent
+      register: result_redis
+
+    - name: Try and stop and remove Immich Server
+      community.docker.docker_container:
+        name: "{{ immich_server_container_name }}"
+        state: absent
+      register: result_server
+
+    - name: Try and stop and remove Immich Microservices
+      community.docker.docker_container:
+        name: "{{ immich_microservices_container_name }}"
+        state: absent
+      register: result_microservices
+
+    - name: Try and stop and remove Immich Machine Learning
+      community.docker.docker_container:
+        name: "{{ immich_machinelearning_container_name }}"
+        state: absent
+      register: result_machinelearning
+
+    - name: Check if immich containers are stopped
+      ansible.builtin.assert:
+        that:
+          - not result_postgres.changed
+          - not result_redis.changed
+          - not result_server.changed
+          - not result_microservices.changed
+          - not result_machinelearning.changed
