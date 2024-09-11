@@ -1,0 +1,127 @@
+---
+- name: Start Authelia
+  block:
+    - name: Create Authelia Directory
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ authelia_data_directory }}"
+
+    - name: Create Authelia config file
+      template:
+        src: configuration.yml
+        dest: "{{ authelia_data_directory }}/configuration.yml"
+        owner: "root"
+        group: "root"
+        mode: u=rw
+
+    - name: Create authelia network
+      community.docker.docker_network:
+        name: "{{ authelia_network_name }}"
+
+    - name: Authelia Docker Container
+      community.docker.docker_container:
+        name: "{{ authelia_container_name }}"
+        image: "{{ authelia_image }}:{{ authelia_tag }}"
+        pull: true
+        volumes:
+          - "{{ authelia_data_directory }}:/config:rw"
+        networks:
+          - name: "{{ authelia_network_name }}"
+        ports:
+          - "{{ authelia_port }}:9091"
+        env:
+        labels:
+          traefik.enable: "{{ authelia_available_externally | string }}"
+          traefik.http.routers.authelia.rule: "Host(`{{ authelia_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.authelia.entrypoints: "websecure"
+          traefik.http.routers.authelia.tls: "true"
+          traefik.http.routers.authelia.tls.certresolver: "letsencrypt"
+          traefik.http.routers.authelia.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.authelia.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.routers.authelia.middlewares: "authelia-whitelist"
+          traefik.http.middlewares.authelia.forwardauth.address: "http://{{ authelia_container_name }}:9091/api/verify?rd=https://{{ authelia_hostname }}.{{ ansible_nas_domain }}"  # yamllint disable-line rule:line-length
+          traefik.http.middlewares.authelia.forwardauth.trustForwardHeader: "true"
+          traefik.http.middlewares.authelia.forwardauth.authResponseHeaders: "Remote-User,Remote-Groups,Remote-Name,Remote-Email"  # yamllint disable-line rule:line-length
+          traefik.http.services.authelia.loadbalancer.server.port: "9091"
+        restart_policy: unless-stopped
+        memory: "{{ authelia_memory }}"
+
+    - name: Authelia Redis Docker Container
+      community.docker.docker_container:
+        name: "{{ authelia_redis_container_name }}"
+        image: docker.io/library/redis:alpine
+        pull: true
+        command: --save 60 1 --loglevel warning
+        volumes:
+          - "{{ authelia_data_directory }}/redis:/data:rw"
+        networks:
+          - name: "{{ authelia_network_name }}"
+        expose: "6379"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: unless-stopped
+        memory: "{{ authelia_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 3s
+
+    - name: Authelia Example Secure Container
+      community.docker.docker_container:
+        image: traefik/whoami
+        name: authelia_secure
+        networks:
+          - name: "{{ authelia_network_name }}"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.secure.rule: "Host(`secure.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.secure.tls: "true"
+          traefik.http.routers.secure.tls.certresolver: "letsencrypt"
+          traefik.http.routers.secure.middlewares: "authelia@docker"
+        expose: "80"
+        restart_policy: unless-stopped
+
+    - name: Authelia Example Container
+      community.docker.docker_container:
+        image: traefik/whoami
+        name: authelia_public
+        networks:
+          - name: "{{ authelia_network_name }}"
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.public.rule: "Host(`public.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.public.tls: "true"
+          traefik.http.routers.public.tls.certresolver: "letsencrypt"
+          traefik.http.routers.public.middlewares: "authelia@docker"
+        expose: "80"
+        restart_policy: unless-stopped
+  when: authelia_enabled is true
+
+- name: Stop authelia
+  block:
+    - name: Stop authelia
+      community.docker.docker_container:
+        name: "{{ authelia_container_name }}"
+        state: absent
+
+    - name: Stop authelia Redis
+      community.docker.docker_container:
+        name: "{{ authelia_redis_container_name }}"
+        state: absent
+
+    - name: Stop authelia Example Secure Container
+      community.docker.docker_container:
+        name: authelia_secure
+        state: absent
+
+    - name: Stop authelia Example Container
+      community.docker.docker_container:
+        name: authelia_public
+        state: absent
+  when: authelia_enabled is false
