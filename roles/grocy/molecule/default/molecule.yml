@@ -1,0 +1,7 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        grocy_enabled: true
+        grocy_bbuddy_enabled: true

@@ -1,0 +1,37 @@
+---
+grocy_enabled: false
+grocy_bbuddy_enabled: false
+grocy_available_externally: false
+grocy_bbuddy_available_externally: false
+
+# directories
+grocy_data_directory: "{{ docker_home }}/grocy"
+
+# network
+grocy_port: "9283"
+grocy_hostname: "grocy"
+grocy_bbuddy_http_port: "9284"
+grocy_bbuddy_https_port: "9285"
+grocy_bbuddy_hostname: "barcodebuddy"
+
+# specs
+grocy_memory: 1g
+grocy_bbuddy_memory: 1g
+
+# docker
+grocy_container_name: "grocy"
+grocy_image: "lscr.io/linuxserver/grocy"
+grocy_tag: "latest"
+grocy_user_id: "1000"
+grocy_group_id: "1000"
+grocy_bbuddy_container_name: "barcodebuddy"
+grocy_bbuddy_image: "f0rc3/barcodebuddy"
+grocy_bbuddy_tag: "latest"
+grocy_bbuddy_user_id: "1000"
+grocy_bbuddy_group_id: "1000"
+
+# barcode buddy
+grocy_bbuddy_scanner: false
+grocy_bbuddy_ignore_ssl_ca: true
+grocy_bbuddy_ignore_ssl_host: true
+grocy_bbuddy_grocy_url: "https://{{ grocy_hostname }}.{{ ansible_nas_domain }}"
