@@ -1,0 +1,140 @@
+---
+simplelogin_enabled: false
+simplelogin_available_externally: false
+simplelogin_enable_subscription: false
+
+# directories
+simplelogin_data_directory: "{{ docker_home }}/simplelogin"
+
+# network
+simplelogin_port: "7779"
+simplelogin_postfix_port_smtp: "25"
+simplelogin_postfix_port_submission: "587"
+simplelogin_email_handler_port: "20381"
+simplelogin_hostname: "simplelogin"
+simplelogin_network_name: "simplelogin"
+simplelogin_allowlist: 127.0.0.1/32, 192.168.0.0/16"
+
+# specs
+simplelogin_memory: 1g
+simplelogin_postgres_memory: 1g
+simplelogin_postfix_memory: 1g
+simplelogin_webapp_memory: 1g
+simplelogin_email_handler_memory: 1g
+simplelogin_job_runner_memory: 1g
+
+# docker
+
+simplelogin_postgres_container_name: simplelogin-postgres
+simplelogin_postgres_image_name: postgres
+simplelogin_postgres_image_version: 12.1
+simplelogin_postfix_container_name: simplelogin-postfix
+simplelogin_postfix_image_name: anarion/postfix
+simplelogin_postfix_image_version: latest-ubuntu
+simplelogin_webapp_container_name: simplelogin-webapp
+simplelogin_webapp_image_name:  simplelogin/app
+simplelogin_webapp_image_version: 3.4.0
+simplelogin_email_handler_container_name: simplelogin-email-handler
+simplelogin_email_handler_image_name:  simplelogin/app
+simplelogin_email_handler_image_version: 3.4.0
+simplelogin_job_runner_container_name: simplelogin-job-runner
+simplelogin_job_runner_image_name:  simplelogin/app
+simplelogin_job_runner_image_version: 3.4.0
+simplelogin_user_id: "1000"
+simplelogin_group_id: "1000"
+
+
+# simplelogin
+
+simplelogin_postfix_log_lines: "9999"
+simplelogin_postgres_database: "simplelogin_production"
+simplelogin_postgres_host: "{{ simplelogin_postgres_container_name }}"
+simplelogin_postgres_port: "5432"
+simplelogin_postgres_username: "postgres"
+simplelogin_postgres_password: "postgres"
+simplelogin_app_address: "app.mydomain.com"
+simplelogin_url: "https://{{ simplelogin_hostname }}.{{ ansible_nas_domain }}"
+
+simplelogin_postfix_hostname: "{{ simplelogin_postfix_container_name }}" # Postfix myhostname
+simplelogin_postfix_relayhost: "" # Host that relays your msgs
+simplelogin_postfix_relayhost_username: "" # An (optional) username for the relay server
+simplelogin_postfix_relayhost_password: "" # An (optional) login password for the relay server
+simplelogin_postfix_mynetworks: "" #allow domains from per Network ( default 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 )
+simplelogin_allowed_sender_domains: "{{ simplelogin_email_domain }}"
+simplelogin_allowe_empty_sender_domains: "" # if value is set (i.e: "true"), $ALLOWED_SENDER_DOMAINS can be unset
+simplelogin_masqueraded_domains: "" # domains where you want to masquerade internal hosts
+
+# domain used to create alias
+simplelogin_email_domain: "mydomain.com"
+
+# transactional email is sent from this email address
+simplelogin_support_email: "support@mydomain.com"
+
+# custom domain needs to point to these MX servers
+simplelogin_email_servers_with_priority:
+  - (10, {{ simplelogin_app_address }}.)
+
+# By default, new aliases must end with ".{random_word}". This is to avoid a person taking all "nice" aliases.
+# this option doesn't make sense in self-hosted. Set this variable to disable this option.
+simplelogin_disable_alias_suffix: "1"
+
+# the DKIM private key used to compute DKIM-Signature
+simplelogin_dkim_private_key_path: "/dkim.key"
+
+# DB Connection
+simplelogin_db_uri: "postgresql://{{ simplelogin_postgres_username }}:{{ simplelogin_postgres_password }}@{{ simplelogin_postgres_host }}:{{ simplelogin_postgres_port }}/{{ simplelogin_postgres_database }}"
+
+simplelogin_flask_secret: "put_something_secret_here"
+
+simplelogin_gnupghome: "/sl/pgp"
+
+simplelogin_local_file_upload: "1"
+
+simplelogin_postfix_server: "{{ simplelogin_postfix_container_name }}"
+
+simplelogin_disable_registration: "0"
+
+simplelogin_disable_onboarding: "false"
+simplelogin_support_name: "SimpleLogin"
+simplelogin_nameservers: "1.1.1.1"
+
+simplelogin_env:
+  POSTGRES_DB: "{{ simplelogin_postgres_database }}"
+  POSTGRES_USER: "{{ simplelogin_postgres_username }}"
+  POSTGRES_PASSWORD: "{{ simplelogin_postgres_password }}"
+  URL: "{{ simplelogin_url }}" # http://app.mydomain.com
+
+  # domain used to create alias
+  EMAIL_DOMAIN: "{{ simplelogin_email_domain }}"
+
+  # transactional email is sent from this email address
+  SUPPORT_EMAIL: "{{ simplelogin_support_email }}"
+
+  # custom domain needs to point to these MX servers
+  EMAIL_SERVERS_WITH_PRIORITY: "{{ simplelogin_email_servers_with_priority | string }}"
+
+  # By default, new aliases must end with ".{random_word}". This is to avoid a person taking all "nice" aliases.
+  # this option doesn't make sense in self-hosted. Set this variable to disable this option.
+  DISABLE_ALIAS_SUFFIX: "{{ simplelogin_disable_alias_suffix }}"
+
+  # the DKIM private key used to compute DKIM-Signature
+  # DKIM_PRIVATE_KEY_PATH: "{{ simplelogin_dkim_private_key_path }}"
+
+  # DB Connection
+  DB_URI: "{{ simplelogin_db_uri }}"
+
+  FLASK_SECRET: "{{ simplelogin_flask_secret }}"
+
+  GNUPGHOME: "{{ simplelogin_gnupghome }}"
+
+  LOCAL_FILE_UPLOAD: "{{ simplelogin_local_file_upload }}"
+
+  POSTFIX_SERVER: "{{ simplelogin_postfix_server }}"
+
+  # DISABLE_REGISTRATION: "{{ simplelogin_disable_registration }}"
+
+  # DISABLE_ONBOARDING: "{{ simplelogin_disable_onboarding }}"
+
+  SUPPORT_NAME: "{{ simplelogin_support_name }}"
+
+  NAMESERVERS: "{{ simplelogin_nameservers }}"

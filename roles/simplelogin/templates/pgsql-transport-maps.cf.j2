@@ -1,0 +1,8 @@
+# postgres config
+hosts = {{ simplelogin_postgres_host }}
+user = {{ simplelogin_postgres_username }}
+password = {{ simplelogin_postgres_password }}
+dbname = {{ simplelogin_postgres_database }}
+
+# forward to smtp:{{ simplelogin_email_handler_container_name }}:{{ simplelogin_email_handler_port }} for custom domain AND email domain
+query = SELECT 'smtp:{{ simplelogin_email_handler_container_name }}:{{ simplelogin_email_handler_port }}' FROM custom_domain WHERE domain = '%s' AND verified=true UNION SELECT 'smtp:{{ simplelogin_email_handler_container_name }}:{{ simplelogin_email_handler_port }}' WHERE '%s' = '{{ simplelogin_email_domain }}' LIMIT 1;

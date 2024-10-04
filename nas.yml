@@ -845,6 +845,10 @@
       tags:
         - silverbullet
 
+    - role: simplelogin
+      tags:
+        - simplelogin
+
     - role: siyuan
       tags:
         - siyuan

@@ -1,0 +1,7 @@
+# postgres config
+hosts = {{ simplelogin_postgres_host }}
+user = {{ simplelogin_postgres_username }}
+password = {{ simplelogin_postgres_password }}
+dbname = {{ simplelogin_postgres_database }}
+
+query = SELECT domain FROM custom_domain WHERE domain='%s' AND verified=true UNION SELECT '%s' WHERE '%s' = '{{ simplelogin_email_domain }}' LIMIT 1

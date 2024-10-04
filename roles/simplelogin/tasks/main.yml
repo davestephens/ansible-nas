@@ -1,0 +1,255 @@
+---
+- name: Start Simplelogin
+  block:
+    - name: Create Simplelogin Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ simplelogin_data_directory }}"
+        - "{{ simplelogin_data_directory }}/sl"
+        - "{{ simplelogin_data_directory }}/sl/upload"
+        - "{{ simplelogin_data_directory }}/sl/pgp"
+        - "{{ simplelogin_data_directory }}/postfix"
+        - "{{ simplelogin_data_directory }}/postfix/init-scripts"
+        - "{{ simplelogin_data_directory }}/postfix/config"
+
+    - name: Template postfix config files
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ simplelogin_data_directory }}/postfix/config/{{ item | basename | regex_replace('^(.*)\\.j2$', '\\1') }}"
+      with_fileglob:
+        - "templates/*"
+      become: true
+
+    - name: Copy postfix postconfig script
+      ansible.builtin.copy:
+        src: postconf.sh
+        dest: "{{ simplelogin_data_directory }}/postfix/init-scripts/postconf.sh"
+        force: no
+        mode: 0755
+
+    - name: Create Simplelogin network
+      community.docker.docker_network:
+        name: "{{ simplelogin_network_name }}"
+
+    - name: Create Simplelogin Postgres Docker Container
+      community.docker.docker_container:
+        name: "{{ simplelogin_postgres_container_name }}"
+        image: "{{ simplelogin_postgres_image_name }}:{{ simplelogin_postgres_image_version }}"
+        pull: true
+        volumes:
+          - "{{ simplelogin_data_directory }}/postgres:/var/lib/postgresql/data:rw"
+          - "{{ simplelogin_data_directory }}/sl:/sl:rw"
+          - "{{ simplelogin_data_directory }}/sl/upload:/code/static/upload:rw"
+        networks:
+          - name: "{{ simplelogin_network_name }}"
+        network_mode: "{{ simplelogin_network_name }}"
+        container_default_behavior: no_defaults
+        env:
+          POSTGRES_DB: "{{ simplelogin_postgres_database }}"
+          POSTGRES_USER: "{{ simplelogin_postgres_username }}"
+          POSTGRES_PASSWORD: "{{ simplelogin_postgres_password }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ simplelogin_postgres_memory }}"
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d {{ simplelogin_postgres_database }} -U {{ simplelogin_postgres_username }}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+
+    - name: Create Simplelogin Postfix Docker Container
+      community.docker.docker_container:
+        name: "{{ simplelogin_postfix_container_name }}"
+        image: "{{ simplelogin_postfix_image_name }}:{{ simplelogin_postfix_image_version }}"
+        pull: true
+        volumes:
+          - "{{ simplelogin_data_directory }}/postfix/init-scripts:/docker-init.db:rw"
+          - "{{ simplelogin_data_directory }}/postfix/config:/tmp/config:rw"
+          - "{{ simplelogin_data_directory }}/postfix/config/pgsql-relay-domains.cf:/etc/postfix/pgsql-relay-domains.cf"
+          - "{{ simplelogin_data_directory }}/postfix/config/pgsql-transport-maps.cf:/etc/postfix/pgsql-transport-maps.cf"
+        networks:
+          - name: "{{ simplelogin_network_name }}"
+        network_mode: "{{ simplelogin_network_name }}"
+        container_default_behavior: no_defaults
+        ports:
+          - "{{ simplelogin_postfix_port_smtp }}:25"
+          - "{{ simplelogin_postfix_port_submission }}:587"
+        env:
+          ALLOWED_SENDER_DOMAINS: "{{ simplelogin_allowed_sender_domains }}"
+          HOSTNAME: "{{ simplelogin_postfix_hostname }}"
+          RELAYHOST: "{{ simplelogin_postfix_relayhost }}"
+          RELAYHOST_USERNAME: "{{ simplelogin_postfix_relayhost_username }}"
+          RELAYHOST_PASSWORD: "{{ simplelogin_postfix_relayhost_password }}"
+          MYNETWORKS: "{{ simplelogin_postfix_mynetworks }}"
+          ALLOW_EMPTY_SENDER_DOMAINS: "{{ simplelogin_allowe_empty_sender_domains }}"
+          MASQUERADED_DOMAINS: "{{ simplelogin_masqueraded_domains }}"
+        labels:
+          traefik.enable: "false"
+        restart_policy: always
+        memory: "{{ simplelogin_postfix_memory }}"
+
+    - name: Init the database
+      community.docker.docker_container:
+        name: "{{ simplelogin_webapp_container_name }}"
+        image: "{{ simplelogin_webapp_image_name }}:{{ simplelogin_webapp_image_version }}"
+        pull: true
+        volumes:
+          - "{{ simplelogin_data_directory }}/sl:/sl:rw"
+          - "{{ simplelogin_data_directory }}/sl/upload:/code/static/upload:rw"
+          - "{{ simplelogin_data_directory }}/sl/pgp:/pgp:rw"
+        networks:
+          - name: "{{ simplelogin_network_name }}"
+        network_mode: "{{ simplelogin_network_name }}"
+        container_default_behavior: no_defaults
+        command: ['flask', 'db', 'upgrade']
+        env: "{{ simplelogin_env }}"
+        restart_policy: "no"
+      tags: molecule-idempotence-notest
+
+    - name: Wait until the DB is initialized and is healthy
+      community.docker.docker_container_info:
+        name: "{{ simplelogin_postgres_container_name }}"
+      register: result
+      until: result.container.State.Health.Status == "healthy"
+      retries: 20
+      delay: 30
+
+    - name: Init the webapp
+      community.docker.docker_container:
+        name: "{{ simplelogin_webapp_container_name }}"
+        image: "{{ simplelogin_webapp_image_name }}:{{ simplelogin_webapp_image_version }}"
+        pull: true
+        volumes:
+          - "{{ simplelogin_data_directory }}/sl:/sl:rw"
+          - "{{ simplelogin_data_directory }}/sl/upload:/code/static/upload:rw"
+          - "{{ simplelogin_data_directory }}/sl/pgp:/sl/pgp:rw"
+        networks:
+          - name: "{{ simplelogin_network_name }}"
+        network_mode: "{{ simplelogin_network_name }}"
+        container_default_behavior: no_defaults
+        env: "{{ simplelogin_env }}"
+        restart_policy: "no"
+        command: ['python', 'init_app.py']
+      tags: molecule-idempotence-notest
+
+    - name: Create Simplelogin Webapp Docker Container
+      community.docker.docker_container:
+        name: "{{ simplelogin_webapp_container_name }}"
+        image: "{{ simplelogin_webapp_image_name }}:{{ simplelogin_webapp_image_version }}"
+        pull: true
+        volumes:
+          - "{{ simplelogin_data_directory }}/sl:/sl:rw"
+          - "{{ simplelogin_data_directory }}/sl/upload:/code/static/upload:rw"
+          - "{{ simplelogin_data_directory }}/sl/pgp:/sl/pgp:rw"
+        networks:
+          - name: "{{ simplelogin_network_name }}"
+        network_mode: "{{ simplelogin_network_name }}"
+        ports:
+          - "{{ simplelogin_port }}:7777"
+        env: "{{ simplelogin_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ simplelogin_webapp_memory }}"
+        labels:
+          traefik.enable: "{{ simplelogin_available_externally | string }}"
+          traefik.http.routers.simplelogin.rule: "Host(`{{ simplelogin_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.simplelogin.tls.certresolver: "letsencrypt"
+          traefik.http.routers.simplelogin.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.simplelogin.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.middlewares.simplelogin-allowlist.IPAllowList.ipstrategy.depth: "1"
+          traefik.http.middlewares.simplelogin-allowlist.IPAllowList.sourcerange: "{{ simplelogin_allowlist }}"
+          traefik.http.routers.simplelogin.middlewares: "simplelogin-allowlist"
+          traefik.http.services.simplelogin.loadbalancer.server.port: "7777"
+
+    - name: Create Simplelogin Email Handler Docker Container
+      community.docker.docker_container:
+        name: "{{ simplelogin_email_handler_container_name }}"
+        image: "{{ simplelogin_email_handler_image_name }}:{{ simplelogin_email_handler_image_version }}"
+        pull: true
+        volumes:
+          - "{{ simplelogin_data_directory }}/sl:/sl:rw"
+          - "{{ simplelogin_data_directory }}/sl/upload:/code/static/upload:rw"
+          - "{{ simplelogin_data_directory }}/sl/pgp:/sl/pgp:rw"
+        networks:
+          - name: "{{ simplelogin_network_name }}"
+        network_mode: "{{ simplelogin_network_name }}"
+        ports:
+          - "{{ simplelogin_email_handler_port }}:20381"
+        env: "{{ simplelogin_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ simplelogin_email_handler_memory }}"
+        labels:
+          traefik.enable: "false"
+        command: ['python', 'email_handler.py']
+
+    - name: Create Simplelogin Job Runner Docker Container
+      community.docker.docker_container:
+        name: "{{ simplelogin_job_runner_container_name }}"
+        image: "{{ simplelogin_job_runner_image_name }}:{{ simplelogin_job_runner_image_version }}"
+        pull: true
+        volumes:
+          - "{{ simplelogin_data_directory }}/sl:/sl:rw"
+          - "{{ simplelogin_data_directory }}/sl/upload:/code/static/upload:rw"
+          - "{{ simplelogin_data_directory }}/sl/pgp:/sl/pgp:rw"
+        networks:
+          - name: "{{ simplelogin_network_name }}"
+        network_mode: "{{ simplelogin_network_name }}"
+        env: "{{ simplelogin_env }}"
+        restart_policy: unless-stopped
+        memory: "{{ simplelogin_job_runner_memory }}"
+        labels:
+          traefik.enable: "false"
+        command: ['python', 'job_runner.py']
+
+    - name: Enable premium features
+      block:
+        - name: Enable premium features
+          community.docker.docker_container_exec:
+            container: "{{ simplelogin_postgres_container_name }}"
+            command: psql -U {{ simplelogin_postgres_username }} {{ simplelogin_postgres_database }} -c "UPDATE users SET lifetime = TRUE;"
+          tags: molecule-idempotence-notest
+
+        # - name: Add built-in domain as custom domain (to use catch-all)
+        #   community.docker.docker_container_exec:
+        #     container: "{{ simplelogin_postgres_container_name }}"
+        #     command: psql -U {{ simplelogin_postgres_username }} {{ simplelogin_postgres_database }} -c "INSERT INTO custom_domain (created_at,user_id,domain,verified) VALUES (NOW(),1,'{{ simplelogin_email_domain }}',FALSE);"
+        #   tags: molecule-idempotence-notest
+      when: simplelogin_enable_subscription is true
+  when: simplelogin_enabled is true
+
+- name: Stop Simplelogin
+  block:
+    - name: Stop Simplelogin Postgres
+      community.docker.docker_container:
+        name: "{{ simplelogin_postgres_container_name }}"
+        state: absent
+
+    - name: Stop Simplelogin Postfix
+      community.docker.docker_container:
+        name: "{{ simplelogin_postfix_container_name }}"
+        state: absent
+
+    - name: Stop Simplelogin Webapp
+      community.docker.docker_container:
+        name: "{{ simplelogin_webapp_container_name }}"
+        state: absent
+
+    - name: Stop Simplelogin Email Handler
+      community.docker.docker_container:
+        name: "{{ simplelogin_email_handler_container_name }}"
+        state: absent
+
+    - name: Stop Simplelogin Job Runner
+      community.docker.docker_container:
+        name: "{{ simplelogin_job_runner_container_name }}"
+        state: absent
+
+    - name: Delete Simplelogin network
+      community.docker.docker_network:
+        name: "{{ simplelogin_network_name }}"
+        state: absent
+        force: true
+  when: simplelogin_enabled is false

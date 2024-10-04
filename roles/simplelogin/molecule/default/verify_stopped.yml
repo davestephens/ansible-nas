@@ -1,0 +1,47 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove simplelogin postgres
+      community.docker.docker_container:
+        name: "{{ simplelogin_postgres_container_name }}"
+        state: absent
+      register: result_postgres
+
+    - name: Try and stop and remove simplelogin postfix
+      community.docker.docker_container:
+        name: "{{ simplelogin_postfix_container_name }}"
+        state: absent
+      register: result_postfix
+
+    - name: Try and stop and remove simplelogin webapp
+      community.docker.docker_container:
+        name: "{{ simplelogin_webapp_container_name }}"
+        state: absent
+      register: result_webapp
+
+    - name: Try and stop and remove simplelogin email handler
+      community.docker.docker_container:
+        name: "{{ simplelogin_email_handler_container_name }}"
+        state: absent
+      register: result_email_handler
+
+    - name: Try and stop and remove simplelogin job runner
+      community.docker.docker_container:
+        name: "{{ simplelogin_job_runner_container_name }}"
+        state: absent
+      register: result_job_runner
+
+    - name: Check if simplelogin is stopped
+      ansible.builtin.assert:
+        that:
+          - not result_postgres.changed
+          - not result_postfix.changed
+          - not result_webapp.changed
+          - not result_email_handler.changed
+          - not result_job_runner.changed
