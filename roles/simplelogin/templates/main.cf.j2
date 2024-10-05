@@ -47,14 +47,14 @@ smtpd_helo_required = yes
 smtpd_helo_restrictions = permit_mynetworks,reject_invalid_helo_hostname,permit
 
 # Client restrictions
-# smtpd_client_restrictions = permit_mynetworks,reject
-smtpd_client_restrictions = reject_unauth_pipelining, reject_non_fqdn_recipient, reject_unknown_recipient_domain, permit_mynetworks, reject_unauth_destination, reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], reject_rbl_client bl.spamcop.net, permit
+smtpd_client_restrictions = permit_mynetworks,reject
+# smtpd_client_restrictions = reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], reject_unauth_pipelining, reject_non_fqdn_recipient, reject_unknown_recipient_domain, permit_mynetworks, reject_unauth_destination, reject_rbl_client bl.spamcop.net, permit
 
 # Sender restrictions:
 smtpd_sender_restrictions = permit_mynetworks, reject_non_fqdn_sender, reject_unknown_sender_domain, permit
 
 # Recipient restrictions:
-smtpd_recipient_restrictions = reject_unauth_pipelining, reject_non_fqdn_recipient, reject_unknown_recipient_domain, permit_mynetworks, reject_unauth_destination, reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], reject_rbl_client bl.spamcop.net, permit
+smtpd_recipient_restrictions = reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], reject_unauth_pipelining, reject_non_fqdn_recipient, reject_unknown_recipient_domain, permit_mynetworks, reject_unauth_destination, reject_rbl_client bl.spamcop.net, permit
 
 # Relay restrictions:
-smtpd_relay_restrictions = reject_unauth_pipelining, reject_non_fqdn_recipient, reject_unknown_recipient_domain, permit_mynetworks, reject_unauth_destination, reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], reject_rbl_client bl.spamcop.net, permit
+smtpd_relay_restrictions = reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], reject_unauth_pipelining, reject_non_fqdn_recipient, reject_unknown_recipient_domain, permit_mynetworks, reject_unauth_destination, reject_rbl_client bl.spamcop.net, permit
