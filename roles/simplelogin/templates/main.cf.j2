@@ -12,7 +12,7 @@ readme_directory = no
 
 # See http://www.postfix.org/COMPATIBILITY_README.html -- default to 2 on
 # fresh installs.
-compatibility_level = 2
+compatibility_level = 4
 
 header_size_limit = 4096000
 
@@ -22,7 +22,7 @@ smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 smtp_tls_security_level = may
-smtpd_tls_security_level = may
+smtpd_tls_security_level = none
 
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
@@ -44,11 +44,10 @@ relayhost = {{ simplelogin_postfix_relayhost }}
 # HELO restrictions
 smtpd_delay_reject = yes
 smtpd_helo_required = yes
-smtpd_helo_restrictions = permit_mynetworks,reject_invalid_helo_hostname,permit
+smtpd_helo_restrictions = permit_mynetworks,reject_non_fqdn_helo_hostname,reject_invalid_helo_hostname,permit
 
 # Client restrictions
-smtpd_client_restrictions = permit_mynetworks,reject
-# smtpd_client_restrictions = reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], reject_unauth_pipelining, reject_non_fqdn_recipient, reject_unknown_recipient_domain, permit_mynetworks, reject_unauth_destination, reject_rbl_client bl.spamcop.net, permit
+smtpd_client_restrictions =
 
 # Sender restrictions:
 smtpd_sender_restrictions = permit_mynetworks, reject_non_fqdn_sender, reject_unknown_sender_domain, permit
@@ -58,3 +57,5 @@ smtpd_recipient_restrictions = reject_rbl_client zen.spamhaus.org=127.0.0.[2..11
 
 # Relay restrictions:
 smtpd_relay_restrictions = reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], reject_unauth_pipelining, reject_non_fqdn_recipient, reject_unknown_recipient_domain, permit_mynetworks, reject_unauth_destination, reject_rbl_client bl.spamcop.net, permit
+
+# debug_peer_list = 209.85.0.0/16 193.222.0.0/16

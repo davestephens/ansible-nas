@@ -105,7 +105,7 @@
           - name: "{{ simplelogin_network_name }}"
         network_mode: "{{ simplelogin_network_name }}"
         container_default_behavior: no_defaults
-        command: ['flask', 'db', 'upgrade']
+        command: ['alembic', 'upgrade', 'head']
         env: "{{ simplelogin_env }}"
         restart_policy: "no"
       tags: molecule-idempotence-notest

@@ -32,14 +32,14 @@ simplelogin_postfix_container_name: simplelogin-postfix
 simplelogin_postfix_image_name: anarion/postfix
 simplelogin_postfix_image_version: latest-ubuntu
 simplelogin_webapp_container_name: simplelogin-webapp
-simplelogin_webapp_image_name:  simplelogin/app
-simplelogin_webapp_image_version: 3.4.0
+simplelogin_webapp_image_name:  simplelogin/app-ci
+simplelogin_webapp_image_version: latest
 simplelogin_email_handler_container_name: simplelogin-email-handler
-simplelogin_email_handler_image_name:  simplelogin/app
-simplelogin_email_handler_image_version: 3.4.0
+simplelogin_email_handler_image_name:  simplelogin/app-ci
+simplelogin_email_handler_image_version: latest
 simplelogin_job_runner_container_name: simplelogin-job-runner
-simplelogin_job_runner_image_name:  simplelogin/app
-simplelogin_job_runner_image_version: 3.4.0
+simplelogin_job_runner_image_name:  simplelogin/app-ci
+simplelogin_job_runner_image_version: latest
 simplelogin_user_id: "1000"
 simplelogin_group_id: "1000"
 
