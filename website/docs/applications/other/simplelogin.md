@@ -20,3 +20,5 @@ Simplelogin web interface can be found at [http://ansible_nas_host_or_ip:7779](h
 After logging in, click `Sign Up` and register the account. If everything is correctly configured, you should receive an email from the system.
 
 After the user is created, set `simplelogin_enable_subscription` to `true` and run the playbook again to enable premium features.
+
+Optionally, if you want to use your built-in (configured) domain as custom domain with catch-all functionality, set `simplelogin_add_builtin_domain_as_custom_domain` to `true` and run the playbook again.

@@ -211,13 +211,16 @@
             container: "{{ simplelogin_postgres_container_name }}"
             command: psql -U {{ simplelogin_postgres_username }} {{ simplelogin_postgres_database }} -c "UPDATE users SET lifetime = TRUE;"
           tags: molecule-idempotence-notest
-
-        # - name: Add built-in domain as custom domain (to use catch-all)
-        #   community.docker.docker_container_exec:
-        #     container: "{{ simplelogin_postgres_container_name }}"
-        #     command: psql -U {{ simplelogin_postgres_username }} {{ simplelogin_postgres_database }} -c "INSERT INTO custom_domain (created_at,user_id,domain,verified) VALUES (NOW(),1,'{{ simplelogin_email_domain }}',FALSE);"
-        #   tags: molecule-idempotence-notest
       when: simplelogin_enable_subscription is true
+
+    - name: Add built-in domain as custom domain
+      block:
+        - name: Add built-in domain as custom domain (to use catch-all)
+          community.docker.docker_container_exec:
+            container: "{{ simplelogin_postgres_container_name }}"
+            command: psql -U {{ simplelogin_postgres_username }} {{ simplelogin_postgres_database }} -c "INSERT INTO custom_domain (created_at,user_id,domain,verified) VALUES (NOW(),1,'{{ simplelogin_email_domain }}',FALSE);"
+          tags: molecule-idempotence-notest
+      when: simplelogin_add_builtin_domain_as_custom_domain is true
   when: simplelogin_enabled is true
 
 - name: Stop Simplelogin
