@@ -1,0 +1,23 @@
+---
+ispyagentdvr_enabled: false
+ispyagentdvr_available_externally: false
+
+# directories
+ispyagentdvr_config_directory: "{{ docker_home }}/ispyagentdvr/config"
+ispyagentdvr_commands_directory: "{{ docker_home }}/ispyagentdvr/commands"
+ispyagentdvr_recordings_directory: "{{ downloads_root }}/recordings"
+
+# uid / gid
+ispyagentdvr_user_id: "1000"
+ispyagentdvr_group_id: "1000"
+
+# network
+ispyagentdvr_webui_port: "8097"
+ispyagentdvr_turn_port: "3478"
+ispyagentdvr_agentdvr_host_port: "50000-50010"
+
+# specs
+ispyagentdvr_memory: 1g
+
+# docker
+ispyagentdvr_container_name: ispyagentdvr
