@@ -13,3 +13,7 @@ All the code is free and open source, and everything is thoroughly documented, y
 Set `dashy_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
 
 The Dashy web interface can be found at [http://ansible_nas_host_or_ip:8082](http://ansible_nas_host_or_ip:8082).
+
+## Specific Configuration
+
+If you are using domain name (suppose, all your apps are using `<subdomain>.example.com`), but for your main dashboard you want it to be just `example.com` (without subdomain), you can achieve this by setting `dashy_hostname` to an empty, i.e. `dashy_hostname: ''`

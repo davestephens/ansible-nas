@@ -15,3 +15,5 @@ The Heimdall web interface can be found at [http://ansible_nas_host_or_ip:10080]
 ## Specific Configuration
 
 Heimdall defaults to port 10080 - some browsers block this port. Override `heimdall_port_http` to move it somewhere else.
+
+If you are using domain name (suppose, all your apps are using `<subdomain>.example.com`), but for your main dashboard you want it to be just `example.com` (without subdomain), you can achieve this by setting `heimdall_hostname` to an empty, i.e. `heimdall_hostname: ''`
