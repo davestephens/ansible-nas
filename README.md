@@ -95,6 +95,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Romm](https://github.com/zurdi15/romm) - A game library manager focused on retro gaming
 * [Route53 DDNS](https://crazymax.dev/ddns-route53/) - Automatically update AWS Route53 with your IP address
 * [RSS-Bridge](https://rss-bridge.github.io/rss-bridge/) - The RSS feed for websites missing it
+* [RustDesk](https://rustdesk.com) - RustDesk is a full-featured remote desktop app. Works on Windows, macOS, Linux, iOS, Android, Web. Own your data, easily set up self-hosting solution on your infrastructure.
 * [Sabnzbd](https://sabnzbd.org/) - A powerful usenet downloader that FreeNAS provides
 * [Sickchill](https://sickchill.github.io/) - for managing TV episodes
 * [Silverbullet](https://silverbullet.md) - Note-taking application optimized for people with a hacker mindset
