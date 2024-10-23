@@ -317,6 +317,10 @@
       tags:
         - paperless_ng
 
+    - role: photoprism
+      tags:
+        - photoprism
+
     - role: piwigo
       tags:
         - piwigo
