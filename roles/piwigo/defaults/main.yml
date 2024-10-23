@@ -8,8 +8,8 @@ piwigo_data_directory: "{{ docker_home }}/piwigo/data"
 piwigo_photos: "{{ photos_root }}/piwigo"
 
 # uid / gid
-piwigo_user_id: "0"
-piwigo_group_id: "0"
+piwigo_user_id: "1000"
+piwigo_group_id: "1000"
 piwigo_mysql_user: "piwigo"
 piwigo_mysql_password: "piwigo"
 piwigo_mysql_root_password: "piwigo"

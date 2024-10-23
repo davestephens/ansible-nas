@@ -23,8 +23,8 @@ Optional configurations:
 - Set `piwigo_mysql_root_password` in `inventories/<your_inventory>/group_vars/nas.yml` before installing Piwigo, this defaults to "piwigo".
 
 - On first run you'll need to enter database details:
-  - Host: `db:3306`
-  - Username: the value of piwigo_mysql_user, defaults to "piwigo"
-  - Password: the value of piwigo_password, defaults to "piwigo"
+  - Host: `piwigo-db`
+  - Username: the value of piwigo_mysql_user, defaults to `piwigo`
+  - Password: the value of piwigo_password, defaults to `piwigo`
   - Database Name: `piwigo`
   - Database tables prefix: should be prefilled with `piwigo_`
