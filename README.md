@@ -18,6 +18,7 @@ If you have a spare domain name you can configure applications to be accessible 
 ## Available Applications
 
 * [Airsonic](https://airsonic.github.io/) - catalog and stream music
+* [Apcupsd](http://www.apcupsd.org/) - A daemon for controlling APC UPSes
 * [Audiobookshelf](https://www.audiobookshelf.org/) - Self-hosted audiobook and podcast server
 * [Bazarr](https://github.com/morpheus65535/bazarr) - companion to Radarr and Sonarr for downloading subtitles
 * [Bitwarden](https://github.com/dani-garcia/vaultwarden) - Password Manger (Technically Vaultwarden, a lightweight implementation in Rust)
@@ -52,6 +53,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Heimdall](https://heimdall.site/) - Home server dashboard
 * [Home Assistant](https://www.home-assistant.io) - Open source home automation
 * [Homebridge](https://github.com/nfarina/homebridge) - Emulate the iOS HomeKit API
+* [iSpy Agent DVR](https://www.ispyconnect.com/) - iSpy - Agent DVR is a video surveillance software
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers
 * [Jellyfin](https://jellyfin.github.io) - The Free Software Media System
 * [Joomla](https://www.joomla.org/) - Open source content management system

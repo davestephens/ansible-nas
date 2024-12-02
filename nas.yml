@@ -57,6 +57,10 @@
       tags:
         - airsonic
 
+    - role: apcupsd
+      tags:
+        - apcupsd
+
     - role: audiobookshelf
       tags:
         - audiobookshelf
@@ -192,6 +196,10 @@
     - role: homepage
       tags:
         - homepage
+
+    - role: ispyagentdvr
+      tags:
+        - ispyagentdvr
 
     - role: jackett
       tags:

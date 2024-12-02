@@ -183,6 +183,14 @@ samba_shares:
     browseable: yes
     path: "{{ code_root }}"
 
+  - name: recordings
+    comment: "Recordings"
+    guest_ok: yes
+    public: yes
+    writable: yes
+    browseable: yes
+    path: "{{ recordings_root }}"
+
 ###
 ### NFS
 ###
