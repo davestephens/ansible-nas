@@ -18,6 +18,8 @@
           - "{{ audiobookshelf_metadata_directory }}:/metadata:rw"
           - "{{ audiobookshelf_podcasts_directory }}:/podcasts:{{ audiobookshelf_podcasts_permissions }}"
           - "{{ audiobookshelf_audiobooks_directory }}:/audiobooks:{{ audiobookshelf_audiobooks_permissions }}"
+        ports:
+          - "{{ audiobookshelf_port }}:80"
         env:
           TZ: "{{ ansible_nas_timezone }}"
           PUID: "{{ audiobookshelf_user_id }}"
@@ -31,12 +33,12 @@
           traefik.http.routers.audiobookshelf.tls.certresolver: "letsencrypt"
           traefik.http.routers.audiobookshelf.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.audiobookshelf.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.audiobookshelf.loadbalancer.server.port: "13378"
+          traefik.http.services.audiobookshelf.loadbalancer.server.port: "80"
           homepage.group: Media
           homepage.name: Audiobookshelf
           homepage.icon: audiobookshelf
-          homepage.href: http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:13378
-          homepage.description: Media server
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ audiobookshelf_port }}"
+          homepage.description: Self-hosted audiobook and podcast server
   when: audiobookshelf_enabled is true
 
 - name: Stop Audiobookshelf

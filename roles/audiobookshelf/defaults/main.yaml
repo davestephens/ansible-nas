@@ -19,6 +19,7 @@ audiobookshelf_audiobooks_permissions: "rw"
 
 # network
 audiobookshelf_hostname: "audiobookshelf"
+audiobookshelf_port: "13378"
 
 # docker
 audiobookshelf_container_name: "audiobookshelf"
