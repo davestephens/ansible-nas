@@ -1,21 +1,7 @@
 ---
-- name: Install python3-pip
+- name: Install python3-docker
   ansible.builtin.apt:
-    name: python3-pip
-    state: present
-  register: result
-  until: result is succeeded
-
-- name: Remove docker-py python module
-  ansible.builtin.pip:
-    name: docker-py
-    state: absent
-  register: result
-  until: result is succeeded
-
-- name: Install docker python module
-  ansible.builtin.pip:
-    name: docker
+    name: python3-docker
     state: present
   register: result
   until: result is succeeded
