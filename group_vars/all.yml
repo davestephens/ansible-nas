@@ -74,6 +74,8 @@ code_root: "{{ samba_shares_root }}/code"
 # Where roms are stored
 roms_root: "{{ samba_shares_root }}/roms"
 
+recordings_root: "{{ samba_shares_root }}/roms"
+
 # The description that'll appear next to your Ansible-NAS box when browsing your network
 samba_server_string: Ansible NAS
 
