@@ -1,0 +1,22 @@
+---
+couchdb_enabled: false
+couchdb_available_externally: false
+
+# Data directory for config and data directories
+couchdb_data_directory: "{{ docker_home }}/couchdb"
+
+# CouchDB local admin user
+couchdb_admin_user: "admin"
+couchdb_admin_password: "changeme"
+
+# network
+couchdb_hostname: "couchdb"
+couchdb_port: "5984"
+
+# specs
+couchdb_memory: 1024MB
+
+# docker
+couchdb_container_name: "couchdb"
+couchdb_image_name: "couchdb"
+couchdb_image_version: "latest"
