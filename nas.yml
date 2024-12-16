@@ -89,6 +89,10 @@
       tags:
         - cloudflare_ddns
 
+    - role: couchdb
+      tags:
+        - couchdb
+
     - role: code-server
       tags:
         - code-server

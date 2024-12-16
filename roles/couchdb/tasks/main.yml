@@ -1,0 +1,42 @@
+---
+- name: Start CouchDB
+  block:
+    - name: Create CouchDB Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ couchdb_data_directory }}/config"
+        - "{{ couchdb_data_directory }}/data"
+
+    - name: CouchDB Container
+      community.docker.docker_container:
+        name: "{{ couchdb_container_name }}"
+        image: "{{ couchdb_image_name }}:{{ couchdb_image_version }}"
+        pull: true
+        env:
+          COUCHDB_USER: "{{ couchdb_admin_user }}"
+          COUCHDB_PASSWORD: "{{ couchdb_admin_password }}"
+        ports:
+          - "{{ couchdb_port }}:5984"
+        volumes:
+          - "{{ couchdb_data_directory }}/config:/opt/couchdb/etc/local.d"
+          - "{{ couchdb_data_directory }}/data:/opt/couchdb/data"
+        restart_policy: unless-stopped
+        memory: "{{ couchdb_memory }}"
+        labels:
+          traefik.enable: "{{ couchdb_available_externally | string }}"
+          traefik.http.routers.couchdb.rule: "Host(`{{ couchdb_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.couchdb.tls.certresolver: "letsencrypt"
+          traefik.http.routers.couchdb.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.couchdb.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.couchdb.loadbalancer.server.port: "5984"
+  when: couchdb_enabled is true
+
+- name: Stop CouchDB
+  block:
+    - name: Stop CouchDB
+      community.docker.docker_container:
+        name: "{{ couchdb_container_name }}"
+        state: absent
+  when: couchdb_enabled is false
