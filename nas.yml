@@ -61,6 +61,10 @@
       tags:
         - apcupsd
 
+    - role: audiobookshelf
+      tags:
+        - audiobookshelf
+
     - role: bazarr
       tags:
         - bazarr

@@ -1,0 +1,33 @@
+---
+audiobookshelf_enabled: false
+audiobookshelf_available_externally: false
+
+# directories
+audiobookshelf_config_directory: "{{ docker_home }}/audiobookshelf/config"
+audiobookshelf_metadata_directory: "{{ docker_home }}/audiobookshelf/metadata"
+audiobookshelf_podcasts_directory: "{{ podcasts_root }}"
+audiobookshelf_audiobooks_directory: "{{ audiobooks_root }}"
+
+# uid / gid
+audiobookshelf_user_id: "0"
+audiobookshelf_group_id: "0"
+
+# If you're paranoid, set permissions to "ro" so audiobookshelf won't ever be able to
+# delete your files
+audiobookshelf_podcasts_permissions: "rw"
+audiobookshelf_audiobooks_permissions: "rw"
+
+# network
+audiobookshelf_hostname: "audiobookshelf"
+audiobookshelf_port: "13378"
+
+# docker
+audiobookshelf_container_name: "audiobookshelf"
+audiobookshelf_image_name: "ghcr.io/advplyr/audiobookshelf"
+audiobookshelf_image_version: "latest"
+
+# specs
+audiobookshelf_memory: "2g"
+
+# see https://hub.docker.com/r/linuxserver/audiobookshelf for details on this setting
+audiobookshelf_version: "docker"
