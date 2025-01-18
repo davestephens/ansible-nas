@@ -2,20 +2,26 @@
   [entryPoints.web]
     address = ":{{ traefik_port_http }}"
 
+{% if traefik_trusted_ips %}
+    [entryPoints.web.forwardedHeaders]
+      trustedIPs = {{ traefik_trusted_ips | to_nice_json(indent=2) | trim | indent(6) }}
+{% endif %}
   [entryPoints.web.http.redirections.entryPoint]
     to = "websecure"
 
   [entryPoints.websecure]
     address = ":{{ traefik_port_https }}"
 
+{% if traefik_trusted_ips %}
+    [entryPoints.websecure.forwardedHeaders]
+      trustedIPs = {{ traefik_trusted_ips | to_nice_json(indent=2) | trim | indent(6) }}
+{% endif %}
       [entryPoints.websecure.http.tls]
         certResolver = "letsencrypt"
 
         [entryPoints.websecure.http.tls.domains]
-          main = "{{ ansible_nas_domain }}"
-          sans = [
-            "*.{{ ansible_nas_domain }}"
-          ]
+          main = "{{ ansible_nas_domain_root }}"
+          sans = {{ (traefik_domain_san + traefik_domain_san_custom ) | to_nice_json(indent=2) | trim | indent(10) }}
 
   [entryPoints.traefik]
     address = ":{{ traefik_port_ui }}"
@@ -30,7 +36,7 @@
   dashboard = true
 
 [log]
-  level = "{{ traefik_log_level }}"
+  level = "{{ traefik_log_level | upper }}"
 
 [ping]
   terminatingStatusCode = 0
@@ -45,5 +51,12 @@
       [certificatesResolvers.letsencrypt.acme.dnsChallenge]
         provider = "{{ traefik_dns_provider }}"
 
-[metrics]
-  [metrics.prometheus]
+{% if traefik_letsencrypt_tls %}
+  [certificatesResolvers.letsencryptTls]
+    [certificatesResolvers.letsencryptTls.acme]
+      email = "{{ ansible_nas_email }}"
+      storage = "/letsencrypt/acme.json"
+      caserver = "https://acme-v02.api.letsencrypt.org/directory"
+
+      [certificatesResolvers.letsencryptTls.acme.tlsChallenge]
+{% endif %}
