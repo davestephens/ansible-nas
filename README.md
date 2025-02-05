@@ -67,6 +67,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Miniflux](https://miniflux.app/) - An RSS news reader
 * [Minio](https://min.io/) - MinIO is a high-performance, S3 compatible object store
 * [Mosquitto](https://mosquitto.org) - An open source MQTT broker
+* [motionEye](https://github.com/motioneye-project/motioneye) - A web-based frontend for motion, that monitors cameras for movement and performs actions
 * [Mumble](https://www.mumble.info) - Open source, low latency, high quality voice chat
 * [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book downloader (cbr/cbz) for use with SABnzbd, NZBGet and torrents
 * [MyMediaForAlexa](https://www.mymediaalexa.com/) - Lets you stream your music collection to your alexa device
