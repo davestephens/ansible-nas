@@ -2,6 +2,22 @@
 netdata_enabled: false
 netdata_available_externally: false
 
+# directories
+netdata_data_directory: "{{ docker_home }}/netdata"
+
+netdata_directories:
+  - "{{ netdata_data_directory }}"
+  - "{{ netdata_data_directory }}/etc"
+  - "{{ netdata_data_directory }}/dbengine"
+netdata_directories_custom: []
+
+# templates
+netdata_template_files:
+  - src: netdata.conf.j2
+    dest: "{{ netdata_data_directory }}/etc/netdata.conf"
+    force: "true"
+netdata_template_files_custom: []
+
 # network
 netdata_hostname: "netdata"
 netdata_port: "19999"
@@ -13,3 +29,16 @@ netdata_image_version: "latest"
 
 # specs
 netdata_memory: 1g
+netdata_volumes:
+  - "/proc:/host/proc:ro"
+  - "/sys:/host/sys:ro"
+  - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  - "{{ netdata_data_directory }}/etc/netdata.conf:/etc/netdata/netdata.conf:ro"
+  - "{{ netdata_data_directory }}/dbengine:/var/cache/netdata/dbengine:rw"
+netdata_volumes_custom: []
+
+# config - https://learn.netdata.cloud/docs/configure/common-changes
+netdata_config:
+  global:
+    - "page cache size = 32"                # MiB of RAM used to store metrics
+    - "dbengine multihost disk space = 128" # MiB of disk to store history
