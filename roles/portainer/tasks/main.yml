@@ -32,7 +32,7 @@
           traefik.http.routers.portainer.tls.certresolver: "letsencrypt"
           traefik.http.routers.portainer.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.portainer.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.portainer.loadbalancer.server.port: "9443"
+          traefik.http.services.portainer.loadbalancer.server.port: "9000"
           traefik.http.routers.portainer.middlewares: "portainer-ipallowlist@docker"
           traefik.http.middlewares.portainer-ipallowlist.ipallowlist.sourcerange: "{{ portainer_ip_allowlist }}"
           homepage.group: System Tools
