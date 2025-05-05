@@ -1,0 +1,20 @@
+---
+# This is a playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove motionEye
+      community.docker.docker_container:
+        name: "{{ motioneye_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check motionEye is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
