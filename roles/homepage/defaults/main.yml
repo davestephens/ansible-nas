@@ -73,3 +73,5 @@ homepage_bookmarks_yaml:
           - abbr: YT
             href: https://youtube.com/
             icon: youtube
+
+homepage_allowed_hosts: "*"
