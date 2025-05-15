@@ -429,6 +429,11 @@
       tags:
         - ubooquity
 
+    - role: unpackerr
+      tags:
+        - unpackerr
+      when: (unpackerr_enabled | default(False))
+
     - role: utorrent
       tags:
         - utorrent

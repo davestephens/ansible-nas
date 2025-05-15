@@ -110,6 +110,7 @@ If you have a spare domain name you can configure applications to be accessible 
 * [Traefik](https://traefik.io/) - Web proxy and SSL certificate manager
 * [Transmission](https://transmissionbt.com/) - BitTorrent client (with OpenVPN if you have a supported VPN provider)
 * [Ubooquity](http://vaemendis.net/ubooquity/) - Book and comic server
+* [Unpackerr](https://github.com/davidnewhall/unpackerr/) - Extracts compressed archive files.
 * [uTorrent](https://www.utorrent.com/) - The best torrent downloading app for beginners
 * [Valheim Server](https://github.com/mbround18/valheim-docker) - Valheim dedicated gameserver manager.
 * [Virtual Desktop](https://github.com/RattyDAVE/docker-ubuntu-xrdp-mate-custom) - A virtual desktop running on your NAS.
