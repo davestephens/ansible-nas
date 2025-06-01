@@ -13,9 +13,7 @@
 
         [entryPoints.websecure.http.tls.domains]
           main = "{{ ansible_nas_domain }}"
-          sans = [
-            "*.{{ ansible_nas_domain }}"
-          ]
+          sans = {{ (traefik_domain_san + traefik_domain_san_custom ) | to_nice_json(indent=2) | trim | indent(10) }}
 
   [entryPoints.traefik]
     address = ":{{ traefik_port_ui }}"
@@ -30,7 +28,7 @@
   dashboard = true
 
 [log]
-  level = "{{ traefik_log_level }}"
+  level = "{{ traefik_log_level | upper }}"
 
 [ping]
   terminatingStatusCode = 0
@@ -47,3 +45,13 @@
 
 [metrics]
   [metrics.prometheus]
+
+{% if traefik_letsencrypt_tls %}
+  [certificatesResolvers.letsencryptTls]
+    [certificatesResolvers.letsencryptTls.acme]
+      email = "{{ ansible_nas_email }}"
+      storage = "/letsencrypt/acme.json"
+      caserver = "https://acme-v02.api.letsencrypt.org/directory"
+
+      [certificatesResolvers.letsencryptTls.acme.tlsChallenge]
+{% endif %}
