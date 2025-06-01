@@ -1,0 +1,123 @@
+---
+- name: LibrePhotos
+  block:
+    - name: Create LibrePhotos Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ librephotos_scan_directory }}"
+        - "{{ librephotos_data_directory }}"
+        - "{{ librephotos_data_directory }}/proxy"
+      when: (librephotos_enabled | default(False))
+
+    - name: Create Librephotos network
+      community.docker.docker_network:
+        name: "{{ librephotos_network_name }}"
+
+    - name: Template Librephotos Proxy Config
+      ansible.builtin.template:
+        src: nginx.conf
+        dest: "{{ librephotos_data_directory }}/proxy/"
+      register: proxy_config
+
+    - name: LibrePhotos Proxy Container
+      docker_container:
+        name: "{{ librephotos_container_name }}-proxy"
+        image: "{{ librephotos_proxy_image_name }}:{{ librephotos_proxy_image_version }}"
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        pull: true
+        restart: "{{ proxy_config is changed }}"
+        volumes:
+          - "{{ librephotos_scan_directory }}:/data:rw"
+          - "{{ librephotos_data_directory }}/protected_media:/protected_media:rw"
+          - "{{ librephotos_data_directory }}/proxy/nginx.conf:/etc/nginx/nginx.conf"
+        ports:
+          - "{{ librephotos_port }}:80"
+        restart_policy: unless-stopped
+        labels:
+          traefik.enable: "{{ librephotos_available_externally | string }}"
+          traefik.http.routers.librephotos.rule: "Host(`{{ librephotos_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.librephotos.tls.certresolver: "letsencrypt"
+          traefik.http.routers.librephotos.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.librephotos.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.librephotos.loadbalancer.server.port: "{{ librephotos_port }}"
+      when: (librephotos_enabled | default(False))
+
+    - name: LibrePhotos Database Container
+      docker_container:
+        name: "{{ librephotos_container_name }}-db"
+        image: postgres:13
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        pull: true
+        volumes:
+          - "{{ librephotos_data_directory }}/db:/var/lib/postgresql/data"
+        restart_policy: unless-stopped
+        env:
+          POSTGRES_USER: "{{ librephotos_dbUser }}"
+          POSTGRES_PASSWORD: "{{ librephotos_dbPass }}"
+          POSTGRES_DB: "{{ librephotos_dbName }}"
+        command: postgres -c fsync=off -c synchronous_commit=off -c full_page_writes=off -c random_page_cost=1.0
+        # healthcheck:
+        #   test: psql -U ${dbUser} -d ${dbName} -c "SELECT 1;"
+        #   interval: 5s
+        #   timeout: 5s
+        #   retries: 5
+      when: (librephotos_enabled | default(False))
+
+    - name: LibrePhotos Frontend
+      docker_container:
+        name: "{{ librephotos_container_name }}-frontend"
+        image: "{{ librephotos_image_name }}-frontend:{{ librephotos_image_version }}"
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        restart_policy: unless-stopped
+      when: (librephotos_enabled | default(False))
+
+    - name: LibrePhotos Backend
+      docker_container:
+        name: "{{ librephotos_container_name }}-backend"
+        image: "{{ librephotos_image_name }}:{{ librephotos_image_version }}"
+        networks:
+          - name: "{{ librephotos_network_name }}"
+        restart_policy: unless-stopped
+        memory: "{{ librephotos_memory }}"
+        volumes:
+          - "{{ librephotos_scan_directory }}:/data"
+          - "{{ librephotos_data_directory }}/protected_media:/protected_media"
+          - "{{ librephotos_data_directory }}/logs:/logs"
+          - "{{ librephotos_data_directory }}/cache:/root/.cache"
+        env:
+          SECRET_KEY: "{{ librephotos_shhhhKey }}"
+          BACKEND_HOST: "{{ librephotos_container_name }}-backend"
+          ADMIN_EMAIL: "{{ librephotos_adminEmail }}"
+          ADMIN_USERNAME: "{{ librephotos_userName }}"
+          ADMIN_PASSWORD: "{{ librephotos_userPass }}"
+          DB_BACKEND: postgresql
+          DB_NAME: "{{ librephotos_dbName }}"
+          DB_USER: "{{ librephotos_dbUser }}"
+          DB_PASS: "{{ librephotos_dbPass }}"
+          DB_HOST: "{{ librephotos_container_name }}-db"
+          DB_PORT: "5432"
+          MAPBOX_API_KEY: "{{ librephotos_mapApiKey }}"
+          WEB_CONCURRENCY: "{{ librephotos_gunniWorkers }}"
+          SKIP_PATTERNS: "{{ librephotos_skipPatterns }}"
+          ALLOW_UPLOAD: "{{ librephotos_allowUpload }}"
+          DEBUG: "0"
+          HEAVYWEIGHT_PROCESS: "{{ librephotos_heavyweight_process }}"
+      when: (librephotos_enabled | default(False))
+
+- name: Stop LibrePhotos
+  block:
+    - name: Stop LibrePhotos Containers
+      docker_container:
+        name: "{{ librephotos_container_name }}-{{ item }}"
+        state: absent
+      with_items:
+        - proxy
+        - db
+        - frontend
+        - backend
+      when: (not librephotos_enabled)
