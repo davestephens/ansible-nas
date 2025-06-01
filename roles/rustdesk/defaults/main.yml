@@ -1,0 +1,19 @@
+---
+rustdesk_enabled: false
+rustdesk_available_externally: false
+
+# directories
+rustdesk_data_directory: "{{ docker_home }}/rustdesk"
+
+# network
+rustdesk_hostname: "rustdesk"
+rustdesk_network_name: rustdesknet
+ansible_nas_domain: "example.com"
+
+# specs
+rustdesk_memory: 512g
+
+# docker
+rustdesk_container_name: rustdesk
+rustdesk_image_name: rustdesk/rustdesk-server
+rustdesk_image_version: latest
