@@ -1,0 +1,43 @@
+---
+- name: Start Kavita
+  block:
+    - name: Create Kavita Directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ kavita_data_directory }}/config"
+
+    - name: Kavita Docker Container
+      docker_container:
+        name: "{{ kavita_container_name }}"
+        image: "{{ kavita_image }}"
+        pull: true
+        volumes:
+          - "{{ kavita_data_directory }}/config:/config"
+          - "{{ kavita_comics_directory }}:/comics"
+          - "{{ kavita_books_directory }}:/books"
+        env:
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ kavita_user_id }}"
+          PGID: "{{ kavita_group_id }}"
+        ports:
+          - "{{ kavita_port }}:5000"
+        restart_policy: unless-stopped
+        memory: "{{ kavita_memory }}"
+        labels:
+          traefik.enable: "{{ kavita_available_externally | string }}"
+          traefik.http.routers.kavita.rule: "Host(`kavita.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.kavita.tls.certresolver: "letsencrypt"
+          traefik.http.routers.kavita.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.kavita.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.kavita.loadbalancer.server.port: "5000"
+  when: kavita_enabled is true
+
+- name: Stop Kavita
+  block:
+    - name: Stop Kavita
+      docker_container:
+        name: "{{ kavita_container_name }}"
+        state: absent
+  when: kavita_enabled is false
