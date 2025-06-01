@@ -1,0 +1,34 @@
+---
+- name: Create config directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  with_items:
+    - "{{ photoprism_data_directory }}/storage"
+  when: (photoprism_enabled | default(False))
+
+- name: Install Docker container
+  docker_container:
+    name: photoprism
+    image: "{{ photoprism_image_name }}:{{ photoprism_image_version }}"
+    pull: true
+    ports:
+      - "{{ photoprism_port }}:2342"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ photoprism_data_directory }}/storage:/photoprism/storage:rw"
+      - "{{ photoprism_photos_directory }}:/photoprism/originals:rw"
+    env:
+      PHOTOPRISM_SITE_URL: "https://{{ photoprism_hostname }}.{{ ansible_nas_domain }}"
+      PHOTOPRISM_ADMIN_PASSWORD: "insecure"
+    restart_policy: unless-stopped
+    memory: 4g
+    labels:
+      traefik.enable: "{{ photoprism_available_externally  }}"
+      traefik.http.routers.photoprism.rule: "Host(`{{ photoprism_hostname }}.{{ ansible_nas_domain }}`)"
+      traefik.http.routers.photoprism.tls.certresolver: "letsencrypt"
+      traefik.http.routers.photoprism.tls.domains[0].main: "{{ ansible_nas_domain }}"
+      traefik.http.routers.photoprism.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+      traefik.http.services.photoprism.loadbalancer.server.port: "2342"
+  when: (photoprism_enabled | default(False))
