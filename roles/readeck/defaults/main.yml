@@ -1,0 +1,32 @@
+---
+readeck_enabled: false
+readeck_available_externally: false
+
+# Data directory for configuration files
+readeck_data_directory: "{{ docker_home }}/readeck"
+readeck_secret_key: "{{ mandatory }}"
+
+# readeck_database_source: "sqlite:data/db.sqlite3"
+
+# readeck_email_host:
+# readeck_email_port:
+# readeck_email_username:
+# readeck_email_password:
+# readeck_email_insecure:
+# readeck_email_encryption:
+# readeck_email_from:
+# readeck_email_noreply:
+
+# readeck_public_share_ttl:
+
+# specs
+# readeck_log_level:
+
+# Network
+readeck_port: "40000"
+readeck_hostname: "readeck"
+# readeck_allowed_hosts: []
+
+# docker
+readeck_container_name: readeck
+readeck_memory: 512MB

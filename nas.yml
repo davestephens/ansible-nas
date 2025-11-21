@@ -353,6 +353,10 @@
       tags:
         - radarr
 
+    - role: readeck
+      tags:
+        - readeck
+
     - role: romm
       tags:
         - romm

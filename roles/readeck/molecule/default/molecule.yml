@@ -1,0 +1,8 @@
+---
+provisioner:
+  inventory:
+    group_vars:
+      all:
+        readeck_enabled: true
+        readeck_secret_key: FakeSecretKey
+        # readeck_log_level: debug

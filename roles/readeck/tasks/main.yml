@@ -1,0 +1,57 @@
+---
+- name: Start Readeck
+  when: readeck_enabled is true
+  block:
+    - name: Create Readeck Data Directory
+      ansible.builtin.file:
+        path: "{{ readeck_data_directory }}"
+        state: directory
+
+    - name: Provision Readeck Container
+      community.docker.docker_container:
+        name: "{{ readeck_container_name }}"
+        image: codeberg.org/readeck/readeck:latest
+        pull: true
+        env:
+          READECK_LOG_LEVEL: "{{ readeck_log_level | default(omit) }}"
+          READECK_SECRET_KEY: "{{ readeck_secret_key }}"
+          READECK_TRUSTED_PROXIES: "127.0.0.1"
+          READECK_ALLOWED_HOSTS: "{{ readeck_allowed_hosts | join(',') | default(omit) }}"
+          READECK_DATABASE_SOURCE: "{{ readeck_database_source | default(omit) }}"
+          READECK_MAIL_HOST: "{{ readeck_email_host | default(omit) }}"
+          READECK_MAIL_PORT: "{{ readeck_email_port | default(omit) }}"
+          READECK_MAIL_USERNAME: "{{ readeck_email_username | default(omit) }}"
+          READECK_MAIL_PASSWORD: "{{ readeck_email_password | default(omit) }}"
+          READECK_MAIL_INSECURE: "{{ readeck_email_insecure | string | default(omit) }}"
+          READECK_MAIL_ENCRYPTION: "{{ readeck_email_encryption | default(omit) }}"
+          READECK_MAIL_FROM: "{{ readeck_email_from | default(omit) }}"
+          READECK_MAIL_FROMNOREPLY: "{{ readeck_email_noreply | default(omit) }}"
+          READECK_PUBLIC_SHARE_TTL: "{{ readeck_public_share_ttl | default(omit) }}"
+        volumes:
+          - "{{ readeck_data_directory }}:/readeck"
+        ports:
+          - "{{ readeck_port }}:8000"
+        restart_policy: unless-stopped
+        comparisons:
+          env: strict
+        memory: "{{ readeck_memory }}"
+        healthcheck:
+          test: ["CMD", "/bin/readeck", "healthcheck", "-config", "config.toml"]
+          interval: 30s
+          timeout: 2s
+          retries: 3
+        labels:
+          traefik.enable: "{{ readeck_available_externally | string }}"
+          traefik.http.routers.readeck.rule: "Host(`{{ readeck_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.http.routers.readeck.tls.certresolver: "letsencrypt"
+          traefik.http.routers.readeck.tls.domains[0].main: "{{ ansible_nas_domain }}"
+          traefik.http.routers.readeck.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+          traefik.http.services.readeck.loadbalancer.server.port: "8000"
+
+- name: Stop Readeck
+  when: readeck_enabled is false
+  block:
+    - name: Deprovision Readeck
+      community.docker.docker_container:
+        name: "{{ readeck_container_name }}"
+        state: absent
