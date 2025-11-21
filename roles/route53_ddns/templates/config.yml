@@ -1,12 +1,12 @@
 ---
 
 credentials:
-  accessKeyId: "{{ route53_key_id }}"
-  secretAccessKey: "{{ route53_secret_key }}"
+  accessKeyId: "{{ route53_ddns_key_id }}"
+  secretAccessKey: "{{ route53_ddns_secret_key }}"
 
 route53:
-  hostedZoneID: "{{ route53_hosted_zone_id }}"
+  hostedZoneID: "{{ route53_ddns_hosted_zone_id }}"
   recordsSet:
-    - name: "{{ route53_host }}."
+    - name: "{{ route53_ddns_host }}."
       type: "A"
-      ttl: "{{ route53_ttl }}"
+      ttl: "{{ route53_ddns_ttl }}"
