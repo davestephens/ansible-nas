@@ -20,5 +20,5 @@ watchtower_command: "--schedule '{{ watchtower_cron_schedule }}'"
 watchtower_memory: 1g
 
 watchtower_container_name: "watchtower"
-watchtower_image_name: "containrrr/watchtower"
+watchtower_image_name: "nickfedor/watchtower"
 watchtower_image_version: "latest"
