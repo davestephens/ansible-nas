@@ -5,7 +5,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: 0775
+        mode: "0775"
       with_items:
         - "{{ heimdall_data_directory }}"
 

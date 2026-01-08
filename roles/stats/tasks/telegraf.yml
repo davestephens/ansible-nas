@@ -12,9 +12,9 @@
       ansible.builtin.template:
         src: telegraf.conf.j2
         dest: "{{ stats_telegraf_config_directory }}/telegraf.conf"
-      register: telegraf_config
+      register: stats_telegraf_config
 
-    - name: Get Docker daemon uid
+    - name: Get Docker daemon uid # noqa: var-naming[no-role-prefix]
       ansible.builtin.command: stat -c '%g' /var/run/docker.sock
       register: docker_uid
       changed_when: false
@@ -48,7 +48,7 @@
           HOST_MOUNT_PREFIX: "/hostfs"
         restart_policy: unless-stopped
         memory: 1g
-        restart: "{{ telegraf_config is changed }}"
+        restart: "{{ stats_telegraf_config is changed }}"
   when: stats_enabled is true
 
 - name: Stop Telegraf

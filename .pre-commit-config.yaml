@@ -1,14 +1,14 @@
 ---
 repos:
   - repo: https://github.com/ansible-community/ansible-lint.git
-    rev: v6.14.6
+    rev: v26.1.0
     hooks:
       - id: ansible-lint
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.30.0
+    rev: v1.37.1
     hooks:
       - id: yamllint
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.32.2
+    rev: v0.47.0
     hooks:
       - id: markdownlint

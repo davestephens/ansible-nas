@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove netbootxyz
+    - name: Try and stop and remove netbootxyz # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ netbootxyz_container_name }}"
         state: absent

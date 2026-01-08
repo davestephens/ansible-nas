@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get minecraft_server container state
+    - name: Get minecraft_server container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ minecraft_server_container_name }}"
       register: result

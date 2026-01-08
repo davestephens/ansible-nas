@@ -6,14 +6,14 @@
 
 - name: Update apt-cache
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
   register: result
   until: result is succeeded
 
 - name: Upgrade all packages # noqa package-latest
   ansible.builtin.apt:
-    upgrade: yes
+    upgrade: true
     state: latest
   when: keep_packages_updated
   tags:

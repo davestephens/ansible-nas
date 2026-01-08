@@ -28,6 +28,6 @@ sections:
     widgets:
       - type: clock
         options:
-          timeZone: {{ ansible_nas_timezone }}
+          timeZone: "{{ ansible_nas_timezone }}"
           format: en-GB
           hideDate: false

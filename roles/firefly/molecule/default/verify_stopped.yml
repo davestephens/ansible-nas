@@ -6,13 +6,13 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Firefly
+    - name: Try and stop and remove Firefly # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ firefly_container_name }}"
         state: absent
       register: result
 
-    - name: Try and stop and remove Firefly MySql
+    - name: Try and stop and remove Firefly MySql # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ firefly_mysql_container_name }}"
         state: absent

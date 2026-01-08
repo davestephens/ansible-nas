@@ -6,13 +6,13 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove joomla
+    - name: Try and stop and remove joomla # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ joomla_container_name }}"
         state: absent
       register: result
 
-    - name: Try and stop and remove joomla db
+    - name: Try and stop and remove joomla db # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ joomla_db_container_name }}"
         state: absent

@@ -7,4 +7,4 @@
       ansible.builtin.include_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
       vars:
-        route53_enabled: false
+        route53_ddns_enabled: false

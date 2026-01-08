@@ -13,7 +13,7 @@
       ansible.builtin.template:
         src: traefik.toml
         dest: "{{ traefik_data_directory }}/traefik.toml"
-      register: template_config
+      register: traefik_template_config
 
     - name: Traefik Docker Container
       community.docker.docker_container:
@@ -28,7 +28,7 @@
         env: "{{ traefik_environment_variables }}"
         restart_policy: unless-stopped
         memory: "{{ traefik_memory }}"
-        recreate: "{{ template_config is changed }}"
+        recreate: "{{ traefik_template_config is changed }}"
         labels:
           homepage.group: Networking
           homepage.name: Traefik

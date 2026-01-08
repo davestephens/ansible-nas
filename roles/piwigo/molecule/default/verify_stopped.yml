@@ -6,13 +6,13 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove piwigo
+    - name: Try and stop and remove piwigo # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ piwigo_container_name }}"
         state: absent
       register: result
 
-    - name: Try and stop and remove piwigo db
+    - name: Try and stop and remove piwigo db # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ piwigo_db_container_name }}"
         state: absent

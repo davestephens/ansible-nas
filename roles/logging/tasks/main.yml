@@ -1,7 +1,7 @@
 ---
 - name: Start logging stack
   block:
-    - name: Enable logging roles
+    - name: Enable logging roles # noqa: var-naming[no-role-prefix]
       ansible.builtin.set_fact:
         grafana_enabled: true
         minio_enabled: true
@@ -13,10 +13,9 @@
   #   loki_enabled: true
   #   promtail_enabled: true
 
-
 - name: Stop logging stack
   block:
-    - name: Disable logging roles
+    - name: Disable logging roles # noqa: var-naming[no-role-prefix]
       ansible.builtin.set_fact:
         grafana_enabled: false
         minio_enabled: false

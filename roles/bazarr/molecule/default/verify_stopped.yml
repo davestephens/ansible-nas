@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Bazarr
+    - name: Try and stop and remove Bazarr # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ bazarr_container_name }}"
         state: absent

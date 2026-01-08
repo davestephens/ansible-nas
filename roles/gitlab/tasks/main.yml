@@ -13,9 +13,9 @@
         name: gitlab
         uid: 998
         state: present
-        system: yes
+        system: true
         update_password: on_create
-        create_home: no
+        create_home: false
         group: gitlab
 
     - name: Create Gitlab Directories

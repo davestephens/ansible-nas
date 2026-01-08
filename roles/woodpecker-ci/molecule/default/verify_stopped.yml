@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove woodpecker_ci
+    - name: Try and stop and remove woodpecker_ci # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ woodpecker_ci_container_name }}"
         state: absent

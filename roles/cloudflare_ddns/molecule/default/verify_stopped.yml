@@ -6,9 +6,9 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Cloudflare DDNS
+    - name: Try and stop and remove Cloudflare DDNS # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
-        name: "{{ cloudflare_container_name }}"
+        name: "{{ cloudflare_ddns_container_name }}"
         state: absent
       register: result
 

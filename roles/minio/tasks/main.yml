@@ -8,7 +8,6 @@
       with_items:
         - "{{ minio_data_directory }}/data"
 
-
     - name: Create minio Docker Container
       community.docker.docker_container:
         name: "{{ minio_container_name }}"

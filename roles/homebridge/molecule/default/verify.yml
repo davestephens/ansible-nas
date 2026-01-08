@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get homebridge container state
+    - name: Get homebridge container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ homebridge_container_name }}"
       register: result

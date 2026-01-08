@@ -6,12 +6,12 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get joomla container state
+    - name: Get joomla container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ joomla_container_name }}"
       register: result
 
-    - name: Get joomla db container state
+    - name: Get joomla db container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ joomla_db_container_name }}"
       register: result_db

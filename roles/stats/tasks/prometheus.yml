@@ -13,7 +13,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: 0777
+        mode: "0777"
       with_items:
         - "{{ stats_prometheus_data_directory }}"
         - "{{ stats_prometheus_config_directory }}"
@@ -22,7 +22,7 @@
       ansible.builtin.template:
         src: prometheus.yml.j2
         dest: "{{ stats_prometheus_config_directory }}/prometheus.yml"
-      register: prometheus_config
+      register: stats_prometheus_config
 
     - name: Prometheus Docker Container
       community.docker.docker_container:
@@ -37,8 +37,9 @@
           - "{{ stats_prometheus_port }}:9090"
         restart_policy: unless-stopped
         memory: "{{ stats_prometheus_memory }}"
-        restart: "{{ prometheus_config is changed }}"
-        command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.retention.size={{ stats_prometheus_retention_size }} --storage.tsdb.retention.time={{ stats_prometheus_retention_time }}"
+        restart: "{{ stats_prometheus_config is changed }}"
+        command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.retention.size={{ stats_prometheus_retention_size }} --storage.tsdb.retention.time={{
+          stats_prometheus_retention_time }}"
         labels:
           traefik.enable: "{{ stats_prometheus_available_externally | string }}"
           traefik.http.routers.prometheus.rule: "Host(`{{ stats_prometheus_hostname }}.{{ ansible_nas_domain }}`)"

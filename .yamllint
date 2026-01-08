@@ -4,9 +4,13 @@ extends: default
 rules:
   line-length: disable
   truthy:
-    allowed-values: ['true', 'false', 'yes', 'no']
+    allowed-values: ["true", "false", "yes", "no"]
   comments:
     min-spaces-from-content: 1
+  comments-indentation: disable
+  octal-values:
+    forbid-explicit-octal: true
+    forbid-implicit-octal: true
   braces:
     min-spaces-inside: 0
     max-spaces-inside: 1

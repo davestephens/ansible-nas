@@ -5,7 +5,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: 0755
+        mode: "0755"
       with_items:
         - "{{ calibre_data_directory }}/data"
 

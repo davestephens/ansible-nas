@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get homeassistant container state
+    - name: Get homeassistant container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ homeassistant_container_name }}"
       register: result

@@ -6,31 +6,31 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Grafana
+    - name: Try and stop and remove Grafana # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ stats_grafana_container_name }}"
         state: absent
       register: result_grafana
 
-    - name: Try and stop and remove Prometheus
+    - name: Try and stop and remove Prometheus # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ stats_prometheus_container_name }}"
         state: absent
       register: result_prometheus
 
-    - name: Try and stop and remove Telegraf
+    - name: Try and stop and remove Telegraf # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ stats_telegraf_container_name }}"
         state: absent
       register: result_telegraf
 
-    - name: Try and stop and remove Smartctl
+    - name: Try and stop and remove Smartctl # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ stats_smartctl_container_name }}"
         state: absent
       register: result_smartctl
 
-    - name: Try and stop and remove Speedtest
+    - name: Try and stop and remove Speedtest # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ stats_speedtest_container_name }}"
         state: absent

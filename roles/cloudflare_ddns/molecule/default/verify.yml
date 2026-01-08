@@ -6,9 +6,9 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get container state
+    - name: Get container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container_info:
-        name: "{{ cloudflare_container_name }}"
+        name: "{{ cloudflare_ddns_container_name }}"
       register: result
 
     - name: Check Cloudflare DDNS is running

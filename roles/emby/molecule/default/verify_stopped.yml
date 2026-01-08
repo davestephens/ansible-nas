@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Emby
+    - name: Try and stop and remove Emby # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ emby_container_name }}"
         state: absent

@@ -10,7 +10,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        recurse: yes
+        recurse: true
       with_items:
         - "{{ gitea_data_directory }}/gitea/gitea/conf"
 

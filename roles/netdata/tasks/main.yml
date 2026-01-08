@@ -1,7 +1,7 @@
 ---
 - name: Start Netdata
   block:
-    - name: Get docker group id
+    - name: Get docker group id # noqa: var-naming[no-role-prefix]
       ansible.builtin.group:
         name: docker
       register: docker_group

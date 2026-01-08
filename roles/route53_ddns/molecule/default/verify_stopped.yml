@@ -6,9 +6,9 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove route53
+    - name: Try and stop and remove route53 # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
-        name: "{{ route53_container_name }}"
+        name: "{{ route53_ddns_container_name }}"
         state: absent
       register: result
 

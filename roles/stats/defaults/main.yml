@@ -42,7 +42,6 @@ stats_hddtemp_docker_container_name: "stats-hddtemp"
 stats_hddtemp_docker_image_name: "modem7/hddtemp-docker"
 stats_hddtemp_docker_image_tag: "latest"
 
-
 # specs
 stats_telegraf_memory: 1g
 stats_prometheus_memory: 1g

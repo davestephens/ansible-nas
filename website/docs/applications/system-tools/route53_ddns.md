@@ -24,19 +24,19 @@ To set up Route53 to work with the service, please review the [Prerequisites](ht
 
 | Parameter          | Description       | Status    |
 |--------------------|-------------------|-----------|
-| route53_key_id     | AWS access key ID | mandatory |
-| route53_secret_key | AWS secret key    | mandatory |
+| route53_ddns_key_id     | AWS access key ID | mandatory |
+| route53_ddns_secret_key | AWS secret key    | mandatory |
 
 ### Networking
 
 | Parameter              | Description                    | Status    |
 |------------------------|--------------------------------|-----------|
-| route53_hosted_zone_id | Route53 hosted zone ID         | mandatory |
-| route53_ttl            | Time-to-live for the DNS entry |           |
-| route53_host           | Wildcard domain to update      |           |
+| route53_ddns_hosted_zone_id | Route53 hosted zone ID         | mandatory |
+| route53_ddns_ttl            | Time-to-live for the DNS entry |           |
+| route53_ddns_host           | Wildcard domain to update      |           |
 
 ### Application
 
 | Parameter        | Description                                         | Status    |
 |------------------|-----------------------------------------------------|-----------|
-| route53_schedule | [CRON](https://pkg.go.dev/github.com/robfig/cron?utm_source=godoc#hdr-CRON_Expression_Format) schedule for checking and updating DNS entry |           |
+| route53_ddns_schedule | [CRON](https://pkg.go.dev/github.com/robfig/cron?utm_source=godoc#hdr-CRON_Expression_Format) schedule for checking and updating DNS entry |           |
