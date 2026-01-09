@@ -3,16 +3,16 @@
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Apcupsd
-      docker_container:
+    - name: Try and stop and remove Apcupsd # noqa: var-naming[no-role-prefix]
+      community.docker.docker_container:
         name: "{{ apcupsd_container_name }}"
         state: absent
       register: result
 
     - name: Check Apcupsd is stopped
-      assert:
+      ansible.builtin.assert:
         that:
           - not result.changed

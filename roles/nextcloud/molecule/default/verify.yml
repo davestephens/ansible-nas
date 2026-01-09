@@ -6,12 +6,12 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get nextcloud db container state
+    - name: Get nextcloud db container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ nextcloud_db_container_name }}"
       register: result_db
 
-    - name: Get nextcloud container state
+    - name: Get nextcloud container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ nextcloud_container_name }}"
       register: result

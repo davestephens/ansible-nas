@@ -6,13 +6,13 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Drone CI
+    - name: Try and stop and remove Drone CI # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ drone_ci_container_name }}"
         state: absent
       register: result
 
-    - name: Try and stop and remove Drone CI runner
+    - name: Try and stop and remove Drone CI runner # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ drone_ci_runner_container_name }}"
         state: absent

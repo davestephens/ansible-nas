@@ -8,7 +8,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Hello World
+    - name: Try and stop and remove Hello World # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ hello_world_container_name }}"
         state: absent

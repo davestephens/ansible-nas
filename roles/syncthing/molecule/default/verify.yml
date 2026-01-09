@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get syncthing container state
+    - name: Get syncthing container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ syncthing_container_name }}"
       register: result

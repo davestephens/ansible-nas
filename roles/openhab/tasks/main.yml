@@ -12,9 +12,9 @@
         name: openhab
         uid: 9001
         state: present
-        system: yes
+        system: true
         update_password: on_create
-        create_home: no
+        create_home: false
         group: openhab
 
     - name: Create openHAB Directories

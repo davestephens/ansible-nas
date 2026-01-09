@@ -33,8 +33,7 @@
         name: "{{ stats_speedtest_container_name }}"
         image: "{{ stats_speedtest_docker_image_name }}:{{ stats_speedtest_docker_image_version }}"
         pull: true
-        ports:
-          "{{ stats_speedtest_exporter_port }}:9798"
+        ports: "{{ stats_speedtest_exporter_port }}:9798"
         restart_policy: unless-stopped
         memory: "{{ stats_speedtest_exporter_memory }}"
       when: stats_internet_speed_test_enabled

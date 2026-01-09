@@ -6,13 +6,13 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove nextcloud
+    - name: Try and stop and remove nextcloud # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ nextcloud_container_name }}"
         state: absent
       register: result
 
-    - name: Try and stop and remove nextcloud db
+    - name: Try and stop and remove nextcloud db # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ nextcloud_db_container_name }}"
         state: absent

@@ -6,17 +6,17 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get paperless_ng redis container state
+    - name: Get paperless_ng redis container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ paperless_ng_redis_container_name }}"
       register: result_redis
 
-    - name: Get paperless_ng db container state
+    - name: Get paperless_ng db container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ paperless_ng_db_container_name }}"
       register: result_db
 
-    - name: Get paperless_ng container state
+    - name: Get paperless_ng container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ paperless_ng_uiserver_container_name }}"
       register: result

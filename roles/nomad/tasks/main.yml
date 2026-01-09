@@ -5,7 +5,7 @@
       ansible.builtin.get_url:
         url: https://apt.releases.hashicorp.com/gpg
         dest: /etc/apt/trusted.gpg.d/hashicorp.asc
-        mode: '0644'
+        mode: "0644"
         force: true
 
     - name: Add Hashicorp apt repository
@@ -29,7 +29,7 @@
       ansible.builtin.systemd:
         name: "{{ nomad_service_name }}"
         state: started
-        enabled: yes
+        enabled: true
   when: nomad_enabled is true
 
 - name: Stop Nomad
@@ -45,8 +45,8 @@
           ansible.builtin.systemd:
             name: "{{ nomad_service_name }}"
             state: stopped
-            enabled: no
-            daemon_reload: yes
+            enabled: false
+            daemon_reload: true
 
         - name: Uninstall Nomad
           ansible.builtin.apt:

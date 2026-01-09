@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get ombi container state
+    - name: Get ombi container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ ombi_container_name }}"
       register: result

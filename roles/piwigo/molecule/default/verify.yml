@@ -6,12 +6,12 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get piwigo db container state
+    - name: Get piwigo db container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ piwigo_db_container_name }}"
       register: result_db
 
-    - name: Get piwigo container state
+    - name: Get piwigo container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ piwigo_container_name }}"
       register: result

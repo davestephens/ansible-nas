@@ -6,7 +6,7 @@
         path: "{{ item }}"
         state: directory
         owner: "472"
-        recurse: yes
+        recurse: true
       changed_when: false
       with_items:
         - "{{ stats_grafana_data_directory }}"

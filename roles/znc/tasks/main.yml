@@ -14,7 +14,7 @@
       ansible.builtin.template:
         src: znc.conf.j2
         dest: "{{ znc_data_directory }}/configs/znc.conf"
-      register: template_config
+      register: znc_template_config
 
     - name: Create ZNC Docker Container
       community.docker.docker_container:
@@ -30,6 +30,7 @@
           PUID: "{{ znc_user_id }}"
           PGID: "{{ znc_group_id }}"
         restart_policy: unless-stopped
+        restart: "{{ znc_template_config.changed }}"
         memory: "{{ znc_memory }}"
         labels:
           traefik.enable: "{{ znc_available_externally | string }}"

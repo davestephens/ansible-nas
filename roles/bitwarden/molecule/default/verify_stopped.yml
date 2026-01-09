@@ -6,13 +6,13 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove Bitwarden
+    - name: Try and stop and remove Bitwarden # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ bitwarden_container_name }}"
         state: absent
       register: result
 
-    - name: Try and stop and remove Bitwarden Backup
+    - name: Try and stop and remove Bitwarden Backup # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ bitwarden_backup_container_name }}"
         state: absent

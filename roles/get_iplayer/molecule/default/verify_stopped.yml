@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Try and stop and remove get_iplayer
+    - name: Try and stop and remove get_iplayer # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ get_iplayer_container_name }}"
         state: absent

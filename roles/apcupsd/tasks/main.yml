@@ -1,5 +1,4 @@
 ---
-
 - name: Start Apcupsd
   block:
     - name: Create Apcupsd Directories

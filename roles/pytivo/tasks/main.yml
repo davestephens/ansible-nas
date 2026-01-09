@@ -5,7 +5,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        mode: 0777
+        mode: "0777"
       with_items:
         - "{{ pytivo_config_directory }}"
 

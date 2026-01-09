@@ -29,9 +29,9 @@
       ansible.builtin.apt:
         name: "avahi-daemon"
         state: present
-        update_cache: yes
-      register: result
-      until: result is succeeded
+        update_cache: true
+      register: timemachine_result
+      until: timemachine_result is succeeded
 
     - name: Setup timemachine service for avahi
       ansible.builtin.template:

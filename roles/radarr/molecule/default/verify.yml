@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get radarr container state
+    - name: Get radarr container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ radarr_container_name }}"
       register: result

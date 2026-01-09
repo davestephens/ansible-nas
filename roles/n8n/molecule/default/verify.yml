@@ -6,7 +6,7 @@
     - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
 
-    - name: Get n8n container state
+    - name: Get n8n container state # noqa: var-naming[no-role-prefix]
       community.docker.docker_container:
         name: "{{ n8n_container_name }}"
       register: result
