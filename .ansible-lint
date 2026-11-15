@@ -5,6 +5,7 @@ skip_list:
  - name[missing]
  - key-order[task]
  - name[template]
+ - var-naming[no-role-prefix]
 
 exclude_paths:
  - roles/bertvv.samba
