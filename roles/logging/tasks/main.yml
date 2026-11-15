@@ -3,7 +3,7 @@
   block:
     - name: Enable logging roles
       ansible.builtin.set_fact:
-        grafana_enabled: true
+        stats_enabled: true
         minio_enabled: true
         loki_enabled: true
         promtail_enabled: true
@@ -18,7 +18,6 @@
   block:
     - name: Disable logging roles
       ansible.builtin.set_fact:
-        grafana_enabled: false
         minio_enabled: false
         loki_enabled: false
         promtail_enabled: false

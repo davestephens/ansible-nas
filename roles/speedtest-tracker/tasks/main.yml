@@ -35,7 +35,7 @@
           traefik.http.routers.speedtest_tracker.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.speedtest_tracker.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.speedtest_tracker.loadbalancer.server.port: "80"
-  when: speedtest_enabled is true
+  when: speedtest_tracker_enabled is true
 
 - name: Stop Speedtest-Tracker
   block:
@@ -43,4 +43,4 @@
       community.docker.docker_container:
         name: "{{ speedtest_container_name }}"
         state: absent
-  when: speedtest_enabled is false
+  when: speedtest_tracker_enabled is false
