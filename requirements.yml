@@ -4,7 +4,7 @@ roles:
     version: 7.1.0
 
   - name: geerlingguy.nfs
-    version: 2.0.0
+    version: 2.1.1
 
 collections:
   - name: ansible.posix

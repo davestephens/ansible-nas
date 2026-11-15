@@ -3,4 +3,4 @@ provisioner:
   inventory:
     group_vars:
       all:
-        speedtest_enabled: true
+        speedtest_tracker_enabled: true

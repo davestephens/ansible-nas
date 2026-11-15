@@ -16,7 +16,7 @@ Which is equivalent to:
 minio_enabled: true
 loki_enabled: true
 promtail_enabled: true
-grafana_enabled: true
+stats_enabled: true
 ```
 
 Once set up, all container stdout logs will be captured and stored. You'll find the Loki data source available in Grafana.

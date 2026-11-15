@@ -9,7 +9,7 @@
     - name: Check for Grafana installation
       ansible.builtin.fail:
         msg: "Loki requires Grafana enabled and running for visualisation, please set that up first."
-      when: grafana_enabled is false
+      when: stats_enabled is false
 
     - name: Include Stats variables
       ansible.builtin.include_vars: ../../stats/defaults/main.yml
